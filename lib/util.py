@@ -214,6 +214,10 @@ def sendmail(rcpt, subject, content):
         return False
 
 
+<<<<<<< Updated upstream
+=======
+#import top.api
+>>>>>>> Stashed changes
 
 
 def sendmessage(phone, sms_param):
