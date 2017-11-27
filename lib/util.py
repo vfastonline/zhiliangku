@@ -214,7 +214,6 @@ def sendmail(rcpt, subject, content):
         return False
 
 
-import top.api
 
 
 def sendmessage(phone, sms_param):
