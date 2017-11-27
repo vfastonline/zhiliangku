@@ -11,11 +11,19 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import ConfigParser
+import sys
+from lib import util
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 config = ConfigParser.ConfigParser()
-config.read(os.path.join(BASE_DIR, 'zhiliangku.conf'))
+config.read(os.path.join(BASE_DIR, 'conf/zhiliangku.conf'))
+
+util.set_logging(config.get('log', 'logpath'), config.get('log', 'log_level'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -55,7 +63,7 @@ ROOT_URLCONF = 'zhiliangku.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -148,3 +156,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+print(config)
