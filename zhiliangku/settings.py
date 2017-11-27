@@ -46,7 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.video',
+    'apps.interview_question',
+    'apps.slideshow',
+    'apps.live_streaming',
+    'apps.tracks_learning',
 ]
 
 MIDDLEWARE = [
