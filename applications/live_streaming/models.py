@@ -16,5 +16,6 @@ class Live(models.Model):
         return self.name
 
     class Meta:
+        db_table = 'Live'
         verbose_name = "直播"
         verbose_name_plural = "直播"

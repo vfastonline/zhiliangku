@@ -16,5 +16,6 @@ class Carousel(models.Model):
         return self.name
 
     class Meta:
+        db_table = 'Carousel'
         verbose_name = "轮播图"
         verbose_name_plural = "轮播图"

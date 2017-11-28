@@ -10,15 +10,18 @@ from applications.slideshow.models import Carousel
 
 
 class SlideList(View):
-    def post(self, request, *args, **kwargs):
-        result_dict = {"err": 0, "message": "success", "data": []}
+    def get(self, request, *args, **kwargs):
+        result_dict = {"err": 0, "msg": "success", "data": []}
         try:
-            carousel_objs = Carousel.objects.all().values()
-            result_dict["data"] = list(carousel_objs)
+            carousel_objs = Carousel.objects.all()
+            result_dict["data"] = [
+                {"name": one.name, "pathwel": one.pathwel.url, "desc": one.desc}
+                for one in carousel_objs
+            ]
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
             result_dict["err"] = 1
-            result_dict["message"] = traceback.format_exc()
+            result_dict["msg"] = traceback.format_exc()
         finally:
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))

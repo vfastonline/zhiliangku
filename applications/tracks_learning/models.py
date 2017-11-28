@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from colorfield.fields import ColorField
-from django.contrib.auth.models import User
+from applications.custom_user.models import CustomUser
 from django.db import models
 
 from lib.storage import ImageStorage
@@ -18,6 +18,7 @@ class Path(models.Model):
         return self.name
 
     class Meta:
+        db_table = 'Path'
         verbose_name = "路线"
         verbose_name_plural = "路线"
 
@@ -25,7 +26,7 @@ class Path(models.Model):
 class Course(models.Model):
     """课程"""
     name = models.CharField('课程名称', max_length=50)
-    lecturer = models.ForeignKey(User, verbose_name="讲师", limit_choices_to={'role': 1})
+    lecturer = models.ForeignKey(CustomUser, verbose_name="讲师", limit_choices_to={'role': 1}, null=True, blank=True)
     course_img = models.ImageField('课程介绍图片', upload_to='course/img/%Y/%m/%d', storage=ImageStorage())
     tech = models.ManyToManyField("Technology", verbose_name='技术分类')
 
@@ -33,6 +34,7 @@ class Course(models.Model):
         return self.name
 
     class Meta:
+        db_table = 'Course'
         verbose_name = "课程"
         verbose_name_plural = "课程"
 
@@ -47,5 +49,6 @@ class Technology(models.Model):
         return self.name
 
     class Meta:
+        db_table = 'Technology'
         verbose_name = "技术分类"
         verbose_name_plural = "技术分类"

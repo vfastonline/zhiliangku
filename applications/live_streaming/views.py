@@ -10,15 +10,18 @@ from applications.live_streaming.models import Live
 
 
 class LiveList(View):
-    def post(self, request, *args, **kwargs):
-        result_dict = {"err": 0, "message": "success", "data": []}
+    def get(self, request, *args, **kwargs):
+        result_dict = {"err": 0, "msg": "success", "data": []}
         try:
-            live_objs = Live.objects.all().values()
-            result_dict["data"] = list(live_objs)
+            live_objs = Live.objects.all()
+            result_dict["data"] = [
+                {"name": one.name, "pathwel": one.pathwel.url, "desc": one.desc}
+                for one in live_objs
+            ]
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
             result_dict["err"] = 1
-            result_dict["message"] = traceback.format_exc()
+            result_dict["msg"] = traceback.format_exc()
         finally:
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
