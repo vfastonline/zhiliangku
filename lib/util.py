@@ -214,32 +214,30 @@ def sendmail(rcpt, subject, content):
         return False
 
 
-<<<<<<< Updated upstream
-=======
 #import top.api
->>>>>>> Stashed changes
 
 
-def sendmessage(phone, sms_param):
-    req = top.api.AlibabaAliqinFcSmsNumSendRequest()
-    req.set_app_info(top.appinfo(appkey='23764268', secret='00181054a64e2d9eb69711912d7a372a'))
-    req.extend = ""
-    req.sms_type = 'normal'
-    req.sms_free_sign_name = "智量酷"
-    req.sms_template_code = "SMS_62900005"
-    req.rec_num = phone
-    req.sms_param = json.dumps(sms_param)
-    logging.getLogger().info(req.sms_param)
-    try:
-        resp = req.getResponse()
-        logging.getLogger().info(resp)
-        logging.getLogger().info(u'短信发送成功, phone:%s, sms_free_sign_name:%s, sms_template_code:%s 状态%s' % (
-            req.rec_num, req.sms_free_sign_name, req.sms_template_code,
-            resp['alibaba_aliqin_fc_sms_num_send_response']))
-        return True
-    except Exception, e:
-        logging.getLogger().error(e)
-        return False
+
+# def sendmessage(phone, sms_param):
+#     req = top.api.AlibabaAliqinFcSmsNumSendRequest()
+#     req.set_app_info(top.appinfo(appkey='23764268', secret='00181054a64e2d9eb69711912d7a372a'))
+#     req.extend = ""
+#     req.sms_type = 'normal'
+#     req.sms_free_sign_name = "智量酷"
+#     req.sms_template_code = "SMS_62900005"
+#     req.rec_num = phone
+#     req.sms_param = json.dumps(sms_param)
+#     logging.getLogger().info(req.sms_param)
+#     try:
+#         resp = req.getResponse()
+#         logging.getLogger().info(resp)
+#         logging.getLogger().info(u'短信发送成功, phone:%s, sms_free_sign_name:%s, sms_template_code:%s 状态%s' % (
+#             req.rec_num, req.sms_free_sign_name, req.sms_template_code,
+#             resp['alibaba_aliqin_fc_sms_num_send_response']))
+#         return True
+#     except Exception, e:
+#         logging.getLogger().error(e)
+#         return False
 
 
 def pages(post_objects, page, lines=20):

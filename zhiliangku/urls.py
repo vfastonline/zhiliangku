@@ -16,10 +16,17 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from zhiliangku import views
-
+from django.conf.urls.static import static
+import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index),
-    url('^video/', include('apps.video.urls')),
+    url('^slides/', include('applications.slideshow.urls')),
+    url('^tracks/', include('applications.tracks_learning.urls')),
+    url('^lives/', include('applications.live_streaming.urls')),
+    url('^interview_questions/', include('applications.interview_question.urls')),
+    # url('^video/', include('apps.video.urls')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

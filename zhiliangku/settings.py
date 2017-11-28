@@ -1,3 +1,4 @@
+# encoding: utf8
 """
 Django settings for zhiliangku project.
 
@@ -36,27 +37,31 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
+    'zhiliangku.apps.SuitConfig',
+    'django_select2',
+    'colorfield',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.interview_question',
-    'apps.slideshow',
-    'apps.live_streaming',
-    'apps.tracks_learning',
+    'zhiliangku',
+    'applications.interview_question',
+    'applications.slideshow',
+    'applications.live_streaming',
+    'applications.tracks_learning',
+    'applications.custom_user',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -81,7 +86,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'zhiliangku.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -122,7 +126,6 @@ else:
         }
     }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
@@ -141,13 +144,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-Hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -155,8 +157,20 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+tinymce_js = [
+    '/static/tinymce/js/jquery.min.js',  # 必须首先加载的jquery，手动添加文件
+    '/static/tinymce/js/tinymce/tinymce.min.js',  # tinymce自带文件
+    '/static/tinymce/js/tinymce/plugins/jquery.form.js',  # 手动添加文件
+    '/static/tinymce/js/tinymce/textarea.js',  # 手动添加文件，用户初始化参数
+]
