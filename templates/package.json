@@ -2,7 +2,7 @@
   "name": "templates",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "Xie Jiabing",
+  "author": "xie Jiabing <1131312177@qq.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
