@@ -19,5 +19,6 @@ class InterviewQuestions(models.Model):
         return self.company
 
     class Meta:
+        db_table = 'InterviewQuestions'
         verbose_name = "企业面试题"
         verbose_name_plural = "企业面试题"

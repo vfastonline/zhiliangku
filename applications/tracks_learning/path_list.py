@@ -10,15 +10,18 @@ from applications.tracks_learning.models import Path
 
 
 class PathList(View):
-    def post(self, request, *args, **kwargs):
-        result_dict = {"err": 0, "message": "success", "data": []}
+    def get(self, request, *args, **kwargs):
+        result_dict = {"err": 0, "msg": "success", "data": []}
         try:
-            path_objs = Path.objects.all().values()
-            result_dict["data"] = list(path_objs)
+            path_objs = Path.objects.all()
+            result_dict["data"] = [
+                {"name": one.name, "path_img": one.path_img.url, "desc": one.desc}
+                for one in path_objs
+            ]
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
             result_dict["err"] = 1
-            result_dict["message"] = traceback.format_exc()
+            result_dict["msg"] = traceback.format_exc()
         finally:
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))

@@ -10,15 +10,23 @@ from applications.tracks_learning.models import Course
 
 
 class CourseList(View):
-    def post(self, request, *args, **kwargs):
-        result_dict = {"err": 0, "message": "success", "data": []}
+    def get(self, request, *args, **kwargs):
+        result_dict = {"err": 0, "msg": "success", "data": []}
         try:
-            course_objs = Course.objects.all().values("name", "lecturer__username", "course_img", "tech__name")
-            result_dict["data"] = list(course_objs)
+            course_objs = Course.objects.all()
+            result_dict["data"] = [
+                {
+                    "name": one.name,
+                    "lecturer": one.lecturer.username,
+                    "course_img": one.course_img.url,
+                    "tech": one.tech.name
+                }
+                for one in course_objs
+            ]
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
             result_dict["err"] = 1
-            result_dict["message"] = traceback.format_exc()
+            result_dict["msg"] = traceback.format_exc()
         finally:
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
