@@ -13,7 +13,7 @@ class CourseList(View):
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": []}
         try:
-            course_objs = Course.objects.all()
+            course_objs = Course.objects.all()[:8]
             result_dict["data"] = [
                 {
                     "name": one.name,

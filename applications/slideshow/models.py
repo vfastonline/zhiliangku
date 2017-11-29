@@ -10,7 +10,6 @@ class Carousel(models.Model):
     """轮播图"""
     name = models.CharField('轮播名称', max_length=50)
     pathwel = models.ImageField('轮播图片', upload_to='carousel/img/%Y/%m/%d', storage=ImageStorage())
-    desc = models.TextField('轮播简介', max_length=1000, blank=True, null=True, default='')
 
     def __unicode__(self):
         return self.name

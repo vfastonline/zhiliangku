@@ -13,7 +13,7 @@ class InterviewQuestionList(View):
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": []}
         try:
-            interview_questions_objs = InterviewQuestions.objects.all()
+            interview_questions_objs = InterviewQuestions.objects.all()[:4]
             result_dict["data"] = [
                 {
                     "company": one.company,

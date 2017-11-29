@@ -19,7 +19,6 @@ class CustomUser(models.Model):
     )
     username = models.CharField('用户名', max_length=255)
     password = models.CharField('密码', max_length=255)
-    nickname = models.CharField('用户昵称', max_length=50, null=True, blank=True)
     role = models.IntegerField('用户角色', choices=ROLE, null=True, default=3)
     user_img = models.ImageField('用户头像', upload_to=upload_to, storage=ImageStorage(), blank=True, null=True)
 

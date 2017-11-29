@@ -13,7 +13,7 @@ class PathList(View):
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": []}
         try:
-            path_objs = Path.objects.all()
+            path_objs = Path.objects.all()[:3]
             result_dict["data"] = [
                 {"name": one.name, "path_img": one.path_img.url, "desc": one.desc}
                 for one in path_objs
