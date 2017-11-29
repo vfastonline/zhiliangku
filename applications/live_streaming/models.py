@@ -58,7 +58,7 @@ class Live(models.Model):
                 set_result_code = set_result.get("code")
                 set_result_message = set_result.get("message")
                 if set_result_code != 200:
-                    raise ValidationError("".join(["设置频道号密码 ", set_result_message]))
+                    raise ValidationError("".join(["设置频道号密码异常 ", set_result_message]))
 
     def delete(self, *args, **kwargs):
         ret_result = False
