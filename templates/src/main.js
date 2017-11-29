@@ -10,9 +10,8 @@ Vue.config.productionTip = false
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import Echarts from 'echarts'
-
 Vue.use(ElementUI)
-Vue.$echarts=Echarts
+Vue.prototype.$echarts=Echarts
 //引入自写组件
 import ProjectHeader from './components/home/projectHeader.vue'
 import PostMatch from './components/home/postMatch.vue'

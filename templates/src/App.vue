@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!--<project-header></project-header>-->
-    <post-match></post-match>
+    <!-- <post-match></post-match> -->
     <!--<carousel></carousel>-->
     <!--<subtitle :enTitle="a" :title="b" :slogon="c"></subtitle>-->
     <!--<carrerps></carrerps>-->
