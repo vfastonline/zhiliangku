@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#!encoding:utf-8
+# !encoding:utf-8
 import time
 import hashlib
 import requests
@@ -11,7 +11,7 @@ userid = 'a582a3b650'
 appsecret = '55f9bfe376594829958203ff7ab3b99c'
 
 
-def create_live(name, courseid='zhiliangku', autoplay=1,playercolor='#00ffff',channelpasswd='111111'):
+def create_live(name, courseid='zhiliangku', autoplay=1, playercolor='#00ffff', channelpasswd='111111'):
     '''
     创建直播频道
     @param  name                直播频道名称
@@ -27,19 +27,19 @@ def create_live(name, courseid='zhiliangku', autoplay=1,playercolor='#00ffff',ch
     if name is None:
         return 'param name is required!'
     sign = '%sappId%sautoPlay%schannelPasswd%scourseId%sname%splayerColor%stimestamp%suserId%s%s' % (
-            appsecret,appid,autoplay,channelpasswd,courseid,name,playercolor,timestamp,userid,appsecret)
+        appsecret, appid, autoplay, channelpasswd, courseid, name, playercolor, timestamp, userid, appsecret)
     sign = hashlib.md5(sign).hexdigest().upper()
     data = {
-            'appId':appid,
-            'autoPlay':autoplay,
-            'name':name,
-            'courseId':courseid,
-            'playerColor':playercolor,
-            'timestamp':timestamp,
-            'userId': userid,
-            'channelPasswd':channelpasswd,
-            'sign':sign
-            }
+        'appId': appid,
+        'autoPlay': autoplay,
+        'name': name,
+        'courseId': courseid,
+        'playerColor': playercolor,
+        'timestamp': timestamp,
+        'userId': userid,
+        'channelPasswd': channelpasswd,
+        'sign': sign
+    }
     url = "http://api.polyv.net/live/v2/channels"
     r = requests.post(url, data)
     ret = json.loads(r.text)
@@ -54,15 +54,16 @@ def delete_live(channelID):
         {u'status': u'success', u'result': True}
         {u'status': u'failure', u'result': u'failed operation.'}
     '''
-    sign = '%sappId%stimestamp%suserId%s%s'  %  (appsecret, appid,timestamp,userid,appsecret)
+    sign = '%sappId%stimestamp%suserId%s%s' % (appsecret, appid, timestamp, userid, appsecret)
     sign = hashlib.md5(sign).hexdigest().upper()
-    url = "http://api.live.polyv.net/v1/channels/%s?appId=%s&timestamp=%s&userId=%s&sign=%s" % (channelID,appid,timestamp,userid,sign)
-    r=requests.delete(url)
+    url = "http://api.live.polyv.net/v1/channels/%s?appId=%s&timestamp=%s&userId=%s&sign=%s" % (
+    channelID, appid, timestamp, userid, sign)
+    r = requests.delete(url)
     ret = json.loads(r.text)
     return ret
 
 
-def setlivepasswd(channelId,passwd):
+def setlivepasswd(channelId, passwd):
     '''
     修改直播频道播放密码
     @param channelID   频道ID
@@ -72,9 +73,10 @@ def setlivepasswd(channelId,passwd):
         {u'status': u'error', u'message': u'invalid signature.', u'code': 403, u'data': u''}
         
     '''
-    sign = '%sappId%spasswd%stimestamp%s%s' % (appsecret,appid,passwd,timestamp,appsecret)
+    sign = '%sappId%spasswd%stimestamp%s%s' % (appsecret, appid, passwd, timestamp, appsecret)
     sign = hashlib.md5(sign).hexdigest().upper()
-    url = "http://api.live.polyv.net/v2/channels/%s/passwdSetting?appId=%s&timestamp=%s&passwd=%s&sign=%s" % (userid,appid,timestamp,passwd,sign)
+    url = "http://api.live.polyv.net/v2/channels/%s/passwdSetting?appId=%s&timestamp=%s&passwd=%s&sign=%s" % (
+    userid, appid, timestamp, passwd, sign)
     r = requests.post(url)
     ret = json.loads(r.text)
     return ret
@@ -88,16 +90,15 @@ def getstatus_live(channelIds):
         {u'status': u'success', u'message': u'', u'code': 200, u'data': [{u'status': u'end', u'channelId': 141514}, {u'status': u'end', u'channelId': 141520}]}
         {u'status': u'error', u'message': u'appId is required.', u'code': 400, u'data': u''}
     '''
-    sign = appsecret+"appId"+appid+"channelIds"+ channelIds + "timestamp" + str(timestamp) + appsecret
+    sign = appsecret + "appId" + appid + "channelIds" + channelIds + "timestamp" + str(timestamp) + appsecret
     sign = hashlib.md5(sign).hexdigest().upper()
     data = {
-            'appId': appid,
-            'timestamp': timestamp,
-            'channelIds': channelIds,
-            'sign': sign
-            }
-    url ="http://api.live.polyv.net/v2/channels/live-status";
+        'appId': appid,
+        'timestamp': timestamp,
+        'channelIds': channelIds,
+        'sign': sign
+    }
+    url = "http://api.live.polyv.net/v2/channels/live-status"
     r = requests.post(url, data)
     ret = json.loads(r.text)
     return ret
-
