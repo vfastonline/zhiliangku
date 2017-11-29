@@ -60,7 +60,7 @@ def delete_live(channelID):
     try:
         sign = '%sappId%stimestamp%suserId%s%s' % (APPSECRET, APPID, timestamp, USERID, APPSECRET)
         sign = hashlib.md5(sign).hexdigest().upper()
-        url = DELETE_LIVE + "?appId={appId}&timestamp={timestamp}&userId={userId}&sign={sign}".format(
+        url = (DELETE_LIVE + "?appId={appId}&timestamp={timestamp}&userId={userId}&sign={sign}").format(
             channelId=channelID, appId=APPID, timestamp=timestamp, userId=USERID, sign=sign)
         r = requests.delete(url)
         result = r.json()
