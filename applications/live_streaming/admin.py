@@ -8,8 +8,11 @@ from lib.polyv.live_api import getstatus_live
 class LiveAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', "channelId", "channelPasswd", "autoPlay", "status", 'pathwel', 'desc')
     search_fields = ('name',)
+    list_filter = ('status', "autoPlay",)
+    list_editable = ['status', "channelPasswd"]
     readonly_fields = ("channelId", "data",)
     actions = ["delete_selected", "get_live_status_selected"]
+    list_per_page = 20
 
     # 批量删除所选直播
     def delete_selected(self, request, queryset):
