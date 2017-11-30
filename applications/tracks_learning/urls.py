@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
-import path_list, course_list
+import course_list
+import path_list
 
 urlpatterns = [
     url('^path/list$', path_list.PathList.as_view()),

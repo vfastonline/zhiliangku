@@ -6,7 +6,7 @@ from lib.polyv.live_api import getstatus_live
 
 
 class LiveAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', "channelId", "channelPasswd","autoPlay","status", 'pathwel', 'desc')
+    list_display = ('id', 'name', "channelId", "channelPasswd", "autoPlay", "status", 'pathwel', 'desc')
     search_fields = ('name',)
     readonly_fields = ("channelId", "data",)
     actions = ["delete_selected", "get_live_status_selected"]
@@ -27,7 +27,7 @@ class LiveAdmin(admin.ModelAdmin):
         get_result = getstatus_live(channelIds)
         code = get_result.get("code")
         data = get_result.get("data", [])
-        message = get_result.get("message", [])
+        message = get_result.get("message")
         message_bit = "批量获取频道直播状态 "
         msg_level = "success"
         if code == 200:

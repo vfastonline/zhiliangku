@@ -1,12 +1,12 @@
 #!encoding:utf-8
 from __future__ import unicode_literals
 
+from colorfield.fields import ColorField
 from django.core.exceptions import ValidationError
 from django.db import models
 
 from lib.polyv.live_api import *
 from lib.storage import ImageStorage
-from colorfield.fields import ColorField
 
 
 class Live(models.Model):

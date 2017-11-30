@@ -1,6 +1,6 @@
 from django.contrib import admin
+
 from applications.tracks_learning.models import *
-from zhiliangku.settings import tinymce_js
 
 
 class PathAdmin(admin.ModelAdmin):
