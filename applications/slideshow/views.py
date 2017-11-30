@@ -15,7 +15,7 @@ class SlideList(View):
         try:
             carousel_objs = Carousel.objects.all()
             result_dict["data"] = [
-                {"name": one.name, "pathwel": one.pathwel.url, "desc": one.desc}
+                {"name": one.name, "pathwel": one.pathwel.url}
                 for one in carousel_objs
             ]
         except:
