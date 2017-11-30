@@ -20,7 +20,7 @@ class Live(models.Model):
         ("live", '开启'),
         ("end", '关闭'),
     )
-    name = models.CharField('直播名称', max_length=50, unique=True)
+    name = models.CharField('直播频道名称', max_length=50, unique=True)
     channelId = models.IntegerField('直播频道ID', blank=True, null=True)
     channelPasswd = models.CharField('直播频道密码', max_length=50, blank=True, null=True, default="111111")
     playerColor = ColorField('播放器控制栏颜色', max_length=50, blank=True, null=True, default="#666666")
