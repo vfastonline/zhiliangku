@@ -106,3 +106,11 @@ ENV/
 # media
 media
 00*.py
+
+
+# plugin
+static/admin
+static/colorfield
+static/django_select2/
+static/suit/
+static/utf8-php/
