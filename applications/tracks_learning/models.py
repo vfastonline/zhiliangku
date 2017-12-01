@@ -27,7 +27,7 @@ class Course(models.Model):
     """课程"""
     name = models.CharField('课程名称', max_length=50)
     lecturer = models.ForeignKey(CustomUser, verbose_name="讲师", limit_choices_to={'role': 1}, null=True, blank=True,
-                                 on_delete=models.SET_NULL)
+                                 on_delete=models.SET_NULL, help_text='只允许选择角色是”老师“的用户信息。')
     course_img = models.ImageField('课程介绍图片', upload_to='course/%Y%m%d', storage=ImageStorage())
     tech = models.ManyToManyField("Technology", verbose_name='技术分类')
 
