@@ -9,7 +9,7 @@ from lib.storage import ImageStorage
 class Carousel(models.Model):
     """轮播图"""
     name = models.CharField('轮播名称', max_length=50)
-    pathwel = models.ImageField('轮播图片', upload_to='carousel/img/%Y/%m/%d', storage=ImageStorage())
+    pathwel = models.ImageField('轮播图片', upload_to='carousel/%Y%m%d', storage=ImageStorage())
 
     def __unicode__(self):
         return self.name

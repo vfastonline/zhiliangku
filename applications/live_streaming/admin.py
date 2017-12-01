@@ -5,6 +5,7 @@ from applications.live_streaming.models import Live
 from lib.polyv.live_api import getstatus_live
 
 
+@admin.register(Live)
 class LiveAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', "channelId", "channelPasswd", "autoPlay", "status", 'pathwel', 'desc')
     search_fields = ('name',)
@@ -43,6 +44,3 @@ class LiveAdmin(admin.ModelAdmin):
 
     delete_selected.short_description = " ".join(["删除所选的", Live._meta.verbose_name])
     get_live_status_selected.short_description = " ".join(["获取所选的", Live._meta.verbose_name, "状态"])
-
-
-admin.site.register(Live, LiveAdmin)
