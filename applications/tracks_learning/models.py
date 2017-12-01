@@ -11,7 +11,7 @@ from lib.storage import ImageStorage
 class Path(models.Model):
     """学习路线"""
     name = models.CharField('路线名称', max_length=50)
-    path_img = models.ImageField('路线介绍图面', upload_to='path/img/%Y/%m/%d', storage=ImageStorage())
+    path_img = models.ImageField('路线介绍图面', upload_to='path/%Y%m%d', storage=ImageStorage())
     desc = models.TextField('路线简介', max_length=1000, blank=True, null=True, default='')
 
     def __unicode__(self):
@@ -26,8 +26,9 @@ class Path(models.Model):
 class Course(models.Model):
     """课程"""
     name = models.CharField('课程名称', max_length=50)
-    lecturer = models.ForeignKey(CustomUser, verbose_name="讲师", limit_choices_to={'role': 1}, null=True, blank=True)
-    course_img = models.ImageField('课程介绍图片', upload_to='course/img/%Y/%m/%d', storage=ImageStorage())
+    lecturer = models.ForeignKey(CustomUser, verbose_name="讲师", limit_choices_to={'role': 1}, null=True, blank=True,
+                                 on_delete=models.SET_NULL)
+    course_img = models.ImageField('课程介绍图片', upload_to='course/%Y%m%d', storage=ImageStorage())
     tech = models.ManyToManyField("Technology", verbose_name='技术分类')
 
     def __unicode__(self):
