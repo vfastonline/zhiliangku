@@ -1,3 +1,14 @@
 ip:47.93.229.122
 username:vfast
 password:1234qwer
+
+
+
+nginx conf:  /usr/local/openresty/nginx/conf/servers/zhiliangu.conf
+
+zhiliangku:  /usr/local/zhiliangku/
+
+uwsgi conf:  /usr/local/zhiliangku/conf/zhiliangku.ini
+
+
+uwsgi 启动关闭脚本   /etc/init.d/zhiliangku  {start|stop}
