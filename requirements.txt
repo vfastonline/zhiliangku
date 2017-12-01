@@ -3,5 +3,4 @@ MySQL-python
 requests
 django-colorfield
 Django-Select2==5.11.1
-# django-suit==2.0a1
-https://github.com/darklow/django-suit/tarball/v2
+django-suit
