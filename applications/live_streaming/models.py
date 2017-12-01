@@ -42,7 +42,7 @@ class Live(models.Model):
             create_result = create_live(self.name, autoplay=self.autoPlay, playercolor=self.playerColor,
                                         channelpasswd=self.channelPasswd)
             code = create_result.get("code")
-            message = create_result.get("message")
+            message = create_result.get("message", "")
             data = create_result.get("data", {})
             if code == 200:
                 self.channelId = data.get("channelId")
@@ -56,7 +56,7 @@ class Live(models.Model):
             if self.channelPasswd != history_live_obj.channelPasswd:
                 set_result = setlivepasswd(self.channelId, self.channelPasswd)
                 set_result_code = set_result.get("code")
-                set_result_message = set_result.get("message")
+                set_result_message = set_result.get("message", "")
                 if set_result_code != 200:
                     raise ValidationError("".join(["设置频道号密码异常 ", set_result_message]))
 
