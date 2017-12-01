@@ -9,8 +9,6 @@ import requests
 
 from conf.conf_core import *
 
-timestamp = (int(round(time.time() * 1000)))
-
 
 def create_live(name, courseid='zhiliangku', autoplay=1, playercolor='#00ffff', channelpasswd='111111'):
     """创建直播频道
@@ -58,6 +56,7 @@ def delete_live(channelID):
     """
     result = dict()
     try:
+        timestamp = (int(round(time.time() * 1000)))
         sign = '%sappId%stimestamp%suserId%s%s' % (APPSECRET, APPID, timestamp, USERID, APPSECRET)
         sign = hashlib.md5(sign).hexdigest().upper()
         url = (DELETE_LIVE + "?appId={appId}&timestamp={timestamp}&userId={userId}&sign={sign}").format(
@@ -82,6 +81,7 @@ def setlivepasswd(channelId, passwd, is_batch=False):
     """
     result = dict()
     try:
+        timestamp = (int(round(time.time() * 1000)))
         if is_batch:  # 批量频道密码
             sign = '%sappId%spasswd%stimestamp%s%s' % (APPSECRET, APPID, passwd, timestamp, APPSECRET)
             sign = hashlib.md5(sign).hexdigest().upper()
@@ -89,7 +89,7 @@ def setlivepasswd(channelId, passwd, is_batch=False):
                 userId=USERID, appId=APPID, timestamp=timestamp, passwd=passwd, sign=sign)
         else:
             sign = '%sappId%schannelId%spasswd%stimestamp%s%s' % (
-            APPSECRET, APPID, channelId, passwd, timestamp, APPSECRET)
+                APPSECRET, APPID, channelId, passwd, timestamp, APPSECRET)
             sign = hashlib.md5(sign).hexdigest().upper()
             url = (
                 PASSWD_SET_LIVE + "?appId={appId}&timestamp={timestamp}&channelId={channelId}&passwd={passwd}&sign={sign}").format(
@@ -111,6 +111,7 @@ def getstatus_live(channelIds):
     """
     result = dict()
     try:
+        timestamp = (int(round(time.time() * 1000)))
         sign = APPSECRET + "appId" + APPID + "channelIds" + channelIds + "timestamp" + str(timestamp) + APPSECRET
         sign = hashlib.md5(sign).hexdigest().upper()
         data = {

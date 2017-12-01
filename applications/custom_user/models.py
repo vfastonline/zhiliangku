@@ -43,9 +43,9 @@ class CustomUserAuths(models.Model):
     )
     custom_user_id = models.ForeignKey(CustomUser, verbose_name="用户")
     identity_type = models.CharField('登录类型', choices=IDENTITYTYPE, max_length=10,
-                                     help_text="(手机号、邮箱、用户名)或第三方应用名称(微信、微博等)")
-    identifier = models.CharField('标识', max_length=255, help_text="（手机号、邮箱、用户名或第三方应用的唯一标识）")
-    credential = models.CharField('密码凭证', max_length=255, help_text="（站内的保存密码，站外的不保存或保存token）")
+                                     help_text="手机号、邮箱、用户名或第三方应用名称微信、微博等。")
+    identifier = models.CharField('标识', max_length=255, help_text="手机号、邮箱、用户名或第三方应用的唯一标识。")
+    credential = models.CharField('密码凭证', max_length=255, help_text="站内的保存密码，站外的不保存或保存token。")
 
     def __unicode__(self):
         return self.identity_type
