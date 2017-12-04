@@ -16,6 +16,7 @@ class InterviewQuestionList(View):
             interview_questions_objs = InterviewQuestions.objects.all()[:4]
             result_dict["data"] = [
                 {
+                    "id": one.id,
                     "company": one.company,
                     "position": one.position,
                     "amount": one.amount,

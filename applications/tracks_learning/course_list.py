@@ -17,6 +17,7 @@ class CourseList(View):
             data_list = list()
             for one in course_objs:
                 one_dict = dict()
+                one_dict["id"] = one.id
                 one_dict["name"] = one.name
                 one_dict["lecturer"] = ""
                 one_dict["tech"] = []

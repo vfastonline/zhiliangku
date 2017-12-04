@@ -15,7 +15,7 @@ class LiveList(View):
         try:
             live_objs = Live.objects.all()
             result_dict["data"] = [
-                {"name": one.name, "pathwel": one.pathwel.url, "desc": one.desc}
+                {"id": one.id, "name": one.name, "pathwel": one.pathwel.url, "desc": one.desc}
                 for one in live_objs
             ]
         except:
