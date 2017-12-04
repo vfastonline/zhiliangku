@@ -29,6 +29,7 @@ class Live(models.Model):
     status = models.CharField('直播状态', max_length=5, choices=STATUS, default='end')  # 频道的直播状态，字符串，值包括：live end
     data = models.TextField("创建直播接口返回值", blank=True, null=True)
     desc = models.TextField('直播简介', max_length=1000, blank=True, null=True, default='')
+    start_time = models.TimeField('直播时间', blank=True, null=True)
 
     def __unicode__(self):
         return self.name
