@@ -21,7 +21,7 @@ class LiveList(View):
                     "pathwel": one.pathwel.url,
                     "desc": one.desc,
                     "status": one.status,
-                    "start_time": str(one.start_time) or "",
+                    "start_time": str(one.start_time) if one.start_time else "",
                 }
                 for one in live_objs
             ]
