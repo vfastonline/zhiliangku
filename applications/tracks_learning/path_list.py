@@ -15,7 +15,12 @@ class PathList(View):
         try:
             path_objs = Path.objects.all()[:3]
             result_dict["data"] = [
-                {"id": one.id, "name": one.name, "path_img": one.path_img.url, "desc": one.desc}
+                {
+                    "id": one.id,
+                    "name": one.name,
+                    "path_img": one.path_img.url,
+                    "desc": one.desc
+                }
                 for one in path_objs
             ]
         except:

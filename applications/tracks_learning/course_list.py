@@ -14,23 +14,17 @@ class CourseList(View):
         result_dict = {"err": 0, "msg": "success", "data": []}
         try:
             course_objs = Course.objects.all()[:8]
-            data_list = list()
-            for one in course_objs:
-                one_dict = dict()
-                one_dict["id"] = one.id
-                one_dict["name"] = one.name
-                one_dict["tech"] = []
-                one_dict["course_img"] = one.course_img.url
-                one_dict["lecturer"] = ""
-                one_dict["avatar"] = ""
-                if one.lecturer:
-                    one_dict["lecturer"] = one.lecturer.nickname
-                if one.lecturer.avatar:
-                    one_dict["avatar"] = one.lecturer.avatar.url
-                if one.tech.all():
-                    [one_dict["tech"].append(one_tech.name) for one_tech in one.tech.all()]
-                data_list.append(one_dict)
-            result_dict["data"] = data_list
+            result_dict["data"] = [
+                {
+                    "id": one.id,
+                    "name": one.name,
+                    "tech": [one_tech.name for one_tech in one.tech.all()] if one.tech.all().exists() else list(),
+                    "course_img": one.course_img.url if one.course_img else "",
+                    "lecturer": one.lecturer.nickname if one.lecturer else "",
+                    "avatar": one.lecturer.avatar.url if one.lecturer.avatar else "",
+                }
+                for one in course_objs
+            ]
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
