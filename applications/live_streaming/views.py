@@ -13,7 +13,7 @@ class LiveList(View):
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": []}
         try:
-            live_objs = Live.objects.all()
+            live_objs = Live.objects.all().order_by("start_time")
             result_dict["data"] = [
                 {
                     "id": one.id,
