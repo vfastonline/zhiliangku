@@ -11,4 +11,6 @@ zhiliangku:  /usr/local/zhiliangku/
 uwsgi conf:  /usr/local/zhiliangku/conf/zhiliangku.ini
 
 
-uwsgi 启动关闭脚本   /etc/init.d/zhiliangku  {start|stop}
+uwsgi 启动关闭脚本   /etc/init.d/zhiliangku.sh {start|stop}
+
+log：/tmp/zhiliangku/
