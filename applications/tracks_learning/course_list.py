@@ -6,14 +6,29 @@ import traceback
 from django.http import HttpResponse
 from django.views.generic import View
 
-from applications.tracks_learning.models import Course
+from applications.tracks_learning.models import *
 
 
 class CourseList(View):
+    """获取课程信息"""
+
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": []}
         try:
-            course_objs = Course.objects.all()[:8]
+            filter_param = dict()
+            home_show = self.request.GET.get("home_show")  # 是否首页显示
+            category_id = self.request.GET.get("category_id")  # 课程类别
+            if home_show:
+                filter_param["home_show"] = True if home_show == "true" else False
+
+            course_objs = Course.objects.filter(**filter_param)
+
+            if category_id:
+                course_objs = list()
+                coursecategory_objs = CourseCategory.objects.filter(id=category_id)
+                if coursecategory_objs.exists():
+                    course_objs = coursecategory_objs.first().courses.all()
+
             result_dict["data"] = [
                 {
                     "id": one.id,

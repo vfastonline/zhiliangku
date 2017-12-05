@@ -1,3 +1,4 @@
+#!encoding:utf-8
 from django.contrib import admin
 
 from applications.tracks_learning.models import *
@@ -5,8 +6,27 @@ from applications.tracks_learning.models import *
 
 @admin.register(Path)
 class PathAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'desc', 'path_img')
+    list_display = ('id', 'name', "lowest_salary", "highest_salary", "path_img", 'desc')
     search_fields = ('name',)
+    list_filter = ('home_show',)
+
+
+@admin.register(PathStage)
+class PathStageAdmin(admin.ModelAdmin):
+    list_display = ('id', "path", 'name', "sequence")
+    search_fields = ("path__name", 'name',)
+
+
+@admin.register(CourseCategory)
+class CourseCategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', "path_stage", 'name', "sequence", "courses_name")
+    search_fields = ("path_stage__name", 'name',)
+    filter_horizontal = ('courses',)
+
+    def courses_name(self, obj):
+        return ",".join(obj.courses.all().values_list("name", flat=True))
+
+    courses_name.short_description = "包含课程"
 
 
 @admin.register(Course)
