@@ -26,7 +26,7 @@ urlpatterns = [
     url('^tracks/', include('applications.tracks_learning.urls')),
     url('^lives/', include('applications.live_streaming.urls')),
     url('^interview_questions/', include('applications.interview_question.urls')),
-    # url('^video/', include('apps.video.urls')),
+    url('^company/', include('applications.company_jobs.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
