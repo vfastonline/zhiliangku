@@ -26,7 +26,7 @@ class SlideList(View):
                     "pathwel": one.pathwel.url,
                     "category_name": one.get_category_display(),
                     "category": one.category,
-                    "sequence": one.sequence
+                    "sequence": one.sequence if one.sequence else 0
                 }
                 for one in carousel_objects
             ]
