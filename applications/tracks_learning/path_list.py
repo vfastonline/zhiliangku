@@ -51,41 +51,41 @@ class PathDetail(View):
         try:
             filter_param = dict()
             path_id = self.request.POST.get("path_id")
+            data_list = list()
             if path_id:
                 filter_param["id"] = path_id
 
-            path_objs = Path.objects.filter(**filter_param)
-            data_list = list()
-            if path_objs.exists():
-                path_obj = path_objs.first()
-                detail = dict()
-                detail["id"] = path_obj.id
-                detail["name"] = path_obj.name
-                detail["desc"] = path_obj.desc
-                detail["path_img"] = path_obj.path_img.url
-                detail["lowest_salary"] = path_obj.lowest_salary
-                detail["highest_salary"] = path_obj.highest_salary
-                detail["courses_count"] = sum([coursecategory.courses.all().count() for coursecategory in
-                                               CourseCategory.objects.filter(path_stage__path=path_obj)])
-                detail["pathstages"] = list()
-                for one_path_stage in path_obj.PathStage.all():  # 查询路径下所有阶段信息
-                    path_stage = {
-                        "id": one_path_stage.id,
-                        "name": one_path_stage.name,
-                        "sequence": one_path_stage.sequence,
-                    }
-                    coursecategorys = list()
-                    for one_coursecategory in one_path_stage.CourseCategory.all():  # 查询路径阶段下所有课程类别信息
-                        course_category = {
-                            "id": one_coursecategory.id,
-                            "name": one_coursecategory.name,
-                            "sequence": one_coursecategory.sequence,
+                path_objs = Path.objects.filter(**filter_param)
+                if path_objs.exists():
+                    path_obj = path_objs.first()
+                    detail = dict()
+                    detail["id"] = path_obj.id
+                    detail["name"] = path_obj.name
+                    detail["desc"] = path_obj.desc
+                    detail["path_img"] = path_obj.path_img.url
+                    detail["lowest_salary"] = path_obj.lowest_salary
+                    detail["highest_salary"] = path_obj.highest_salary
+                    detail["courses_count"] = sum([coursecategory.courses.all().count() for coursecategory in
+                                                   CourseCategory.objects.filter(path_stage__path=path_obj)])
+                    detail["pathstages"] = list()
+                    for one_path_stage in path_obj.PathStage.all():  # 查询路径下所有阶段信息
+                        path_stage = {
+                            "id": one_path_stage.id,
+                            "name": one_path_stage.name,
+                            "sequence": one_path_stage.sequence,
                         }
-                        coursecategorys.append(course_category)
-                    path_stage.update({"coursecategorys": coursecategorys})
-                    detail["pathstages"].append(path_stage)
+                        coursecategorys = list()
+                        for one_coursecategory in one_path_stage.CourseCategory.all():  # 查询路径阶段下所有课程类别信息
+                            course_category = {
+                                "id": one_coursecategory.id,
+                                "name": one_coursecategory.name,
+                                "sequence": one_coursecategory.sequence,
+                            }
+                            coursecategorys.append(course_category)
+                        path_stage.update({"coursecategorys": coursecategorys})
+                        detail["pathstages"].append(path_stage)
 
-                data_list.append(detail)
+                    data_list.append(detail)
             result_dict["data"] = data_list
 
         except:
