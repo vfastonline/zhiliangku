@@ -6,23 +6,88 @@ import traceback
 from django.http import HttpResponse
 from django.views.generic import View
 
-from applications.tracks_learning.models import Path
+from applications.tracks_learning.models import *
 
 
 class PathList(View):
+    """获取职业路径"""
+
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": []}
         try:
-            path_objs = Path.objects.all()[:3]
+            filter_param = dict()
+            home_show = self.request.GET.get("home_show")
+            if home_show:
+                filter_param["home_show"] = True if home_show == "true" else False
+
+            path_objects = Path.objects.filter(**filter_param)
             result_dict["data"] = [
                 {
                     "id": one.id,
                     "name": one.name,
                     "path_img": one.path_img.url,
-                    "desc": one.desc
+                    "desc": one.desc,
+                    "lowest_salary": one.lowest_salary,
+                    "highest_salary": one.highest_salary,
+                    "courses_count": sum([coursecategory.courses.all().count() for coursecategory in
+                                          CourseCategory.objects.filter(path_stage__path=one)]),
                 }
-                for one in path_objs
+                for one in path_objects
             ]
+        except:
+            traceback.print_exc()
+            logging.getLogger().error(traceback.format_exc())
+            result_dict["err"] = 1
+            result_dict["msg"] = traceback.format_exc()
+        finally:
+            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+class PathDetail(View):
+    """获取职业路径详情"""
+
+    def post(self, request, *args, **kwargs):
+        result_dict = {"err": 0, "msg": "success", "data": []}
+        try:
+            filter_param = dict()
+            path_id = self.request.POST.get("path_id")
+            if path_id:
+                filter_param["id"] = path_id
+
+            path_objs = Path.objects.filter(**filter_param)
+            data_list = list()
+            if path_objs.exists():
+                path_obj = path_objs.first()
+                detail = dict()
+                detail["id"] = path_obj.id
+                detail["name"] = path_obj.name
+                detail["desc"] = path_obj.desc
+                detail["path_img"] = path_obj.path_img.url
+                detail["lowest_salary"] = path_obj.lowest_salary
+                detail["highest_salary"] = path_obj.highest_salary
+                detail["courses_count"] = sum([coursecategory.courses.all().count() for coursecategory in
+                                               CourseCategory.objects.filter(path_stage__path=path_obj)])
+                detail["pathstages"] = list()
+                for one_path_stage in path_obj.PathStage.all():  # 查询路径下所有阶段信息
+                    path_stage = {
+                        "id": one_path_stage.id,
+                        "name": one_path_stage.name,
+                        "sequence": one_path_stage.sequence,
+                    }
+                    coursecategorys = list()
+                    for one_coursecategory in one_path_stage.CourseCategory.all():  # 查询路径阶段下所有课程类别信息
+                        course_category = {
+                            "id": one_coursecategory.id,
+                            "name": one_coursecategory.name,
+                            "sequence": one_coursecategory.sequence,
+                        }
+                        coursecategorys.append(course_category)
+                    path_stage.update({"coursecategorys": coursecategorys})
+                    detail["pathstages"].append(path_stage)
+
+                data_list.append(detail)
+            result_dict["data"] = data_list
+
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())

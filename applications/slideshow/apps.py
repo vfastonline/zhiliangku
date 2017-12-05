@@ -6,4 +6,4 @@ from django.apps import AppConfig
 
 class SlideshowConfig(AppConfig):
     name = 'applications.slideshow'
-    verbose_name = "首页轮播"
+    verbose_name = "轮播图"

@@ -54,3 +54,19 @@ class CustomUserAuths(models.Model):
         db_table = 'CustomUserAuths'
         verbose_name = "用户授权信息"
         verbose_name_plural = "用户授权信息"
+
+
+class CustomUserPath(models.Model):
+    """用户参与路径 """
+
+    custom_user = models.OneToOneField(CustomUser, verbose_name="用户", unique=True, limit_choices_to={'role': 0},
+                                       help_text='只允许选择角色是”学生“的用户。')
+    path = models.ManyToManyField("tracks_learning.Path", verbose_name="职业路径", blank=True)
+
+    def __unicode__(self):
+        return self.custom_user.nickname
+
+    class Meta:
+        db_table = 'CustomUserPath'
+        verbose_name = "用户参与路径"
+        verbose_name_plural = "用户参与路径"
