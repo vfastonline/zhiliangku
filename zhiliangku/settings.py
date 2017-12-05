@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'applications.live_streaming',
     'applications.tracks_learning',
     'applications.custom_user',
+    'applications.company_jobs',
 ]
 
 MIDDLEWARE = [
