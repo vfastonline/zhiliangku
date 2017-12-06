@@ -36,6 +36,13 @@ class CourseAdmin(admin.ModelAdmin):
     filter_horizontal = ('tech',)
 
 
+@admin.register(CoursePath)
+class CoursePathAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name',)
+    search_fields = ('name',)
+    filter_horizontal = ('tech',)
+
+
 @admin.register(Technology)
 class TechnologyAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'color', 'desc')
