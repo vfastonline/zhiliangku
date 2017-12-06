@@ -44,7 +44,7 @@ class PathStage(models.Model):
 
 
 class CourseCategory(models.Model):
-    """课程类别"""
+    """路径阶段-课程类别"""
     path_stage = models.ForeignKey(PathStage, verbose_name="职业路径阶段", related_name='CourseCategory')
     name = models.CharField('课程类别名称', max_length=255)
     sequence = models.PositiveIntegerField('路线阶段顺序', default=1, validators=[MinValueValidator(1)])
@@ -78,6 +78,20 @@ class Course(models.Model):
         db_table = 'Course'
         verbose_name = "课程"
         verbose_name_plural = "课程"
+
+
+class CoursePath(models.Model):
+    """课程方向"""
+    name = models.CharField('方向名称', max_length=50)
+    tech = models.ManyToManyField("Technology", verbose_name='技术分类')
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'CoursePath'
+        verbose_name = "课程方向"
+        verbose_name_plural = "课程方向"
 
 
 class Technology(models.Model):
