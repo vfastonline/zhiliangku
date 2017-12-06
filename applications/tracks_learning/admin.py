@@ -31,7 +31,7 @@ class CourseCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'lecturer', 'course_img')
+    list_display = ('id', 'name', 'lecturer', 'course_img', "prerequisites", "learn")
     search_fields = ('name',)
     filter_horizontal = ('tech',)
 
@@ -47,3 +47,9 @@ class CoursePathAdmin(admin.ModelAdmin):
 class TechnologyAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'color', 'desc')
     search_fields = ('name',)
+
+
+@admin.register(Section)
+class SectionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'course', 'title', 'sequence', "desc")
+    search_fields = ("course__name", 'title',)

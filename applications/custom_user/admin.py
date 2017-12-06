@@ -6,8 +6,9 @@ from applications.custom_user.models import *
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'nickname', 'role', 'avatar',)
+    list_display = ('id', 'nickname', 'role', "position", 'avatar',)
     search_fields = ('nickname',)
+    list_filter = ('role',)
 
 
 @admin.register(CustomUserAuths)

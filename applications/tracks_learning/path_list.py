@@ -51,14 +51,13 @@ class PathDetail(View):
         try:
             filter_param = dict()
             path_id = self.request.POST.get("path_id")
-            data_list = list()
+            detail = dict()
             if path_id:
                 filter_param["id"] = path_id
 
                 path_objs = Path.objects.filter(**filter_param)
                 if path_objs.exists():
                     path_obj = path_objs.first()
-                    detail = dict()
                     detail["id"] = path_obj.id
                     detail["name"] = path_obj.name
                     detail["desc"] = path_obj.desc
@@ -85,9 +84,7 @@ class PathDetail(View):
                         path_stage.update({"coursecategorys": coursecategorys})
                         detail["pathstages"].append(path_stage)
 
-                    data_list.append(detail)
-            result_dict["data"] = data_list
-
+            result_dict["data"] = detail
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())

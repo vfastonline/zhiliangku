@@ -70,6 +70,8 @@ class Course(models.Model):
                                  on_delete=models.SET_NULL, help_text='只允许选择角色是”老师“的用户。')
     course_img = models.ImageField('课程介绍图片', upload_to='course/%Y%m%d', storage=ImageStorage())
     tech = models.ManyToManyField("Technology", verbose_name='技术分类')
+    prerequisites = models.TextField('先修要求', default="")
+    learn = models.TextField('你将学到什么', default="")
 
     def __unicode__(self):
         return self.name
@@ -107,3 +109,20 @@ class Technology(models.Model):
         db_table = 'Technology'
         verbose_name = "技术分类"
         verbose_name_plural = "技术分类"
+
+
+class Section(models.Model):
+    """课程-章节"""
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='所属课程', related_name='Section')
+    title = models.CharField('章节标题', max_length=100, default='')
+    sequence = models.PositiveIntegerField('章节顺序')
+    desc = models.TextField('章节描述', default='')
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        db_table = 'Section'
+        verbose_name = "课程章节"
+        verbose_name_plural = "课程章节"
+        ordering = ['sequence']

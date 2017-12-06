@@ -118,3 +118,47 @@ class CourseList(View):
             logging.getLogger().error(traceback.format_exc())
         finally:
             return result_dict
+
+
+class CourseDetail(View):
+    """课程详情"""
+
+    def post(self, request, *args, **kwargs):
+        result_dict = {"err": 0, "msg": "success", "data": []}
+        try:
+            filter_param = dict()
+            course_id = self.request.POST.get("course_id")
+            detail = dict()
+            if course_id:
+                filter_param["id"] = course_id
+                course_objs = Course.objects.filter(**filter_param)
+                if course_objs.exists():
+                    course_obj = course_objs.first()
+                    detail["id"] = course_obj.id
+                    detail["name"] = course_obj.name
+                    detail["lecturer"] = course_obj.lecturer.nickname if course_obj.lecturer else ""
+                    detail["course_img"] = course_obj.course_img.url if course_obj.course_img else ""
+                    detail["prerequisites"] = course_obj.prerequisites
+                    detail["learn"] = course_obj.learn
+                    detail["tech"] = [one_tech.name for one_tech in
+                                      course_obj.tech.all()] if course_obj.tech.all().exists() else list()
+                    detail["avatar"] = course_obj.lecturer.avatar.url if course_obj.lecturer.avatar else ""
+                    detail["position"] = course_obj.lecturer.position if course_obj.lecturer.position else ""
+
+                    detail["sections"] = list()
+                    for one_section in course_obj.Section.all():  # 查询课程下所有章节信息
+                        section = {
+                            "id": one_section.id,
+                            "title": one_section.title,
+                            "sequence": one_section.sequence,
+                            "desc": one_section.desc,
+                        }
+                        detail["sections"].append(section)
+            result_dict["data"] = detail
+        except:
+            traceback.print_exc()
+            logging.getLogger().error(traceback.format_exc())
+            result_dict["err"] = 1
+            result_dict["msg"] = traceback.format_exc()
+        finally:
+            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))

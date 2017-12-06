@@ -21,6 +21,7 @@ class CustomUser(models.Model):
     nickname = models.CharField('昵称', max_length=255, unique=True)
     role = models.IntegerField('角色', choices=ROLE, null=True, default=3)
     avatar = models.ImageField('头像', upload_to=upload_to, storage=ImageStorage(), blank=True, null=True)
+    position = models.CharField('职位', max_length=255, blank=True, null=True)
 
     def __unicode__(self):
         return self.nickname
