@@ -124,7 +124,7 @@ class CourseDetail(View):
     """课程详情"""
 
     def post(self, request, *args, **kwargs):
-        result_dict = {"err": 0, "msg": "success", "data": []}
+        result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
             filter_param = dict()
             course_id = self.request.POST.get("course_id")
