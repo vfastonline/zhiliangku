@@ -22,8 +22,8 @@ class Path(models.Model):
 
     class Meta:
         db_table = 'Path'
-        verbose_name = "职业路径"
-        verbose_name_plural = "职业路径"
+        verbose_name = "路径"
+        verbose_name_plural = "路径"
 
 
 class PathStage(models.Model):
@@ -37,8 +37,8 @@ class PathStage(models.Model):
 
     class Meta:
         db_table = 'PathStage'
-        verbose_name = "职业路径阶段"
-        verbose_name_plural = "职业路径阶段"
+        verbose_name = "路径阶段"
+        verbose_name_plural = "路径阶段"
         unique_together = (("path", "sequence"),)
         ordering = ['sequence']
 
@@ -92,8 +92,8 @@ class CoursePath(models.Model):
 
     class Meta:
         db_table = 'CoursePath'
-        verbose_name = "课程方向"
-        verbose_name_plural = "课程方向"
+        verbose_name = "方向"
+        verbose_name_plural = "方向"
 
 
 class Technology(models.Model):
@@ -123,6 +123,6 @@ class Section(models.Model):
 
     class Meta:
         db_table = 'Section'
-        verbose_name = "课程章节"
-        verbose_name_plural = "课程章节"
+        verbose_name = "章节"
+        verbose_name_plural = "章节"
         ordering = ['sequence']

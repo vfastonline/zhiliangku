@@ -28,8 +28,8 @@ class CustomUser(models.Model):
 
     class Meta:
         db_table = 'CustomUser'
-        verbose_name = "用户基础信息"
-        verbose_name_plural = "用户基础信息"
+        verbose_name = "基础信息"
+        verbose_name_plural = "基础信息"
 
 
 class CustomUserAuths(models.Model):
@@ -53,8 +53,8 @@ class CustomUserAuths(models.Model):
 
     class Meta:
         db_table = 'CustomUserAuths'
-        verbose_name = "用户授权信息"
-        verbose_name_plural = "用户授权信息"
+        verbose_name = "授权信息"
+        verbose_name_plural = "授权信息"
 
 
 class CustomUserPath(models.Model):
@@ -69,5 +69,5 @@ class CustomUserPath(models.Model):
 
     class Meta:
         db_table = 'CustomUserPath'
-        verbose_name = "用户参与路径"
-        verbose_name_plural = "用户参与路径"
+        verbose_name = "参与路径"
+        verbose_name_plural = "参与路径"

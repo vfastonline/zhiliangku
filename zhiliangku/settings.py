@@ -202,12 +202,34 @@ SUIT_CONFIG = {
     # },
     # 'MENU_OPEN_FIRST_CHILD': True, # Default True
     # 'MENU_EXCLUDE': ('auth.group',),
-    # 'MENU': (
-    #     'sites',
-    #     {'app': 'auth', 'icon':'icon-lock', 'models': ('user', 'group')},
-    #     {'label': 'Settings', 'icon':'icon-cog', 'models': ('auth.user', 'auth.group')},
-    #     {'label': 'Support', 'icon':'icon-question-sign', 'url': '/support/'},
-    # ),
+    'MENU': (
+        'sites',
+        {'app': 'auth', 'icon': 'icon-lock', 'models': ('user', 'group')},
+
+        # {'label': 'Settings', 'icon':'icon-cog', 'models': ('auth.user', 'auth.group')},
+        # {'label': 'Support', 'icon':'icon-question-sign', 'url': '/support/'},
+
+        # 用户管理
+        {'app': 'custom_user', 'models': ('CustomUser', 'CustomUserAuths', 'CustomUserPath')},
+
+        # 职业路径
+        {'app': 'tracks_learning', 'models': ('Path', 'PathStage', 'CourseCategory')},
+
+        # 课程
+        {'label': '课程', 'app': 'tracks_learning', 'models': ('Course', 'Section', 'CoursePath', "Technology")},
+
+        # 直播
+        {'app': 'live_streaming'},
+
+        # 轮播图
+        {'app': 'slideshow'},
+
+        # 企业面试题
+        {'app': 'interview_question'},
+
+        # 公司招聘职位
+        {'app': 'company_jobs'},
+    ),
 
     # misc
     # 'LIST_PER_PAGE': 15

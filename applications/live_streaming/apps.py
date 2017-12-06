@@ -6,4 +6,4 @@ from django.apps import AppConfig
 
 class LiveStreamingConfig(AppConfig):
     name = 'applications.live_streaming'
-    verbose_name = "直播管理"
+    verbose_name = "直播"

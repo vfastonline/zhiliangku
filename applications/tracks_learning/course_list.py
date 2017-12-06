@@ -3,11 +3,11 @@ import json
 import logging
 import traceback
 
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.views.generic import View
 
 from applications.tracks_learning.models import *
-from django.core.paginator import Paginator
 
 
 class CourseList(View):
