@@ -15,7 +15,7 @@ class Carousel(models.Model):
     name = models.CharField('轮播名称', max_length=50)
     pathwel = models.ImageField('轮播图片', upload_to='carousel/%Y%m%d', storage=ImageStorage())
     category = models.CharField('类别', max_length=1, choices=CATEGORY, default="1")
-    sequence = models.PositiveIntegerField('播放顺序', blank=True)
+    sequence = models.PositiveIntegerField('播放顺序', blank=True, default=1)
 
     def __unicode__(self):
         return self.name
@@ -24,6 +24,6 @@ class Carousel(models.Model):
         db_table = 'Carousel'
         verbose_name = "轮播图"
         verbose_name_plural = "轮播图"
-        unique_together = (("category", "sequence"),)
+        # unique_together = (("category", "sequence"),)
         ordering = ['sequence']
         index_together = ["category"]
