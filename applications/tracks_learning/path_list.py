@@ -67,7 +67,7 @@ class PathDetail(View):
                     detail["courses_count"] = sum([coursecategory.courses.all().count() for coursecategory in
                                                    CourseCategory.objects.filter(path_stage__path=path_obj)])
                     detail["pathstages"] = list()
-                    for one_path_stage in path_obj.PathStage.all():  # 查询路径下所有阶段信息
+                    for one_path_stage in path_obj.PathStage.all().order_by("sequence"):  # 查询路径下所有阶段信息
                         path_stage = {
                             "id": one_path_stage.id,
                             "name": one_path_stage.name,
