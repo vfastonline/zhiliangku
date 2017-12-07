@@ -6,6 +6,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 
 from lib.storage import ImageStorage
+from applications.live_streaming.models import Live
 
 
 class Path(models.Model):
@@ -125,4 +126,32 @@ class Section(models.Model):
         db_table = 'Section'
         verbose_name = "章节"
         verbose_name_plural = "章节"
+        ordering = ['sequence']
+
+
+class Video(models.Model):
+    """视频"""
+    TYPE = (
+        ("1", "点播"),
+        ("2", "直播回放"),
+        ("3", "直播"),
+        ("4", "题目"),
+    )
+    section = models.ForeignKey(Section, verbose_name='所属章节', related_name='Section', blank=True, null=True)
+    type = models.CharField('视频类型', max_length=1, choices=TYPE)
+    name = models.CharField('视频名称', max_length=255)
+    sequence = models.PositiveIntegerField('视频顺序', default=0)
+    duration = models.PositiveIntegerField('视频时长', default=1)
+    live = models.ForeignKey(Live, verbose_name='直播', related_name='Live', blank=True, null=True)
+    live_start_time = models.DateTimeField("直播起始时间", blank=True, null=True)
+    live_end_time = models.TimeField("直播终止时间", blank=True, null=True)
+    desc = models.TextField('视频描述', default='')
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'Video'
+        verbose_name = "视频"
+        verbose_name_plural = "视频"
         ordering = ['sequence']

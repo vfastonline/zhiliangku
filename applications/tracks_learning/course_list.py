@@ -170,6 +170,13 @@ class CourseDetail(View):
                     detail["avatar"] = course_obj.lecturer.avatar.url if course_obj.lecturer.avatar else ""
                     detail["position"] = course_obj.lecturer.position if course_obj.lecturer.position else ""
 
+                    # 假数据，待汇总
+                    detail["schedule"] = 0.3  # 课程完成进度
+                    detail["last_time_learn"] = "修改进程优先级"  # 上次学到
+                    detail["remaining_time_hour"] = 2  # 剩余时长小时数
+                    detail["remaining_time_minute"] = 15  # 剩余时长分钟数
+                    detail["is_collect"] = 1  # 用户是否收藏，1：收藏，0：未收藏
+
                     detail["sections"] = list()
                     for one_section in course_obj.Section.all():  # 查询课程下所有章节信息
                         section = {

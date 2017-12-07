@@ -53,3 +53,14 @@ class TechnologyAdmin(admin.ModelAdmin):
 class SectionAdmin(admin.ModelAdmin):
     list_display = ('id', 'course', 'title', 'sequence', "desc")
     search_fields = ("course__name", 'title',)
+
+
+@admin.register(Video)
+class VideoAdmin(admin.ModelAdmin):
+    list_display = (
+        'id', "section", 'name',
+        "type", 'sequence', "duration",
+        "live", "live_start_time", "live_end_time", "desc"
+    )
+    search_fields = ("section__title", 'name', "live__name")
+    list_filter = ('type',)

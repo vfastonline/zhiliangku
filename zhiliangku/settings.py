@@ -216,7 +216,7 @@ SUIT_CONFIG = {
         {'app': 'tracks_learning', 'models': ('Path', 'PathStage', 'CourseCategory')},
 
         # 课程
-        {'label': '课程', 'app': 'tracks_learning', 'models': ('Course', 'Section', 'CoursePath', "Technology")},
+        {'label': '课程', 'app': 'tracks_learning', 'models': ('Course', 'Section', "Video", 'CoursePath', "Technology")},
 
         # 直播
         {'app': 'live_streaming'},

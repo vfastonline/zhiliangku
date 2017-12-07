@@ -18,8 +18,8 @@ class Live(models.Model):
         (1, '是'),
     )
     STATUS = (
-        ("live", '开启'),
-        ("end", '关闭'),
+        ("live", '正在直播'),
+        ("end", '直播结束'),
     )
     name = models.CharField('直播频道名称', max_length=50, unique=True)
     channelId = models.IntegerField('直播频道ID', blank=True, null=True)
