@@ -178,7 +178,7 @@ class CourseDetail(View):
                     detail["is_collect"] = 1  # 用户是否收藏，1：收藏，0：未收藏
 
                     detail["sections"] = list()
-                    for one_section in course_obj.Section.all():  # 查询课程下所有章节信息
+                    for one_section in course_obj.Section.all().order_by("sequence"):  # 查询课程下所有章节信息
                         section = {
                             "id": one_section.id,
                             "title": one_section.title,

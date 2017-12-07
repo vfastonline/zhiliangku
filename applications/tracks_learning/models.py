@@ -126,7 +126,7 @@ class Section(models.Model):
         db_table = 'Section'
         verbose_name = "章节"
         verbose_name_plural = "章节"
-        ordering = ['sequence']
+        ordering = ["course", 'sequence']
 
 
 class Video(models.Model):
@@ -154,4 +154,4 @@ class Video(models.Model):
         db_table = 'Video'
         verbose_name = "视频"
         verbose_name_plural = "视频"
-        ordering = ['sequence']
+        ordering = ["section", 'sequence']

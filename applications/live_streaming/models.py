@@ -80,3 +80,4 @@ class Live(models.Model):
         db_table = 'Live'
         verbose_name = "直播"
         verbose_name_plural = "直播"
+        ordering = ['start_time']

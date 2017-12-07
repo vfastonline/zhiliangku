@@ -27,4 +27,4 @@ class Carousel(models.Model):
         verbose_name_plural = "轮播图"
         # unique_together = (("category", "sequence"),)
         ordering = ['sequence']
-        index_together = ["category"]
+        index_together = ["name", "category"]

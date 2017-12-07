@@ -20,7 +20,7 @@ class VideoList(View):
 
             data_list = list()
             if section_id:
-                videos = Video.objects.filter(section__id=section_id)
+                videos = Video.objects.filter(section__id=section_id).order_by("sequence")
                 for one_video in videos:
                     video_dict = dict()
                     video_dict["id"] = one_video.id
