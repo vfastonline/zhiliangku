@@ -41,7 +41,7 @@ class PathStage(models.Model):
         verbose_name = "路径阶段"
         verbose_name_plural = "路径阶段"
         unique_together = (("path", "sequence"),)
-        ordering = ['path']
+        ordering = ['path', "sequence"]
 
 
 class CourseCategory(models.Model):
