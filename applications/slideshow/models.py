@@ -16,6 +16,7 @@ class Carousel(models.Model):
     pathwel = models.ImageField('轮播图片', upload_to='carousel/%Y%m%d', storage=ImageStorage())
     category = models.CharField('类别', max_length=1, choices=CATEGORY, default="1")
     sequence = models.PositiveIntegerField('播放顺序', blank=True, default=1)
+    desc = models.TextField('轮播简介', max_length=1000, blank=True, null=True, default='')
 
     def __unicode__(self):
         return self.name
