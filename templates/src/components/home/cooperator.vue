@@ -29,8 +29,8 @@ export default {
     padding: 64px 0px;
 }
 .cooperatorLogo{
-    height: 27px;
-    width:1004px;
+    height: 43px;
+    width:1011px;
     margin-top:34px;
     
 }

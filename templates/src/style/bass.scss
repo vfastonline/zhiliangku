@@ -1,9 +1,10 @@
 body{
     width:100%;
     min-width:1152px;
+    background:#ffffff;
 }
 .mainwidth{
-    widows: 1152px;
+    width: 1152px;
 }
 .clearfix:after{
     content:".";
@@ -17,6 +18,27 @@ body{
 }
 .floatr{
     float: right;
+}
+.incenter{
+    margin:auto;
+}
+.flexcenter{
+    display: flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+}
+.flexvcenter{
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    flex-wrap:wrap;
+}
+.flexstartcenter{
+    align-items:center;
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+    flex-wrap:nowrap;
 }
 .inmiddle{
     position: absolute;
@@ -88,6 +110,11 @@ body{
     font-size: 14px;
     color: #424242;
 }
+.font14pl3a3c50{
+    font-family: PingFangSC-Light;
+    font-size: 14px;
+    color: #3A3C50;
+}
 .font16pl3a3c50{
     font-family: PingFangSC-Light;
     font-size: 16px;
@@ -97,6 +124,31 @@ body{
     font-family: PingFangSC-Light;
     font-size: 18px;
     color: #3A3C50;
+}
+.font20pl3a3c50{
+    font-family: PingFangSC-Light;
+    font-size: 20px;
+    color: #3A3C50;
+}
+.font20pm3a3c50{
+    font-family: PingFangSC-Medium;
+    font-size: 20px;
+    color: #3A3C50;
+}
+.font14pr3a3c50{
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #3A3C50;
+}
+.font16pr3a3c50{
+    font-family: PingFangSC-Regular;
+    font-size: 16px;
+    color: #3A3C50;
+}
+.font16prffffff{
+    font-family: PingFangSC-Regular;
+    font-size: 16px;
+    color: #ffffff;
 }
 .font14pl5A646E{
     font-family: PingFangSC-Light;
@@ -124,6 +176,46 @@ body{
     font-size: 16px;
     color: #23B8FF;
 }
+.font16pr07111B{
+    font-family: PingFangSC-Regular;
+    font-size: 16px;
+    color: #07111B;
+}
+.font16pmCCCCCC{
+    font-family: PingFangSC-Medium;
+    font-size: 16px;
+    color: #CCCCCC;
+}
+.font12plffffff{
+    font-family: PingFangSC-Light;
+    font-size: 12px;
+    color: #FFFFFF;
+}
+.font14plffffff{
+    font-family: PingFangSC-Light;
+    font-size: 14px;
+    color: #FFFFFF;
+}
+.font20plffffff{
+    font-family: PingFangSC-Light;
+    font-size: 20px;
+    color: #FFFFFF;
+}
+.font36plffffff{
+    font-family: PingFangSC-Light;
+    font-size: 36px;
+    color: #FFFFFF;
+}
+.font14pm2a0000{
+    font-family: PingFangSC-Medium;
+    font-size: 14px;
+    color: #66BB6A;
+}
+.font20pm2a0000{
+    font-family: PingFangSC-Medium;
+    font-size: 20px;
+    color: #66BB6A;
+}
 .relative{
     position: relative;
 }
@@ -138,4 +230,10 @@ body{
 }
 .zindex100{
     z-index:100;
+}
+.rise{
+    transition: box-shadow 0.3s ease
+}
+.rise:hover{
+    box-shadow:0 0 10px 5px   rgba(99,117,138,0.10);
 }

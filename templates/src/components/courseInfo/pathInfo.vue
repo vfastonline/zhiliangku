@@ -1,11 +1,13 @@
 <template>
-  <div>
-    
+  <div class="mainwidth incenter pathInfo">
+    <path-info-left></path-info-left>
+    <path-info-right></path-info-right>
   </div>
 </template>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.pathInfo{
+    padding-top:60px;
+}
 </style>
 <script>
 export default {

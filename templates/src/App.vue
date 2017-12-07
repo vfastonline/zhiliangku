@@ -6,12 +6,26 @@
     <!--<subtitle :enTitle="a" :title="b" :slogon="c"></subtitle>-->
     <!--<carrerps></carrerps>-->
     <!--<interview-cover></interview-cover>-->
+    <!-- <interview-main></interview-main> -->
     <!--<cooperator ></cooperator>-->
     <!--<project-footer></project-footer>-->
-    <router-view/>  
+    <!--<test></test>-->
+    <!--<lvs></lvs>-->
+    <!-- homeend -->
+    <!-- <course-info></course-info> -->
+    <!-- <project-pager></project-pager> -->
+    <!-- <hcm></hcm> -->
+    <!-- <router-view name='a' />   -->
+    <!-- <router-view name='b' />   -->
+    <project-header></project-header>
+    <!-- <before-add></before-add> -->
+    <!-- <path-info></path-info> -->
+    <course-select></course-select>
+
+    <!-- <career-path-list></career-path-list> -->
+    <project-footer></project-footer>
   </div>
 </template>
-
 <script>
 export default {
   name: 'app',

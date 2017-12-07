@@ -1,27 +1,67 @@
 <template>
-  <div class="ic-container ofhid floatl">
+  <div class="ic-container ofhid " :class="className" :style="outerStyle">
       <ul class="icc-content">
-          <li class="iccc-title fontcenter textellipsis font20pr5a646e">Python开发工程师</li>
-          <li class="iccc-img"><img class="iccc-img" src="../../assets/img/interviewCover.png" alt=""></li>
+          <li class="iccc-title fontcenter textellipsis font20pr5a646e">{{mainData.position}}</li>
+          <li class="iccc-img"><img class="iccc-img" :src="mainData.question_img" alt=""></li>
           <li class="iccc-info fontjustify">
               <div class="iccci-tag clearfix">
-                  <span class="icccit-1 floatl font14prb2bbbf">月薪</span>
-                  <span class="icccit-2 floatr font14pr002800">10k-12k</span>
+                  <span class="icccit-1 floatl font14prb2bbbf">{{mainData.tag1?mainData.tag1:'月薪'}}</span>
+                  <span class="icccit-2 floatr font14pr002800">{{mainData.lowest_monthly_salary|turnToThu}}-{{mainData.highest_monthly_salary|turnToThu}}</span>
               </div>
-              <div class="iccci-tag clearfix">
-                  <span class="icccit-1 floatl font14prb2bbbf">试题数量</span>
-                  <span class="icccit-2 floatr font14pr002800">4</span>
+              <div v-if="layout.indexOf('number')!=-1" class="iccci-tag clearfix">
+                  <span  class="icccit-1 floatl font14prb2bbbf">{{mainData.tag2?mainData.tag2:'试题数量'}}</span>
+                  <span  class="icccit-2 floatr font14pr002800">{{mainData.amount}}</span>
+              </div>
+              <div v-if="layout.indexOf('course')!=-1" class="iccci-tag clearfix">
+                  <span  class="icccit-2 floatl font14prb2bbbf">{{mainData.courses_count}}</span>
+                  <span  class="icccit-1 floatr font14pr002800">{{mainData.tag3?mainData.tag2:'门课程'}}</span>
               </div>
           </li>
-          <li class="iccc-name fontcenter textellipsis font20pr5a646e">深圳市正义隆农业悠闲公司</li>
+          <li v-if="layout.indexOf('company')!=-1" class="iccc-name fontcenter textellipsis font20pr5a646e">{{mainData.company}}</li>
       </ul>
   </div>
 </template>
+<script>
+export default {
+  name: "HelloWorld",
+  data() {
+    return {
+      msg: "Welcome to Your Vue.js App",
+      className:[],
+      outerStyle:{},
+      myStyleData:{}
+    };
+  },
+  props:{
+      mainData:Object,
+      layout:Array,
+      myStyle:Object,
+      index:Number,
+  },
+  filters:{
+
+  },
+  created(){
+      this.myStyleData=this.deepCopy(this.myStyle);
+        if (this.myStyle) {
+        if (this.myStyle.num) {
+          if (!((this.index + 1) % this.myStyle.num)) {
+            if (this.myStyle['outerStyle']['margin-right']) {
+              this.myStyleData[['outerStyle']]['margin-right']='0';
+            }
+          }
+        }
+      }
+      this.$fn.initStyle(this.$vueself(), 'myStyleData', ['className','outerStyle'])
+  }
+};
+</script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .ic-container {
   width: 362px;
-  height: 445px;
+  /* height: 445px; */
+  background: white;
 }
 .iccc-title,
 .iccc-name {
@@ -54,15 +94,6 @@
     margin-bottom:28px;
 }
 </style>
-<script>
-export default {
-  name: "HelloWorld",
-  data() {
-    return {
-      msg: "Welcome to Your Vue.js App"
-    };
-  }
-};
-</script>
+
 
 

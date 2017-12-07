@@ -1,32 +1,39 @@
 <template>
-  <el-carousel indicator-position="outside">
-    <el-carousel-item v-for="item in 4" :key="item">
+<div class="carousel zindex1">
+  <el-carousel :interval="50000" >
+    <el-carousel-item v-for="item in urls" :style="{'background':'url('+item.pathwel+')'+'center center no-repeat fiexd'}" :key="item.id">
+      <img class="carouselimg" :src="item.pathwel" alt="">
     </el-carousel-item>
   </el-carousel>
+</div>
 </template>
 <script>
 export default {
   data(){
     return {
-
+      urls:[],
+      address:'slides/list?category=1'
     }
+  },
+  created(){
+    if(this.requestUrl){
+     this.address= this.requestUrl;
+    }
+    this.$ajax.get(this.address).then(
+      res=>{
+        this.urls=this.$fn.addString(this.$myConst.httpUrl,res.data.data,'pathwel')
+      }
+    )
+  },
+  props:{
+    requestUrl:String
   }
 }
 </script>
 
 <style>
-  .el-carousel__item h3 {
-    color: grey;
-    font-size: 18px;
-    opacity: 0.75;
-    line-height: 300px;
-    margin: 0;
-  }
-  .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-  }
-  
-  .el-carousel__item:nth-child(2n+1) {
-    background-color: #d3dce6;
-  }
+.carouselimg{
+  width:100%;
+  height: 100%;
+}
 </style>
