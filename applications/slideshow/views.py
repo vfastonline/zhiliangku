@@ -18,7 +18,7 @@ class SlideList(View):
             if category:
                 filter_param["category"] = category
 
-            carousel_objects = Carousel.objects.filter(**filter_param)
+            carousel_objects = Carousel.objects.filter(**filter_param).order_by("sequence")
             result_dict["data"] = [
                 {
                     "id": one.id,
