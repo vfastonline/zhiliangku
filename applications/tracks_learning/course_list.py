@@ -19,8 +19,8 @@ class CourseList(View):
             "msg": "success",
             "data": [],
             "filter": {
-                "course_path": [{"name": "全部", "id": 0}],
-                "technology": [{"name": "全部", "id": 0}]
+                "course_path": [{"name": "全部", "id": 0, "active": 1}],
+                "technology": [{"name": "全部", "id": 0, "active": 1}]
             },
             "paginator": {}
         }
@@ -28,8 +28,8 @@ class CourseList(View):
             # 获取查询参数
             home_show = self.request.GET.get("home_show")  # 是否首页显示
             category_id = self.request.GET.get("category_id")  # 课程类别
-            coursepath_id = self.request.GET.get("coursepath_id")  # 课程方向
-            technology_id = self.request.GET.get("technology_id")  # 技术分类
+            coursepath_id = self.request.GET.get("coursepath_id", 0)  # 课程方向
+            technology_id = self.request.GET.get("technology_id", 0)  # 技术分类
             page_number = self.request.GET.get("page", 1)  # 页码
 
             filter_param = dict()
@@ -44,6 +44,12 @@ class CourseList(View):
                 coursecategory_objs = CourseCategory.objects.filter(id=category_id)
                 if coursecategory_objs.exists():
                     course_objs = coursecategory_objs.first().courses.all()
+
+            # 按方向查询
+            if coursepath_id and not technology_id:
+                coursepaths = CoursePath.objects.filter(id=coursepath_id).first()
+                techs = coursepaths.tech.all()
+                course_objs = Course.objects.filter(tech__in=techs)
 
             # 按技术分类查询
             if technology_id:
@@ -81,7 +87,7 @@ class CourseList(View):
             ]
 
             # 组装过滤数据
-            filter_result = self.get_filter_data(coursepath_id)
+            filter_result = self.get_filter_data(coursepath_id, technology_id)
             result_dict["filter"] = filter_result
 
         except:
@@ -93,26 +99,45 @@ class CourseList(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
     @staticmethod
-    def get_filter_data(course_path_id):
+    def get_filter_data(course_path_id, technology_id):
         """组装过滤数据
         :param course_path_id: 课程方向ID
-        :return:
+        :param technology_id: 技术分类ID
+        :return:课程方向+课程技术分类信息
         """
-        result_dict = {"course_path": [{"name": "全部", "id": 0}], "technology": [{"name": "全部", "id": 0}]}
+        result_dict = {
+            "course_path": [{"name": "全部", "id": 0, "active": 1}],
+            "technology": [{"name": "全部", "id": 0, "active": 1}]
+        }
         try:
             course_paths = CoursePath.objects.all().values()
             if course_paths:
                 result_dict["course_path"].extend(course_paths)
 
-            # 组装锅炉数据-方向-技术分类
+            # 增加方向选中flag
+            for one in result_dict["course_path"]:
+                if int(one.get("id", 0)) == int(course_path_id):
+                    one.update({"active": 1})
+                    result_dict["course_path"][0].pop("active")
+                    break
+
+            # 组装过滤数据-方向-技术分类
             technologys = list()
-            if not course_path_id:
+            if not course_path_id or course_path_id == "0":
                 technologys = Technology.objects.all().values("id", "name")
             else:
                 technology_objs = CoursePath.objects.filter(id=course_path_id)
                 if technology_objs.exists():
                     technologys = technology_objs.first().tech.all().values("id", "name")
             result_dict["technology"].extend(technologys)
+
+            # 增加分类选中flag
+            for one in result_dict["technology"]:
+                if int(one.get("id", 0)) == int(technology_id):
+                    one.update({"active": 1})
+                    result_dict["technology"][0].pop("active")
+                    break
+
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
