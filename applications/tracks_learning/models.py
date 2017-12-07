@@ -59,7 +59,7 @@ class CourseCategory(models.Model):
         verbose_name = "课程类别"
         verbose_name_plural = "课程类别"
         unique_together = (("path_stage", "sequence"),)
-        ordering = ['sequence']
+        ordering = ["path_stage", 'sequence']
 
 
 class Course(models.Model):

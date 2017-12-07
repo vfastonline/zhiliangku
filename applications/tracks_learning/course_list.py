@@ -41,7 +41,7 @@ class CourseList(View):
             # 按课程类别查询
             if category_id:
                 course_objs = list()
-                coursecategory_objs = CourseCategory.objects.filter(id=category_id)
+                coursecategory_objs = CourseCategory.objects.filter(id=category_id).order_by("sequence")
                 if coursecategory_objs.exists():
                     course_objs = coursecategory_objs.first().courses.all()
 
