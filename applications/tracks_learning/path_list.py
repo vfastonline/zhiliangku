@@ -50,7 +50,8 @@ class PathDetail(View):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
             filter_param = dict()
-            path_id = self.request.POST.get("path_id")
+#            path_id = self.request.POST.get("path_id")
+            path_id = json.loads(request.body).get('path_id')
             detail = dict()
             if path_id:
                 filter_param["id"] = path_id
