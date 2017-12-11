@@ -8,8 +8,10 @@ from django.http import HttpResponse
 from django.views.generic import View
 
 from applications.tracks_learning.models import *
+from lib.permissionMixin import class_view_decorator, user_login_required
 
 
+# @class_view_decorator(user_login_required)
 class CourseList(View):
     """获取课程信息"""
 
@@ -154,7 +156,7 @@ class CourseDetail(View):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
             filter_param = dict()
-#            course_id = self.request.POST.get("course_id")
+            #            course_id = self.request.POST.get("course_id")
             course_id = json.loads(request.body).get('course_id')
             logging.getLogger().error(course_id)
             detail = dict()
