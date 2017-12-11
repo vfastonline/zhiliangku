@@ -5,5 +5,4 @@ import logging
 
 def index(request):
     logging.getLogger().info('hello')
-#    return HttpResponse('ok')
     return render(request, 'index.html')
