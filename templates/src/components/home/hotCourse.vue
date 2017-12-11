@@ -3,7 +3,7 @@
     <div class="hc-imgContainer" :style="imgStyle">
       <img class="hcic-img" :src="mainData.course_img" alt="" :style="imgStyle">
       <div class="hcic-tag textellipsis">
-        <el-button v-for="(item,index) in mainData.tech" v-if="index<=2" :key="item" :style="buttonStyle">{{item}}</el-button>
+        <el-button v-for="(item,index) in mainData.tech" v-if="index<2" :key="item" :style="buttonStyle">{{item}}</el-button>
       </div>
     </div>
     <ul class="hc-info" :style="barStyle">
@@ -74,12 +74,13 @@
   .hc-imgContainer,
   .hcic-img {
     // width: 276px;
+    width:100%;
     height: 153px;
     position: relative;
   }
 
   .hcic-tag {
-    width: 276px;
+    // width: 276px;
     box-sizing: border-box;
     height: 24px;
     padding-left: 8px;
@@ -91,10 +92,10 @@
     }
   }
 
-  .hc-info {
-    width: 276px;
-    height: 80px;
-  }
+  // .hc-info {
+  //   width: 276px;
+  //   height: 80px;
+  // }
 
   .hci-li {
     height: 40px;

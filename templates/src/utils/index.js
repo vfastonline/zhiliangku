@@ -19,6 +19,9 @@ module.exports = (function () {
     this.show = !this.show;
     return show
   }
+  fn.addObjString=function(str,obj,key){
+    obj[key]=str+obj[key]
+  }
   //将字符串拼接，并且将原来变量进行了改变。
   // 该方法支持全是没有修饰的arr，以及arr盛着的对象的多个未修饰的key
   fn.addString = function (str, arr, key) {
@@ -29,7 +32,8 @@ module.exports = (function () {
         } else {
           if (key instanceof Array) {
             for (var j = 0; j < key.length; j++) {
-              arr[i][key[j]] = str + arr[i][key[j]]
+              fn.addObjString(str,arr[i],key[j])
+              // arr[i][key[j]] = str + arr[i][key[j]]
             }
           }
           if (typeof key == 'string') arr[i][key] = str + arr[i][key]

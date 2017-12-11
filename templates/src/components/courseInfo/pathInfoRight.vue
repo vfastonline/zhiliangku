@@ -1,12 +1,13 @@
 <template>
   <div class="path-info-right">
     <div class="pir-title-container">
-      <div class="font20pl3a3c50 pir-title">Linux运维工程师</div>
-      <div class="font14prb2bbbf">22门课程</div>
+      <div class="font20pl3a3c50 pir-title">{{mainData.name}}</div>
+      <div class="font14prb2bbbf">{{mainData.courses_count}}门课程</div>
     </div>
     <div class="pir-main-content">
       <ul>
-        <li v-for="(lidata,indexli) in maindata" :key="indexli" class="tli tli1 relative clearfix ofhid">
+        <li v-for="(lidata,indexli) in mainData.pathstages"  :key="indexli" 
+        class="tli tli1 relative clearfix ofhid">
           <div class="pirm-dote  zindex100 pirm-dot-border-grey" 
           :class="{
             'pirm-dote-solid-green':indexli<indexli1,
@@ -24,30 +25,72 @@
           <div class="pirm-line  zindex1 pirm-line-grey" 
           :class="{'pirm-line-start':indexli==0,
           'pirm-line-green':indexli<=indexli1,
-          'pirm-line-end':indexli==maindata.length-1,
-          'pirm-line-end-expand':(indexli==indexli1)&&(indexli==maindata.length-1)
+          'pirm-line-end':indexli==mainData.pathstages.length-1,
+          'pirm-line-end-expand':(indexli==indexli1)&&(indexli==mainData.pathstages.length-1)
           }"
           ></div>
           <div class="clearfix pirm-tags-container ">
-            <div v-for="(span,indexspan) in lidata.spans" :key="indexspan" class="floatl">
-              <span @click="changeActiveSpan(indexli,indexspan,span)" :class="{'pirm-selected':indexli1==indexli&&indexspan1==indexspan}"
+            <div v-for="(span,indexspan) in lidata.coursecategorys" :key="indexspan" class="floatl">
+              <span @click="changeActiveSpan(indexli,indexspan,span.id,lidata.id)" :class="{'pirm-selected':indexli1==indexli&&indexspan1==indexspan}"
                 class="font16pl3a3c50 pirm-tag pointer">
-                {{span}}
+                {{span.name}}
               </span>
-              <img v-if="indexspan!=lidata.spans.length-1" class="pirm-icon" src="../../assets/img/icons/Search-magnifier.svg" alt="">
+              <img v-if="indexspan!=lidata.coursecategorys.length-1" class="pirm-icon" src="../../assets/img/icons/Search-magnifier.svg" alt="">
             </div>
           </div>
           <transition name="fade">
-            <div v-if="indexli==indexli1" class="pirm-heightnone ofhid">
-              {{content}}
-            </div>
+            <!-- <div v-if="indexli==indexli1" class="pirm-heightnone ofhid"> -->
+              <container  :myStyle="{}" v-if="indexli==indexli1" class="pirm-heightnone ofhid">
+              <hot-course v-for="(item,index) in courseData" :key="index" :mainData="item"
+               :myStyle="hotCourseStyle" :index="index"
+              ></hot-course>
+              </container>
+            <!-- </div> -->
           </transition>
         </li>
       </ul>
     </div>
-    <button></button>
+    <!-- <button></button> -->
   </div>
 </template>
+
+<script>
+  export default {
+    name: 'HelloWorld',
+    data() {
+      return {
+        msg: 'Welcome to Your Vue.js App',
+        indexli1: -1,
+        indexspan1: -1,
+        hotCourseStyle:{
+            outerStyle:{width:'216px','margin-right':'32px'},
+            imgStyle:{height:'148px'},
+            num:3
+        },
+        content: '',
+        courseData:{}
+      }
+    },
+    methods: {
+      changeActiveSpan(indexli, indexspan,spanid, liid) {
+        this.indexli1 = indexli;
+        this.indexspan1 = indexspan;
+        this.$ajax.get('tracks/course/list?'+'home_show=false'+'&category_id='+spanid).then(
+          res=>{
+            this.courseData=this.$fn.addString(this.$myConst.httpUrl,res.data.data,['course_img','avatar'])
+          }
+        )
+      }
+    },
+    created() {
+      
+    },
+    props:{
+      mainData:Object
+    }
+  }
+
+</script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .path-info-right{
@@ -156,83 +199,4 @@
   }
 
 </style>
-<script>
-  export default {
-    name: 'HelloWorld',
-    data() {
-      return {
-        msg: 'Welcome to Your Vue.js App',
-        indexli1: -1,
-        indexspan1: -1,
-        maindata: [{
-            spans: ['Linux基础']
-          },
-          {
-            spans: ['网络管理', '软件安装', '权限管理', '服务管理']
-          },
-          {
-            spans: ['shell基础', 'shell实战']
-          },
-          {
-            spans: ['安全应用', '网络服务', '服务搭建']
-          }
-        ],
-        content: ''
-      }
-    },
-    methods: {
-      changeActiveSpan(indexli, indexspan, span) {
-        this.content = span;
-        this.indexli1 = indexli;
-        this.indexspan1 = indexspan;
-      }
-    },
-    created() {
-      function CallBack() {
-        var arr = [],
-          i = 0;
-        this.add = function (func) {
-          arr.push(func);
-        }
 
-        this.run = function (num) {
-          var fun = function () {
-            if (i < arr.length) {
-              arr[i++](fun)
-            }
-          }
-          fun();
-        }
-      }
-
-      var aa = new CallBack()
-
-      aa.add(function (next) {
-        console.log('0');
-        next();
-      })
-
-      aa.add(function (next) {
-        setTimeout(function () {
-          console.log('1');
-          next();
-        }, 3000);
-      })
-      aa.add(function (next) {
-        console.log('2');
-        next();
-      })
-      aa.add(function (next) {
-        setTimeout(function () {
-          console.log('3');
-          next();
-        }, 1000);
-      })
-
-      console.log(new Date())
-      aa.run()
-      console.log(aa)
-    }
-  }
-
-</script>

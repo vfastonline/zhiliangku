@@ -29,7 +29,8 @@ Vue.prototype.$echarts=Echarts;
 
 import Axios from 'axios'
 Axios.defaults.baseURL = Obj.httpUrl;
-Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+// Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 Vue.prototype.$ajax=Axios;
 //引入自写小组件
 //home
@@ -51,6 +52,9 @@ import PathInfoLeft from './components/courseInfo/pathInfoLeft.vue'
 import PathInfoRight from './components/courseInfo/pathInfoRight.vue'
 import CareerPathCarousel from './components/courseInfo/careerPathCarousel.vue'
 import Container from './components/courseInfo/container.vue'
+//login
+import LoginCommenLis from './components/login/commenLi.vue'
+import Login from './components/login/login.vue'
 //引入混合组件
 // home
 import LiveVideoStreamingMain from './components/home/liveVideoStreamingMain.vue'
@@ -86,6 +90,9 @@ Vue.component('pathInfoLeft',PathInfoLeft)
 Vue.component('pathInfoRight',PathInfoRight)
 Vue.component('careerPathCarousel',CareerPathCarousel)
 Vue.component('container',Container)
+//login
+Vue.component('loginCommenLis',LoginCommenLis)
+Vue.component('login',Login)
 //声明自写混合组件
 //home
 Vue.component('lvsm',LiveVideoStreamingMain)

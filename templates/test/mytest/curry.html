@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  function add(a, b) {
+    if(b==undefined){return a}
+    return a + b;
+  }
+
+  function curry(fn) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    console.log(args)
+    return function (a,b) {
+      var iargs = Array.prototype.slice.call(arguments);
+      var fargs = args.concat(iargs);
+      console.log(iargs)
+      console.log(fargs)
+      if(arguments.length){
+        return curry(fn,fn.apply(null,fargs))
+      }
+      console.log(1)
+      return fn.apply(null,fargs)
+    }
+  }
+  var cadd=curry(add,0)
+  alert(cadd(3)(4)(3)(20)())  
+</script>
+
+</html>

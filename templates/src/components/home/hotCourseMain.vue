@@ -4,14 +4,7 @@
       <subtitle :msg="msg"></subtitle>
       <div class="hcm-content">
           <div class="hcmc-c incenter">
-            <hot-course v-for="item in hotCourseData" :key="item.id" :mainData="item" ></hot-course>
-            <!-- <hot-course></hot-course>
-            <hot-course></hot-course>
-            <hot-course></hot-course>
-            <hot-course></hot-course>
-            <hot-course></hot-course>
-            <hot-course></hot-course>
-            <hot-course></hot-course> -->
+            <hot-course v-for="(item,index) in hotCourseData" :index="index" :key="item.id" :mainData="item" ></hot-course>
           </div>
       </div>
   </div>
