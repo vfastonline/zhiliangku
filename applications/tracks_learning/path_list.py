@@ -50,7 +50,7 @@ class PathDetail(View):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
             filter_param = dict()
-#            path_id = self.request.POST.get("path_id")
+            # path_id = self.request.POST.get("path_id")
             path_id = json.loads(request.body).get('path_id')
             detail = dict()
             if path_id:
@@ -67,6 +67,14 @@ class PathDetail(View):
                     detail["highest_salary"] = path_obj.highest_salary
                     detail["courses_count"] = sum([coursecategory.courses.all().count() for coursecategory in
                                                    CourseCategory.objects.filter(path_stage__path=path_obj)])
+                    detail["learn_time_consum"] = 31  # 学习耗时
+                    detail["path_complete_schedule"] = 0.3  # 路线完成进度
+                    detail["complete_number"] = 3  # 完成节数
+                    courses_counts = [one.courses.all().count() for one in
+                                      CourseCategory.objects.filter(path_stage__in=path_obj.PathStage.all())]
+                    courses_total_number = sum(courses_counts)
+                    detail["total_number"] = courses_total_number  # 课程总节数
+
                     detail["pathstages"] = list()
                     for one_path_stage in path_obj.PathStage.all().order_by("sequence"):  # 查询路径下所有阶段信息
                         path_stage = {
