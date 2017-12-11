@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh_cmn">
+<head>
+    <meta charset=utf-8 />
+    <title>1111</title>
+    <style>
+        .news_content{ position:absolute; }
+        .scrollBer{  height: 10px; background: #ccc;position:relative}
+        .scrollBer>div{ width:50px; height: 10px; border-radius:6px; background: #999;position:absolute}
+
+    </style>
+</head>
+<body>
+
+<div id="wrapper" style="width:800px; height:100px; overflow:hidden; position:relative; margin:0 auto">
+    <div class="news_content" style=" height:100px;position:absolute; white-space: nowrap; padding-top: 20px">
+        内容内容内容内容内容内容内容内容内容a内容内容内容内容内容内<br/>
+        内容内容内容内容内容内容内容内容内容内容内容内容内容内容内<br/>
+        内容内容内容内容内容内容内容内容内容内容内容内容内容内容内<br/>
+        内容内容内容内容内容内容内容内容内容内容内容内容内容内容内<br/>
+        内容内容内容内容内容内容内容内容内容内容内容内容内容内容内<br/>
+        内容内容内容内容内容内容内容内容内容内容内容内容内容内容内<br/>
+    </div>
+
+</div>
+
+
+    <script>
+
+
+          function myScroll(obj){
+              var wrapper = document.getElementById(obj),
+                  scrollBox = wrapper.getElementsByTagName("div")[0],
+                  scrollber = document.createElement("div"),
+                  div = document.createElement("div"),
+                  moveX= 0,
+                  oWidth = 0,
+                  boxWidth = 0,
+                  pageX = wrapper.offsetLeft,
+                  width = wrapper.offsetWidth,
+                  scrollBoxWidth = scrollBox.offsetWidth,
+                  event = function(e){
+                      var eve = e || window.event,
+                          layerX = eve.offsetX ? eve.offsetX : eve.layerX;
+                      document.onmousemove = function(event){
+                          var e = event || window.event,
+                              x = e.clientX ? e.clientX : e.pageX;
+                          moveX = x -pageX -layerX;
+                          oWidth = width -berWidth;
+                          boxWidth = scrollBox.offsetWidth - width;
+
+                              moveX <= 0 && (moveX =0);
+                              moveX > oWidth && (moveX = oWidth);
+                              div.style.left = moveX+"px";
+                              scrollBox.style.left = -(moveX/ oWidth* boxWidth) +"px";
+                      };
+                      document.onmouseup=function(){
+                          document.onmousemove=null;
+                          document.onmouseup=null;
+                          document.getElementsByTagName('body')[0].onselectstart=function(){
+                              return true;
+                          };
+                      };
+                      document.getElementsByTagName('body')[0].onselectstart=function(){
+                          return false;
+                      }
+
+                  };
+              if(scrollBoxWidth >= width) {
+                  scrollber.className = "scrollBer";
+                  scrollber.style.width = wrapper.offsetWidth + "px";
+
+                  scrollber.appendChild(div);
+                  wrapper.appendChild(scrollber);
+                  var berWidth = width - (scrollBox.offsetWidth - width);
+                  berWidth < 50 && (berWidth = 50);
+                  div.style.width = berWidth + "px";
+                  div.onmousedown = event;
+              }
+          }
+        myScroll("wrapper")
+
+</script>
+
+
+</body>
+
+</html>
