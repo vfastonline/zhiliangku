@@ -15,27 +15,44 @@ from email.mime.text import MIMEText
 from email.header import Header
 
 
-def get_validate(email, uid, role, fix_pwd):
+def get_validate(identifier, uid, role, fix_pwd):
+    """
+    :param identifier: 标识，手机号、邮箱、用户名或第三方应用的唯一标识。
+    :param uid: 用户唯一ID
+    :param role: 用户角色
+    :param fix_pwd: 偏移量
+    :return:token
+    """
     t = int(time.time())
-    validate_key = hashlib.md5('%s%s%s' % (email, t, fix_pwd)).hexdigest()
-    return base64.b64encode('%s|%s|%s|%s|%s' % (email, t, uid, role, validate_key)).strip()
+    validate_key = hashlib.md5('%s%s%s' % (identifier, t, fix_pwd)).hexdigest()
+    return base64.b64encode('%s|%s|%s|%s|%s' % (identifier, t, uid, role, validate_key)).strip()
 
 
 def validate(key, fix_pwd):
+    """
+    :param key: token
+    :param fix_pwd: 偏移量
+    :return:
+    """
     # t = int(time.time())
-    key = base64.b64decode(key)
-    x = key.split('|')
-    print x
-    if len(x) != 5:
-        logging.getLogger().warning('token参数数量不足')
-        return json.dumps({'code': 1, 'msg': u'token参数不足'}, ensure_ascii=False)
-    validate_key = hashlib.md5('%s%s%s' % (x[0], x[1], fix_pwd)).hexdigest()
-    if validate_key == x[4]:
-        logging.getLogger().info('认证通过')
-        return json.dumps({'code': 0, 'email': x[0], 'uid': x[1], 'role': x[2]})
-    else:
-        logging.getLogger().warning('密码不正确')
-        return json.dumps({'code': 1, 'msg': '密码不正确'}, ensure_ascii=False)
+    try:
+        key = base64.b64decode(key)
+        x = key.split('|')
+        print x
+        if len(x) != 5:
+            logging.getLogger().warning('token参数数量不足')
+            return {'code': 1, 'msg': 'token参数不足'}
+        validate_key = hashlib.md5('%s%s%s' % (x[0], x[1], fix_pwd)).hexdigest()
+        if validate_key == x[4]:
+            logging.getLogger().info('认证通过')
+            return {'code': 0, 'identifier': x[0], 'uid': x[2], 'role': x[3], "msg": "认证通过"}
+        else:
+            logging.getLogger().warning('密码不正确')
+            return {'code': 1, 'msg': '密码不正确'}
+    except:
+        traceback.print_exc()
+        logging.getLogger().error(traceback.format_exc())
+        return {'code': 1, 'msg': 'token 错误'}
 
 
 def encry_password(password, salt='salt'):
@@ -167,7 +184,7 @@ def dictfetchall(sql):
     return [
         dict(zip([col[0] for col in desc], row))
         for row in cursor.fetchall()
-        ]
+    ]
 
 
 def get_day_of_day(n=0):
@@ -214,7 +231,7 @@ def sendmail(rcpt, subject, content):
         return False
 
 
-#import top.api
+# import top.api
 
 
 
