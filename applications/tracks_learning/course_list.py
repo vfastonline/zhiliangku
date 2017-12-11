@@ -118,7 +118,8 @@ class CourseList(View):
             for one in result_dict["course_path"]:
                 if int(one.get("id", 0)) == int(course_path_id):
                     one.update({"active": 1})
-                    result_dict["course_path"][0].pop("active")
+                    if int(course_path_id) != 0:
+                        result_dict["course_path"][0].pop("active")
                     break
 
             # 组装过滤数据-方向-技术分类
@@ -135,7 +136,8 @@ class CourseList(View):
             for one in result_dict["technology"]:
                 if int(one.get("id", 0)) == int(technology_id):
                     one.update({"active": 1})
-                    result_dict["technology"][0].pop("active")
+                    if int(technology_id) != 0:
+                        result_dict["technology"][0].pop("active")
                     break
 
         except:
