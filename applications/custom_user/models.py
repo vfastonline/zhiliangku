@@ -18,13 +18,13 @@ class CustomUser(models.Model):
         (2, 'HR'),
         (3, '其他'),
     )
-    nickname = models.CharField('昵称', max_length=255, unique=True)
+    nickname = models.CharField('昵称', max_length=255, blank=True, null=True)
     role = models.IntegerField('角色', choices=ROLE, null=True, default=3)
     avatar = models.ImageField('头像', upload_to=upload_to, storage=ImageStorage(), blank=True, null=True)
     position = models.CharField('职位', max_length=255, blank=True, null=True)
 
     def __unicode__(self):
-        return self.nickname
+        return ",".join([str(self.id), str(self.role)])
 
     class Meta:
         db_table = 'CustomUser'
@@ -35,7 +35,6 @@ class CustomUser(models.Model):
 class CustomUserAuths(models.Model):
     """用户授权信息"""
     IDENTITYTYPE = (
-        ("username", "username"),
         ("phone", "phone"),
         ("email", "email"),
         ("weixin", "weixin"),
