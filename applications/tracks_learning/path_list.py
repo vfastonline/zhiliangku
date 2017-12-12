@@ -7,20 +7,42 @@ from django.http import HttpResponse
 from django.views.generic import View
 
 from applications.tracks_learning.models import *
+from lib.permissionMixin import class_view_decorator, user_login_required
 
 
+class IndexPathList(View):
+    """获取首页职业路径"""
+
+    def get(self, request, *args, **kwargs):
+        result_dict = {"err": 0, "msg": "success", "data": []}
+        try:
+            path_objects = Path.objects.filter(home_show=True)
+            result_dict["data"] = [
+                {
+                    "id": one.id,
+                    "name": one.name,
+                    "path_img": one.path_img.url,
+                    "desc": one.desc,
+                }
+                for one in path_objects
+            ]
+        except:
+            traceback.print_exc()
+            logging.getLogger().error(traceback.format_exc())
+            result_dict["err"] = 1
+            result_dict["msg"] = traceback.format_exc()
+        finally:
+            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
 class PathList(View):
     """获取职业路径"""
 
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": []}
         try:
-            filter_param = dict()
-            home_show = self.request.GET.get("home_show")
-            if home_show:
-                filter_param["home_show"] = True if home_show == "true" else False
-
-            path_objects = Path.objects.filter(**filter_param)
+            path_objects = Path.objects.all()
             result_dict["data"] = [
                 {
                     "id": one.id,
@@ -43,6 +65,7 @@ class PathList(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
+@class_view_decorator(user_login_required)
 class PathDetail(View):
     """获取职业路径详情"""
 
@@ -50,7 +73,6 @@ class PathDetail(View):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
             filter_param = dict()
-            # path_id = self.request.POST.get("path_id")
             path_id = json.loads(request.body).get('path_id')
             detail = dict()
             if path_id:
