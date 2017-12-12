@@ -9,7 +9,7 @@ from django.views.generic import View
 from applications.live_streaming.models import Live
 
 
-class LiveList(View):
+class IndexLiveList(View):
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": []}
         try:

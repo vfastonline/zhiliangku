@@ -52,7 +52,7 @@ class CustomUserLogin(View):
             is_mail = IsMail().ismail(username)
             is_cellphone = IsCellphone().iscellphone(username)
 
-            # 权限类型
+            # 权限类型判断
             identity_type = ""
             if is_mail:
                 identity_type = "email"
@@ -61,15 +61,15 @@ class CustomUserLogin(View):
 
             # 校验是否有权限信息
             custom_user_auths = CustomUserAuths.objects.filter(identity_type=identity_type, identifier=username)
-            if not custom_user_auths:
-                result_dict["msg"] = "账号不存在"
+            if not custom_user_auths.exists():
+                result_dict["msg"] = "您还没有账号，请先注册"
             else:
                 pycrypt_obj = PyCrypt(CryptKey)
                 crypt_password = pycrypt_obj.encrypt(password)
                 custom_user_auth = custom_user_auths[0]
-                custom_user_pwd = custom_user_auth.credential
-                custom_user_id = custom_user_auth.custom_user_id.id
-                custom_user_role = custom_user_auth.custom_user_id.role
+                custom_user_pwd = custom_user_auth.credential  # 密码凭证
+                custom_user_id = custom_user_auth.custom_user_id.id  # 用户ID
+                custom_user_role = custom_user_auth.custom_user_id.role  # 用户角色
                 if custom_user_pwd != crypt_password:
                     result_dict["msg"] = "密码错误"
                 else:
@@ -115,7 +115,7 @@ class CustomUserRegister(View):
 
             # 已经注册
             if custom_user_auths.exists():
-                result_dict["msg"] = "已经注册过账号，直接登录"
+                result_dict["msg"] = "已经注册过账号，请直接登录"
             else:
                 create_user = CustomUser.objects.create(nickname=username, role=0)
                 if create_user:
@@ -125,7 +125,7 @@ class CustomUserRegister(View):
                         "custom_user_id": create_user,
                         "identity_type": identity_type,
                         "identifier": username,
-                        "credential": crypt_password,
+                        "credential": crypt_password,  # 密码凭证
 
                     }
                     create_auth = CustomUserAuths.objects.create(**user_auth_dict)

@@ -9,7 +9,9 @@ from django.views.generic import View
 from applications.interview_question.models import InterviewQuestions
 
 
-class InterviewQuestionList(View):
+class IndexInterviewQuestionList(View):
+    """首页-企业面试题"""
+
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": []}
         try:

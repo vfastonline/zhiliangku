@@ -11,7 +11,40 @@ from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
 
 
-# @class_view_decorator(user_login_required)
+class IndexCourseList(View):
+    """首页-热门课程"""
+
+    def get(self, request, *args, **kwargs):
+        result_dict = {
+            "err": 0,
+            "msg": "success",
+            "data": [],
+        }
+        try:
+            # 课程数据
+            course_objs = Course.objects.filter(home_show=True)
+            result_dict["data"] = [
+                {
+                    "id": one.id,
+                    "name": one.name,
+                    "tech": [one_tech.name for one_tech in one.tech.all()] if one.tech.all().exists() else list(),
+                    "course_img": one.course_img.url if one.course_img else "",
+                    "lecturer": one.lecturer.nickname if one.lecturer else "",
+                    "avatar": one.lecturer.avatar.url if one.lecturer.avatar else "",
+                }
+                for one in course_objs
+            ]
+
+        except:
+            traceback.print_exc()
+            logging.getLogger().error(traceback.format_exc())
+            result_dict["err"] = 1
+            result_dict["msg"] = traceback.format_exc()
+        finally:
+            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
 class CourseList(View):
     """获取课程信息"""
 
@@ -28,32 +61,26 @@ class CourseList(View):
         }
         try:
             # 获取查询参数
-            home_show = self.request.GET.get("home_show")  # 是否首页显示
             category_id = self.request.GET.get("category_id")  # 课程类别
             coursepath_id = self.request.GET.get("coursepath_id", 0)  # 课程方向
             technology_id = self.request.GET.get("technology_id", 0)  # 技术分类
             page_number = self.request.GET.get("page", 1)  # 页码
 
-            filter_param = dict()
-            if home_show == "true":
-                filter_param["home_show"] = True
+            course_objs = list()
 
-            course_objs = Course.objects.filter(**filter_param)
-
-            # 按课程类别查询
+            # 按课程类别查询，路线详情页面
             if category_id:
-                course_objs = list()
                 coursecategory_objs = CourseCategory.objects.filter(id=category_id).order_by("sequence")
                 if coursecategory_objs.exists():
                     course_objs = coursecategory_objs.first().courses.all()
 
-            # 按方向查询
+            # 按方向查询，课程列表页
             if coursepath_id and not technology_id:
                 coursepaths = CoursePath.objects.filter(id=coursepath_id).first()
                 techs = coursepaths.tech.all()
                 course_objs = Course.objects.filter(tech__in=techs)
 
-            # 按技术分类查询
+            # 按技术分类查询，课程列表页
             if technology_id:
                 course_objs = Course.objects.filter(tech__id=technology_id)
 
@@ -149,6 +176,7 @@ class CourseList(View):
             return result_dict
 
 
+@class_view_decorator(user_login_required)
 class CourseDetail(View):
     """课程详情"""
 
@@ -156,7 +184,6 @@ class CourseDetail(View):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
             filter_param = dict()
-            #            course_id = self.request.POST.get("course_id")
             course_id = json.loads(request.body).get('course_id')
             logging.getLogger().error(course_id)
             detail = dict()
