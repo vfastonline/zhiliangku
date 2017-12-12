@@ -1,18 +1,23 @@
 # encoding: utf8
+import base64
 import hashlib
-from django.http import HttpResponse, HttpResponseRedirect
+import json
+import logging
+import logging.handlers
+import os
+import smtplib
+import time
+import traceback
+from datetime import timedelta, date
+from email.header import Header
+from email.mime.text import MIMEText
+
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.urlresolvers import reverse
 from django.db import connection
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.http import HttpResponse, HttpResponseRedirect
 
-import logging.handlers
-import time, os, json, base64
-from datetime import timedelta, date
-import traceback
-import smtplib
-import logging
-from email.mime.text import MIMEText
-from email.header import Header
+import top.api
 
 
 def get_validate(identifier, uid, role, fix_pwd):
@@ -227,34 +232,31 @@ def sendmail(rcpt, subject, content):
         smtp.quit()
         return True
     except:
-        print traceback.format_exc()
+        traceback.print_exc()
+        logging.getLogger().error(traceback.format_exc())
         return False
 
 
-# import top.api
-
-
-
-# def sendmessage(phone, sms_param):
-#     req = top.api.AlibabaAliqinFcSmsNumSendRequest()
-#     req.set_app_info(top.appinfo(appkey='23764268', secret='00181054a64e2d9eb69711912d7a372a'))
-#     req.extend = ""
-#     req.sms_type = 'normal'
-#     req.sms_free_sign_name = "智量酷"
-#     req.sms_template_code = "SMS_62900005"
-#     req.rec_num = phone
-#     req.sms_param = json.dumps(sms_param)
-#     logging.getLogger().info(req.sms_param)
-#     try:
-#         resp = req.getResponse()
-#         logging.getLogger().info(resp)
-#         logging.getLogger().info(u'短信发送成功, phone:%s, sms_free_sign_name:%s, sms_template_code:%s 状态%s' % (
-#             req.rec_num, req.sms_free_sign_name, req.sms_template_code,
-#             resp['alibaba_aliqin_fc_sms_num_send_response']))
-#         return True
-#     except Exception, e:
-#         logging.getLogger().error(e)
-#         return False
+def sendmessage(phone, sms_param):
+    req = top.api.AlibabaAliqinFcSmsNumSendRequest()
+    req.set_app_info(top.appinfo(appkey='23764268', secret='00181054a64e2d9eb69711912d7a372a'))
+    req.extend = ""
+    req.sms_type = 'normal'
+    req.sms_free_sign_name = "智量酷"
+    req.sms_template_code = "SMS_62900005"
+    req.rec_num = phone
+    req.sms_param = json.dumps(sms_param)
+    logging.getLogger().info(req.sms_param)
+    try:
+        resp = req.getResponse()
+        logging.getLogger().info(resp)
+        logging.getLogger().info(u'短信发送成功, phone:%s, sms_free_sign_name:%s, sms_template_code:%s 状态%s' % (
+            req.rec_num, req.sms_free_sign_name, req.sms_template_code,
+            resp['alibaba_aliqin_fc_sms_num_send_response']))
+        return True
+    except Exception, e:
+        logging.getLogger().error(e)
+        return False
 
 
 def pages(post_objects, page, lines=20):

@@ -46,6 +46,7 @@ class CustomUserAuths(models.Model):
                                      help_text="手机号、邮箱、用户名或第三方应用名称微信、微博等。")
     identifier = models.CharField('标识', max_length=255, help_text="手机号、邮箱、用户名或第三方应用的唯一标识。")
     credential = models.CharField('密码凭证', max_length=255, help_text="站内的保存密码，站外的不保存或保存token。")
+    status = models.BooleanField("账号是否激活", default=True)
 
     def __unicode__(self):
         return self.identity_type
