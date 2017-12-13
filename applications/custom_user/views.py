@@ -106,18 +106,17 @@ class WeiXinLogin(View):
 
     def get(self, request, *args, **kwargs):
         result_dict = {
-            "msg": "注册失败",
+            "msg": "微信登录失败",
             "err": 1,
             "data": {}
         }
 
         try:
             # 第一步获取code跟state
+            # https://open.weixin.qq.com/connect/qrconnect?appid=wx7c9efe7b17c8aef2&redirect_uri=http://www.zhiliangku.com/customuser/weixin/login&response_type=code&scope=snsapi_login#wechat_redirect
             try:
                 self.code = self.request.GET.get("code")
                 self.state = self.request.GET.get("state")
-                print "code==", self.code
-                print "state==", self.state
             except:
                 logging.getLogger().info("获取code和stat参数错误：\n%s" % str(traceback.format_exc()))
 
@@ -131,11 +130,19 @@ class WeiXinLogin(View):
                     'grant_type': 'authorization_code'
                 }
                 res = requests.get(url, params=params).json()
-
-                access_token = res["access_token"]  # 只是呈现给大家看,可以删除这行
-                openid = res["openid"]  # 只是呈现给大家看,可以删除这行
-                print "res==", res
+                """res
+                {
+                    u'openid': u'oz4KJ1j8fwabm3IA1CwFtpE4fJ_M',
+                    u'access_token': u'4_RkYEXcSJBvIyYaRbrUHIQFk3XfQ3Qv0yYpJpDudVrReCaqEKX9X0AmI1K5kvC2WHRGz3bBerbQwfhtbAvECaGA',
+                    u'unionid': u'oQB0n1D3swsSJLAWnb9UMHQ4F4Jk',
+                    u'expires_in': 7200,
+                    u'scope': u'snsapi_login',
+                    u'refresh_token': u'4_DPwMWtOnKvESpKGhXLLP2e2DU0qHH276HSscaOH610Fr6hH4SfaCweeV68OoJEUEYMpMWICTTFOXVg48UigYpA'
+                }
+                """
+                access_token = res["access_token"]
             except:
+                traceback.print_exc()
                 logging.getLogger().info("获取access_token参数错误：\n%s" % traceback.format_exc())
                 raise Http404()
 
@@ -151,6 +158,20 @@ class WeiXinLogin(View):
                 }
                 res = requests.get(user_info_url, params=params).json()
                 """
+                {
+                    u'province': u'Beijing',
+                    u'openid': u'oz4KJ1j8fwabm3IA1CwFtpE4fJ_M',
+                    u'headimgurl': u'http: //wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqic03RMYMUSxqh13fWTTuneZibUDTuG6mruQxwkQqChiajlZF5FFq8Rk7pR6Ll2v3tv8uw7dMzA5Jnw/0',
+                    u'language': u'zh_CN',
+                    u'city': u'Haidian',
+                    u'country': u'CN',
+                    u'sex': 1,
+                    u'unionid': u'oQB0n1D3swsSJLAWnb9UMHQ4F4Jk',
+                    u'privilege': [
+                        
+                    ],
+                    u'nickname': u'Maybe'
+                }
                 注意,这里有个坑,res['nickname']表面上是unicode编码,
                 但是里面的串却是str的编码,举个例子,res['nickname']的返回值可能是这种形式
                 u'\xe9\x97\xab\xe5\xb0\x8f\xe8\x83\x96',直接存到数据库会是乱码.必须要转成
@@ -161,47 +182,49 @@ class WeiXinLogin(View):
                 for value in res.values():
                     value = value.encode('iso8859-1').decode('utf-8')
                 """
-                print "weixin——user-res==", res
             except:
+                traceback.print_exc()
                 logging.getLogger().info("拉取用户信息错误：\n%s" % traceback.format_exc())
 
-                # 校验是否有权限信息
-                custom_user_auths = CustomUserAuths.objects.filter(identity_type="weixin", identifier="")
+            nickname = res['nickname'].encode('iso8859-1').decode('utf-8')
+            headimgurl = res['headimgurl'].encode('iso8859-1').decode('utf-8')
+            unionid = res['unionid'].encode('iso8859-1').decode('utf-8')
 
-                # 已经注册，直接登录
-                if custom_user_auths.exists():
-                    custom_user_auth_obj = custom_user_auths.first()
-                    token = get_validate("weixin", custom_user_auth_obj.custom_user_id.id, 0, CryptKey)
-                    result_dict["err"] = 0
-                    result_dict["msg"] = "success"
-                    result_dict["data"]["token"] = token
-                    result_dict["data"]["username"] = "weixin"
-                    result_dict["data"]["uid"] = custom_user_auth_obj.custom_user_id.id
-                else:
-                    create_user = CustomUser.objects.create(nickname="weixin", role=0)
-                    if create_user:
-                        user_auth_dict = {
-                            "custom_user_id": create_user,
-                            "identity_type": "weixin",
-                            "identifier": "weixin",
-                            "credential": "token",  # 密码凭证
-                        }
-                        create_auth = CustomUserAuths.objects.create(**user_auth_dict)
+            # 校验是否有权限信息
+            custom_user_auths = CustomUserAuths.objects.filter(identity_type="weixin", identifier=unionid)
 
-                        if create_auth:
-                            # 生成token
-                            token = get_validate("weixin", create_user.id, 0, CryptKey)
-                            result_dict["err"] = 0
-                            result_dict["msg"] = "success"
-                            result_dict["data"]["token"] = token
-                            result_dict["data"]["username"] = "weixin"
-                            result_dict["data"]["uid"] = create_user.id
+            # 已经注册，直接登录
+            if custom_user_auths.exists():
+                custom_user_auth_obj = custom_user_auths.first()
+                token = get_validate(unionid, custom_user_auth_obj.custom_user_id.id, 0, CryptKey)
+                result_dict["err"] = 0
+                result_dict["msg"] = "success"
+                result_dict["data"]["token"] = token
+                result_dict["data"]["username"] = nickname
+                result_dict["data"]["uid"] = custom_user_auth_obj.custom_user_id.id
+            else:
+                create_user = CustomUser.objects.create(nickname=str(nickname), avatar=headimgurl, role=0)
+                if create_user:
+                    user_auth_dict = {
+                        "custom_user_id": create_user,
+                        "identity_type": "weixin",  # 登录类型
+                        "identifier": unionid,  # 唯一标识
+                        "credential": access_token,  # 密码凭证
+                    }
+                    create_auth = CustomUserAuths.objects.create(**user_auth_dict)
 
-                        else:
-                            create_user.delete()
-                            result_dict["msg"] = "用户权限添加失败"
+                    if create_auth:
+                        # 生成token
+                        token = get_validate(unionid, create_user.id, 0, CryptKey)
+                        result_dict["err"] = 0
+                        result_dict["msg"] = "success"
+                        result_dict["data"]["token"] = token
+                        result_dict["data"]["username"] = nickname
+                        result_dict["data"]["uid"] = create_user.id
 
-                # 返回的数据全部在res字典中
+                    else:
+                        create_user.delete()
+                        result_dict["msg"] = "用户权限添加失败"
         except:
             result_dict["msg"] = traceback.format_exc()
             traceback.print_exc()

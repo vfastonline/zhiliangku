@@ -20,11 +20,11 @@ class CustomUser(models.Model):
     )
     nickname = models.CharField('昵称', max_length=255, blank=True, null=True)
     role = models.IntegerField('角色', choices=ROLE, null=True, default=3)
-    avatar = models.ImageField('头像', upload_to=upload_to, storage=ImageStorage(), blank=True, null=True)
+    avatar = models.ImageField('头像', upload_to=upload_to, storage=ImageStorage(), blank=True, null=True, max_length=256)
     position = models.CharField('职位', max_length=255, blank=True, null=True)
 
     def __unicode__(self):
-        return ",".join([str(self.id), str(self.role)])
+        return ",".join([self.nickname,str(self.id), str(self.get_role_display())])
 
     class Meta:
         db_table = 'CustomUser'
@@ -42,11 +42,10 @@ class CustomUserAuths(models.Model):
         ("qq", "qq"),
     )
     custom_user_id = models.ForeignKey(CustomUser, verbose_name="用户")
-    identity_type = models.CharField('登录类型', choices=IDENTITYTYPE, max_length=10,
-                                     help_text="手机号、邮箱、用户名或第三方应用名称微信、微博等。")
-    identifier = models.CharField('标识', max_length=255, help_text="手机号、邮箱、用户名或第三方应用的唯一标识。")
+    identity_type = models.CharField('登录类型', choices=IDENTITYTYPE, max_length=10, help_text="手机号、邮箱、用户名或第三方应用名称微信、微博等。")
+    identifier = models.CharField('唯一标识', max_length=255, help_text="手机号、邮箱、用户名或第三方应用的唯一标识。")
     credential = models.CharField('密码凭证', max_length=255, help_text="站内的保存密码，站外的不保存或保存token。")
-    status = models.BooleanField("账号是否激活", default=True)
+    status = models.BooleanField("是否激活", default=True)
 
     def __unicode__(self):
         return self.identity_type
