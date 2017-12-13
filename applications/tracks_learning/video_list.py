@@ -7,8 +7,10 @@ from django.http import HttpResponse
 from django.views.generic import View
 
 from applications.tracks_learning.models import *
+from lib.permissionMixin import class_view_decorator, user_login_required
 
 
+@class_view_decorator(user_login_required)
 class VideoList(View):
     """视频列表"""
 
@@ -16,7 +18,6 @@ class VideoList(View):
         result_dict = {"err": 0, "msg": "success", "data": list()}
         try:
             # 获取查询参数
-#            section_id = self.request.POST.get("section_id")  # 所属章节ID
             section_id = json.loads(request.body).get('section_id')
 
             data_list = list()

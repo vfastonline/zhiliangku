@@ -12,9 +12,10 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 
 @admin.register(CustomUserAuths)
-class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'custom_user_id', 'identity_type', 'identifier', "credential")
+class CustomUserAuthsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'custom_user_id', 'identity_type', 'identifier', "credential", "status")
     search_fields = ('custom_user_id__nickname', "identity_type",)
+    list_filter = ('status',)
 
 
 @admin.register(CustomUserPath)
