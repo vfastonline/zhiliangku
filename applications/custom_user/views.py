@@ -129,7 +129,7 @@ class WeiXinLogin(View):
                     'code': self.code,
                     'grant_type': 'authorization_code'
                 }
-                res = requests.get(url, params=params).json()
+                res = requests.get(url, params=params, verify=False).json()
                 """res
                 {
                     u'openid': u'oz4KJ1j8fwabm3IA1CwFtpE4fJ_M',
@@ -156,7 +156,7 @@ class WeiXinLogin(View):
                     'access_token': res["access_token"],
                     'openid': res["openid"],
                 }
-                res = requests.get(user_info_url, params=params).json()
+                res = requests.get(user_info_url, params=params, verify=False).json()
                 """
                 {
                     u'province': u'Beijing',
