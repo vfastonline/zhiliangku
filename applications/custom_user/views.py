@@ -2,6 +2,8 @@
 import random
 import re
 
+import requests
+from django.http import Http404
 from django.shortcuts import render_to_response
 from django.views.generic import View
 
@@ -38,8 +40,9 @@ class IsMail:
             return False
 
 
-# 用户登录
 class CustomUserLogin(View):
+    """用户登录"""
+
     def post(self, request, *args, **kwargs):
         result_dict = {
             "msg": "",
@@ -65,22 +68,140 @@ class CustomUserLogin(View):
             custom_user_auths = CustomUserAuths.objects.filter(identity_type=identity_type, identifier=username)
             if not custom_user_auths.exists():
                 result_dict["msg"] = "您还没有账号，请先注册"
+                result_dict["err"] = 2
             else:
-                pycrypt_obj = PyCrypt(CryptKey)
-                crypt_password = pycrypt_obj.encrypt(password)
                 custom_user_auth = custom_user_auths[0]
-                custom_user_pwd = custom_user_auth.credential  # 密码凭证
-                custom_user_id = custom_user_auth.custom_user_id.id  # 用户ID
-                custom_user_role = custom_user_auth.custom_user_id.role  # 用户角色
-                if custom_user_pwd != crypt_password:
-                    result_dict["msg"] = "密码错误"
+                if custom_user_auth.status:
+                    pycrypt_obj = PyCrypt(CryptKey)
+                    crypt_password = pycrypt_obj.encrypt(password)
+                    custom_user_pwd = custom_user_auth.credential  # 密码凭证
+                    custom_user_id = custom_user_auth.custom_user_id.id  # 用户ID
+                    custom_user_role = custom_user_auth.custom_user_id.role  # 用户角色
+                    if custom_user_pwd != crypt_password:
+                        result_dict["msg"] = "账号或密码错误"
+                        result_dict["err"] = 3
+                    else:
+                        token = get_validate(username, custom_user_id, custom_user_role, CryptKey)
+                        result_dict["msg"] = "success"
+                        result_dict["err"] = 0
+                        result_dict["data"]["token"] = token
+                        result_dict["data"]["username"] = username
+                        result_dict["data"]["uid"] = custom_user_id
                 else:
-                    token = get_validate(username, custom_user_id, custom_user_role, CryptKey)
-                    result_dict["msg"] = "success"
+                    result_dict["msg"] = "账号未激活"
+                    result_dict["err"] = 6
+        except:
+            result_dict["msg"] = traceback.format_exc()
+            traceback.print_exc()
+            logging.getLogger().error(traceback.format_exc())
+        finally:
+            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+class WeiXinLogin(View):
+    appid = 'wx7c9efe7b17c8aef2'
+    appsecret = '4f44d0ecc91e0dd9ef955885d6cfcb4f'
+    code = ''
+    state = ''
+
+    def get(self, request, *args, **kwargs):
+        result_dict = {
+            "msg": "注册失败",
+            "err": 1,
+            "data": {}
+        }
+
+        try:
+            # 第一步获取code跟state
+            try:
+                self.code = self.request.GET.get("code")
+                self.state = self.request.GET.get("state")
+                print "code==", self.code
+                print "state==", self.state
+            except:
+                logging.getLogger().info("获取code和stat参数错误：\n%s" % str(traceback.format_exc()))
+
+            # 2.通过code换取网页授权access_token
+            try:
+                url = u'https://api.weixin.qq.com/sns/oauth2/access_token'
+                params = {
+                    'appid': self.appid,
+                    'secret': self.appsecret,
+                    'code': self.code,
+                    'grant_type': 'authorization_code'
+                }
+                res = requests.get(url, params=params).json()
+
+                access_token = res["access_token"]  # 只是呈现给大家看,可以删除这行
+                openid = res["openid"]  # 只是呈现给大家看,可以删除这行
+                print "res==", res
+            except:
+                logging.getLogger().info("获取access_token参数错误：\n%s" % traceback.format_exc())
+                raise Http404()
+
+            # 3.如果access_token超时，那就刷新
+            # 注意,这里我没有写这个刷新功能,不影响使用,如果想写的话,可以自己去看文档
+
+            # 4.拉取用户信息
+            try:
+                user_info_url = u'https://api.weixin.qq.com/sns/userinfo'
+                params = {
+                    'access_token': res["access_token"],
+                    'openid': res["openid"],
+                }
+                res = requests.get(user_info_url, params=params).json()
+                """
+                注意,这里有个坑,res['nickname']表面上是unicode编码,
+                但是里面的串却是str的编码,举个例子,res['nickname']的返回值可能是这种形式
+                u'\xe9\x97\xab\xe5\xb0\x8f\xe8\x83\x96',直接存到数据库会是乱码.必须要转成
+                unicode的编码,需要使用
+                res['nickname'] = res['nickname'].encode('iso8859-1').decode('utf-8')
+                这种形式来转换.
+                你也可以写个循环来转化.
+                for value in res.values():
+                    value = value.encode('iso8859-1').decode('utf-8')
+                """
+                print "weixin——user-res==", res
+            except:
+                logging.getLogger().info("拉取用户信息错误：\n%s" % traceback.format_exc())
+
+                # 校验是否有权限信息
+                custom_user_auths = CustomUserAuths.objects.filter(identity_type="weixin", identifier="")
+
+                # 已经注册，直接登录
+                if custom_user_auths.exists():
+                    custom_user_auth_obj = custom_user_auths.first()
+                    token = get_validate("weixin", custom_user_auth_obj.custom_user_id.id, 0, CryptKey)
                     result_dict["err"] = 0
+                    result_dict["msg"] = "success"
                     result_dict["data"]["token"] = token
-                    result_dict["data"]["username"] = username
-                    result_dict["data"]["uid"] = custom_user_id
+                    result_dict["data"]["username"] = "weixin"
+                    result_dict["data"]["uid"] = custom_user_auth_obj.custom_user_id.id
+                else:
+                    create_user = CustomUser.objects.create(nickname="weixin", role=0)
+                    if create_user:
+                        user_auth_dict = {
+                            "custom_user_id": create_user,
+                            "identity_type": "weixin",
+                            "identifier": "weixin",
+                            "credential": "token",  # 密码凭证
+                        }
+                        create_auth = CustomUserAuths.objects.create(**user_auth_dict)
+
+                        if create_auth:
+                            # 生成token
+                            token = get_validate("weixin", create_user.id, 0, CryptKey)
+                            result_dict["err"] = 0
+                            result_dict["msg"] = "success"
+                            result_dict["data"]["token"] = token
+                            result_dict["data"]["username"] = "weixin"
+                            result_dict["data"]["uid"] = create_user.id
+
+                        else:
+                            create_user.delete()
+                            result_dict["msg"] = "用户权限添加失败"
+
+                # 返回的数据全部在res字典中
         except:
             result_dict["msg"] = traceback.format_exc()
             traceback.print_exc()
@@ -94,7 +215,7 @@ class CustomUserRegister(View):
 
     def post(self, request, *args, **kwargs):
         result_dict = {
-            "msg": "Register Except",
+            "msg": "注册失败",
             "err": 1,
             "data": {}
         }
@@ -119,7 +240,8 @@ class CustomUserRegister(View):
             # 已经注册
             if custom_user_auths.exists():
                 result_dict["msg"] = "已经注册过账号，请直接登录"
-            else:
+                result_dict["err"] = 4
+            elif identity_type:
                 create_user = CustomUser.objects.create(nickname=username, role=0)
                 if create_user:
                     pycrypt_obj = PyCrypt(CryptKey)
@@ -131,7 +253,7 @@ class CustomUserRegister(View):
                         "credential": crypt_password,  # 密码凭证
                     }
                     if is_mail:
-                        user_auth_dict.update({"status": False})
+                        user_auth_dict.update({"status": False})  # 邮箱账户，默认未激活状态
                     create_auth = CustomUserAuths.objects.create(**user_auth_dict)
 
                     if create_auth:
@@ -141,11 +263,16 @@ class CustomUserRegister(View):
                         result_dict["msg"] = "success"
                         result_dict["data"]["token"] = token
                         result_dict["data"]["username"] = username
+                        result_dict["data"]["uid"] = create_user.id
 
                         if is_mail:
-                            send_result = self.send_activation_mail(username, create_user.id, create_auth.id)
+                            send_result = send_activation_mail(username, create_user.id, create_auth.id)
+                            if not send_result:
+                                result_dict["err"] = 1
+                                result_dict["msg"] = "激活邮件发送失败"
                     else:
                         create_user.delete()
+                        result_dict["msg"] = "用户权限添加失败"
         except:
             result_dict["msg"] = traceback.format_exc()
             traceback.print_exc()
@@ -153,30 +280,60 @@ class CustomUserRegister(View):
         finally:
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
-    @staticmethod
-    def send_activation_mail(user_email, customer_user_id, customer_user_auth_id):
-        """
-        :param user_email: 用户邮箱地址
-        :param customer_user_id: 用户ID
-        :param customer_user_auth_id: 用户邮箱权限ID
-        :return:
-        """
-        send_result = False
-        try:
-            mail_subject = "智量酷邮箱账号激活"
-            mail_content = "点击此链接完成激活，"
-            activation_link = "http://127.0.0.1:8000/customuser/activation?hash="
-            email_str = "|".join([user_email, str(customer_user_id), str(customer_user_auth_id)])
-            pycrypt_obj = PyCrypt(CryptKey)
-            crypt_email = pycrypt_obj.encrypt(email_str)
-            mail_content = "".join([mail_content, activation_link, crypt_email])
 
-            send_result = sendmail(user_email, mail_subject, mail_content)
+class CustomUserSendActivationMail(View):
+    """用户触发--发送激活邮箱账户邮件"""
+
+    def post(self, request, *args, **kwargs):
+        result_dict = {
+            "msg": "激活邮箱账户邮件发送失败",
+            "err": 1,
+            "data": {}
+        }
+        try:
+            param_dict = json.loads(request.body)
+            email = param_dict.get("email")
+            # 校验是否有权限信息
+            custom_user_auths = CustomUserAuths.objects.filter(identity_type="email", identifier=email)
+            if custom_user_auths.exists():
+                custom_user_auths_obj = custom_user_auths.first()
+                customer_user_id = custom_user_auths_obj.custom_user_id.id
+                customer_user_auth_id = custom_user_auths_obj.id
+                send_result = send_activation_mail(email, customer_user_id, customer_user_auth_id)
+                if send_result:
+                    result_dict["err"] = 0
+                    result_dict["msg"] = "激活邮箱账户邮件发送成功"
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
+            result_dict["msg"] = traceback.format_exc()
         finally:
-            return send_result
+            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+def send_activation_mail(user_email, customer_user_id, customer_user_auth_id):
+    """发送邮箱账号激活邮件
+    :param user_email: 用户邮箱地址
+    :param customer_user_id: 用户ID
+    :param customer_user_auth_id: 用户邮箱权限ID
+    :return:
+    """
+    send_result = False
+    try:
+        mail_subject = "智量酷邮箱账号激活"
+        mail_content = "点击此链接完成激活，"
+        activation_link = "http://127.0.0.1:8000/customuser/activation?hash="
+        email_str = "|".join([user_email, str(customer_user_id), str(customer_user_auth_id)])
+        pycrypt_obj = PyCrypt(CryptKey)
+        crypt_email = pycrypt_obj.encrypt(email_str)
+        mail_content = "".join([mail_content, activation_link, crypt_email])
+
+        send_result = sendmail(user_email, mail_subject, mail_content)
+    except:
+        traceback.print_exc()
+        logging.getLogger().error(traceback.format_exc())
+    finally:
+        return send_result
 
 
 class SendSMSVerificationCode(View):
@@ -217,7 +374,7 @@ class SendSMSVerificationCode(View):
 
 
 class ActivationCustomUserEmail(View):
-    """激活邮箱类型账号"""
+    """邮件中链接--激活邮箱类型账号"""
 
     def get(self, request, *args, **kwargs):
         result_dict = {
@@ -247,10 +404,10 @@ class ActivationCustomUserEmail(View):
                         result_dict["err"] = 0
                         result_dict["msg"] = "邮箱激活成功"
                 else:
-                    result_dict["err"] = 1
+                    result_dict["err"] = 2
                     result_dict["msg"] = "待激活邮箱账户不存在"
             else:
-                result_dict["err"] = 1
+                result_dict["err"] = 5
                 result_dict["msg"] = "邮箱激活参数错误"
         except:
             traceback.print_exc()
@@ -261,9 +418,8 @@ class ActivationCustomUserEmail(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# 短信-找回密码
 class RetrievePasswordByPhone(View):
-    """短信找回密码"""
+    """短信--找回密码"""
 
     def post(self, request, *args, **kwargs):
         result_dict = {
