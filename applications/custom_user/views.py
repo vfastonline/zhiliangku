@@ -261,7 +261,6 @@ class QQLogin(View):
 
         try:
             # 第一步获取code跟state
-            # https://graph.qq.com/oauth2.0/show?which=Login&display=pc&response_type=code&client_id=101137684&redirect_uri=http%3A%2F%2Fmfxuan.free.800m.net%2Flogin.jsp&state=1&scope=get_user_info,get_info
             # https://graph.qq.com/oauth2.0/show?which=Login&display=pc&response_type=code&client_id=101447834&redirect_uri=http%3A%2F%2Fwww.zhiliangku.com%2Fcustomuser%2Fqq%2Flogin&state=1&scope=get_user_info,get_info
             try:
                 self.code = self.request.GET.get("code")
@@ -269,41 +268,31 @@ class QQLogin(View):
             except:
                 logging.getLogger().info("获取code和stat参数错误：\n%s" % str(traceback.format_exc()))
 
+
             # 2.通过code换取网页授权access_token
             try:
-                url = u'https://api.weixin.qq.com/sns/oauth2/access_token'
+                url = 'https://graph.qq.com/oauth2.0/token'
                 params = {
-                    'appid': self.appid,
-                    'secret': self.appkey,
+                    'grant_type': 'authorization_code',
+                    'client_id': self.appid,
+                    'client_secret': self.appkey,
                     'code': self.code,
-                    'grant_type': 'authorization_code'
+                    'redirect_uri': "http%3A%2F%2Fwww.zhiliangku.com%2Fcustomuser%2Fqq%2Flogin",
+
                 }
                 res = requests.get(url, params=params, verify=False).json()
-                """res
-                {
-                    u'openid': u'oz4KJ1j8fwabm3IA1CwFtpE4fJ_M',
-                    u'access_token': u'4_RkYEXcSJBvIyYaRbrUHIQFk3XfQ3Qv0yYpJpDudVrReCaqEKX9X0AmI1K5kvC2WHRGz3bBerbQwfhtbAvECaGA',
-                    u'unionid': u'oQB0n1D3swsSJLAWnb9UMHQ4F4Jk',
-                    u'expires_in': 7200,
-                    u'scope': u'snsapi_login',
-                    u'refresh_token': u'4_DPwMWtOnKvESpKGhXLLP2e2DU0qHH276HSscaOH610Fr6hH4SfaCweeV68OoJEUEYMpMWICTTFOXVg48UigYpA'
-                }
-                """
                 access_token = res["access_token"]
             except:
                 traceback.print_exc()
                 logging.getLogger().info("获取access_token参数错误：\n%s" % traceback.format_exc())
                 raise Http404()
 
-            # 3.如果access_token超时，那就刷新
-            # 注意,这里我没有写这个刷新功能,不影响使用,如果想写的话,可以自己去看文档
 
             # 4.拉取用户信息
             try:
-                user_info_url = u'https://api.weixin.qq.com/sns/userinfo'
+                user_info_url = 'https://graph.qq.com/oauth2.0/me'
                 params = {
                     'access_token': res["access_token"],
-                    'openid': res["openid"],
                 }
                 res = requests.get(user_info_url, params=params, verify=False).json()
                 """
