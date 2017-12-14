@@ -50,7 +50,7 @@ class CourseList(View):
     """获取课程信息"""
 
     def get(self, request, *args, **kwargs):
-        template_name = "front/tracks/course/list/index.html"
+        template_name = "tracks/course/list/index.html"
         return render(request, template_name, {})
 
 
@@ -191,7 +191,7 @@ class CourseDetail(View):
     """课程详情"""
 
     def get(self, request, *args, **kwargs):
-        template_name = "front/tracks/course/detail/index.html"
+        template_name = "tracks/course/detail/index.html"
         return render(request, template_name, {})
 
 

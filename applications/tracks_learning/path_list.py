@@ -41,7 +41,7 @@ class PathList(View):
     """获取职业路径-页面"""
 
     def get(self, request, *args, **kwargs):
-        template_name = "front/tracks/path/list/index.html"
+        template_name = "tracks/path/list/index.html"
         return render(request, template_name, {})
 
 
@@ -80,7 +80,7 @@ class PathDetail(View):
     """获取职业路径详情"""
 
     def get(self, request, *args, **kwargs):
-        template_name = "front/tracks/path/detail/index.html"
+        template_name = "tracks/path/detail/index.html"
         return render(request, template_name, {})
 
 
