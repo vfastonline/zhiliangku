@@ -5,6 +5,7 @@ import traceback
 
 from django.http import HttpResponse
 from django.views.generic import View
+from django.shortcuts import render
 
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
@@ -37,6 +38,15 @@ class IndexPathList(View):
 
 # @class_view_decorator(user_login_required)
 class PathList(View):
+    """获取职业路径-页面"""
+
+    def get(self, request, *args, **kwargs):
+        template_name = "tracks/path/list/index.html"
+        return render(request, template_name, {})
+
+
+# @class_view_decorator(user_login_required)
+class PathListInfo(View):
     """获取职业路径"""
 
     def get(self, request, *args, **kwargs):
@@ -69,11 +79,20 @@ class PathList(View):
 class PathDetail(View):
     """获取职业路径详情"""
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
+        template_name = "tracks/path/detail/index.html"
+        return render(request, template_name, {})
+
+
+# @class_view_decorator(user_login_required)
+class PathDetailInfo(View):
+    """获取职业路径详情"""
+
+    def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
             filter_param = dict()
-            path_id = json.loads(request.body).get('path_id')
+            path_id = request.GET.get('path_id')
             detail = dict()
             if path_id:
                 filter_param["id"] = path_id
