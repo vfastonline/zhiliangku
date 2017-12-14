@@ -302,13 +302,9 @@ class QQLogin(View):
                     'access_token': access_token,
                 }
                 res = requests.get(me_url, params=params, verify=False).text
-                result = urlparse.urlparse(res)
-                param_dict = urlparse.parse_qs(result.path, True)
-                client_ids = param_dict.get("client_id", [])
-                openids = param_dict.get("openid", [])
-
-                if openids:
-                    openid = openids[0]
+                v_str = str(res)[9:-3]
+                v_json = json.loads(v_str)
+                openid = v_json['openid']
             except:
                 traceback.print_exc()
                 logging.getLogger().info("拉取用户OpenID错误：\n%s" % traceback.format_exc())
@@ -321,11 +317,7 @@ class QQLogin(View):
                     'oauth_consumer_key': self.appid,
                     'openid': openid,
                 }
-                res = requests.get(get_user_info_url, params=params, verify=False).text
-                result = urlparse.urlparse(res)
-                param_dict = urlparse.parse_qs(result.path, True)
-                print param_dict
-                client_ids = param_dict.get("client_id", [])
+                res = requests.get(get_user_info_url, params=params, verify=False).json()
                 """
                 {
                     "ret":0,
@@ -349,8 +341,7 @@ class QQLogin(View):
                 logging.getLogger().info("拉取用户信息错误：\n%s" % traceback.format_exc())
 
             nickname = res['nickname'].encode('iso8859-1').decode('utf-8')
-            headimgurl = res['headimgurl'].encode('iso8859-1').decode('utf-8')
-            openid = res['openid'].encode('iso8859-1').decode('utf-8')
+            headimgurl = res['figureurl_qq_2'].encode('iso8859-1').decode('utf-8')
 
             # 校验是否有权限信息
             custom_user_auths = CustomUserAuths.objects.filter(identity_type="weixin", identifier=openid)
@@ -373,7 +364,7 @@ class QQLogin(View):
                 if create_user:
                     user_auth_dict = {
                         "custom_user_id": create_user,
-                        "identity_type": "weixin",  # 登录类型
+                        "identity_type": "qq",  # 登录类型
                         "identifier": openid,  # 唯一标识
                         "credential": access_token,  # 密码凭证
                     }
@@ -388,8 +379,9 @@ class QQLogin(View):
                         result_dict["data"]["username"] = nickname
                         result_dict["data"]["uid"] = create_user.id
 
+                        user_dict = {"nickname":create_user.nickname, "uid":create_user.id, "avatar":create_user.avatar.name}
                         request.session['token'] = token
-                        request.session['user'] = create_user.objects.values()
+                        request.session['user'] = user_dict
                         request.session['login'] = True
 
                     else:
@@ -402,7 +394,8 @@ class QQLogin(View):
         finally:
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
-
+        def callback(aa):
+            print aa, type(aa)
 class CustomUserRegister(View):
     """用户注册"""
 
