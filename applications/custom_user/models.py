@@ -82,7 +82,7 @@ class VerifyCode(models.Model):
     code = models.CharField("验证码", max_length=4)
     create_time = models.DateTimeField(verbose_name='生成时间', default=timezone.now)
     expire_time = models.DateTimeField("失效时间", max_length=4)
-    is_use = models.BooleanField("是否使用", default=False)
+    is_use = models.BooleanField("已使用", default=False)
 
     def __unicode__(self):
         return self.phone + ":" + self.code

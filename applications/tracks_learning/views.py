@@ -7,8 +7,16 @@ def index(request):
 
 
 class Paths(TemplateView):
-    template_name = 'pathlist.html'
+    template_name = 'front/tracks/paths/index.html'
+
+
+class PathDetail(TemplateView):
+    template_name = 'front/tracks/path/detail/index.html'
 
 
 class Courses(TemplateView):
-    template_name = 'courseSelect.html'
+    template_name = 'front/tracks/courses/index.html'
+
+
+class CourseDetail(TemplateView):
+    template_name = 'front/tracks/course/detail/index.html'
