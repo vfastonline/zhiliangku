@@ -319,7 +319,7 @@ class QQLogin(View):
                 res = requests.get(me_url, params=params, verify=False).text
                 v_str = str(res)[9:-3]
                 v_json = json.loads(v_str)
-                openid = v_json['openid']
+                openid = v_json.get('openid')
             except:
                 traceback.print_exc()
                 logging.getLogger().info("拉取用户OpenID错误：\n%s" % traceback.format_exc())
