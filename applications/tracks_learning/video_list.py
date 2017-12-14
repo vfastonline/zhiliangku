@@ -14,11 +14,11 @@ from lib.permissionMixin import class_view_decorator, user_login_required
 class VideoList(View):
     """视频列表"""
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": list()}
         try:
             # 获取查询参数
-            section_id = json.loads(request.body).get('section_id')
+            section_id = int(request.GET.get('section_id', 0))
 
             data_list = list()
             if section_id:

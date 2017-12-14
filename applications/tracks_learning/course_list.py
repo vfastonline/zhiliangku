@@ -6,6 +6,7 @@ import traceback
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.views.generic import View
+from django.shortcuts import render
 
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
@@ -49,6 +50,15 @@ class CourseList(View):
     """获取课程信息"""
 
     def get(self, request, *args, **kwargs):
+        template_name = "tracks/course/list/index.html"
+        return render(request, template_name, {})
+
+
+# @class_view_decorator(user_login_required)
+class CourseListInfo(View):
+    """获取课程信息"""
+
+    def get(self, request, *args, **kwargs):
         result_dict = {
             "err": 0,
             "msg": "success",
@@ -61,10 +71,10 @@ class CourseList(View):
         }
         try:
             # 获取查询参数
-            category_id = self.request.GET.get("category_id")  # 课程类别
-            coursepath_id = self.request.GET.get("coursepath_id", 0)  # 课程方向
-            technology_id = self.request.GET.get("technology_id", 0)  # 技术分类
-            page_number = self.request.GET.get("page", 1)  # 页码
+            category_id = int(self.request.GET.get("category_id", 0))  # 课程类别
+            coursepath_id = int(self.request.GET.get("coursepath_id", 0))  # 课程方向
+            technology_id = int(self.request.GET.get("technology_id", 0))  # 技术分类
+            page_number = int(self.request.GET.get("page", 1))  # 页码
 
             course_objs = Course.objects.all()
 
@@ -180,12 +190,20 @@ class CourseList(View):
 class CourseDetail(View):
     """课程详情"""
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
+        template_name = "tracks/course/detail/index.html"
+        return render(request, template_name, {})
+
+
+# @class_view_decorator(user_login_required)
+class CourseDetailInfo(View):
+    """课程详情"""
+
+    def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
             filter_param = dict()
-            course_id = json.loads(request.body).get('course_id')
-            logging.getLogger().error(course_id)
+            course_id = int(request.GET.get('course_id', 0))
             detail = dict()
             if course_id:
                 filter_param["id"] = course_id

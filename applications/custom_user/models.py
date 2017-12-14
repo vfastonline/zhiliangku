@@ -1,7 +1,11 @@
 #!encoding:utf-8
 from __future__ import unicode_literals
 
+import logging
+import traceback
+
 from django.db import models
+from django.utils import timezone
 
 from lib.storage import ImageStorage
 
@@ -24,7 +28,7 @@ class CustomUser(models.Model):
     position = models.CharField('职位', max_length=255, blank=True, null=True)
 
     def __unicode__(self):
-        return ",".join([self.nickname,str(self.id), str(self.get_role_display())])
+        return ",".join([self.nickname, str(self.id), str(self.get_role_display())])
 
     class Meta:
         db_table = 'CustomUser'
@@ -70,3 +74,33 @@ class CustomUserPath(models.Model):
         db_table = 'CustomUserPath'
         verbose_name = "参与路径"
         verbose_name_plural = "参与路径"
+
+
+class VerifyCode(models.Model):
+    """验证码"""
+    phone = models.CharField("手机号", max_length=11)
+    code = models.CharField("验证码", max_length=4)
+    create_time = models.DateTimeField(verbose_name='生成时间', default=timezone.now)
+    expire_time = models.DateTimeField("失效时间", max_length=4)
+    is_use = models.BooleanField("已使用", default=False)
+
+    def __unicode__(self):
+        return self.phone + ":" + self.code
+
+    def check_is_valid(self):
+        """校验验证码是否有效
+        :return:
+        """
+        try:
+            # 已经使用过
+            if self.is_use:
+                return 1
+
+        except:
+            traceback.print_exc()
+            logging.getLogger().error(traceback.format_exc())
+
+    class Meta:
+        db_table = 'VerifyCode'
+        verbose_name = "验证码"
+        verbose_name_plural = "验证码"

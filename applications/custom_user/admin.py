@@ -28,3 +28,10 @@ class CustomUserPathAdmin(admin.ModelAdmin):
         return ",".join(obj.path.all().values_list("name", flat=True))
 
     paths.short_description = "参与职业路径"
+
+
+@admin.register(VerifyCode)
+class VerifyCodeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'phone', 'code', 'create_time', "expire_time", "is_use")
+    search_fields = ('phone',)
+    list_filter = ('is_use',)
