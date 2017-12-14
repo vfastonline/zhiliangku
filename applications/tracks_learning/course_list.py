@@ -44,7 +44,7 @@ class IndexCourseList(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class CourseList(View):
     """获取课程信息"""
 
@@ -176,7 +176,7 @@ class CourseList(View):
             return result_dict
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class CourseDetail(View):
     """课程详情"""
 

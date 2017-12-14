@@ -35,7 +35,7 @@ class IndexPathList(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class PathList(View):
     """获取职业路径"""
 
@@ -65,7 +65,7 @@ class PathList(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class PathDetail(View):
     """获取职业路径详情"""
 
