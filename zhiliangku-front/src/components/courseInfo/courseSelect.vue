@@ -13,7 +13,6 @@
                           :class="{'cstt-selected':item.active}"
                           @click="changeSlected(item,'course_path')">{{item.name}}</span>
                       </li>
-                      <li class="font16pr3a3c50"><span>html/css</span></li>
                   </ul>
               </div>
           </div>
@@ -45,7 +44,7 @@
 export default {
   data() {
     return {
-        url:'tracks/course/list',
+        url:'tracks/course/list/info',
         allData:{filter:[]},
         containerStyle:{
             classname:['mainwidth incenter']
@@ -55,20 +54,33 @@ export default {
             imgStyle:{height:'148px'},
             num:4
         },
-        
+        course_path:0,
+        technology:0,
+        page_number:''
     };
   },
   methods:{
-      changeSlected(item,){
+      addtionalString(){
+          return this.url+'?coursepath_id='+this.course_path+'&technology_id='+this.technology;
+      },
+      changeSlected(item,key){
+          //状态标签清零
+          var arr=this.allData.filter[key];
+          for(var i=0;i<arr.length;i++){
+              if(arr[i].active){
+                  arr[i].active=0;
+              }
+          }
+          //标记高亮
           item.active=1;
-          console.log(item)
+          this[key]=item.id;
+          this.getData(this.addtionalString())
       },
       getData(myurl){
-          var url='tracks/course/list';
-          if(myurl){
-              url=myurl
+          if(!myurl){
+              myurl=this.url
           }
-          this.$ajax.get(url).then(res=>{
+          this.$ajax.get(myurl).then(res=>{
           this.$fn.addString(this.$myConst.httpUrl,res.data.data,['course_img','avatar'])
           var filter=res.data.data.filter;
           for(var k in filter){
@@ -84,12 +96,7 @@ export default {
       }
   },
   created(){
-      this.$ajax.get('tracks/course/list').then(res=>{
-          this.$fn.addString(this.$myConst.httpUrl,res.data.data,['course_img','avatar'])
-          this.allData=res.data;
-          console.log(res)
-      })
-      this.getData();
+      this.getData()
   }
 };
 </script>

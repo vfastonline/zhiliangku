@@ -13,7 +13,7 @@ export default {
     }
   },
   created(){
-    this.$ajax.post('tracks/path/detail',{path_id:1}).then(res=>{
+    this.$ajax.get('tracks/path/detail/info?path_id=1').then(res=>{
        this.$fn.addObjString(this.$myConst.httpUrl,res.data.data,['path_img'])
        this.allData=res.data.data;
       console.log(res)

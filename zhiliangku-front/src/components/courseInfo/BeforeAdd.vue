@@ -102,7 +102,7 @@
     },
     created() {
       console.log(this)
-      this.$ajax.post('/tracks/course/detail', {'course_id': 1}).then(res => {
+      this.$ajax.post('/tracks/course/detail/info', {'course_id': 1}).then(res => {
         this.hotCourseData=this.$fn.addObjString(this.$myConst.httpUrl,res.data.data,'avatar')
         this.allData=res.data.data;
         console.log(res)

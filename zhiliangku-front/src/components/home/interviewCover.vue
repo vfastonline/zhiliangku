@@ -13,8 +13,8 @@
                   <span  class="icccit-2 floatr font14pr002800">{{mainData.amount}}</span>
               </div>
               <div v-if="layout.indexOf('course')!=-1" class="iccci-tag clearfix">
-                  <span  class="icccit-2 floatl font14prb2bbbf">{{mainData.courses_count}}</span>
-                  <span  class="icccit-1 floatr font14pr002800">{{mainData.tag3?mainData.tag2:'门课程'}}</span>
+                  <span  class="icccit-1 floatr font14prb2bbbf">{{mainData.tag3?mainData.tag2:'门课程'}}</span>
+                  <span  class="icccit-2 icccit-2num floatr font14pr002800">{{mainData.courses_count}}</span>
               </div>
           </li>
           <li v-if="layout.indexOf('company')!=-1" class="iccc-name fontcenter textellipsis font20pr5a646e">{{mainData.company}}</li>
@@ -92,6 +92,10 @@ export default {
 }
 .iccc-name{
     margin-bottom:28px;
+}
+.icccit-2num{
+  margin-right:32px;
+  text-align:right;
 }
 </style>
 

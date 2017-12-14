@@ -4,9 +4,9 @@
       <div class="main">
         <div class="inner">
           <div class="ph-content">
-            <span class="ph-tag pointer"> <a href="/tracks/courseSelect/"> 课程</a></span>
+            <span class="ph-tag pointer"> <a href="/tracks/course/list/"> 课程</a></span>
             <span class="ph-tag pointer">直播</span>
-            <span class="ph-tag pointer"> <a href="/tracks/pathList/">职业路径</a></span>
+            <span class="ph-tag pointer"> <a href="/tracks/path/list/">职业路径</a></span>
             <span class="ph-tag pointer">社区</span>
             <span class="ph-tag last pointer">线下课程</span>
             <!--<span class="ph-search">

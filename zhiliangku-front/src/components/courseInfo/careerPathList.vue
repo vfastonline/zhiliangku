@@ -1,6 +1,7 @@
 <template>
   <div>
     <career-path-carousel></career-path-carousel>
+    <div class="career-path-list-subtitle mainwidth incenter font20pl3a3c50">选择你的职业</div>
     <container :myStyle="containerStyle">
       <interview-cover 
       v-for="(item,index) in pathList"
@@ -15,7 +16,9 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.career-path-list-subtitle{
+  padding:80px 0px 32px;
+}
 </style>
 <script>
 export default {
@@ -35,7 +38,7 @@ export default {
     }
   },
   created(){
-    this.$ajax.get('tracks/path/list').then(res=>{
+    this.$ajax.get('tracks/path/list/info').then(res=>{
       this.pathList=res.data.data
       this.$fn.addString(this.$myConst.httpUrl,res.data.data,'path_img')
       this.$fn.exchangeArrayObjectKey(this.pathList,['path_img','highest_salary','lowest_salary','name'],

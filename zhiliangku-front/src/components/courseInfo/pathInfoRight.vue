@@ -75,7 +75,7 @@
       changeActiveSpan(indexli, indexspan,spanid, liid) {
         this.indexli1 = indexli;
         this.indexspan1 = indexspan;
-        this.$ajax.get('tracks/course/list?'+'home_show=false'+'&category_id='+spanid).then(
+        this.$ajax.get('tracks/path/detail/info?'+'home_show=false'+'&category_id='+spanid).then(
           res=>{
             this.courseData=this.$fn.addString(this.$myConst.httpUrl,res.data.data,['course_img','avatar'])
           }
