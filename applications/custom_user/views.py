@@ -89,8 +89,13 @@ class CustomUserLogin(View):
                         result_dict["data"]["username"] = username
                         result_dict["data"]["uid"] = custom_user_id
 
+                        user_dict = {
+                            "nickname": custom_user_auth.custom_user_id.nickname,
+                            "uid": custom_user_auth.custom_user_id.id,
+                            "avatar": custom_user_auth.custom_user_id.avatar.url
+                        }
                         request.session['token'] = token
-                        request.session['user'] = custom_user_auth.custom_user_id.objects.values()
+                        request.session['user'] = user_dict
                         request.session['login'] = True
                 else:
                     result_dict["msg"] = "账号未激活"
@@ -208,8 +213,13 @@ class WeiXinLogin(View):
                 result_dict["data"]["username"] = nickname
                 result_dict["data"]["uid"] = custom_user_auth_obj.custom_user_id.id
 
+                user_dict = {
+                    "nickname": custom_user_auth_obj.custom_user_id.nickname,
+                    "uid": custom_user_auth_obj.custom_user_id.id,
+                    "avatar": custom_user_auth_obj.custom_user_id.avatar.name
+                }
                 request.session['token'] = token
-                request.session['user'] = custom_user_auth_obj.custom_user_id.objects.values()
+                request.session['user'] = user_dict
                 request.session['login'] = True
             else:
                 create_user = CustomUser.objects.create(nickname=nickname, avatar=headimgurl, role=0)
@@ -231,8 +241,13 @@ class WeiXinLogin(View):
                         result_dict["data"]["username"] = nickname
                         result_dict["data"]["uid"] = create_user.id
 
+                        user_dict = {
+                            "nickname": create_user.nickname,
+                            "uid": create_user.id,
+                            "avatar": create_user.avatar.name
+                        }
                         request.session['token'] = token
-                        request.session['user'] = create_user.objects.values()
+                        request.session['user'] = user_dict
                         request.session['login'] = True
 
                     else:
@@ -282,7 +297,7 @@ class QQLogin(View):
                 }
                 res = requests.get(url, params=params, verify=False).text
                 result = urlparse.urlparse(res)
-                param_dict = urlparse.parse_qs(result.path,True)
+                param_dict = urlparse.parse_qs(result.path, True)
                 access_tokens = param_dict.get("access_token", [])
                 expires_ins = param_dict.get("expires_in", [])
                 refresh_tokens = param_dict.get("refresh_token", [])
@@ -344,7 +359,7 @@ class QQLogin(View):
             headimgurl = res['figureurl_qq_2'].encode('iso8859-1').decode('utf-8')
 
             # 校验是否有权限信息
-            custom_user_auths = CustomUserAuths.objects.filter(identity_type="weixin", identifier=openid)
+            custom_user_auths = CustomUserAuths.objects.filter(identity_type="qq", identifier=openid)
 
             # 已经注册，直接登录
             if custom_user_auths.exists():
@@ -356,8 +371,13 @@ class QQLogin(View):
                 result_dict["data"]["username"] = nickname
                 result_dict["data"]["uid"] = custom_user_auth_obj.custom_user_id.id
 
+                user_dict = {
+                    "nickname": custom_user_auth_obj.custom_user_id.nickname,
+                    "uid": custom_user_auth_obj.custom_user_id.id,
+                    "avatar": custom_user_auth_obj.custom_user_id.avatar.name
+                }
                 request.session['token'] = token
-                request.session['user'] = custom_user_auth_obj.custom_user_id.objects.values()
+                request.session['user'] = user_dict
                 request.session['login'] = True
             else:
                 create_user = CustomUser.objects.create(nickname=nickname, avatar=headimgurl, role=0)
@@ -379,7 +399,11 @@ class QQLogin(View):
                         result_dict["data"]["username"] = nickname
                         result_dict["data"]["uid"] = create_user.id
 
-                        user_dict = {"nickname":create_user.nickname, "uid":create_user.id, "avatar":create_user.avatar.name}
+                        user_dict = {
+                            "nickname": create_user.nickname,
+                            "uid": create_user.id,
+                            "avatar": create_user.avatar.name
+                        }
                         request.session['token'] = token
                         request.session['user'] = user_dict
                         request.session['login'] = True
@@ -394,8 +418,7 @@ class QQLogin(View):
         finally:
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
-        def callback(aa):
-            print aa, type(aa)
+
 class CustomUserRegister(View):
     """用户注册"""
 
@@ -451,8 +474,13 @@ class CustomUserRegister(View):
                         result_dict["data"]["username"] = username
                         result_dict["data"]["uid"] = create_user.id
 
+                        user_dict = {
+                            "nickname": create_user.nickname,
+                            "uid": create_user.id,
+                            "avatar": create_user.avatar.url
+                        }
                         request.session['token'] = token
-                        request.session['user'] = create_user.objects.values()
+                        request.session['user'] = user_dict
                         request.session['login'] = True
 
                         if is_mail:
