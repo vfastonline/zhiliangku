@@ -268,7 +268,6 @@ class QQLogin(View):
             except:
                 logging.getLogger().info("获取code和stat参数错误：\n%s" % str(traceback.format_exc()))
 
-
             # 2.通过code换取网页授权access_token
             try:
                 url = 'https://graph.qq.com/oauth2.0/token'
@@ -287,39 +286,29 @@ class QQLogin(View):
                 logging.getLogger().info("获取access_token参数错误：\n%s" % traceback.format_exc())
                 raise Http404()
 
-
-            # 4.拉取用户信息
+            # 获取用户OpenID
             try:
-                user_info_url = 'https://graph.qq.com/oauth2.0/me'
+                me_url = 'https://graph.qq.com/oauth2.0/me'
                 params = {
                     'access_token': res["access_token"],
                 }
-                res = requests.get(user_info_url, params=params, verify=False).json()
-                """
-                {
-                    u'province': u'Beijing',
-                    u'openid': u'oz4KJ1j8fwabm3IA1CwFtpE4fJ_M',
-                    u'headimgurl': u'http: //wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqic03RMYMUSxqh13fWTTuneZibUDTuG6mruQxwkQqChiajlZF5FFq8Rk7pR6Ll2v3tv8uw7dMzA5Jnw/0',
-                    u'language': u'zh_CN',
-                    u'city': u'Haidian',
-                    u'country': u'CN',
-                    u'sex': 1,
-                    u'unionid': u'oQB0n1D3swsSJLAWnb9UMHQ4F4Jk',
-                    u'privilege': [
+                res = requests.get(me_url, params=params, verify=False).json()
+                client_id = res["client_id"]
+                openid = res["openid"]
+            except:
+                traceback.print_exc()
+                logging.getLogger().info("拉取用户OpenID错误：\n%s" % traceback.format_exc())
 
-                    ],
-                    u'nickname': u'Maybe'
+            # 获取用户信息
+            try:
+                get_user_info_url = 'https://graph.qq.com/user/get_user_info'
+                params = {
+                    'access_token': res["access_token"],
+                    'oauth_consumer_key': self.appid,
+                    'openid': openid,
                 }
-                注意,这里有个坑,res['nickname']表面上是unicode编码,
-                但是里面的串却是str的编码,举个例子,res['nickname']的返回值可能是这种形式
-                u'\xe9\x97\xab\xe5\xb0\x8f\xe8\x83\x96',直接存到数据库会是乱码.必须要转成
-                unicode的编码,需要使用
-                res['nickname'] = res['nickname'].encode('iso8859-1').decode('utf-8')
-                这种形式来转换.
-                你也可以写个循环来转化.
-                for value in res.values():
-                    value = value.encode('iso8859-1').decode('utf-8')
-                """
+                res = requests.get(get_user_info_url, params=params, verify=False).json()
+                print res
             except:
                 traceback.print_exc()
                 logging.getLogger().info("拉取用户信息错误：\n%s" % traceback.format_exc())
