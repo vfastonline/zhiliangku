@@ -203,7 +203,7 @@ class CourseDetailInfo(View):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
             filter_param = dict()
-            course_id = request.GET.get('course_id')
+            course_id = int(request.GET.get('course_id', 0))
             detail = dict()
             if course_id:
                 filter_param["id"] = course_id

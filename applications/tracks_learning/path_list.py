@@ -92,7 +92,7 @@ class PathDetailInfo(View):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
             filter_param = dict()
-            path_id = request.GET.get('path_id')
+            path_id = int(request.GET.get('path_id', 0))
             detail = dict()
             if path_id:
                 filter_param["id"] = path_id

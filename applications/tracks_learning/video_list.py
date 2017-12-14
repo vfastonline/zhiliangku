@@ -18,7 +18,7 @@ class VideoList(View):
         result_dict = {"err": 0, "msg": "success", "data": list()}
         try:
             # 获取查询参数
-            section_id = request.GET.get('section_id')
+            section_id = int(request.GET.get('section_id', 0))
 
             data_list = list()
             if section_id:
