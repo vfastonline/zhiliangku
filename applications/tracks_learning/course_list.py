@@ -71,10 +71,10 @@ class CourseListInfo(View):
         }
         try:
             # 获取查询参数
-            category_id = self.request.GET.get("category_id")  # 课程类别
-            coursepath_id = self.request.GET.get("coursepath_id", 0)  # 课程方向
-            technology_id = self.request.GET.get("technology_id", 0)  # 技术分类
-            page_number = self.request.GET.get("page", 1)  # 页码
+            category_id = int(self.request.GET.get("category_id", 0))  # 课程类别
+            coursepath_id = int(self.request.GET.get("coursepath_id", 0))  # 课程方向
+            technology_id = int(self.request.GET.get("technology_id", 0))  # 技术分类
+            page_number = int(self.request.GET.get("page", 1))  # 页码
 
             course_objs = Course.objects.all()
 
