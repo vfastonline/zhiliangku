@@ -2,7 +2,7 @@
 import random
 import re
 import datetime
-
+import urlparse
 import requests
 from django.http import Http404
 from django.shortcuts import render_to_response
@@ -269,6 +269,7 @@ class QQLogin(View):
                 logging.getLogger().info("获取code和stat参数错误：\n%s" % str(traceback.format_exc()))
 
             # 2.通过code换取网页授权access_token
+            access_token = ""
             try:
                 url = 'https://graph.qq.com/oauth2.0/token'
                 params = {
@@ -276,25 +277,38 @@ class QQLogin(View):
                     'client_id': self.appid,
                     'client_secret': self.appkey,
                     'code': self.code,
-                    'redirect_uri': "http%3A%2F%2Fwww.zhiliangku.com%2Fcustomuser%2Fqq%2Flogin",
+                    'redirect_uri': "http://www.zhiliangku.com/customuser/qq/login",
 
                 }
-                res = requests.get(url, params=params, verify=False).json()
-                access_token = res["access_token"]
+                res = requests.get(url, params=params, verify=False).text
+                result = urlparse.urlparse(res)
+                param_dict = urlparse.parse_qs(result.path,True)
+                access_tokens = param_dict.get("access_token", [])
+                expires_ins = param_dict.get("expires_in", [])
+                refresh_tokens = param_dict.get("refresh_token", [])
+                if access_tokens:
+                    access_token = access_tokens[0]
             except:
                 traceback.print_exc()
                 logging.getLogger().info("获取access_token参数错误：\n%s" % traceback.format_exc())
                 raise Http404()
 
             # 获取用户OpenID
+            client_id = ""
+            openid = ""
             try:
                 me_url = 'https://graph.qq.com/oauth2.0/me'
                 params = {
-                    'access_token': res["access_token"],
+                    'access_token': access_token,
                 }
-                res = requests.get(me_url, params=params, verify=False).json()
-                client_id = res["client_id"]
-                openid = res["openid"]
+                res = requests.get(me_url, params=params, verify=False).text
+                result = urlparse.urlparse(res)
+                param_dict = urlparse.parse_qs(result.path, True)
+                client_ids = param_dict.get("client_id", [])
+                openids = param_dict.get("openid", [])
+
+                if openids:
+                    openid = openids[0]
             except:
                 traceback.print_exc()
                 logging.getLogger().info("拉取用户OpenID错误：\n%s" % traceback.format_exc())
@@ -303,12 +317,33 @@ class QQLogin(View):
             try:
                 get_user_info_url = 'https://graph.qq.com/user/get_user_info'
                 params = {
-                    'access_token': res["access_token"],
+                    'access_token': access_token,
                     'oauth_consumer_key': self.appid,
                     'openid': openid,
                 }
-                res = requests.get(get_user_info_url, params=params, verify=False).json()
-                print res
+                res = requests.get(get_user_info_url, params=params, verify=False).text
+                result = urlparse.urlparse(res)
+                param_dict = urlparse.parse_qs(result.path, True)
+                print param_dict
+                client_ids = param_dict.get("client_id", [])
+                """
+                {
+                    "ret":0,
+                    "msg":"",
+                    "nickname":"Peter",
+                    "figureurl":"http://qzapp.qlogo.cn/qzapp/111111/942FEA70050EEAFBD4DCE2C1FC775E56/30",
+                    "figureurl_1":"http://qzapp.qlogo.cn/qzapp/111111/942FEA70050EEAFBD4DCE2C1FC775E56/50",
+                    "figureurl_2":"http://qzapp.qlogo.cn/qzapp/111111/942FEA70050EEAFBD4DCE2C1FC775E56/100",
+                    "figureurl_qq_1":"http://q.qlogo.cn/qqapp/100312990/DE1931D5330620DBD07FB4A5422917B6/40",
+                    "figureurl_qq_2":"http://q.qlogo.cn/qqapp/100312990/DE1931D5330620DBD07FB4A5422917B6/100",
+                    "gender":"男",
+                    "is_yellow_vip":"1",
+                    "vip":"1",
+                    "yellow_vip_level":"7",
+                    "level":"7",
+                    "is_yellow_year_vip":"1"
+                    } 
+                """
             except:
                 traceback.print_exc()
                 logging.getLogger().info("拉取用户信息错误：\n%s" % traceback.format_exc())
