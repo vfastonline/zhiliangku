@@ -66,7 +66,7 @@ class CourseList(View):
             technology_id = self.request.GET.get("technology_id", 0)  # 技术分类
             page_number = self.request.GET.get("page", 1)  # 页码
 
-            course_objs = list()
+            course_objs = Course.objects.all()
 
             # 按课程类别查询，路线详情页面
             if category_id:

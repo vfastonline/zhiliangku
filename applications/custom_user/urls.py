@@ -3,6 +3,7 @@ import views
 
 urlpatterns = [
     url('^login$', views.CustomUserLogin.as_view()),
+    url('^logout$', views.CustomUserLogout.as_view()),
     url('^weixin/login$', views.WeiXinLogin.as_view()),
     url('^register$', views.CustomUserRegister.as_view()),
     url('^send_sms$', views.SendSMSVerificationCode.as_view()),

@@ -87,6 +87,10 @@ class CustomUserLogin(View):
                         result_dict["data"]["token"] = token
                         result_dict["data"]["username"] = username
                         result_dict["data"]["uid"] = custom_user_id
+
+                        request.session['token'] = token
+                        request.session['user'] = custom_user_auth.custom_user_id.objects.values()
+                        request.session['login'] = True
                 else:
                     result_dict["msg"] = "账号未激活"
                     result_dict["err"] = 6
@@ -188,39 +192,47 @@ class WeiXinLogin(View):
 
             nickname = res['nickname'].encode('iso8859-1').decode('utf-8')
             headimgurl = res['headimgurl'].encode('iso8859-1').decode('utf-8')
-            unionid = res['unionid'].encode('iso8859-1').decode('utf-8')
+            openid = res['openid'].encode('iso8859-1').decode('utf-8')
 
             # 校验是否有权限信息
-            custom_user_auths = CustomUserAuths.objects.filter(identity_type="weixin", identifier=unionid)
+            custom_user_auths = CustomUserAuths.objects.filter(identity_type="weixin", identifier=openid)
 
             # 已经注册，直接登录
             if custom_user_auths.exists():
                 custom_user_auth_obj = custom_user_auths.first()
-                token = get_validate(unionid, custom_user_auth_obj.custom_user_id.id, 0, CryptKey)
+                token = get_validate(openid, custom_user_auth_obj.custom_user_id.id, 0, CryptKey)
                 result_dict["err"] = 0
                 result_dict["msg"] = "success"
                 result_dict["data"]["token"] = token
                 result_dict["data"]["username"] = nickname
                 result_dict["data"]["uid"] = custom_user_auth_obj.custom_user_id.id
+
+                request.session['token'] = token
+                request.session['user'] = custom_user_auth_obj.custom_user_id.objects.values()
+                request.session['login'] = True
             else:
-                create_user = CustomUser.objects.create(nickname=str(nickname), avatar=headimgurl, role=0)
+                create_user = CustomUser.objects.create(nickname=nickname, avatar=headimgurl, role=0)
                 if create_user:
                     user_auth_dict = {
                         "custom_user_id": create_user,
                         "identity_type": "weixin",  # 登录类型
-                        "identifier": unionid,  # 唯一标识
+                        "identifier": openid,  # 唯一标识
                         "credential": access_token,  # 密码凭证
                     }
                     create_auth = CustomUserAuths.objects.create(**user_auth_dict)
 
                     if create_auth:
                         # 生成token
-                        token = get_validate(unionid, create_user.id, 0, CryptKey)
+                        token = get_validate(openid, create_user.id, 0, CryptKey)
                         result_dict["err"] = 0
                         result_dict["msg"] = "success"
                         result_dict["data"]["token"] = token
                         result_dict["data"]["username"] = nickname
                         result_dict["data"]["uid"] = create_user.id
+
+                        request.session['token'] = token
+                        request.session['user'] = create_user.objects.values()
+                        request.session['login'] = True
 
                     else:
                         create_user.delete()
@@ -287,6 +299,10 @@ class CustomUserRegister(View):
                         result_dict["data"]["token"] = token
                         result_dict["data"]["username"] = username
                         result_dict["data"]["uid"] = create_user.id
+
+                        request.session['token'] = token
+                        request.session['user'] = create_user.objects.values()
+                        request.session['login'] = True
 
                         if is_mail:
                             send_result = send_activation_mail(username, create_user.id, create_auth.id)
@@ -575,5 +591,30 @@ class RetrievePasswordByEmail(View):
             logging.getLogger().error(traceback.format_exc())
             result_dict["err"] = 1
             result_dict["msg"] = '邮箱找回密码异常, %s' % traceback.format_exc()
+        finally:
+            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+class CustomUserLogout(View):
+    """登出"""
+
+    def post(self, request, *args, **kwargs):
+        result_dict = {
+            "msg": "登出成功",
+            "err": 0,
+            "data": {}
+        }
+        try:
+            try:
+                del request.session['token']
+                del request.session['user']
+                del request.session['login']
+            except KeyError:
+                pass
+        except:
+            result_dict["msg"] = "登出异常:" + traceback.format_exc()
+            result_dict["err"] = 1
+            traceback.print_exc()
+            logging.getLogger().error(traceback.format_exc())
         finally:
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
