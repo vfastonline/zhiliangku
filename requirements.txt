@@ -1,0 +1,7 @@
+Django==1.10
+MySQL-python
+requests
+django-colorfield
+Django-Select2==5.11.1
+django-suit
+pycrypto

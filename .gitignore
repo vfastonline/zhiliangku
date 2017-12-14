@@ -97,3 +97,15 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+templates/node_modules
+# Pycharm
+.idea
+
+# media
+media
+00*.py
+
+
+# plugin
+templates
