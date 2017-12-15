@@ -74,7 +74,8 @@ class CourseListInfo(View):
             category_id = int(self.request.GET.get("category_id", 0))  # 课程类别
             coursepath_id = int(self.request.GET.get("coursepath_id", 0))  # 课程方向
             technology_id = int(self.request.GET.get("technology_id", 0))  # 技术分类
-            page_number = int(self.request.GET.get("page", 1))  # 页码
+            page = int(self.request.GET.get("page", 1))  # 页码
+            per_page = int(self.request.GET.get("per_page", 12))  # 每页显示条目数
 
             course_objs = Course.objects.all()
 
@@ -95,22 +96,24 @@ class CourseListInfo(View):
                 course_objs = Course.objects.filter(tech__id=technology_id)
 
             # 提供分页数据
-            page_obj = Paginator(course_objs, 12)
-            total_count = page_obj.count  # 记录总数
-            num_pages = page_obj.num_pages  # 总页数
-            page_range = list(page_obj.page_range)  # 页码列表
-            paginator_dict = {
-                "total_count": total_count,
-                "num_pages": num_pages,
-                "page_range": page_range,
-                "page_number": page_number
-            }
-            result_dict["paginator"] = paginator_dict
+            if not category_id:
+                page_obj = Paginator(course_objs, per_page)
+                total_count = page_obj.count  # 记录总数
+                num_pages = page_obj.num_pages  # 总页数
+                page_range = list(page_obj.page_range)  # 页码列表
+                paginator_dict = {
+                    "total_count": total_count,
+                    "num_pages": num_pages,
+                    "page_range": page_range,
+                    "page": page,
+                    "per_page": per_page
+                }
+                result_dict["paginator"] = paginator_dict
 
-            try:
-                course_objs = page_obj.page(page_number).object_list
-            except:
-                course_objs = list()
+                try:
+                    course_objs = page_obj.page(page).object_list
+                except:
+                    course_objs = list()
 
             # 课程数据
             result_dict["data"] = [
@@ -126,8 +129,9 @@ class CourseListInfo(View):
             ]
 
             # 组装过滤数据
-            filter_result = self.get_filter_data(coursepath_id, technology_id)
-            result_dict["filter"] = filter_result
+            if not category_id:
+                filter_result = self.get_filter_data(coursepath_id, technology_id)
+                result_dict["filter"] = filter_result
 
         except:
             traceback.print_exc()
