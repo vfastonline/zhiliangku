@@ -309,7 +309,6 @@ class QQLogin(View):
                 raise Http404()
 
             # 获取用户OpenID
-            client_id = ""
             openid = ""
             try:
                 me_url = 'https://graph.qq.com/oauth2.0/me'
@@ -592,7 +591,7 @@ class SendSMSVerificationCode(View):
                             "create_time": timezone.now(),
                             "expire_time": timezone.now() + datetime.timedelta(minutes=5),
                         }
-                        VerifyCode.objects.filter(phone=phone).update(is_use=True)
+                        VerifyCode.objects.filter(phone=phone).delete()
                         VerifyCode.objects.create(**create_dict)
                         result_dict["msg"] = "success"
                         result_dict["err"] = 0
