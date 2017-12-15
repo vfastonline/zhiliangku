@@ -11,6 +11,7 @@ from django.views.generic import View
 from applications.custom_user.models import *
 from lib.encrypt import PyCrypt
 from lib.util import *
+from django.http import HttpResponseRedirect
 
 CryptKey = "25668fbe1a5601eb"
 
@@ -124,141 +125,141 @@ class WeiXinLogin(View):
         try:
             # 第一步获取code跟state
             # https://open.weixin.qq.com/connect/qrconnect?appid=wx7c9efe7b17c8aef2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2flogin&response_type=code&scope=snsapi_login#wechat_redirect
-            try:
-                self.code = self.request.GET.get("code")
-                self.state = self.request.GET.get("state")
-            except:
-                logging.getLogger().info("获取code和stat参数错误：\n%s" % str(traceback.format_exc()))
+            self.code = self.request.GET.get("code")
+            self.state = self.request.GET.get("state")
 
-            # 2.通过code换取网页授权access_token
-            try:
-                url = u'https://api.weixin.qq.com/sns/oauth2/access_token'
-                params = {
-                    'appid': self.appid,
-                    'secret': self.appsecret,
-                    'code': self.code,
-                    'grant_type': 'authorization_code'
-                }
-                res = requests.get(url, params=params, verify=False).json()
-                """res
-                {
-                    u'openid': u'oz4KJ1j8fwabm3IA1CwFtpE4fJ_M',
-                    u'access_token': u'4_RkYEXcSJBvIyYaRbrUHIQFk3XfQ3Qv0yYpJpDudVrReCaqEKX9X0AmI1K5kvC2WHRGz3bBerbQwfhtbAvECaGA',
-                    u'unionid': u'oQB0n1D3swsSJLAWnb9UMHQ4F4Jk',
-                    u'expires_in': 7200,
-                    u'scope': u'snsapi_login',
-                    u'refresh_token': u'4_DPwMWtOnKvESpKGhXLLP2e2DU0qHH276HSscaOH610Fr6hH4SfaCweeV68OoJEUEYMpMWICTTFOXVg48UigYpA'
-                }
-                """
-                access_token = res["access_token"]
-            except:
-                traceback.print_exc()
-                logging.getLogger().info("获取access_token参数错误：\n%s" % traceback.format_exc())
-                raise Http404()
-
-            # 3.如果access_token超时，那就刷新
-            # 注意,这里我没有写这个刷新功能,不影响使用,如果想写的话,可以自己去看文档
-
-            # 4.拉取用户信息
-            try:
-                user_info_url = u'https://api.weixin.qq.com/sns/userinfo'
-                params = {
-                    'access_token': res["access_token"],
-                    'openid': res["openid"],
-                }
-                res = requests.get(user_info_url, params=params, verify=False).json()
-                """
-                {
-                    u'province': u'Beijing',
-                    u'openid': u'oz4KJ1j8fwabm3IA1CwFtpE4fJ_M',
-                    u'headimgurl': u'http: //wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqic03RMYMUSxqh13fWTTuneZibUDTuG6mruQxwkQqChiajlZF5FFq8Rk7pR6Ll2v3tv8uw7dMzA5Jnw/0',
-                    u'language': u'zh_CN',
-                    u'city': u'Haidian',
-                    u'country': u'CN',
-                    u'sex': 1,
-                    u'unionid': u'oQB0n1D3swsSJLAWnb9UMHQ4F4Jk',
-                    u'privilege': [
-                        
-                    ],
-                    u'nickname': u'Maybe'
-                }
-                注意,这里有个坑,res['nickname']表面上是unicode编码,
-                但是里面的串却是str的编码,举个例子,res['nickname']的返回值可能是这种形式
-                u'\xe9\x97\xab\xe5\xb0\x8f\xe8\x83\x96',直接存到数据库会是乱码.必须要转成
-                unicode的编码,需要使用
-                res['nickname'] = res['nickname'].encode('iso8859-1').decode('utf-8')
-                这种形式来转换.
-                你也可以写个循环来转化.
-                for value in res.values():
-                    value = value.encode('iso8859-1').decode('utf-8')
-                """
-            except:
-                traceback.print_exc()
-                logging.getLogger().info("拉取用户信息错误：\n%s" % traceback.format_exc())
-
-            nickname = res['nickname'].encode('iso8859-1').decode('utf-8')
-            headimgurl = res['headimgurl'].encode('iso8859-1').decode('utf-8')
-            openid = res['openid'].encode('iso8859-1').decode('utf-8')
-
-            # 校验是否有权限信息
-            custom_user_auths = CustomUserAuths.objects.filter(identity_type="weixin", identifier=openid)
-
-            # 已经注册，直接登录
-            if custom_user_auths.exists():
-                custom_user_auth_obj = custom_user_auths.first()
-                token = get_validate(openid, custom_user_auth_obj.custom_user_id.id, 0, CryptKey)
-                result_dict["err"] = 0
-                result_dict["msg"] = "success"
-                result_dict["data"]["token"] = token
-                result_dict["data"]["username"] = nickname
-                result_dict["data"]["uid"] = custom_user_auth_obj.custom_user_id.id
-
-                user_dict = {
-                    "nickname": custom_user_auth_obj.custom_user_id.nickname,
-                    "uid": custom_user_auth_obj.custom_user_id.id,
-                    "avatar": custom_user_auth_obj.custom_user_id.avatar.name
-                }
-                request.session['token'] = token
-                request.session['user'] = user_dict
-                request.session['login'] = True
-            else:
-                create_user = CustomUser.objects.create(nickname=nickname, avatar=headimgurl, role=0)
-                if create_user:
-                    user_auth_dict = {
-                        "custom_user_id": create_user,
-                        "identity_type": "weixin",  # 登录类型
-                        "identifier": openid,  # 唯一标识
-                        "credential": access_token,  # 密码凭证
+            # 用户取消授权
+            if self.code:
+                # 2.通过code换取网页授权access_token
+                try:
+                    url = u'https://api.weixin.qq.com/sns/oauth2/access_token'
+                    params = {
+                        'appid': self.appid,
+                        'secret': self.appsecret,
+                        'code': self.code,
+                        'grant_type': 'authorization_code'
                     }
-                    create_auth = CustomUserAuths.objects.create(**user_auth_dict)
+                    res = requests.get(url, params=params, verify=False).json()
+                    """res
+                    {
+                        u'openid': u'oz4KJ1j8fwabm3IA1CwFtpE4fJ_M',
+                        u'access_token': u'4_RkYEXcSJBvIyYaRbrUHIQFk3XfQ3Qv0yYpJpDudVrReCaqEKX9X0AmI1K5kvC2WHRGz3bBerbQwfhtbAvECaGA',
+                        u'unionid': u'oQB0n1D3swsSJLAWnb9UMHQ4F4Jk',
+                        u'expires_in': 7200,
+                        u'scope': u'snsapi_login',
+                        u'refresh_token': u'4_DPwMWtOnKvESpKGhXLLP2e2DU0qHH276HSscaOH610Fr6hH4SfaCweeV68OoJEUEYMpMWICTTFOXVg48UigYpA'
+                    }
+                    """
+                    access_token = res["access_token"]
+                except:
+                    traceback.print_exc()
+                    logging.getLogger().info("获取access_token参数错误：\n%s" % traceback.format_exc())
+                    raise Http404()
 
-                    if create_auth:
-                        # 生成token
-                        token = get_validate(openid, create_user.id, 0, CryptKey)
-                        result_dict["err"] = 0
-                        result_dict["msg"] = "success"
-                        result_dict["data"]["token"] = token
-                        result_dict["data"]["username"] = nickname
-                        result_dict["data"]["uid"] = create_user.id
+                # 3.如果access_token超时，那就刷新
+                # 注意,这里我没有写这个刷新功能,不影响使用,如果想写的话,可以自己去看文档
 
-                        user_dict = {
-                            "nickname": create_user.nickname,
-                            "uid": create_user.id,
-                            "avatar": create_user.avatar.name
+                # 4.拉取用户信息
+                try:
+                    user_info_url = u'https://api.weixin.qq.com/sns/userinfo'
+                    params = {
+                        'access_token': res["access_token"],
+                        'openid': res["openid"],
+                    }
+                    res = requests.get(user_info_url, params=params, verify=False).json()
+                    """
+                    {
+                        u'province': u'Beijing',
+                        u'openid': u'oz4KJ1j8fwabm3IA1CwFtpE4fJ_M',
+                        u'headimgurl': u'http: //wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqic03RMYMUSxqh13fWTTuneZibUDTuG6mruQxwkQqChiajlZF5FFq8Rk7pR6Ll2v3tv8uw7dMzA5Jnw/0',
+                        u'language': u'zh_CN',
+                        u'city': u'Haidian',
+                        u'country': u'CN',
+                        u'sex': 1,
+                        u'unionid': u'oQB0n1D3swsSJLAWnb9UMHQ4F4Jk',
+                        u'privilege': [
+                            
+                        ],
+                        u'nickname': u'Maybe'
+                    }
+                    注意,这里有个坑,res['nickname']表面上是unicode编码,
+                    但是里面的串却是str的编码,举个例子,res['nickname']的返回值可能是这种形式
+                    u'\xe9\x97\xab\xe5\xb0\x8f\xe8\x83\x96',直接存到数据库会是乱码.必须要转成
+                    unicode的编码,需要使用
+                    res['nickname'] = res['nickname'].encode('iso8859-1').decode('utf-8')
+                    这种形式来转换.
+                    你也可以写个循环来转化.
+                    for value in res.values():
+                        value = value.encode('iso8859-1').decode('utf-8')
+                    """
+                except:
+                    traceback.print_exc()
+                    logging.getLogger().info("拉取用户信息错误：\n%s" % traceback.format_exc())
+
+                nickname = res['nickname'].encode('iso8859-1').decode('utf-8')
+                headimgurl = res['headimgurl'].encode('iso8859-1').decode('utf-8')
+                openid = res['openid'].encode('iso8859-1').decode('utf-8')
+
+                # 校验是否有权限信息
+                custom_user_auths = CustomUserAuths.objects.filter(identity_type="weixin", identifier=openid)
+
+                # 已经注册，直接登录
+                if custom_user_auths.exists():
+                    custom_user_auth_obj = custom_user_auths.first()
+                    token = get_validate(openid, custom_user_auth_obj.custom_user_id.id, 0, CryptKey)
+                    result_dict["err"] = 0
+                    result_dict["msg"] = "success"
+                    result_dict["data"]["token"] = token
+                    result_dict["data"]["username"] = nickname
+                    result_dict["data"]["uid"] = custom_user_auth_obj.custom_user_id.id
+
+                    user_dict = {
+                        "nickname": custom_user_auth_obj.custom_user_id.nickname,
+                        "uid": custom_user_auth_obj.custom_user_id.id,
+                        "avatar": custom_user_auth_obj.custom_user_id.avatar.name
+                    }
+                    request.session['token'] = token
+                    request.session['user'] = user_dict
+                    request.session['login'] = True
+                else:
+                    create_user = CustomUser.objects.create(nickname=nickname, avatar=headimgurl, role=0)
+                    if create_user:
+                        user_auth_dict = {
+                            "custom_user_id": create_user,
+                            "identity_type": "weixin",  # 登录类型
+                            "identifier": openid,  # 唯一标识
+                            "credential": access_token,  # 密码凭证
                         }
-                        request.session['token'] = token
-                        request.session['user'] = user_dict
-                        request.session['login'] = True
+                        create_auth = CustomUserAuths.objects.create(**user_auth_dict)
 
-                    else:
-                        create_user.delete()
-                        result_dict["msg"] = "用户权限添加失败"
+                        if create_auth:
+                            # 生成token
+                            token = get_validate(openid, create_user.id, 0, CryptKey)
+                            result_dict["err"] = 0
+                            result_dict["msg"] = "success"
+                            result_dict["data"]["token"] = token
+                            result_dict["data"]["username"] = nickname
+                            result_dict["data"]["uid"] = create_user.id
+
+                            user_dict = {
+                                "nickname": create_user.nickname,
+                                "uid": create_user.id,
+                                "avatar": create_user.avatar.name
+                            }
+                            request.session['token'] = token
+                            request.session['user'] = user_dict
+                            request.session['login'] = True
+
+                        else:
+                            create_user.delete()
+                            result_dict["msg"] = "用户权限添加失败"
         except:
             result_dict["msg"] = traceback.format_exc()
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
         finally:
-            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+            return HttpResponseRedirect(self.state)
+            # return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
 class QQLogin(View):
