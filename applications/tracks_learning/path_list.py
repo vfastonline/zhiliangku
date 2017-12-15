@@ -120,7 +120,7 @@ class PathDetailInfo(View):
                     for one_path_stage in path_obj.PathStage.all().order_by("sequence"):  # 查询路径下所有阶段信息
                         path_stage = {
                             "id": one_path_stage.id,
-                            "name": one_path_stage.name,
+                            # "name": one_path_stage.name,
                             "sequence": one_path_stage.sequence,
                         }
                         coursecategorys = list()
@@ -131,8 +131,9 @@ class PathDetailInfo(View):
                                 "sequence": one_coursecategory.sequence,
                             }
                             coursecategorys.append(course_category)
-                        path_stage.update({"coursecategorys": coursecategorys})
-                        detail["pathstages"].append(path_stage)
+                        if coursecategorys:
+                            path_stage.update({"coursecategorys": coursecategorys})
+                            detail["pathstages"].append(path_stage)
 
             result_dict["data"] = detail
         except:
