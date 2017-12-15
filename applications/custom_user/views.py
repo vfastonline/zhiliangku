@@ -767,7 +767,7 @@ class RetrievePasswordByEmail(View):
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
         finally:
-            return render_to_response('email_retrieve_password_form.html', {'email': email})
+            return render_to_response('customuser/retrieve_password_by_email/index.html', {'email': email})
 
     def post(self, request, *args, **kwargs):
         result_dict = {
