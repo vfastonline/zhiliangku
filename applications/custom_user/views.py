@@ -1,8 +1,9 @@
 #!encoding:utf-8
+import datetime
 import random
 import re
-import datetime
 import urlparse
+
 import requests
 from django.http import Http404
 from django.shortcuts import render_to_response
@@ -11,7 +12,6 @@ from django.views.generic import View
 from applications.custom_user.models import *
 from lib.encrypt import PyCrypt
 from lib.util import *
-from django.http import HttpResponseRedirect
 
 CryptKey = "25668fbe1a5601eb"
 
