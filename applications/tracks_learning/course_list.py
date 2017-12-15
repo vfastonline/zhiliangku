@@ -88,7 +88,7 @@ class CourseListInfo(View):
             if coursepath_id and not technology_id:
                 coursepaths = CoursePath.objects.filter(id=coursepath_id).first()
                 techs = coursepaths.tech.all()
-                course_objs = Course.objects.filter(tech__in=techs)
+                course_objs = list(set(list(Course.objects.filter(tech__in=techs))))
 
             # 按技术分类查询，课程列表页
             if technology_id:
