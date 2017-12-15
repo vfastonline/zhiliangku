@@ -4,7 +4,7 @@ password:1234qwer
 
 
 
-nginx conf:  /usr/local/openresty/nginx/conf/servers/zhiliangu.conf
+nginx conf:  /usr/local/openresty/nginx/conf/servers/zhiliangku.conf
 
 zhiliangku:  /usr/local/zhiliangku/
 

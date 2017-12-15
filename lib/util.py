@@ -291,3 +291,11 @@ def second_to_hour(n):
     else:
         a = n / 60
         return '%s分钟' % a
+
+
+def _get_refer_url(request):
+    refer_url = request.META.get('HTTP_REFER', '/')
+    host = request.META.get("HTTP_HOST")
+    if refer_url.startswith('http') and host not in refer_url:
+        refer_url = '/'
+    return refer_url
