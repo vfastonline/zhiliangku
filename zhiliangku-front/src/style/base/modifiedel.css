@@ -1,0 +1,72 @@
+/* 此处是carousel的指示器样式修改 */
+.carousel .el-carousel__button {
+    display: block;
+    opacity: .48;
+    width: 12px;
+    height: 12px;
+    border-radius:6px;
+    background-color: #2C343B;
+    border: none;
+    outline: 0;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    -webkit-transition: .3s;
+    transition: .3s
+}
+.carousel .el-carousel__indicator.is-active button {
+    opacity: 1;
+}
+.carousel .el-carousel__indicator {
+    display: inline-block;
+    background-color: transparent;
+    padding: 12px 12px;
+    cursor: pointer
+}
+/* 此处是面试题部分旋转木马样式 */
+
+.el-carousel__item--card {
+    width: 50%;
+    -webkit-transition: -webkit-transform .4s ease-in-out;
+    transition: -webkit-transform .4s ease-in-out;
+    transition: transform .4s ease-in-out;
+    transition: transform .4s ease-in-out, -webkit-transform .4s ease-in-out
+}
+/* 折叠面板样式修改 */
+.el-collapse, .el-collapse-item__header, .el-collapse-item__wrap {
+    border:none;
+}
+/* 弹出框底色 */
+.el-dialog__wrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+    margin: 0;
+    background:rgba(0, 0, 0, .5);
+    
+  }
+  .el-dialog {
+    position: relative;
+    margin: 0 auto 50px;
+    background:rgba(0, 0, 0, .5);
+    border-radius: 2px;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 412px;
+    padding: 16px;
+  }
+  .el-dialog__body {
+      background: #ffffff;
+    padding: 24px 40px;
+    color: #5a5e66;
+    line-height: 24px;
+    font-size: 14px
+  }
+  .el-input__inner{
+    border-radius:0px;
+  }
