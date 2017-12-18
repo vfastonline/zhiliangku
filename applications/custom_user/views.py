@@ -491,7 +491,7 @@ class CustomUserRegister(View):
                         user_dict = {
                             "nickname": create_user.nickname,
                             "uid": create_user.id,
-                            "avatar": create_user.avatar.url
+                            "avatar": create_user.avatar.url if create_user.avatar else ""
                         }
                         request.session['token'] = token
                         request.session['user'] = user_dict
