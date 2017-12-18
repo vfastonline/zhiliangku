@@ -452,10 +452,13 @@ class CustomUserRegister(View):
                     "code": verify_code,
                     "expire_time__gt": timezone.now(),
                 }
-                is_valid = VerifyCode.objects.filter(**valid_filter)
-                if not is_valid.exists():
+                verifycodes = VerifyCode.objects.filter(**valid_filter)
+                if not verifycodes.exists():
                     result_dict["err"] = 7
                     result_dict["msg"] = "无效的验证码"
+                    return 
+                else:
+                    VerifyCode.objects.filter(phone=username).delete()
 
             # 校验是否有权限信息
             custom_user_auths = CustomUserAuths.objects.filter(identity_type=identity_type, identifier=username)
