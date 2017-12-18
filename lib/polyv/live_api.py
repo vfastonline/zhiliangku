@@ -25,7 +25,7 @@ def create_live(name, courseid='zhiliangku', autoplay=1, playercolor='#00ffff', 
     try:
         if name:
             sign = '%sappId%sautoPlay%schannelPasswd%scourseId%sname%splayerColor%stimestamp%suserId%s%s' % (
-                APPSECRET, APPID, autoplay, channelpasswd, courseid, name, playercolor, timestamp, USERID, APPSECRET)
+                SECRETKEY, APPID, autoplay, channelpasswd, courseid, name, playercolor, timestamp, USERID, SECRETKEY)
             sign = hashlib.md5(sign).hexdigest().upper()
             data = {
                 'appId': APPID,
@@ -57,7 +57,7 @@ def delete_live(channelID):
     result = dict()
     try:
         timestamp = (int(round(time.time() * 1000)))
-        sign = '%sappId%stimestamp%suserId%s%s' % (APPSECRET, APPID, timestamp, USERID, APPSECRET)
+        sign = '%sappId%stimestamp%suserId%s%s' % (SECRETKEY, APPID, timestamp, USERID, SECRETKEY)
         sign = hashlib.md5(sign).hexdigest().upper()
         url = (DELETE_LIVE + "?appId={appId}&timestamp={timestamp}&userId={userId}&sign={sign}").format(
             channelId=channelID, appId=APPID, timestamp=timestamp, userId=USERID, sign=sign)
@@ -83,13 +83,13 @@ def setlivepasswd(channelId, passwd, is_batch=False):
     try:
         timestamp = (int(round(time.time() * 1000)))
         if is_batch:  # 批量频道密码
-            sign = '%sappId%spasswd%stimestamp%s%s' % (APPSECRET, APPID, passwd, timestamp, APPSECRET)
+            sign = '%sappId%spasswd%stimestamp%s%s' % (SECRETKEY, APPID, passwd, timestamp, SECRETKEY)
             sign = hashlib.md5(sign).hexdigest().upper()
             url = (PASSWD_SET_LIVE + "?appId={appId}&timestamp={timestamp}&passwd={passwd}&sign={sign}").format(
                 userId=USERID, appId=APPID, timestamp=timestamp, passwd=passwd, sign=sign)
         else:
             sign = '%sappId%schannelId%spasswd%stimestamp%s%s' % (
-                APPSECRET, APPID, channelId, passwd, timestamp, APPSECRET)
+                SECRETKEY, APPID, channelId, passwd, timestamp, SECRETKEY)
             sign = hashlib.md5(sign).hexdigest().upper()
             url = (
                 PASSWD_SET_LIVE + "?appId={appId}&timestamp={timestamp}&channelId={channelId}&passwd={passwd}&sign={sign}").format(
@@ -112,7 +112,7 @@ def getstatus_live(channelIds):
     result = dict()
     try:
         timestamp = (int(round(time.time() * 1000)))
-        sign = APPSECRET + "appId" + APPID + "channelIds" + channelIds + "timestamp" + str(timestamp) + APPSECRET
+        sign = SECRETKEY + "appId" + APPID + "channelIds" + channelIds + "timestamp" + str(timestamp) + SECRETKEY
         sign = hashlib.md5(sign).hexdigest().upper()
         data = {
             'appId': APPID,
