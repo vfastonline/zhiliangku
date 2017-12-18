@@ -93,7 +93,7 @@ class CustomUserLogin(View):
                         user_dict = {
                             "nickname": custom_user_auth.custom_user_id.nickname,
                             "uid": custom_user_auth.custom_user_id.id,
-                            "avatar": custom_user_auth.custom_user_id.avatar.url
+                            "avatar": custom_user_auth.custom_user_id.avatar.url if custom_user_auth.custom_user_id.avatar else ""
                         }
                         request.session['token'] = token
                         request.session['user'] = user_dict
@@ -456,7 +456,7 @@ class CustomUserRegister(View):
                 if not verifycodes.exists():
                     result_dict["err"] = 7
                     result_dict["msg"] = "无效的验证码"
-                    return 
+                    return
                 else:
                     VerifyCode.objects.filter(phone=username).delete()
 
@@ -487,9 +487,9 @@ class CustomUserRegister(View):
                         token = get_validate(username, create_user.id, 0, CryptKey)
                         result_dict["err"] = 0
                         result_dict["msg"] = "success"
-                        result_dict["data"]["token"] = token
-                        result_dict["data"]["username"] = username
-                        result_dict["data"]["uid"] = create_user.id
+                        # result_dict["data"]["token"] = token
+                        # result_dict["data"]["username"] = username
+                        # result_dict["data"]["uid"] = create_user.id
 
                         user_dict = {
                             "nickname": create_user.nickname,
