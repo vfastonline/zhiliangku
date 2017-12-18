@@ -432,6 +432,7 @@ class CustomUserRegister(View):
             param_dict = json.loads(request.body)
             username = param_dict.get("username")
             password = param_dict.get("password")
+            verify_code = param_dict.get("verify_code")  # 验证码
 
             is_mail = IsMail().ismail(username)
             is_cellphone = IsCellphone().iscellphone(username)
@@ -440,6 +441,19 @@ class CustomUserRegister(View):
             identity_type = ""
             if is_mail:
                 identity_type = "email"
+
+                # 校验验证码
+                valid_filter = {
+                    "phone": username,
+                    "is_use": False,
+                    "code": verify_code,
+                    "expire_time__gt": timezone.now(),
+                }
+                is_valid = VerifyCode.objects.filter(**valid_filter)
+                if not is_valid.exists():
+                    result_dict["err"] = 7
+                    result_dict["msg"] = "无效的验证码"
+
             if is_cellphone:
                 identity_type = "phone"
 
