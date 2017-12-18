@@ -442,6 +442,9 @@ class CustomUserRegister(View):
             if is_mail:
                 identity_type = "email"
 
+            if is_cellphone:
+                identity_type = "phone"
+
                 # 校验验证码
                 valid_filter = {
                     "phone": username,
@@ -453,9 +456,6 @@ class CustomUserRegister(View):
                 if not is_valid.exists():
                     result_dict["err"] = 7
                     result_dict["msg"] = "无效的验证码"
-
-            if is_cellphone:
-                identity_type = "phone"
 
             # 校验是否有权限信息
             custom_user_auths = CustomUserAuths.objects.filter(identity_type=identity_type, identifier=username)
@@ -576,7 +576,7 @@ class SendSMSVerificationCode(View):
 
     def post(self, request, *args, **kwargs):
         result_dict = {
-            "msg": "短信验证码发送失败",
+            "msg": "短信验证码发送失败.",
             "err": 1,
         }
         try:
