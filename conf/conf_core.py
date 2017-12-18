@@ -11,7 +11,9 @@ config_parser.read(polyv_path)
 # [polyv]
 APPID = config_parser.get("polyv", "appid")  # 在直播系统登记的appId
 USERID = config_parser.get("polyv", "userid")  # 用户ID
-APPSECRET = config_parser.get("polyv", "appsecret")
+SECRETKEY = config_parser.get("polyv", "secretkey")
+WRITETOKEN = config_parser.get("polyv", "writetoken")
+READTOKEN = config_parser.get("polyv", "readtoken")
 
 # [live]
 CREATE_LIVE = config_parser.get("live", "create")  # 创建直播频道

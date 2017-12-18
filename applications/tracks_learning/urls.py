@@ -22,4 +22,5 @@ urlpatterns = [
     url('^course/detail/info$', course_list.CourseDetailInfo.as_view()),
 
     url('^video/list/info$', video_list.VideoList.as_view()),
+    url('^get-polyv$', video_list.Polyv.as_view()),
 ]

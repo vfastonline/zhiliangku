@@ -19,6 +19,17 @@ from zhiliangku import views
 from django.conf.urls.static import static
 import settings
 
+
+def callback(request):
+    try:
+        print request
+        print request.GET
+        print request.POST
+    except:
+        import traceback
+        traceback.print_exc()
+
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index),
@@ -28,6 +39,7 @@ urlpatterns = [
     url('^interview_questions/', include('applications.interview_question.urls')),
     url('^company/', include('applications.company_jobs.urls')),
     url('^customuser/', include('applications.custom_user.urls')),
+    url('^polyv/callback', callback),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

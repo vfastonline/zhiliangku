@@ -2,12 +2,31 @@
 import json
 import logging
 import traceback
+import hashlib
 
 from django.http import HttpResponse
 from django.views.generic import View
 
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from conf.conf_core import *
+import time
+
+
+class Polyv(View):
+    def get(self, request, *args, **kwargs):
+        ts = str(int(round(time.time() * 1000)))
+        result_dict = dict()
+
+        hash_str = hashlib.new("md5", "".join([ts, WRITETOKEN])).hexdigest()
+        sign = hashlib.new("md5", "".join([SECRETKEY, ts])).hexdigest()
+        result_dict["writeToken"] = WRITETOKEN
+        result_dict["userid"] = USERID
+        result_dict["ts"] = ts
+        result_dict["hash"] = hash_str
+        result_dict["sign"] = sign
+        result_dict["readToken"] = READTOKEN
+        return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
 # @class_view_decorator(user_login_required)
