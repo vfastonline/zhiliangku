@@ -20,6 +20,12 @@ class PolyvCallBack(View):
             sign = request.GET.get("sign")  #
             df = request.GET.get("df")  #
 
+            print "type==", request_type
+            print "vid==", vid
+            print "format==", request_format
+            print "state==", state
+            print "sign==", sign
+            print "df==", df
             if request_type == "upload":  # 已上传
                 pass
             elif request_type == "invalidVideo":  # 不合规格视频（当上传的视频的信息无法被系统分析时，判断为不合规格视频）
