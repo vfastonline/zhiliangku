@@ -51,6 +51,7 @@ class CustomUserLogin(View):
             "err": 1,
             "data": {}
         }
+        token = ""
         try:
             param_dict = json.loads(request.body)
             username = param_dict.get("username")
@@ -86,18 +87,23 @@ class CustomUserLogin(View):
                         token = get_validate(username, custom_user_id, custom_user_role, CryptKey)
                         result_dict["msg"] = "success"
                         result_dict["err"] = 0
-                        result_dict["data"]["token"] = token
-                        result_dict["data"]["username"] = username
-                        result_dict["data"]["uid"] = custom_user_id
-
-                        user_dict = {
-                            "nickname": custom_user_auth.custom_user_id.nickname,
+                        # result_dict["data"]["token"] = token
+                        result_dict["data"]["user"] = {
                             "uid": custom_user_auth.custom_user_id.id,
-                            "avatar": custom_user_auth.custom_user_id.avatar.url if custom_user_auth.custom_user_id.avatar else ""
+                            "nickname": custom_user_auth.custom_user_id.nickname,
+                            "role": custom_user_auth.custom_user_id.role,
+                            "avatar": custom_user_auth.custom_user_id.avatar.url if custom_user_auth.custom_user_id.avatar else "",
+                            "position": custom_user_auth.custom_user_id.position,
                         }
-                        request.session['token'] = token
-                        request.session['user'] = user_dict
-                        request.session['login'] = True
+
+                        # user_dict = {
+                        #     "nickname": custom_user_auth.custom_user_id.nickname,
+                        #     "uid": custom_user_auth.custom_user_id.id,
+                        #     "avatar": custom_user_auth.custom_user_id.avatar.url if custom_user_auth.custom_user_id.avatar else ""
+                        # }
+                        # request.session['token'] = token
+                        # request.session['user'] = user_dict
+                        # request.session['login'] = True
                 else:
                     result_dict["msg"] = "账号未激活"
                     result_dict["err"] = 6
@@ -106,7 +112,9 @@ class CustomUserLogin(View):
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
         finally:
-            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+            res = HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+            res.set_cookie("token", token, 3600)
+            return res
 
 
 class WeiXinLogin(View):
@@ -122,6 +130,7 @@ class WeiXinLogin(View):
         #     "data": {}
         # }
 
+        token = ""
         try:
             # https://open.weixin.qq.com/connect/qrconnect?appid=wx7c9efe7b17c8aef2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2flogin&response_type=code&scope=snsapi_login#wechat_redirect
             self.code = self.request.GET.get("code")
@@ -210,17 +219,30 @@ class WeiXinLogin(View):
                 # result_dict["err"] = 0
                 # result_dict["msg"] = "success"
                 # result_dict["data"]["token"] = token
-                # result_dict["data"]["username"] = nickname
-                # result_dict["data"]["uid"] = custom_user_auth_obj.custom_user_id.id
+                # result_dict["data"]["user"] = {
+                #     "uid": custom_user_auth_obj.custom_user_id.id,
+                #     "nickname": custom_user_auth_obj.custom_user_id.nickname,
+                #     "role": custom_user_auth_obj.custom_user_id.role,
+                #     "avatar": custom_user_auth_obj.custom_user_id.avatar.url if custom_user_auth_obj.custom_user_id.avatar else "",
+                #     "position": custom_user_auth_obj.custom_user_id.position,
+                # }
 
-                user_dict = {
-                    "nickname": custom_user_auth_obj.custom_user_id.nickname,
-                    "uid": custom_user_auth_obj.custom_user_id.id,
-                    "avatar": custom_user_auth_obj.custom_user_id.avatar.name
-                }
-                request.session['token'] = token
-                request.session['user'] = user_dict
-                request.session['login'] = True
+                self.state += "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
+                    uid=custom_user_auth_obj.custom_user_id.id,
+                    nickname=custom_user_auth_obj.custom_user_id.nickname,
+                    role=custom_user_auth_obj.custom_user_id.role,
+                    avatar=custom_user_auth_obj.custom_user_id.avatar.url if custom_user_auth_obj.custom_user_id.avatar else "",
+                    position=custom_user_auth_obj.custom_user_id.position,
+                )
+
+                # user_dict = {
+                #     "nickname": custom_user_auth_obj.custom_user_id.nickname,
+                #     "uid": custom_user_auth_obj.custom_user_id.id,
+                #     "avatar": custom_user_auth_obj.custom_user_id.avatar.name
+                # }
+                # request.session['token'] = token
+                # request.session['user'] = user_dict
+                # request.session['login'] = True
             else:
                 create_user = CustomUser.objects.create(nickname=nickname, avatar=headimgurl, role=0)
                 if create_user:
@@ -238,17 +260,29 @@ class WeiXinLogin(View):
                         # result_dict["err"] = 0
                         # result_dict["msg"] = "success"
                         # result_dict["data"]["token"] = token
-                        # result_dict["data"]["username"] = nickname
-                        # result_dict["data"]["uid"] = create_user.id
+                        # result_dict["data"]["user"] = {
+                        #     "uid": create_user.id,
+                        #     "nickname": create_user.nickname,
+                        #     "role": create_user.role,
+                        #     "avatar": create_user.avatar.url if create_user.avatar else "",
+                        #     "position": create_user.position,
+                        # }
+                        self.state += "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
+                            uid=create_user.id,
+                            nickname=create_user.nickname,
+                            role=create_user.role,
+                            avatar=create_user.avatar.url if create_user.avatar else "",
+                            position=create_user.position,
+                        )
 
-                        user_dict = {
-                            "nickname": create_user.nickname,
-                            "uid": create_user.id,
-                            "avatar": create_user.avatar.name
-                        }
-                        request.session['token'] = token
-                        request.session['user'] = user_dict
-                        request.session['login'] = True
+                        # user_dict = {
+                        #     "nickname": create_user.nickname,
+                        #     "uid": create_user.id,
+                        #     "avatar": create_user.avatar.name
+                        # }
+                        # request.session['token'] = token
+                        # request.session['user'] = user_dict
+                        # request.session['login'] = True
 
                     else:
                         create_user.delete()
@@ -258,7 +292,9 @@ class WeiXinLogin(View):
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
         finally:
-            return HttpResponseRedirect(self.state)
+            res = HttpResponseRedirect(self.state)
+            res.set_cookie("token", token, 3600)
+            return res
             # return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
@@ -275,6 +311,7 @@ class QQLogin(View):
         #     "data": {}
         # }
 
+        token = ""
         try:
             # 第一步获取code跟state
             # https://graph.qq.com/oauth2.0/show?which=Login&display=pc&response_type=code&client_id=101447834&redirect_uri=http%3A%2F%2Fwww.zhiliangku.com%2Fcustomuser%2Fqq%2Flogin&state=1&scope=get_user_info,get_info
@@ -371,14 +408,22 @@ class QQLogin(View):
                 # result_dict["data"]["username"] = nickname
                 # result_dict["data"]["uid"] = custom_user_auth_obj.custom_user_id.id
 
-                user_dict = {
-                    "nickname": custom_user_auth_obj.custom_user_id.nickname,
-                    "uid": custom_user_auth_obj.custom_user_id.id,
-                    "avatar": custom_user_auth_obj.custom_user_id.avatar.name
-                }
-                request.session['token'] = token
-                request.session['user'] = user_dict
-                request.session['login'] = True
+                self.state += "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
+                    uid=custom_user_auth_obj.custom_user_id.id,
+                    nickname=custom_user_auth_obj.custom_user_id.nickname,
+                    role=custom_user_auth_obj.custom_user_id.role,
+                    avatar=custom_user_auth_obj.custom_user_id.avatar.url if custom_user_auth_obj.custom_user_id.avatar else "",
+                    position=custom_user_auth_obj.custom_user_id.position,
+                )
+
+                # user_dict = {
+                #     "nickname": custom_user_auth_obj.custom_user_id.nickname,
+                #     "uid": custom_user_auth_obj.custom_user_id.id,
+                #     "avatar": custom_user_auth_obj.custom_user_id.avatar.name
+                # }
+                # request.session['token'] = token
+                # request.session['user'] = user_dict
+                # request.session['login'] = True
             else:
                 create_user = CustomUser.objects.create(nickname=nickname, avatar=headimgurl, role=0)
                 if create_user:
@@ -398,14 +443,22 @@ class QQLogin(View):
                         # result_dict["data"]["username"] = nickname
                         # result_dict["data"]["uid"] = create_user.id
 
-                        user_dict = {
-                            "nickname": create_user.nickname,
-                            "uid": create_user.id,
-                            "avatar": create_user.avatar.name
-                        }
-                        request.session['token'] = token
-                        request.session['user'] = user_dict
-                        request.session['login'] = True
+                        self.state += "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
+                            uid=create_user.id,
+                            nickname=create_user.nickname,
+                            role=create_user.role,
+                            avatar=create_user.avatar.url if create_user.avatar else "",
+                            position=create_user.position,
+                        )
+
+                        # user_dict = {
+                        #     "nickname": create_user.nickname,
+                        #     "uid": create_user.id,
+                        #     "avatar": create_user.avatar.name
+                        # }
+                        # request.session['token'] = token
+                        # request.session['user'] = user_dict
+                        # request.session['login'] = True
 
                     else:
                         create_user.delete()
@@ -415,7 +468,9 @@ class QQLogin(View):
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
         finally:
-            return HttpResponseRedirect(self.state)
+            res = HttpResponseRedirect(self.state)
+            res.set_cookie("token", token, 3600)
+            return res
             # return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
@@ -428,6 +483,7 @@ class CustomUserRegister(View):
             "err": 1,
             "data": {}
         }
+        token = ""
         try:
             param_dict = json.loads(request.body)
             username = param_dict.get("username")
@@ -488,17 +544,22 @@ class CustomUserRegister(View):
                         result_dict["err"] = 0
                         result_dict["msg"] = "success"
                         # result_dict["data"]["token"] = token
-                        # result_dict["data"]["username"] = username
-                        # result_dict["data"]["uid"] = create_user.id
-
-                        user_dict = {
-                            "nickname": create_user.nickname,
+                        result_dict["data"]["user"] = {
                             "uid": create_user.id,
-                            "avatar": create_user.avatar.url if create_user.avatar else ""
+                            "nickname": create_user.nickname,
+                            "role": create_user.role,
+                            "avatar": create_user.avatar.url if create_user.avatar else "",
+                            "position": create_user.position,
                         }
-                        request.session['token'] = token
-                        request.session['user'] = user_dict
-                        request.session['login'] = True
+
+                        # user_dict = {
+                        #     "nickname": create_user.nickname,
+                        #     "uid": create_user.id,
+                        #     "avatar": create_user.avatar.url if create_user.avatar else ""
+                        # }
+                        # request.session['token'] = token
+                        # request.session['user'] = user_dict
+                        # request.session['login'] = True
 
                         if is_mail:
                             send_result = send_activation_mail(username, create_user.id, create_auth.id)
@@ -513,7 +574,9 @@ class CustomUserRegister(View):
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
         finally:
-            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+            res = HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+            res.set_cookie("token", token, 3600)
+            return res
 
 
 class CustomUserSendActivationMail(View):
@@ -571,9 +634,6 @@ def send_activation_mail(user_email, customer_user_id, customer_user_auth_id):
         return send_result
 
 
-from django.utils import timezone
-
-
 class SendSMSVerificationCode(View):
     """发送短信验证码"""
 
@@ -595,7 +655,7 @@ class SendSMSVerificationCode(View):
                 last_seconds = (timezone.now() - create_time).seconds
                 if last_seconds < 60:
                     result_dict["msg"] = "".join([str(last_seconds), "秒后尝试重新发送验证码"])
-                    result_dict["err"] = 1
+                    result_dict["err"] = 8
             else:
                 try:
                     is_send = sendmessage(phone, {'code': code})
