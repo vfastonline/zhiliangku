@@ -2,6 +2,7 @@ $(document).ready(function ($) {
     $(".object-tools").append('<input class="btn btn-success" type="button" id="upload" value="上传 视频"></input>');
 
     function PolyvUpload(obj) {
+        this.obj = obj;
         this.uploadButton = document.getElementById(obj.uploadButtton);
         this.sign = obj.sign;
         this.hash = obj.hash;
@@ -34,6 +35,11 @@ $(document).ready(function ($) {
             "hash": self.hash,
             "ts": self.ts,
             "url": location.href,
+            extra: {
+                //status: 200,
+                state: 'hello polyv111',
+                keepsource: '1'
+            },
             status: self.status,
             cataid: self.cataid
         };
@@ -71,7 +77,22 @@ $(document).ready(function ($) {
             }
         };
         this.addHander(uploadButton, "click", function () {
-            wrapAll.style.display = "block";
+            var ids = [];
+            $("input[name='_selected_action']").each(function () {
+                if ($(this).is(":checked")) {
+                    ids.push($(this).val());
+                }
+            });
+            if (ids.length === 0) {
+                alert("至少选择一条数据!")
+            }
+            else if (ids.length > 1) {
+                alert("最多选择一条数据!")
+            }
+            else {
+                self.obj.extra.state = ids[0];
+                wrapAll.style.display = "block";
+            }
         });
         cancle.onclick = function () {
             wrapAll.style.display = "none";
@@ -110,12 +131,12 @@ $(document).ready(function ($) {
             },
             response: function (json) {
                 // console.log(json);
-                var scriptdata = "<script><br>" +
+                var scriptdata = "<script>\n" +
                     "var player = polyvObject('#plv_" + json.data.vid + "').videoPlayer({\n" +
                     "'width':'690',\n" +
                     "'height':'385',\n" +
                     "'vid' : '" + json.data.vid + "'" +
-                    "});<br><\/script>";
+                    "});\n<\/script>";
 
                 // document.getElementById("textbody").value = document.getElementById("textbody").value + scriptdata;
                 alert(scriptdata);
