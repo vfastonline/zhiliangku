@@ -16,14 +16,13 @@ def get_video_msg(vid=''):
     :return:
     """
     result = dict()
-    timestamp = (int(round(time.time() * 1000)))
+    timestamp = str(int(round(time.time() * 1000)))
     try:
         if vid:
             sign = 'ptime={ptime}&vid={vid}{secretkey}'.format(ptime=timestamp, vid=vid, secretkey=SECRETKEY)
             sign = hashlib.sha1(sign).hexdigest().upper()
             data = {
                 'vid': vid,
-                'userid': USERID,
                 'ptime': timestamp,
                 'sign': sign,
             }
