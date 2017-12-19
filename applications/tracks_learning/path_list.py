@@ -4,8 +4,8 @@ import logging
 import traceback
 
 from django.http import HttpResponse
-from django.views.generic import View
 from django.shortcuts import render
+from django.views.generic import View
 
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
