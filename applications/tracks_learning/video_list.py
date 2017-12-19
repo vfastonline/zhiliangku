@@ -123,7 +123,7 @@ class VideoDetailInfo(View):
                     if video_obj.type not in ["3", "4"]:
                         video_dict["video_data"] = dict()
                         video_dict["vid"] = video_obj.vid
-                        video_data_dict = json.load(video_obj.data)
+                        video_data_dict = json.loads(video_obj.data)
                         data_code = video_data_dict.get("code")
                         data_data_list = video_data_dict.get("data", [])
                         if data_code == 200:
