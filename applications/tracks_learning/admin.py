@@ -64,6 +64,7 @@ class VideoAdmin(admin.ModelAdmin):
     )
     search_fields = ("section__title", 'name', "live__name")
     list_filter = ('type',)
+    # readonly_fields = ("vid", "data",)
 
     class Media:
         js = ['js/webPlugins.js']
