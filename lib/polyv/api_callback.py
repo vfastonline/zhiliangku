@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # !encoding:utf-8
-from django.views.generic import View
-from django.http import HttpResponse
 import json
 import traceback
+
+from django.http import HttpResponse
+from django.views.generic import View
+from lib.polyv.video import get_video_msg
 
 
 class PolyvCallBack(View):
@@ -27,7 +29,7 @@ class PolyvCallBack(View):
             print "sign==", sign
             print "df==", df
             if request_type == "upload":  # 已上传
-                pass
+                get_video_msg(vid)
             elif request_type == "invalidVideo":  # 不合规格视频（当上传的视频的信息无法被系统分析时，判断为不合规格视频）
                 pass
             elif request_type == "encode":  # 已编码

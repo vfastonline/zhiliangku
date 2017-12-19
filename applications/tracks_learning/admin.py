@@ -58,7 +58,7 @@ class SectionAdmin(admin.ModelAdmin):
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
     list_display = (
-        'id', "section", 'name',
+        'id', "section", 'name', "vid",
         "type", 'sequence', "duration",
         "live", "live_start_time", "live_end_time", "desc"
     )
