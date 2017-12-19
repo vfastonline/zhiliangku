@@ -109,18 +109,19 @@ $(document).ready(function ($) {
                 keepsource: '1'//源文件播放（不对源文件进行编码）
             },
             response: function (json) {
-                console.log(json);
-                var scriptdata = "<script>" +
+                // console.log(json);
+                var scriptdata = "<script><br>" +
                     "var player = polyvObject('#plv_" + json.data.vid + "').videoPlayer({\n" +
                     "'width':'690',\n" +
                     "'height':'385',\n" +
                     "'vid' : '" + json.data.vid + "'" +
-                    "});<\/script>";
+                    "});<br><\/script>";
 
                 // document.getElementById("textbody").value = document.getElementById("textbody").value + scriptdata;
                 alert(scriptdata);
+
                 //if close window
-                upload.closeWrap();
+                // upload.closeWrap();
 
             }
         };
