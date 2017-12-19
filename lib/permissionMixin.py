@@ -27,6 +27,7 @@ def user_login_required(function):
             #     except:
             #         traceback.print_exc()
             #         logging.getLogger().error(traceback.format_exc())
+            print "token==", token
             if not token:
                 return HttpResponse(json.dumps({"err": 2, "msg": "未登录!"}, ensure_ascii=False))
 

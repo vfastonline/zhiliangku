@@ -45,7 +45,7 @@ class PathList(View):
         return render(request, template_name, {})
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class PathListInfo(View):
     """获取职业路径"""
 
