@@ -30,9 +30,9 @@ class PolyvCallBack(View):
             print "state==", state
             print "sign==", sign
             print "df==", df
-            if request_type == "upload":  # 已上传
+            if request_type == "upload" and state:  # 已上传
                 video_result = get_video_msg(vid)
-                Video.objects.filter(id=5).update(data=json.dumps(video_result, ensure_ascii=False), vid=vid)
+                Video.objects.filter(id=int(state)).update(data=json.dumps(video_result, ensure_ascii=False), vid=vid)
             elif request_type == "invalidVideo":  # 不合规格视频（当上传的视频的信息无法被系统分析时，判断为不合规格视频）
                 pass
             elif request_type == "encode":  # 已编码
