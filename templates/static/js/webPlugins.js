@@ -90,7 +90,7 @@ $(document).ready(function ($) {
                 alert("最多选择一条数据!")
             }
             else {
-                self.obj.extra.state = ids[0];
+                self.param.extra.state = ids[0];
                 wrapAll.style.display = "block";
             }
         });
