@@ -16,16 +16,18 @@ def user_login_required(function):
         try:
             token = ""
             try:
-                token = request.GET.get("token", "")
+                # token = request.GET.get("token", "")
+                token = request.COOKIES.get("token")
             except:
                 traceback.print_exc()
                 logging.getLogger().error(traceback.format_exc())
-            if not token:
-                try:
-                    token = eval(request.body).get("token", "")
-                except:
-                    traceback.print_exc()
-                    logging.getLogger().error(traceback.format_exc())
+            # if not token:
+            #     try:
+            #         token = eval(request.body).get("token", "")
+            #     except:
+            #         traceback.print_exc()
+            #         logging.getLogger().error(traceback.format_exc())
+            print "token==", token
             if not token:
                 return HttpResponse(json.dumps({"err": 2, "msg": "未登录!"}, ensure_ascii=False))
 

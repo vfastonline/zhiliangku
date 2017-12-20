@@ -4,8 +4,8 @@ import logging
 import traceback
 
 from django.http import HttpResponse
-from django.views.generic import View
 from django.shortcuts import render
+from django.views.generic import View
 
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
@@ -36,7 +36,7 @@ class IndexPathList(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class PathList(View):
     """获取职业路径-页面"""
 
@@ -45,7 +45,7 @@ class PathList(View):
         return render(request, template_name, {})
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class PathListInfo(View):
     """获取职业路径"""
 
@@ -120,7 +120,7 @@ class PathDetailInfo(View):
                     for one_path_stage in path_obj.PathStage.all().order_by("sequence"):  # 查询路径下所有阶段信息
                         path_stage = {
                             "id": one_path_stage.id,
-                            "name": one_path_stage.name,
+                            # "name": one_path_stage.name,
                             "sequence": one_path_stage.sequence,
                         }
                         coursecategorys = list()
@@ -131,8 +131,9 @@ class PathDetailInfo(View):
                                 "sequence": one_coursecategory.sequence,
                             }
                             coursecategorys.append(course_category)
-                        path_stage.update({"coursecategorys": coursecategorys})
-                        detail["pathstages"].append(path_stage)
+                        if coursecategorys:
+                            path_stage.update({"coursecategorys": coursecategorys})
+                            detail["pathstages"].append(path_stage)
 
             result_dict["data"] = detail
         except:

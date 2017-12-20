@@ -18,6 +18,7 @@ from django.contrib import admin
 from zhiliangku import views
 from django.conf.urls.static import static
 import settings
+from lib.polyv.api_callback import PolyvCallBack
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,6 +29,8 @@ urlpatterns = [
     url('^interview_questions/', include('applications.interview_question.urls')),
     url('^company/', include('applications.company_jobs.urls')),
     url('^customuser/', include('applications.custom_user.urls')),
+    url('^polyv/callback', PolyvCallBack.as_view()),
+    url(r'^upload', views.upload, name='upload'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
