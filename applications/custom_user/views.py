@@ -249,7 +249,10 @@ class WeiXinLogin(View):
                 create_user = CustomUser.objects.create(nickname=nickname, role=0)
                 avatar_filename = "_".join([time.strftime('%Y%m%d%H%M%S'), "weixin.jpg"])
                 avatar_path = os.path.join("custom_user_avatar", str(create_user.id), avatar_filename)
-                urllib.urlretrieve(headimgurl, avatar_path)
+                avatar_abs_path = os.path.join(MEDIA_ROOT, "custom_user_avatar", str(create_user.id))
+                if not os.path.exists(avatar_abs_path):
+                    os.makedirs(avatar_abs_path)
+                urllib.urlretrieve(headimgurl, os.path.join(avatar_abs_path, avatar_filename))
                 create_user.avatar = avatar_path
                 create_user.save()
                 if create_user:
@@ -438,7 +441,7 @@ class QQLogin(View):
                 avatar_abs_path = os.path.join(MEDIA_ROOT, "custom_user_avatar", str(create_user.id))
                 if not os.path.exists(avatar_abs_path):
                     os.makedirs(avatar_abs_path)
-                urllib.urlretrieve(headimgurl, avatar_path)
+                urllib.urlretrieve(headimgurl, os.path.join(avatar_abs_path, avatar_filename))
                 create_user.avatar = avatar_path
                 create_user.save()
                 if create_user:
