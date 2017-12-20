@@ -30,6 +30,7 @@ urlpatterns = [
     url('^company/', include('applications.company_jobs.urls')),
     url('^customuser/', include('applications.custom_user.urls')),
     url('^polyv/callback', PolyvCallBack.as_view()),
+    url(r'^upload', views.upload, name='upload'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

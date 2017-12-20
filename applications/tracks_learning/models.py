@@ -148,6 +148,7 @@ class Video(models.Model):
     live_start_time = models.DateTimeField("直播起始时间", blank=True, null=True)
     live_end_time = models.TimeField("直播终止时间", blank=True, null=True)
     desc = models.TextField('视频描述', default='')
+    notes = models.TextField('讲师笔记', default='', null=True, blank=True)
 
     def __unicode__(self):
         return self.name

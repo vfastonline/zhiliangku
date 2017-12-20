@@ -2,6 +2,7 @@
 from django.contrib import admin
 
 from applications.tracks_learning.models import *
+from zhiliangku.settings import tinymce_js
 
 
 @admin.register(Path)
@@ -64,7 +65,7 @@ class VideoAdmin(admin.ModelAdmin):
     )
     search_fields = ("section__title", 'name', "live__name")
     list_filter = ('type',)
-    # readonly_fields = ("vid", "data",)
+    readonly_fields = ("vid", "data",)
 
     class Media:
-        js = ['js/webPlugins.js']
+        js = ['js/webPlugins.js'] + tinymce_js
