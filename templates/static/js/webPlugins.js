@@ -1,6 +1,12 @@
 $(document).ready(function ($) {
     $(".object-tools").append('<input class="btn btn-success" type="button" id="upload" value="上传 视频"></input>');
 
+    var extra_obj = {
+        //status: 200,
+        state: 'hello polyv',//自定义参数，可以通过回调通知接口抓取到该字段
+        keepsource: '1'//源文件播放（不对源文件进行编码）
+    };
+        
     function PolyvUpload(obj) {
         this.obj = obj;
         this.uploadButton = document.getElementById(obj.uploadButtton);
@@ -35,11 +41,7 @@ $(document).ready(function ($) {
             "hash": self.hash,
             "ts": self.ts,
             "url": location.href,
-            extra: {
-                //status: 200,
-                state: 'hello polyv111',
-                keepsource: '1'
-            },
+            extra: extra_obj,
             status: self.status,
             cataid: self.cataid
         };
@@ -118,12 +120,6 @@ $(document).ready(function ($) {
         this.wrap.style.display = "none";
     };
 
-
-    var extra_obj = {
-        //status: 200,
-        state: 'hello polyv',//自定义参数，可以通过回调通知接口抓取到该字段
-        keepsource: '1'//源文件播放（不对源文件进行编码）
-    };
 
     $.getJSON("/tracks/get-polyv", function (data) {
         var obj1 = {
