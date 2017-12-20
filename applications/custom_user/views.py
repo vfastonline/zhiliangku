@@ -95,7 +95,7 @@ class CustomUserLogin(View):
                             "nickname": custom_user_auth.custom_user_id.nickname,
                             "role": custom_user_auth.custom_user_id.role,
                             "avatar": custom_user_auth.custom_user_id.avatar.url if custom_user_auth.custom_user_id.avatar else "",
-                            "position": custom_user_auth.custom_user_id.position if custom_user_auths.custo_user_id.position else "",
+                            "position": custom_user_auth.custom_user_id.position if custom_user_auths.custom_user_id.position else "",
                         }
 
                         # user_dict = {
