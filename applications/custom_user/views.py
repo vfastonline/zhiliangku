@@ -257,10 +257,10 @@ class WeiXinLogin(View):
                 if not os.path.exists(avatar_abs_path):
                     os.makedirs(avatar_abs_path)
 
+                # resp = urllib2.urlopen(headimgurl)
+                # real_url_str = str(resp.geturl())
+                # req = urllib2.Request(real_url_str)
                 resp = urllib2.urlopen(headimgurl)
-                real_url_str = str(resp.geturl())
-                req = urllib2.Request(real_url_str)
-                resp = urllib2.urlopen(req)
                 resp_html = resp.read()
                 binfile = open(os.path.join(avatar_abs_path, avatar_filename), "wb")
                 binfile.write(resp_html)
@@ -456,10 +456,10 @@ class QQLogin(View):
                 if not os.path.exists(avatar_abs_path):
                     os.makedirs(avatar_abs_path)
 
+                # resp = urllib2.urlopen(headimgurl)
+                # real_url_str = str(resp.geturl())
+                # req = urllib2.Request(real_url_str)
                 resp = urllib2.urlopen(headimgurl)
-                real_url_str = str(resp.geturl())
-                req = urllib2.Request(real_url_str)
-                resp = urllib2.urlopen(req)
                 resp_html = resp.read()
                 binfile = open(os.path.join(avatar_abs_path, avatar_filename), "wb")
                 binfile.write(resp_html)
