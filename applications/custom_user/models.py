@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import logging
+import os
 import traceback
 
 from django.db import models
@@ -11,7 +12,7 @@ from lib.storage import ImageStorage
 
 
 def upload_to(instance, fielname):
-    return "/".join(["custom_user", str(instance.nickname), fielname])
+    return os.path.join("custom_user_avatar", str(instance.id), fielname)
 
 
 class CustomUser(models.Model):

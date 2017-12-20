@@ -2,6 +2,7 @@
 import datetime
 import random
 import re
+import urllib
 import urlparse
 
 import requests
@@ -93,7 +94,7 @@ class CustomUserLogin(View):
                             "nickname": custom_user_auth.custom_user_id.nickname,
                             "role": custom_user_auth.custom_user_id.role,
                             "avatar": custom_user_auth.custom_user_id.avatar.url if custom_user_auth.custom_user_id.avatar else "",
-                            "position": custom_user_auth.custom_user_id.position,
+                            "position": custom_user_auth.custom_user_id.position if custom_user_auths.custo_user_id.position else "",
                         }
 
                         # user_dict = {
@@ -232,7 +233,7 @@ class WeiXinLogin(View):
                     nickname=custom_user_auth_obj.custom_user_id.nickname,
                     role=custom_user_auth_obj.custom_user_id.role,
                     avatar=custom_user_auth_obj.custom_user_id.avatar.url if custom_user_auth_obj.custom_user_id.avatar else "",
-                    position=custom_user_auth_obj.custom_user_id.position,
+                    position=custom_user_auth_obj.custom_user_id.position if custom_user_auth_obj.custom_user_id.position else "",
                 )
 
                 # user_dict = {
@@ -244,7 +245,12 @@ class WeiXinLogin(View):
                 # request.session['user'] = user_dict
                 # request.session['login'] = True
             else:
-                create_user = CustomUser.objects.create(nickname=nickname, avatar=headimgurl, role=0)
+                create_user = CustomUser.objects.create(nickname=nickname, role=0)
+                avatar_filename = "_".join([time.strftime('%Y%m%d%H%M%S'), "weixin.jpg"])
+                avatar_path = os.path.join("custom_user_avatar", str(create_user.id), avatar_filename)
+                urllib.urlretrieve(headimgurl, avatar_path)
+                create_user.avatar = avatar_path
+                create_user.save()
                 if create_user:
                     user_auth_dict = {
                         "custom_user_id": create_user,
@@ -272,7 +278,7 @@ class WeiXinLogin(View):
                             nickname=create_user.nickname,
                             role=create_user.role,
                             avatar=create_user.avatar.url if create_user.avatar else "",
-                            position=create_user.position,
+                            position=create_user.position if create_user.position else "",
                         )
 
                         # user_dict = {
@@ -413,7 +419,7 @@ class QQLogin(View):
                     nickname=custom_user_auth_obj.custom_user_id.nickname,
                     role=custom_user_auth_obj.custom_user_id.role,
                     avatar=custom_user_auth_obj.custom_user_id.avatar.url if custom_user_auth_obj.custom_user_id.avatar else "",
-                    position=custom_user_auth_obj.custom_user_id.position,
+                    position=custom_user_auth_obj.custom_user_id.position if custom_user_auth_obj.custom_user_id.position else "",
                 )
 
                 # user_dict = {
@@ -425,7 +431,12 @@ class QQLogin(View):
                 # request.session['user'] = user_dict
                 # request.session['login'] = True
             else:
-                create_user = CustomUser.objects.create(nickname=nickname, avatar=headimgurl, role=0)
+                create_user = CustomUser.objects.create(nickname=nickname, role=0)
+                avatar_filename = "_".join([time.strftime('%Y%m%d%H%M%S'), "qq.jpg"])
+                avatar_path = os.path.join("custom_user_avatar", str(create_user.id), avatar_filename)
+                urllib.urlretrieve(headimgurl, avatar_path)
+                create_user.avatar = avatar_path
+                create_user.save()
                 if create_user:
                     user_auth_dict = {
                         "custom_user_id": create_user,
@@ -448,7 +459,7 @@ class QQLogin(View):
                             nickname=create_user.nickname,
                             role=create_user.role,
                             avatar=create_user.avatar.url if create_user.avatar else "",
-                            position=create_user.position,
+                            position=create_user.position if create_user.position else "",
                         )
 
                         # user_dict = {
@@ -549,7 +560,7 @@ class CustomUserRegister(View):
                             "nickname": create_user.nickname,
                             "role": create_user.role,
                             "avatar": create_user.avatar.url if create_user.avatar else "",
-                            "position": create_user.position,
+                            "position": create_user.position if create_user.position else "",
                         }
 
                         # user_dict = {
