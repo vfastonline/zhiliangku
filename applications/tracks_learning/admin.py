@@ -63,7 +63,7 @@ class VideoAdmin(admin.ModelAdmin):
         "type", 'sequence', "duration",
         "live", "live_start_time", "live_end_time", "desc"
     )
-    search_fields = ("section__title", 'name', "live__name")
+    search_fields = ("section__title", 'name', "live__name", "vid")
     list_filter = ('type',)
     readonly_fields = ("vid", "data",)
 

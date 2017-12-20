@@ -107,6 +107,7 @@ class VideoDetailInfo(View):
                     video_dict["name"] = video_obj.name
                     video_dict["desc"] = video_obj.desc
                     video_dict["duration"] = video_obj.duration
+                    video_dict["notes"] = video_obj.notes
 
                     # 直播信息
                     if video_obj.type == "1":
