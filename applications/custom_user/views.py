@@ -7,6 +7,7 @@ import urlparse
 
 import requests
 from django.http import Http404
+from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.views.generic import View
 
@@ -873,29 +874,22 @@ class SendEmailRetrievePassword(View):
 class RetrievePasswordByEmail(View):
     """邮件表单找回密码"""
 
-    # 通过邮箱链接返回重置密码表单
+    # 通过邮箱链接返回重置密码表单页面
     def get(self, request, *args, **kwargs):
-        email = ""
-        try:
-            email_hash = request.GET.get("hash")
-            pycrypt_obj = PyCrypt(CryptKey)
-            email = pycrypt_obj.decrypt(email_hash)
-        except:
-            traceback.print_exc()
-            logging.getLogger().error(traceback.format_exc())
-        finally:
-            return render_to_response('customuser/retrieve_password_by_email/index.html', {'email': email})
+        template_name = "customuser/retrieve_password_by_email/index.html"
+        return render(request, template_name, {})
 
     def post(self, request, *args, **kwargs):
         result_dict = {
             "msg": "短信找回密码失败",
             "err": 1,
-            "data": {}
         }
         try:
             param_dict = json.loads(request.body)
-            email = param_dict.get("email")
-            new_password = param_dict.get("new_password")
+            email_hash = param_dict.get("hash")
+            new_password = param_dict.get("password")
+            pycrypt_obj = PyCrypt(CryptKey)
+            email = pycrypt_obj.decrypt(email_hash)
             filter_dict = {
                 "identifier": email,
                 "identity_type": "email",
