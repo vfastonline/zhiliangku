@@ -2,7 +2,7 @@
 import datetime
 import random
 import re
-import urllib
+import urllib2
 import urlparse
 
 import requests
@@ -95,7 +95,7 @@ class CustomUserLogin(View):
                             "nickname": custom_user_auth.custom_user_id.nickname,
                             "role": custom_user_auth.custom_user_id.role,
                             "avatar": custom_user_auth.custom_user_id.avatar.url if custom_user_auth.custom_user_id.avatar else "",
-                            "position": custom_user_auth.custom_user_id.position if custom_user_auths.custom_user_id.position else "",
+                            "position": custom_user_auth.custom_user_id.position if custom_user_auth.custom_user_id.position else "",
                         }
 
                         # user_dict = {
@@ -249,12 +249,23 @@ class WeiXinLogin(View):
                 create_user = CustomUser.objects.create(nickname=nickname, role=0)
                 avatar_filename = "_".join([time.strftime('%Y%m%d%H%M%S'), "weixin.jpg"])
                 avatar_path = os.path.join("custom_user_avatar", str(create_user.id), avatar_filename)
+                create_user.avatar = avatar_path
+                create_user.save()
+
+                # 下载头像
                 avatar_abs_path = os.path.join(MEDIA_ROOT, "custom_user_avatar", str(create_user.id))
                 if not os.path.exists(avatar_abs_path):
                     os.makedirs(avatar_abs_path)
-                urllib.urlretrieve(headimgurl, os.path.join(avatar_abs_path, avatar_filename))
-                create_user.avatar = avatar_path
-                create_user.save()
+
+                resp = urllib2.urlopen(headimgurl)
+                real_url_str = str(resp.geturl())
+                req = urllib2.Request(real_url_str)
+                resp = urllib2.urlopen(req)
+                resp_html = resp.read()
+                binfile = open(os.path.join(avatar_abs_path, avatar_filename), "wb")
+                binfile.write(resp_html)
+                binfile.close()
+
                 if create_user:
                     user_auth_dict = {
                         "custom_user_id": create_user,
@@ -438,12 +449,22 @@ class QQLogin(View):
                 create_user = CustomUser.objects.create(nickname=nickname, role=0)
                 avatar_filename = "_".join([time.strftime('%Y%m%d%H%M%S'), "qq.jpg"])
                 avatar_path = os.path.join("custom_user_avatar", str(create_user.id), avatar_filename)
+                create_user.avatar = avatar_path
+                create_user.save()
+
                 avatar_abs_path = os.path.join(MEDIA_ROOT, "custom_user_avatar", str(create_user.id))
                 if not os.path.exists(avatar_abs_path):
                     os.makedirs(avatar_abs_path)
-                urllib.urlretrieve(headimgurl, os.path.join(avatar_abs_path, avatar_filename))
-                create_user.avatar = avatar_path
-                create_user.save()
+
+                resp = urllib2.urlopen(headimgurl)
+                real_url_str = str(resp.geturl())
+                req = urllib2.Request(real_url_str)
+                resp = urllib2.urlopen(req)
+                resp_html = resp.read()
+                binfile = open(os.path.join(avatar_abs_path, avatar_filename), "wb")
+                binfile.write(resp_html)
+                binfile.close()
+
                 if create_user:
                     user_auth_dict = {
                         "custom_user_id": create_user,
