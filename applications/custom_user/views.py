@@ -13,6 +13,7 @@ from django.views.generic import View
 from applications.custom_user.models import *
 from lib.encrypt import PyCrypt
 from lib.util import *
+from zhiliangku.settings import MEDIA_ROOT
 
 CryptKey = "25668fbe1a5601eb"
 
@@ -434,6 +435,9 @@ class QQLogin(View):
                 create_user = CustomUser.objects.create(nickname=nickname, role=0)
                 avatar_filename = "_".join([time.strftime('%Y%m%d%H%M%S'), "qq.jpg"])
                 avatar_path = os.path.join("custom_user_avatar", str(create_user.id), avatar_filename)
+                avatar_abs_path = os.path.join(MEDIA_ROOT, "custom_user_avatar", str(create_user.id))
+                if not os.path.exists(avatar_abs_path):
+                    os.makedirs(avatar_abs_path)
                 urllib.urlretrieve(headimgurl, avatar_path)
                 create_user.avatar = avatar_path
                 create_user.save()
