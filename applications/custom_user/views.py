@@ -134,7 +134,7 @@ class WeiXinLogin(View):
 
         token = ""
         try:
-            # https://open.weixin.qq.com/connect/qrconnect?appid=wx7c9efe7b17c8aef2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2flogin&response_type=code&scope=snsapi_login#wechat_redirect
+            # https://open.weixin.qq.com/connect/qrconnect?appid=wx7c9efe7b17c8aef2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2flogin&response_type=code&scope=snsapi_login&state=L2FkbWlu#wechat_redirect
             self.code = self.request.GET.get("code")
             self.state = self.request.GET.get("state")
 
@@ -324,7 +324,7 @@ class QQLogin(View):
         token = ""
         try:
             # 第一步获取code跟state
-            # https://graph.qq.com/oauth2.0/show?which=Login&display=pc&response_type=code&client_id=101447834&redirect_uri=http%3A%2F%2Fwww.zhiliangku.com%2Fcustomuser%2Fqq%2Flogin&state=1&scope=get_user_info,get_info
+            # https://graph.qq.com/oauth2.0/show?which=Login&display=pc&response_type=code&client_id=101447834&redirect_uri=http%3A%2F%2Fwww.zhiliangku.com%2Fcustomuser%2Fqq%2Flogin&state=L2FkbWlu&scope=get_user_info,get_info
             self.code = self.request.GET.get("code")
             self.state = self.request.GET.get("state")
 
