@@ -6,7 +6,7 @@ $(document).ready(function ($) {
         state: 'hello polyv',//自定义参数，可以通过回调通知接口抓取到该字段
         keepsource: '1'//源文件播放（不对源文件进行编码）
     };
-        
+
     function PolyvUpload(obj) {
         this.obj = obj;
         this.uploadButton = document.getElementById(obj.uploadButtton);
@@ -41,9 +41,9 @@ $(document).ready(function ($) {
             "hash": self.hash,
             "ts": self.ts,
             "url": location.href,
-            extra: extra_obj,
-            status: self.status,
-            cataid: self.cataid
+            "extra": JSON.stringify(extra_obj),
+            "status": self.status,
+            "cataid": self.cataid
         };
         var wrapAll = document.createElement("div"),
             wrap = document.createElement("div"),
@@ -92,6 +92,7 @@ $(document).ready(function ($) {
                 alert("最多选择一条数据!")
             }
             else {
+                self.param.extra.state = ids[0];
                 extra_obj.state = ids[0];
                 wrapAll.style.display = "block";
             }
@@ -123,10 +124,10 @@ $(document).ready(function ($) {
 
     $.getJSON("/tracks/get-polyv", function (data) {
         var obj1 = {
-            uploadButtton: 'upload',//打开上传控件按钮id
-            cataid: 1,//上传目录id
-            luping: 1,//开启视频课件优化处理，对于上传录屏类视频清晰度有所优化
-            extra: extra_obj,
+            "uploadButtton": 'upload',//打开上传控件按钮id
+            "cataid": 1,//上传目录id
+            "luping": 1,//开启视频课件优化处理，对于上传录屏类视频清晰度有所优化
+            "extra": extra_obj,
             response: function (json) {
                 // console.log(json);
                 var scriptdata = "<script>\n" +
