@@ -130,7 +130,6 @@ class Section(models.Model):
 
 
 class Video(models.Model):
-    """视频"""
     TYPE = (
         ("1", "点播"),
         ("2", "直播回放"),
@@ -158,3 +157,16 @@ class Video(models.Model):
         verbose_name = "视频"
         verbose_name_plural = "视频"
         ordering = ["section", 'sequence']
+
+
+class CommonProblem(models.Model):
+    video = models.ForeignKey(Video, verbose_name="视频", limit_choices_to={'type__in': [1, 2]})
+    question = models.CharField(max_length=200, verbose_name='问题')
+    answer = models.TextField(verbose_name='回答')
+
+    def __unicode__(self):
+        return self.question
+
+    class Meta:
+        verbose_name = "视频常见问题"
+        verbose_name_plural = "视频常见问题"

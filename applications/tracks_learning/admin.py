@@ -69,3 +69,12 @@ class VideoAdmin(admin.ModelAdmin):
 
     class Media:
         js = ['js/webPlugins.js'] + tinymce_js
+
+
+@admin.register(CommonProblem)
+class CommonProblemAdmin(admin.ModelAdmin):
+    list_display = ('id', "video", "question", 'answer')
+    search_fields = ("video__name", 'question')
+
+    class Media:
+        js = tinymce_js
