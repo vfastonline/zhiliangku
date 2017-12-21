@@ -11,7 +11,7 @@ from lib.permissionMixin import class_view_decorator, user_login_required
 
 
 # @class_view_decorator(user_login_required)
-class CommonProblemList(View):
+class CommonQuestionList(View):
     """视频常见问题列表"""
 
     def get(self, request, *args, **kwargs):
@@ -22,7 +22,7 @@ class CommonProblemList(View):
 
             data_list = list()
             if video_id:
-                common_problems = CommonProblem.objects.filter(video__id=video_id).values()
+                common_problems = CommonQuestion.objects.filter(video__id=video_id).values()
                 if common_problems.exists():
                     data_list = list(common_problems)
             result_dict["data"] = data_list

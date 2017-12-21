@@ -71,10 +71,23 @@ class VideoAdmin(admin.ModelAdmin):
         js = ['js/webPlugins.js'] + tinymce_js
 
 
-@admin.register(CommonProblem)
-class CommonProblemAdmin(admin.ModelAdmin):
+@admin.register(CommonQuestion)
+class CommonQuestionAdmin(admin.ModelAdmin):
     list_display = ('id', "video", "question", 'answer')
     search_fields = ("video__name", 'question')
 
     class Media:
         js = tinymce_js
+
+
+@admin.register(Faq)
+class FaqAdmin(admin.ModelAdmin):
+    list_display = ('id', "video", "user", 'title', "description", "path", "reward", "create_time", "browse_number")
+    search_fields = ("video__name", 'user', "title")
+    list_filter = ('path', "reward")
+
+
+@admin.register(FaqAnswer)
+class FaqAnswerAdmin(admin.ModelAdmin):
+    list_display = ('id', "faq", "user", 'answer', "create_time")
+    search_fields = ("faq__title", 'user')
