@@ -164,7 +164,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-#STATIC_ROOT = os.path.join(BASE_DIR, 'templates', 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'templates', 'static')
 STATIC_ROOT = '/usr/local/openresty/nginx/html/templates/static'
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'static'),
@@ -219,7 +219,8 @@ SUIT_CONFIG = {
         {'app': 'tracks_learning', 'models': ('Path', 'PathStage', 'CourseCategory')},
 
         # 课程
-        {'label': '课程', 'app': 'tracks_learning', 'models': ('Course', 'Section', "Video", 'CoursePath', "Technology")},
+        {'label': '课程', 'app': 'tracks_learning',
+         'models': ('Course', 'Section', "Video", "CommonProblem", 'CoursePath', "Technology")},
 
         # 直播
         {'app': 'live_streaming'},
