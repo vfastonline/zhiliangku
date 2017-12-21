@@ -220,7 +220,7 @@ SUIT_CONFIG = {
 
         # 课程
         {'label': '课程', 'app': 'tracks_learning',
-         'models': ('Course', 'Section', "Video", "CommonProblem", 'CoursePath', "Technology")},
+         'models': ('Course', 'Section', "Video", "CommonQuestion", 'CoursePath', "Technology", "Faq", "FaqAnswer")},
 
         # 直播
         {'app': 'live_streaming'},

@@ -85,6 +85,7 @@ class FaqAdmin(admin.ModelAdmin):
     list_display = ('id', "video", "user", 'title', "description", "path", "reward", "create_time", "browse_number")
     search_fields = ("video__name", 'user', "title")
     list_filter = ('path', "reward")
+    eadonly_fields = ("browse_number",)
 
 
 @admin.register(FaqAnswer)

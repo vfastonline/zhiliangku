@@ -115,8 +115,8 @@ class VideoDetailInfo(View):
                     # 直播信息
                     if video_obj.type == "1":
                         if video_obj.live:
-                            video_dict["live_id"] = video_obj.live.id
                             video_dict["live_channelId"] = video_obj.live.channelId
+                            video_dict["live_id"] = video_obj.live.id
                             video_dict["live_status"] = video_obj.live.status
                             video_dict["live_status_name"] = video_obj.live.get_status_display()
                             video_dict["live_start_time"] = video_obj.live_start_time.strftime("%Y-%m-%d %H:%M") \
@@ -125,22 +125,22 @@ class VideoDetailInfo(View):
                                 if video_obj.live_end_time else ""
                     # 点播信息
                     if video_obj.type not in ["3", "4"]:
-                        video_dict["video_data"] = dict()
                         video_dict["vid"] = video_obj.vid
-                        video_data_dict = json.loads(video_obj.data)
-                        data_code = video_data_dict.get("code")
-                        data_data_list = video_data_dict.get("data", [])
-                        if data_code == 200:
-                            if data_data_list:
-                                video_dict["video_data"] = data_data_list[0]
-                        else:
-                            # 再次查询一下视频信息
-                            video_msg_dict = get_video_msg(video_obj.vid)
-                            video_msg_code = video_msg_dict.get("code")
-                            video_msg_data_list = video_msg_dict.get("data", [])
-                            if video_msg_code == 200:
-                                if video_msg_data_list:
-                                    video_dict["video_data"] = video_msg_data_list[0]
+                        # video_dict["video_data"] = dict()
+                        # video_data_dict = json.loads(video_obj.data)
+                        # data_code = video_data_dict.get("code")
+                        # data_data_list = video_data_dict.get("data", [])
+                        # if data_code == 200:
+                        #     if data_data_list:
+                        #         video_dict["video_data"] = data_data_list[0]
+                        # else:
+                        #     # 再次查询一下视频信息
+                        #     video_msg_dict = get_video_msg(video_obj.vid)
+                        #     video_msg_code = video_msg_dict.get("code")
+                        #     video_msg_data_list = video_msg_dict.get("data", [])
+                        #     if video_msg_code == 200:
+                        #         if video_msg_data_list:
+                        #             video_dict["video_data"] = video_msg_data_list[0]
             result_dict["data"] = video_dict
         except:
             traceback.print_exc()

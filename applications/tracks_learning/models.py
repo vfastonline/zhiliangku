@@ -175,20 +175,20 @@ class CommonQuestion(models.Model):
 
 class Faq(models.Model):
     PATH = (
-        (1, "一般问题"),
-        (2, "前端开发"),
-        (3, "后端开发"),
-        (4, "云计算&大数据"),
-        (5, "人工智能"),
-        (6, "运维"),
+        ("1", "一般问题"),
+        ("2", "前端开发"),
+        ("3", "后端开发"),
+        ("4", "云计算&大数据"),
+        ("5", "人工智能"),
+        ("6", "运维"),
     )
 
     REWARD = (
-        (0, "不悬赏"),
-        (2, "2积分"),
-        (3, "3积分"),
-        (4, "4积分"),
-        (5, "5积分"),
+        ("0", "不悬赏"),
+        ("2", "2积分"),
+        ("3", "3积分"),
+        ("4", "4积分"),
+        ("5", "5积分"),
     )
 
     video = models.ForeignKey(Video, verbose_name="视频", limit_choices_to={'type__in': [1, 2]}, related_name="VideoFaq")
@@ -215,7 +215,7 @@ class FaqAnswer(models.Model):
     create_time = models.DateTimeField(verbose_name='提问时间', auto_now=True)
 
     def __unicode__(self):
-        return self.faq
+        return self.faq.title
 
     class Meta:
         verbose_name = "问答回答"
