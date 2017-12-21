@@ -208,6 +208,7 @@ class CourseDetailInfo(View):
         try:
             filter_param = dict()
             course_id = int(request.GET.get('course_id', 0))
+            include_video = int(request.GET.get('include_video', 0))  # 是否包含视频信息
             detail = dict()
             if course_id:
                 filter_param["id"] = course_id
@@ -240,6 +241,22 @@ class CourseDetailInfo(View):
                             "sequence": one_section.sequence,
                             "desc": one_section.desc,
                         }
+                        if include_video:  # 课程详情是否带视频信息
+                            videos = one_section.Videos.all().order_by("sequence")
+                            video_list = list()
+                            if videos.exists():
+                                for video in videos:
+                                    video_dict = dict()
+                                    video_dict["id"] = video.id
+                                    video_dict["name"] = video.name
+                                    video_dict["type"] = video.type
+                                    video_dict["type_name"] = video.get_type_display()
+                                    video_dict["live_start_time"] = video.live_start_time
+
+                                    video_list.append(video_dict)
+                            if video_list:
+                                section["videos"] = video_list
+
                         detail["sections"].append(section)
             result_dict["data"] = detail
         except:

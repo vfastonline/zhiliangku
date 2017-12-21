@@ -7,6 +7,7 @@ from django.db import models
 
 from lib.storage import ImageStorage
 from applications.live_streaming.models import Live
+from applications.custom_user.models import CustomUser
 
 
 class Path(models.Model):
@@ -130,14 +131,13 @@ class Section(models.Model):
 
 
 class Video(models.Model):
-    """视频"""
     TYPE = (
         ("1", "点播"),
         ("2", "直播回放"),
         ("3", "直播"),
         ("4", "题目"),
     )
-    section = models.ForeignKey(Section, verbose_name='所属章节', related_name='Section', blank=True, null=True)
+    section = models.ForeignKey(Section, verbose_name='所属章节', related_name='Videos', blank=True, null=True)
     type = models.CharField('视频类型', max_length=1, choices=TYPE)
     vid = models.CharField("vid", max_length=255, blank=True, null=True)
     name = models.CharField('视频名称', max_length=255)
@@ -148,7 +148,7 @@ class Video(models.Model):
     live_start_time = models.DateTimeField("直播起始时间", blank=True, null=True)
     live_end_time = models.TimeField("直播终止时间", blank=True, null=True)
     desc = models.TextField('视频描述', default='')
-    notes = models.TextField('讲师笔记', default='', null=True, blank=True)
+    notes = models.TextField('资料', default='', null=True, blank=True)
 
     def __unicode__(self):
         return self.name
@@ -158,3 +158,65 @@ class Video(models.Model):
         verbose_name = "视频"
         verbose_name_plural = "视频"
         ordering = ["section", 'sequence']
+
+
+class CommonQuestion(models.Model):
+    video = models.ForeignKey(Video, verbose_name="视频", limit_choices_to={'type__in': [1, 2]})
+    question = models.CharField(max_length=200, verbose_name='问题')
+    answer = models.TextField(verbose_name='回答')
+
+    def __unicode__(self):
+        return self.question
+
+    class Meta:
+        verbose_name = "视频常见问题"
+        verbose_name_plural = "视频常见问题"
+
+
+class Faq(models.Model):
+    PATH = (
+        ("1", "一般问题"),
+        ("2", "前端开发"),
+        ("3", "后端开发"),
+        ("4", "云计算&大数据"),
+        ("5", "人工智能"),
+        ("6", "运维"),
+    )
+
+    REWARD = (
+        ("0", "不悬赏"),
+        ("2", "2积分"),
+        ("3", "3积分"),
+        ("4", "4积分"),
+        ("5", "5积分"),
+    )
+
+    video = models.ForeignKey(Video, verbose_name="视频", limit_choices_to={'type__in': [1, 2]}, related_name="VideoFaq")
+    user = models.ForeignKey(CustomUser, verbose_name="提问用户", related_name="CustomUserFaq")
+    title = models.CharField(max_length=200, verbose_name='标题')
+    description = models.TextField(verbose_name='问题描述')
+    path = models.CharField('问题方向', max_length=1, choices=PATH, default=1)
+    reward = models.CharField('悬赏', max_length=1, choices=REWARD, default=0)
+    create_time = models.DateTimeField(verbose_name='提问时间', auto_now=True)
+    browse_number = models.PositiveIntegerField('浏览次数', default=0)
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "问答"
+        verbose_name_plural = "问答"
+
+
+class FaqAnswer(models.Model):
+    faq = models.ForeignKey(Faq, verbose_name="问答题目", related_name="FaqAnswer")
+    user = models.ForeignKey(CustomUser, verbose_name="回答用户", related_name="CustomUserFaqAnswer")
+    answer = models.TextField(verbose_name='回答')
+    create_time = models.DateTimeField(verbose_name='提问时间', auto_now=True)
+
+    def __unicode__(self):
+        return self.faq.title
+
+    class Meta:
+        verbose_name = "问答回答"
+        verbose_name_plural = "问答回答"
