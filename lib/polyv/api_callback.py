@@ -11,6 +11,8 @@ from applications.tracks_learning.models import Video
 
 
 class PolyvCallBack(View):
+    """保利威视回调接口"""
+
     def get(self, request, *args, **kwargs):
         result_dict = dict()
         try:

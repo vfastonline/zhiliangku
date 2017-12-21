@@ -15,7 +15,9 @@ from lib.permissionMixin import class_view_decorator, user_login_required
 from lib.polyv.video_api import get_video_msg
 
 
-class Polyv(View):
+class UploadVideoPolyvParam(View):
+    """上传视频到保利威视接口参数，3分钟获取一次"""
+
     def get(self, request, *args, **kwargs):
         ts = str(int(round(time.time() * 1000)))
         result_dict = dict()
@@ -100,6 +102,7 @@ class VideoDetailInfo(View):
                 if videos.exists():
                     video_obj = videos.first()
                     video_dict["id"] = video_obj.id
+                    video_dict["course_name"] = video_obj.section.course.name
                     video_dict["section_title"] = video_obj.section.title
                     video_dict["section_desc"] = video_obj.section.desc
                     video_dict["type"] = video_obj.type

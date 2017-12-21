@@ -25,5 +25,5 @@ urlpatterns = [
 
     url('^video/detail/$', video_list.VideoDetail.as_view()),
     url('^video/detail/info$', video_list.VideoDetailInfo.as_view()),
-    url('^get-polyv$', video_list.Polyv.as_view()),
+    url('^get-polyv$', video_list.UploadVideoPolyvParam.as_view()),
 ]

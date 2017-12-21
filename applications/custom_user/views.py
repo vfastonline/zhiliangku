@@ -660,7 +660,7 @@ def send_activation_mail(user_email, customer_user_id, customer_user_auth_id):
     try:
         mail_subject = "智量酷邮箱账号激活"
         mail_content = "点击此链接完成激活，"
-        activation_link = "http://127.0.0.1:8000/customuser/activation?hash="
+        activation_link = "http://www.zhiliangku.com/customuser/activation?hash="
         email_str = "|".join([user_email, str(customer_user_id), str(customer_user_auth_id)])
         pycrypt_obj = PyCrypt(CryptKey)
         crypt_email = pycrypt_obj.encrypt(email_str)
@@ -848,7 +848,7 @@ class SendEmailRetrievePassword(View):
             if customuserauths_objs.exists():
                 mail_subject = "智量酷邮箱密码找回"
                 mail_content = "点击此链接完成密码找回，"
-                activation_link = "http://127.0.0.1:8000/customuser/retrieve_password_by_email?hash="
+                activation_link = "http://www.zhiliangku.com/customuser/retrieve_password_by_email?hash="
                 pycrypt_obj = PyCrypt(CryptKey)
                 crypt_email = pycrypt_obj.encrypt(email)
                 mail_content = "".join([mail_content, activation_link, crypt_email])
