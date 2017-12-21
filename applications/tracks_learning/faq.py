@@ -22,9 +22,22 @@ class FaqList(View):
 
             data_list = list()
             if video_id:
-                faqs = Faq.objects.filter(video__id=video_id).values()
+                faqs = Faq.objects.filter(video__id=video_id)
                 if faqs.exists():
-                    data_list = list(faqs)
+                    for faq in faqs:
+                        faq_dict = dict()
+                        faq_dict["id"] = faq.id
+                        faq_dict["video_id"] = faq.id
+                        faq_dict["video_id"] = faq.id
+                        faq_dict["custom_user_id"] = faq.user.id
+                        faq_dict["custom_user_nickname"] = faq.user.nickname
+                        faq_dict["custom_user_avatar"] = faq.user.avatar.url
+                        faq_dict["browse_number"] = faq.browse_number
+                        faq_dict["create_time"] = faq.create_time.strftime("%Y-%m-%d")
+                        faq_dict["faq_answer_count"] = faq.FaqAnswer.all().count()
+                        if faq.reward != 0:
+                            faq_dict["reward"] = faq.get_reward_display()
+                        data_list.append(faq_dict)
             result_dict["data"] = data_list
         except:
             traceback.print_exc()
