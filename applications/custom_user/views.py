@@ -116,7 +116,7 @@ class CustomUserLogin(View):
             logging.getLogger().error(traceback.format_exc())
         finally:
             res = HttpResponse(json.dumps(result_dict, ensure_ascii=False))
-            res.set_cookie("token", token, 3600)
+            res.set_cookie("token", token)
             return res
 
 
@@ -315,7 +315,7 @@ class WeiXinLogin(View):
             logging.getLogger().error(traceback.format_exc())
         finally:
             res = HttpResponseRedirect(self.state)
-            res.set_cookie("token", token, 3600)
+            res.set_cookie("token", token)
             return res
             # return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
@@ -509,7 +509,7 @@ class QQLogin(View):
             logging.getLogger().error(traceback.format_exc())
         finally:
             res = HttpResponseRedirect(self.state)
-            res.set_cookie("token", token, 3600)
+            res.set_cookie("token", token)
             return res
             # return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
@@ -615,7 +615,7 @@ class CustomUserRegister(View):
             logging.getLogger().error(traceback.format_exc())
         finally:
             res = HttpResponse(json.dumps(result_dict, ensure_ascii=False))
-            res.set_cookie("token", token, 3600)
+            res.set_cookie("token", token)
             return res
 
 
@@ -927,17 +927,6 @@ class CustomUserLogout(View):
             "err": 0,
             "data": {}
         }
-        try:
-            try:
-                del request.session['token']
-                del request.session['user']
-                del request.session['login']
-            except KeyError:
-                pass
-        except:
-            result_dict["msg"] = "登出异常:" + traceback.format_exc()
-            result_dict["err"] = 1
-            traceback.print_exc()
-            logging.getLogger().error(traceback.format_exc())
-        finally:
-            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+        response = HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+        response.delete_cookie('token')
+        return response

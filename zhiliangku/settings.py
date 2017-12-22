@@ -236,7 +236,7 @@ SUIT_CONFIG = {
         {'app': 'company_jobs'},
 
         # 社区问答
-        {'app': 'community', 'models': ('Faq', 'FaqAnswer')},
+        {'app': 'community', 'models': ('Faq', 'FaqAnswer', "FaqAnswerReply")},
     ),
 
     # misc
