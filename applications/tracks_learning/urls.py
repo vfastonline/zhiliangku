@@ -4,7 +4,6 @@ import course_list
 import path_list
 import video_list
 import common_question
-import faq
 
 urlpatterns = [
     url('^index_path/list$', path_list.IndexPathList.as_view()),
@@ -29,5 +28,4 @@ urlpatterns = [
     url('^get-polyv$', video_list.UploadVideoPolyvParam.as_view()),
 
     url('^common_question/list/info$', common_question.CommonQuestionList.as_view()),
-    url('^faq/list/info$', faq.FaqList.as_view()),
 ]

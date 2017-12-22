@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'applications.tracks_learning',
     'applications.custom_user',
     'applications.company_jobs',
+    'applications.community',
     'corsheaders',
 ]
 
@@ -233,6 +234,9 @@ SUIT_CONFIG = {
 
         # 公司招聘职位
         {'app': 'company_jobs'},
+
+        # 社区问答
+        {'app': 'community', 'models': ('Faq', 'FaqAnswer', "FaqAnswerReply")},
     ),
 
     # misc
