@@ -163,7 +163,7 @@ class FaqDetaiInfo(View):
                                 answer_reply_dict["role"] = "答主"
 
                             faq_answer_reply_list.append(answer_reply_dict)
-
+                        answer_dict["answer_reply_list"] = faq_answer_reply_list
                         faq_answer_list.append(answer_dict)
                     if faq_answer_list:
                         faq_dict["faq_answer_list"] = faq_answer_list
