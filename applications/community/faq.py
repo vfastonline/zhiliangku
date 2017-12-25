@@ -134,7 +134,7 @@ class FaqDetaiInfo(View):
 
                     # 获取问题回答
                     faq_answer_list = list()
-                    for one_answer in faq.FaqAnswer.all().orderby("-create_time"):
+                    for one_answer in faq.FaqAnswer.all():
                         answer_dict = dict()
                         answer_dict["id"] = one_answer.id
                         answer_dict["answer"] = one_answer.answer
@@ -145,7 +145,7 @@ class FaqDetaiInfo(View):
                         answer_dict["approve"] = one_answer.approve
                         answer_dict["oppose"] = one_answer.oppose
                         answer_dict["optimal"] = one_answer.optimal
-                        faqanswerreplys = one_answer.FaqAnswerReply.all().orderby("-create_time")
+                        faqanswerreplys = one_answer.FaqAnswerReply.all()
                         answer_dict["answer_reply_amount"] = faqanswerreplys.count()
 
                         # 获取问题回答回复

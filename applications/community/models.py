@@ -47,6 +47,7 @@ class Faq(models.Model):
         db_table = 'Faq'
         verbose_name = "问题"
         verbose_name_plural = "问题"
+        ordering = ["-create_time"]
 
 
 class FaqAnswer(models.Model):
@@ -65,6 +66,7 @@ class FaqAnswer(models.Model):
         db_table = 'FaqAnswer'
         verbose_name = "问题-回答"
         verbose_name_plural = "问题-回答"
+        ordering = ["-create_time"]
 
 
 class FaqAnswerReply(models.Model):
@@ -80,3 +82,4 @@ class FaqAnswerReply(models.Model):
         db_table = 'FaqAnswerReply'
         verbose_name = "问题-回答-回复"
         verbose_name_plural = "问题-回答-回复"
+        ordering = ["-create_time"]
