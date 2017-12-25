@@ -289,13 +289,15 @@ class WeiXinLogin(View):
                         #     "avatar": create_user.avatar.url if create_user.avatar else "",
                         #     "position": create_user.position,
                         # }
-                        self.state += "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
+                        user_info_str = "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
                             uid=create_user.id,
                             nickname=create_user.nickname,
-                            role=create_user.role,
+                            role=create_user.get_role_display(),
                             avatar=create_user.avatar.url if create_user.avatar else "",
                             position=create_user.position if create_user.position else "",
                         )
+                        user_info = base64.b64encode(user_info_str)
+                        self.state += user_info
 
                         # user_dict = {
                         #     "nickname": create_user.nickname,
@@ -483,14 +485,15 @@ class QQLogin(View):
                         # result_dict["data"]["username"] = nickname
                         # result_dict["data"]["uid"] = create_user.id
 
-                        self.state += "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
+                        user_info_str = "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
                             uid=create_user.id,
                             nickname=create_user.nickname,
-                            role=create_user.role,
+                            role=create_user.get_role_display(),
                             avatar=create_user.avatar.url if create_user.avatar else "",
                             position=create_user.position if create_user.position else "",
                         )
-
+                        user_info = base64.b64encode(user_info_str)
+                        self.state += user_info
                         # user_dict = {
                         #     "nickname": create_user.nickname,
                         #     "uid": create_user.id,
