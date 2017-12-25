@@ -159,7 +159,7 @@ class FaqDetaiInfo(View):
                             answer_reply_dict["custom_user_avatar"] = one_answer.user.avatar.url
                             answer_reply_dict["create_time"] = one_answer.create_time.strftime("%Y-%m-%d %H:%M")
                             answer_reply_dict["role"] = "发问人"
-                            if one_answer.user == one_answer.user:
+                            if one_answer.user == answer_reply.user:
                                 answer_reply_dict["role"] = "答主"
 
                             faq_answer_reply_list.append(answer_reply_dict)
