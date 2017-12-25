@@ -83,8 +83,7 @@ class FaqListInfo(View):
                     faq_dict["faq_answer_count"] = faq.FaqAnswer.all().count()
                     faq_dict["status_name"] = faq.get_status_display()
                     faq_dict["status"] = faq.status
-                    if faq.reward != 0:  # 悬赏
-                        faq_dict["reward"] = faq.get_reward_display()
+                    faq_dict["reward"] = faq.reward
                     data_list.append(faq_dict)
             result_dict["data"] = data_list
         except:
@@ -267,7 +266,6 @@ class FollowFaq(View):
 
             faqs = Faq.objects.filter(id=faq_id)
             customusers = CustomUser.objects.filter(id=custom_user_id)
-            print customusers, custom_user_id
             if faqs.exists():
                 if customusers.exists():
                     faqs.first().follow_user.add(customusers.first())
