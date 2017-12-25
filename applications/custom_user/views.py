@@ -233,7 +233,7 @@ class WeiXinLogin(View):
                 user_info_str = "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
                     uid=custom_user_auth_obj.custom_user_id.id,
                     nickname=custom_user_auth_obj.custom_user_id.nickname,
-                    role=custom_user_auth_obj.custom_user_id.role,
+                    role=custom_user_auth_obj.custom_user_id.get_role_display(),
                     avatar=custom_user_auth_obj.custom_user_id.avatar.url if custom_user_auth_obj.custom_user_id.avatar else "",
                     position=custom_user_auth_obj.custom_user_id.position if custom_user_auth_obj.custom_user_id.position else "",
                 )
@@ -437,7 +437,7 @@ class QQLogin(View):
                 user_info_str = "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
                     uid=custom_user_auth_obj.custom_user_id.id,
                     nickname=custom_user_auth_obj.custom_user_id.nickname,
-                    role=custom_user_auth_obj.custom_user_id.role,
+                    role=custom_user_auth_obj.custom_user_id.get_role_display(),
                     avatar=custom_user_auth_obj.custom_user_id.avatar.url if custom_user_auth_obj.custom_user_id.avatar else "",
                     position=custom_user_auth_obj.custom_user_id.position if custom_user_auth_obj.custom_user_id.position else "",
                 )
