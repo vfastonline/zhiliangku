@@ -230,13 +230,15 @@ class WeiXinLogin(View):
                 #     "position": custom_user_auth_obj.custom_user_id.position,
                 # }
 
-                self.state += "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
+                user_info_str = "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
                     uid=custom_user_auth_obj.custom_user_id.id,
                     nickname=custom_user_auth_obj.custom_user_id.nickname,
                     role=custom_user_auth_obj.custom_user_id.role,
                     avatar=custom_user_auth_obj.custom_user_id.avatar.url if custom_user_auth_obj.custom_user_id.avatar else "",
                     position=custom_user_auth_obj.custom_user_id.position if custom_user_auth_obj.custom_user_id.position else "",
                 )
+                user_info = base64.b64encode(user_info_str)
+                self.state += user_info
 
                 # user_dict = {
                 #     "nickname": custom_user_auth_obj.custom_user_id.nickname,
@@ -432,13 +434,15 @@ class QQLogin(View):
                 # result_dict["data"]["username"] = nickname
                 # result_dict["data"]["uid"] = custom_user_auth_obj.custom_user_id.id
 
-                self.state += "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
+                user_info_str = "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
                     uid=custom_user_auth_obj.custom_user_id.id,
                     nickname=custom_user_auth_obj.custom_user_id.nickname,
                     role=custom_user_auth_obj.custom_user_id.role,
                     avatar=custom_user_auth_obj.custom_user_id.avatar.url if custom_user_auth_obj.custom_user_id.avatar else "",
                     position=custom_user_auth_obj.custom_user_id.position if custom_user_auth_obj.custom_user_id.position else "",
                 )
+                user_info = base64.b64encode(user_info_str)
+                self.state += user_info
 
                 # user_dict = {
                 #     "nickname": custom_user_auth_obj.custom_user_id.nickname,
