@@ -237,8 +237,11 @@ class WeiXinLogin(View):
                     avatar=custom_user_auth_obj.custom_user_id.avatar.url if custom_user_auth_obj.custom_user_id.avatar else "",
                     position=custom_user_auth_obj.custom_user_id.position if custom_user_auth_obj.custom_user_id.position else "",
                 )
-                user_info = base64.b64encode(user_info_str)
-                self.state += user_info
+                user_info = "user_info=" + base64.b64encode(user_info_str)
+                if "?" in self.state:
+                    self.state += "&" + user_info
+                else:
+                    self.state += "?" + user_info
 
                 # user_dict = {
                 #     "nickname": custom_user_auth_obj.custom_user_id.nickname,
@@ -298,8 +301,11 @@ class WeiXinLogin(View):
                             avatar=create_user.avatar.url if create_user.avatar else "",
                             position=create_user.position if create_user.position else "",
                         )
-                        user_info = base64.b64encode(user_info_str)
-                        self.state += user_info
+                        user_info = "user_info=" + base64.b64encode(user_info_str)
+                        if "?" in self.state:
+                            self.state += "&" + user_info
+                        else:
+                            self.state += "?" + user_info
 
                         # user_dict = {
                         #     "nickname": create_user.nickname,
@@ -434,24 +440,27 @@ class QQLogin(View):
                 # result_dict["data"]["username"] = nickname
                 # result_dict["data"]["uid"] = custom_user_auth_obj.custom_user_id.id
 
-                user_info_str = "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
+                user_info_str = "uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
                     uid=custom_user_auth_obj.custom_user_id.id,
                     nickname=custom_user_auth_obj.custom_user_id.nickname,
                     role=custom_user_auth_obj.custom_user_id.get_role_display(),
                     avatar=custom_user_auth_obj.custom_user_id.avatar.url if custom_user_auth_obj.custom_user_id.avatar else "",
                     position=custom_user_auth_obj.custom_user_id.position if custom_user_auth_obj.custom_user_id.position else "",
                 )
-                user_info = base64.b64encode(user_info_str)
-                self.state += user_info
+                user_info = "user_info=" + base64.b64encode(user_info_str)
+                if "?" in self.state:
+                    self.state += "&" + user_info
+                else:
+                    self.state += "?" + user_info
 
-                # user_dict = {
-                #     "nickname": custom_user_auth_obj.custom_user_id.nickname,
-                #     "uid": custom_user_auth_obj.custom_user_id.id,
-                #     "avatar": custom_user_auth_obj.custom_user_id.avatar.name
-                # }
-                # request.session['token'] = token
-                # request.session['user'] = user_dict
-                # request.session['login'] = True
+                    # user_dict = {
+                    #     "nickname": custom_user_auth_obj.custom_user_id.nickname,
+                    #     "uid": custom_user_auth_obj.custom_user_id.id,
+                    #     "avatar": custom_user_auth_obj.custom_user_id.avatar.name
+                    # }
+                    # request.session['token'] = token
+                    # request.session['user'] = user_dict
+                    # request.session['login'] = True
             else:
                 create_user = CustomUser.objects.create(nickname=nickname, role=0)
                 avatar_filename = "_".join([time.strftime('%Y%m%d%H%M%S'), "qq.jpg"])
@@ -496,8 +505,11 @@ class QQLogin(View):
                             avatar=create_user.avatar.url if create_user.avatar else "",
                             position=create_user.position if create_user.position else "",
                         )
-                        user_info = base64.b64encode(user_info_str)
-                        self.state += user_info
+                        user_info = "user_info=" + base64.b64encode(user_info_str)
+                        if "?" in self.state:
+                            self.state += "&" + user_info
+                        else:
+                            self.state += "?" + user_info
                         # user_dict = {
                         #     "nickname": create_user.nickname,
                         #     "uid": create_user.id,
