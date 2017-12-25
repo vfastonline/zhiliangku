@@ -37,6 +37,8 @@ class Faq(models.Model):
     create_time = models.DateTimeField(verbose_name='提问时间', auto_now=True)
     browse_amount = models.PositiveIntegerField('浏览次数', default=0)
     status = models.CharField('状态', max_length=1, choices=STATUS, default="0")
+    follow_user = models.ManyToManyField(CustomUser, verbose_name="关注用户", blank=True,
+                                            related_name="CustomUserAttentionFaq")
 
     def __unicode__(self):
         return self.title
