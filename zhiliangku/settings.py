@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'applications.custom_user',
     'applications.company_jobs',
     'applications.community',
+    'applications.exercise',
     'corsheaders',
 ]
 
@@ -225,6 +226,9 @@ SUIT_CONFIG = {
 
         # 直播
         {'app': 'live_streaming'},
+
+        # 习题
+        {'app': 'exercise'},
 
         # 轮播图
         {'app': 'slideshow'},

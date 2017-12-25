@@ -135,7 +135,7 @@ class Video(models.Model):
         ("1", "点播"),
         ("2", "直播回放"),
         ("3", "直播"),
-        ("4", "题目"),
+        ("4", "习题"),
     )
     section = models.ForeignKey(Section, verbose_name='所属章节', related_name='Videos', blank=True, null=True)
     type = models.CharField('视频类型', max_length=1, choices=TYPE)
