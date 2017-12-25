@@ -207,9 +207,9 @@ class AddFaq(View):
             # 提问参数
             param_dict = json.loads(request.body)
             video_id = int(param_dict.get('video_id', 0))  # 视频ID
-            custom_user_id = int(param_dict.get('custom_user_id'))  # 必填，标题
+            custom_user_id = int(param_dict.get('custom_user_id'))  # 必填，用户ID
             title = param_dict.get('title')  # 必填，标题
-            description = param_dict.get('description')  # 必填，标题
+            description = param_dict.get('description')  # 必填，问题描述
             path = param_dict.get('path')  # 问题方向
             reward = param_dict.get('reward')  # 悬赏
 
