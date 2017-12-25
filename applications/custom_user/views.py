@@ -230,7 +230,7 @@ class WeiXinLogin(View):
                 #     "position": custom_user_auth_obj.custom_user_id.position,
                 # }
 
-                user_info_str = "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
+                user_info_str = "uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
                     uid=custom_user_auth_obj.custom_user_id.id,
                     nickname=custom_user_auth_obj.custom_user_id.nickname,
                     role=custom_user_auth_obj.custom_user_id.get_role_display(),
@@ -294,7 +294,7 @@ class WeiXinLogin(View):
                         #     "avatar": create_user.avatar.url if create_user.avatar else "",
                         #     "position": create_user.position,
                         # }
-                        user_info_str = "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
+                        user_info_str = "uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
                             uid=create_user.id,
                             nickname=create_user.nickname,
                             role=create_user.get_role_display(),
@@ -498,7 +498,7 @@ class QQLogin(View):
                         # result_dict["data"]["username"] = nickname
                         # result_dict["data"]["uid"] = create_user.id
 
-                        user_info_str = "?uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
+                        user_info_str = "uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
                             uid=create_user.id,
                             nickname=create_user.nickname,
                             role=create_user.get_role_display(),
