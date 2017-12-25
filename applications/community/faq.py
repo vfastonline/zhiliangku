@@ -154,10 +154,10 @@ class FaqDetaiInfo(View):
                             answer_reply_dict = dict()
                             answer_reply_dict["id"] = answer_reply.id
                             answer_reply_dict["reply"] = answer_reply.reply
-                            answer_reply_dict["custom_user_id"] = one_answer.user.id
-                            answer_reply_dict["custom_user_nickname"] = one_answer.user.nickname
-                            answer_reply_dict["custom_user_avatar"] = one_answer.user.avatar.url
-                            answer_reply_dict["create_time"] = one_answer.create_time.strftime("%Y-%m-%d %H:%M")
+                            answer_reply_dict["custom_user_id"] = answer_reply.user.id
+                            answer_reply_dict["custom_user_nickname"] = answer_reply.user.nickname
+                            answer_reply_dict["custom_user_avatar"] = answer_reply.user.avatar.url
+                            answer_reply_dict["create_time"] = answer_reply.create_time.strftime("%Y-%m-%d %H:%M")
                             answer_reply_dict["role"] = "发问人"
                             if one_answer.user == answer_reply.user:
                                 answer_reply_dict["role"] = "答主"
