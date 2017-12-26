@@ -251,7 +251,7 @@ class CourseDetailInfo(View):
                                     video_dict["name"] = video.name
                                     video_dict["type"] = video.type
                                     video_dict["type_name"] = video.get_type_display()
-                                    video_dict["live_start_time"] = video.live_start_time
+                                    video_dict["live_start_time"] = video.live_start_time.strftime("%Y-%m-%d %H:%M:%S")
 
                                     video_list.append(video_dict)
                             if video_list:
