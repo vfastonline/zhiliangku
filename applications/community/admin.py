@@ -9,6 +9,7 @@ class FaqAdmin(admin.ModelAdmin):
     search_fields = ("video__name", 'user', "title")
     list_filter = ('path', "reward", "status")
     readonly_fields = ("browse_amount",)
+    filter_horizontal = ('follow_user',)
 
 
 @admin.register(FaqAnswer)

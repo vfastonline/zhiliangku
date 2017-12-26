@@ -135,12 +135,12 @@ class Video(models.Model):
         ("1", "点播"),
         ("2", "直播回放"),
         ("3", "直播"),
-        ("4", "题目"),
+        ("4", "习题"),
     )
     section = models.ForeignKey(Section, verbose_name='所属章节', related_name='Videos', blank=True, null=True)
-    type = models.CharField('视频类型', max_length=1, choices=TYPE)
+    type = models.CharField('数据类型', max_length=1, choices=TYPE)
+    name = models.CharField('视频/习题名称', max_length=255)
     vid = models.CharField("vid", max_length=255, blank=True, null=True)
-    name = models.CharField('视频名称', max_length=255)
     data = models.TextField("视频信息", blank=True, null=True)
     sequence = models.PositiveIntegerField('视频顺序', default=0)
     duration = models.PositiveIntegerField('视频时长', default=1)

@@ -37,6 +37,8 @@ class Faq(models.Model):
     create_time = models.DateTimeField(verbose_name='提问时间', auto_now=True)
     browse_amount = models.PositiveIntegerField('浏览次数', default=0)
     status = models.CharField('状态', max_length=1, choices=STATUS, default="0")
+    follow_user = models.ManyToManyField(CustomUser, verbose_name="关注用户", blank=True,
+                                            related_name="CustomUserAttentionFaq")
 
     def __unicode__(self):
         return self.title
@@ -45,6 +47,7 @@ class Faq(models.Model):
         db_table = 'Faq'
         verbose_name = "问题"
         verbose_name_plural = "问题"
+        ordering = ["-create_time"]
 
 
 class FaqAnswer(models.Model):
@@ -63,6 +66,7 @@ class FaqAnswer(models.Model):
         db_table = 'FaqAnswer'
         verbose_name = "问题-回答"
         verbose_name_plural = "问题-回答"
+        ordering = ["-create_time"]
 
 
 class FaqAnswerReply(models.Model):
@@ -78,3 +82,4 @@ class FaqAnswerReply(models.Model):
         db_table = 'FaqAnswerReply'
         verbose_name = "问题-回答-回复"
         verbose_name_plural = "问题-回答-回复"
+        ordering = ["-create_time"]

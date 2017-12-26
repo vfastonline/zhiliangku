@@ -11,7 +11,7 @@ urlpatterns = [
     url('^faq/detail/info$', faq.FaqDetaiInfo.as_view()),
     url('^get/faqbytitle$', faq.GetFaqByTitle.as_view()),
     url('^add/faq$', faq.AddFaq.as_view()),
-    # 关注这个问题
+    url('^follow/faq$', faq.FollowFaq.as_view()),
 
     url('^appraisal/faqanswer$', faq_answer.AppraisalFaqAnswer.as_view()),
     url('^accept/faqanswer$', faq_answer.AcceptFaqAnswer.as_view()),
