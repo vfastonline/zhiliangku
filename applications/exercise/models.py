@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from applications.tracks_learning.models import Section
+from applications.tracks_learning.models import Video
 
 
 class Question(models.Model):
@@ -12,11 +12,10 @@ class Question(models.Model):
         ("3", "C"),
         ("4", "D"),
     )
-    section = models.ForeignKey(Section, verbose_name='所属章节', related_name='Questions')
+    video = models.ForeignKey(Video, verbose_name='所属习题', related_name='Questions', limit_choices_to={"type": "4"})
     title = models.CharField('问题内容', max_length=255)
     right_answer = models.CharField('正确答案', max_length=1, choices=RIGHTANSWER)
     detail = models.CharField('习题详解', max_length=255)
-    sequence = models.PositiveIntegerField('习题顺序', default=0)
 
     def __unicode__(self):
         return self.title
@@ -25,8 +24,8 @@ class Question(models.Model):
         db_table = 'Question'
         verbose_name = "习题"
         verbose_name_plural = "习题"
-        ordering = ["section", 'sequence']
-        index_together = ["section"]
+        ordering = ["video"]
+        index_together = ["video"]
 
 
 class Answer(models.Model):

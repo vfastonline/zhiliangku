@@ -4,8 +4,8 @@ from applications.exercise.models import *
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('id', "section", 'title', "right_answer", "detail", "sequence")
-    search_fields = ('section', "title")
+    list_display = ('id', "video", 'title', "right_answer", "detail")
+    search_fields = ('video', "title")
 
 
 @admin.register(Answer)

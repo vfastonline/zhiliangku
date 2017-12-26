@@ -2,8 +2,8 @@
 import json
 import logging
 import traceback
+import random
 
-from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
@@ -26,40 +26,19 @@ class QuestionListInfo(View):
     """习题详情"""
 
     def get(self, request, *args, **kwargs):
-        result_dict = {"err": 0, "msg": "success", "data": list(), "paginator": {}}
+        result_dict = {"err": 0, "msg": "success", "data": list()}
         try:
             # 获取查询参数
             # 按过滤条件查询
-            section_id = int(request.GET.get('section_id', 0))  # 视频ID
-            page = int(self.request.GET.get("page", 1))  # 页码
-            per_page = int(self.request.GET.get("per_page", 1))  # 每页显示条目数
+            video_id = int(request.GET.get('video_id', 0))  # 视频ID
 
             data_list = list()
-            questions = Question.objects.filter(section__id=section_id).order_by("sequence")
+            questions = Question.objects.filter(video__id=video_id)
             if questions.exists():
-                # 提供分页数据
-                page_objs = Paginator(questions, per_page)
-                total_count = page_objs.count  # 记录总数
-                num_pages = page_objs.num_pages  # 总页数
-                page_range = list(page_objs.page_range)  # 页码列表
-                paginator_dict = {
-                    "total_count": total_count,
-                    "num_pages": num_pages,
-                    "page_range": page_range,
-                    "page": page,
-                    "per_page": per_page
-                }
-                result_dict["paginator"] = paginator_dict
-
-                try:
-                    questions = page_objs.page(page).object_list
-                except:
-                    questions = list()
-
                 for question in questions:
                     question_dict = dict()
                     question_dict["id"] = question.id
-                    question_dict["section_id"] = question.section.id
+                    question_dict["video_id"] = question.video_id
                     question_dict["title"] = question.title
                     answers = Answer.objects.filter(question=question).order_by("option")
                     answer_list = list()
@@ -72,6 +51,7 @@ class QuestionListInfo(View):
                         answer_list.append(answer_dict)
                     question_dict["answers"] = answer_list
                     data_list.append(question_dict)
+            random.shuffle(data_list)
             result_dict["data"] = data_list
         except:
             traceback.print_exc()
