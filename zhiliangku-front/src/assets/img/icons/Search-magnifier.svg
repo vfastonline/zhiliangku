@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <defs>
+    <filter id="搜索-放大镜-a" width="101%" x="-.5%" y="-7.1%" filterUnits="objectBoundingBox">
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"/>
+      <feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <path fill="#8C96A5" d="M27.1526587,38.0943396 L26.0617496,38.0943396 L25.6843911,37.7169811 C27.0291595,36.1595197 27.838765,34.135506 27.838765,31.9193825 C27.838765,26.9931389 23.8456261,23 18.9193825,23 C13.9931389,23 10,26.9931389 10,31.9193825 C10,36.8456261 13.9931389,40.838765 18.9193825,40.838765 C21.135506,40.838765 23.1595197,40.0291595 24.7169811,38.6912521 L25.0943396,39.0686106 L25.0943396,40.1526587 L31.9554031,47 L34,44.9554031 L27.1526587,38.0943396 Z M19,38 C15.6866667,38 13,35.3133333 13,32 C13,28.6866667 15.6866667,26 19,26 C22.3133333,26 25,28.6866667 25,32 C25,35.3133333 22.3133333,38 19,38 Z" filter="url(#搜索-放大镜-a)" opacity=".8" transform="translate(-6 -21)"/>
+</svg>
