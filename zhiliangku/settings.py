@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'applications.company_jobs',
     'applications.community',
     'applications.exercise',
+    'applications.record',
     'corsheaders',
 ]
 
@@ -224,6 +225,9 @@ SUIT_CONFIG = {
         {'label': '课程', 'app': 'tracks_learning',
          'models': ('Course', 'Section', "Video", "CommonQuestion", 'CoursePath', "Technology", "Faq", "FaqAnswer")},
 
+        # 观看进度
+        {'app': 'record', 'models': ('WatchRecord',)},
+
         # 直播
         {'app': 'live_streaming'},
 
@@ -234,7 +238,8 @@ SUIT_CONFIG = {
         {'app': 'slideshow'},
 
         # 企业面试题
-        {'app': 'interview_question'},
+        {'app': 'interview_question',
+         'models': ('InterviewQuestions', 'CompletedInterviewQuestion', 'ExaminationQuestion', 'ExaminationAnswer')},
 
         # 公司招聘职位
         {'app': 'company_jobs'},

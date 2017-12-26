@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.views.generic import View
 from django.shortcuts import render
 
+from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
 
@@ -209,6 +210,7 @@ class CourseDetailInfo(View):
             filter_param = dict()
             course_id = int(request.GET.get('course_id', 0))
             include_video = int(request.GET.get('include_video', 0))  # 是否包含视频信息
+            custom_user_id = int(request.GET.get('custom_user_id', 0))  # 用户ID
             detail = dict()
             if course_id:
                 filter_param["id"] = course_id
@@ -251,8 +253,19 @@ class CourseDetailInfo(View):
                                     video_dict["name"] = video.name
                                     video_dict["type"] = video.type
                                     video_dict["type_name"] = video.get_type_display()
-                                    video_dict["live_start_time"] = video.live_start_time.strftime("%Y-%m-%d %H:%M:%S") \
+                                    video_dict["live_start_time"] = video.live_start_time.strftime("%M:%S") \
                                         if video.live_start_time else ""
+                                    video_dict["is_complete"] = 0
+
+                                    watchrecord_param = {
+                                        "user__id": custom_user_id,
+                                        "video": video,
+                                        "course": course_obj,
+                                        "status": 1
+                                    }
+                                    watchrecords = WatchRecord.objects.filter(**watchrecord_param)
+                                    if watchrecords.exists():
+                                        video_dict["is_complete"] = 1
 
                                     video_list.append(video_dict)
                             if video_list:

@@ -6,3 +6,4 @@ Django-Select2==5.11.1
 django-suit
 pycrypto
 django-cors-headers
+django-multiselectfield
