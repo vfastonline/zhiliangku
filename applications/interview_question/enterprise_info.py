@@ -36,9 +36,8 @@ class EnterpriseInfoListInfo(View):
             per_page = int(self.request.GET.get("per_page", 12))  # 每页显示条目数
 
             filter_param = dict()
-            paths = CoursePath.objects.filter(id=path_id)
-            if paths.exists():
-                filter_param["path__in"] = paths
+            if path_id:
+                filter_param["path_id"] = path_id
 
             enterprise_info_objs = EnterpriseInfo.objects.filter(**filter_param)
             if is_completed:
@@ -76,10 +75,13 @@ class EnterpriseInfoListInfo(View):
                 one_dict["lowest_monthly_salary"] = one.lowest_monthly_salary
                 one_dict["highest_monthly_salary"] = one.highest_monthly_salary
                 one_dict["question_img"] = one.question_img.url
-                one_dict["is_completed"] = 0
-                completeds = CompletedInterviewQuestion.objects.filter(customuser_id=custom_user_id,
-                                                                       interview_question=one)
-                if completeds.exists():
+                if not is_completed:
+                    one_dict["is_completed"] = 0
+                    completeds = CompletedInterviewQuestion.objects.filter(customuser_id=custom_user_id,
+                                                                           interview_question=one)
+                    if completeds.exists():
+                        one_dict["is_completed"] = 1
+                else:
                     one_dict["is_completed"] = 1
 
                 data_list.append(one_dict)
