@@ -5,9 +5,9 @@ from applications.community.models import *
 @admin.register(Faq)
 class FaqAdmin(admin.ModelAdmin):
     list_display = (
-        'id', "video", 'title', "description", "path", "reward", "user", "create_time", "browse_amount", "status")
+        'id', "video", 'title', "description", "reward", "user", "create_time", "browse_amount", "status")
     search_fields = ("video__name", 'user', "title")
-    list_filter = ('path', "reward", "status")
+    list_filter = ("reward", "status",)
     readonly_fields = ("browse_amount",)
     filter_horizontal = ('follow_user',)
 

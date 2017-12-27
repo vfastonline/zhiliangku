@@ -4,11 +4,11 @@ from applications.interview_question.models import *
 from zhiliangku.settings import tinymce_js
 
 
-@admin.register(InterviewQuestions)
-class InterviewQuestionsAdmin(admin.ModelAdmin):
+@admin.register(EnterpriseInfo)
+class EnterpriseInfoAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'company', "email", 'position', 'amount',
-        'lowest_monthly_salary', 'highest_monthly_salary', 'question_img', "detail", "notes", "duration"
+        'lowest_monthly_salary', 'highest_monthly_salary', 'question_img', "detail", "notes", "duration", "path"
     )
     search_fields = ('company', 'position',)
 
@@ -32,3 +32,10 @@ class ExaminationQuestionAdmin(admin.ModelAdmin):
 class ExaminationAnswerAdmin(admin.ModelAdmin):
     list_display = ('id', 'question', "option", "content")
     search_fields = ('question',)
+
+
+@admin.register(AnswerRecord)
+class AnswerRecordAdmin(admin.ModelAdmin):
+    list_display = ('id', 'question', "custom_user", "result", "create_time")
+    search_fields = ('question',)
+    list_filter = ('result',)

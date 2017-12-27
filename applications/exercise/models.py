@@ -15,7 +15,7 @@ class Question(models.Model):
     video = models.ForeignKey(Video, verbose_name='所属习题', related_name='Questions', limit_choices_to={"type": "4"})
     title = models.CharField('问题内容', max_length=255)
     right_answer = models.CharField('正确答案', max_length=1, choices=RIGHTANSWER)
-    detail = models.CharField('习题详解', max_length=255)
+    detail = models.TextField('习题详解', max_length=255, default="")
 
     def __unicode__(self):
         return self.title
@@ -37,7 +37,7 @@ class Answer(models.Model):
     )
     question = models.ForeignKey(Question, verbose_name='所属习题', related_name='Answers')
     option = models.CharField('选项', max_length=1, choices=RIGHTANSWER)
-    content = models.CharField('内容', max_length=255)
+    content = models.TextField('内容', max_length=255, default="")
 
     def __unicode__(self):
         return self.content
@@ -46,5 +46,5 @@ class Answer(models.Model):
         db_table = 'Answer'
         verbose_name = "答案"
         verbose_name_plural = "答案"
-        ordering = ["question", 'option']
+        ordering = ["question"]
         unique_together = (("question", "option"),)
