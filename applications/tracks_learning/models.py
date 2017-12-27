@@ -143,7 +143,7 @@ class Video(models.Model):
     vid = models.CharField("vid", max_length=255, blank=True, null=True)
     data = models.TextField("视频信息", blank=True, null=True)
     sequence = models.PositiveIntegerField('视频顺序', default=0)
-    duration = models.PositiveIntegerField('视频时长', default=1)
+    duration = models.PositiveIntegerField('视频时长', default=0)
     live = models.ForeignKey(Live, verbose_name='直播', related_name='Live', blank=True, null=True)
     live_start_time = models.DateTimeField("直播起始时间", blank=True, null=True)
     live_end_time = models.TimeField("直播终止时间", blank=True, null=True)

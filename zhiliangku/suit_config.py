@@ -27,7 +27,8 @@ SUIT_CONFIG = {
         # {'label': 'Support', 'icon':'icon-question-sign', 'url': '/support/'},
 
         # 用户管理
-        {'app': 'custom_user', 'models': ('CustomUser', 'CustomUserAuths', 'CustomUserPath', "VerifyCode")},
+        {'app': 'custom_user',
+         'models': ('CustomUser', 'CustomUserAuths', 'CustomUserPath', "CustomUserCourse", "VerifyCode")},
 
         # 职业路径
         {'app': 'tracks_learning', 'models': ('Path', 'PathStage', 'CourseCategory')},

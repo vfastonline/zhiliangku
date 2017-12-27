@@ -30,6 +30,18 @@ class CustomUserPathAdmin(admin.ModelAdmin):
     paths.short_description = "参与职业路径"
 
 
+@admin.register(CustomUserCourse)
+class CustomUserCourseAdmin(admin.ModelAdmin):
+    list_display = ('id', 'custom_user', "courses")
+    search_fields = ('custom_user__nickname',)
+    filter_horizontal = ('course',)
+
+    def courses(self, obj):
+        return ",".join(obj.course.all().values_list("name", flat=True))
+
+    courses.short_description = "收藏课程"
+
+
 @admin.register(VerifyCode)
 class VerifyCodeAdmin(admin.ModelAdmin):
     list_display = ('id', 'phone', 'code', 'create_time', "expire_time", "is_use")
