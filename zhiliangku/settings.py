@@ -239,7 +239,8 @@ SUIT_CONFIG = {
 
         # 企业面试题
         {'app': 'interview_question',
-         'models': ('InterviewQuestions', 'CompletedInterviewQuestion', 'ExaminationQuestion', 'ExaminationAnswer')},
+         'models': ('EnterpriseInfo', 'ExaminationQuestion', 'ExaminationAnswer',
+                    "AnswerRecord", "CompletedInterviewQuestion")},
 
         # 公司招聘职位
         {'app': 'company_jobs'},
