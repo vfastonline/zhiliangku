@@ -45,7 +45,7 @@ class ExaminationQuestion(models.Model):
         ("3", "编程题"),
         ("4", "判断题"),
     )
-    interview_question = models.ForeignKey(EnterpriseInfo, verbose_name='所属企业', related_name='ExaminationQuestions')
+    enterprise = models.ForeignKey(EnterpriseInfo, verbose_name='所属企业', related_name='ExaminationQuestions')
     qtype = models.CharField('考题类型', max_length=1, choices=QTYPE)
     title = models.CharField('问题内容', max_length=255)
     right_answer = MultiSelectField('正确答案', max_length=5, choices=RIGHTANSWER, help_text="可单选，可多选。", blank=True)
@@ -58,8 +58,8 @@ class ExaminationQuestion(models.Model):
         db_table = 'ExaminationQuestion'
         verbose_name = "面试题"
         verbose_name_plural = "面试题"
-        ordering = ["interview_question"]
-        index_together = ["interview_question"]
+        ordering = ["enterprise"]
+        index_together = ["enterprise"]
 
 
 class ExaminationAnswer(models.Model):

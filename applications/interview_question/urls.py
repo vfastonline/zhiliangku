@@ -3,15 +3,19 @@ from django.conf.urls import url
 
 from applications.interview_question.views import *
 from applications.interview_question.enterprise_info import *
+from applications.interview_question.examination_question import *
 
 urlpatterns = [
     url(r'^index/list$', IndexEnterpriseInfoList.as_view()),
 
-    # 企业面试题
+    # 企业信息
     url(r'^enterpriseinfo/list/$', EnterpriseInfoList.as_view()),
     url(r'^enterpriseinfo/list/info$', EnterpriseInfoListInfo.as_view()),
 
     # 企业面试题详情
     url(r'^enterpriseinfo/detail/$', EnterpriseInfoDetail.as_view()),
     url(r'^enterpriseinfo/detail/info$', EnterpriseInfoDetailInfo.as_view()),
+
+    # 企业下所有面试题
+    url(r'^examinationquestion/list/info$', ExaminationQuestionListInfo.as_view()),
 ]

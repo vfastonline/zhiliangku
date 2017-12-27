@@ -24,8 +24,8 @@ class CompletedInterviewQuestionAdmin(admin.ModelAdmin):
 
 @admin.register(ExaminationQuestion)
 class ExaminationQuestionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'interview_question', "qtype", "title", "right_answer", "score")
-    search_fields = ('interview_question', 'title',)
+    list_display = ('id', 'enterprise', "qtype", "title", "right_answer", "score")
+    search_fields = ('enterprise', 'title',)
 
 
 @admin.register(ExaminationAnswer)
