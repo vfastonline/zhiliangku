@@ -200,7 +200,7 @@ class CourseDetail(View):
         return render(request, template_name, {})
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class CourseDetailInfo(View):
     """课程详情"""
 
