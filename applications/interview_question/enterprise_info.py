@@ -138,7 +138,7 @@ class EnterpriseInfoDetailInfo(View):
                 # 题型字典
                 qtype_dict = dict(ExaminationQuestion.QTYPE)
 
-                # 个题型增加中文类型
+                # 各题型增加中文类型
                 [one.update({"qtype_name": qtype_dict.get(one.get("qtype"))}) for one in qtype_list]
 
                 detail["qtype_list"] = qtype_list
