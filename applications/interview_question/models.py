@@ -18,10 +18,10 @@ class EnterpriseInfo(models.Model):
     lowest_monthly_salary = models.CharField('最低月薪', max_length=256)
     highest_monthly_salary = models.CharField('最高月薪', max_length=256)
     question_img = models.ImageField('面试题图片', upload_to='interview_questions/%Y%m%d', storage=ImageStorage())
-    detail = models.TextField(verbose_name="面试题介绍", default="")
-    notes = models.TextField(verbose_name="评测须知", default="")
     duration = models.PositiveIntegerField("评测时长", default=30)
     path = models.ForeignKey(CoursePath, verbose_name='方向', blank=True, null=True)
+    detail = models.TextField(verbose_name="面试题介绍", default="")
+    notes = models.TextField(verbose_name="评测须知", default="")
 
     def __unicode__(self):
         return self.company
