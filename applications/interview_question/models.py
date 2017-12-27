@@ -40,14 +40,16 @@ class ExaminationQuestion(models.Model):
         ("4", "D"),
     )
     QTYPE = (
-        ("1", "选择题"),
-        ("2", "编程题"),
+        ("1", "单选题"),
+        ("2", "多选题"),
+        ("3", "编程题"),
+        ("4", "判断题"),
     )
-    interview_question = models.ForeignKey(EnterpriseInfo, verbose_name='所属企业',
-                                           related_name='ExaminationQuestions')
+    interview_question = models.ForeignKey(EnterpriseInfo, verbose_name='所属企业', related_name='ExaminationQuestions')
     qtype = models.CharField('考题类型', max_length=1, choices=QTYPE)
     title = models.CharField('问题内容', max_length=255)
-    right_answer = MultiSelectField('正确答案', max_length=5, choices=RIGHTANSWER, help_text="可单选，可多选。")
+    right_answer = MultiSelectField('正确答案', max_length=5, choices=RIGHTANSWER, help_text="可单选，可多选。", blank=True)
+    score = models.PositiveIntegerField('得分', default=10)
 
     def __unicode__(self):
         return self.title

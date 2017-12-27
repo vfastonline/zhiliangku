@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^index/list$', IndexEnterpriseInfoList.as_view()),
     url(r'^enterpriseinfo/list/$', EnterpriseInfoList.as_view()),
     url(r'^enterpriseinfo/list/info$', EnterpriseInfoListInfo.as_view()),
+    url(r'^enterpriseinfo/detail/info$', EnterpriseInfoDetailInfo.as_view()),
 ]

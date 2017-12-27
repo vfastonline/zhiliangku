@@ -3,7 +3,6 @@ import json
 import logging
 import traceback
 
-from django.db.models import F
 from django.http import HttpResponse
 from django.views.generic import View
 
@@ -11,7 +10,7 @@ from applications.community.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class AddFaqAnswerReply(View):
     """回复问题回答"""
 

@@ -46,7 +46,7 @@ class AppraisalFaqAnswer(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class AcceptFaqAnswer(View):
     """采纳这个答案"""
 
@@ -75,7 +75,7 @@ class AcceptFaqAnswer(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class AddFaqAnswer(View):
     """回答提问"""
 

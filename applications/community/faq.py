@@ -3,8 +3,8 @@ import json
 import logging
 import traceback
 
-from django.db.models import F
 from django.core.paginator import Paginator
+from django.db.models import F
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
@@ -14,7 +14,7 @@ from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class FaqList(View):
     """问题-页面"""
 
@@ -23,7 +23,7 @@ class FaqList(View):
         return render(request, template_name, {})
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class FaqListInfo(View):
     """提问信息"""
 
@@ -96,7 +96,7 @@ class FaqListInfo(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class FaqDetai(View):
     """问题详情-页面"""
 
@@ -105,7 +105,7 @@ class FaqDetai(View):
         return render(request, template_name, {})
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class FaqDetaiInfo(View):
     """提问信息详情"""
 
@@ -179,7 +179,7 @@ class FaqDetaiInfo(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class GetFaqByTitle(View):
     """根据问题标题查询类似问题个数"""
 
@@ -198,7 +198,7 @@ class GetFaqByTitle(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class AddFaq(View):
     """提问"""
 
@@ -256,7 +256,7 @@ class AddFaq(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class FollowFaq(View):
     """关注这个问题"""
 

@@ -4,16 +4,16 @@ import logging
 import traceback
 
 from django.core.paginator import Paginator
+from django.db.models import *
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
 
 from applications.interview_question.models import *
-from applications.tracks_learning.models import CoursePath
 from lib.permissionMixin import class_view_decorator, user_login_required
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class EnterpriseInfoList(View):
     """企业信息--页面"""
 
@@ -22,7 +22,7 @@ class EnterpriseInfoList(View):
         return render(request, template_name, {})
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class EnterpriseInfoListInfo(View):
     """企业信息--分页数据"""
 
@@ -87,6 +87,53 @@ class EnterpriseInfoListInfo(View):
                 data_list.append(one_dict)
 
             result_dict["data"] = data_list
+        except:
+            traceback.print_exc()
+            logging.getLogger().error(traceback.format_exc())
+            result_dict["err"] = 1
+            result_dict["msg"] = traceback.format_exc()
+        finally:
+            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
+class EnterpriseInfoDetailInfo(View):
+    """企业面试题--详情"""
+
+    def get(self, request, *args, **kwargs):
+        result_dict = {"err": 0, "msg": "success", "data": dict()}
+        try:
+            enterpriseinfo_id = int(self.request.GET.get("enterpriseinfo_id", 0))  # 企业面试题详情
+            enterpriseinfos = EnterpriseInfo.objects.filter(id=enterpriseinfo_id)
+            if enterpriseinfos.exists():
+                enterpriseinfo = enterpriseinfos.first()
+                detail = dict()
+                detail["id"] = enterpriseinfo.id
+                detail["position"] = enterpriseinfo.position
+                detail["amount"] = enterpriseinfo.amount
+                detail["duration"] = enterpriseinfo.duration
+                detail["detail"] = enterpriseinfo.detail
+                detail["notes"] = enterpriseinfo.notes
+
+                # 聚合查询，面试题总分
+                score_sum = enterpriseinfo.ExaminationQuestions.aggregate(Sum('score')).get("score__sum")
+                if score_sum:
+                    detail["score_sum"] = score_sum
+                else:
+                    detail["score_sum"] = 0
+
+                # 分组查询，各题型，题目数、分值
+                qtype_list = enterpriseinfo.ExaminationQuestions.values('qtype').annotate(Sum('score'), Count('qtype'))
+                qtype_list = list(qtype_list)
+
+                # 题型字典
+                qtype_dict = dict(ExaminationQuestion.QTYPE)
+
+                # 个题型增加中文类型
+                [one.update({"qtype_name": qtype_dict.get(one.get("qtype"))}) for one in qtype_list]
+
+                detail["qtype_list"] = qtype_list
+                result_dict["data"] = detail
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())

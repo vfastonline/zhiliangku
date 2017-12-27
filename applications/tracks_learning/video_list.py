@@ -12,7 +12,6 @@ from django.views.generic import View
 from applications.tracks_learning.models import *
 from conf.conf_core import *
 from lib.permissionMixin import class_view_decorator, user_login_required
-from lib.polyv.video_api import get_video_msg
 
 
 class UploadVideoPolyvParam(View):
@@ -33,7 +32,7 @@ class UploadVideoPolyvParam(View):
         return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class VideoList(View):
     """视频列表"""
 
@@ -77,7 +76,7 @@ class VideoList(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class VideoDetail(View):
     """视频详情页面"""
 
@@ -86,7 +85,7 @@ class VideoDetail(View):
         return render(request, template_name, {})
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class VideoDetailInfo(View):
     """视频详情信息"""
 

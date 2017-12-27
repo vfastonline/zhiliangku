@@ -1,8 +1,8 @@
 #!encoding:utf-8
 import json
 import logging
-import traceback
 import random
+import traceback
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -12,7 +12,7 @@ from applications.exercise.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class QuestionList(View):
     """习题-页面"""
 
@@ -21,7 +21,7 @@ class QuestionList(View):
         return render(request, template_name, {})
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class QuestionListInfo(View):
     """习题详情"""
 
@@ -62,7 +62,7 @@ class QuestionListInfo(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class QuestionRightAnswerInfo(View):
     """返回习题正确答案"""
 
