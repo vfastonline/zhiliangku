@@ -97,6 +97,15 @@ class EnterpriseInfoListInfo(View):
 
 
 @class_view_decorator(user_login_required)
+class EnterpriseInfoDetail(View):
+    """企业面试题详情--页面"""
+
+    def get(self, request, *args, **kwargs):
+        template_name = "interview_questions/enterpriseinfo/detail/index.html"
+        return render(request, template_name, {})
+
+
+@class_view_decorator(user_login_required)
 class EnterpriseInfoDetailInfo(View):
     """企业面试题--详情"""
 
