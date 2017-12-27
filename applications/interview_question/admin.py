@@ -8,7 +8,7 @@ from zhiliangku.settings import tinymce_js
 class EnterpriseInfoAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'company', "email", 'position', 'amount',
-        'lowest_monthly_salary', 'highest_monthly_salary', 'question_img', "detail", "notes", "duration", "path"
+        'lowest_monthly_salary', 'highest_monthly_salary', "duration", "path", 'question_img', "detail", "notes"
     )
     search_fields = ('company', 'position',)
 
