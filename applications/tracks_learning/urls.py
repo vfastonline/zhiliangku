@@ -4,6 +4,7 @@ import course_list
 import path_list
 import video_list
 import common_question
+import collect_course
 
 urlpatterns = [
     url('^index_path/list$', path_list.IndexPathList.as_view()),
@@ -17,6 +18,7 @@ urlpatterns = [
 
     url('^course/list/$', course_list.CourseList.as_view()),
     url('^course/list/info$', course_list.CourseListInfo.as_view()),
+    url('^collect/course$', collect_course.CollectCourse.as_view()),
 
     url('^course/detail/$', course_list.CourseDetail.as_view()),
     url('^course/detail/info$', course_list.CourseDetailInfo.as_view()),
