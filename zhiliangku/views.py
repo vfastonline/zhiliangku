@@ -6,8 +6,6 @@ import re
 
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.shortcuts import render_to_response
-from django.template import RequestContext
 
 import settings
 from lib.uploader import Uploader
@@ -20,22 +18,22 @@ def index(request):
 
 # 链接指向的网页不存在
 def redirect_404_error(request):
-    return render_to_response('404.html', {}, context_instance=RequestContext(request))
+    return render(request, '404.html')
 
 
 # 服务器内部错误
 def redirect_500_error(request):
-    return render_to_response('500.html', {}, context_instance=RequestContext(request))
+    return render(request, '500.html')
 
 
 # 无权限请求
 def redirect_403_error(request):
-    return render_to_response('403.html', {}, context_instance=RequestContext(request))
+    return render(request, '403.html')
 
 
 # 请求出错
 def redirect_400_error(request):
-    return render_to_response('400.html', {}, context_instance=RequestContext(request))
+    return render(request, '400.html')
 
 
 def upload(request):
