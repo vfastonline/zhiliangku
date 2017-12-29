@@ -77,3 +77,52 @@ class ExaminationQuestionListInfo(View):
             result_dict["msg"] = traceback.format_exc()
         finally:
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+# @class_view_decorator(user_login_required)
+class ExaminationQuestionAnswerInfo(View):
+    """面试题正确答案"""
+
+    def get(self, request, *args, **kwargs):
+        result_dict = {"err": 0, "msg": "success", "data": dict()}
+        try:
+            examination_question_id = int(request.GET.get('examination_question_id', 0))  # 面试题ID
+            custom_user_id = int(self.request.GET.get('custom_user_id', 0))  # 用户ID
+            option = self.request.GET.get("option", 0)  # 用户选择选项
+
+            if examination_question_id and custom_user_id:
+                questions = ExaminationQuestion.objects.filter(id=examination_question_id)
+                if questions.exists():
+                    result_dict["data"]["examination_question_id"] = examination_question_id
+                    right_answers = questions.filter(right_answer=option.split(","))  # 答对
+                    customusers = CustomUser.objects.filter(id=custom_user_id)
+                    create_param = {
+                        "question": questions.first(),
+                        "custom_user": customusers.first()
+                    }
+                    data_result = True
+                    result_dict["data"]["result"] = data_result
+
+                    # 回答错误
+                    if not right_answers.exists():
+                        data_result = False
+                        result_dict["data"]["result"] = data_result
+
+                    # 回置答题记录
+                    answerrecords = AnswerRecord.objects.filter(**create_param)
+                    if answerrecords.exists():
+                        answerrecords.update(result=data_result)
+                    else:
+                        create_param["result"] = data_result
+                        AnswerRecord.objects.create(**create_param)
+                else:
+                    result_dict["msg"] = "面试题不存在"
+            else:
+                result_dict["msg"] = "缺少面试题信息或用户信息"
+        except:
+            traceback.print_exc()
+            logging.getLogger().error(traceback.format_exc())
+            result_dict["err"] = 1
+            result_dict["msg"] = traceback.format_exc()
+        finally:
+            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))

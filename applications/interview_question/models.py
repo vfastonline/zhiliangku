@@ -64,6 +64,7 @@ class ExaminationQuestion(models.Model):
 
 
 class ExaminationAnswer(models.Model):
+    """选择题选项"""
     RIGHTANSWER = (
         ("1", "A"),
         ("2", "B"),
@@ -93,7 +94,7 @@ class AnswerRecord(models.Model):
     create_time = models.DateTimeField(verbose_name='创建时间', auto_now=True)
 
     def __unicode__(self):
-        return self.question
+        return self.question.title
 
     class Meta:
         db_table = 'AnswerRecord'
@@ -107,6 +108,7 @@ class CompletedInterviewQuestion(models.Model):
     interview_question = models.ForeignKey(EnterpriseInfo, verbose_name="企业面试题",
                                            related_name="CompletedInterviewQuestions")
     customuser = models.ForeignKey(CustomUser, verbose_name="完成用户")
+    complete = models.BooleanField("是否完成", default=False)
     create_time = models.DateTimeField(verbose_name='创建时间', auto_now=True)
 
     def __unicode__(self):

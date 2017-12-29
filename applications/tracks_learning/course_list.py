@@ -75,7 +75,6 @@ class QuestionPathInfo(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-@class_view_decorator(user_login_required)
 class CourseList(View):
     """获取课程信息"""
 
@@ -84,7 +83,6 @@ class CourseList(View):
         return render(request, template_name, {})
 
 
-@class_view_decorator(user_login_required)
 class CourseListInfo(View):
     """获取课程信息"""
 
@@ -220,7 +218,6 @@ class CourseListInfo(View):
             return result_dict
 
 
-@class_view_decorator(user_login_required)
 class CourseDetail(View):
     """课程详情"""
 
@@ -229,7 +226,6 @@ class CourseDetail(View):
         return render(request, template_name, {})
 
 
-@class_view_decorator(user_login_required)
 class CourseDetailInfo(View):
     """课程详情"""
 
