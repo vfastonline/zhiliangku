@@ -18,8 +18,9 @@ class EnterpriseInfoAdmin(admin.ModelAdmin):
 
 @admin.register(CompletedInterviewQuestion)
 class CompletedInterviewQuestionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'interview_question', "customuser")
+    list_display = ('id', 'interview_question', "customuser", "complete")
     search_fields = ('interview_question', 'customuser',)
+    list_filter = ('complete',)
 
 
 @admin.register(ExaminationQuestion)

@@ -4,6 +4,7 @@ from django.conf.urls import url
 from applications.interview_question.views import *
 from applications.interview_question.enterprise_info import *
 from applications.interview_question.examination_question import *
+from applications.interview_question.interview_result import *
 
 urlpatterns = [
     url(r'^index/list$', IndexEnterpriseInfoList.as_view()),
@@ -20,5 +21,10 @@ urlpatterns = [
     url(r'^examinationquestion/list/$', ExaminationQuestionListInfo.as_view()),
     url(r'^examinationquestion/list/info$', ExaminationQuestionListInfo.as_view()),
 
+    # 校验面试题，记录答题记录
+    url(r'^examinationquestion/answer/info$', ExaminationQuestionAnswerInfo.as_view()),
+
     # 面试结果
+    url(r'^enterprise/result/$', EnterpriseRsult.as_view()),
+    url(r'^enterprise/result/info$', EnterpriseRsultInfo.as_view()),
 ]

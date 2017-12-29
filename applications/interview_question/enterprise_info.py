@@ -42,7 +42,8 @@ class EnterpriseInfoListInfo(View):
             enterprise_info_objs = EnterpriseInfo.objects.filter(**filter_param)
             if is_completed:
                 enterprise_info_id_list = CompletedInterviewQuestion.objects.filter(
-                    interview_question__in=enterprise_info_objs, customuser_id=custom_user_id).values_list(
+                    interview_question__in=enterprise_info_objs, customuser_id=custom_user_id,
+                    complete=True).values_list(
                     "interview_question", flat=True)
                 enterprise_info_objs = EnterpriseInfo.objects.filter(id__in=enterprise_info_id_list)
 
@@ -78,7 +79,7 @@ class EnterpriseInfoListInfo(View):
                 if not is_completed:
                     one_dict["is_completed"] = 0
                     completeds = CompletedInterviewQuestion.objects.filter(customuser_id=custom_user_id,
-                                                                           interview_question=one)
+                                                                           interview_question=one, complete=True)
                     if completeds.exists():
                         one_dict["is_completed"] = 1
                 else:

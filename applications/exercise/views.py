@@ -17,7 +17,7 @@ class QuestionList(View):
     """习题-页面"""
 
     def get(self, request, *args, **kwargs):
-        template_name = "exercise/question/list/index.html"
+        template_name = "exercise/list/index.html"
         return render(request, template_name, {})
 
 
