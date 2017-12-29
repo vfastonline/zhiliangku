@@ -8,7 +8,6 @@ import urlparse
 import requests
 from django.http import Http404
 from django.shortcuts import render
-from django.shortcuts import render_to_response
 from django.views.generic import View
 
 from applications.custom_user.models import *
@@ -424,7 +423,7 @@ class QQLogin(View):
                 traceback.print_exc()
                 logging.getLogger().info("拉取用户信息错误：\n%s" % traceback.format_exc())
 
-            nickname = res['nickname'].encode('iso8859-1').decode('utf-8')
+            nickname = res['nickname']#.encode('iso8859-1').decode('utf-8')
             headimgurl = res['figureurl_qq_2'].encode('iso8859-1').decode('utf-8')
 
             # 校验是否有权限信息
