@@ -10,8 +10,7 @@ from django.views.generic import View
 from applications.custom_user.models import *
 from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
-from lib.permissionMixin import class_view_decorator, user_login_required
-
+from django.http import Http404
 
 class IndexCourseList(View):
     """首页-热门课程"""
@@ -166,6 +165,7 @@ class CourseListInfo(View):
             logging.getLogger().error(traceback.format_exc())
             result_dict["err"] = 1
             result_dict["msg"] = traceback.format_exc()
+            raise Http404()
         finally:
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
@@ -352,5 +352,6 @@ class CourseDetailInfo(View):
             logging.getLogger().error(traceback.format_exc())
             result_dict["err"] = 1
             result_dict["msg"] = traceback.format_exc()
+            raise Http404()
         finally:
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))

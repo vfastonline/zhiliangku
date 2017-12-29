@@ -20,6 +20,11 @@ from django.conf.urls.static import static
 import settings
 from lib.polyv.api_callback import PolyvCallBack
 
+handler500 = "zhiliangku.views.redirect_500_error"
+handler404 = "zhiliangku.views.redirect_404_error"
+handler403 = "zhiliangku.views.redirect_403_error"
+handler400 = "zhiliangku.views.redirect_400_error"
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index),

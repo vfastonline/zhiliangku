@@ -16,6 +16,26 @@ def index(request):
     return render(request, 'index.html')
 
 
+# 链接指向的网页不存在
+def redirect_404_error(request):
+    return render(request, '404.html')
+
+
+# 服务器内部错误
+def redirect_500_error(request):
+    return render(request, '500.html')
+
+
+# 无权限请求
+def redirect_403_error(request):
+    return render(request, '403.html')
+
+
+# 请求出错
+def redirect_400_error(request):
+    return render(request, '400.html')
+
+
 def upload(request):
     """UEditor文件上传接口
     config 配置文件
