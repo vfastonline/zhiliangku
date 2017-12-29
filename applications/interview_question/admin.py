@@ -26,6 +26,7 @@ class CompletedInterviewQuestionAdmin(admin.ModelAdmin):
 class ExaminationQuestionAdmin(admin.ModelAdmin):
     list_display = ('id', 'enterprise', "qtype", "title", "right_answer", "score")
     search_fields = ('enterprise', 'title',)
+    filter_horizontal = ('tech',)
 
 
 @admin.register(ExaminationAnswer)

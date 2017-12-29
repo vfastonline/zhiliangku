@@ -46,6 +46,35 @@ class IndexCourseList(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
+class QuestionPathInfo(View):
+    """课程方向"""
+
+    def get(self, request, *args, **kwargs):
+        result_dict = {
+            "err": 0,
+            "msg": "success",
+            "data": [],
+        }
+        try:
+            # 课程数据
+            coursepaths = CoursePath.objects.filter()
+            result_dict["data"] = [
+                {
+                    "id": one.id,
+                    "name": one.name,
+                }
+                for one in coursepaths
+            ]
+
+        except:
+            traceback.print_exc()
+            logging.getLogger().error(traceback.format_exc())
+            result_dict["err"] = 1
+            result_dict["msg"] = traceback.format_exc()
+        finally:
+            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
 @class_view_decorator(user_login_required)
 class CourseList(View):
     """获取课程信息"""

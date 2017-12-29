@@ -1,10 +1,11 @@
+#!encoding:utf-8
 from django.conf.urls import url
 
+import collect_course
+import common_question
 import course_list
 import path_list
 import video_list
-import common_question
-import collect_course
 
 urlpatterns = [
     url('^index_path/list$', path_list.IndexPathList.as_view()),
@@ -30,4 +31,7 @@ urlpatterns = [
     url('^get-polyv$', video_list.UploadVideoPolyvParam.as_view()),
 
     url('^common_question/list/info$', common_question.CommonQuestionList.as_view()),
+
+    # 问题方向
+    url('^question/path/info$', course_list.QuestionPathInfo.as_view()),
 ]

@@ -5,6 +5,7 @@ import traceback
 
 from django.core.paginator import Paginator
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.views.generic import View
 
 from applications.interview_question.models import *
@@ -12,6 +13,15 @@ from lib.permissionMixin import class_view_decorator, user_login_required
 
 
 @class_view_decorator(user_login_required)
+class ExaminationQuestionList(View):
+    """面试题--页面"""
+
+    def get(self, request, *args, **kwargs):
+        template_name = "interview_questions/examinationquestion/list/index.html"
+        return render(request, template_name, {})
+
+
+# @class_view_decorator(user_login_required)
 class ExaminationQuestionListInfo(View):
     """所有面试题"""
 

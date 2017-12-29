@@ -50,6 +50,7 @@ class ExaminationQuestion(models.Model):
     title = models.CharField('问题内容', max_length=255)
     right_answer = MultiSelectField('正确答案', max_length=5, choices=RIGHTANSWER, help_text="可单选，可多选。", blank=True)
     score = models.PositiveIntegerField('得分', default=10)
+    tech = models.ManyToManyField("tracks_learning.Technology", verbose_name='技术分类-知识点', blank=True)
 
     def __unicode__(self):
         return self.title
