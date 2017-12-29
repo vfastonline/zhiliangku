@@ -1,13 +1,13 @@
 #!encoding:utf-8
 import json
-import logging
-import traceback
 
 from django.core.paginator import Paginator
+from django.db.models import *
 from django.http import HttpResponse
-from django.views.generic import View
 from django.shortcuts import render
+from django.views.generic import View
 
+from applications.custom_user.models import *
 from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
@@ -46,7 +46,36 @@ class IndexCourseList(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+class QuestionPathInfo(View):
+    """课程方向"""
+
+    def get(self, request, *args, **kwargs):
+        result_dict = {
+            "err": 0,
+            "msg": "success",
+            "data": [],
+        }
+        try:
+            # 课程数据
+            coursepaths = CoursePath.objects.filter()
+            result_dict["data"] = [
+                {
+                    "id": one.id,
+                    "name": one.name,
+                }
+                for one in coursepaths
+            ]
+
+        except:
+            traceback.print_exc()
+            logging.getLogger().error(traceback.format_exc())
+            result_dict["err"] = 1
+            result_dict["msg"] = traceback.format_exc()
+        finally:
+            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
 class CourseList(View):
     """获取课程信息"""
 
@@ -55,7 +84,7 @@ class CourseList(View):
         return render(request, template_name, {})
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class CourseListInfo(View):
     """获取课程信息"""
 
@@ -191,7 +220,7 @@ class CourseListInfo(View):
             return result_dict
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class CourseDetail(View):
     """课程详情"""
 
@@ -200,7 +229,7 @@ class CourseDetail(View):
         return render(request, template_name, {})
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class CourseDetailInfo(View):
     """课程详情"""
 
@@ -228,15 +257,64 @@ class CourseDetailInfo(View):
                     detail["avatar"] = course_obj.lecturer.avatar.url if course_obj.lecturer.avatar else ""
                     detail["position"] = course_obj.lecturer.position if course_obj.lecturer.position else ""
 
-                    # 假数据，待汇总
-                    detail["schedule"] = 0.3  # 课程完成进度
-                    detail["last_time_learn"] = "修改进程优先级"  # 上次学到
-                    detail["remaining_time_hour"] = 2  # 剩余时长小时数
-                    detail["remaining_time_minute"] = 15  # 剩余时长分钟数
-                    detail["is_collect"] = 1  # 用户是否收藏，1：收藏，0：未收藏
+                    # 默认，汇总数据
+                    detail["schedule"] = 0  # 课程完成进度
+                    last_time_learn_obj = course_obj.Section.order_by("sequence").first().Videos.order_by(
+                        "sequence").first()
+                    detail["last_time_learn"] = last_time_learn_obj.name  # 上次学到
+                    detail["last_time_learn_id"] = last_time_learn_obj.id  # 上次学到ID
 
+                    # 课程时长
+                    duration_sum = Video.objects.filter(section__in=course_obj.Section.all()).aggregate(
+                        Sum('duration')).get("duration__sum")
+                    detail["total_time"] = 0
+                    if duration_sum:
+                        detail["total_time"] = duration_sum  # 课程总时长，分钟
+
+                    # 剩余时长
+                    detail["remaining_time"] = 0  # 剩余时长，分钟
+                    watch_total_time = 0
+                    watch_total_time_sum = WatchRecord.objects.filter(user_id=custom_user_id, course=course_obj).values(
+                        "video_process").aggregate(Sum('video_process')).get("video_process__sum")  # 秒
+                    if watch_total_time_sum:
+                        watch_total_time = watch_total_time_sum
+
+                    # 计算剩余时长
+                    if duration_sum:
+                        if watch_total_time:
+                            remaining_seconds = (duration_sum * 60) - watch_total_time_sum
+                            minutes, seconds = divmod(remaining_seconds, 60)
+                            detail["remaining_time"] = minutes
+                            detail["schedule"] = float("%.2f" % (float(remaining_seconds) / float(duration_sum * 60)))
+                        else:
+                            detail["remaining_time"] = duration_sum
+                            detail["schedule"] = 1
+
+                    # 是否收藏
+                    detail["is_collect"] = 0  # 用户是否收藏，1：收藏，0：未收藏
+                    collect_filter = {
+                        "custom_user_id": custom_user_id,
+                        "course__in": [course_obj],
+                    }
+                    customusercourses = CustomUserCourse.objects.filter(**collect_filter)
+                    if customusercourses.exists():
+                        detail["is_collect"] = 1  # 用户是否收藏，1：收藏，0：未收藏
+
+                    # 用户是否有本课程学习记录
+                    detail["is_study_record"] = 0  # 默认用户无学习记录,
+                    watchrecord_param = {
+                        "user__id": custom_user_id,
+                        "course": course_obj,
+                    }
+                    watchrecords = WatchRecord.objects.filter(**watchrecord_param).order_by("-create_time")
+                    if watchrecords.exists():  # 有学习记录
+                        detail["is_study_record"] = 1
+                        detail["last_time_learn"] = watchrecords.first().video.name  # 上次学到
+                        detail["last_time_learn_id"] = watchrecords.first().video.id  # 上次学到ID
+
+                    # 查询课程下所有章节信息
                     detail["sections"] = list()
-                    for one_section in course_obj.Section.all().order_by("sequence"):  # 查询课程下所有章节信息
+                    for one_section in course_obj.Section.all().order_by("sequence"):
                         section = {
                             "id": one_section.id,
                             "title": one_section.title,

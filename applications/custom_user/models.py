@@ -78,6 +78,22 @@ class CustomUserPath(models.Model):
         verbose_name_plural = "参与路径"
 
 
+class CustomUserCourse(models.Model):
+    """用户收藏课程 """
+
+    custom_user = models.OneToOneField(CustomUser, verbose_name="用户", unique=True, limit_choices_to={'role': 0},
+                                       help_text='只允许选择角色是”学生“的用户。')
+    course = models.ManyToManyField("tracks_learning.Course", verbose_name="课程", blank=True)
+
+    def __unicode__(self):
+        return self.custom_user.nickname
+
+    class Meta:
+        db_table = 'CustomUserCourse'
+        verbose_name = "收藏课程"
+        verbose_name_plural = "收藏课程"
+
+
 class VerifyCode(models.Model):
     """验证码"""
     phone = models.CharField("手机号", max_length=11)

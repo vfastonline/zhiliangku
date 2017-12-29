@@ -10,7 +10,7 @@ from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class CommonQuestionList(View):
     """视频常见问题列表"""
 

@@ -6,16 +6,16 @@ import traceback
 from django.http import HttpResponse
 from django.views.generic import View
 
-from applications.interview_question.models import InterviewQuestions
+from applications.interview_question.models import EnterpriseInfo
 
 
-class IndexInterviewQuestionList(View):
-    """首页-企业面试题"""
+class IndexEnterpriseInfoList(View):
+    """首页-企业信息"""
 
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": []}
         try:
-            interview_questions_objs = InterviewQuestions.objects.all()[:4]
+            enterprise_info_objs = EnterpriseInfo.objects.all()[:4]
             result_dict["data"] = [
                 {
                     "id": one.id,
@@ -26,7 +26,7 @@ class IndexInterviewQuestionList(View):
                     "highest_monthly_salary": one.highest_monthly_salary,
                     "question_img": one.question_img.url,
                 }
-                for one in interview_questions_objs
+                for one in enterprise_info_objs
             ]
         except:
             traceback.print_exc()
