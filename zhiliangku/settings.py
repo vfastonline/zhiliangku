@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'applications.community',
     'applications.exercise',
     'applications.record',
+    'applications.personal_center',
     'corsheaders',
 ]
 
