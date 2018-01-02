@@ -36,7 +36,7 @@ SECRET_KEY = 'cq1(jfme)cw5a!glod@sjpw78+82j+ygg8ut_=i!6-r^t4k_7e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".zhiliangku.com"]
 
 # Application definition
 
