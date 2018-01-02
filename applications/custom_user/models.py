@@ -28,6 +28,7 @@ class CustomUser(models.Model):
     avatar = models.ImageField('头像', upload_to=upload_to, storage=ImageStorage(), blank=True, null=True, max_length=256,
                                default="custom_user_avatar/defaultUserIcon.png")
     position = models.CharField('职位', max_length=255, blank=True, null=True)
+    signature = models.CharField('个性签名', max_length=255, blank=True, null=True)
 
     def __unicode__(self):
         return ",".join([self.nickname, str(self.id), str(self.get_role_display())])

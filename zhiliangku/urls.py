@@ -37,6 +37,7 @@ urlpatterns = [
     url('^community/', include('applications.community.urls')),
     url('^exercise/', include('applications.exercise.urls')),
     url('^polyv/callback', PolyvCallBack.as_view()),
+    url('^personal_center/', include('applications.personal_center.urls')),
     url(r'^upload', views.upload, name='upload'),
 ]
 

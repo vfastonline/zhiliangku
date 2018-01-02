@@ -255,10 +255,13 @@ class CourseDetailInfo(View):
 
                     # 默认，汇总数据
                     detail["schedule"] = 0  # 课程完成进度
-                    last_time_learn_obj = course_obj.Section.order_by("sequence").first().Videos.order_by(
-                        "sequence").first()
-                    detail["last_time_learn"] = last_time_learn_obj.name  # 上次学到
-                    detail["last_time_learn_id"] = last_time_learn_obj.id  # 上次学到ID
+                    course_sections = course_obj.Section.order_by("sequence")
+                    if course_sections:
+                        last_time_learn_objs = course_sections.first().Videos.order_by("sequence")
+                        if last_time_learn_objs:
+                            last_time_learn_obj = last_time_learn_objs.first()
+                            detail["last_time_learn"] = last_time_learn_obj.name  # 上次学到
+                            detail["last_time_learn_id"] = last_time_learn_obj.id  # 上次学到ID
 
                     # 课程时长
                     duration_sum = Video.objects.filter(section__in=course_obj.Section.all()).aggregate(
