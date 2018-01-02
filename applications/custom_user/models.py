@@ -23,7 +23,13 @@ class CustomUser(models.Model):
         (2, 'HR'),
         (3, '其他'),
     )
+    GENDER_CHOICES = (
+        ('M', u'男'),
+        ('F', u'女'),
+    )
+
     nickname = models.CharField('昵称', max_length=255, blank=True, null=True)
+    sex = models.CharField("性别", max_length=2, choices=GENDER_CHOICES, blank=True)
     role = models.IntegerField('角色', choices=ROLE, null=True, default=3)
     avatar = models.ImageField('头像', upload_to=upload_to, storage=ImageStorage(), blank=True, null=True, max_length=256,
                                default="custom_user_avatar/defaultUserIcon.png")

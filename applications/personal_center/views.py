@@ -18,8 +18,8 @@ class PersonalCenter(View):
         return render(request, template_name, {})
 
 
-@class_view_decorator(user_login_required)
-class PersonalCenterInfo(View):
+# @class_view_decorator(user_login_required)
+class PersonalCenterBasicInfo(View):
     """个人中心--基础信息"""
 
     def get(self, request, *args, **kwargs):
@@ -39,6 +39,7 @@ class PersonalCenterInfo(View):
                 data_dict["signature"] = customuser.signature if customuser.signature else ""
                 data_dict["learn_time"] = 60  # 单位：分钟
                 data_dict["integral"] = 4  # 积分
+                data_dict["sex"] = customuser.get_sex_display()
             result_dict["data"] = data_dict
         except:
             traceback.print_exc()
