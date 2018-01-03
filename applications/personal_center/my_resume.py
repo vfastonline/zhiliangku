@@ -18,7 +18,7 @@ resume_model_dict = {
 }
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class ResumDetailInfo(View):
     """简历--基础信息"""
 
@@ -64,7 +64,7 @@ class ResumDetailInfo(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(login_required)
+@class_view_decorator(user_login_required)
 class ResumeDelete(View):
     """删除简历信息"""
 
@@ -92,7 +92,7 @@ class ResumeDelete(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(login_required)
+@class_view_decorator(user_login_required)
 class ResumeUpdate(View):
     """修改简历信息"""
 
@@ -124,7 +124,7 @@ class ResumeUpdate(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(login_required)
+@class_view_decorator(user_login_required)
 class ResumeAdd(View):
     """增加不同类型简历信息"""
 
