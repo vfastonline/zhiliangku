@@ -34,6 +34,8 @@ class CustomUser(models.Model):
     avatar = models.ImageField('头像', upload_to=upload_to, storage=ImageStorage(), blank=True, null=True, max_length=256,
                                default="custom_user_avatar/defaultUserIcon.png")
     position = models.CharField('职位', max_length=255, blank=True, null=True)
+    receiver = models.CharField('收货人', max_length=255, blank=True, null=True, default="")
+    address = models.CharField('收货地址', max_length=255, blank=True, null=True, default="")
     signature = models.CharField('个性签名', max_length=255, blank=True, null=True)
 
     def __unicode__(self):
@@ -51,7 +53,6 @@ class CustomUserAuths(models.Model):
         ("phone", "phone"),
         ("email", "email"),
         ("weixin", "weixin"),
-        ("weibo", "weibo"),
         ("qq", "qq"),
     )
     custom_user_id = models.ForeignKey(CustomUser, verbose_name="用户")
@@ -67,6 +68,7 @@ class CustomUserAuths(models.Model):
         db_table = 'CustomUserAuths'
         verbose_name = "授权信息"
         verbose_name_plural = "授权信息"
+        ordering = ["custom_user_id"]
 
 
 class CustomUserPath(models.Model):
