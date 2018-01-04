@@ -29,8 +29,8 @@ class ExaminationQuestionListInfo(View):
         result_dict = {"err": 0, "msg": "success", "data": list(), "paginator": dict()}
         try:
             # 按过滤条件查询
-            enterprise_id = int(request.GET.get('enterprise_id', 0))  # 企业ID
-            page = int(self.request.GET.get("page", 1))  # 页码
+            enterprise_id = request.GET.get('enterprise_id', 0)  # 企业ID
+            page = self.request.GET.get("page", 1)  # 页码
 
             data_list = list()
             questions = ExaminationQuestion.objects.filter(enterprise_id=enterprise_id)
@@ -86,8 +86,8 @@ class ExaminationQuestionAnswerInfo(View):
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
-            examination_question_id = int(request.GET.get('examination_question_id', 0))  # 面试题ID
-            custom_user_id = int(self.request.GET.get('custom_user_id', 0))  # 用户ID
+            examination_question_id = request.GET.get('examination_question_id', 0)  # 面试题ID
+            custom_user_id = self.request.GET.get('custom_user_id', 0)  # 用户ID
             option = self.request.GET.get("option", 0)  # 用户选择选项
 
             if examination_question_id and custom_user_id:

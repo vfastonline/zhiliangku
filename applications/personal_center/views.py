@@ -29,7 +29,7 @@ class PersonalCenterBasicInfo(View):
             "data": dict(),
         }
         try:
-            custom_user_id = int(request.GET.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = request.GET.get('custom_user_id', 0)  # 用户ID
             customusers = CustomUser.objects.filter(id=custom_user_id)
             data_dict = dict()
             if customusers.exists():

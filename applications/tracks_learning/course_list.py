@@ -98,11 +98,11 @@ class CourseListInfo(View):
         }
         try:
             # 获取查询参数
-            category_id = int(self.request.GET.get("category_id", 0))  # 课程类别
-            coursepath_id = int(self.request.GET.get("coursepath_id", 0))  # 课程方向
-            technology_id = int(self.request.GET.get("technology_id", 0))  # 技术分类
-            page = int(self.request.GET.get("page", 1))  # 页码
-            per_page = int(self.request.GET.get("per_page", 12))  # 每页显示条目数
+            category_id = self.request.GET.get("category_id", 0)  # 课程类别
+            coursepath_id = self.request.GET.get("coursepath_id", 0)  # 课程方向
+            technology_id = self.request.GET.get("technology_id", 0)  # 技术分类
+            page = self.request.GET.get("page", 1)  # 页码
+            per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
 
             course_objs = Course.objects.all()
 
@@ -233,9 +233,9 @@ class CourseDetailInfo(View):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
             filter_param = dict()
-            course_id = int(request.GET.get('course_id', 0))
-            include_video = int(request.GET.get('include_video', 0))  # 是否包含视频信息
-            custom_user_id = int(request.GET.get('custom_user_id', 0))  # 用户ID
+            course_id = request.GET.get('course_id', 0)
+            include_video = request.GET.get('include_video', 0)  # 是否包含视频信息
+            custom_user_id = request.GET.get('custom_user_id', 0)  # 用户ID
             detail = dict()
             if course_id:
                 filter_param["id"] = course_id

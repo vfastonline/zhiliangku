@@ -30,8 +30,8 @@ class EnterpriseRsultInfo(View):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
             result_data = dict()
-            custom_user_id = int(self.request.GET.get('custom_user_id', 0))  # 用户ID
-            enterpriseinfo_id = int(self.request.GET.get("enterpriseinfo_id", 0))  # 企业ID
+            custom_user_id = self.request.GET.get('custom_user_id', 0)  # 用户ID
+            enterpriseinfo_id = self.request.GET.get("enterpriseinfo_id", 0)  # 企业ID
 
             enterpriseinfos = EnterpriseInfo.objects.filter(id=enterpriseinfo_id)
             if enterpriseinfos.exists():

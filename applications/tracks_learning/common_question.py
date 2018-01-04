@@ -18,7 +18,7 @@ class CommonQuestionList(View):
         result_dict = {"err": 0, "msg": "success", "data": list()}
         try:
             # 获取查询参数
-            video_id = int(request.GET.get('video_id', 0))
+            video_id = request.GET.get('video_id', 0)
 
             data_list = list()
             if video_id:
