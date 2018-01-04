@@ -13,8 +13,10 @@ urlpatterns = [
     # 个人设置
     url('^personal_settings/update/basicinfo$', personal_settings.UpdateBasicInfo.as_view()),
     url('^personal_settings/useraccount$', personal_settings.GetUserAccount.as_view()),
-    # url('^personal_settings/accountbindemail$', personal_settings.AccountBindEmail.as_view()),
+    url('^personal_settings/accountbind/email$', personal_settings.AccountBindEmail.as_view()),
+    url('^personal_settings/accountbind/phone$', personal_settings.AccountBindPhone.as_view()),
     url('^personal_settings/user/address$', personal_settings.UserAddress.as_view()),
+    url('^personal_settings/change/password$', personal_settings.ChangePassword.as_view()),
 
     # 我的简历
     url('^resume/detail/info$', my_resume.ResumeDetailInfo.as_view()),
