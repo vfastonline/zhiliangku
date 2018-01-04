@@ -1,10 +1,10 @@
 #!encoding:utf-8
-import datetime
 import random
 import re
 import urllib2
 import urlparse
 
+import datetime
 import requests
 from django.http import Http404
 from django.shortcuts import render

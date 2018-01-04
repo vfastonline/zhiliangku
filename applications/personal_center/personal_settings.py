@@ -1,10 +1,5 @@
 #!encoding:utf-8
 
-import urllib2
-import urlparse
-
-import requests
-from django.http import Http404
 from django.views.generic import View
 
 from applications.custom_user.models import *
@@ -13,7 +8,6 @@ from applications.custom_user.views import send_activation_mail
 from lib.encrypt import PyCrypt
 from lib.permissionMixin import class_view_decorator, user_login_required
 from lib.util import *
-from zhiliangku.settings import MEDIA_ROOT
 
 """个人设置"""
 

@@ -1,10 +1,10 @@
 #!encoding:utf-8
 from django.conf.urls import url
 
-from applications.personal_center import views
-from applications.personal_center import personal_settings
-from applications.personal_center import my_resume
 from applications.personal_center import my_courses
+from applications.personal_center import my_resume
+from applications.personal_center import personal_settings
+from applications.personal_center import views
 
 urlpatterns = [
     url('^page/$', views.PersonalCenter.as_view()),
