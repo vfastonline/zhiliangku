@@ -21,7 +21,7 @@ class WatchRecord(models.Model):
     create_time = models.DateTimeField(verbose_name='记录时间', auto_now=True)
 
     def __unicode__(self):
-        return self.user.nickname
+        return self.user.nickname + "|" + self.course.name
 
     class Meta:
         db_table = 'WatchRecord'

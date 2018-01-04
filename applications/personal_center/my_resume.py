@@ -18,8 +18,51 @@ resume_model_dict = {
 }
 
 
+def get_resume_detail_info(custom_user_id):
+    """根据用户ID，获取简历全量数据
+    :param custom_user_id:
+    :return:
+    """
+    result_dict = {
+        "err": 0,
+        "msg": "success",
+        "data": dict(),
+    }
+    try:
+        resumes = list(Resume.objects.filter(custom_user_id=custom_user_id).values())
+        careerobjectives = list(CareerObjective.objects.filter(custom_user_id=custom_user_id).values())
+        workexperiences = list(WorkExperience.objects.filter(custom_user_id=custom_user_id).values())
+        projectexperiences = list(ProjectExperience.objects.filter(custom_user_id=custom_user_id).values())
+        educationexperiences = list(EducationExperience.objects.filter(custom_user_id=custom_user_id).values())
+        data_dict = dict()
+
+        # 基础信息
+        if resumes:
+            resume_dict = resumes[0]
+            data_dict.update(resume_dict)
+            career_objective_id = resume_dict.get("career_objective_id", 0)
+            if career_objective_id:
+                career_objective_list = list(
+                    CareerObjective.objects.filter(id=career_objective_id).values("expect_salary_low",
+                                                                                  "expect_salary_high"))
+                if career_objective_list:
+                    data_dict["expect_salary_low"] = career_objective_list[0].get("expect_salary_low")
+                    data_dict["expect_salary_high"] = career_objective_list[0].get("expect_salary_high")
+
+        data_dict["careerobjectives"] = careerobjectives
+        data_dict["workexperiences"] = workexperiences
+        data_dict["projectexperiences"] = projectexperiences
+        data_dict["educationexperiences"] = educationexperiences
+        result_dict["data"] = data_dict
+    except:
+        traceback.print_exc()
+        logging.getLogger().error(traceback.format_exc())
+    finally:
+        return result_dict
+
+
 @class_view_decorator(user_login_required)
-class ResumDetailInfo(View):
+class ResumeDetailInfo(View):
     """简历--基础信息"""
 
     def get(self, request, *args, **kwargs):
@@ -30,31 +73,7 @@ class ResumDetailInfo(View):
         }
         try:
             custom_user_id = request.GET.get('custom_user_id', 0)  # 用户ID
-            resumes = list(Resume.objects.filter(custom_user_id=custom_user_id).values())
-            careerobjectives = list(CareerObjective.objects.filter(custom_user_id=custom_user_id).values())
-            workexperiences = list(WorkExperience.objects.filter(custom_user_id=custom_user_id).values())
-            projectexperiences = list(ProjectExperience.objects.filter(custom_user_id=custom_user_id).values())
-            educationexperiences = list(EducationExperience.objects.filter(custom_user_id=custom_user_id).values())
-            data_dict = dict()
-
-            # 基础信息
-            if resumes:
-                resume_dict = resumes[0]
-                data_dict.update(resume_dict)
-                career_objective_id = resume_dict.get("career_objective_id", 0)
-                if career_objective_id:
-                    career_objective_list = list(
-                        CareerObjective.objects.filter(id=career_objective_id).values("expect_salary_low",
-                                                                                      "expect_salary_high"))
-                    if career_objective_list:
-                        data_dict["expect_salary_low"] = career_objective_list[0].get("expect_salary_low")
-                        data_dict["expect_salary_high"] = career_objective_list[0].get("expect_salary_high")
-
-            data_dict["careerobjectives"] = careerobjectives
-            data_dict["workexperiences"] = workexperiences
-            data_dict["projectexperiences"] = projectexperiences
-            data_dict["educationexperiences"] = educationexperiences
-            result_dict["data"] = data_dict
+            result_dict = get_resume_detail_info(custom_user_id)
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
@@ -73,13 +92,13 @@ class ResumeDelete(View):
         try:
             param_dict = json.loads(request.body)
             resume_type = param_dict.get("resume_type", "")
+            custom_user_id = param_dict.get("custom_user_id", 0)
             pk_id = param_dict.get("pk_id", "")
             if resume_type and pk_id:
                 resume_type_model = resume_model_dict.get(resume_type)
                 deleted, _rows_count = resume_type_model.objects.filter(id=pk_id).delete()
                 if deleted and _rows_count:
-                    result_dict["err"] = 0
-                    result_dict["msg"] = "成功删除"
+                    result_dict = get_resume_detail_info(custom_user_id)
                 else:
                     result_dict["msg"] = "未找到要删除的简历信息"
             else:
@@ -92,7 +111,7 @@ class ResumeDelete(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class ResumeUpdate(View):
     """修改简历信息"""
 
@@ -100,6 +119,7 @@ class ResumeUpdate(View):
         result_dict = {"err": 0, "msg": "修改成功"}
         try:
             param_dict = json.loads(request.body)
+            custom_user_id = param_dict.get("custom_user_id", 0)
             resume_type = param_dict.get("resume_type", "")
             pk_id = param_dict.get("pk_id", "")
             resume_info_dict = param_dict.get("resume_info_dict", {})
@@ -112,6 +132,7 @@ class ResumeUpdate(View):
                         resume_info_dict["career_objective"] = career_objective_obj.first()
                 resume_type_model = resume_model_dict.get(resume_type)
                 resume_type_model.objects.filter(id=pk_id).update(**resume_info_dict)
+                result_dict = get_resume_detail_info(custom_user_id)
             else:
                 result_dict["err"] = 1
                 result_dict["msg"] = "简历修改数据不完善，修改失败!"
@@ -148,12 +169,11 @@ class ResumeAdd(View):
                     resume_obj = Resume.objects.filter(custom_user_id=user_obj)
                     if resume_obj.exists():
                         resume_obj.update(**resume_info_dict)
-                        obj_id = resume_obj.first().id
                     else:
-                        obj_id = resume_type_model.objects.create(**resume_info_dict)
+                       resume_type_model.objects.create(**resume_info_dict)
                 else:
-                    obj_id = resume_type_model.objects.create(**resume_info_dict)
-                result_dict["id"] = obj_id.id
+                    resume_type_model.objects.create(**resume_info_dict)
+                result_dict = get_resume_detail_info(custom_user_id)
             else:
                 result_dict["err"] = 1
                 result_dict["msg"] = "未找到用户信息，新增失败!"
