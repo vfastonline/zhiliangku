@@ -137,6 +137,7 @@ class WeiXinLogin(View):
             # https://open.weixin.qq.com/connect/qrconnect?appid=wx7c9efe7b17c8aef2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2flogin&response_type=code&scope=snsapi_login&state=L2FkbWlu#wechat_redirect
             self.code = self.request.GET.get("code")
             self.state = self.request.GET.get("state")
+            self.user_id = self.request.GET.get("u")  # 绑定账号用
 
             # 解base64,重定向url
             self.state = base64.b64decode(self.state)
@@ -251,80 +252,90 @@ class WeiXinLogin(View):
                     # request.session['user'] = user_dict
                     # request.session['login'] = True
             else:
-                create_user = CustomUser.objects.create(nickname=nickname, role=0)
-                avatar_filename = "_".join([time.strftime('%Y%m%d%H%M%S'), "weixin.jpg"])
-                avatar_path = os.path.join("custom_user_avatar", str(create_user.id), avatar_filename)
-                create_user.avatar = avatar_path
-                create_user.save()
-
-                # 下载头像
-                avatar_abs_path = os.path.join(MEDIA_ROOT, "custom_user_avatar", str(create_user.id))
-                if not os.path.exists(avatar_abs_path):
-                    os.makedirs(avatar_abs_path)
-
-                # resp = urllib2.urlopen(headimgurl)
-                # real_url_str = str(resp.geturl())
-                # req = urllib2.Request(real_url_str)
-                resp = urllib2.urlopen(headimgurl)
-                resp_html = resp.read()
-                binfile = open(os.path.join(avatar_abs_path, avatar_filename), "wb")
-                binfile.write(resp_html)
-                binfile.close()
-
-                if create_user:
+                if self.user_id:  # 绑定账号
                     user_auth_dict = {
-                        "custom_user_id": create_user,
+                        "custom_user_id": CustomUser.objects.get(id=self.user_id),
                         "identity_type": "weixin",  # 登录类型
                         "identifier": openid,  # 唯一标识
                         "credential": access_token,  # 密码凭证
                     }
                     create_auth = CustomUserAuths.objects.create(**user_auth_dict)
+                else:
+                    create_user = CustomUser.objects.create(nickname=nickname, role=0)
+                    avatar_filename = "_".join([time.strftime('%Y%m%d%H%M%S'), "weixin.jpg"])
+                    avatar_path = os.path.join("custom_user_avatar", str(create_user.id), avatar_filename)
+                    create_user.avatar = avatar_path
+                    create_user.save()
 
-                    if create_auth:
-                        # 生成token
-                        token = get_validate(openid, create_user.id, 0, CryptKey)
-                        # result_dict["err"] = 0
-                        # result_dict["msg"] = "success"
-                        # result_dict["data"]["token"] = token
-                        # result_dict["data"]["user"] = {
-                        #     "uid": create_user.id,
-                        #     "nickname": create_user.nickname,
-                        #     "role": create_user.role,
-                        #     "avatar": create_user.avatar.url if create_user.avatar else "",
-                        #     "position": create_user.position,
-                        # }
-                        user_info_str = "uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
-                            uid=create_user.id,
-                            nickname=create_user.nickname,
-                            role=create_user.get_role_display(),
-                            avatar=create_user.avatar.url if create_user.avatar else "",
-                            position=create_user.position if create_user.position else "",
-                        )
-                        user_info = "user_info=" + base64.b64encode(user_info_str)
-                        if "?" in self.state:
-                            self.state += "&" + user_info
-                        else:
-                            self.state += "?" + user_info
+                    # 下载头像
+                    avatar_abs_path = os.path.join(MEDIA_ROOT, "custom_user_avatar", str(create_user.id))
+                    if not os.path.exists(avatar_abs_path):
+                        os.makedirs(avatar_abs_path)
 
-                            # user_dict = {
-                            #     "nickname": create_user.nickname,
+                    # resp = urllib2.urlopen(headimgurl)
+                    # real_url_str = str(resp.geturl())
+                    # req = urllib2.Request(real_url_str)
+                    resp = urllib2.urlopen(headimgurl)
+                    resp_html = resp.read()
+                    binfile = open(os.path.join(avatar_abs_path, avatar_filename), "wb")
+                    binfile.write(resp_html)
+                    binfile.close()
+
+                    if create_user:
+                        user_auth_dict = {
+                            "custom_user_id": create_user,
+                            "identity_type": "weixin",  # 登录类型
+                            "identifier": openid,  # 唯一标识
+                            "credential": access_token,  # 密码凭证
+                        }
+                        create_auth = CustomUserAuths.objects.create(**user_auth_dict)
+
+                        if create_auth:
+                            # 生成token
+                            token = get_validate(openid, create_user.id, 0, CryptKey)
+                            # result_dict["err"] = 0
+                            # result_dict["msg"] = "success"
+                            # result_dict["data"]["token"] = token
+                            # result_dict["data"]["user"] = {
                             #     "uid": create_user.id,
-                            #     "avatar": create_user.avatar.name
+                            #     "nickname": create_user.nickname,
+                            #     "role": create_user.role,
+                            #     "avatar": create_user.avatar.url if create_user.avatar else "",
+                            #     "position": create_user.position,
                             # }
-                            # request.session['token'] = token
-                            # request.session['user'] = user_dict
-                            # request.session['login'] = True
+                            user_info_str = "uid={uid}&nickname={nickname}&role={role}&avatar={avatar}&position={position}".format(
+                                uid=create_user.id,
+                                nickname=create_user.nickname,
+                                role=create_user.get_role_display(),
+                                avatar=create_user.avatar.url if create_user.avatar else "",
+                                position=create_user.position if create_user.position else "",
+                            )
+                            user_info = "user_info=" + base64.b64encode(user_info_str)
+                            if "?" in self.state:
+                                self.state += "&" + user_info
+                            else:
+                                self.state += "?" + user_info
 
-                    else:
-                        create_user.delete()
-                        # result_dict["msg"] = "用户权限添加失败"
+                                # user_dict = {
+                                #     "nickname": create_user.nickname,
+                                #     "uid": create_user.id,
+                                #     "avatar": create_user.avatar.name
+                                # }
+                                # request.session['token'] = token
+                                # request.session['user'] = user_dict
+                                # request.session['login'] = True
+
+                        else:
+                            create_user.delete()
+                            # result_dict["msg"] = "用户权限添加失败"
         except:
             # result_dict["msg"] = traceback.format_exc()
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
         finally:
             res = HttpResponseRedirect(self.state)
-            res.set_cookie("token", token)
+            if not self.user_id:
+                res.set_cookie("token", token)
             return res
             # return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
@@ -347,8 +358,8 @@ class QQLogin(View):
             # 第一步获取code跟state
             # https://graph.qq.com/oauth2.0/show?which=Login&display=pc&response_type=code&client_id=101447834&redirect_uri=http%3A%2F%2Fwww.zhiliangku.com%2Fcustomuser%2Fqq%2Flogin&state=L2FkbWlu&scope=get_user_info,get_info
             self.code = self.request.GET.get("code")
-            self.user_id = self.request.GET.get("u")
             self.state = self.request.GET.get("state")
+            self.user_id = self.request.GET.get("u")  # 绑定账号用
 
             # 解base64,重定向url
             self.state = base64.b64decode(self.state)
@@ -462,7 +473,7 @@ class QQLogin(View):
                     # request.session['user'] = user_dict
                     # request.session['login'] = True
             else:
-                if self.user_id:  # 绑定QQ账号
+                if self.user_id:  # 绑定账号
                     user_auth_dict = {
                         "custom_user_id": CustomUser.objects.get(id=self.user_id),
                         "identity_type": "qq",  # 登录类型
