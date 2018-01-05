@@ -8,6 +8,7 @@ from applications.record.models import *
 from applications.custom_user.models import *
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from applications.tracks_learning.course_list import summarize_course_progress
 
 """我的课程"""
 
@@ -33,7 +34,11 @@ class LearnRecently(View):
                     data_dict["course_img"] = one.course.course_img.url
                     data_dict["create_time_year"] = one.create_time.strftime("%Y")
                     data_dict["create_time"] = one.create_time.strftime("%m月%d日")
-                    data_dict["schedule"] = 0.34
+                    summarize_dict = summarize_course_progress(custom_user_id, one.course.id)
+                    data_dict["schedule"] = summarize_dict.get("schedule")
+                    data_dict["is_study_record"] = summarize_dict.get("is_study_record")  # 是否有用户无学习记录
+                    data_dict["last_time_learn"] = summarize_dict.get("last_time_learn")  # 最近学习视频名称
+                    data_dict["last_time_learn_id"] = summarize_dict.get("last_time_learn_id")  # 最近学习视频ID
                     data_list.append(data_dict)
             result_dict["data"] = data_list
 
@@ -65,7 +70,11 @@ class MyCollect(View):
                     data_dict = dict()
                     data_dict["course_name"] = one.name
                     data_dict["course_img"] = one.course_img.url
-                    data_dict["schedule"] = 0.34
+                    summarize_dict = summarize_course_progress(custom_user_id, one.id)
+                    data_dict["schedule"] = summarize_dict.get("schedule")
+                    data_dict["is_study_record"] = summarize_dict.get("is_study_record")  # 是否有用户无学习记录
+                    data_dict["last_time_learn"] = summarize_dict.get("last_time_learn")  # 最近学习视频名称
+                    data_dict["last_time_learn_id"] = summarize_dict.get("last_time_learn_id")  # 最近学习视频ID
                     data_list.append(data_dict)
             result_dict["data"] = data_list
 
@@ -99,7 +108,11 @@ class MyPath(View):
                     data_dict["path_img"] = one.path_img.url
                     data_dict["course_count"] = sum([coursecategory.courses.all().count() for coursecategory in
                                                      CourseCategory.objects.filter(path_stage__path=one)])
-                    data_dict["schedule"] = 0.34
+                    summarize_dict = summarize_course_progress(custom_user_id, one.id)
+                    data_dict["schedule"] = summarize_dict.get("schedule")
+                    data_dict["is_study_record"] = summarize_dict.get("is_study_record")  # 是否有用户无学习记录
+                    data_dict["last_time_learn"] = summarize_dict.get("last_time_learn")  # 最近学习视频名称
+                    data_dict["last_time_learn_id"] = summarize_dict.get("last_time_learn_id")  # 最近学习视频ID
                     data_list.append(data_dict)
             result_dict["data"] = data_list
 
