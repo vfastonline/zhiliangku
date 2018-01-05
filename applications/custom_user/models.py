@@ -36,6 +36,7 @@ class CustomUser(models.Model):
     position = models.CharField('职位', max_length=255, blank=True, null=True)
     receiver = models.CharField('收货人', max_length=255, blank=True, null=True, default="")
     address = models.CharField('收货地址', max_length=255, blank=True, null=True, default="")
+    contact_number = models.CharField('联系电话', max_length=255, blank=True, null=True, default="")
     signature = models.CharField('个性签名', max_length=255, blank=True, null=True)
 
     def __unicode__(self):

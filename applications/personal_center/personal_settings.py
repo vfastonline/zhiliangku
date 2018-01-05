@@ -310,6 +310,7 @@ class UserAddress(View):
                 customuser = customusers.first()
                 data_dict["receiver"] = customuser.receiver
                 data_dict["address"] = customuser.address
+                data_dict["contact_number"] = customuser.contact_number
 
             result_dict["data"] = data_dict
         except:
@@ -331,6 +332,7 @@ class UserAddress(View):
             custom_user_id = param_dict.get('custom_user_id', 0)  # 用户ID
             receiver = param_dict.get('receiver', "")  # 收货人
             address = param_dict.get('address', "")  # 收货地址
+            contact_number = param_dict.get('contact_number', "")  # 联系电话
 
             customusers = CustomUser.objects.filter(id=custom_user_id)
             data_dict = dict()
@@ -338,10 +340,12 @@ class UserAddress(View):
                 customuser = customusers.first()
                 customuser.receiver = receiver
                 customuser.address = address
+                customuser.contact_number = contact_number
                 customuser.save()
 
                 data_dict["receiver"] = customuser.receiver
                 data_dict["address"] = customuser.address
+                data_dict["contact_number"] = customuser.contact_number
             else:
                 result_dict["msg"] = "找不到对应用户"
             result_dict["data"] = data_dict
