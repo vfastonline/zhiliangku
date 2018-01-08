@@ -44,11 +44,9 @@ def get_resume_detail_info(custom_user_id):
             career_objective_id = resume_dict.get("career_objective_id", 0)
             if career_objective_id:
                 career_objective_list = list(
-                    CareerObjective.objects.filter(id=career_objective_id).values("expect_salary_low",
-                                                                                  "expect_salary_high"))
+                    CareerObjective.objects.filter(id=career_objective_id).values("expect_salary"))
                 if career_objective_list:
-                    resume_dict["expect_salary_low"] = career_objective_list[0].get("expect_salary_low")
-                    resume_dict["expect_salary_high"] = career_objective_list[0].get("expect_salary_high")
+                    resume_dict["expect_salary"] = career_objective_list[0].get("expect_salary")
 
         data_dict["resume"] = resume_dict
         data_dict["careerobjectives"] = careerobjectives
@@ -65,7 +63,7 @@ def get_resume_detail_info(custom_user_id):
 
 @class_view_decorator(user_login_required)
 class ResumeDetailInfo(View):
-    """简历--基础信息"""
+    """全量--简历信息"""
 
     def get(self, request, *args, **kwargs):
         result_dict = {

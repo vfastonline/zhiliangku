@@ -29,8 +29,7 @@ class CareerObjectiveAdmin(admin.ModelAdmin):
         'id',
         'custom_user',
         "position",
-        "expect_salary_low",
-        "expect_salary_high",
+        "expect_salary",
         "city",
         "industry",
     )
