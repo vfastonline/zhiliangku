@@ -36,20 +36,21 @@ def get_resume_detail_info(custom_user_id):
         projectexperiences = list(ProjectExperience.objects.filter(custom_user_id=custom_user_id).values())
         educationexperiences = list(EducationExperience.objects.filter(custom_user_id=custom_user_id).values())
         data_dict = dict()
+        resume_dict = dict()
 
         # 基础信息
         if resumes:
             resume_dict = resumes[0]
-            data_dict.update(resume_dict)
             career_objective_id = resume_dict.get("career_objective_id", 0)
             if career_objective_id:
                 career_objective_list = list(
                     CareerObjective.objects.filter(id=career_objective_id).values("expect_salary_low",
                                                                                   "expect_salary_high"))
                 if career_objective_list:
-                    data_dict["expect_salary_low"] = career_objective_list[0].get("expect_salary_low")
-                    data_dict["expect_salary_high"] = career_objective_list[0].get("expect_salary_high")
+                    resume_dict["expect_salary_low"] = career_objective_list[0].get("expect_salary_low")
+                    resume_dict["expect_salary_high"] = career_objective_list[0].get("expect_salary_high")
 
+        data_dict["resume"] = resume_dict
         data_dict["careerobjectives"] = careerobjectives
         data_dict["workexperiences"] = workexperiences
         data_dict["projectexperiences"] = projectexperiences
