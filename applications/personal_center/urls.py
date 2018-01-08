@@ -1,11 +1,11 @@
 #!encoding:utf-8
 from django.conf.urls import url
 
+from applications.personal_center import job_information
 from applications.personal_center import my_courses
 from applications.personal_center import my_resume
 from applications.personal_center import personal_settings
 from applications.personal_center import views
-from applications.personal_center import job_information
 
 urlpatterns = [
     url('^page/$', views.PersonalCenter.as_view()),
@@ -34,5 +34,5 @@ urlpatterns = [
     url('^job/post/match$', job_information.PostMatch.as_view()),
     url('^job/post/match/detail$', job_information.PostMatchDetail.as_view()),
     url('^job/overallqualityscore$', job_information.OverallQualityScore.as_view()),
-    url('^job/focusonmybusiness$', job_information.FocusOnMyBusiness.as_view()),
+    url('^job/focusonmybusiness$', job_information.FocusOnßMyBusiness.as_view()),
 ]

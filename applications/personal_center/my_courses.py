@@ -4,16 +4,16 @@ import json
 from django.http import HttpResponse
 from django.views.generic import View
 
-from applications.record.models import *
 from applications.custom_user.models import *
+from applications.record.models import *
+from applications.tracks_learning.course_list import summarize_course_progress
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
-from applications.tracks_learning.course_list import summarize_course_progress
 
 """我的课程"""
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class LearnRecently(View):
     """最近学习"""
 
@@ -51,7 +51,7 @@ class LearnRecently(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class MyCollect(View):
     """我的收藏"""
 
@@ -88,7 +88,7 @@ class MyCollect(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class MyPath(View):
     """我的路径"""
 

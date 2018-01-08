@@ -19,6 +19,7 @@ resume_model_dict = {
 }
 
 
+@class_view_decorator(user_login_required)
 def get_resume_detail_info(custom_user_id):
     """根据用户ID，获取简历全量数据
     :param custom_user_id:
@@ -61,7 +62,7 @@ def get_resume_detail_info(custom_user_id):
         return result_dict
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class ResumeDetailInfo(View):
     """全量--简历信息"""
 
@@ -111,7 +112,7 @@ class ResumeDelete(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class ResumeUpdate(View):
     """修改简历信息"""
 
