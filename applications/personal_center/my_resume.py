@@ -19,7 +19,6 @@ resume_model_dict = {
 }
 
 
-@class_view_decorator(user_login_required)
 def get_resume_detail_info(custom_user_id):
     """根据用户ID，获取简历全量数据
     :param custom_user_id:
