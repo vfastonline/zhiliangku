@@ -34,5 +34,5 @@ urlpatterns = [
     url('^job/post/match$', job_information.PostMatch.as_view()),
     url('^job/post/match/detail$', job_information.PostMatchDetail.as_view()),
     url('^job/overallqualityscore$', job_information.OverallQualityScore.as_view()),
-    url('^job/focusonmybusiness$', job_information.FocusOnßMyBusiness.as_view()),
+    url('^job/focusonmybusiness$', job_information.FocusOnMyBusiness.as_view()),
 ]
