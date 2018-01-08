@@ -2,7 +2,7 @@
   <div class="careerPath">
       <subtitle :msg="msg"></subtitle>
       <div class="cpm-content">
-          <carrerps v-for="(item,index) in ajaxData" :key="item.id" :mainData="item"></carrerps>
+          <carrerps v-for="(item,index) in ajaxData" :key="index" :mainData="item"></carrerps>
       </div>
   </div>
 </template>

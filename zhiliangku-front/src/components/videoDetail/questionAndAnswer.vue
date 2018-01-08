@@ -1,7 +1,7 @@
 <template>
   <div class="qa-container">
     <div class="mainwidth incenter">
-     <qustionli></qustionli>
+     <qustionli v-for="(item,index) in mainData" :key="index" :mainData="item"></qustionli>
     </div>
   </div>
 </template>
@@ -19,11 +19,19 @@ import qustionli from './questionCommen'
     name: 'HelloWorld',
     data() {
       return {
-        msg: 'Welcome to Your Vue.js App'
+        mainData:{}
       }
     },
     components:{
       qustionli:qustionli
+    },
+    created(){
+      var video_id=this.$fn.getSearchKey('video_id');
+      this.$get('/community/faq/list/info?video_id'+this.$fn.getSearchKey('video_id')).then(res=>{
+        console.log(res)
+        this.$fn.addString(this.$myConst.httpUrl,res.data.data,'custom_user_avatar')
+        this.mainData=res.data.data
+      })
     }
   }
 

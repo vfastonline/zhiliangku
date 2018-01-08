@@ -1,8 +1,9 @@
 <template>
   <div class="beforeAdd">
-    <div class="ba-header flexstartcenter">
+    <div class="ba-header flexstartcenter" :style="{'background-image':'url(' +allData.course_img +')'}">
       <div class="font36plffffff">{{allData.name}}
-        <img @click="jj()" class="bah-star" src="../../assets/img/icons/Search-magnifier.svg" alt="">
+        <img @click="collect()" v-if="!allData.is_collect" class="bah-star pointer" src="../../assets/img/icons/path+路线+课程_图标/课程详情_收藏_空心.svg" alt="">
+        <img @click="collect()" v-if="allData.is_collect" class="bah-star pointer" src="../../assets/img/icons/path+路线+课程_图标/课程详情_收藏_实心.svg" alt="">
       </div>
       <div class="fontcenter">
         <div class="font14plffffff bah-tag1">课程时长</div>
@@ -70,7 +71,10 @@
               <div  class="bap-container clearfix">
                 <ul  class="incenter floatr bapc-videos">
                   <li v-if="allData.container[index].data" 
-                  v-for="(thisli,liindex) in allData.container[index].data"  :key="liindex"  class="bacp-v-li rise clearfix">
+                  v-for="(thisli,liindex) in allData.container[index].data"  
+                  :key="liindex"
+                  @click="goPages(thisli)"  
+                  class="bacp-v-li rise clearfix pointer">
                     <div class="main">
                       <div class="video-title inner">{{thisli.name}}</div>
                     </div>
@@ -109,6 +113,18 @@
       }
     },
     methods: {
+      collect(){
+        this.$post('/tracks/collect/course',{
+          course_id:this.$fn.funcUrl('course_id'),
+        'custom_user_id':localStorage.uid,
+        'is_collect':this.allData.is_collect==0?1:0
+        }).then(res=>{
+          if(!res.err){
+            console.log(this.allData.is_collect)
+          this.allData.is_collect=!this.allData.is_collect;
+          }
+        })
+      },
       jj(id) {
         this.activeId=id;
         console.log(id)
@@ -117,13 +133,21 @@
           this.allData.container[id-1].data=res.data.data;
           console.log(this.allData)
         })
+      },
+      goPages(obj){
+        switch(obj.type*1){
+          case 1:
+          case 2 : window.location.href='/tracks/video/detail/?course_id='+this.allData.id+'&video_id='+obj.id+'#/note'; break;
+          case 4: window.location.href='/exercise/list/?video_id='+obj.id; break;
+          default: break;
+        }
       }
     },
     created() {
-      
       console.log(this)
-      this.$get('/tracks/course/detail/info?course_id='+this.$fn.getSearchKey('course_id')).then(res => {
+      this.$get('/tracks/course/detail/info?course_id='+this.$fn.getSearchKey('course_id')+'&custom_user_id='+localStorage.uid).then(res => {
         this.hotCourseData=this.$fn.addObjString(this.$myConst.httpUrl,res.data.data,'avatar')
+        this.hotCourseData=this.$fn.addObjString(this.$myConst.httpUrl,res.data.data,'course_img')
         //创建容器，容器有状态，通过容器是否为空，发起请求。
         res.data.data.container={};
         for(var i=0;i<res.data.data.sections.length;i++){
@@ -147,6 +171,9 @@
     width: 100%;
     height: 216px;
     background: #cccccc;
+    background-repeat:no-repeat;
+    background-size: cover;
+
     /* padding-bottom:24px; */
   }
 

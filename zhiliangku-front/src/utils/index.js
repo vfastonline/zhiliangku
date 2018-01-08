@@ -26,6 +26,7 @@ module.exports = (function () {
   // 该方法支持全是没有修饰的arr，以及arr盛着的对象的多个未修饰的key
   fn.addString = function (str, arr, key) {
     if (arr instanceof Array) {
+      
       for (var i = 0; i < arr.length; i++) {
         if (!key) {
           arr.splice(i, 1, str + arr[i])
@@ -92,37 +93,101 @@ module.exports = (function () {
       str = window.location.search.substr(1);
     }
     if (str) {
-      return str 
+      return str
     }
   }
-  fn.getSearchKey=function(key){
-    var searchStr=fn.getSearch();
-    if(!searchStr){return }
-    var kvrr=searchStr.split('&');
-    for(var i=0;i<kvrr.length;i++){
-      if(kvrr[i]){
-        var keyvaluearr=kvrr[i].split('=');
-        if(keyvaluearr[0]==key){
-          return keyvaluearr[1]
+  fn.getSearchKey = function (key) {
+      var searchStr = fn.getSearch();
+      if (!searchStr) {
+        return
+      }
+      var kvrr = searchStr.split('&');
+      for (var i = 0; i < kvrr.length; i++) {
+        if (kvrr[i]) {
+          var keyvaluearr = kvrr[i].split('=');
+          if (keyvaluearr[0] == key) {
+            return keyvaluearr[1]
+          }
+        }
+      }
+    },
+    fn.getCookie = function (key) {
+      var arr = document.cookie.split('&');
+      for (var i = 0; i < arr.length; i++) {
+        var brr = arr[i].split('=');
+        if (brr[0] == key) {
+          console.log(key)
+          return brr[1]
         }
       }
     }
-  },
-  fn.getCookie=function(key){
-    var arr=document.cookie.split('&');
-    for(var i=0;i<arr.length;i++){
-      var brr=arr[i].split('=');
-      if(brr[0]==key){
-        console.log(key)
-        return brr[1]
+  fn.getCookies = function (keyarr) {
+    var tarr = [];
+    keyarr.each(function (i) {
+      tarr.push(fn.getCookie(i))
+    })
+  }
+  fn.getTargetVue = function (vuearr, key) {
+    for (var i = 0; i < vuearr.length; i++) {
+      if (vuearr[i].name == key) {
+        return vuearr[i]
       }
     }
   }
-  fn.getCookies=function(keyarr){
-    var tarr=[];
-    keyarr.each(function(i){
-      tarr.push(fn.getCookie(i))
-    })
+  fn.objToSearch = function (obj) {
+    var str = '';
+    for (var k in obj) {
+      str = str + k + '=' + obj[k] + '&';
+    }
+    return str;
+  }
+  fn.searchToObj = function (url) {
+    var reg_url = /^[^\?]+\?([\w\W]+)$/,
+      reg_para = /([^&=]+)=([\w\W]*?)(&|$|#)/g,
+      arr_url = reg_url.exec(url),
+      ret = {};
+    if (arr_url && arr_url[1]) {
+      var str_para = arr_url[1],
+        result;
+      while ((result = reg_para.exec(str_para)) != null) {
+        ret[result[1]] = result[2];
+      }
+    }
+    return ret;
+  }
+  fn.funcUrl = function (name, value, type) {
+    var loca = window.location;
+    var baseUrl = type == undefined ? loca.origin + loca.pathname + "?" : "";
+    var query = loca.search.substr(1);
+    // 如果没有传参,就返回 search 值 不包含问号
+    if (name == undefined) {
+      return query
+    }
+    // 如果没有传值,就返回要查询的参数的值
+    if (value == undefined) {
+      var val = query.match(new RegExp("(^|&)" + name + "=([^&]*)(&|$)"));
+      return val != null ? decodeURI(val[2]) : null;
+    };
+    var url;
+    if (query == "") {
+      // 如果没有 search 值,则返回追加了参数的 url
+      // url = baseUrl + name + "=" + value;
+      //现在改为，如果没有search值则加入
+      url = name + "=" + value;
+      window.location.search='?'+url;
+    } else {
+      // 如果没有 search 值,则在其中修改对应的值,并且去重,最后返回 url
+      var obj = {};
+      var arr = query.split("&");
+      for (var i = 0; i < arr.length; i++) {
+        arr[i] = arr[i].split("=");
+        obj[arr[i][0]] = arr[i][1];
+      };
+      obj[name] = value;
+      // url = baseUrl + window.JSON.stringify(obj).replace(/[\"\{\}]/g, "").replace(/\:/g, "=").replace(/\,/g, "&");
+      window.location.search='?'+window.JSON.stringify(obj).replace(/[\"\{\}]/g, "").replace(/\:/g, "=").replace(/\,/g, "&");
+    };
+    // return url;
   }
 
 
