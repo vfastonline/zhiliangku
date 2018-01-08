@@ -61,7 +61,7 @@ def get_resume_detail_info(custom_user_id):
         return result_dict
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class ResumeDetailInfo(View):
     """全量--简历信息"""
 
@@ -123,7 +123,8 @@ class ResumeUpdate(View):
             resume_type = param_dict.get("resume_type", "")
             pk_id = param_dict.get("pk_id", "")
             resume_info_dict = param_dict.get("resume_info_dict", {})
-            career_objective_id = resume_info_dict.get("career_objective_id")
+
+            career_objective_id = resume_info_dict.get("career_objective_id", 0)
             if resume_type and pk_id and resume_info_dict:
                 if resume_type == "resume":
                     career_objective_obj = CareerObjective.objects.filter(id=career_objective_id)

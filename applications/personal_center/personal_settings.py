@@ -98,7 +98,6 @@ class AccountBindPhone(View):
         result_dict = {
             "err": 0,
             "msg": "success",
-            "data": dict(),
         }
         try:
             param_dict = json.loads(request.body)
@@ -176,7 +175,6 @@ class AccountBindEmail(View):
         result_dict = {
             "err": 0,
             "msg": "success",
-            "data": dict(),
         }
         try:
             param_dict = json.loads(request.body)
