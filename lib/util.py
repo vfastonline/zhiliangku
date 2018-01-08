@@ -299,3 +299,18 @@ def _get_refer_url(request):
     if refer_url.startswith('http') and host not in refer_url:
         refer_url = '/'
     return refer_url
+
+
+# 获取动态查询条件
+def get_kwargs(param):
+    """
+    :param param:查询参数字典
+    :return:
+    """
+    kwargs = dict()
+    try:
+        [kwargs.update({query_field: param}) for query_field, param in param.items() if param]
+    except:
+        traceback.print_exc()
+    finally:
+        return kwargs

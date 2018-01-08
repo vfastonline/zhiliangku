@@ -6,6 +6,7 @@ from django.views.generic import View
 
 from applications.personal_center.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import get_kwargs
 
 """我的简历"""
 
@@ -124,14 +125,14 @@ class ResumeUpdate(View):
             pk_id = param_dict.get("pk_id", "")
             resume_info_dict = param_dict.get("resume_info_dict", {})
             career_objective_id = resume_info_dict.get("career_objective_id")
-            career_objective_obj = CareerObjective.objects.filter(id=career_objective_id)
-            # resume_info_dict = eval(resume_info_dict)
             if resume_type and pk_id and resume_info_dict:
                 if resume_type == "resume":
+                    career_objective_obj = CareerObjective.objects.filter(id=career_objective_id)
                     if career_objective_obj.exists():
                         resume_info_dict["career_objective"] = career_objective_obj.first()
                 resume_type_model = resume_model_dict.get(resume_type)
-                resume_type_model.objects.filter(id=pk_id).update(**resume_info_dict)
+                kwargs = get_kwargs(resume_info_dict)
+                resume_type_model.objects.filter(id=pk_id).update(**kwargs)
                 result_dict = get_resume_detail_info(custom_user_id)
             else:
                 result_dict["err"] = 1
@@ -157,22 +158,24 @@ class ResumeAdd(View):
             resume_info_dict = param_dict.get("resume_info_dict", {})
             custom_user_id = resume_info_dict.get("custom_user_id")
             career_objective_id = resume_info_dict.get("career_objective_id")
-            # resume_info_dict = eval(resume_info_dict)
             user_obj = CustomUser.objects.filter(id=custom_user_id)
-            career_objective_obj = CareerObjective.objects.filter(id=career_objective_id)
             if user_obj.exists() and resume_info_dict:
                 resume_info_dict["custom_user"] = user_obj.first()
-                if career_objective_obj.exists():
-                    resume_info_dict["career_objective"] = career_objective_obj.first()
                 resume_type_model = resume_model_dict.get(resume_type)
                 if resume_type == "resume":
                     resume_obj = Resume.objects.filter(custom_user_id=user_obj)
                     if resume_obj.exists():
-                        resume_obj.update(**resume_info_dict)
+                        career_objective_obj = CareerObjective.objects.filter(id=career_objective_id)
+                        if career_objective_obj.exists():
+                            resume_info_dict["career_objective"] = career_objective_obj.first()
+                        kwargs = get_kwargs(resume_info_dict)
+                        resume_obj.update(**kwargs)
                     else:
-                       resume_type_model.objects.create(**resume_info_dict)
+                        kwargs = get_kwargs(resume_info_dict)
+                        resume_type_model.objects.create(**kwargs)
                 else:
-                    resume_type_model.objects.create(**resume_info_dict)
+                    kwargs = get_kwargs(resume_info_dict)
+                    resume_type_model.objects.create(**kwargs)
                 result_dict = get_resume_detail_info(custom_user_id)
             else:
                 result_dict["err"] = 1
