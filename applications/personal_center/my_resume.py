@@ -180,7 +180,7 @@ class ResumeAdd(View):
                 result_dict = get_resume_detail_info(custom_user_id)
             else:
                 result_dict["err"] = 1
-                result_dict["msg"] = "未找到用户信息，新增失败!"
+                result_dict["msg"] = "未找到用户信息或简历信息为空，新增失败!"
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
