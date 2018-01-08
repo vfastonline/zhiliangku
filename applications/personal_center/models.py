@@ -34,7 +34,7 @@ class CareerObjective(models.Model):
     """求职意向"""
     custom_user = models.ForeignKey(CustomUser, verbose_name="用户信息", related_name="careerobjective_custom_user")
     position = models.CharField("期望职位", max_length=255, null=True, blank=True, default="")
-    expect_salary = models.CharField("期望薪资最低", max_length=255, null=True, blank=True, default="")
+    expect_salary = models.CharField("期望薪资", max_length=255, null=True, blank=True, default="")
     city = models.CharField("期望城市", max_length=255, null=True, blank=True, default="")
     industry = models.CharField("期望行业", max_length=255, null=True, blank=True, default="")
 
