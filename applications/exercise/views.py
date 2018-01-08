@@ -30,7 +30,7 @@ class QuestionListInfo(View):
         try:
             # 获取查询参数
             # 按过滤条件查询
-            video_id = int(request.GET.get('video_id', 0))  # 视频ID
+            video_id = request.GET.get('video_id', 0)  # 视频ID
 
             data_list = list()
             questions = Question.objects.filter(video__id=video_id)
@@ -70,7 +70,7 @@ class QuestionRightAnswerInfo(View):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
             # 获取查询参数
-            question_id = int(request.GET.get('question_id', 0))  # 视频ID
+            question_id = request.GET.get('question_id', 0)  # 视频ID
 
             questions = Question.objects.filter(id=question_id)
             if questions.exists():

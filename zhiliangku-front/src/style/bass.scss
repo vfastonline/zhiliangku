@@ -1,269 +1,363 @@
-body{
-    width:100%;
-    min-width:1152px;
-    background:#ffffff;
+body {
+  width: 100%;
+  min-width: 1152px;
+  background: #ffffff;
 }
-.mainwidth{
-    width: 1152px;
+
+.mainwidth {
+  width: 1152px;
 }
-.clearfix:after{
-    content:".";
-    display:block;
-    height:0;
-    clear:both;
-    visibility:hidden;
+.resumewidth{
+  width: 728px;
 }
-.floatl{
-    float: left;
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
 }
-.floatr{
-    float: right;
+
+.floatl {
+  float: left;
 }
-.incenter{
-    margin:auto;
+
+.floatr {
+  float: right;
 }
-.block{
-    display: block;
+
+.incenter {
+  margin: auto;
 }
-.inlineblock{
-    display: inline-block;
+.imgmiddle{
+vertical-align: middle;
 }
-.flexcenter{
-    display: flex;
-    justify-content:space-between;
-    flex-wrap:wrap;
+.block {
+  display: block;
 }
-.flexvcenter{
-    display: flex;
-    flex-direction: column;
-    justify-content:space-between;
-    flex-wrap:wrap;
+
+.inlineblock {
+  display: inline-block;
 }
-.flexstartcenter{
-    align-items:center;
-    display: flex;
-    flex-direction: column;
-    justify-content:flex-start;
-    flex-wrap:nowrap;
+a{
+  color:inherit
 }
-.inmiddle{
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    right: 0px;
-    left: 0px;
-    margin: auto;
+a:hover{
+  text-decoration-line: none;
+  color:#23B8FF;
 }
-.inxmiddle{
-    position: absolute;
-    right: 0px;
-    left: 0px;
-    margin: auto;
+.flexcenter {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
-.pointer{
-    cursor: pointer;
+
+.flexvcenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
-.textellipsis{
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+
+.flexstartcenter {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
 }
-.ofhid{
-    overflow: hidden;
+
+.inmiddle {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  margin: auto;
 }
-.fontcenter{
-    text-align: center;
+
+.inxmiddle {
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  margin: auto;
 }
-.fontjustify{
-    text-align: justify;
+
+.pointer {
+  cursor: pointer;
 }
-.flexjustify{
-    display: flex;
-    justify-content: space-between;
+
+.textellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.font14pr002800{
-    font-family: PingFangSC-Regular;
-    font-size: 14px;
-    color: #002800;
+.round{
+  border-radius: 50%;
 }
-.font14prb2bbbf{
-    font-family: PingFangSC-Regular;
-    font-size: 14px;
-    color: #B2BBBF;
+.ofhid {
+  overflow: hidden;
 }
-.font14pl2C343B{
-    font-family: PingFangSC-Light;
-    font-size: 14px;
-    color: #2C343B;
+
+.fontcenter {
+  text-align: center;
 }
-.font18pl2C343B{
-    font-family: PingFangSC-Light;
-    font-size: 18px;
-    color: #2C343B;
+
+.fontjustify {
+  text-align: justify;
 }
-.font24pr2C343B{
-    font-family: PingFangSC-Regular;
-    font-size: 24px;
-    color: #2C343B;
+
+.flexjustify {
+  display: flex;
+  justify-content: space-between;
 }
-.font14pr2C343B{
-    font-family: PingFangSC-Regular;
-    font-size: 14px;
-    color: #2C343B;
+
+.font14pr002800 {
+  font-family: 'PingFangSC-Regular' ;
+  font-size: 14px;
+  color: #002800;
 }
-.font14pr424242{
-    font-family: PingFangSC-Regular;
-    font-size: 14px;
-    color: #424242;
+
+.font14prb2bbbf {
+  font-family: 'PingFangSC-Regular' ;
+  font-size: 14px;
+  color: #B2BBBF;
 }
-.font14pl7c7e8c{
-    font-family: PingFangSC-Light;
-    font-size: 14px;
-    color: #7c7e8c;
+
+.font14pl2C343B {
+  font-family: 'PingFangSC-Light' ;
+  font-size: 14px;
+  color: #2C343B;
 }
-.font14pl3a3c50{
-    font-family: PingFangSC-Light;
-    font-size: 14px;
-    color: #3A3C50;
+
+.font18pl2C343B {
+  font-family: 'PingFangSC-Light' ;
+  font-size: 18px;
+  color: #2C343B;
 }
-.font16pl3a3c50{
-    font-family: PingFangSC-Light;
-    font-size: 16px;
-    color: #3A3C50;
+
+.font24pr2C343B {
+  font-family: 'PingFangSC-Regular' ;
+  font-size: 24px;
+  color: #2C343B;
 }
-.font18pl3a3c50{
-    font-family: PingFangSC-Light;
-    font-size: 18px;
-    color: #3A3C50;
+
+.font14pr2C343B {
+  font-family: 'PingFangSC-Regular' ;
+  font-size: 14px;
+  color: #2C343B;
 }
-.font20pl3a3c50{
-    font-family: PingFangSC-Light;
-    font-size: 20px;
-    color: #3A3C50;
+
+.font14pr424242 {
+  font-family: 'PingFangSC-Regular' ;
+  font-size: 14px;
+  color: #424242;
 }
-.font20pm3a3c50{
-    font-family: PingFangSC-Medium;
-    font-size: 20px;
-    color: #3A3C50;
+
+.font14pl7c7e8c {
+  font-family: 'PingFangSC-Light' ;
+  font-size: 14px;
+  color: #7c7e8c;
 }
-.font14pr3a3c50{
-    font-family: PingFangSC-Regular;
-    font-size: 14px;
-    color: #3A3C50;
+
+.font14pl3a3c50 {
+  font-family: 'PingFangSC-Light' ;
+  font-size: 14px;
+  color: #3A3C50;
 }
-.font16pr3a3c50{
-    font-family: PingFangSC-Regular;
-    font-size: 16px;
-    color: #3A3C50;
+
+.font16pl3a3c50 {
+  font-family: 'PingFangSC-Light' ;
+  font-size: 16px;
+  color: #3A3C50;
 }
-.font20pr3a3c50{
-    font-family: PingFangSC-Regular;
-    font-size: 20px;
-    color: #3A3C50;
+
+.font18pl3a3c50 {
+  font-family: 'PingFangSC-Light' ;
+  font-size: 18px;
+  color: #3A3C50;
 }
-.font16prffffff{
-    font-family: PingFangSC-Regular;
-    font-size: 16px;
-    color: #ffffff;
+
+.font20pl3a3c50 {
+  font-family: 'PingFangSC-Light' ;
+  font-size: 20px;
+  color: #3A3C50;
 }
-.font14pl5A646E{
-    font-family: PingFangSC-Light;
-    font-size: 14px;
-    color: #5A646E;
-    letter-spacing: 0.4px;
+
+.font20pm3a3c50 {
+  font-family: 'PingFangSC-Medium' ;
+  font-size: 20px;
+  color: #3A3C50;
 }
-.font14pr5a646e{
-    font-family: PingFangSC-Regular;
-    font-size: 14px;
-    color: #5A646E;
+
+.font14pr3a3c50 {
+  font-family: 'PingFangSC-Regular' ;
+  font-size: 14px;
+  color: #3A3C50;
 }
-.font20pr5a646e{
-    font-family: PingFangSC-Regular;
-    font-size: 20px;
-    color: #5A646E;
+
+.font16pr3a3c50 {
+  font-family: 'PingFangSC-Regular' ;
+  font-size: 16px;
+  color: #3A3C50;
 }
-.font14pr23b8ff{
-    font-family: PingFangSC-Regular;
-    font-size: 14px;
-    color: #23B8FF;
+
+.font20pr3a3c50 {
+  font-family: 'PingFangSC-Regular' ;
+  font-size: 20px;
+  color: #3A3C50;
 }
-.font16pr23b8ff{
-    font-family: PingFangSC-Regular;
-    font-size: 16px;
-    color: #23B8FF;
+.font14prffffff {
+  font-family: 'PingFangSC-Regular' ;
+  font-size: 14px;
+  color: #ffffff;
 }
-.font16pr07111B{
-    font-family: PingFangSC-Regular;
-    font-size: 16px;
-    color: #07111B;
+.font16prffffff {
+  font-family: 'PingFangSC-Regular' ;
+  font-size: 16px;
+  color: #ffffff;
 }
-.font16pmCCCCCC{
-    font-family: PingFangSC-Medium;
-    font-size: 16px;
-    color: #CCCCCC;
+
+.font14pl5A646E {
+  font-family: 'PingFangSC-Light' ;
+  font-size: 14px;
+  color: #5A646E;
+  letter-spacing: 0.4px;
 }
-.font12plffffff{
-    font-family: PingFangSC-Light;
-    font-size: 12px;
-    color: #FFFFFF;
+.font16pl5A646E {
+  font-family: 'PingFangSC-Light' ;
+  font-size: 16px;
+  color: #5A646E;
 }
-.font14plffffff{
-    font-family: PingFangSC-Light;
-    font-size: 14px;
-    color: #FFFFFF;
+.font14pr5a646e {
+  font-family: 'PingFangSC-Regular' ;
+  font-size: 14px;
+  color: #5A646E;
 }
-.font18plffffff{
-    font-family: PingFangSC-Light;
-    font-size: 18px;
-    color: #FFFFFF;
+.font18pr5a646e{
+  font-family: 'PingFangSC-Regular' ;
+  font-size: 18px;
+  color: #5A646E;
 }
-.font20plffffff{
-    font-family: PingFangSC-Light;
-    font-size: 20px;
-    color: #FFFFFF;
+.font20pr5a646e {
+  font-family: 'PingFangSC-Regular' ;
+  font-size: 20px;
+  color: #5A646E;
 }
-.font36plffffff{
-    font-family: PingFangSC-Light;
-    font-size: 36px;
-    color: #FFFFFF;
+.font16pl23b8ff {
+  font-family: 'PingFangSC-Light' ;
+  font-size: 16px;
+  color: #23B8FF;
 }
-.font14pm2a0000{
-    font-family: PingFangSC-Medium;
-    font-size: 14px;
-    color: #66BB6A;
+.font14pr23b8ff {
+  font-family: 'PingFangSC-Regular' ;
+  font-size: 14px;
+  color: #23B8FF;
 }
-.font20pm2a0000{
-    font-family: PingFangSC-Medium;
-    font-size: 20px;
-    color: #66BB6A;
+.font16pr23b8ff {
+  font-family: 'PingFangSC-Regular' ;
+  font-size: 16px;
+  color: #23B8FF;
 }
-.relative{
-    position: relative;
+
+.font16pr07111B {
+  font-family: 'PingFangSC-Regular' ;
+  font-size: 16px;
+  color: #07111B;
 }
-.blue{
-    color: #23B8FF;
+
+.font16pmCCCCCC {
+  font-family: 'PingFangSC-Medium' ;
+  font-size: 16px;
+  color: #CCCCCC;
 }
-.zindex1{
-    z-index: 1;
+
+.font12plffffff {
+  font-family: 'PingFangSC-Light' ;
+  font-size: 12px;
+  color: #FFFFFF;
 }
-.zindex10{
-    z-index: 10;
+
+.font14plffffff {
+  font-family: 'PingFangSC-Light' ;
+  font-size: 14px;
+  color: #FFFFFF;
 }
-.zindex100{
-    z-index:100;
+
+.font18plffffff {
+  font-family: 'PingFangSC-Light' ;
+  font-size: 18px;
+  color: #FFFFFF;
 }
-.marginbottom8{
-    margin-bottom: 8px;
+
+.font20plffffff {
+  font-family: 'PingFangSC-Light' ;
+  font-size: 20px;
+  color: #FFFFFF;
 }
-.marginbottom24{
-    margin-bottom: 24px;
+
+.font36plffffff {
+  font-family: 'PingFangSC-Light' ;
+  font-size: 36px;
+  color: #FFFFFF;
 }
-.letterspace1{
-    letter-spacing: 1px;
+
+.font14pm2a0000 {
+  font-family: 'PingFangSC-Medium' ;
+  font-size: 14px;
+  color: #66BB6A;
 }
-.rise{
-    transition: box-shadow 0.3s ease
+
+.font20pm2a0000 {
+  font-family: 'PingFangSC-Medium' ;
+  font-size: 20px;
+  color: #66BB6A;
 }
-.rise:hover{
-    box-shadow:0 0 10px 5px   rgba(99,117,138,0.10);
+
+.relative {
+  position: relative;
+}
+
+.blue {
+  color: #23B8FF;
+}
+
+.zindex1 {
+  z-index: 1;
+}
+
+.zindex10 {
+  z-index: 10;
+}
+
+.zindex100 {
+  z-index: 100;
+}
+
+.marginbottom8 {
+  margin-bottom: 8px;
+}
+
+.marginbottom16 {
+  margin-bottom: 16px;
+}
+
+.marginbottom24 {
+  margin-bottom: 24px;
+}
+
+.marginbottom32 {
+  margin-bottom: 32px;
+}
+
+.letterspace1 {
+  letter-spacing: 1px;
+}
+
+.rise {
+  transition: box-shadow 0.3s ease
+}
+
+.rise:hover {
+  box-shadow: 0 0 10px 5px rgba(99, 117, 138, 0.10);
 }

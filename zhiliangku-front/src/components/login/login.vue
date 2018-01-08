@@ -138,7 +138,7 @@
   export default {
     name: 'HelloWorld',
     data() {
-      console.log(this)
+      // console.log(this)
       var usernameType = {
         phone: false,
         email: false
@@ -331,7 +331,7 @@
       modifyPass(form4, form3) {
         var mainData = this.changeKeys(form4, ['verify_code', 'new_password']);
         mainData.phone = form3.age;
-        this.$post('customuser/retrieve_password_by_phone', mainData).then(res => {
+        this.$post('/customuser/retrieve_password_by_phone', mainData).then(res => {
           if(!res.data.err){
              this.$notify({
               type: 'success',
@@ -418,7 +418,6 @@
       this.qqBase64Url =
         'https://graph.qq.com/oauth2.0/show?which=Login&display=pc&response_type=code&client_id=101447834&redirect_uri=http%3A%2F%2Fwww.zhiliangku.com%2Fcustomuser%2Fqq%2Flogin&state=' +
         this.Base64.encode(window.location.pathname) + '&scope=get_user_info,get_info';
-      console.log(11)
       // 我的实现方式应该是,一个大组件,大组件是一直显示的，但是可以通过改变里面的参数来改变其显示的各种小组件
     },
     mounted() {

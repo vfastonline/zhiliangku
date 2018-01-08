@@ -15,12 +15,12 @@
         },
         methods:{
             jj(){
-                this.$get('slides/list',{method:'post',data:{usernaem:'18500390490',password:'123'}}).then(res=>{
+                this.$get('/slides/list',{method:'post',data:{usernaem:'18500390490',password:'123'}}).then(res=>{
                     console.log(res)
                 })
             },
             hh(){
-                this.$post('customuser/login',{usernaem:'18500390490',password:'123'}).then(res=>{
+                this.$post('/customuser/login',{usernaem:'18500390490',password:'123'}).then(res=>{
                     console.log(res)
                 })
             }

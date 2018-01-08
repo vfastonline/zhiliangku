@@ -1,7 +1,6 @@
 <template>
 <div class="video-node-container">
-  <div class="incenter video-node-content">
-    1111
+  <div v-html="mainData" class="incenter video-node-content">
   </div>
 </div>
 </template>
@@ -10,7 +9,7 @@
 .video-node-content{
     width:700px;
     min-height:500px;
-    background:skyblue;
+    /* background:skyblue; */
 }
 .video-node-container{
     background:#fafafa;
@@ -19,10 +18,22 @@
 </style>
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'notes',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      name:'notes',
+      mainData:'1231221',
+    }
+  },
+  props:{
+    
+  },
+  created(){
+    this.$on('noteData',function(obj){
+      this.mainData=(obj+'').replace(/src="/g,'src="'+this.$myConst.httpUrl);
+    })
+    if(this.$parent.$parent.noteData){
+      this.mainData=(this.$parent.$parent.noteData+'').replace(/src="/g,'src="'+this.$myConst.httpUrl);
     }
   }
 }

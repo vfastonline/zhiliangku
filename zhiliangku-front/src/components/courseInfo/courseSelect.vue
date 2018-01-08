@@ -10,6 +10,7 @@
                       v-for="(item,index) in allData.filter.course_path"
                       :key="index">
                           <span 
+                          class="pointer"
                           :class="{'cstt-selected':item.active}"
                           @click="changeSlected(item,'course_path')">{{item.name}}</span>
                       </li>
@@ -22,6 +23,7 @@
                   <ul class="cstt-tags">
                       <li v-for="(item,index) in allData.filter.technology" :key="index">
                           <span @click="changeSlected(item,'technology')"
+                          class="pointer"
                           :class="{'cstt-selected':item.active}"
                           >{{item.name}}</span>
                       </li>
@@ -38,10 +40,12 @@
               :mainData="item"
               ></hot-course>
         </container>
-        <pager></pager>
+        <!-- 每次数据变化，极有可能触发@change时间，为了避免此类事件发生，则需要主动触发该组件更新，让key发生变化 -->
+        <pager :key="pagerKey" :mainData="pagerData"></pager>
   </div>
 </template>
 <script>
+import Bus from '../../assets/js/bus'
 export default {
   data() {
     return {
@@ -57,10 +61,15 @@ export default {
         },
         course_path:0,
         technology:0,
-        page_number:''
+        page_number:'',
+        pagerData:{},
+        pagerKey:''
     };
   },
   methods:{
+      changeKey(){
+          this.pagerKey=new Date().getTime();
+      },
       addtionalString(){
           return this.url+'?coursepath_id='+this.course_path+'&technology_id='+this.technology;
       },
@@ -78,6 +87,8 @@ export default {
               this.technology=0;
           }
           this[key]=item.id;
+        //   this.$fn.funcUrl('course_path',this.course_path)
+        //   this.$fn.funcUrl('technology',this.technology)
           this.getData(this.addtionalString())
       },
       getData(myurl){
@@ -95,12 +106,30 @@ export default {
               }
           }
           this.allData=res.data;
+        //   该函数旨在整理pager所需要的数据
+          this.OrganizePagerData();
           console.log(res)
       })
+      },
+      OrganizePagerData(){
+          this.pagerData=this.allData.paginator;
+          this.pagerData.url='/tracks/course/list/info';
+          this.pagerData.params={
+              'coursepath_id':this.course_path,
+              'technology_id':this.technology,
+          }
+          this.changeKey()
+        //   将条件参数传入pager
       }
+
   },
   created(){
-      this.getData()
+      this.getData();
+      Bus.$on('pagerHaveData',res=>{
+          this.$fn.addString(this.$myConst.httpUrl,res.data.data,['course_img','avatar'])
+          console.log(res.data)
+          this.allData=res.data
+      })
   }
 };
 </script>

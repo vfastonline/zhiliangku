@@ -29,11 +29,11 @@ class EnterpriseInfoListInfo(View):
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": [], "paginator": {}}
         try:
-            path_id = int(self.request.GET.get("path_id", 0))  # 方向
+            path_id = self.request.GET.get("path_id", 0)  # 方向
             is_completed = int(self.request.GET.get("is_completed", 0))  # 已完成
-            custom_user_id = int(self.request.GET.get('custom_user_id', 0))  # 用户ID
-            page = int(self.request.GET.get("page", 1))  # 页码
-            per_page = int(self.request.GET.get("per_page", 12))  # 每页显示条目数
+            custom_user_id = self.request.GET.get('custom_user_id', 0)  # 用户ID
+            page = self.request.GET.get("page", 1)  # 页码
+            per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
 
             filter_param = dict()
             if path_id:
@@ -113,7 +113,7 @@ class EnterpriseInfoDetailInfo(View):
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
-            enterpriseinfo_id = int(self.request.GET.get("enterpriseinfo_id", 0))  # 企业面试题ID
+            enterpriseinfo_id = self.request.GET.get("enterpriseinfo_id", 0)  # 企业面试题ID
             enterpriseinfos = EnterpriseInfo.objects.filter(id=enterpriseinfo_id)
             if enterpriseinfos.exists():
                 enterpriseinfo = enterpriseinfos.first()

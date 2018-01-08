@@ -75,7 +75,7 @@
     border-radius:0px;
   }
   /* element-ui 的el-scrollbar样式修改 */
-  .el-scrollbar__bar.is-horizontal {
+  .interviewmain-content .el-scrollbar__bar.is-horizontal {
     height: 6px;
     left: inherit;
     width: 1152px;
@@ -92,6 +92,6 @@
 .el-scrollbar__thumb:hover{
     background: #D5DADC;
 }
-.el-scrollbar__view{
+.interviewmain-content .el-scrollbar__view{
     height:500px;
 }

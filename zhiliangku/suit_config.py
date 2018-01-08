@@ -30,6 +30,10 @@ SUIT_CONFIG = {
         {'app': 'custom_user',
          'models': ('CustomUser', 'CustomUserAuths', 'CustomUserPath', "CustomUserCourse", "VerifyCode")},
 
+        # 个人中心
+        {'app': 'personal_center',
+         'models': ('Resume', 'CareerObjective', 'WorkExperience', "ProjectExperience", "EducationExperience")},
+
         # 职业路径
         {'app': 'tracks_learning', 'models': ('Path', 'PathStage', 'CourseCategory')},
 

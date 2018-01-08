@@ -23,11 +23,20 @@ class CustomUser(models.Model):
         (2, 'HR'),
         (3, '其他'),
     )
+    GENDER_CHOICES = (
+        ('M', u'男'),
+        ('F', u'女'),
+    )
+
     nickname = models.CharField('昵称', max_length=255, blank=True, null=True)
+    sex = models.CharField("性别", max_length=2, choices=GENDER_CHOICES, blank=True)
     role = models.IntegerField('角色', choices=ROLE, null=True, default=3)
     avatar = models.ImageField('头像', upload_to=upload_to, storage=ImageStorage(), blank=True, null=True, max_length=256,
                                default="custom_user_avatar/defaultUserIcon.png")
     position = models.CharField('职位', max_length=255, blank=True, null=True)
+    receiver = models.CharField('收货人', max_length=255, blank=True, null=True, default="")
+    address = models.CharField('收货地址', max_length=255, blank=True, null=True, default="")
+    contact_number = models.CharField('联系电话', max_length=255, blank=True, null=True, default="")
     signature = models.CharField('个性签名', max_length=255, blank=True, null=True)
 
     def __unicode__(self):
@@ -45,7 +54,6 @@ class CustomUserAuths(models.Model):
         ("phone", "phone"),
         ("email", "email"),
         ("weixin", "weixin"),
-        ("weibo", "weibo"),
         ("qq", "qq"),
     )
     custom_user_id = models.ForeignKey(CustomUser, verbose_name="用户")
@@ -61,6 +69,7 @@ class CustomUserAuths(models.Model):
         db_table = 'CustomUserAuths'
         verbose_name = "授权信息"
         verbose_name_plural = "授权信息"
+        ordering = ["custom_user_id"]
 
 
 class CustomUserPath(models.Model):

@@ -1,18 +1,18 @@
 <template>
-  <div class="mainwidth rise qc-container">
+  <div class="mainwidth rise qc-container marginbottom24">
       <div class="clearfix">
-          <img class="floatl qc-user-icon" src="../../assets/img/user-icon.jpg" alt="">
+          <img class="floatl qc-user-icon" :src="mainData.custom_user_avatar" alt="">
           <div class=" qc-text-container">
-              <div class="marginbottom8 "><span class="font14pl7c7e8c qctc-tag">Kevin</span><span class="font14pl7c7e8c qctc-tag">2017-12-12提问</span></div>
+              <div class="marginbottom8 "><span class="font14pl7c7e8c qctc-tag">{{mainData.custom_user_nickname}}</span><span class="font14pl7c7e8c qctc-tag">{{mainData.create_time}}提问</span></div>
               <div class="font20pr3a3c50 clearfix marginbottom8">
-                  <div class="floatl qctc-qustion-content">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaassssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</div>
+                  <div class="floatl qctc-qustion-content">{{mainData.title}}</div>
                   <div class="floatr">
-                      <span class="font16pl3a3c50">5回答</span>
-                      <span class="font16pl3a3c50">2 &nbsp; 次浏览</span>
+                      <span class="font16pl3a3c50">{{mainData.faq_answer_count}}回答</span>
+                      <span class="font16pl3a3c50">{{mainData.browse_amount}} &nbsp; 次浏览</span>
                   </div>
                </div>
                <div>
-                   <div class="font14pr23b8ff">悬赏 3 积分</div>
+                   <div class="font14pr23b8ff">悬赏 {{mainData.reward}} 积分</div>
                </div>
           </div>
       </div>
@@ -44,8 +44,15 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      
     }
+  },
+  props:{
+      mainData:Object
+  },
+  created(){
+      console.log(this.mainData)
+      this.$fn.addString(this.$myConst.httpUrl,this.mainData,'custom_user_avatar')
   }
 }
 </script>

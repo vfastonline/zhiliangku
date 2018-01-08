@@ -36,8 +36,11 @@
     },
     methods:{
       go(){
-        console.log(111)
-        window.location.href='/tracks/course/detail/?course_id='+this.mainData.id
+        var url='/tracks/course/detail/?course_id='+this.mainData.id;
+        if(localStorage.uid){
+          url='/tracks/course/detail/?course_id='+this.mainData.id+"&custom_user_id="+localStorage.uid;
+        }
+        window.location.href=url;
       }
     },
     props: {

@@ -19,8 +19,8 @@ class AddFaqAnswerReply(View):
         try:
             # 回答参数
             param_dict = json.loads(request.body)
-            faq_answer_id = int(param_dict.get('faq_answer_id', 0))  # 必填，问题回答ID
-            custom_user_id = int(param_dict.get('custom_user_id', 0))  # 必填，回复用户ID
+            faq_answer_id = param_dict.get('faq_answer_id', 0)  # 必填，问题回答ID
+            custom_user_id = param_dict.get('custom_user_id', 0)  # 必填，回复用户ID
             reply = param_dict.get('reply', "")  # 回复内容
 
             required_dict = {"问题回答ID": faq_answer_id, "回复用户ID": custom_user_id, "回复内容": reply}

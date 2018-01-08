@@ -2,12 +2,12 @@
   <div>
     <div class="mainwidth vc-nav-bar incenter clearfix">
       <div class="floatl ">
-        <router-link to="/node" class="font16pr3a3c50 pointer vc-nav-tag" >资料</router-link>
+        <router-link to="/note" class="font16pr3a3c50 pointer vc-nav-tag" >资料</router-link>
         <router-link to="/question" class="font16pr3a3c50 pointer vc-nav-tag" >问答</router-link>
         <router-link to="/section" class="font16pr3a3c50 pointer vc-nav-tag" >本节常见问题</router-link>
       </div>
       <div class="floatr">
-        <span class="font16pr3a3c50 pointer vc-nav-tag" >提问</span>
+        <router-link to="/submitQuestion" class="font16pr3a3c50 pointer vc-nav-tag" >提问</router-link>
       </div>
     </div>
     <router-view name="videoContent"></router-view>
@@ -18,7 +18,11 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
+      name:'videoContent'
     }
+  },
+  created(){
+    
   }
 }
 </script>

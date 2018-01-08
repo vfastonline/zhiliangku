@@ -5,15 +5,17 @@
       <div class="main">
         <div class="inner">
           <div v-if="type=='videoHeader'" class="ph-content white">
-            <span>Linix系统管理</span>><span>修改进程优先级</span>
+            <span>{{videoTitle.section_desc}}</span>
+            >
+            <span>{{videoTitle.name}}</span>
           </div>
           <div v-if="!type" class="ph-content">
             <span class="ph-tag pointer">
               <a href="/tracks/course/list/"> 课程</a>
             </span>
-            <span class="ph-tag pointer">
-              <a href="/tracks/video/detail/"> 直播</a>
-            </span>
+            <!-- <span class="ph-tag pointer">
+              <a href="/tracks/video/detail/#/note"> 直播</a>
+            </span> -->
             <span class="ph-tag pointer">
               <a href="/tracks/path/list/">职业路径</a>
             </span>
@@ -21,14 +23,15 @@
             <span class="ph-tag last pointer">线下课程</span>
             <span class="ph-search">
               <!-- <input type="text"> -->
-              <img class="phs-magnifier pointer" src="../../assets/img/icons/Search-magnifier.svg" alt="">
+              <!-- <img class="phs-magnifier pointer" src="../../assets/img/icons/Search-magnifier.svg" alt=""> -->
             </span>
           </div>
         </div>
       </div>
       <div class="left">
         <img v-if="!type" class='ph-logo pointer' @click="goindex()" src='../../assets/img/icons/Logo.png' alt="">
-        <img v-if="type=='videoHeader'" class='ph-expend-button pointer' src='../../assets/img/icons/视频播放+习题图标/视频播放_汉堡按钮.svg' alt="">
+        <img v-if="type=='videoHeader'" @click="showVideoList()" class='ph-expend-button pointer' src='../../assets/img/icons/视频播放+习题图标/视频播放_汉堡按钮.svg'
+          alt="">
       </div>
       <div class="rightbar">
         <el-button @click="changShow()" class="ph-button" type="primary" :style="buttonStyle" round>岗位匹配</el-button>
@@ -46,9 +49,11 @@
   </div>
 </template>
 <script>
+  import Bus from '../../assets/js/bus'
   import Login from '../../components/login/login.vue'
   import postMatch from '../../components/home/postMatch'
   import userMune from './userIconMune.vue'
+  let Base64 = require('js-base64').Base64;
   export default {
     name: "projectHeader",
     data() {
@@ -56,7 +61,7 @@
         loginshow: false,
         logupshow: false,
         show: false,
-        showuser:false,
+        showuser: false,
         msg: "Welcome to Your Vue.js App",
         buttonStyle: {
           width: "121px",
@@ -64,7 +69,7 @@
           background: "23B8FF",
           "font-family": "PingFangSC-Light",
           "font-size": "18px",
-          'border':'1px solid white'
+          'border': '1px solid white'
         },
         videoButtonStyle: {
           width: "121px",
@@ -73,27 +78,34 @@
           "font-family": "PingFangSC-Light",
           "font-size": "18px"
         },
-        mainstyle:{},
+        mainstyle: {},
         showLogin: false,
-        outerStyle:{},
-        login:'',
-        userinfo:{avatar:''},
+        outerStyle: {},
+        login: '',
+        userinfo: {
+          avatar: ''
+        },
+        videoTitle: {}
       };
     },
     components: {
       'login': Login,
       'postMatch': postMatch,
-      'userMune':userMune
+      'userMune': userMune
     },
-    props:{
-      type:String,
+    props: {
+      type: String,
     },
     methods: {
       changShow() {
         this.show = !this.show;
       },
-      changeUsershow(){
-        this.showuser=!this.showuser;
+      changeUsershow() {
+        this.showuser = !this.showuser;
+      },
+      showVideoList() {
+        console.log(this)
+        this.$parent.$emit('showVideoList')
       },
       goindex() {
         window.location.href = '/'
@@ -105,39 +117,64 @@
           arr[i].$emit(eventName, key)
         }
       },
-      getUserInfo(){
-        this.userinfo.avatar=this.$myConst.httpUrl+localStorage.avatar;
+      getUserInfo() {
+        this.userinfo.avatar = this.$myConst.httpUrl + localStorage.avatar;
       },
-    },
-    created() {
-      console.log(this.type)
-      if(this.type=='videoHeader'){
-        this.buttonStyle=this.videoButtonStyle;
-        this.outerStyle={background:'#333742'};
-      }
-      this.$on('login',function(){
+      loginfun() {
         this.getUserInfo();
-        this.login=true;
-        if(location.pathname=='/'){return}       
+        this.login = true;
+        if (location.pathname == '/') {
+          return
+        }
         location.reload();
         console.log(this.userinfo)
-      })
-      this.$on('logout',function(){
-        this.login=false;
+      }
+    },
+    created() {
+      // window.location.search='?'+Base64.encode('uid=46&nickname=猛熊爱吃蜜&role=0&avatar=/media/custom_user_avatar/46/20171225094221_weixin.jpg&position=');
+      // window.location.search='?user_info=P3VpZD00NiZuaWNrbmFtZT3njJvnhorniLHlkIPonJwmcm9sZT3lrabnlJ8mYXZhdGFyPS9tZWRpYS9jdXN0b21fdXNlcl9hdmF0YXIvNDYvMjAxNzEyMjUwOTQyMjFfd2VpeGluLmpwZyZwb3NpdGlvbj0='
+      var userstr = this.$fn.getSearchKey('user_info');
+      var tstr = Base64.decode(userstr);
+      var arr = tstr.split('&');
+      var brr = {};
+      for (var i = 0; i < arr.length; i++) {
+        brr[arr[i].split('=')[0]] = arr[i].split('=')[1];
+      }
+      if (brr['uid']) {
+        for (var k in brr) {
+          localStorage[k] = brr[k]
+        }
+        this.loginfun();
+        console.log(this.login)
+      }
+      console.log(document.cookie)
+      if (this.type == 'videoHeader') {
+        this.buttonStyle = this.videoButtonStyle;
+        this.outerStyle = {
+          background: '#333742'
+        };
+      }
+      this.$on('login', this.loginfun)
+      this.$on('logout', function () {
+        this.login = false;
         localStorage.clear();
-        this.show=false;
-        this.showuser=false;
-        if(location.pathname=='/'){return}        
-        window.location.href="/"
+        this.show = false;
+        this.showuser = false;
+        if (location.pathname == '/') {
+          return
+        }
+        window.location.href = "/"
       })
-      if(this.$fn.getCookie('token')){
+      if (this.$fn.getCookie('token')) {
         this.getUserInfo()
         console.log(this.userinfo)
-        this.login=true;
+        this.login = true;
+      } else {
+        this.login = false;
       }
-      else{
-        this.login=false;
-      }
+      Bus.$on('titleBreadCrumb', res => {
+        this.videoTitle = res;
+      })
     },
     mounted() {
       this.$on('loginClose', function (child) {
@@ -158,9 +195,11 @@
     /*position: relative;*/
     /*left:-100px;*/
   }
-  .white{
-    color:white;
+
+  .white {
+    color: white;
   }
+
   .fade-enter-active,
   .fade-leave-active {
     transition: all 0.25s ease;
@@ -186,9 +225,7 @@
     height: 100%;
     /*position:relative;*/
     /*right:-200px;*/
-  }
-
-  //新增inner元素
+  } //新增inner元素
   .inner {
     margin-left: 132px;
     margin-right: 285px;
@@ -205,7 +242,7 @@
     position: relative; // background: #FFFFFF;
     // border-bottom: 1px solid #cccccc;
     box-shadow: 0 3px 2px rgba(0, 0, 0, 0.1);
-    .ph-container{
+    .ph-container {
       line-height: 70px;
     }
     .ph-content {
@@ -217,7 +254,7 @@
       height: 48px;
       vertical-align: middle;
     }
-    .ph-expend-button{
+    .ph-expend-button {
       vertical-align: middle;
     }
     .ph-tag {
@@ -248,6 +285,44 @@
       width: 48px;
       vertical-align: middle;
       border-radius: 24px;
+    }
+    .project-header {
+      .el-dialog__wrapper {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        overflow: auto;
+        margin: 0;
+        background: rgba(0, 0, 0, .5);
+        overflow: hidden;
+      }
+      .el-dialog {
+        position: relative;
+        margin: 0 auto 50px;
+        background: rgba(0, 0, 0, .5);
+        border-radius: 2px;
+        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 412px;
+        padding: 16px;
+      }
+      .el-dialog__body {
+        background: #ffffff;
+        padding: 24px 40px;
+        color: #5a5e66;
+        line-height: 24px;
+        font-size: 14px
+      }
+      .el-dialog__header {
+        padding: 0;
+      }
+      .el-input__inner {
+        border-radius: 0px;
+      }
     }
   }
 

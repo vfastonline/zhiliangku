@@ -21,7 +21,6 @@
                     {{mainData.complete_number}}</span><span class="font14pm2a0000">/{{mainData.courses_count}}</span></div>
                 <div class="fontcenter font14pl5A646E">完成节数</div>
             </div>
-            
         </li>
     </ul>
   </div>
