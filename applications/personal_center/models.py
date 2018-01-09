@@ -11,7 +11,6 @@ class Resume(models.Model):
     name = models.CharField("姓名", max_length=255, null=True, blank=True, default="")
     sex = models.CharField("性别", max_length=2, blank=True, null=True, default="")
     birthday = models.CharField("生日", max_length=30, blank=True, null=True, default="")
-    age = models.PositiveIntegerField("年龄", null=True, blank=True)
     years_of_service = models.CharField("工作年限", max_length=255, null=True, blank=True, default="")
     education = models.CharField("最高学历", max_length=255, null=True, blank=True, default="")
     status = models.CharField("在职状态", max_length=255, null=True, blank=True, default="")

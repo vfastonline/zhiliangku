@@ -1,4 +1,6 @@
 from django.conf.urls import url
+
+import avatar
 import views
 
 urlpatterns = [
@@ -13,4 +15,5 @@ urlpatterns = [
     url('^retrieve_password_by_email/$', views.RetrievePasswordByEmail.as_view()),
     url('^send_email_retrieve_password$', views.SendEmailRetrievePassword.as_view()),
     url('^send_activation_mail$', views.CustomUserSendActivationMail.as_view()),
+    url('^change/avatar$', avatar.CustomUserAvatar.as_view()),
 ]

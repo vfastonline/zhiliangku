@@ -11,6 +11,7 @@ class Carousel(models.Model):
     CATEGORY = (
         ("1", "首页"),
         ("2", "职业路径"),
+        ("3", "个人中心"),
     )
     name = models.CharField('轮播名称', max_length=50)
     pathwel = models.ImageField('轮播图片', upload_to='carousel/%Y%m%d', storage=ImageStorage())
