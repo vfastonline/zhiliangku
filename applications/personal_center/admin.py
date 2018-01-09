@@ -31,9 +31,10 @@ class CareerObjectiveAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'custom_user',
+        'way',
         "position",
-        "expect_salary",
         "city",
+        "expect_salary",
         "industry",
     )
     search_fields = ('position',)
