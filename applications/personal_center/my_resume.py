@@ -158,7 +158,7 @@ class ResumeAdd(View):
             resume_info_dict = param_dict.get("resume_info_dict", {})
             custom_user_id = param_dict.get("custom_user_id")
 
-            career_objective_id = resume_info_dict.get("career_objective_id")
+            career_objective_id = resume_info_dict.get("career_objective_id", 0)
             user_obj = CustomUser.objects.filter(id=custom_user_id)
             if user_obj.exists() and resume_info_dict:
                 resume_info_dict["custom_user"] = user_obj.first()
