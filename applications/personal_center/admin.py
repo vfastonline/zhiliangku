@@ -12,7 +12,6 @@ class ResumeAdmin(admin.ModelAdmin):
         "name",
         "sex",
         "birthday",
-        "age",
         "years_of_service",
         "education",
         "status",
