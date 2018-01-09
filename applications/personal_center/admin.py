@@ -64,6 +64,7 @@ class ProjectExperienceAdmin(admin.ModelAdmin):
         "start_time",
         "end_time",
         "description",
+        "performance",
     )
     search_fields = ('project_name',)
 

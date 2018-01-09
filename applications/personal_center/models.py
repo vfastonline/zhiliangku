@@ -78,6 +78,7 @@ class ProjectExperience(models.Model):
     start_time = models.CharField("项目起始时间", max_length=255, null=True, blank=True, default="")
     end_time = models.CharField("项目终止时间", max_length=255, null=True, blank=True, default="")
     description = models.TextField("项目描述", null=True, blank=True, default="")
+    performance = models.TextField("项目业绩", null=True, blank=True, default="")
 
     def __str__(self):
         return self.name
