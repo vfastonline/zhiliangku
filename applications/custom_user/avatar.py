@@ -65,7 +65,7 @@ class CustomUserAvatar(View):
             headimg_url = os.path.join("custom_user_avatar", 'custom_user_avatar', custom_user_id, filename)
             if avatar_type == "resume_avatar":
                 resume_obj = Resume.objects.filter(custom_user=user).first()
-                headimg_url = os.path.join("custom_user_avatar", 'resume_avatar', custom_user_id, filename)
+                headimg_url = os.path.join(settings.MEDIA_ROOT, 'resume_avatar', custom_user_id, filename)
                 if resume_obj:
                     resume_obj.avatar = headimg_url
                     resume_obj.save()
