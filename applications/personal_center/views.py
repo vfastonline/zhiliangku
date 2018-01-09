@@ -18,7 +18,7 @@ class PersonalCenter(View):
         return render(request, template_name, {})
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class PersonalCenterBasicInfo(View):
     """个人中心--基础信息"""
 

@@ -43,8 +43,7 @@ def get_resume_detail_info(custom_user_id):
             resume_dict = resumes[0]
             career_objective_id = resume_dict.get("career_objective_id", 0)
             if career_objective_id:
-                career_objective_list = list(
-                    CareerObjective.objects.filter(id=career_objective_id).values("expect_salary"))
+                career_objective_list = list(CareerObjective.objects.filter(id=career_objective_id).values("expect_salary"))
                 if career_objective_list:
                     resume_dict["expect_salary"] = career_objective_list[0].get("expect_salary")
 
@@ -61,7 +60,7 @@ def get_resume_detail_info(custom_user_id):
         return result_dict
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class ResumeDetailInfo(View):
     """全量--简历信息"""
 
@@ -93,14 +92,17 @@ class ResumeDelete(View):
             param_dict = json.loads(request.body)
             resume_type = param_dict.get("resume_type", "")
             custom_user_id = param_dict.get("custom_user_id", 0)
-            pk_id = param_dict.get("pk_id", "")
+            pk_id = param_dict.get("pk_id", 0)
             if resume_type and pk_id:
                 resume_type_model = resume_model_dict.get(resume_type)
-                deleted, _rows_count = resume_type_model.objects.filter(id=pk_id).delete()
-                if deleted and _rows_count:
-                    result_dict = get_resume_detail_info(custom_user_id)
+                if resume_type_model:
+                    deleted, _rows_count = resume_type_model.objects.filter(id=pk_id).delete()
+                    if deleted and _rows_count:
+                        result_dict = get_resume_detail_info(custom_user_id)
+                    else:
+                        result_dict["msg"] = "未找到要删除的简历信息"
                 else:
-                    result_dict["msg"] = "未找到要删除的简历信息"
+                    result_dict["msg"] = "未找到要删除的简历类型"
             else:
                 result_dict["msg"] = "删除简历信息不完善，删除失败!"
         except:
@@ -111,7 +113,7 @@ class ResumeDelete(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class ResumeUpdate(View):
     """修改简历信息"""
 
@@ -121,18 +123,22 @@ class ResumeUpdate(View):
             param_dict = json.loads(request.body)
             custom_user_id = param_dict.get("custom_user_id", 0)
             resume_type = param_dict.get("resume_type", "")
-            pk_id = param_dict.get("pk_id", "")
+            pk_id = param_dict.get("pk_id", 0)
             resume_info_dict = param_dict.get("resume_info_dict", {})
 
             career_objective_id = resume_info_dict.get("career_objective_id", 0)
             if resume_type and pk_id and resume_info_dict:
                 if resume_type == "resume":
-                    career_objective_obj = CareerObjective.objects.filter(id=career_objective_id)
-                    if career_objective_obj.exists():
-                        resume_info_dict["career_objective"] = career_objective_obj.first()
+                    if career_objective_id:
+                        career_objective_obj = CareerObjective.objects.filter(id=career_objective_id)
+                        if career_objective_obj.exists():
+                            resume_info_dict["career_objective"] = career_objective_obj.first()
                 resume_type_model = resume_model_dict.get(resume_type)
-                kwargs = get_kwargs(resume_info_dict)
-                resume_type_model.objects.filter(id=pk_id).update(**kwargs)
+                if resume_type_model:
+                    kwargs = get_kwargs(resume_info_dict)
+                    resume_type_model.objects.filter(id=pk_id).update(**kwargs)
+                else:
+                    result_dict["msg"] = "未找到简历类型"
                 result_dict = get_resume_detail_info(custom_user_id)
             else:
                 result_dict["err"] = 1
@@ -156,27 +162,33 @@ class ResumeAdd(View):
             param_dict = json.loads(request.body)
             resume_type = param_dict.get("resume_type", "")
             resume_info_dict = param_dict.get("resume_info_dict", {})
-            custom_user_id = param_dict.get("custom_user_id")
+            custom_user_id = param_dict.get("custom_user_id", 0)
 
-            career_objective_id = resume_info_dict.get("career_objective_id")
-            user_obj = CustomUser.objects.filter(id=custom_user_id)
+            career_objective_id = resume_info_dict.get("career_objective_id", 0)
+            user_obj = None
+            if custom_user_id:
+                user_obj = CustomUser.objects.filter(id=custom_user_id)
             if user_obj.exists() and resume_info_dict:
                 resume_info_dict["custom_user"] = user_obj.first()
                 resume_type_model = resume_model_dict.get(resume_type)
-                if resume_type == "resume":
-                    resume_obj = Resume.objects.filter(custom_user_id=user_obj)
-                    if resume_obj.exists():
-                        career_objective_obj = CareerObjective.objects.filter(id=career_objective_id)
-                        if career_objective_obj.exists():
-                            resume_info_dict["career_objective"] = career_objective_obj.first()
-                        kwargs = get_kwargs(resume_info_dict)
-                        resume_obj.update(**kwargs)
+                if resume_type_model:
+                    if resume_type == "resume":
+                        resume_obj = Resume.objects.filter(custom_user_id=user_obj)
+                        if resume_obj.exists():
+                            if career_objective_id:
+                                career_objective_obj = CareerObjective.objects.filter(id=career_objective_id)
+                                if career_objective_obj.exists():
+                                    resume_info_dict["career_objective"] = career_objective_obj.first()
+                            kwargs = get_kwargs(resume_info_dict)
+                            resume_obj.update(**kwargs)
+                        else:
+                            kwargs = get_kwargs(resume_info_dict)
+                            resume_type_model.objects.create(**kwargs)
                     else:
                         kwargs = get_kwargs(resume_info_dict)
                         resume_type_model.objects.create(**kwargs)
                 else:
-                    kwargs = get_kwargs(resume_info_dict)
-                    resume_type_model.objects.create(**kwargs)
+                    result_dict["msg"] = "未找到简历类型"
                 result_dict = get_resume_detail_info(custom_user_id)
             else:
                 result_dict["err"] = 1

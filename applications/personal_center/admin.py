@@ -9,6 +9,10 @@ class ResumeAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'custom_user',
+        "name",
+        "sex",
+        "birthday",
+        "age",
         "years_of_service",
         "education",
         "status",
@@ -17,7 +21,7 @@ class ResumeAdmin(admin.ModelAdmin):
         "advantage",
         "career_objective",
     )
-    search_fields = ('years_of_service', "education")
+    search_fields = ("name", 'years_of_service', "education")
 
     class Media:
         js = tinymce_js
@@ -64,6 +68,7 @@ class ProjectExperienceAdmin(admin.ModelAdmin):
         "start_time",
         "end_time",
         "description",
+        "performance",
     )
     search_fields = ('project_name',)
 

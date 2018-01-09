@@ -10,6 +10,7 @@ class Resume(models.Model):
     avatar = models.CharField('简历头像', max_length=255, null=True, blank=True, default='')
     name = models.CharField("姓名", max_length=255, null=True, blank=True, default="")
     sex = models.CharField("性别", max_length=2, blank=True, null=True, default="")
+    birthday = models.CharField("生日", max_length=30, blank=True, null=True, default="")
     age = models.PositiveIntegerField("年龄", null=True, blank=True)
     years_of_service = models.CharField("工作年限", max_length=255, null=True, blank=True, default="")
     education = models.CharField("最高学历", max_length=255, null=True, blank=True, default="")
@@ -78,6 +79,7 @@ class ProjectExperience(models.Model):
     start_time = models.CharField("项目起始时间", max_length=255, null=True, blank=True, default="")
     end_time = models.CharField("项目终止时间", max_length=255, null=True, blank=True, default="")
     description = models.TextField("项目描述", null=True, blank=True, default="")
+    performance = models.TextField("项目业绩", null=True, blank=True, default="")
 
     def __str__(self):
         return self.name
