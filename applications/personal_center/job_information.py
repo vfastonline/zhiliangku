@@ -51,6 +51,7 @@ class PostMatchDetail(View):
         }
         try:
             custom_user_id = request.GET.get('custom_user_id', 0)  # 用户ID
+            post_id = request.GET.get('post_id', 0)  # 岗位ID
             data_dict = dict()
             data_dict["treatment_range"] = "6K-8k"
             data_dict["company_info"] = "移动互联网，游戏/上市公司/北京/全职"
