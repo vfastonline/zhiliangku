@@ -148,7 +148,7 @@ class PathDetailInfo(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
     @staticmethod
-    def summarize(self, custom_user_id, path_obj):
+    def summarize(custom_user_id, path_obj):
         summarize_dict = {
             "learn_time_consum": 0,  # 学习耗时
             "path_complete_schedule": 0,  # 路线完成进度
