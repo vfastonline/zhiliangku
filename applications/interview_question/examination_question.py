@@ -58,6 +58,8 @@ class ExaminationQuestionListInfo(View):
                     question_dict["id"] = question.id
                     question_dict["enterprise_id"] = question.enterprise_id
                     question_dict["title"] = question.title
+                    question_dict["qtype"] = question.qtype
+                    question_dict["qtype_name"] = question.get_qtype_display()
                     answers = ExaminationAnswer.objects.filter(question=question).order_by("option")
                     answer_list = list()
                     for answer in answers:
