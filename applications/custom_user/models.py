@@ -38,6 +38,7 @@ class CustomUser(models.Model):
     address = models.CharField('收货地址', max_length=255, blank=True, null=True, default="")
     contact_number = models.CharField('联系电话', max_length=255, blank=True, null=True, default="")
     signature = models.CharField('个性签名', max_length=255, blank=True, null=True)
+    integral = models.PositiveIntegerField("积分", default=10)
 
     def __unicode__(self):
         return ",".join([self.nickname, str(self.id), str(self.get_role_display())])

@@ -8,6 +8,7 @@ from django.db import models
 
 from applications.custom_user.models import CustomUser
 from lib.storage import ImageStorage
+import django.utils.timezone as timezone
 
 
 def upload_to(instance, fielname):
@@ -45,7 +46,9 @@ class ExchangeRecords(models.Model):
 
     custom_user = models.ForeignKey(CustomUser, verbose_name="兑换用户", related_name="UserExchangeRecords")
     goods = models.ForeignKey(Goods, verbose_name="兑换商品")
-    create_time = models.DateTimeField(verbose_name='兑换时间', auto_now=True)
+    ship = models.BooleanField('是否发货', default=False)
+    create_time = models.DateTimeField(verbose_name='兑换时间', default = timezone.now)
+    ship_time = models.DateTimeField(verbose_name='发货时间', auto_now=True)
 
     def __unicode__(self):
         return self.custom_user.nickname + "|" + self.goods.name

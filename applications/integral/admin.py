@@ -11,5 +11,6 @@ class GoodsAdmin(admin.ModelAdmin):
 
 @admin.register(ExchangeRecords)
 class ExchangeRecordsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'custom_user', "goods", 'create_time',)
+    list_display = ('id', 'custom_user', "goods", "ship", 'create_time', "ship_time",)
     search_fields = ('goods',)
+    list_filter = ('ship',)
