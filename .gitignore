@@ -11,14 +11,12 @@ __pycache__/
 env/
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
-lib/
+#lib/
 lib64/
 parts/
-sdist/
 var/
 wheels/
 *.egg-info/
@@ -99,3 +97,15 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+templates/node_modules
+# Pycharm
+.idea
+
+# media
+media
+00*.py
+
+
+# plugin
+# templates
