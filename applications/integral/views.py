@@ -39,7 +39,6 @@ class GetAllGoods(View):
                 one_dict = dict()
                 one_dict["id"] = one.id
                 one_dict["name"] = one.name
-                one_dict["name"] = one.name
                 one_dict["gtype"] = one.gtype
                 one_dict["gtype_name"] = one.get_gtype_display()
                 one_dict["style"] = one.style
@@ -73,7 +72,6 @@ class GoodsDetail(View):
             if goods.exists():
                 one = goods.first()
                 goods_dict["id"] = one.id
-                goods_dict["name"] = one.name
                 goods_dict["name"] = one.name
                 goods_dict["gtype"] = one.gtype
                 goods_dict["gtype_name"] = one.get_gtype_display()
