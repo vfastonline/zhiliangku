@@ -11,6 +11,7 @@ from django.views.generic import View
 
 from applications.interview_question.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import str_to_int
 
 
 @class_view_decorator(user_login_required)
@@ -28,10 +29,10 @@ class EnterpriseInfoListInfo(View):
 
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": [], "paginator": {}}
+        path_id = str_to_int(self.request.GET.get("path_id", 0))  # 方向
+        is_completed = str_to_int(self.request.GET.get("is_completed", 0))  # 已完成
+        custom_user_id = str_to_int(self.request.GET.get('custom_user_id', 0))  # 用户ID
         try:
-            path_id = self.request.GET.get("path_id", 0)  # 方向
-            is_completed = int(self.request.GET.get("is_completed", 0))  # 已完成
-            custom_user_id = self.request.GET.get('custom_user_id', 0)  # 用户ID
             page = self.request.GET.get("page", 1)  # 页码
             per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
 

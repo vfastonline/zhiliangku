@@ -314,3 +314,17 @@ def get_kwargs(param):
         traceback.print_exc()
     finally:
         return kwargs
+
+
+def str_to_int(param):
+    """字符串转int
+    :param param:
+    :return:
+    """
+    try:
+        param = int(param)
+    except:
+        traceback.print_exc()
+        param = 0
+    finally:
+        return param

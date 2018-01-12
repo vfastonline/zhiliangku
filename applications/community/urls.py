@@ -12,10 +12,8 @@ urlpatterns = [
     url('^get/faqbytitle$', faq.GetFaqByTitle.as_view()),
     url('^add/faq$', faq.AddFaq.as_view()),
     url('^follow/faq$', faq.FollowFaq.as_view()),
-
     url('^appraisal/faqanswer$', faq_answer.AppraisalFaqAnswer.as_view()),
     url('^accept/faqanswer$', faq_answer.AcceptFaqAnswer.as_view()),
     url('^add/faqanswer$', faq_answer.AddFaqAnswer.as_view()),
-
     url('^add/faqanswerreply$', faq_answer_reply.AddFaqAnswerReply.as_view()),
 ]

@@ -212,7 +212,7 @@ class AddFaq(View):
             title = param_dict.get('title')  # 必填，标题
             description = param_dict.get('description')  # 必填，问题描述
             path_id = param_dict.get('path_id')  # 问题方向
-            reward = param_dict.get('reward')  # 悬赏
+            reward = param_dict.get('reward', 0)  # 悬赏
 
             required_dict = {"用户ID": custom_user_id, "问题标题": title, "问题描述": description}
             required_param = 1
@@ -234,8 +234,10 @@ class AddFaq(View):
                         "user": customusers.first(),
                         "title": title,
                         "description": description,
-                        "reward": reward,
                     }
+                    # 判断积分是否够
+                    if customusers.filter(reward__gte=int(reward)).exists():
+                        create_dict.update({"reward": reward})
                     if paths.exists():
                         create_dict.update({"path": paths.first()})
                     if videos.exists():
