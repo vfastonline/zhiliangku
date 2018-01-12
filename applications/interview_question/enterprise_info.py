@@ -11,6 +11,7 @@ from django.views.generic import View
 
 from applications.interview_question.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import str_to_int
 
 
 @class_view_decorator(user_login_required)
@@ -28,10 +29,10 @@ class EnterpriseInfoListInfo(View):
 
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": [], "paginator": {}}
+        path_id = str_to_int(self.request.GET.get("path_id", 0))  # 方向
+        is_completed = str_to_int(self.request.GET.get("is_completed", 0))  # 已完成
+        custom_user_id = str_to_int(self.request.GET.get('custom_user_id', 0))  # 用户ID
         try:
-            path_id = self.request.GET.get("path_id", 0)  # 方向
-            is_completed = int(self.request.GET.get("is_completed", 0))  # 已完成
-            custom_user_id = self.request.GET.get('custom_user_id', 0)  # 用户ID
             page = self.request.GET.get("page", 1)  # 页码
             per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
 
@@ -72,7 +73,7 @@ class EnterpriseInfoListInfo(View):
                 one_dict["id"] = one.id
                 one_dict["company"] = one.company
                 one_dict["position"] = one.position
-                one_dict["amount"] = one.amount
+                one_dict["amount"] = one.ExaminationQuestions.all().count()
                 one_dict["lowest_monthly_salary"] = one.lowest_monthly_salary
                 one_dict["highest_monthly_salary"] = one.highest_monthly_salary
                 one_dict["question_img"] = one.question_img.url
@@ -120,7 +121,7 @@ class EnterpriseInfoDetailInfo(View):
                 detail = dict()
                 detail["id"] = enterpriseinfo.id
                 detail["position"] = enterpriseinfo.position
-                detail["amount"] = enterpriseinfo.amount
+                detail["amount"] = enterpriseinfo.ExaminationQuestions.all().count()
                 detail["duration"] = enterpriseinfo.duration
                 detail["detail"] = enterpriseinfo.detail
                 detail["notes"] = enterpriseinfo.notes

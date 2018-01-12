@@ -50,7 +50,7 @@ class CourseCategory(models.Model):
     path_stage = models.ForeignKey(PathStage, verbose_name="职业路径阶段", related_name='CourseCategory')
     name = models.CharField('课程类别名称', max_length=255)
     sequence = models.PositiveIntegerField('路线阶段顺序', default=1, validators=[MinValueValidator(1)])
-    courses = models.ManyToManyField("Course", verbose_name=u"包含课程", blank=True)
+    courses = models.ManyToManyField("Course", verbose_name="包含课程", blank=True)
 
     def __unicode__(self):
         return self.name
@@ -143,7 +143,7 @@ class Video(models.Model):
     vid = models.CharField("vid", max_length=255, blank=True, null=True)
     data = models.TextField("视频信息", blank=True, null=True)
     sequence = models.PositiveIntegerField('视频顺序', default=0)
-    duration = models.PositiveIntegerField('视频时长', default=0)
+    duration = models.PositiveIntegerField('视频时长', default=0, help_text="分钟")
     live = models.ForeignKey(Live, verbose_name='直播', related_name='Live', blank=True, null=True)
     live_start_time = models.DateTimeField("直播起始时间", blank=True, null=True)
     live_end_time = models.TimeField("直播终止时间", blank=True, null=True)

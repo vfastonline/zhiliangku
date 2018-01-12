@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_select2',
     'colorfield',
     'suit',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -61,7 +62,7 @@ INSTALLED_APPS = [
     'applications.exercise',
     'applications.record',
     'applications.personal_center',
-    'corsheaders',
+    'applications.integral',
 ]
 
 MIDDLEWARE = [

@@ -12,7 +12,7 @@ from lib.util import *
 """个人设置"""
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class UpdateBasicInfo(View):
     """基本信息修改"""
 
@@ -53,7 +53,7 @@ class UpdateBasicInfo(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class GetUserAccount(View):
     """账号绑定--获取账号"""
 
@@ -90,7 +90,7 @@ class GetUserAccount(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class AccountBindPhone(View):
     """账号绑定--手机"""
 
@@ -167,7 +167,7 @@ class AccountBindPhone(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class AccountBindEmail(View):
     """账号绑定--邮箱"""
 
@@ -247,7 +247,7 @@ class AccountBindEmail(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class ChangePassword(View):
     """密码设置"""
 
@@ -289,7 +289,7 @@ class ChangePassword(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class UserAddress(View):
     """收货地址"""
 

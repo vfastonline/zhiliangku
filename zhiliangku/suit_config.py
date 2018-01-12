@@ -63,6 +63,9 @@ SUIT_CONFIG = {
 
         # 社区问答
         {'app': 'community', 'models': ('Faq', 'FaqAnswer', "FaqAnswerReply")},
+
+        # 积分
+        {'app': 'integral', 'models': ('Goods', 'ExchangeRecords')},
     ),
 
     # misc

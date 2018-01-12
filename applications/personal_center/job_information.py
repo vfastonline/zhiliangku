@@ -10,7 +10,7 @@ from lib.permissionMixin import class_view_decorator, user_login_required
 """职业信息"""
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class PostMatch(View):
     """岗位匹配度"""
 
@@ -39,7 +39,7 @@ class PostMatch(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class PostMatchDetail(View):
     """岗位匹配度详情"""
 
@@ -51,6 +51,7 @@ class PostMatchDetail(View):
         }
         try:
             custom_user_id = request.GET.get('custom_user_id', 0)  # 用户ID
+            post_id = request.GET.get('post_id', 0)  # 岗位ID
             data_dict = dict()
             data_dict["treatment_range"] = "6K-8k"
             data_dict["company_info"] = "移动互联网，游戏/上市公司/北京/全职"
@@ -72,7 +73,7 @@ class PostMatchDetail(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class OverallQualityScore(View):
     """综合素质评分"""
 
@@ -94,7 +95,7 @@ class OverallQualityScore(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class FocusOnMyBusiness(View):
     """关注我的企业"""
 

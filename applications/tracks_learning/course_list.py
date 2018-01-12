@@ -360,7 +360,7 @@ def summarize_course_progress(custom_user_id, course_id):
                     remaining_seconds = (duration_sum * 60) - watch_total_time_sum
                     minutes, seconds = divmod(remaining_seconds, 60)
                     remaining_time = minutes
-                    schedule = float("%.2f" % (float(remaining_seconds) / float(duration_sum * 60)))
+                    schedule = float("%.2f" % (float(watch_total_time_sum) / float(duration_sum * 60)))
                     result_dict["is_study_record"] = 1
                     result_dict["last_time_learn"] = last_time_learn
                     result_dict["last_time_learn_id"] = last_time_learn_id

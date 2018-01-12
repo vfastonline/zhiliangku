@@ -9,6 +9,7 @@ from django.views.generic import View
 
 from applications.community.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import str_to_int
 
 
 @class_view_decorator(user_login_required)
@@ -19,7 +20,7 @@ class AppraisalFaqAnswer(View):
         result_dict = {"err": 0, "msg": "success", "data": {}}
         try:
             param_dict = json.loads(request.body)
-            faq_answer_id = param_dict.get('faq_answer_id', 0)  # 必填，问题回复ID
+            faq_answer_id = str_to_int(param_dict.get('faq_answer_id', 0))  # 必填，问题回复ID
             appraisal = param_dict.get('appraisal')  # 必填，赞同：approve， 反对：oppose
 
             if faq_answer_id and appraisal:
@@ -54,15 +55,58 @@ class AcceptFaqAnswer(View):
         result_dict = {"err": 0, "msg": "成功采纳这个答案"}
         try:
             param_dict = json.loads(request.body)
-            faq_answer_id = param_dict.get('faq_answer_id', 0)  # 必填，问题回复ID
+            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+            faq_id = str_to_int(param_dict.get('faq_id', 0))  # 必填，问题ID
+            faq_answer_id = str_to_int(param_dict.get('faq_answer_id', 0))  # 必填，问题回复ID
+
+            faqs = Faq.objects.filter(id=faq_id)
+            if not faqs.exists():
+                result_dict["err"] = 1
+                result_dict["msg"] = "问题不存！"
+                return
+
+            # 判断用户是否是提问者
+            if not faqs.filter(user__id=custom_user_id):
+                result_dict["err"] = 1
+                result_dict["msg"] = "不是提问者，不能采纳这个答案！"
+                return
+
+            if FaqAnswer.objects.filter(faq__id=faq_id, optimal=True).exists():
+                result_dict["err"] = 1
+                result_dict["msg"] = "问题已经存在最佳答案！"
+                return
 
             if faq_answer_id:
                 faqanswers = FaqAnswer.objects.filter(id=faq_answer_id)
-                if faqanswers.exists():
+                if faqanswers.exists() and faqs.exists():
                     faqanswer = faqanswers.first()
-                    faqanswer.optimal = True
-                    faqanswer.status = "1"
-                    faqanswer.save()
+                    faq = faqs.first()
+                    reward = int(faq.reward)
+
+                    # 回答是否对应问题
+                    if faqanswer.faq.id != faq_id:
+                        result_dict["err"] = 1
+                        result_dict["msg"] = "回复不对应提问！"
+                        return
+
+                    customuser = CustomUser.objects.filter(id=custom_user_id, integral__gte=reward)
+                    if not customuser.exists():
+                        result_dict["err"] = 1
+                        result_dict["msg"] = "积分不足！"
+                        return
+
+                    # 提问用户扣除悬赏积分
+                    customuser.update(integral=F('integral') - reward)
+
+                    # 回复者增加悬赏积分
+                    CustomUser.objects.filter(id=faqanswer.user.id).update(integral=F('integral') + reward)
+
+                    # 回复修改为最佳答案
+                    faqanswers.update(optimal=True)
+
+                    # 问题修改为已解决
+                    faqs.update(status="1")
+
             else:
                 result_dict["err"] = 1
                 result_dict["msg"] = "缺少问题回复ID"
@@ -84,8 +128,8 @@ class AddFaqAnswer(View):
         try:
             # 回答参数
             param_dict = json.loads(request.body)
-            faq_id = param_dict.get('faq_id', 0)  # 必填，问题ID
-            custom_user_id = param_dict.get('custom_user_id', 0)  # 必填，回答用户ID
+            faq_id = str_to_int(param_dict.get('faq_id', 0))  # 必填，问题ID
+            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 必填，回答用户ID
             answer = param_dict.get('answer', "")  # 回答内容
 
             required_dict = {"问题ID": faq_id, "回答用户ID": custom_user_id, "回答内容": answer}
