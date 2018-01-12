@@ -14,7 +14,6 @@ class EnterpriseInfo(models.Model):
     company = models.CharField('公司名称', max_length=256)
     email = models.CharField('公司HR邮箱', max_length=256, default="")
     position = models.CharField('招聘职位', max_length=256)
-    amount = models.PositiveIntegerField('题目数', default=0)
     lowest_monthly_salary = models.CharField('最低月薪', max_length=256)
     highest_monthly_salary = models.CharField('最高月薪', max_length=256)
     duration = models.PositiveIntegerField("评测时长", default=30)

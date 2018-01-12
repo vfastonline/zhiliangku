@@ -21,7 +21,7 @@ class IndexEnterpriseInfoList(View):
                     "id": one.id,
                     "company": one.company,
                     "position": one.position,
-                    "amount": one.amount,
+                    "amount": one.ExaminationQuestions.all().count(),
                     "lowest_monthly_salary": one.lowest_monthly_salary,
                     "highest_monthly_salary": one.highest_monthly_salary,
                     "question_img": one.question_img.url,

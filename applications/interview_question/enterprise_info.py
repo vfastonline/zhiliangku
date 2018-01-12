@@ -73,7 +73,7 @@ class EnterpriseInfoListInfo(View):
                 one_dict["id"] = one.id
                 one_dict["company"] = one.company
                 one_dict["position"] = one.position
-                one_dict["amount"] = one.amount
+                one_dict["amount"] = one.ExaminationQuestions.all().count()
                 one_dict["lowest_monthly_salary"] = one.lowest_monthly_salary
                 one_dict["highest_monthly_salary"] = one.highest_monthly_salary
                 one_dict["question_img"] = one.question_img.url
@@ -121,7 +121,7 @@ class EnterpriseInfoDetailInfo(View):
                 detail = dict()
                 detail["id"] = enterpriseinfo.id
                 detail["position"] = enterpriseinfo.position
-                detail["amount"] = enterpriseinfo.amount
+                detail["amount"] = enterpriseinfo.ExaminationQuestions.all().count()
                 detail["duration"] = enterpriseinfo.duration
                 detail["detail"] = enterpriseinfo.detail
                 detail["notes"] = enterpriseinfo.notes
