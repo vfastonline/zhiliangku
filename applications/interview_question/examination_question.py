@@ -36,22 +36,22 @@ class ExaminationQuestionListInfo(View):
             questions = ExaminationQuestion.objects.filter(enterprise_id=enterprise_id)
             if questions.exists():
                 # 分页处理
-                page_obj = Paginator(questions, 1)
-                total_count = page_obj.count  # 记录总数
-                num_pages = page_obj.num_pages  # 总页数
-                page_range = list(page_obj.page_range)  # 页码列表
-                paginator_dict = {
-                    "total_count": total_count,
-                    "num_pages": num_pages,
-                    "page_range": page_range,
-                    "page": page,
-                }
-                result_dict["paginator"] = paginator_dict
-
-                try:
-                    questions = page_obj.page(page).object_list
-                except:
-                    questions = list()
+                # page_obj = Paginator(questions, 1)
+                # total_count = page_obj.count  # 记录总数
+                # num_pages = page_obj.num_pages  # 总页数
+                # page_range = list(page_obj.page_range)  # 页码列表
+                # paginator_dict = {
+                #     "total_count": total_count,
+                #     "num_pages": num_pages,
+                #     "page_range": page_range,
+                #     "page": page,
+                # }
+                # result_dict["paginator"] = paginator_dict
+                #
+                # try:
+                #     questions = page_obj.page(page).object_list
+                # except:
+                #     questions = list()
 
                 for question in questions:
                     question_dict = dict()
