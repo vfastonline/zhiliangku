@@ -18,7 +18,7 @@ urlpatterns = [
     url(r'^enterpriseinfo/detail/info$', EnterpriseInfoDetailInfo.as_view()),
 
     # 企业下所有面试题
-    url(r'^examinationquestion/list/$', ExaminationQuestionListInfo.as_view()),
+    url(r'^examinationquestion/list/$', ExaminationQuestionList.as_view()),
     url(r'^examinationquestion/list/info$', ExaminationQuestionListInfo.as_view()),
 
     # 校验面试题，记录答题记录
