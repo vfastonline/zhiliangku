@@ -11,6 +11,7 @@ from applications.custom_user.models import *
 from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
 from django.http import Http404
+from lib.util import str_to_int
 
 
 class IndexCourseList(View):
@@ -99,9 +100,9 @@ class CourseListInfo(View):
         }
         try:
             # 获取查询参数
-            category_id = self.request.GET.get("category_id", 0)  # 课程类别
-            coursepath_id = self.request.GET.get("coursepath_id", 0)  # 课程方向
-            technology_id = self.request.GET.get("technology_id", 0)  # 技术分类
+            category_id = str_to_int(self.request.GET.get("category_id", 0))  # 课程类别
+            coursepath_id = str_to_int(self.request.GET.get("coursepath_id", 0))  # 课程方向
+            technology_id = str_to_int(self.request.GET.get("technology_id", 0))  # 技术分类
             page = self.request.GET.get("page", 1)  # 页码
             per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
 
