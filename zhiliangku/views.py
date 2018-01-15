@@ -38,9 +38,9 @@ def redirect_400_error(request):
 
 
 # 登录界面
-def login(request, err, msg):
+def login(request, result_dict):
     try:
-        print err, msg
+        print result_dict
     except:
         traceback.print_exc()
 

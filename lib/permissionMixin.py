@@ -31,7 +31,7 @@ def user_login_required(function):
             #         logging.getLogger().error(traceback.format_exc())
             print "token==", token
             if not token:
-                return HttpResponseRedirect(reverse('login', args=(request,), kwargs={'err': 2, "msg": "未登录!"}))
+                return HttpResponseRedirect(reverse('login', args=(request, {'err': 2, "msg": "未登录!"},)))
                 # return HttpResponse(json.dumps({"err": 2, "msg": "未登录!"}, ensure_ascii=False))
 
             validate_result = validate(token, CryptKey)
@@ -39,11 +39,11 @@ def user_login_required(function):
             msg = validate_result.get("msg")
             if code == 1:
                 logging.getLogger().warning("Request forbiden:%s" % msg)
-                return HttpResponseRedirect(reverse('login', args=(request,), kwargs={'err': 2, "msg": msg}))
+                return HttpResponseRedirect(reverse('login', args=(request, {'err': 2, "msg": msg},)))
                 # return HttpResponse(json.dumps({"err": 2, "msg": msg}, ensure_ascii=False))
         except:
             logging.getLogger().warning("Validate error: %s" % traceback.format_exc())
-            return HttpResponseRedirect(reverse('login', args=(request,), kwargs={'err': 1, "msg": '验证异常'}))
+            return HttpResponseRedirect(reverse('login', args=(request, {'err': 1, "msg": '验证异常'},)))
             # return HttpResponse(json.dumps({'err': 1, 'msg': '验证异常'}))
         return function(request, *args, **kwargs)
 
