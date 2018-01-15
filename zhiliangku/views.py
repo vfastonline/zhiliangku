@@ -44,13 +44,18 @@ class Login(View):
 
     def get(self, request, *args, **kwargs):
         try:
-            print args
-            print kwargs
+            err = kwargs.get("err")
+            if err == "1":
+                kwargs.update({"msg": "接口异常"})
+            if err == "2":
+                kwargs.update({"msg": "未登录"})
+            if err == "9":
+                kwargs.update({"msg": "Token校验失败"})
         except:
             traceback.print_exc()
         finally:
             template_name = "login/index.html"
-            return render(request, template_name, {})
+            return render(request, template_name, kwargs)
 
 
 def upload(request):
