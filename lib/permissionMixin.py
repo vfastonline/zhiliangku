@@ -31,7 +31,7 @@ def user_login_required(function):
             #         logging.getLogger().error(traceback.format_exc())
             print "token==", token
             if not token:
-                return HttpResponseRedirect(reverse('login', kwargs={'err': 2, "msg": "未登录!"}))
+                return HttpResponseRedirect(reverse('login', args=(2, "未登录！",)))
                 # return HttpResponse(json.dumps({"err": 2, "msg": "未登录!"}, ensure_ascii=False))
 
             validate_result = validate(token, CryptKey)
