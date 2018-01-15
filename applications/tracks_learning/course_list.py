@@ -93,8 +93,8 @@ class CourseListInfo(View):
             "msg": "success",
             "data": [],
             "filter": {
-                "course_path": [{"name": "全部", "id": 0, "active": 1}],
-                "technology": [{"name": "全部", "id": 0, "active": 1}]
+                "course_path": [{"name": "全部", "id": 0}],
+                "technology": [{"name": "全部", "id": 0}]
             },
             "paginator": {}
         }
@@ -157,7 +157,7 @@ class CourseListInfo(View):
                 for one in course_objs
             ]
 
-            # 组装过滤数据
+            # 无课程类，别组装过滤数据
             if not category_id:
                 filter_result = self.get_filter_data(coursepath_id, technology_id)
                 result_dict["filter"] = filter_result
@@ -179,8 +179,8 @@ class CourseListInfo(View):
         :return:课程方向+课程技术分类信息
         """
         result_dict = {
-            "course_path": [{"name": "全部", "id": 0, "active": 1}],
-            "technology": [{"name": "全部", "id": 0, "active": 1}]
+            "course_path": [{"name": "全部", "id": 0}],
+            "technology": [{"name": "全部", "id": 0}]
         }
         try:
             course_paths = CoursePath.objects.all().values()
@@ -188,16 +188,19 @@ class CourseListInfo(View):
                 result_dict["course_path"].extend(course_paths)
 
             # 增加方向选中flag
+            if not course_path_id and technology_id:
+                coursepaths = CoursePath.objects.filter(tech__id__in=[technology_id])
+                if coursepaths.exists():
+                    course_path_id = coursepaths.first().id
+
             for one in result_dict["course_path"]:
                 if int(one.get("id", 0)) == int(course_path_id):
                     one.update({"active": 1})
-                    if int(course_path_id) != 0:
-                        result_dict["course_path"][0].pop("active")
                     break
 
             # 组装过滤数据-方向-技术分类
             technologys = list()
-            if not course_path_id or course_path_id == "0":
+            if not course_path_id:
                 technologys = Technology.objects.all().values("id", "name")
             else:
                 technology_objs = CoursePath.objects.filter(id=course_path_id)
@@ -209,8 +212,6 @@ class CourseListInfo(View):
             for one in result_dict["technology"]:
                 if int(one.get("id", 0)) == int(technology_id):
                     one.update({"active": 1})
-                    if int(technology_id) != 0:
-                        result_dict["technology"][0].pop("active")
                     break
 
         except:
