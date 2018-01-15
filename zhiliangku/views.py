@@ -40,12 +40,17 @@ def redirect_400_error(request):
 
 # 登录界面
 class Login(View):
+    """重定向--登录"""
+
     def get(self, request, *args, **kwargs):
         try:
             print args
             print kwargs
         except:
             traceback.print_exc()
+        finally:
+            template_name = "login/index.html"
+            return render(request, template_name, {})
 
 
 def upload(request):
