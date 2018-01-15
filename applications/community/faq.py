@@ -236,7 +236,7 @@ class AddFaq(View):
                         "description": description,
                     }
                     # 判断积分是否够
-                    if customusers.filter(reward__gte=int(reward)).exists():
+                    if customusers.filter(integral__gte=int(reward)).exists():
                         create_dict.update({"reward": reward})
                     if paths.exists():
                         create_dict.update({"path": paths.first()})
