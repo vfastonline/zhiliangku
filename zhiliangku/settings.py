@@ -190,5 +190,3 @@ tinymce_js = [
     '/static/tinymce/js/tinymce/plugins/jquery.form.js',  # 手动添加文件
     '/static/tinymce/js/tinymce/textarea.js',  # 手动添加文件，用户初始化参数
 ]
-
-LOGIN_URL = '/auth/login/'
