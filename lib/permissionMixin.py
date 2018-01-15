@@ -3,11 +3,13 @@ import json
 import traceback
 import logging
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.decorators import method_decorator
 
 from applications.custom_user.views import CryptKey
 from util import validate
+from zhiliangku.settings import LOGIN_URL
+from django.core.urlresolvers import reverse
 
 
 # 校验用户是否登录
@@ -29,17 +31,20 @@ def user_login_required(function):
             #         logging.getLogger().error(traceback.format_exc())
             print "token==", token
             if not token:
-                return HttpResponse(json.dumps({"err": 2, "msg": "未登录!"}, ensure_ascii=False))
+                return HttpResponseRedirect(reverse('login', kwargs={'err': 2, "msg": "未登录!"}))
+                # return HttpResponse(json.dumps({"err": 2, "msg": "未登录!"}, ensure_ascii=False))
 
             validate_result = validate(token, CryptKey)
             code = validate_result.get("code")
             msg = validate_result.get("msg")
             if code == 1:
                 logging.getLogger().warning("Request forbiden:%s" % msg)
-                return HttpResponse(json.dumps({"err": 2, "msg": msg}, ensure_ascii=False))
+                return HttpResponseRedirect(reverse('login', kwargs={'err': 2, "msg": msg}))
+                # return HttpResponse(json.dumps({"err": 2, "msg": msg}, ensure_ascii=False))
         except:
             logging.getLogger().warning("Validate error: %s" % traceback.format_exc())
-            return HttpResponse(json.dumps({'err': 1, 'msg': '验证异常'}))
+            return HttpResponseRedirect(reverse('login', kwargs={'err': 1, "msg": '验证异常'}))
+            # return HttpResponse(json.dumps({'err': 1, 'msg': '验证异常'}))
         return function(request, *args, **kwargs)
 
     return _wrapped_view

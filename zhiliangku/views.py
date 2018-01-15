@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import re
+import traceback
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -34,6 +35,14 @@ def redirect_403_error(request):
 # 请求出错
 def redirect_400_error(request):
     return render(request, '400.html')
+
+
+# 登录界面
+def login(request):
+    try:
+        print request
+    except:
+        traceback.print_exc()
 
 
 def upload(request):
