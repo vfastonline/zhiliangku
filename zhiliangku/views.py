@@ -4,6 +4,7 @@ import logging
 import os
 import re
 import traceback
+from django.views.generic import View
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -38,11 +39,13 @@ def redirect_400_error(request):
 
 
 # 登录界面
-def login(request, result_dict):
-    try:
-        print result_dict
-    except:
-        traceback.print_exc()
+class Login(View):
+    def get(self, request, *args, **kwargs):
+        try:
+            print args
+            print kwargs
+        except:
+            traceback.print_exc()
 
 
 def upload(request):

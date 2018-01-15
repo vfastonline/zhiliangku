@@ -28,7 +28,7 @@ handler400 = "zhiliangku.views.redirect_400_error"
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index),
-    url(r'^login$', views.login),
+    url(r'^login$', views.Login.as_view()),
     url('^slides/', include('applications.slideshow.urls')),
     url('^tracks/', include('applications.tracks_learning.urls')),
     url('^lives/', include('applications.live_streaming.urls')),
