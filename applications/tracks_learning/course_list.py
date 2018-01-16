@@ -236,9 +236,9 @@ class CourseDetailInfo(View):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
             filter_param = dict()
-            course_id = request.GET.get('course_id', 0)
-            include_video = request.GET.get('include_video', 0)  # 是否包含视频信息
-            custom_user_id = request.GET.get('custom_user_id', 0)  # 用户ID
+            course_id = str_to_int(request.GET.get('course_id', 0))
+            include_video = str_to_int(request.GET.get('include_video', 0))  # 是否包含视频信息
+            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
             detail = dict()
             if course_id:
                 filter_param["id"] = course_id

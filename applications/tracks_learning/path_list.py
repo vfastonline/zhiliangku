@@ -11,6 +11,7 @@ from django.views.generic import View
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
 from applications.record.models import WatchRecord
+from applications.custom_user.models import CustomUserPath
 
 
 class IndexPathList(View):
@@ -153,9 +154,13 @@ class PathDetailInfo(View):
             "learn_time_consum": 0,  # 学习耗时
             "path_complete_schedule": 0,  # 路线完成进度
             "complete_number": 0,  # 完成节数
+            "participate": False,  # 用户参与了该路线
         }
         try:
-            print custom_user_id, path_obj
+            customuserpaths = CustomUserPath.objects.filter(custom_user__id=custom_user_id, path=path_obj)
+            if not customuserpaths.exists():
+                return
+            summarize_dict["participate"] = True
             coursecategorys = CourseCategory.objects.filter(path_stage__in=path_obj.PathStage.all())
             course_list = list()  # 路线下所有课程
             for one in coursecategorys:
