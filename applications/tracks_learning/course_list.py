@@ -15,7 +15,7 @@ from lib.util import str_to_int
 
 
 class IndexCourseList(View):
-    """首页-热门课程"""
+    """首页-最新/热门/推荐 课程"""
 
     def get(self, request, *args, **kwargs):
         result_dict = {
@@ -24,8 +24,8 @@ class IndexCourseList(View):
             "data": [],
         }
         try:
-            # 课程数据
-            course_objs = Course.objects.filter(home_show=True)
+            types = self.request.GET.get("types", "1")  # 课程类别
+            course_objs = Course.objects.filter(types=types)[:9]
             result_dict["data"] = [
                 {
                     "id": one.id,

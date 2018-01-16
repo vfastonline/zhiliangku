@@ -67,8 +67,15 @@ class CourseCategory(models.Model):
 
 class Course(models.Model):
     """课程"""
+    TYPE = (
+        ("1", "无"),
+        ("2", "最新课程"),
+        ("3", "热门课程"),
+        ("4", "推荐课程"),
+    )
+
     name = models.CharField('课程名称', max_length=50)
-    home_show = models.BooleanField("是否首页展示", default=False, help_text="首页展示8个热门，请查询已勾选个数后设置。")
+    types = models.CharField('课程类型', max_length=1, choices=TYPE, default="1")
     lecturer = models.ForeignKey("custom_user.CustomUser", verbose_name="讲师", limit_choices_to={'role': 1}, null=True,
                                  blank=True,
                                  on_delete=models.SET_NULL, help_text='只允许选择角色是”老师“的用户。')
