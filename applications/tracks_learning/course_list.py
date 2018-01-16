@@ -30,6 +30,8 @@ class IndexCourseList(View):
                 {
                     "id": one.id,
                     "name": one.name,
+                    "types": one.types,
+                    "types_name": one.get_types_display(),
                     "tech": [one_tech.name for one_tech in one.tech.all()] if one.tech.all().exists() else list(),
                     "course_img": one.course_img.url if one.course_img else "",
                     "lecturer": one.lecturer.nickname if one.lecturer else "",
