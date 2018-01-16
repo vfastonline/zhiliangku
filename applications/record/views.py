@@ -26,6 +26,11 @@ class HandleWatchRecord(View):
             duration = str_to_int(param_dict.get('duration', 0))  # 当前视频的时长，秒
             status = str_to_int(param_dict.get('status', 0))  # 1：已看完；0：未看完
 
+            if not custom_user_id or not course_id or not video_id or real_play_video_time or not duration:
+                result_dict["err"] = 1
+                result_dict["msg"] = "参数不全"
+                return
+
             # 查询是否有观看记录
             watchrecords = WatchRecord.objects.filter(user__id=custom_user_id, video__id=video_id, course__id=course_id)
             if watchrecords.exists():
