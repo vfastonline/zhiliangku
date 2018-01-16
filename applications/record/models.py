@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+
 from applications.custom_user.models import CustomUser
 from applications.tracks_learning.models import Video, Course
 
@@ -15,9 +16,9 @@ class WatchRecord(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='用户')
     video = models.ForeignKey(Video, on_delete=models.CASCADE, null=True, verbose_name='视频')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='课程')
-    video_process = models.IntegerField('观看时间进度')
-    video_time = models.IntegerField('视频长度', default=0)
-    status = models.IntegerField('观看状态', choices=STATUS)
+    video_process = models.IntegerField('观看时间', default=0, help_text="秒")
+    duration = models.IntegerField('时长', default=0, help_text="秒")
+    status = models.IntegerField('观看状态', choices=STATUS, default=0)
     create_time = models.DateTimeField(verbose_name='记录时间', auto_now=True)
 
     def __unicode__(self):

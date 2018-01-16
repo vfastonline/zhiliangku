@@ -9,7 +9,7 @@ from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class CollectCourse(View):
     """收藏/取消收藏这个课程"""
 
