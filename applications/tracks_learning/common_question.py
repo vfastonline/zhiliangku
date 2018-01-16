@@ -8,6 +8,7 @@ from django.views.generic import View
 
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import str_to_int
 
 
 @class_view_decorator(user_login_required)
@@ -18,7 +19,7 @@ class CommonQuestionList(View):
         result_dict = {"err": 0, "msg": "success", "data": list()}
         try:
             # 获取查询参数
-            video_id = request.GET.get('video_id', 0)
+            video_id = str_to_int(request.GET.get('video_id', 0))
 
             data_list = list()
             if video_id:

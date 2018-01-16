@@ -12,6 +12,7 @@ from django.views.generic import View
 from applications.tracks_learning.models import *
 from conf.conf_core import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import str_to_int
 
 
 class UploadVideoPolyvParam(View):
@@ -40,7 +41,7 @@ class VideoList(View):
         result_dict = {"err": 0, "msg": "success", "data": list()}
         try:
             # 获取查询参数
-            section_id = request.GET.get('section_id', 0)
+            section_id = str_to_int(request.GET.get('section_id', 0))
 
             data_list = list()
             if section_id:
@@ -93,7 +94,7 @@ class VideoDetailInfo(View):
         result_dict = {"err": 0, "msg": "success", "data": {}}
         try:
             # 获取查询参数
-            video_id = request.GET.get('video_id', 0)
+            video_id = str_to_int(request.GET.get('video_id', 0))
 
             video_dict = dict()
             if video_id:

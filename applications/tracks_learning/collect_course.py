@@ -7,6 +7,7 @@ from django.views.generic import View
 from applications.custom_user.models import *
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import str_to_int
 
 
 @class_view_decorator(user_login_required)
@@ -17,9 +18,9 @@ class CollectCourse(View):
         result_dict = {"err": 0, "msg": "成功收藏这个课程"}
         try:
             param_dict = json.loads(request.body)
-            course_id = param_dict.get('course_id', 0)  # 必填，课程ID
-            custom_user_id = param_dict.get('custom_user_id', 0)  # 必填，用户ID
-            is_collect = int(param_dict.get('is_collect', 0))  # 必填，1：收藏；0：取消收藏
+            course_id = str_to_int(param_dict.get('course_id', 0))  # 必填，课程ID
+            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 必填，用户ID
+            is_collect = str_to_int(param_dict.get('is_collect', 0))  # 必填，1：收藏；0：取消收藏
 
             if custom_user_id and course_id:
                 courses = Course.objects.filter(id=course_id)

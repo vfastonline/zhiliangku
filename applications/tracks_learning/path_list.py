@@ -2,16 +2,16 @@
 import json
 import logging
 import traceback
-from django.db.models import Sum
 
+from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
 
-from applications.tracks_learning.models import *
-from lib.permissionMixin import class_view_decorator, user_login_required
-from applications.record.models import WatchRecord
 from applications.custom_user.models import CustomUserPath
+from applications.record.models import WatchRecord
+from applications.tracks_learning.models import *
+from lib.util import str_to_int
 
 
 class IndexPathList(View):
@@ -91,8 +91,8 @@ class PathDetailInfo(View):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
             filter_param = dict()
-            path_id = request.GET.get('path_id', 0)  # 路径ID
-            custom_user_id = request.GET.get('custom_user_id', 0)  # 用户ID
+            path_id = str_to_int(request.GET.get('path_id', 0))  # 路径ID
+            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
 
             detail = dict()
             if path_id:
