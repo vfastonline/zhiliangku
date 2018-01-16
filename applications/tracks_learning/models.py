@@ -32,7 +32,8 @@ class PathStage(models.Model):
     """职业路径阶段"""
     path = models.ForeignKey(Path, verbose_name="职业路径", related_name='PathStage')
     name = models.CharField('路线阶段名称', max_length=255)
-    sequence = models.PositiveIntegerField('路线阶段顺序', default=1, validators=[MinValueValidator(1)])
+    sequence = models.PositiveIntegerField('路线阶段顺序', default=1, validators=[MinValueValidator(1)],
+                                           help_text="从1开始，默认顺序为1")
 
     def __unicode__(self):
         return self.name
@@ -49,7 +50,8 @@ class CourseCategory(models.Model):
     """路径阶段-课程类别"""
     path_stage = models.ForeignKey(PathStage, verbose_name="职业路径阶段", related_name='CourseCategory')
     name = models.CharField('课程类别名称', max_length=255)
-    sequence = models.PositiveIntegerField('路线阶段顺序', default=1, validators=[MinValueValidator(1)])
+    sequence = models.PositiveIntegerField('路线阶段顺序', default=1, validators=[MinValueValidator(1)],
+                                           help_text="从1开始，默认顺序为1")
     courses = models.ManyToManyField("Course", verbose_name="包含课程", blank=True)
 
     def __unicode__(self):
@@ -117,7 +119,8 @@ class Section(models.Model):
     """课程-章节"""
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='所属课程', related_name='Section')
     title = models.CharField('章节标题', max_length=100, default='')
-    sequence = models.PositiveIntegerField('章节顺序')
+    sequence = models.PositiveIntegerField('章节顺序', default=1, validators=[MinValueValidator(1)],
+                                           help_text="从1开始，默认顺序为1")
     desc = models.TextField('章节描述', default='')
 
     def __unicode__(self):
@@ -142,7 +145,8 @@ class Video(models.Model):
     name = models.CharField('视频/习题名称', max_length=255)
     vid = models.CharField("vid", max_length=255, blank=True, null=True)
     data = models.TextField("视频信息", blank=True, null=True)
-    sequence = models.PositiveIntegerField('视频顺序', default=0)
+    sequence = models.PositiveIntegerField('视频顺序', default=1, validators=[MinValueValidator(1)],
+                                           help_text="从1开始，默认顺序为1")
     duration = models.PositiveIntegerField('视频时长', default=0, help_text="分钟")
     live = models.ForeignKey(Live, verbose_name='直播', related_name='Live', blank=True, null=True)
     live_start_time = models.DateTimeField("直播起始时间", blank=True, null=True)
