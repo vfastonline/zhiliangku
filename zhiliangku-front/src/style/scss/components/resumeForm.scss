@@ -1,0 +1,32 @@
+// form 部分的样式
+.myform {
+    background: white;
+    padding: 24px 42px 22px;
+  }
+  .myform-title{
+    margin-bottom:32px;
+  }
+  .myform-body {
+    width: 566px;
+    margin: auto;
+  }
+
+  .item {
+    position: relative;
+    margin-left: 94px;
+    margin-bottom: 15px;
+  }
+
+  .tags {
+    position: absolute;
+    width: 80px;
+    text-align: right;
+    left: -114px;
+    top: 50%;
+    transform: translate(0, -50%)
+  }
+  .word-indecator{
+    position: absolute;
+    bottom:12px;
+    right:20px;
+  }
