@@ -25,7 +25,7 @@ class IndexCourseList(View):
         }
         try:
             types = self.request.GET.get("types", "1")  # 课程类别
-            course_objs = Course.objects.filter(types=types)[:9]
+            course_objs = Course.objects.filter(types=types)[:8]
             result_dict["data"] = [
                 {
                     "id": one.id,
