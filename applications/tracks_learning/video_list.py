@@ -33,7 +33,6 @@ class UploadVideoPolyvParam(View):
         return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-@class_view_decorator(user_login_required)
 class VideoList(View):
     """视频列表"""
 
