@@ -14,6 +14,7 @@ USERID = config_parser.get("polyv", "userid")  # 用户ID
 SECRETKEY = config_parser.get("polyv", "secretkey")
 WRITETOKEN = config_parser.get("polyv", "writetoken")
 READTOKEN = config_parser.get("polyv", "readtoken")
+APPSECRET = config_parser.get("polyv", "appSecret")
 
 # [live]
 CREATE_LIVE = config_parser.get("live", "create")  # 创建直播频道
