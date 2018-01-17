@@ -732,10 +732,12 @@ class SendSMSVerificationCode(View):
             if verifycodes.exists():
                 verifycode_obj = verifycodes.first()
                 create_time = verifycode_obj.create_time
-                last_seconds = (timezone.now() - create_time).seconds
-                if last_seconds < 60:
+                last_seconds = 60 - (timezone.now() - create_time).seconds
+                if 0 < last_seconds < 60:
                     result_dict["msg"] = "".join([str(last_seconds), "秒后尝试重新发送验证码"])
                     result_dict["err"] = 8
+                else:
+                    verifycodes.delete()
             else:
                 try:
                     is_send = sendmessage(phone, {'code': code})
