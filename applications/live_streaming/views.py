@@ -21,7 +21,7 @@ class IndexLiveList(View):
                     "pathwel": one.live.pathwel.url if one.live else "",
                     "desc": one.desc,
                     "status": one.live.status if one.live else "end",
-                    "start_time": one.start_time.strftime("%H:%M") if one.start_time else "",
+                    "start_time": one.live_start_time.strftime("%H:%M") if one.live_start_time else "",
                 }
                 for one in lives
             ]
