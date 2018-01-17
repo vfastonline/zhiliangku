@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 20 16">
-  <path fill="#FFF" d="M43,27 L27,27 C25.9,27 25,27.9 25,29 L25,41 C25,42.1 25.9,43 27,43 L43,43 C44.1,43 45,42.1 45,41 L45,29 C45,27.9 44.1,27 43,27 Z M27,35 L31,35 L31,37 L27,37 L27,35 Z M37,41 L27,41 L27,39 L37,39 L37,41 Z M43,41 L39,41 L39,39 L43,39 L43,41 Z M43,37 L33,37 L33,35 L43,35 L43,37 Z" transform="translate(-25 -27)"/>
-</svg>
