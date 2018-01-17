@@ -22,7 +22,7 @@ class IsCellphone:
     """http://www.linuxeye.com/program/1760.html"""
 
     def __init__(self):
-        self.p = re.compile(r'^0\d{2,3}\d{7,8}$|^1[358]\d{9}$|^147\d{8}$')
+        self.p = re.compile(r'^1\d{10}$')
 
     def iscellphone(self, cellphone_number):
         res = self.p.match(cellphone_number)

@@ -15,7 +15,7 @@ from lib.util import str_to_int
 
 
 class IndexCourseList(View):
-    """首页-热门课程"""
+    """首页-最新/热门/推荐 课程"""
 
     def get(self, request, *args, **kwargs):
         result_dict = {
@@ -24,12 +24,33 @@ class IndexCourseList(View):
             "data": [],
         }
         try:
-            # 课程数据
-            course_objs = Course.objects.filter(home_show=True)
+            recommend = str_to_int(self.request.GET.get("recommend", 0))  # 推荐课程
+            latest = str_to_int(self.request.GET.get("latest", 0))  # 最新课程
+            popular = str_to_int(self.request.GET.get("popular", 0))  # 热门课程
+            course_objs = list()
+
+            # 推荐课程
+            if recommend:
+                course_objs = Course.objects.filter(recommend=True)[:8]
+
+            # 最新课程
+            if latest:
+                course_objs = Course.objects.filter().order_by("-id")[:8]
+
+            # 热门课程
+            if popular:
+                watchrecords = WatchRecord.objects.values("course").annotate(Count('course')).order_by(
+                    "-course__count")[:8]
+                course_id_list = [one.get("course", 0) for one in watchrecords]
+                course_objs = Course.objects.filter(id__in=course_id_list)
+                objects_dict = dict([(obj.id, obj) for obj in course_objs])
+                course_objs = [objects_dict[one_id] for one_id in course_id_list]
+
             result_dict["data"] = [
                 {
                     "id": one.id,
                     "name": one.name,
+                    "recommend": one.recommend,
                     "tech": [one_tech.name for one_tech in one.tech.all()] if one.tech.all().exists() else list(),
                     "course_img": one.course_img.url if one.course_img else "",
                     "lecturer": one.lecturer.nickname if one.lecturer else "",
