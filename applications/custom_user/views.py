@@ -719,7 +719,7 @@ class SendSMSVerificationCode(View):
 
     def post(self, request, *args, **kwargs):
         result_dict = {
-            "msg": "短信验证码发送失败.",
+            "msg": "验证码发送失败或超限.",
             "err": 1,
         }
         try:
