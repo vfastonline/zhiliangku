@@ -6,24 +6,24 @@ import traceback
 from django.http import HttpResponse
 from django.views.generic import View
 
-from applications.live_streaming.models import Live
+from applications.tracks_learning.models import Video
 
 
 class IndexLiveList(View):
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": []}
         try:
-            live_objs = Live.objects.all().order_by("start_time")
+            lives = Video.objects.filter(type="3").order_by("live_start_time")
             result_dict["data"] = [
                 {
                     "id": one.id,
                     "name": one.name,
-                    "pathwel": one.pathwel.url,
+                    "pathwel": one.live.pathwel.url if one.live else "",
                     "desc": one.desc,
-                    "status": one.status,
+                    "status": one.live.status if one.live else "end",
                     "start_time": one.start_time.strftime("%H:%M") if one.start_time else "",
                 }
-                for one in live_objs
+                for one in lives
             ]
         except:
             traceback.print_exc()
