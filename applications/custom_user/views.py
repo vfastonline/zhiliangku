@@ -732,8 +732,8 @@ class SendSMSVerificationCode(View):
             if verifycodes.exists():
                 verifycode_obj = verifycodes.first()
                 create_time = verifycode_obj.create_time
-                last_seconds = 60 - (timezone.now() - create_time).seconds
-                if 0 < last_seconds < 60:
+                last_seconds = 70 - (timezone.now() - create_time).seconds
+                if 0 < last_seconds < 70:
                     result_dict["msg"] = "".join([str(last_seconds), "秒后尝试重新发送验证码"])
                     result_dict["err"] = 8
                 else:
@@ -767,6 +767,7 @@ class SendSMSVerificationCode(View):
             result_dict["err"] = 1
             result_dict["msg"] = '验证码短信发送失败, %s' % traceback.format_exc()
         finally:
+            VerifyCode.objects.filter(expire_time__lt=timezone.now()).delete()  # 清除过期验证码
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
