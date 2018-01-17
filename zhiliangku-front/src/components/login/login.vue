@@ -260,7 +260,8 @@
         this.$post('/customuser/register', data).then(res => {
           if (res) {
             if (res.data.msg == 'success') {
-              this.loginFun(data)
+              debugger
+              this.loginFun(this.ruleForm2)
               this.centerDialogVisible = false;
             }
           }
