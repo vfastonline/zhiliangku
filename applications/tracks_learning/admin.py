@@ -32,9 +32,9 @@ class CourseCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', "types", 'lecturer', 'course_img', "prerequisites", "learn")
+    list_display = ('id', 'name', "recommend", 'lecturer', 'course_img', "prerequisites", "learn")
     search_fields = ('name',)
-    list_filter = ('types',)
+    list_filter = ('recommend',)
     filter_horizontal = ('tech',)
 
 

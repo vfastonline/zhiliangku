@@ -67,15 +67,9 @@ class CourseCategory(models.Model):
 
 class Course(models.Model):
     """课程"""
-    TYPE = (
-        ("1", "无"),
-        ("2", "最新课程"),
-        ("3", "热门课程"),
-        ("4", "推荐课程"),
-    )
 
     name = models.CharField('课程名称', max_length=50)
-    types = models.CharField('课程类型', max_length=1, choices=TYPE, default="1")
+    recommend = models.BooleanField('推荐课程', blank=True, default=False)
     lecturer = models.ForeignKey("custom_user.CustomUser", verbose_name="讲师", limit_choices_to={'role': 1}, null=True,
                                  blank=True,
                                  on_delete=models.SET_NULL, help_text='只允许选择角色是”老师“的用户。')
