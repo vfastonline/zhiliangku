@@ -16,7 +16,8 @@ class IndexLiveList(View):
             lives = Video.objects.filter(type="3").order_by("live_start_time")
             result_dict["data"] = [
                 {
-                    "id": one.id,
+                    "video_id": one.id,
+                    "course_id": one.section.course.id,
                     "name": one.name,
                     "pathwel": one.live.pathwel.url if one.live else "",
                     "desc": one.desc,
