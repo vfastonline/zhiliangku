@@ -36,19 +36,13 @@
           <li>
             <ul class="bamt-uls">
               <li class="bamt-uls-title font16pl3a3c50">先修要求</li>
-              <li class="font14pl3a3c50">{{allData.prerequisites}}</li>
+              <li class="font14pl3a3c50" v-html="allData.prerequisites"></li>
             </ul>
           </li>
           <li>
             <ul class="bamt-uls">
               <li class="bamt-uls-title font16pl3a3c50">你将学到什么</li>
-              <li>
-                <ul>
-                  <li v-for="(item,index) in allData.tech" :key="index" class="font14pl3a3c50">
-                    <span class="floatl">{{index+1}}、</span>
-                    <div class="content">{{item}}</div>
-                  </li>
-                </ul>
+              <li v-html="allData.learn">
               </li>
             </ul>
           </li>
@@ -134,10 +128,17 @@
         if(!id){return};
         this.activeId=id;
         // if(this.allData.container[id-1].data){return}
-        this.$get('/tracks/video/list/info?section_id='+this.allData.sections[id-1].id).then(res=>{
+        this.$get('/tracks/video/list/info?'+this.orgnizeData(id)).then(res=>{
           this.allData.container[id-1].data=res.data.data;
           console.log(this.allData)
         })
+      },
+      orgnizeData(id){
+        var str='section_id='+this.allData.sections[id-1].id;
+        if(localStorage.uid){
+          str=str+'&custom_user_id='+localStorage.uid
+        }
+        return str
       },
       learn(bool){
         debugger
