@@ -1,0 +1,22 @@
+.settings-container {
+    width: 556px;
+  }
+  .setting-item {
+    width: 473px;
+    margin-right: 83px;
+    margin-bottom: 15px;
+    .tag {
+      width: 80px;
+      position: absolute;
+      top: 50%;
+      left: -93px;
+      text-align: right;
+      transform: translate(0, -50%);
+    }
+    .bind-button{
+        position: absolute;
+        right:32px;
+        top: 50%;
+        transform: translate(0,-50%);
+    }
+  }
