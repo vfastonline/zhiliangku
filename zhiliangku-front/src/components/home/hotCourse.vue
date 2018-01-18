@@ -1,7 +1,7 @@
 <template>
   <div @click="go()" class="hotCourse floatl pointer" :style="outerStyle">
     <div  class="hc-imgContainer" :style="imgStyle">
-      <img class="hcic-img" :src="mainData.course_img" alt="" :style="imgStyle">
+      <img class="hcic-img" v-lazy="mainData.course_img" alt="" :style="imgStyle">
       <div class="hcic-tag textellipsis">
         <el-button v-for="(item,index) in mainData.tech" v-if="index<2" :key="item" :style="buttonStyle">{{item}}</el-button>
       </div>
@@ -9,7 +9,7 @@
     <ul class="hc-info" :style="barStyle">
       <li class="hci-li font14pl2C343B textellipsis">{{mainData.name}}</li>
       <li class="hci-li textellipsis">
-        <img :src="mainData.avatar" alt="">
+        <img v-lazy="mainData.avatar" alt="">
         <span class="font14prb2bbbf hcil-teachername">{{mainData.lecturer}}</span>
       </li>
     </ul>

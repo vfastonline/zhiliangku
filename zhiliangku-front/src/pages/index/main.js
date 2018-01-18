@@ -25,6 +25,14 @@ var sd = {};
 import '../../style/base/modifiedel.css'
 // import Moment from 'moment'
 import '../../utils/axios'
+
+import VueLazyLoad from 'vue-lazyload'
+console.log(Obj)
+Vue.use(VueLazyLoad,{
+    loading:Obj.httpUrl+'/media/course/20180116/20180116151859_987.jpg'
+})
+
+
 //引入自写小组件
 //home
 import ProjectHeader from '../../components/home/projectHeader.vue'

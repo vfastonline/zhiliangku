@@ -24,7 +24,7 @@
       <div class="tag font14pl3a3c50">微信：</div>
       <div class="set-content">
         <div class="sc-info-li">
-          <span class="font14pr424242"> 可用于直接登陆，与内容分享</span>
+          <span class="font14pr424242"> 可用于直接登录，与内容分享</span>
         </div>
         <span class="bind-button font14pr424242 pointer">{{mainData.weixin?'更改':'绑定'}}</span>
       </div>

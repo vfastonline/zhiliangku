@@ -5,7 +5,7 @@
         <div><img class="incenter block" src="../../assets/img/icons/绿对勾.svg" alt=""></div>
         <div class="fontcenter">已向
         <span class="font16pr23b8ff">{{str}}</span>发送邮件</div>
-        <div class="fontcenter"><span class="font16pl3a3c50"> 请登陆邮箱点击确认链接完成验证</span></div>
+        <div class="fontcenter"><span class="font16pl3a3c50"> 请登录邮箱点击确认链接完成验证</span></div>
         <div class="fontcenter">
           <el-button @click="goEmailHome(str)">去验证</el-button>
           <el-button @click="close()">以后再说</el-button>

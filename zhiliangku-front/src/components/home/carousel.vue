@@ -4,7 +4,7 @@
     <el-carousel-item v-for="item in urls" :key="item.id">
       <!-- <img class="carouselimg" :src="item.pathwel" alt=""> -->
       <div :style="{height:'100%',width:'100%','background-image':'url('+item.pathwel+')'
-      ,'background-repeat':'no-repeat','background-size':'cover','background-size':'100%'}"></div>
+      ,'background-repeat':'no-repeat','background-size':'cover','background-position':'center'}"></div>
     </el-carousel-item>
   </el-carousel>
 </div>
