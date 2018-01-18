@@ -25,7 +25,6 @@
     },
     methods: {
       video(vid) {
-        console.log(vid)
         var obj = {
           wrap: '#e8888b74d1229efec6b4712e17cb6b7a_e',
           width: '100%',

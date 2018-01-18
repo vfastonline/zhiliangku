@@ -3,8 +3,8 @@
     <project-header :type="'videoHeader'"></project-header>
     <videoView :vid="vid"></videoView>
     <videolist></videolist>
-    <videoContent v-if="showCp" :noteData="allData"></videoContent>
-    <project-footer v-if="showCp"></project-footer>
+    <videoContent v-if="showCP" :noteData="allData"></videoContent>
+    <project-footer v-if="showCP"></project-footer>
   </div>
 </template>
 <script>
@@ -19,6 +19,11 @@ import Bus from '../../assets/js/bus'
         allData: {},
         showList: false,
         showCP:true
+      }
+    },
+    watch:{
+      showCP:function(){
+        console.log('change  i am hear')
       }
     },
     methods: {
@@ -36,7 +41,7 @@ import Bus from '../../assets/js/bus'
         this.$get('/tracks/video/detail/info?video_id=' + video_id).then(res => {
           this.acction(res)
           console.log(res)
-          debugger
+          // 
           this.sendMsg(res)
           Bus.$emit('titleBreadCrumb',res.data.data)
           
@@ -45,16 +50,13 @@ import Bus from '../../assets/js/bus'
       acction(res){
         if(!this.showCP){return}
           this.allData = res.data.data;
-          var tvue = this.$fn.getTargetVue(this.$children, 'videoContent');
-          var note = this.$fn.getTargetVue(tvue.$children, 'notes')
-          if (note) {
-            note.$emit('noteData', res.data.data.notes)
-          }
+          Bus.$emit('noteData', res.data.data.notes)
           this.noteData = res.data.data.notes;
       },
       changeshow(){
+        console.log(this.$fn.funcUrl('type'))
         if(this.$fn.funcUrl('type')==3){
-          debugger
+          console.log(this.$fn.funcUrl)
         this.showCP=false
       }
       },

@@ -55,7 +55,7 @@
       }
     },
     created() {
-      console.log(window.innerHeight)
+      // console.log(window.innerHeight)
       if(window.innerHeight){
         this.maxheight=window.innerHeight-70;
       }

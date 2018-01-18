@@ -17,6 +17,7 @@
 }
 </style>
 <script>
+import Bus from '../../assets/js/bus'
 export default {
   name: 'notes',
   data () {
@@ -29,7 +30,7 @@ export default {
     
   },
   created(){
-    this.$on('noteData',function(obj){
+    Bus.$on('noteData',(obj)=>{
       this.mainData=(obj+'').replace(/src="/g,'src="'+this.$myConst.httpUrl);
     })
     if(this.$parent.$parent.noteData){

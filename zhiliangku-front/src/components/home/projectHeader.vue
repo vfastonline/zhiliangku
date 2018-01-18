@@ -23,6 +23,7 @@
                 </el-badge>
               </a>
             </span>
+            <button @click="jj">click</button>
             <span class="ph-tag pointer">社区</span>
             <span class="ph-tag last pointer">线下课程</span>
             <span class="ph-search">
@@ -40,9 +41,9 @@
       <div class="rightbar">
         <!--<el-button @click="changShow()" class="ph-button" type="primary" :style="buttonStyle" round>岗位匹配</el-button>-->
         <span class="user-info font18pl3a3c50">
-          <img v-if="login" @click="changeUsershow()" class="user-icon pointer" :src="userinfo.avatar" alt="">
-          <span v-if="!login" class="pointer" @click="myDispatch('open','loginActive')">登陆 |</span>
-          <span v-if="!login" class="pointer" @click="myDispatch('open','logupActive')">注册</span>
+          <img v-if="is_login" @click="changeUsershow()" class="user-icon pointer" :src="userinfo.avatar" alt="">
+          <span v-if="!is_login" class="pointer" @click="myDispatch('open','loginActive')">登陆 |</span>
+          <span v-if="!is_login" class="pointer" @click="myDispatch('open','logupActive')">注册</span>
         </span>
         <transition name='fade'>
           <!--<postMatch v-if="show" class="floatr"></postMatch>-->
@@ -85,7 +86,7 @@
         mainstyle: {},
         showLogin: false,
         outerStyle: {},
-        login: '',
+        is_login: false,
         userinfo: {
           avatar: ''
         },
@@ -100,7 +101,17 @@
     props: {
       type: String,
     },
+    watch:{
+      is_login:function(a,b){
+        console.log(a)
+        console.log(b)
+      }
+    },
     methods: {
+      jj(){
+        this.is_login=!this.is_login;
+        console.log('this is ' +this.is_login)
+      },
       changShow() {
         this.show = !this.show;
       },
@@ -127,7 +138,7 @@
       loginfun() {
         this.getUserInfo();
         // 决定用户信息模块的显示与隐藏
-        this.login = true;
+        this.is_login = true;
         // 请问这里如何做呢？
         // 现在是不管用户在什么模块登录都会刷新。
         // 不等于首页的页面均需要重载
@@ -141,7 +152,7 @@
         console.log(this.userinfo)
       },
       logoutFunc() {
-        this.login = false;
+        this.is_login = false;
         localStorage.clear();
         this.show = false;
         this.showuser = false;
@@ -170,7 +181,7 @@
           localStorage[k] = brr[k]
         }
         this.loginfun();
-        console.log(this.login)
+        console.log(this.is_login)
       }
       console.log(document.cookie)
       if (this.type == 'videoHeader') {
@@ -185,9 +196,9 @@
       if (this.$fn.getCookie('token')) {
         this.getUserInfo()
         console.log(this.userinfo)
-        this.login = true;
+        this.is_login = true;
       } else {
-        this.login = false;
+        this.is_login = false;
       }
       Bus.$on('titleBreadCrumb', res => {
         this.videoTitle = res;
