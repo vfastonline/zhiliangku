@@ -17,7 +17,8 @@
   export default {
     data() {
       return {
-        vid: ''
+        vid: '',
+        height:''
       }
     },
     props: {
@@ -28,7 +29,7 @@
         var obj = {
           wrap: '#e8888b74d1229efec6b4712e17cb6b7a_e',
           width: '100%',
-          height: 585,
+          height: window.innerHeight-70,
           vid: vid,
         }
         var player = polyvPlayer(obj);
@@ -36,7 +37,7 @@
       liveVideo(id) {
         var player = polyvObject('#e8888b74d1229efec6b4712e17cb6b7a_e').livePlayer({
           width: '100%',
-          height: 585,
+          height: window.innerHeight-70,
           'uid': 'a582a3b650',
           'vid': id
         });
@@ -50,7 +51,6 @@
         this.liveVideo(id)
       })
       Bus.$on('vid', (vid) => {
-        debugger
         this.vid = vid;
         this.video(vid)
       })

@@ -1,8 +1,10 @@
 <template>
 <div class="carousel zindex1">
   <el-carousel :interval="5000" >
-    <el-carousel-item v-for="item in urls" :style="{'background':'url('+item.pathwel+')'+'center center no-repeat fiexd'}" :key="item.id">
-      <img class="carouselimg" :src="item.pathwel" alt="">
+    <el-carousel-item v-for="item in urls" :key="item.id">
+      <!-- <img class="carouselimg" :src="item.pathwel" alt=""> -->
+      <div :style="{height:'100%',width:'100%','background-image':'url('+item.pathwel+')'
+      ,'background-repeat':'no-repeat','background-size':'cover','background-size':'100%'}"></div>
     </el-carousel-item>
   </el-carousel>
 </div>
