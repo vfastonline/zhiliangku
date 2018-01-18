@@ -56,7 +56,12 @@ class VideoList(View):
                     video_dict["sequence"] = one_video.sequence
                     video_dict["desc"] = one_video.desc
                     video_dict["is_learned"] = 0
-                    video_dict["duration"] = one_video.duration
+                    duration_str = ""
+                    if one_video.duration:
+                        m, s = divmod(one_video.duration, 60)
+                        duration_str = "%02d分钟%02d秒" % (m, s)
+
+                    video_dict["duration"] = duration_str
 
                     # 补全直播信息
                     if one_video.live:

@@ -353,8 +353,8 @@ def summarize_course_progress(custom_user_id, course_id):
     :return:课程学习进度
     """
     result_dict = {
-        "total_time": 0,  # 课程总时长，秒
-        "remaining_time": 0,  # 用户剩余学习时长，秒
+        "total_time": "",  # 课程总时长，秒
+        "remaining_time": "",  # 用户剩余学习时长，秒
         "schedule": 0,  # 课程学习进度
         "is_study_record": 0,  # 是否有课程学习记录
         "last_time_learn": "",  # 最近一次学习视频名称
@@ -378,7 +378,9 @@ def summarize_course_progress(custom_user_id, course_id):
 
             # 计算剩余时长
             if duration_sum:
-                result_dict["total_time"] = duration_sum
+                m, s = divmod(duration_sum, 60)
+                total_time_str = "%02d分钟%02d秒" % (m, s)
+                result_dict["total_time"] = total_time_str
                 if watch_total_time_sum:
                     last_time_learn = watchrecords.first().video.name  # 上次学到
                     last_time_learn_id = watchrecords.first().video.id  # 上次学到视频ID
@@ -403,7 +405,9 @@ def summarize_course_progress(custom_user_id, course_id):
                             result_dict["last_time_learn_id"] = last_time_learn_obj.id  # 上次学到视频ID
                             result_dict["last_time_learn_type"] = last_time_learn_obj.type  # 上次学到视频类型
 
-                result_dict["remaining_time"] = remaining_time
+                m, s = divmod(remaining_time, 60)
+                remaining_time_str = "%02d分钟%02d秒" % (m, s)
+                result_dict["remaining_time"] = remaining_time_str
                 result_dict["schedule"] = schedule
     except:
         traceback.print_exc()
