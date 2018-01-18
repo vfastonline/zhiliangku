@@ -112,7 +112,7 @@ class VideoDetailInfo(View):
                     video_dict["notes"] = video_obj.notes
 
                     # 直播信息
-                    if video_obj.type == "1":
+                    if video_obj.type == "3":
                         if video_obj.live:
                             video_dict["live_channelId"] = video_obj.live.channelId
                             video_dict["live_id"] = video_obj.live.id
@@ -123,7 +123,7 @@ class VideoDetailInfo(View):
                             video_dict["live_end_time"] = video_obj.live_end_time.strftime("%H:%M") \
                                 if video_obj.live_end_time else ""
                     # 点播信息
-                    if video_obj.type not in ["3", "4"]:
+                    if video_obj.type in ["1", "2"]:
                         video_dict["vid"] = video_obj.vid
                         # video_dict["video_data"] = dict()
                         # video_data_dict = json.loads(video_obj.data)
