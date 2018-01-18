@@ -4,8 +4,8 @@
   <div class="uim-select pointer"><span >我的课程</span></div>
   <div class="uim-select pointer"><span ><a href="/personal_center/page/#/mySettings/baseInfo">个人设置</a></span></div>
   <div class="uim-select pointer"><span >积分兑换</span></div>
-  <div class="uim-select pointer"><span @click="logout()">退出登陆</span></div>
-  <!--<div @click="logout()">退出登陆</div>-->
+  <div class="uim-select pointer"><span @click="logout()">退出登录</span></div>
+  <!--<div @click="logout()">退出登录</div>-->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

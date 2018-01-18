@@ -3,7 +3,7 @@
     <!-- 极有可能是bug的地方：回车键的体验 -->
     <el-dialog @close="modalClose()" :show-close="false" :visible.sync="centerDialogVisible">
       <!-- 1.login模块 -->
-      <div v-show="allshow.loginActive" slot="title" class="fontcenter font18plffffff marginbottom8">登陆</div>
+      <div v-show="allshow.loginActive" slot="title" class="fontcenter font18plffffff marginbottom8">登录</div>
       <el-form v-show="allshow.loginActive" :model="ruleForm1" status-icon :rules="rules2" ref="myform1">
         <el-form-item label="请输入邮箱/手机号注册" prop="age">
           <el-input v-model="ruleForm1.age"></el-input>
@@ -11,12 +11,12 @@
         <el-form-item label="密码" prop="pass">
           <el-input type="password" v-model="ruleForm1.pass" auto-complete="off"></el-input>
         </el-form-item>
-        <el-button @click="submitForm('myform1','loginFun',ruleForm1)" :class="['marginbottom8','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">登陆</el-button>
+        <el-button @click="submitForm('myform1','loginFun',ruleForm1)" :class="['marginbottom8','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">登录</el-button>
         <div class="marginbottom24 fontcenter">
           <span class="letterspace1 font14pr23b8ff pointer" @click="changeModal('getPasswordActive')">忘记密码了</span>
         </div>
         <div class="clearfix">
-          <div class="floatl font14pl5A646E">其他登陆方式:</div>
+          <div class="floatl font14pl5A646E">其他登录方式:</div>
           <div class="icons floatr">
             <a :href="qqBase64Url">
               <img class="longin-bottom-icons pointer" src="../../assets/img/icons/QQ.svg" alt="">
@@ -44,7 +44,7 @@
         </el-form-item>
         <el-button @click="submitForm('myform2','logupType',ruleForm2,changeModal,'verifyEmailActive')" :class="['marginbottom24','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">创建</el-button>
         <div class="clearfix">
-          <div class="floatl font14pl5A646E">其他登陆方式:</div>
+          <div class="floatl font14pl5A646E">其他登录方式:</div>
           <div class="icons floatr">
             <a :href="qqBase64Url">
               <img class="longin-bottom-icons pointer" src="../../assets/img/icons/QQ.svg" alt="">
@@ -57,7 +57,7 @@
       </el-form>
       <div v-show="allshow.logupActive" slot="footer">
         <div @click="changeModal('loginActive')" class="login-bottom-button incenter fontcenter pointer font20plffffff">
-          <span>已有账号，去登陆</span>
+          <span>已有账号，去登录</span>
         </div>
       </div>
       <!--3. getpassword模块 -->
@@ -90,7 +90,7 @@
         <el-form-item label="请输入短信验证码">
           <el-input v-model="ruleForm5.age"></el-input>
         </el-form-item>
-        <el-button @click="verifyPhoneCode()" :class="['marginbottom8','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">登陆</el-button>
+        <el-button @click="verifyPhoneCode()" :class="['marginbottom8','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">登录</el-button>
         <div class="incenter fontcenter">
           <span @click="changeModal('logupActive')" class="font14pl7c7e8c pointer">
             返回修改手机号

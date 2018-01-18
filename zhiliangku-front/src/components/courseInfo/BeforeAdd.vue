@@ -80,7 +80,7 @@
                     </div>
                     <div class="right">
                       <img v-if="thisli.is_learned" src="../../assets/img/icons/Path.svg" >
-                      <span v-if="!thisli.is_learned">{{thisli.duration}}分钟</span>
+                      <span v-if="!thisli.is_learned">{{thisli.duration}}</span>
                       <span v-if="thisli.live_status=='live'" class="font14pr23b8ff" >正在直播</span>
                     </div>
                   </li>
@@ -111,7 +111,6 @@
       }
     },
     methods: {
-   
       collect(){
         this.$post('/tracks/collect/course',{
           course_id:this.$fn.funcUrl('course_id'),

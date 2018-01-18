@@ -41,7 +41,7 @@
         <!--<el-button @click="changShow()" class="ph-button" type="primary" :style="buttonStyle" round>岗位匹配</el-button>-->
         <span class="user-info font18pl3a3c50">
           <img v-if="is_login" @click="changeUsershow()" class="user-icon pointer" :src="userinfo.avatar" alt="">
-          <span v-if="!is_login" class="pointer" @click="myDispatch('open','loginActive')">登陆 |</span>
+          <span v-if="!is_login" class="pointer" @click="myDispatch('open','loginActive')">登录 |</span>
           <span v-if="!is_login" class="pointer" @click="myDispatch('open','logupActive')">注册</span>
         </span>
         <transition name='fade'>
