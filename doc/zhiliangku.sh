@@ -1,7 +1,19 @@
 #!/bin/bash
 
 function start(){
-    uwsgi --ini /usr/local/zhiliangku/conf/zhiliangku.ini -d /tmp/zhiliangku/zhiliang.log
+    rm -fr /usr/local/openresty/nginx/html/templates/*
+    cp -r  /usr/local/zhiliangku/zhiliangku-front/front/*  /usr/local/openresty/nginx/html/templates/
+    cp -r /usr/local/zhiliangku/templates/* /usr/local/openresty/nginx/html/templates/
+    mkdir -p /usr/local/openresty/nginx/html/templates/static/images
+    sudo python /usr/local/zhiliangku/manage.py collectstatic
+
+    #cp -r  /usr/local/zhiliangku/zhiliangku-front/front  /tmp
+    #cp -r /tmp/front/static   /usr/local/openresty/nginx/html/templates/
+    #rm -rf  /tmp/front/static
+    #cp -r  /tmp/front/*    /usr/local/openresty/nginx/html/templates/
+    #rm -rf  /tmp/front
+    #cp -r /usr/local/zhiliangku/templates/* /usr/local/openresty/nginx/html/templates/
+    /usr/local/bin/uwsgi --ini /usr/local/zhiliangku/conf/zhiliangku.ini -d /tmp/log/zhiliangku/zhiliangku.log
 }
 
 
@@ -11,6 +23,9 @@ function stop() {
     kill -9 $pid
 }
 
+function status(){
+    ps -ef | grep uwsgi| grep zhiliangku
+}
 
 
 
@@ -19,6 +34,8 @@ case "$1" in
     start;;
     stop)
     stop;;
+    status)
+    status;;
     *)
     echo  $"Usage: $0 {start|stop|}"
     exit 2
