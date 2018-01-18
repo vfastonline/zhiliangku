@@ -23,7 +23,6 @@
                 </el-badge>
               </a>
             </span>
-            <button @click="jj">click</button>
             <span class="ph-tag pointer">社区</span>
             <span class="ph-tag last pointer">线下课程</span>
             <span class="ph-search">
@@ -46,7 +45,7 @@
           <span v-if="!is_login" class="pointer" @click="myDispatch('open','logupActive')">注册</span>
         </span>
         <transition name='fade'>
-          <!--<postMatch v-if="show" class="floatr"></postMatch>-->
+          <!--<postbMatch v-if="show" class="floatr"></postbMatch>-->
           <userMune v-if="showuser"></userMune>
         </transition>
       </div>
@@ -164,9 +163,6 @@
       }
     },
     created() {
-      if(this.$fn.funcUrl('dev')){
-        this.$myConst.httpUrl='/api'
-      }
       // window.location.search='?'+Base64.encode('uid=46&nickname=猛熊爱吃蜜&role=0&avatar=/media/custom_user_avatar/46/20171225094221_weixin.jpg&position=');
       // window.location.search='?user_info=P3VpZD00NiZuaWNrbmFtZT3njJvnhorniLHlkIPonJwmcm9sZT3lrabnlJ8mYXZhdGFyPS9tZWRpYS9jdXN0b21fdXNlcl9hdmF0YXIvNDYvMjAxNzEyMjUwOTQyMjFfd2VpeGluLmpwZyZwb3NpdGlvbj0='
       //获取包含用户信息的base64加密字符串
