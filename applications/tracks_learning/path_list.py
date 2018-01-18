@@ -151,7 +151,7 @@ class PathDetailInfo(View):
     @staticmethod
     def summarize(custom_user_id, path_obj):
         summarize_dict = {
-            "learn_time_consum": 0,  # 学习耗时
+            "learn_time_consum": "",  # 学习耗时
             "path_complete_schedule": 0,  # 路线完成进度
             "complete_number": 0,  # 完成节数
             "participate": False,  # 用户参与了该路线
@@ -170,10 +170,9 @@ class PathDetailInfo(View):
             # 汇总学习耗时
             watch_total_time_sum = WatchRecord.objects.filter(course__in=course_list, user_id=custom_user_id).values(
                 "video_process").aggregate(Sum('video_process')).get("video_process__sum")
-            minutes, seconds = divmod(watch_total_time_sum, 60)
-            summarize_dict["learn_time_consum"] = 1
-            if minutes:
-                summarize_dict["learn_time_consum"] = minutes
+            m, s = divmod(watch_total_time_sum, 60)
+            total_time_str = "%d分%d秒" % (m, s)
+            summarize_dict["learn_time_consum"] = total_time_str
 
             # 汇总完成节数
             filter_param = {

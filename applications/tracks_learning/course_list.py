@@ -379,7 +379,7 @@ def summarize_course_progress(custom_user_id, course_id):
             # 计算剩余时长
             if duration_sum:
                 m, s = divmod(duration_sum, 60)
-                total_time_str = "%02d分钟%02d秒" % (m, s)
+                total_time_str = "%d分%d秒" % (m, s)
                 result_dict["total_time"] = total_time_str
                 if watch_total_time_sum:
                     last_time_learn = watchrecords.first().video.name  # 上次学到
@@ -406,7 +406,7 @@ def summarize_course_progress(custom_user_id, course_id):
                             result_dict["last_time_learn_type"] = last_time_learn_obj.type  # 上次学到视频类型
 
                 m, s = divmod(remaining_time, 60)
-                remaining_time_str = "%02d分钟%02d秒" % (m, s)
+                remaining_time_str = "%d分%d秒" % (m, s)
                 result_dict["remaining_time"] = remaining_time_str
                 result_dict["schedule"] = schedule
     except:
