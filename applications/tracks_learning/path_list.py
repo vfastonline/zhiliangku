@@ -188,7 +188,7 @@ class PathDetailInfo(View):
             # 所有课程总时长
             duration_sum = Video.objects.filter(section__course__in=course_list).aggregate(
                 Sum('duration')).get("duration__sum")
-            schedule = float("%.2f" % (float(watch_total_time_sum) / float(duration_sum * 60)))
+            schedule = float("%.2f" % (float(watch_total_time_sum) / float(duration_sum)))
             summarize_dict["path_complete_schedule"] = schedule
         except:
             traceback.print_exc()

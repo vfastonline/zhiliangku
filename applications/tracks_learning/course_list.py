@@ -353,8 +353,8 @@ def summarize_course_progress(custom_user_id, course_id):
     :return:课程学习进度
     """
     result_dict = {
-        "total_time": 0,  # 课程总时长
-        "remaining_time": 0,  # 用户剩余学习时长
+        "total_time": 0,  # 课程总时长，秒
+        "remaining_time": 0,  # 用户剩余学习时长，秒
         "schedule": 0,  # 课程学习进度
         "is_study_record": 0,  # 是否有课程学习记录
         "last_time_learn": "",  # 最近一次学习视频名称
@@ -383,10 +383,8 @@ def summarize_course_progress(custom_user_id, course_id):
                     last_time_learn = watchrecords.first().video.name  # 上次学到
                     last_time_learn_id = watchrecords.first().video.id  # 上次学到视频ID
                     last_time_learn_type = watchrecords.first().video.type  # 上次学到视频类型
-                    remaining_seconds = (duration_sum * 60) - watch_total_time_sum
-                    minutes, seconds = divmod(remaining_seconds, 60)
-                    remaining_time = minutes
-                    schedule = float("%.2f" % (float(watch_total_time_sum) / float(duration_sum * 60)))
+                    remaining_time = duration_sum - watch_total_time_sum
+                    schedule = float("%.2f" % (float(watch_total_time_sum) / float(duration_sum)))
                     result_dict["is_study_record"] = 1
                     result_dict["last_time_learn"] = last_time_learn
                     result_dict["last_time_learn_id"] = last_time_learn_id

@@ -16,7 +16,7 @@ class EnterpriseInfo(models.Model):
     position = models.CharField('招聘职位', max_length=256)
     lowest_monthly_salary = models.CharField('最低月薪', max_length=256)
     highest_monthly_salary = models.CharField('最高月薪', max_length=256)
-    duration = models.PositiveIntegerField("评测时长", default=30)
+    duration = models.PositiveIntegerField("评测时长", default=30, help_text="单位：分钟")
     path = models.ForeignKey(CoursePath, verbose_name='方向', blank=True, null=True)
     question_img = models.ImageField('面试题图片', upload_to='interview_questions/%Y%m%d', storage=ImageStorage())
     detail = models.TextField(verbose_name="面试题介绍", default="")

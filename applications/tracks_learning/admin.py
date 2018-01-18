@@ -60,9 +60,9 @@ class SectionAdmin(admin.ModelAdmin):
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
     list_display = (
-        'id', "section", 'name', "vid",
+        'id', "section", 'name',
         "type", 'sequence', "duration",
-        "live", "live_start_time", "live_end_time", "desc"
+        "live", "live_start_time", "live_end_time", "vid",
     )
     search_fields = ("section__title", 'name', "live__name", "vid")
     list_filter = ('type',)

@@ -8,6 +8,7 @@ from django.views.generic import View
 from lib.polyv.video_api import get_video_msg
 
 from applications.tracks_learning.models import Video
+from lib.util import time_to_second
 
 
 class PolyvCallBack(View):
@@ -33,8 +34,20 @@ class PolyvCallBack(View):
             print "sign==", sign
             print "df==", df
             if request_type == "upload" and state:  # 已上传
+                duration = 0
                 video_result = get_video_msg(vid)
-                Video.objects.filter(id=int(state)).update(data=json.dumps(video_result, ensure_ascii=False), vid=vid)
+                data_list = video_result.get("data", [])
+                if data_list:
+                    video_data_dict = data_list[0]
+                    duration_str = video_data_dict.get("video_data_dict", "0:0:0")
+                    duration = time_to_second(duration_str)
+
+                update_dict = {
+                    "data": json.dumps(video_result, ensure_ascii=False),
+                    "vid": vid,
+                    "duration": duration
+                }
+                Video.objects.filter(id=int(state)).update(**update_dict)
             elif request_type == "invalidVideo":  # 不合规格视频（当上传的视频的信息无法被系统分析时，判断为不合规格视频）
                 pass
             elif request_type == "encode":  # 已编码
