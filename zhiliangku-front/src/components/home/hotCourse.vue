@@ -16,6 +16,9 @@
   </div>
 </template>
 <script>
+import VueLazyLoad from 'vue-lazyload'
+Vue.use(VueLazyLoad,{
+})
   export default {
     data() {
       return {
