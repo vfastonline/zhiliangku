@@ -3,7 +3,7 @@
     <ul class="icc-content">
       <li class="iccc-title fontcenter textellipsis font20pr5a646e">{{mainData.position}}</li>
       <li class="iccc-img">
-        <img class="iccc-img" :src="mainData.question_img" alt="">
+        <img class="iccc-img"  v-lazy="mainData.question_img" alt="">
       </li>
       <li class="iccc-info fontjustify">
         <div class="iccci-tag clearfix">
@@ -24,6 +24,9 @@
   </div>
 </template>
 <script>
+import VueLazyLoad from 'vue-lazyload'
+Vue.use(VueLazyLoad,{
+})
   export default {
     name: "HelloWorld",
     data() {

@@ -92,7 +92,7 @@ Vue.use(VueLazyLoad,{
   }
 
   .hcic-tag {
-    // width: 276px;
+    width: 100%;
     box-sizing: border-box;
     height: 24px;
     padding-left: 8px;
