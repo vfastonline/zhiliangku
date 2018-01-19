@@ -2,9 +2,9 @@
   <div class="uim-container floatr">
   <div class="uim-username pointer"><span><a href="/personal_center/page/#/occupational/matchingRate">{{nickname}}</a></span></div>
   <div class="uim-select pointer"><span >我的课程</span></div>
-  <div class="uim-select pointer"><span ><a href="/personal_center/page/#/mySettings/baseInfo">个人设置</a></span></div>
+  <a href="/personal_center/page/#/mySettings/baseInfo"><div class="uim-select pointer"><span >个人设置</span></div></a>
   <div class="uim-select pointer"><span >积分兑换</span></div>
-  <div class="uim-select pointer"><span @click="logout()">退出登录</span></div>
+  <div class="uim-select pointer" @click="logout()"><span >退出登录</span></div>
   <!--<div @click="logout()">退出登录</div>-->
   </div>
 </template>
@@ -32,22 +32,26 @@
 }
 
 
-
+.uim-container{
+  overflow: hidden;
+}
 .uim-container .uim-select{
   width:239px;
   height:40px;
 }
-
+.uim-select:hover{
+  background: #fafafa;
+}
 
 .uim-container .uim-select span{
   width:24px;
-  height:22px;
-  line-height:22px;
+  height:40px;
+  line-height:40px;
   margin:9px 133px 9px 32px;
   font-family: 'PingFangSC-Light';
   font-size:16px;
 }
-.uim-container .uim-select span:hover{
+.uim-container .uim-select:hover span{
   color:#23B8FF;
 }
 </style>

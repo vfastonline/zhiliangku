@@ -3,7 +3,7 @@
   <el-carousel :interval="5000" >
     <el-carousel-item v-for="item in urls" :key="item.id">
       <!-- <img class="carouselimg" :src="item.pathwel" alt=""> -->
-      <div :style="{height:'100%',width:'100%','background-image':'url('+item.pathwel+')'
+      <div v-lazy:background-image="item.pathwel" :style="{height:'100%',width:'100%'
       ,'background-repeat':'no-repeat','background-size':'cover','background-position':'center'}"></div>
     </el-carousel-item>
   </el-carousel>

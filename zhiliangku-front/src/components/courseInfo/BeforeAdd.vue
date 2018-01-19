@@ -137,14 +137,17 @@
         return str
       },
       learn(bool) {
-        debugger
         if (bool) {
           var obj = {};
           obj.id = this.allData.last_time_learn_id;
           obj.type = this.allData.last_time_learn_type;
           this.goPages(obj)
         } else {
+          if(this.allData.container[0].data){
+            return
+          }
           var obj = this.allData.container[0].data;
+          
           this.goPages(obj)
         }
 

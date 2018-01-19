@@ -90,7 +90,9 @@
         }],
         options: {
           modules: {
-            toolbar: ['bold', 'italic', 'underline', 'image', 'link', {
+            toolbar: ['bold', 'italic', 'underline', 
+            // 'image',
+             'link', {
               'list': 'bullet'
             }, {
               'list': 'ordered'
