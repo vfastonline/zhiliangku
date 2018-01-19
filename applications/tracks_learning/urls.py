@@ -28,6 +28,7 @@ urlpatterns = [
     url('^video/list/info$', video_list.VideoList.as_view()),
 
     url('^video/detail/$', video_list.VideoDetail.as_view()),
+    url('^live/detail/$', video_list.LiveDetail.as_view()),
     url('^video/detail/info$', video_list.VideoDetailInfo.as_view()),
     url('^get-polyv$', video_list.UploadVideoPolyvParam.as_view()),
 

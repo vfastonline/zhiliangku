@@ -102,6 +102,15 @@ class VideoDetail(View):
 
 
 @class_view_decorator(user_login_required)
+class LiveDetail(View):
+    """直播详情页面"""
+
+    def get(self, request, *args, **kwargs):
+        template_name = "tracks/live/detail/index.html"
+        return render(request, template_name, {})
+
+
+@class_view_decorator(user_login_required)
 class VideoDetailInfo(View):
     """视频详情信息"""
 
