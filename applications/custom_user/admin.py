@@ -7,7 +7,7 @@ from applications.custom_user.models import *
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
     list_display = (
-    'id', 'nickname', "sex", 'role', "position", 'avatar', "receiver", "address", "signature", "integral",)
+        'id', 'nickname', "sex", 'role', "position", 'avatar', "receiver", "address", "signature", "integral",)
     search_fields = ('nickname',)
     list_filter = ('role', "sex")
 
@@ -21,8 +21,8 @@ class CustomUserAuthsAdmin(admin.ModelAdmin):
 
 @admin.register(CustomUserPath)
 class CustomUserPathAdmin(admin.ModelAdmin):
-    list_display = ('id', 'custom_user', "paths")
-    search_fields = ('custom_user__nickname',)
+    list_display = ('id', 'custom_user', "paths", "create_time")
+    search_fields = ('custom_user__nickname', "paths")
     filter_horizontal = ('path',)
 
     def paths(self, obj):

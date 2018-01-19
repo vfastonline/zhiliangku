@@ -14,6 +14,7 @@ urlpatterns = [
     url('^path/list/$', path_list.PathList.as_view()),
     url('^path/list/info$', path_list.PathListInfo.as_view()),
 
+    url('^participate/path$', path_list.ParticipatePath.as_view()),
     url('^path/detail/$', path_list.PathDetail.as_view()),
     url('^path/detail/info$', path_list.PathDetailInfo.as_view()),
 

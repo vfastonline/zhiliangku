@@ -1,5 +1,6 @@
 #!encoding:utf-8
 import json
+import json
 import logging
 import traceback
 
@@ -11,6 +12,7 @@ from django.views.generic import View
 from applications.custom_user.models import CustomUserPath
 from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
+from lib.permissionMixin import class_view_decorator, user_login_required
 from lib.util import str_to_int
 
 
@@ -194,3 +196,53 @@ class PathDetailInfo(View):
             logging.getLogger().error(traceback.format_exc())
         finally:
             return summarize_dict
+
+
+@class_view_decorator(user_login_required)
+class ParticipatePath(View):
+    """参与该学习路径"""
+
+    def post(self, request, *args, **kwargs):
+        result_dict = {"err": 0, "msg": "成功参与该学习路径"}
+        try:
+            param_dict = json.loads(request.body)
+            path_id = str_to_int(param_dict.get('path_id', 0))  # 必填，路径ID
+            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 必填，用户ID
+
+            if not path_id:
+                result_dict["err"] = 1
+                result_dict["msg"] = "学习路径不存在"
+                return
+
+            if not custom_user_id:
+                result_dict["err"] = 1
+                result_dict["msg"] = "用户不存在"
+                return
+
+
+            paths = Path.objects.filter(id=path_id)
+            if not paths.exists():
+                result_dict["err"] = 1
+                result_dict["msg"] = "学习路径不存在"
+                return
+
+            customusers = CustomUser.objects.filter(id=custom_user_id)
+            if not customusers.exists():
+                result_dict["err"] = 1
+                result_dict["msg"] = "用户不存在"
+                return
+
+            customuserpaths = CustomUserPath.objects.filter(custom_user_id=custom_user_id, path_id=path_id)
+            if not customuserpaths.exists():
+                obj = CustomUserPath.objects.create(custom_user=customusers.first(), path=paths.first())
+                if not obj:
+                    result_dict["err"] = 1
+                    result_dict["msg"] = "参加学习路劲失败"
+                    return
+        except:
+            traceback.print_exc()
+            logging.getLogger().error(traceback.format_exc())
+            result_dict["err"] = 1
+            result_dict["msg"] = traceback.format_exc()
+        finally:
+            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
