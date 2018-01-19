@@ -326,7 +326,11 @@
       vertical-align: middle;
       border-radius: 24px;
     }
+    .ph-tag .el-badge{
+        vertical-align: unset;
+      }  
     .project-header {
+     
       .el-dialog__wrapper {
         position: fixed;
         top: 0;

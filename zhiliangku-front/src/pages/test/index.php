@@ -130,6 +130,10 @@ $roomId = "118206";  //房间号
 $userId = rand(1000000,10000000);  //自定义用户id
 $pic = 'http://livestatic.videocc.net/assets/wimages/missing_face.png';
 ?>
+<script>  
+var time= Math.floor( new Date()/1000);
+
+</script>
  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.min.js"></script>
     <script src="http://livestatic.videocc.net/assets/wjs/dist/socket.io.min.js "></script> <!-- 必须引入socketio -->
     <script src="emotions.js"></script> <!-- 表情列表，可根据需要设定表情 -->

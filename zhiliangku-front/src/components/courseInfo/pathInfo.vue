@@ -5,27 +5,38 @@
   </div>
 </template>
 <script>
-export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-      allData:{}
+  export default {
+    name: 'HelloWorld',
+    data() {
+      return {
+        allData: {}
+      }
+    },
+    methods: {
+      getData() {
+        this.$get(this.orgnizeUrl()).then(res => {
+          this.$fn.addObjString(this.$myConst.httpUrl, res.data.data, ['path_img'])
+          this.allData = res.data.data;
+          console.log(res)
+        })
+      },
+      orgnizeUrl() {
+        var str = '/tracks/path/detail/info?path_id=' + this.$fn.getSearchKey('path_id');
+        if (localStorage.uid) {
+          str += "&custom_user_id=" + localStorage.uid;
+        }
+        return str
+      }
+    },
+    created() {
+      this.getData()
     }
-  },
-  created(){
-    this.$get('/tracks/path/detail/info?path_id='+this.$fn.getSearchKey('path_id')).then(res=>{
-       this.$fn.addObjString(this.$myConst.httpUrl,res.data.data,['path_img'])
-       this.allData=res.data.data;
-      console.log(res)
-    })
   }
-}
+
 </script>
 <style scoped>
-.pathInfo{
-    padding-top:60px;
-}
+  .pathInfo {
+    padding-top: 60px;
+  }
+
 </style>
-
-
-
