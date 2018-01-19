@@ -65,7 +65,7 @@ class HandleWatchRecord(View):
                 videos = Video.objects.filter(id=video_id)
                 if videos.exists():
                     video = videos.first()
-                if video:
+                if not video:
                     result_dict["err"] = 1
                     result_dict["msg"] = "视频不存在"
                     return
