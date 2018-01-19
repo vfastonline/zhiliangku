@@ -231,19 +231,26 @@ class ParticipatePath(View):
                 result_dict["msg"] = "用户不存在"
                 return
 
-            customuserpaths = CustomUserPath.objects.filter(custom_user__id=custom_user_id, path__in=paths)
+            customuserpaths = CustomUserPath.objects.filter(custom_user__id=custom_user_id)
             if not customuserpaths.exists():
                 obj = CustomUserPath.objects.create(custom_user=customusers.first())
                 if not obj:
                     result_dict["err"] = 1
                     result_dict["msg"] = "参加学习路径失败"
                     return
-                
+
                 new_obj = obj.path.add(paths.first())
                 if not new_obj:
                     result_dict["err"] = 1
                     result_dict["msg"] = "参加学习路径失败"
                     return
+            else:
+                if not CustomUserPath.objects.filter(custom_user__id=custom_user_id, path__in=paths).exists():
+                    new_obj = customuserpaths.first().path.add(paths.first())
+                    if not new_obj:
+                        result_dict["err"] = 1
+                        result_dict["msg"] = "参加学习路径失败"
+                        return
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
