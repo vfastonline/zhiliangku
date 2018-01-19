@@ -14,10 +14,6 @@ Vue.prototype.$myConst = Obj;
 import ElementUI from 'element-ui'
 // import { Button,Carousel,Scrollbar,CarouselItem } from 'element-ui'
 //目前来看实现element-ui的部分调用比较难//但是依然是一个很好的解决方案
-// Vue.component('elButton',Button)
-// Vue.component('elCarousel',Carousel)
-// Vue.component('elScrollbar',Scrollbar)
-// Vue.use(CarouselItem)
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 var sd = {};
@@ -27,7 +23,7 @@ import '../../style/base/modifiedel.css'
 import '../../utils/axios'
 
 import VueLazyLoad from 'vue-lazyload'
-console.log(Obj)
+// console.log(Obj)
 Vue.use(VueLazyLoad,{
     loading:Obj.httpUrl+'/media/course/20180116/20180116151859_987.jpg'
 })

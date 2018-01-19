@@ -34,7 +34,7 @@
         this.hotCourseData = this.$fn.addString(this.$myConst.httpUrl, res.data.data, ['course_img', 'avatar'])
         // console.log(this.hotCourseData)
       })
-      console.log(this.mainData)
+      // console.log(this.mainData)
     }
   }
 

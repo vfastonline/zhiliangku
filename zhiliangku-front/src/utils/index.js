@@ -118,10 +118,10 @@ module.exports = (function () {
       }
     },
     fn.getCookie = function (key) {
-      var arr = document.cookie.split('&');
+      var arr = document.cookie.split(';');
       for (var i = 0; i < arr.length; i++) {
         var brr = arr[i].split('=');
-        if (brr[0] == key) {
+        if (brr[0] == key||brr[0]==' '+key) {
           console.log(key)
           return brr[1]
         }
