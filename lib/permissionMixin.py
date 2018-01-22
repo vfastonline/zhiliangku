@@ -5,7 +5,6 @@ import traceback
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import redirect_to_login
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
 from django.shortcuts import resolve_url
 from django.utils.decorators import method_decorator
 
@@ -16,6 +15,7 @@ from util import validate
 # 校验用户是否登录
 def user_login_required(function):
     def _wrapped_view(request, *args, **kwargs):
+        path = request.get_full_path()
         try:
             token = ""
             try:
@@ -23,10 +23,8 @@ def user_login_required(function):
             except:
                 traceback.print_exc()
                 logging.getLogger().error(traceback.format_exc())
-            print "token==", token
+
             if not token:
-                # return HttpResponseRedirect(reverse('login', args=(2,)))
-                path = request.get_full_path()
                 resolved_login_url = resolve_url(reverse('login', args=(2,)))
                 return redirect_to_login(path, resolved_login_url, REDIRECT_FIELD_NAME)
 
@@ -35,10 +33,12 @@ def user_login_required(function):
             msg = validate_result.get("msg")
             if code == 1:
                 logging.getLogger().warning("Request forbiden:%s" % msg)
-                return HttpResponseRedirect(reverse('login', args=(9,)))
+                resolved_login_url = resolve_url(reverse('login', args=(9,)))
+                return redirect_to_login(path, resolved_login_url, REDIRECT_FIELD_NAME)
         except:
             logging.getLogger().warning("Validate error: %s" % traceback.format_exc())
-            return HttpResponseRedirect(reverse('login', kwargs=(1,)))
+            resolved_login_url = resolve_url(reverse('login', args=(1,)))
+            return redirect_to_login(path, resolved_login_url, REDIRECT_FIELD_NAME)
         return function(request, *args, **kwargs)
 
     return _wrapped_view
