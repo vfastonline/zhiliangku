@@ -2,8 +2,11 @@
 import logging
 import traceback
 
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.views import redirect_to_login
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from django.shortcuts import resolve_url
 from django.utils.decorators import method_decorator
 
 from applications.custom_user.views import CryptKey
@@ -22,7 +25,10 @@ def user_login_required(function):
                 logging.getLogger().error(traceback.format_exc())
             print "token==", token
             if not token:
-                return HttpResponseRedirect(reverse('login', args=(2,)))
+                # return HttpResponseRedirect(reverse('login', args=(2,)))
+                path = request.get_full_path()
+                resolved_login_url = resolve_url(reverse('login', args=(2,)))
+                return redirect_to_login(path, resolved_login_url, REDIRECT_FIELD_NAME)
 
             validate_result = validate(token, CryptKey)
             code = validate_result.get("code")
