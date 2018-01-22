@@ -31,7 +31,7 @@ class IndexCourseList(View):
 
             # 推荐课程
             if recommend:
-                course_objs = Course.objects.filter(recommend=True)[:8]
+                course_objs = Course.objects.filter(recommend=True)[:16]
 
             # 最新课程
             if latest:
