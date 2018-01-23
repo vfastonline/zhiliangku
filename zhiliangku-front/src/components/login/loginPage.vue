@@ -31,23 +31,28 @@
     padding-top: 128px;
     width: 540px;
   }
-  .longinpage-bottom-icons{
+
+  .longinpage-bottom-icons {
     margin-right: 24px;
-    margin-left:24px;
+    margin-left: 24px;
   }
-  .other-login{
-    margin-right:138px;
+
+  .other-login {
+    margin-right: 138px;
   }
-  .loginpage-button{
-    margin-bottom:28px;
+
+  .loginpage-button {
+    margin-bottom: 28px;
   }
-  .loginpage-forget{
-    margin-bottom:16px;
+
+  .loginpage-forget {
+    margin-bottom: 16px;
   }
+
 </style>
 <script>
-import Bus from '../../assets/js/bus'
- var Base64 = require('js-base64').Base64;
+  import Bus from '../../assets/js/bus'
+  var Base64 = require('js-base64').Base64;
   export default {
     data() {
       var usernameType = {
@@ -99,21 +104,25 @@ import Bus from '../../assets/js/bus'
           }]
         },
         usernameType: usernameType,
-        Base64:Base64
+        Base64: Base64
       };
     },
     methods: {
-      forgetPassword(){
-        Bus.$emit('forgetPassword',this.ruleForm2.account)
+      forgetPassword() {
+        Bus.$emit('forgetPassword', this.ruleForm2.account)
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            var obj={};
-            obj.age=this.ruleForm2.account;
-            obj.pass=this.ruleForm2.pass;
-            obj.referrer=true;
-            Bus.$emit('loginPagerLogin',obj)
+            var obj = {};
+            obj.age = this.ruleForm2.account;
+            obj.pass = this.ruleForm2.pass;
+            obj.referrer = true;
+            if (this.$fn.funcUrl('next')) {
+              debugger
+              obj.url = 'http://' + window.location.host + decodeURIComponent(this.$fn.funcUrl('next'))
+            }
+            Bus.$emit('loginPagerLogin', obj)
           } else {
             console.log('error submit!!');
             return false;
@@ -124,12 +133,14 @@ import Bus from '../../assets/js/bus'
         this.$refs[formName].resetFields();
       }
     },
-    created(){
+    created() {
       // document.referrer
-      if(this.$fn.funcUrl('next')){
-        var str=decodeURIComponent(this.$fn.funcUrl('next'))
+      var str;
+      if (this.$fn.funcUrl('next')) {       
+          str= 'http://' + window.location.host + decodeURIComponent(this.$fn.funcUrl('next'))
       }
-       this.wxBase64Url =
+      debugger
+      this.wxBase64Url =
         'https://open.weixin.qq.com/connect/qrconnect?appid=wx7c9efe7b17c8aef2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2flogin&response_type=code&scope=snsapi_login&state=' +
         this.Base64.encode(str || '/') + '#wechat_redirect';
       this.qqBase64Url =
