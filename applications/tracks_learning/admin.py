@@ -1,7 +1,7 @@
 #!encoding:utf-8
 from django.contrib import admin
 
-from applications.tracks_learning.models import *
+from applications.tracks_learning.model_form import *
 from zhiliangku.settings import tinymce_js
 
 
@@ -16,6 +16,7 @@ class PathAdmin(admin.ModelAdmin):
 class PathStageAdmin(admin.ModelAdmin):
     list_display = ('id', "path", 'name', "sequence")
     search_fields = ("path__name", 'name',)
+    form = PathStageForm
 
 
 @admin.register(CourseCategory)
@@ -23,6 +24,7 @@ class CourseCategoryAdmin(admin.ModelAdmin):
     list_display = ('id', "path_stage", 'name', "sequence", "courses_name")
     search_fields = ("path_stage__name", 'name',)
     filter_horizontal = ('courses',)
+    form = CourseCategoryForm
 
     def courses_name(self, obj):
         return ",".join(obj.courses.all().values_list("name", flat=True))
@@ -36,6 +38,7 @@ class CourseAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     list_filter = ('recommend',)
     filter_horizontal = ('tech',)
+    form = CourseForm
 
 
 @admin.register(CoursePath)
@@ -55,6 +58,7 @@ class TechnologyAdmin(admin.ModelAdmin):
 class SectionAdmin(admin.ModelAdmin):
     list_display = ('id', 'course', 'title', 'sequence', "desc")
     search_fields = ("course__name", 'title',)
+    form = SectionForm
 
 
 @admin.register(Video)
@@ -67,6 +71,7 @@ class VideoAdmin(admin.ModelAdmin):
     search_fields = ("section__title", 'name', "live__name", "vid")
     list_filter = ('type',)
     readonly_fields = ("vid", "data",)
+    form = VideoForm
 
     class Media:
         js = ['js/webPlugins.js'] + tinymce_js
@@ -76,6 +81,7 @@ class VideoAdmin(admin.ModelAdmin):
 class CommonQuestionAdmin(admin.ModelAdmin):
     list_display = ('id', "video", "question", 'answer')
     search_fields = ("video__name", 'question')
+    form = CommonQuestionForm
 
     class Media:
         js = tinymce_js
