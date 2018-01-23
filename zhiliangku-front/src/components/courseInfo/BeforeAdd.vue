@@ -143,11 +143,11 @@
           obj.type = this.allData.last_time_learn_type;
           this.goPages(obj)
         } else {
-          if(!this.allData.container[0].data[0]){
+          if (!this.allData.container[0].data[0]) {
             return
           }
           var obj = this.allData.container[0].data[0];
-          
+
           this.goPages(obj)
         }
       },
@@ -159,7 +159,7 @@
               '#/note';
             break;
           case 3:
-            window.location.href = '/tracks/live/detail/?course_id=' + this.allData.id + '&video_id=' + obj.id 
+            window.location.href = '/tracks/live/detail/?course_id=' + this.allData.id + '&video_id=' + obj.id
             break;
           case 4:
             window.location.href = '/exercise/list/?course_id=' + this.allData.id + '&video_id=' + obj.id;
@@ -204,7 +204,11 @@
     background: #cccccc;
     background-repeat: no-repeat;
     background-size: cover;
-
+    // -webkit-filter: blur(10px);
+    /* Chrome, Opera */
+    // -moz-filter: blur(10px);
+    // -ms-filter: blur(10px);
+    // filter: blur(10px);
     /* padding-bottom:24px; */
   }
 

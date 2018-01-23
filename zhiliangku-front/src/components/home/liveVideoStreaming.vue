@@ -3,7 +3,7 @@
     <div class="lvs-content clearfix inmiddle mainwidth">
       <div id="e8888b74d1229efec6b4712e17cb6b7a_e" class="lvsc-video floatl">
         <img :src="imgUrl" alt="">
-        <el-button class="lvsc-enterButton" :style="myButtonStyle" @click="go()">进入直播间</el-button>
+        <el-button v-if="showButton" class="lvsc-enterButton" :style="myButtonStyle" @click="go()">进入直播间</el-button>
       </div>
       <div class="lvsc-list floatl">
         <el-scrollbar class="lvsc-list-container">
@@ -24,6 +24,7 @@
     name: "HelloWorld",
     data() {
       return {
+        showButton:'',
         liveData: [],
         imgUrl: '',
         myButtonStyle: {
@@ -39,6 +40,11 @@
     },
     methods: {
       changeImg(item) {
+        if(item.status=='live'){
+          this.showButton=true;
+        }else{
+          this.showButton=false;
+        }
         this.imgUrl = item.pathwel
         this.video_id=item['video_id'];
         this.course_id=item['course_id'];
@@ -66,6 +72,7 @@
         this.imgUrl = this.liveData[0]['pathwel'];
         this.video_id=this.liveData[0]['video_id'];
         this.course_id=this.liveData[0]['course_id'];
+        this.showButton=false||this.liveData[0][status]
       }
     },
     created() {
