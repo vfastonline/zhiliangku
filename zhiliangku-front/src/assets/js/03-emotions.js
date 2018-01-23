@@ -1,4 +1,4 @@
-
+module.exports = (function () {
 var emotionslist = [{
     "url": "http://static.live.polyv.net/assets/images/em/1.png",
     "title": "微笑",
@@ -400,3 +400,5 @@ var emotionslist = [{
     "title": "挥手",
     "position": "-4752px 0px"
 }];
+return emotionslist
+})()

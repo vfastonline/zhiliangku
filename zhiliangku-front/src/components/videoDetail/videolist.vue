@@ -46,7 +46,7 @@
         switch(obj.type*1){
           case 1:
           case 2 : window.location.href='/tracks/video/detail/?course_id='+this.$fn.funcUrl('course_id')+'&video_id='+obj.id+'#/note'; break;
-          case 3: window.location.href='/tracks/video/detail/?course_id='+this.$fn.funcUrl('course_id')+'&video_id='+obj.id+'&type=3'; break;
+          case 3: window.location.href='/tracks/live/detail/?course_id='+this.$fn.funcUrl('course_id')+'&video_id='+obj.id; break;
           case 4: window.location.href='/exercise/list/?course_id='+this.$fn.funcUrl('course_id')+'&video_id='+obj.id; break;
           default: break;
         }

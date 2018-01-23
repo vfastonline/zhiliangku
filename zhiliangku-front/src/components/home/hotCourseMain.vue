@@ -53,7 +53,6 @@
     /* margin:auto; */
     display: flex;
     width: 1152px;
-    height: 490px;
     padding-bottom: 32px;
     justify-content: space-between;
     flex-wrap: wrap;

@@ -44,7 +44,7 @@
         this.course_id=item['course_id'];
       },
       go() {
-        window.location.href='/tracks/video/detail/?course_id='+this.course_id+'&video_id='+this.video_id+'&type=3'
+        window.location.href='/tracks/live/detail/?course_id='+this.course_id+'&video_id='+this.video_id
       },
       video(vid) {
         console.log(vid)

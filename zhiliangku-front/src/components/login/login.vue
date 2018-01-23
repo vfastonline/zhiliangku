@@ -260,7 +260,6 @@
         this.$post('/customuser/register', data).then(res => {
           if (res) {
             if (res.data.msg == 'success') {
-              debugger
               this.loginFun(this.ruleForm2)
               this.centerDialogVisible = false;
             }
@@ -300,7 +299,6 @@
       },
       loginFun(data) {
         this.haveKeyValue('keyEmail', data, 'age')
-        debugger
         var obj = this.changeKeys(data)
         this.$post('/customuser/login', this.changeKeys(data)).then(res => {
           if (!res.data.err) {
@@ -311,6 +309,7 @@
             }
             // console.log(res.data.data)
             // 由于data可能来自别的面页，而且别的页面有着不同的需求，那么此处应该写到loginfun函数之外，不过目前先迁就一次
+            debugger
             if (data.referrer) {
               this.goreferre()
               return
@@ -320,7 +319,7 @@
           console.log(res)
         })
       },
-      goreferre() {
+      goreferre() {198
         window.location.href = document.referrer
       },
       logupFun(data, callback, param) {
@@ -450,10 +449,10 @@
       })
       this.wxBase64Url =
         'https://open.weixin.qq.com/connect/qrconnect?appid=wx7c9efe7b17c8aef2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2flogin&response_type=code&scope=snsapi_login&state=' +
-        this.Base64.encode(window.location.pathname) + '#wechat_redirect';
+        this.Base64.encode(window.location.href) + '#wechat_redirect';
       this.qqBase64Url =
         'https://graph.qq.com/oauth2.0/show?which=Login&display=pc&response_type=code&client_id=101447834&redirect_uri=http%3A%2F%2Fwww.zhiliangku.com%2Fcustomuser%2Fqq%2Flogin&state=' +
-        this.Base64.encode(window.location.pathname) + '&scope=get_user_info,get_info';
+        this.Base64.encode(window.location.href) + '&scope=get_user_info,get_info';
       // 我的实现方式应该是,一个大组件,大组件是一直显示的，但是可以通过改变里面的参数来改变其显示的各种小组件
     },
     mounted() {

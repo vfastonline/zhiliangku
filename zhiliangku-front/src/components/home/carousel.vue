@@ -36,6 +36,12 @@ export default {
 </script>
 
 <style>
+.carousel{
+  height:400px;
+}
+.el-carousel__container{
+  height:400px;
+}
 .carouselimg{
   width:100%;
   height: 100%;
