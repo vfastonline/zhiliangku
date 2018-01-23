@@ -310,7 +310,12 @@
             // console.log(res.data.data)
             // 由于data可能来自别的面页，而且别的页面有着不同的需求，那么此处应该写到loginfun函数之外，不过目前先迁就一次
             debugger
+
             if (data.referrer) {
+              if (data.url) {
+                window.location.href = data.url;
+                return
+              }
               this.goreferre()
               return
             }
@@ -319,8 +324,16 @@
           console.log(res)
         })
       },
-      goreferre() {198
-        window.location.href = document.referrer
+      goreferre() {
+        var str=document.referrer;
+        var host=str.split('://')[1].split('/')[0];
+        // 同源的时候才会跳转上一来源网页，否则跳转到首页
+        if(host==window.location.host){
+          window.location.href=document.referrer;
+        }
+        else{
+          window.location.href='http://'+window.location.host+'/'
+        }
       },
       logupFun(data, callback, param) {
         this.$post('/customuser/register', this.changeKeys(data)).then(res => {
