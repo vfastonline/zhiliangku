@@ -144,8 +144,8 @@
         if (location.pathname != '/') {
           //这里的逻辑应该是删除掉user_info的字段
           debugger
-          if (this.$fn.funcUrl('user_info')) {
-            window.location.href = this.$fn.funcUrlDel('user_info')
+          if(this.$fn.funcUrl('next')||this.$fn.funcUrl('user_info')){
+           window.location.href = this.$fn.funcUrlDelArr(['user_info','next'])
           }
         }
         console.log(this.userinfo)
@@ -293,7 +293,7 @@
     }
     .ph-tag {
       opacity: 0.8;
-      font-family: PingFangSC-Light "微软雅黑" "宋体";
+      font-family: 'PingFangSC-Light' ,"Microsoft YaHei" ,"宋体";
       font-size: 18px;
       color: #3a3c50;
       margin-right: 35px;

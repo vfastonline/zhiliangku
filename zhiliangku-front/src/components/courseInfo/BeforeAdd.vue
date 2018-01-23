@@ -143,14 +143,13 @@
           obj.type = this.allData.last_time_learn_type;
           this.goPages(obj)
         } else {
-          if(this.allData.container[0].data){
+          if(!this.allData.container[0].data[0]){
             return
           }
-          var obj = this.allData.container[0].data;
+          var obj = this.allData.container[0].data[0];
           
           this.goPages(obj)
         }
-
       },
       goPages(obj) {
         switch (obj.type * 1) {
@@ -160,8 +159,7 @@
               '#/note';
             break;
           case 3:
-            window.location.href = '/tracks/video/detail/?course_id=' + this.allData.id + '&video_id=' + obj.id +
-              '&type=3';
+            window.location.href = '/tracks/live/detail/?course_id=' + this.allData.id + '&video_id=' + obj.id 
             break;
           case 4:
             window.location.href = '/exercise/list/?course_id=' + this.allData.id + '&video_id=' + obj.id;

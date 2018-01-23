@@ -126,12 +126,15 @@ import Bus from '../../assets/js/bus'
     },
     created(){
       // document.referrer
+      if(this.$fn.funcUrl('next')){
+        var str=decodeURIComponent(this.$fn.funcUrl('next'))
+      }
        this.wxBase64Url =
         'https://open.weixin.qq.com/connect/qrconnect?appid=wx7c9efe7b17c8aef2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2flogin&response_type=code&scope=snsapi_login&state=' +
-        this.Base64.encode('/') + '#wechat_redirect';
+        this.Base64.encode(str || '/') + '#wechat_redirect';
       this.qqBase64Url =
         'https://graph.qq.com/oauth2.0/show?which=Login&display=pc&response_type=code&client_id=101447834&redirect_uri=http%3A%2F%2Fwww.zhiliangku.com%2Fcustomuser%2Fqq%2Flogin&state=' +
-        this.Base64.encode('/') + '&scope=get_user_info,get_info';
+        this.Base64.encode(str || '/') + '&scope=get_user_info,get_info';
     }
   }
 

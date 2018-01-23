@@ -358,7 +358,7 @@ socket.on('connect', function() {
       });
       $('#sendBtn').on('click',function(){
         sendMsg();
-      });      
+      });
 function setEmotions() {
         var t = '';
         $(emotionslist).each(function(){
@@ -366,7 +366,7 @@ function setEmotions() {
         });
         $('#emotions').html(t);
       }
-      setEmotions();      
+      setEmotions();
 $('#emotions').on('click','img',function(){ //选择表情
         var $that = $(this),
             title = $that.attr("title");
