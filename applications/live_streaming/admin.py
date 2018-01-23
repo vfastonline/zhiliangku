@@ -48,7 +48,6 @@ class LiveAdmin(admin.ModelAdmin):
     def suit_row_attributes(self, obj, request):
         css_class = {
             "live": 'success',
-            "end": 'warning',
         }.get(obj.status)
         if css_class:
             return {'class': css_class}
