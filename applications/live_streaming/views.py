@@ -19,7 +19,7 @@ class IndexLiveList(View):
                     "video_id": one.id,
                     "course_id": one.section.course.id,
                     "name": one.name,
-                    "pathwel": one.live.pathwel.url if one.live else "",
+                    "pathwel": one.section.course.course_img.url if one.section else "",
                     "desc": one.desc,
                     "status": one.live.status if one.live else "end",
                     "start_time": one.live_start_time.strftime("%H:%M") if one.live_start_time else "",
