@@ -1,9 +1,10 @@
 <template>
   <div>
-    <div class="mainwidth incenter">
-      <myvideo></myvideo>
-    </div>
-    <img class="mainwidth incenter block progress_img" :src="vidandImg.pathwel" alt="">
+    <videoCover @playvideo="sendMsg('openDialogVideo',mainData)" 
+    v-lazy:background-image="videoCoverData.pathwel"
+     ></videoCover>
+    <dialogVideo :mainData="mainData[0]" ></dialogVideo>
+    <img class="mainwidth incenter block progress_img" v-lazy="vidandImg.pathwel" alt="">
     <div class="career-path-list-subtitle mainwidth incenter font20pl3a3c50">选择你的职业</div>
     <container :myStyle="containerStyle">
       <interview-cover v-for="(item,index) in pathList" :layout="['course']" :mainData="item" :key="index" :myStyle="itemStyle"
@@ -24,7 +25,8 @@
 
 </style>
 <script>
-  import myvideo from '../videoDetail/video'
+  import videoCover from './13-pathListVideoCover.vue'
+  import dialogVideo from './14-dialogVideo.vue'
   import Bus from '../../assets/js/bus'
   export default {
     name: 'HelloWorld',
@@ -43,15 +45,23 @@
           },
           num: 3
         },
-        vidandImg: {}
+        videoCoverData:{},
+        vidandImg: {},
+        mainData:{}
       }
     },
     methods: {
+      sendMsg(str,data){
+        console.log(1)
+        Bus.$emit(str,data)
+      },
       getData() {
+        // 获取顶部部分
         this.$get('/slides/list?category=2').then(res => {
           this.$fn.addString(this.$myConst.httpUrl, res.data.data, 'pathwel')
+          this.mainData=res.data.data;
           this.vidandImg = res.data.data[0];
-          Bus.$emit('vid', this.vidandImg.vid)
+          this.videoCoverData=res.data.data[1];
         })
         //获取路线列表内容
         this.$get('/tracks/path/list/info').then(res => {
@@ -68,7 +78,8 @@
 
     },
     components: {
-      myvideo: myvideo
+      dialogVideo: dialogVideo,
+      videoCover:videoCover
     }
   }
 
