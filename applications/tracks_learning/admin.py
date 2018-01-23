@@ -40,6 +40,13 @@ class CourseAdmin(admin.ModelAdmin):
     filter_horizontal = ('tech',)
     form = CourseForm
 
+    def suit_row_attributes(self, obj, request):
+        css_class = {
+            True: 'success',
+        }.get(obj.recommend)
+        if css_class:
+            return {'class': css_class}
+
 
 @admin.register(CoursePath)
 class CoursePathAdmin(admin.ModelAdmin):
@@ -72,6 +79,31 @@ class VideoAdmin(admin.ModelAdmin):
     list_filter = ('type',)
     readonly_fields = ("vid", "data",)
     form = VideoForm
+
+    fieldsets = [
+        ("视频一般信息", {
+            'classes': ('suit-tab', 'suit-tab-general',),
+            'fields': ['section', "type", "name", "sequence", "duration", "desc"]
+        }),
+        ('直播信息', {
+            'classes': ('suit-tab', 'suit-tab-live',),
+            'fields': ['live', "live_start_time", "live_end_time"]}),
+        ('讲师笔记', {
+            'classes': ('suit-tab', 'suit-tab-notes',),
+            'fields': ['notes']}),
+        ('保利威视', {
+            'classes': ('suit-tab', 'suit-tab-polyv',),
+            'fields': ['vid', 'data']}),
+    ]
+    suit_form_tabs = (('general', '一般'), ('live', '直播'), ('notes', '讲师笔记'), ('polyv', '保利威视回调'))
+
+    def suit_row_attributes(self, obj, request):
+        css_class = {
+            "3": 'success',
+            "4": 'info',
+        }.get(obj.type)
+        if css_class:
+            return {'class': css_class}
 
     class Media:
         js = ['js/webPlugins.js'] + tinymce_js

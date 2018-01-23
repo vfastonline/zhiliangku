@@ -22,6 +22,13 @@ class CompletedInterviewQuestionAdmin(admin.ModelAdmin):
     search_fields = ('interview_question', 'customuser',)
     list_filter = ('complete',)
 
+    def suit_row_attributes(self, obj, request):
+        css_class = {
+            True: 'success',
+        }.get(obj.complete)
+        if css_class:
+            return {'class': css_class}
+
 
 @admin.register(ExaminationQuestion)
 class ExaminationQuestionAdmin(admin.ModelAdmin):
@@ -41,3 +48,10 @@ class AnswerRecordAdmin(admin.ModelAdmin):
     list_display = ('id', 'question', "custom_user", "result", "create_time")
     search_fields = ('question',)
     list_filter = ('result',)
+
+    def suit_row_attributes(self, obj, request):
+        css_class = {
+            True: 'success',
+        }.get(obj.result)
+        if css_class:
+            return {'class': css_class}
