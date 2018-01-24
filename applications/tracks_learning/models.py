@@ -69,7 +69,7 @@ class Course(models.Model):
     """课程"""
 
     name = models.CharField('课程名称', max_length=50)
-    recommend = models.BooleanField('推荐课程', blank=True, default=False, help_text="网站首页'推荐课程'板块显示。")
+    recommend = models.BooleanField('推荐课程', blank=True, default=False, help_text="是否在网站首页'推荐课程'板块显示。")
     lecturer = models.ForeignKey("custom_user.CustomUser", verbose_name="讲师", limit_choices_to={'role': 1}, null=True,
                                  blank=True,
                                  on_delete=models.SET_NULL, help_text='只允许选择角色是”老师“的用户。')
