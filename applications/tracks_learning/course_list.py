@@ -359,6 +359,7 @@ def summarize_course_progress(custom_user_id, course_id):
         "is_study_record": 0,  # 是否有课程学习记录
         "last_time_learn": "",  # 最近一次学习视频名称
         "last_time_learn_id": "",  # 最近一次学习视频ID
+        "vid": "",  # 最近一次学习视频vid
         "last_time_learn_type": "",  # 最近一次学习视频类型
     }
     try:
@@ -384,12 +385,14 @@ def summarize_course_progress(custom_user_id, course_id):
                 if watch_total_time_sum:
                     last_time_learn = watchrecords.first().video.name  # 上次学到
                     last_time_learn_id = watchrecords.first().video.id  # 上次学到视频ID
+                    vid = watchrecords.first().video.vid if watchrecords.first().video.vid else ""  # 上次学到视频ID
                     last_time_learn_type = watchrecords.first().video.type  # 上次学到视频类型
                     remaining_time = duration_sum - watch_total_time_sum
                     schedule = float("%.2f" % (float(watch_total_time_sum) / float(duration_sum)))
                     result_dict["is_study_record"] = 1
                     result_dict["last_time_learn"] = last_time_learn
                     result_dict["last_time_learn_id"] = last_time_learn_id
+                    result_dict["vid"] = vid
                     result_dict["last_time_learn_type"] = last_time_learn_type
                 else:
                     remaining_time = duration_sum
