@@ -50,8 +50,11 @@ class FaqListInfo(View):
             }
             filter_dict = dict()
             [filter_dict.update({query_field: param}) for query_field, param in search_param.items() if param]
-            faqs = Faq.objects.filter(**filter_dict).order_by("-create_time")
-            if faqs.exists():
+            faqs = list()
+            if filter_dict:
+                faqs = Faq.objects.filter(**filter_dict).order_by("-create_time")
+
+            if faqs:
                 # 提供分页数据
                 page_objs = Paginator(faqs, per_page)
                 total_count = page_objs.count  # 记录总数
