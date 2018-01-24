@@ -44,3 +44,10 @@ class LiveAdmin(admin.ModelAdmin):
 
     delete_selected.short_description = " ".join(["删除所选的", Live._meta.verbose_name])
     get_live_status_selected.short_description = " ".join(["获取所选的", Live._meta.verbose_name, "状态"])
+
+    def suit_row_attributes(self, obj, request):
+        css_class = {
+            "live": 'success',
+        }.get(obj.status)
+        if css_class:
+            return {'class': css_class}

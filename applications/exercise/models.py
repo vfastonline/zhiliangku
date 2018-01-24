@@ -12,7 +12,7 @@ class Question(models.Model):
         ("3", "C"),
         ("4", "D"),
     )
-    video = models.ForeignKey(Video, verbose_name='所属习题', related_name='Questions', limit_choices_to={"type": "4"})
+    video = models.ForeignKey(Video, verbose_name='所属视频', related_name='Questions', limit_choices_to={"type": "4"})
     title = models.CharField('问题内容', max_length=255)
     right_answer = models.CharField('正确答案', max_length=1, choices=RIGHTANSWER)
     detail = models.TextField('习题详解', max_length=255, default="")

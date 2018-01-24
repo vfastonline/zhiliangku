@@ -56,6 +56,7 @@ class VideoList(View):
                     video_dict["sequence"] = one_video.sequence
                     video_dict["desc"] = one_video.desc
                     video_dict["is_learned"] = 0
+                    video_dict["vid"] = one_video.vid
                     duration_str = ""
                     if one_video.duration:
                         m, s = divmod(one_video.duration, 60)
@@ -97,6 +98,15 @@ class VideoDetail(View):
 
     def get(self, request, *args, **kwargs):
         template_name = "tracks/video/detail/index.html"
+        return render(request, template_name, {})
+
+
+@class_view_decorator(user_login_required)
+class LiveDetail(View):
+    """直播详情页面"""
+
+    def get(self, request, *args, **kwargs):
+        template_name = "tracks/live/detail/index.html"
         return render(request, template_name, {})
 
 

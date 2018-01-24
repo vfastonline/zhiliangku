@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from applications.personal_center.models import *
+from applications.personal_center.model_form import *
 from zhiliangku.settings import tinymce_js
 
 
@@ -21,6 +21,7 @@ class ResumeAdmin(admin.ModelAdmin):
         "career_objective",
     )
     search_fields = ("name", 'years_of_service', "education")
+    form = ResumeForm
 
     class Media:
         js = tinymce_js
@@ -38,6 +39,7 @@ class CareerObjectiveAdmin(admin.ModelAdmin):
         "industry",
     )
     search_fields = ('position',)
+    form = CareerObjectiveForm
 
 
 @admin.register(WorkExperience)
@@ -52,6 +54,7 @@ class WorkExperienceAdmin(admin.ModelAdmin):
         "content",
     )
     search_fields = ('company',)
+    form = WorkExperienceForm
 
     class Media:
         js = tinymce_js
@@ -71,6 +74,7 @@ class ProjectExperienceAdmin(admin.ModelAdmin):
         "performance",
     )
     search_fields = ('project_name',)
+    form = ProjectExperienceForm
 
     class Media:
         js = tinymce_js
@@ -89,6 +93,7 @@ class EducationExperienceAdmin(admin.ModelAdmin):
         "experience",
     )
     search_fields = ('school',)
+    form = EducationExperienceForm
 
     class Media:
         js = tinymce_js

@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.views.generic import View
 
 from applications.tracks_learning.models import Video
+from django.utils import timezone
 
 
 class IndexLiveList(View):
@@ -14,18 +15,25 @@ class IndexLiveList(View):
         result_dict = {"err": 0, "msg": "success", "data": []}
         try:
             lives = Video.objects.filter(type="3").order_by("live_start_time")
-            result_dict["data"] = [
-                {
+            data_list = list()
+            for one in lives:
+                one_dict = {
                     "video_id": one.id,
                     "course_id": one.section.course.id,
                     "name": one.name,
-                    "pathwel": one.live.pathwel.url if one.live else "",
+                    "pathwel": one.section.course.course_img.url if one.section else "",
                     "desc": one.desc,
                     "status": one.live.status if one.live else "end",
                     "start_time": one.live_start_time.strftime("%H:%M") if one.live_start_time else "",
                 }
-                for one in lives
-            ]
+                if one.live_start_time and one.live_end_time:
+                    if (one.live_start_time > timezone.now()) or (one.live_end_time < timezone.now()):
+                        one_dict.update({"status": "end"})
+                else:
+                    one_dict.update({"status": "end"})
+                data_list.append(one_dict)
+            result_dict["data"] = data_list
+
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())

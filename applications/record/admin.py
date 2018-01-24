@@ -9,3 +9,10 @@ class WatchRecordAdmin(admin.ModelAdmin):
         'duration', 'status', 'create_time'
     )
     search_fields = ('user', 'video', 'course',)
+
+    def suit_row_attributes(self, obj, request):
+        css_class = {
+            1: 'success',
+        }.get(obj.status)
+        if css_class:
+            return {'class': css_class}

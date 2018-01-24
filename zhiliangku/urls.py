@@ -40,7 +40,9 @@ urlpatterns = [
     url('^polyv/callback', PolyvCallBack.as_view()),
     url('^personal_center/', include('applications.personal_center.urls')),
     url('^integral/', include('applications.integral.urls')),
-    url(r'^record', include('applications.record.urls')),
+    url(r'^record/', include('applications.record.urls')),
+
+    url(r'^select2/', include('django_select2.urls')),
     url(r'^upload', views.upload, name='upload'),
 ]
 

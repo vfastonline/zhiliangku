@@ -11,12 +11,26 @@ class FaqAdmin(admin.ModelAdmin):
     readonly_fields = ("browse_amount",)
     filter_horizontal = ('follow_user',)
 
+    def suit_row_attributes(self, obj, request):
+        css_class = {
+            "1": 'success',
+        }.get(obj.status)
+        if css_class:
+            return {'class': css_class}
+
 
 @admin.register(FaqAnswer)
 class FaqAnswerAdmin(admin.ModelAdmin):
     list_display = ('id', "faq", "user", 'answer', "create_time", "approve", "oppose", "optimal")
     search_fields = ("faq__title", 'user')
     list_filter = ('optimal',)
+
+    def suit_row_attributes(self, obj, request):
+        css_class = {
+            True: 'success',
+        }.get(obj.optimal)
+        if css_class:
+            return {'class': css_class}
 
 
 @admin.register(FaqAnswerReply)

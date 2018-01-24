@@ -27,45 +27,48 @@ SUIT_CONFIG = {
         # {'label': 'Support', 'icon':'icon-question-sign', 'url': '/support/'},
 
         # 用户管理
-        {'app': 'custom_user',
+        {'app': 'custom_user', 'icon': 'icon-user',
          'models': ('CustomUser', 'CustomUserAuths', 'CustomUserPath', "CustomUserCourse", "VerifyCode")},
 
         # 个人中心
-        {'app': 'personal_center',
+        {'app': 'personal_center', 'icon': 'icon-star',
          'models': ('Resume', 'CareerObjective', 'WorkExperience', "ProjectExperience", "EducationExperience")},
 
         # 职业路径
-        {'app': 'tracks_learning', 'models': ('Path', 'PathStage', 'CourseCategory')},
+        {'app': 'tracks_learning', 'icon': 'icon-map-marker',
+         'models': ('Path', 'PathStage', 'CourseCategory')},
 
         # 课程
-        {'label': '课程', 'app': 'tracks_learning',
+        {'label': '课程', 'app': 'tracks_learning', 'icon': 'icon-bookmark',
          'models': ('Course', 'Section', "Video", "CommonQuestion", 'CoursePath', "Technology", "Faq", "FaqAnswer")},
 
         # 观看进度
-        {'app': 'record', 'models': ('WatchRecord',)},
+        {'app': 'record', 'icon': 'icon-list-alt', 'models': ('WatchRecord',)},
 
         # 直播
-        {'app': 'live_streaming'},
+        {'app': 'live_streaming', 'icon': 'icon-film', },
 
         # 习题
-        {'app': 'exercise'},
+        {'app': 'exercise', 'icon': 'icon-th', },
 
         # 轮播图
-        {'app': 'slideshow'},
+        {'app': 'slideshow', 'icon': 'icon-repeat', },
 
         # 企业面试题
-        {'app': 'interview_question',
+        {'app': 'interview_question', 'icon': 'icon-globe',
          'models': ('EnterpriseInfo', 'ExaminationQuestion', 'ExaminationAnswer',
                     "AnswerRecord", "CompletedInterviewQuestion")},
 
         # 公司招聘职位
-        {'app': 'company_jobs'},
+        {'app': 'company_jobs', 'icon': 'icon-briefcase', },
 
         # 社区问答
-        {'app': 'community', 'models': ('Faq', 'FaqAnswer', "FaqAnswerReply")},
+        {'app': 'community', 'icon': 'icon-comment',
+         'models': ('Faq', 'FaqAnswer', "FaqAnswerReply")},
 
-        # 积分
-        {'app': 'integral', 'models': ('Goods', 'ExchangeRecords')},
+        # 积分商城
+        {'label': '积分商城', 'app': 'integral', 'icon': 'icon-shopping-cart',
+         'models': ('Goods', 'ExchangeRecords')},
     ),
 
     # misc

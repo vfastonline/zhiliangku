@@ -31,16 +31,16 @@ class IndexCourseList(View):
 
             # 推荐课程
             if recommend:
-                course_objs = Course.objects.filter(recommend=True)[:8]
+                course_objs = Course.objects.filter(recommend=True)[:16]
 
             # 最新课程
             if latest:
-                course_objs = Course.objects.filter().order_by("-id")[:8]
+                course_objs = Course.objects.filter().order_by("-id")[:16]
 
             # 热门课程
             if popular:
                 watchrecords = WatchRecord.objects.values("course").annotate(Count('course')).order_by(
-                    "-course__count")[:8]
+                    "-course__count")[:16]
                 course_id_list = [one.get("course", 0) for one in watchrecords]
                 course_objs = Course.objects.filter(id__in=course_id_list)
                 objects_dict = dict([(obj.id, obj) for obj in course_objs])

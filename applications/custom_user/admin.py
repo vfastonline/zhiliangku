@@ -1,13 +1,13 @@
 #!encoding:utf-8
 from django.contrib import admin
 
-from applications.custom_user.models import *
+from applications.custom_user.model_form import *
 
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
     list_display = (
-    'id', 'nickname', "sex", 'role', "position", 'avatar', "receiver", "address", "signature", "integral",)
+        'id', 'nickname', "sex", 'role', "position", 'avatar', "receiver", "address", "signature", "integral",)
     search_fields = ('nickname',)
     list_filter = ('role', "sex")
 
@@ -17,13 +17,15 @@ class CustomUserAuthsAdmin(admin.ModelAdmin):
     list_display = ('id', 'custom_user_id', 'identity_type', 'identifier', "credential", "status")
     search_fields = ('custom_user_id__nickname', "identity_type",)
     list_filter = ('status',)
+    form = CustomUserAuthsForm
 
 
 @admin.register(CustomUserPath)
 class CustomUserPathAdmin(admin.ModelAdmin):
-    list_display = ('id', 'custom_user', "paths")
-    search_fields = ('custom_user__nickname',)
+    list_display = ('id', 'custom_user', "paths", "create_time")
+    search_fields = ('custom_user__nickname', "paths")
     filter_horizontal = ('path',)
+    form = CustomUserPathForm
 
     def paths(self, obj):
         return ",".join(obj.path.all().values_list("name", flat=True))
@@ -36,6 +38,7 @@ class CustomUserCourseAdmin(admin.ModelAdmin):
     list_display = ('id', 'custom_user', "courses")
     search_fields = ('custom_user__nickname',)
     filter_horizontal = ('course',)
+    form = CustomUserCourseForm
 
     def courses(self, obj):
         return ",".join(obj.course.all().values_list("name", flat=True))

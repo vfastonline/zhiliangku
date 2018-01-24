@@ -145,13 +145,13 @@ class Video(models.Model):
     type = models.CharField('类型', max_length=1, choices=TYPE)
     name = models.CharField('视频/习题名称', max_length=255)
     sequence = models.PositiveIntegerField('显示顺序', default=1, validators=[MinValueValidator(1)],
-                                           help_text="从1开始，默认顺序为1")
-    duration = models.PositiveIntegerField('总时长(秒)', default=0, help_text="单位：秒")
-    live = models.ForeignKey(Live, verbose_name='直播', related_name='Live', blank=True, null=True)
+                                           help_text="从1开始，默认：1")
+    duration = models.PositiveIntegerField('总时长(秒)', default=0, help_text="视频成功上传后，由后台补全；单位：秒")
+    live = models.ForeignKey(Live, verbose_name='直播频道', related_name='Live', blank=True, null=True)
     live_start_time = models.DateTimeField("直播起始时间", blank=True, null=True)
-    live_end_time = models.TimeField("直播终止时间", blank=True, null=True)
+    live_end_time = models.DateTimeField("直播终止时间", blank=True, null=True)
     desc = models.TextField('描述', default='')
-    notes = models.TextField('资料', default='', null=True, blank=True)
+    notes = models.TextField('讲师笔记', default='', null=True, blank=True)
     vid = models.CharField("vid", max_length=255, blank=True, null=True, help_text="由保利威视回调接口补充")
     data = models.TextField("视频信息", blank=True, null=True, help_text="由保利威视回调接口补充")
 
