@@ -1,3 +1,17 @@
+function error(title, message) {
+    $.confirm({
+        'title': title,
+        'message': message,
+        'buttons': {
+            '返回': {
+                'class': 'blue',
+                'action': function () {
+                }
+            }
+        }
+    });
+}
+
 function openUpload() {
     var ids = [];
     $("input[name='_selected_action']").each(function () {
@@ -6,7 +20,8 @@ function openUpload() {
         }
     });
     if (ids.length === 0) {
-        alert("至少选择一条数据!");
+        // alert("至少选择一条数据!");
+        error("错误", "至少选择一条数据!")
         return false
     }
     else if (ids.length > 1) {
