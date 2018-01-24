@@ -109,9 +109,7 @@ class VideoAdmin(admin.ModelAdmin):
         ('保利威视', {
             'classes': ('suit-tab', 'suit-tab-polyv',),
             'fields': ['vid', 'data']}),
-        ('描述', {
-            'classes': ('collapse',),  # Specify fieldset classes here
-            'fields': ['desc']}),
+
     ]
     suit_form_tabs = (('general', '一般'), ('live', '直播'), ('notes', '讲师笔记'), ('polyv', '保利威视回调'))
 

@@ -38,7 +38,9 @@ class LearnRecently(View):
                     data_dict["schedule"] = summarize_dict.get("schedule")
                     data_dict["is_study_record"] = summarize_dict.get("is_study_record")  # 是否有用户无学习记录
                     data_dict["last_time_learn"] = summarize_dict.get("last_time_learn")  # 最近学习视频名称
-                    data_dict["last_time_learn_id"] = summarize_dict.get("last_time_learn_id")  # 最近学习视频ID
+                    data_dict["last_video_id"] = summarize_dict.get("last_time_learn_id")  # 最近学习视频ID
+                    data_dict["last_type"] = summarize_dict.get("last_time_learn_type")  # 最近学习视频类型
+                    data_dict["last_course_id"] = one.course.id  # 最近学习课程ID
                     data_list.append(data_dict)
             result_dict["data"] = data_list
 

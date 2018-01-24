@@ -27,8 +27,9 @@ class PostMatch(View):
                 one_dict = dict()
                 one_dict["company"] = "凯奇谷"
                 one_dict["position"] = "Python工程师"
+                one_dict["post_id"] = "1"
                 one_dict["schedule"] = 0.34
-                one_dict["logo"] = "aaa"
+                one_dict["logo"] = "/media/course/20171204/20171204160021_91.png"
                 result_dict["data"].append(one_dict)
         except:
             traceback.print_exc()
