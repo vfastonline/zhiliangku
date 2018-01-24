@@ -27,7 +27,7 @@ import qustionli from './questionCommen'
     },
     created(){
       var video_id=this.$fn.getSearchKey('video_id');
-      this.$get('/community/faq/list/info?video_id'+this.$fn.getSearchKey('video_id')).then(res=>{
+      this.$get('/community/faq/list/info?video_id='+this.$fn.getSearchKey('video_id')).then(res=>{
         console.log(res)
         this.$fn.addString(this.$myConst.httpUrl,res.data.data,'custom_user_avatar')
         this.mainData=res.data.data
