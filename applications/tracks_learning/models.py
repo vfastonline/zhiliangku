@@ -69,7 +69,7 @@ class Course(models.Model):
     """课程"""
 
     name = models.CharField('课程名称', max_length=50)
-    recommend = models.BooleanField('推荐课程', blank=True, default=False)
+    recommend = models.BooleanField('推荐课程', blank=True, default=False, help_text="网站首页'推荐课程'板块显示。")
     lecturer = models.ForeignKey("custom_user.CustomUser", verbose_name="讲师", limit_choices_to={'role': 1}, null=True,
                                  blank=True,
                                  on_delete=models.SET_NULL, help_text='只允许选择角色是”老师“的用户。')
@@ -77,6 +77,7 @@ class Course(models.Model):
     tech = models.ManyToManyField("Technology", verbose_name='技术分类')
     prerequisites = models.TextField('先修要求', default="")
     learn = models.TextField('你将学到什么', default="")
+    update_time = models.DateTimeField("更新时间", auto_now=True)
 
     def __unicode__(self):
         return self.name
