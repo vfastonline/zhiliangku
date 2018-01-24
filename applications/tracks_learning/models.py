@@ -86,6 +86,7 @@ class Course(models.Model):
         db_table = 'Course'
         verbose_name = "课程"
         verbose_name_plural = "课程"
+        ordering = ['-update_time']
 
 
 class CoursePath(models.Model):
