@@ -149,7 +149,7 @@ class Video(models.Model):
     duration = models.PositiveIntegerField('总时长(秒)', default=0, help_text="视频成功上传后，由后台补全；单位：秒")
     live = models.ForeignKey(Live, verbose_name='直播频道', related_name='Live', blank=True, null=True)
     live_start_time = models.DateTimeField("直播起始时间", blank=True, null=True)
-    live_end_time = models.TimeField("直播终止时间", blank=True, null=True)
+    live_end_times = models.DateTimeField("直播终止时间", blank=True, null=True)
     desc = models.TextField('描述', default='')
     notes = models.TextField('讲师笔记', default='', null=True, blank=True)
     vid = models.CharField("vid", max_length=255, blank=True, null=True, help_text="由保利威视回调接口补充")
