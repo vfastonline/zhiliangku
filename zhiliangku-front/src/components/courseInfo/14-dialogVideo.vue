@@ -7,8 +7,11 @@
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-
+<style lang='scss'>
+.path-list-dialog-video {
+  .el-dialog__body{padding:0;}
+  .el-dialog{padding:0}
+  }
 
 </style>
 <script>
@@ -43,6 +46,8 @@
           width: '100%',
           height: window.innerHeight - 200,
           vid: vid,
+          autoplay:1,
+          is_auto_replay:'on'
         }
         var zhiliangkuplayer = polyvPlayer(obj);
         this.zhiliangkuplayer = zhiliangkuplayer;
