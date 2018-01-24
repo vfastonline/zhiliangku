@@ -47,6 +47,18 @@ class CourseAdmin(admin.ModelAdmin):
         if css_class:
             return {'class': css_class}
 
+    fieldsets = [
+
+        (None, {'fields': ['name', "recommend", 'lecturer', 'course_img']}),
+
+        ('先修要求', {
+            'classes': ('collapse',),  # Specify fieldset classes here
+            'fields': ['prerequisites']}),
+        ('你将学到什么', {
+            'classes': ('collapse',),
+            'fields': ['learn']}),
+    ]
+
     class Media:
         js = tinymce_js
 
