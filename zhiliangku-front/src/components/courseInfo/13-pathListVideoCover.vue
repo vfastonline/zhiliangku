@@ -2,8 +2,8 @@
   <div class="relative path_list_video_cover">
     <div class="inmiddle plvc-inner-container">
       <div class="fontcenter font36plffffff">质量库高薪就业班报名进行中</div>
-      <div class="fontcenter img-container pointer">
-        <img @click="handleClick" class="player-icon" src="../../assets/img/user-icon.jpg" alt="">
+      <div class="fontcenter img-container ">
+        <img @click="handleClick" class="player-icon pointer" src="../../assets/img/icons/path+路线+课程_图标/player.svg" alt="">
       </div>
       <div class="fontcenter font16prb2bbbf">点击观看介绍视频</div>
     </div>
