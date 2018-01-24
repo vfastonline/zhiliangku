@@ -88,6 +88,7 @@ class CustomUserPath(models.Model):
         db_table = 'CustomUserPath'
         verbose_name = "参与路径"
         verbose_name_plural = "参与路径"
+        ordering = ["-create_time"]
 
 
 class CustomUserCourse(models.Model):
@@ -96,6 +97,7 @@ class CustomUserCourse(models.Model):
     custom_user = models.OneToOneField(CustomUser, verbose_name="用户", unique=True, limit_choices_to={'role': 0},
                                        help_text='只允许选择角色是”学生“的用户。')
     course = models.ManyToManyField("tracks_learning.Course", verbose_name="课程", blank=True)
+    create_time = models.DateTimeField(verbose_name='参与时间', default=timezone.now)
 
     def __unicode__(self):
         return self.custom_user.nickname
@@ -104,6 +106,7 @@ class CustomUserCourse(models.Model):
         db_table = 'CustomUserCourse'
         verbose_name = "收藏课程"
         verbose_name_plural = "收藏课程"
+        ordering = ["-create_time"]
 
 
 class VerifyCode(models.Model):
