@@ -1,8 +1,8 @@
 <template>
   <div class="beforeAdd">
     <div class="blur-background index1" :style="{'background-image':'url(' +allData.course_img +')'}"></div>
-    <div class="ba-header index10 relative flexstartcenter" >
-      
+    <div class="ba-header index10 relative flexstartcenter">
+
       <div class="font36plffffff">{{allData.name}}
         <img @click="collect()" v-if="!allData.is_collect" class="bah-star pointer" src="../../assets/img/icons/path+路线+课程_图标/课程详情_收藏_空心.svg"
           alt="">
@@ -52,7 +52,7 @@
         </ul>
       </div>
       <div class="floatr ba-progress">
-        <p class="bap-p">{{allData.learn}}</p>
+        <div class="bap-p" v-html="allData.learn"></div>
         <div class="bap-all">
           <el-collapse accordion @change="jj" v-model="activeName">
             <el-collapse-item v-for="(item,index) in allData.sections" :key="index" :name="index+1">
@@ -76,8 +76,9 @@
                       <img v-if="thisli.type==4" src="../../assets/img/icons/path+路线+课程_图标/pencil-2.svg" alt="">
                     </div>
                     <div class="right">
-                      <img v-if="thisli.is_learned" src="../../assets/img/icons/Path.svg">
-                      <span v-if="!thisli.is_learned">{{thisli.duration}}</span>
+                      <img v-if="thisli.is_learned==1" src="../../assets/img/icons/Path.svg">
+                      <span v-if="thisli.is_learned==99">正在学习</span>
+                      <span v-if="thisli.is_learned==0&&thisli.live_status!='live'">{{thisli.duration}}</span>
                       <span v-if="thisli.live_status=='live'" class="font14pr23b8ff">正在直播</span>
                     </div>
                   </li>
@@ -154,6 +155,12 @@
         }
       },
       goPages(obj) {
+        if (obj.type != 4) {
+          if (!obj.vid) {
+            this.showNotice('内容正在制作中，敬请期待')
+            return
+          }
+        }
         switch (obj.type * 1) {
           case 1:
           case 2:
@@ -169,6 +176,18 @@
           default:
             break;
         }
+      },
+      intercept() {
+
+      },
+      showNotice(str) {
+        this.$notify({
+          type: 'info',
+          message: str,
+          offset: 100,
+          duration: 3000,
+          position: 'bottom-right'
+        });
       }
     },
     created() {
@@ -199,9 +218,10 @@
     margin-right: 18px;
     vertical-align: middle;
   }
-  .blur-background{
+
+  .blur-background {
     position: absolute;
-    width:100%;
+    width: 100%;
     height: 216px;
     background-repeat: no-repeat;
     background-size: cover;
@@ -212,10 +232,11 @@
     filter: blur(3px);
     overflow: hidden;
   }
+
   .ba-header {
     width: 100%;
     height: 216px;
-    background:rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.3);
   }
 
   .ba-header>div {

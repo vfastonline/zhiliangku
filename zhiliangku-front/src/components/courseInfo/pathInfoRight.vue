@@ -27,15 +27,13 @@
                 class="font16pl3a3c50 pirm-tag pointer">
                 {{span.name}}
               </span>
-              <img v-if="indexspan!=lidata.coursecategorys.length-1"  src="../../assets/img/icons/path+路线+课程_图标/路线详情_阶段_右箭头.svg"
-                alt="">
+              <img v-if="indexspan!=lidata.coursecategorys.length-1" src="../../assets/img/icons/path+路线+课程_图标/路线详情_阶段_右箭头.svg" alt="">
             </div>
           </div>
           <transition name="fade">
             <!-- <div v-if="indexli==indexli1" class="pirm-heightnone ofhid"> -->
             <container :myStyle="{}" v-if="indexli==indexli1" class="pirm-heightnone ofhid">
-              <hot-course v-for="(item,index) in courseData" :key="index" :mainData="item"
-               :myStyle="hotCourseStyle" :index="index"></hot-course>
+              <hot-course v-for="(item,index) in courseData" :key="index" :mainData="item" :myStyle="hotCourseStyle" :index="index"></hot-course>
             </container>
             <!-- </div> -->
           </transition>
@@ -68,6 +66,14 @@
         courseData: {}
       }
     },
+    props: {
+      mainData: Object
+    },
+    watch: {
+      mainData: function () {
+        this.clickFirstTag()
+      }
+    },
     methods: {
       changeActiveSpan(indexli, indexspan, spanid, liid) {
         this.indexli1 = indexli;
@@ -77,14 +83,15 @@
             this.courseData = this.$fn.addString(this.$myConst.httpUrl, res.data.data, ['course_img', 'avatar'])
           }
         )
+      },
+      clickFirstTag() {
+        var lidata = this.mainData.pathstages[0];
+        var spanData = lidata.coursecategorys[0]
+        this.changeActiveSpan(0, 0, lidata.id, spanData.id)
       }
     },
-    created() {
+    created() {},
 
-    },
-    props: {
-      mainData: Object
-    }
   }
 
 </script>
