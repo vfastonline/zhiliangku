@@ -1,7 +1,7 @@
 <template>
-    <div class="match-rate-part-inner rise" :style="outerStyle">
+    <div class="match-rate-part-inner " :style="outerStyle">
       <img class="mrpc-company-logo floatl" 
-       src="../../assets/img/user-icon.jpg" alt=""
+       :src="mainData.logo" alt=""
        :style="imgStyle"
        >
       <div class="mrpc-company-info" :style="boxStyle">
@@ -13,7 +13,7 @@
             <span>{{config.tag}}</span>
             <span class="font20pl3a3c50">{{mainData.schedule*100}}%</span>
           </span>
-          <el-button class="floatr" @click="handleClick()">查看详情</el-button>
+          <el-button class="floatr" @click="handleClick()">{{config.buttonStr}}</el-button>
         </div>
         <div class="mrpc-progress">
           <el-progress :percentage="mainData.schedule*100" :width="340" :stroke-width="16" :show-text="false"></el-progress>

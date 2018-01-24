@@ -1,7 +1,7 @@
 <template>
   <div class="cio-company rise pointer marginbottom24">
     <div class="cio-top">
-      <div class="cio-left-logo"><img src="../../assets/img/user-icon.jpg"></div>
+      <div class="cio-left-logo"><img v-lazy="mainData.logo"></div>
       <div class="cio-right-content">
         <p class="font14pl5a646e">{{mainData.info}}</p>
       </div>
@@ -9,9 +9,7 @@
     <div class="cio-bottom">
       <div class="cio-company-name font16pl3a3c50" >{{mainData.company}}</div>
       <div class="cio-company-people font14pr3a3c50">人员规模：{{mainData.scale}}人</div>
-    </div>
-  
-    
+    </div>  
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -53,6 +51,9 @@
 }
 </style>
 <script>
+import VueLazyLoad from 'vue-lazyload'
+Vue.use(VueLazyLoad,{
+})
 export default {
   name: 'HelloWorld',
   data () {

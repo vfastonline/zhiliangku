@@ -1,9 +1,12 @@
 <template>
-  <div class="personal-info-outer zindex1">
+  <div class="personal-info-outer zindex1" :style="{'background-image':'url(' +imgData.pathwel +')'}">
     <div class="mainwidth incenter">
       <div class="pio-detail">
         <div class="pio-user-left">
-          <img class="pio-user-img" :src="imgsrc" alt="" />
+          <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <img class="pio-user-img" v-if="imgsrc" :src="imgsrc" alt="" />
+          </el-upload>
         </div>
         <div class="pio-user-right">
           <div class="pio-username font20plffffff">{{nickname}}</div>
@@ -25,25 +28,57 @@
         imgsrc: '',
         nickname: '',
         mainData: {},
+        imgData: {
+          pathwel: ''
+        }
       }
     },
     methods: {
-      getData(){
+      handleAvatarSuccess(res, file) {
+        this.imgsrc = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
+      },
+      getData() {
         this.$get('/personal_center/basic/info?custom_user_id=' + localStorage.uid).then(res => {
-        this.mainData = res.data.data;
-        Bus.$emit('havePersonalData',res.data.data)
-      })
+          this.mainData = res.data.data;
+          for (var k in res.data.data) {
+            localStorage[k] = res.data.data[k]
+          }
+          this.initTags()
+          Bus.$emit('havePersonalData', res.data.data)
+        })
+      },
+      getimage() {
+        this.$get('/slides/list?category=3').then(res => {
+          this.$fn.addString(this.$myConst.httpUrl, res.data.data, 'pathwel')
+          this.imgData.pathwel = res.data.data[0].pathwel;
+        })
+      },
+      initTags() {
+        this.nickname = localStorage.nickname;
+        this.imgsrc = this.$myConst.httpUrl + localStorage.avatar;
       }
     },
     created() {
-      this.nickname = localStorage.nickname;
-      this.imgsrc = this.$myConst.httpUrl + localStorage.avatar;
+
       this.getData();
-      Bus.$on('refreshPersonalData',()=>{
+      this.getimage();
+      Bus.$on('refreshPersonalData', () => {
         this.getData()
       })
-      Bus.$on('requirePersonalData',()=>{
-        Bus.$emit('havePersonalData',this.mainData)
+      Bus.$on('requirePersonalData', () => {
+        Bus.$emit('havePersonalData', this.mainData)
       })
     }
   }
@@ -51,6 +86,15 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang='scss'>
+  .pio-user-left {
+    .el-upload {
+      border-radius: 100px;
+    }
+  }
+
+</style>
+
 <style scoped>
   .personal-info-outer {
     width: 100%;
@@ -58,6 +102,8 @@
     background: rgba(35, 184, 255, 0.60);
     box-sizing: border-box;
     padding-top: 143px;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
   .pio-detail {

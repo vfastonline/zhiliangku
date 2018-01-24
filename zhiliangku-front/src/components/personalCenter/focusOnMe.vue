@@ -18,6 +18,7 @@ export default {
   },
   created(){
     this.$get('/personal_center/job/focusonmybusiness?custom_user_id='+localStorage.uid).then(res=>{
+      this.$fn.addString(this.$myConst.httpUrl,res.data.data,'logo')
       this.mianData=res.data.data
     })
   },

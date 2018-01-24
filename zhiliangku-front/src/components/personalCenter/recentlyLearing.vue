@@ -5,13 +5,14 @@
         <div class="font14pl5A646E">{{item.create_time}}</div>
         <div class="font20pl3a3c50">{{item.create_time_year}}</div>
       </div>
-      <courseli :config="{tag:'已完成：'}" :styleData="courseliData" :mainData="item" @clickButton="jj()"></courseli>
+      <courseli :config="{tag:'已完成：',buttonStr:'继续学习'}" :styleData="courseliData" :mainData="item" @clickButton="learn(item)"></courseli>
     </div>
   </div>
 </template>
-
 <script>
   import courseli from './courseLi'
+  import func from '../../assets/js/commen/func'
+  Vue.prototype.$func = func;
   export default {
     name: 'HelloWorld',
     data() {
@@ -25,21 +26,28 @@
             'margin-left': '232px'
           },
         },
-          mainData: {}
+        mainData: {}
       }
     },
     methods: {
-      jj() {
-        console.log(11111)
+      learn(item) {
+        var type = item.last_type,
+          courseId = item.last_course_id,
+          videoId = item.last_video_id;
+        this.$func.goCourse(type, courseId, videoId)
+      },
+      getData() {
+        this.$get('/personal_center/course/learn_recently?custom_user_id=' + localStorage.uid).then(res => {
+          this.$fn.addString(this.$myConst.httpUrl, res.data.data, 'course_img')
+          this.$fn.exchangeArrayObjectKey(res.data.data, 'course_name', 'company')
+          this.$fn.exchangeArrayObjectKey(res.data.data, 'course_img', 'logo')
+          this.mainData = res.data.data;
+          console.log(res)
+        })
       }
     },
     created() {
-      this.$get('/personal_center/course/learn_recently?custom_user_id=' + localStorage.uid).then(res => {
-        this.$fn.addString(this.$myConst, res.data.data, 'course_img')
-        this.$fn.exchangeArrayObjectKey(res.data.data, 'course_name', 'company')
-        this.mainData = res.data.data;
-        console.log(res)
-      })
+      this.getData(0)
     },
     components: {
       courseli: courseli,
