@@ -40,6 +40,7 @@
               :mainData="item"
               ></hot-course>
         </container>
+        <div v-if="!havenoData" class="fontcenter havenoData">暂无数据</div>
         <!-- 每次数据变化，极有可能触发@change时间，为了避免此类事件发生，则需要主动触发该组件更新，让key发生变化 -->
         <pager :key="pagerKey" :mainData="pagerData"></pager>
   </div>
@@ -63,7 +64,8 @@ export default {
         technology:0,
         page_number:'',
         pagerData:{},
-        pagerKey:''
+        pagerKey:'',
+        havenoData:false
     };
   },
   methods:{
@@ -105,7 +107,9 @@ export default {
                   }
               }
           }
+          this.havenoData=res.data.data.length;
           this.allData=res.data;
+
         //   该函数旨在整理pager所需要的数据
           this.OrganizePagerData();
           console.log(res)
@@ -134,6 +138,9 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.havenoData{
+    height: 100px;
+}
 .courseSelect {
   padding-top: 60px;
   padding-bottom: 40px;
