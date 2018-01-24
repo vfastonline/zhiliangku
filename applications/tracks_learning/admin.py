@@ -47,6 +47,9 @@ class CourseAdmin(admin.ModelAdmin):
         if css_class:
             return {'class': css_class}
 
+    class Media:
+        js = tinymce_js
+
 
 @admin.register(CoursePath)
 class CoursePathAdmin(admin.ModelAdmin):
