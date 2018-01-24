@@ -34,7 +34,7 @@ class CourseCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', "recommend", 'lecturer', 'course_img', "prerequisites", "learn")
+    list_display = ('id', 'name', "recommend", 'lecturer', 'course_img', "prerequisites", "learn", "update_time")
     search_fields = ('name',)
     list_filter = ('recommend',)
     filter_horizontal = ('tech',)
@@ -46,6 +46,21 @@ class CourseAdmin(admin.ModelAdmin):
         }.get(obj.recommend)
         if css_class:
             return {'class': css_class}
+
+    fieldsets = [
+
+        (None, {'fields': ['name', "recommend", 'lecturer', 'course_img']}),
+
+        ('先修要求', {
+            'classes': ('collapse',),  # Specify fieldset classes here
+            'fields': ['prerequisites']}),
+        ('你将学到什么', {
+            'classes': ('collapse',),
+            'fields': ['learn']}),
+    ]
+
+    class Media:
+        js = tinymce_js
 
 
 @admin.register(CoursePath)
@@ -94,6 +109,9 @@ class VideoAdmin(admin.ModelAdmin):
         ('保利威视', {
             'classes': ('suit-tab', 'suit-tab-polyv',),
             'fields': ['vid', 'data']}),
+        ('描述', {
+            'classes': ('collapse',),  # Specify fieldset classes here
+            'fields': ['desc']}),
     ]
     suit_form_tabs = (('general', '一般'), ('live', '直播'), ('notes', '讲师笔记'), ('polyv', '保利威视回调'))
 

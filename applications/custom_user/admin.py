@@ -35,7 +35,7 @@ class CustomUserPathAdmin(admin.ModelAdmin):
 
 @admin.register(CustomUserCourse)
 class CustomUserCourseAdmin(admin.ModelAdmin):
-    list_display = ('id', 'custom_user', "courses")
+    list_display = ('id', 'custom_user', "courses", "create_time")
     search_fields = ('custom_user__nickname',)
     filter_horizontal = ('course',)
     form = CustomUserCourseForm

@@ -56,7 +56,7 @@ class VideoList(View):
                     video_dict["sequence"] = one_video.sequence
                     video_dict["desc"] = one_video.desc
                     video_dict["is_learned"] = 0
-                    video_dict["vid"] = one_video.vid
+                    video_dict["vid"] = one_video.vid if one_video.vid else ""
                     duration_str = ""
                     if one_video.duration:
                         m, s = divmod(one_video.duration, 60)
@@ -76,8 +76,12 @@ class VideoList(View):
                             if one_video.live_end_time else ""
                     # 补全是否学习状态
                     if one_video.type in ["1", "2"]:  # 点播、直播回放
-                        if WatchRecord.objects.filter(video=one_video, user_id=custom_user_id).exists():
+                        watchrecords = WatchRecord.objects.filter(video=one_video, user_id=custom_user_id)
+                        if watchrecords.exists():
                             video_dict["is_learned"] = 1
+                        if watchrecords.filter(status=1).exists():
+                            video_dict["is_learned"] = 99
+
                     if one_video.type == "4":  # 习题
                         pass
 
