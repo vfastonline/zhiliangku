@@ -3,7 +3,10 @@
     <div  class="rc-pi resumewidth incenter">
       <div class="rc-pi-container1">
         <div class="rc-pi-content ">
-          <img class="rc-pic-img floatl round" src="../../assets/img/user-icon.jpg" alt="">
+           <el-upload class="rc-pic-img floatl round" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <img class="rc-pic-img floatl round"  v-if="imgsrc" :src="imgsrc"   alt="">
+          </el-upload>
           <div class="rc-pic-word">
             <div @click="showeditor=!showeditor" class="pointer rc-pic-editor">
               <img  class="imgmiddle imgr" src="../../assets/img/icons/个人中心和积分商城图标/简历_铅笔.svg" alt="">编辑</div>
@@ -43,9 +46,25 @@ import editor from './resumeContent0.0'
     data() {
       return {
         showeditor:false,
+        imgsrc:'/api/media/custom_user_avatar/21/20171222152244_902.jpg'
       }
     },
     methods:{
+      handleAvatarSuccess(res, file) {
+        this.imgsrc = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
+      },
       age(){
         var year=new Date().getFullYear();
         if(this.mainData.birthday){

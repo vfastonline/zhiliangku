@@ -49,6 +49,7 @@
           signature: this.value2
         }).then(res => {
           if (!res.data.err) {
+            Bus.$emit('refreshPersonalData')
             this.$notify({
               type: 'success',
               message: '已为您设置成功',

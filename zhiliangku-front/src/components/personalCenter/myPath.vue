@@ -1,22 +1,25 @@
 <template>
-<div>
-  <courseli v-for="(item,index) in mainData" 
-    :key="index" :config="{tag:'已完成'}" :styleData="courseliData" :mainData="item"
-      @clickButton="jj()"></courseli>
-      </div>
+  <div>
+    <courseli v-for="(item,index) in mainData" :key="index" :config="{tag:'已完成',buttonStr:'继续学习'}" :styleData="courseliData"
+      :mainData="item" @clickButton="learn()"></courseli>
+  </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+
+
 </style>
 <script>
   import courseli from './courseLi'
+  import func from '../../assets/js/commen/func'
+  Vue.prototype.$func = func;
   export default {
     name: 'HelloWorld',
     data() {
       return {
         courseliData: {
           job: '',
-          course:'1',
+          course: '1',
           imgStyle: {
             width: '160px',
             height: '90px'
@@ -25,19 +28,22 @@
             'margin-left': '232px'
           }
         },
-        mainData:{}
+        mainData: {}
       }
     },
     methods: {
-      jj() {
-        console.log(11111)
-      }
+      learn(item) {
+        var type = item.last_type,
+          courseId = item.last_course_id,
+          videoId = item.last_video_id;
+        this.$func.goCourse(type, courseId, videoId)
+      },
     },
-     created() {
+    created() {
       this.$get('/personal_center/course/mypath?custom_user_id=' + localStorage.uid).then(res => {
         this.$fn.exchangeArrayObjectKey(res.data.data, 'name', 'company')
-        this.$fn.exchangeArrayObjectKey(res.data.data, 'path_img', 'course_img')
-        this.$fn.addString(this.$myConst, res.data.data, 'course_img')
+        this.$fn.exchangeArrayObjectKey(res.data.data, 'path_img', 'logo')
+        this.$fn.addString(this.$myConst.httpUrl, res.data.data, 'logo')
         this.mainData = res.data.data;
       })
     },

@@ -92,6 +92,8 @@
   </div>
 </template>
 <script>
+import func from '../../assets/js/commen/func'
+Vue.prototype.$func=func;
   export default {
     name: 'HelloWorld',
     data() {
@@ -144,6 +146,7 @@
           var obj = {};
           obj.id = this.allData.last_time_learn_id;
           obj.type = this.allData.last_time_learn_type;
+          obj.vid=this.allData.vid;
           this.goPages(obj)
         } else {
           if (!this.allData.container[0].data[0]) {
@@ -161,21 +164,7 @@
             return
           }
         }
-        switch (obj.type * 1) {
-          case 1:
-          case 2:
-            window.location.href = '/tracks/video/detail/?course_id=' + this.allData.id + '&video_id=' + obj.id +
-              '#/note';
-            break;
-          case 3:
-            window.location.href = '/tracks/live/detail/?course_id=' + this.allData.id + '&video_id=' + obj.id
-            break;
-          case 4:
-            window.location.href = '/exercise/list/?course_id=' + this.allData.id + '&video_id=' + obj.id;
-            break;
-          default:
-            break;
-        }
+        this.$func.goCourse(obj.type,this.allData.id,obj.id)
       },
       intercept() {
 
