@@ -76,8 +76,12 @@ class VideoList(View):
                             if one_video.live_end_time else ""
                     # 补全是否学习状态
                     if one_video.type in ["1", "2"]:  # 点播、直播回放
-                        if WatchRecord.objects.filter(video=one_video, user_id=custom_user_id).exists():
+                        watchrecords = WatchRecord.objects.filter(video=one_video, user_id=custom_user_id)
+                        if watchrecords.exists():
                             video_dict["is_learned"] = 1
+                        if watchrecords.filter(status=1).exists():
+                            video_dict["is_learned"] = 99
+
                     if one_video.type == "4":  # 习题
                         pass
 
