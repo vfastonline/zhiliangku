@@ -145,7 +145,7 @@ class Video(models.Model):
     )
     section = models.ForeignKey(Section, verbose_name='所属章节', related_name='Videos', blank=True, null=True)
     type = models.CharField('类型', max_length=1, choices=TYPE)
-    name = models.CharField('视频/习题名称', max_length=255, unique=True)
+    name = models.CharField('视频/习题名称', max_length=255)
     sequence = models.PositiveIntegerField('显示顺序', default=1, validators=[MinValueValidator(1)],
                                            help_text="从1开始，默认：1")
     duration = models.PositiveIntegerField('总时长(秒)', default=0, help_text="视频成功上传后，由后台补全；单位：秒")
