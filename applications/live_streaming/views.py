@@ -27,7 +27,7 @@ class IndexLiveList(View):
                     "start_time": one.live_start_time.strftime("%H:%M") if one.live_start_time else "",
                 }
                 if one.live_start_time and one.live_end_time:
-                    if (one.live_start_time > timezone.now()): #or (one.live_end_time < timezone.now()):
+                    if (one.live_start_time > timezone.now()) or (one.live_end_time < timezone.now()):
                         one_dict.update({"status": "end"})
                 else:
                     one_dict.update({"status": "end"})
