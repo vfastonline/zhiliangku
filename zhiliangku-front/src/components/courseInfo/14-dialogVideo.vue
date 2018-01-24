@@ -1,7 +1,7 @@
 <template>
   <div class="path-list-dialog-video">
-    <el-dialog  :visible.sync="centerDialogVisible" width="80%">
-      <div id="e8888b74d1229efec6b4712e17cb6b7a_e">
+    <el-dialog @open="openPlayer()" @close="closePlayer()"  :visible.sync="centerDialogVisible" width="80%">
+      <div v-if="showPlayer" id="e8888b74d1229efec6b4712e17cb6b7a_e">
       </div>
     </el-dialog>
   </div>
@@ -19,13 +19,21 @@
       return {
         centerDialogVisible: false,
         mainData: {},
-        zhiliangkuplayer:''
+        zhiliangkuplayer:'',
+        showPlayer:false
       }
     },
     props: {
       mainData:Object
     },
     methods: {
+      openPlayer(){
+        this.showPlayer=true;
+      },
+      closePlayer(){
+        this.showPlayer=false;
+        this.zhiliangkuplayer=false;
+      },
        video(vid) {
          if(this.zhiliangkuplayer){return}
          var element=document.querySelector('#e8888b74d1229efec6b4712e17cb6b7a_e');
