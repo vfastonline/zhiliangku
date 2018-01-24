@@ -1,6 +1,8 @@
 <template>
   <div class="beforeAdd">
-    <div class="ba-header flexstartcenter" :style="{'background-image':'url(' +allData.course_img +')'}">
+    <div class="blur-background index1" :style="{'background-image':'url(' +allData.course_img +')'}"></div>
+    <div class="ba-header index10 relative flexstartcenter" >
+      
       <div class="font36plffffff">{{allData.name}}
         <img @click="collect()" v-if="!allData.is_collect" class="bah-star pointer" src="../../assets/img/icons/path+路线+课程_图标/课程详情_收藏_空心.svg"
           alt="">
@@ -197,19 +199,23 @@
     margin-right: 18px;
     vertical-align: middle;
   }
-
+  .blur-background{
+    position: absolute;
+    width:100%;
+    height: 216px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-filter: blur(3px);
+    /* Chrome, Opera */
+    -moz-filter: blur(3px);
+    -ms-filter: blur(3px);
+    filter: blur(3px);
+    overflow: hidden;
+  }
   .ba-header {
     width: 100%;
     height: 216px;
-    background: #cccccc;
-    background-repeat: no-repeat;
-    background-size: cover;
-    // -webkit-filter: blur(10px);
-    /* Chrome, Opera */
-    // -moz-filter: blur(10px);
-    // -ms-filter: blur(10px);
-    // filter: blur(10px);
-    /* padding-bottom:24px; */
+    background:rgba(0, 0, 0, 0.3);
   }
 
   .ba-header>div {
