@@ -7,14 +7,15 @@ from applications.custom_user.model_form import *
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'nickname', "sex", 'role', "position", 'avatar', "receiver", "address", "signature", "integral",)
+        'id', 'nickname', "sex", 'role', "position", 'avatar', "receiver", "address", "signature", "integral",
+        "create_time")
     search_fields = ('nickname',)
     list_filter = ('role', "sex")
 
 
 @admin.register(CustomUserAuths)
 class CustomUserAuthsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'custom_user_id', 'identity_type', 'identifier', "credential", "status")
+    list_display = ('id', 'custom_user_id', 'identity_type', 'identifier', "credential", "status", "create_time")
     search_fields = ('custom_user_id__nickname', "identity_type",)
     list_filter = ('status',)
     form = CustomUserAuthsForm

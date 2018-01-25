@@ -39,6 +39,7 @@ class CustomUser(models.Model):
     contact_number = models.CharField('联系电话', max_length=255, blank=True, null=True, default="")
     signature = models.CharField('个性签名', max_length=255, blank=True, null=True)
     integral = models.PositiveIntegerField("积分", default=10)
+    create_time = models.DateTimeField(verbose_name='创建时间', default=timezone.now)
 
     def __unicode__(self):
         return ",".join([self.nickname, str(self.id), str(self.get_role_display())])
@@ -47,6 +48,7 @@ class CustomUser(models.Model):
         db_table = 'CustomUser'
         verbose_name = "基础信息"
         verbose_name_plural = "基础信息"
+        ordering = ["-create_time"]
 
 
 class CustomUserAuths(models.Model):
@@ -62,6 +64,7 @@ class CustomUserAuths(models.Model):
     identifier = models.CharField('唯一标识', max_length=255, help_text="手机号、邮箱、用户名或第三方应用的唯一标识。")
     credential = models.CharField('密码凭证', max_length=255, help_text="站内的保存密码，站外的不保存或保存token。")
     status = models.BooleanField("是否激活", default=True)
+    create_time = models.DateTimeField(verbose_name='创建时间', default=timezone.now)
 
     def __unicode__(self):
         return self.identity_type
@@ -70,7 +73,7 @@ class CustomUserAuths(models.Model):
         db_table = 'CustomUserAuths'
         verbose_name = "授权信息"
         verbose_name_plural = "授权信息"
-        ordering = ["custom_user_id"]
+        ordering = ["-create_time", "custom_user_id"]
 
 
 class CustomUserPath(models.Model):
