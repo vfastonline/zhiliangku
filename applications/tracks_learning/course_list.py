@@ -286,6 +286,7 @@ class CourseDetailInfo(View):
                     detail["last_time_learn"] = summarize_dict.get("last_time_learn")  # 最近学习视频名称
                     detail["last_time_learn_id"] = summarize_dict.get("last_time_learn_id")  # 最近学习视频ID
                     detail["last_time_learn_type"] = summarize_dict.get("last_time_learn_type")  # 最近学习视频类型
+                    detail["vid"] = summarize_dict.get("vid")  # 最近学习视频类型
 
                     # 是否收藏
                     detail["is_collect"] = 0  # 用户是否收藏，1：收藏，0：未收藏
