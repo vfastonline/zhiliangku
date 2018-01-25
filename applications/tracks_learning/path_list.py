@@ -138,7 +138,7 @@ class PathDetailInfo(View):
 
                     # 汇总路线完成情况
                     if custom_user_id:
-                        summarize_dict = self.summarize(custom_user_id, path_obj)
+                        summarize_dict = user_path_summarize(custom_user_id, path_obj)
                         detail.update(summarize_dict)
 
             result_dict["data"] = detail
@@ -150,52 +150,89 @@ class PathDetailInfo(View):
         finally:
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
-    @staticmethod
-    def summarize(custom_user_id, path_obj):
-        summarize_dict = {
-            "learn_time_consum": "",  # 学习耗时
-            "path_complete_schedule": 0,  # 路线完成进度
-            "complete_number": 0,  # 完成节数
-            "participate": False,  # 用户参与了该路线
-        }
-        try:
-            customuserpaths = CustomUserPath.objects.filter(custom_user__id=custom_user_id, path=path_obj)
-            if not customuserpaths.exists():
-                return
-            summarize_dict["participate"] = True
-            coursecategorys = CourseCategory.objects.filter(path_stage__in=path_obj.PathStage.all())
-            course_list = list()  # 路线下所有课程
-            for one in coursecategorys:
-                course_list.extend(list(one.courses.all()))
-            course_list = list(set(course_list))
 
-            # 汇总学习耗时
-            watch_total_time_sum = WatchRecord.objects.filter(course__in=course_list, user_id=custom_user_id).values(
-                "video_process").aggregate(Sum('video_process')).get("video_process__sum")
-            m, s = divmod(watch_total_time_sum, 60)
-            total_time_str = "%d分%d秒" % (m, s)
-            summarize_dict["learn_time_consum"] = total_time_str
+def user_path_summarize(custom_user_id, path_obj):
+    """汇总路径学习情况
+    :param custom_user_id:用户ID
+    :param path_obj:路径对象
+    :return:
+    """
+    summarize_dict = {
+        "learn_time_consum": "",  # 学习耗时
+        "path_complete_schedule": 0,  # 路线完成进度
+        "complete_number": 0,  # 完成节数
+        "participate": False,  # 用户参与了该路线
+        "last_course_id": "",  # 最近一次学习课程ID
+        "last_video_type": "",  # 最近一次学习视频类型
+        "last_video_id": "",  # 最近一次学习视频ID
+        "vid": "",  # 最近一次学习视频vid
+        "video_process": 0,  # 最近一次学习视频观看进度
+    }
+    try:
+        # 是否参与该路径
+        customuserpaths = CustomUserPath.objects.filter(custom_user__id=custom_user_id, path=path_obj)
+        if not customuserpaths.exists():
+            return
 
-            # 汇总完成节数
-            filter_param = {
-                "course__in": course_list,
-                "user_id": custom_user_id,
-                "status": 1
-            }
-            complete_number = WatchRecord.objects.filter(**filter_param).count()
-            summarize_dict["complete_number"] = complete_number
+        summarize_dict["participate"] = True
 
-            # 汇总路线完成进度
-            # 所有课程总时长
-            duration_sum = Video.objects.filter(section__course__in=course_list).aggregate(
-                Sum('duration')).get("duration__sum")
-            schedule = float("%.2f" % (float(watch_total_time_sum) / float(duration_sum)))
-            summarize_dict["path_complete_schedule"] = schedule
-        except:
-            traceback.print_exc()
-            logging.getLogger().error(traceback.format_exc())
-        finally:
-            return summarize_dict
+        # 获取路线下所有课程
+        course_list = list()
+        coursecategorys = CourseCategory.objects.filter(path_stage__in=path_obj.PathStage.all())
+        for one in coursecategorys:
+            course_list.extend(list(one.courses.all()))
+        course_list = list(set(course_list))
+
+        # 观看记录
+        watchrecord_objs = WatchRecord.objects.filter(course__in=course_list, user_id=custom_user_id)
+
+        # 汇总学习耗时
+        watch_total_time_sum = watchrecord_objs.values(
+            "video_process").aggregate(Sum('video_process')).get("video_process__sum")
+        m, s = divmod(watch_total_time_sum, 60)
+        h, m = divmod(m, 60)
+        total_time_str = "%02d:%02d:%02d" % (h, m, s)
+        summarize_dict["learn_time_consum"] = total_time_str
+
+        # 汇总完成节数
+        complete_number = watchrecord_objs.filter(status=1).count()
+        summarize_dict["complete_number"] = complete_number
+
+        # 汇总路线完成进度
+        # 所有课程总时长
+        duration_sum = Video.objects.filter(section__course__in=course_list).aggregate(
+            Sum('duration')).get("duration__sum")
+        schedule = float("%.2f" % (float(watch_total_time_sum) / float(duration_sum)))
+        summarize_dict["path_complete_schedule"] = schedule
+
+        # 最近一次观看记录
+        last_watchs = watchrecord_objs.filter(status=0).order_by("-create_time")
+        if last_watchs.exists():
+            last_watch = last_watchs.first()
+            summarize_dict["last_course_id"] = last_watch.course.id
+            summarize_dict["last_video_type"] = last_watch.video.type
+            summarize_dict["last_video_id"] = last_watch.video.id
+            summarize_dict["vid"] = last_watch.video.vid if last_watch.video.vid else ""
+            summarize_dict["video_process"] = last_watch.video_process
+        else:  # 默认路径下第一个课程第一个视频
+            if course_list:
+                last_course = course_list[0]
+                summarize_dict["last_course_id"] = last_course.id
+
+                # 默认最近最近学习第一章第一个视频
+                course_sections = last_course.Section.order_by("sequence")
+                if course_sections:
+                    last_time_learn_objs = course_sections.first().Videos.order_by("sequence")
+                    if last_time_learn_objs:
+                        last_video = last_time_learn_objs.first()
+                        summarize_dict["last_video_type"] = last_video.type
+                        summarize_dict["last_video_id"] = last_video.id
+                        summarize_dict["vid"] = last_video.vid if last_video.vid else ""
+    except:
+        traceback.print_exc()
+        logging.getLogger().error(traceback.format_exc())
+    finally:
+        return summarize_dict
 
 
 @class_view_decorator(user_login_required)
