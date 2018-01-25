@@ -383,7 +383,8 @@ def summarize_course_progress(custom_user_id, course_id):
             # 计算剩余时长
             if duration_sum:
                 m, s = divmod(duration_sum, 60)
-                total_time_str = "%d分%d秒" % (m, s)
+                h, m = divmod(m, 60)
+                total_time_str = "%d小时 %d分钟 %d秒" % (h, m, s)
                 result_dict["total_time"] = total_time_str
                 if watch_total_time_sum:
                     one_watchrecord = watchrecords.first()
