@@ -3,13 +3,13 @@ import json
 import logging
 import traceback
 
-from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
 
 from applications.interview_question.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import str_to_int
 
 
 @class_view_decorator(user_login_required)
@@ -21,7 +21,6 @@ class ExaminationQuestionList(View):
         return render(request, template_name, {})
 
 
-# @class_view_decorator(user_login_required)
 class ExaminationQuestionListInfo(View):
     """所有面试题"""
 
@@ -29,8 +28,8 @@ class ExaminationQuestionListInfo(View):
         result_dict = {"err": 0, "msg": "success", "data": list(), "paginator": dict()}
         try:
             # 按过滤条件查询
-            enterprise_id = request.GET.get('enterprise_id', 0)  # 企业ID
-            page = self.request.GET.get("page", 1)  # 页码
+            enterprise_id = str_to_int(request.GET.get('enterprise_id', 0))  # 企业ID
+            # page = self.request.GET.get("page", 1)  # 页码
 
             data_list = list()
             questions = ExaminationQuestion.objects.filter(enterprise_id=enterprise_id)
@@ -81,16 +80,16 @@ class ExaminationQuestionListInfo(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class ExaminationQuestionAnswerInfo(View):
     """面试题正确答案"""
 
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
-            examination_question_id = request.GET.get('examination_question_id', 0)  # 面试题ID
-            custom_user_id = self.request.GET.get('custom_user_id', 0)  # 用户ID
-            option = self.request.GET.get("option", 0)  # 用户选择选项
+            examination_question_id = str_to_int(request.GET.get('examination_question_id', 0))  # 面试题ID
+            custom_user_id = str_to_int(self.request.GET.get('custom_user_id', 0))  # 用户ID
+            option = self.request.GET.get("option", "")  # 用户选择选项
 
             if examination_question_id and custom_user_id:
                 questions = ExaminationQuestion.objects.filter(id=examination_question_id)

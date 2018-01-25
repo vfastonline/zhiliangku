@@ -6,11 +6,12 @@ from django.views.generic import View
 
 from applications.custom_user.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import str_to_int
 
 """职业信息"""
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class PostMatch(View):
     """岗位匹配度"""
 
@@ -21,7 +22,7 @@ class PostMatch(View):
             "data": list(),
         }
         try:
-            custom_user_id = request.GET.get('custom_user_id', 0)  # 用户ID
+            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
 
             for one in xrange(3):
                 one_dict = dict()
@@ -40,7 +41,7 @@ class PostMatch(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class PostMatchDetail(View):
     """岗位匹配度详情"""
 
@@ -51,8 +52,8 @@ class PostMatchDetail(View):
             "data": dict(),
         }
         try:
-            custom_user_id = request.GET.get('custom_user_id', 0)  # 用户ID
-            post_id = request.GET.get('post_id', 0)  # 岗位ID
+            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+            post_id = str_to_int(request.GET.get('post_id', 0))  # 岗位ID
             data_dict = dict()
             data_dict["treatment_range"] = "6K-8k"
             data_dict["company_info"] = "移动互联网，游戏/上市公司/北京/全职"
@@ -74,7 +75,7 @@ class PostMatchDetail(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class OverallQualityScore(View):
     """综合素质评分"""
 
@@ -85,7 +86,7 @@ class OverallQualityScore(View):
             "data": list(),
         }
         try:
-            custom_user_id = request.GET.get('custom_user_id', 0)  # 用户ID
+            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
             result_dict["data"] = [0.7, 0.98, 0.87, 0.82, 0.64, 0.69]
         except:
             traceback.print_exc()
@@ -96,7 +97,7 @@ class OverallQualityScore(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class FocusOnMyBusiness(View):
     """关注我的企业"""
 
@@ -107,7 +108,7 @@ class FocusOnMyBusiness(View):
             "data": list(),
         }
         try:
-            custom_user_id = request.GET.get('custom_user_id', 0)  # 用户ID
+            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
             for one in xrange(3):
                 one_dict = dict()
                 one_dict["company"] = "凯奇谷"

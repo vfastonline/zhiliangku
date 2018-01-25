@@ -6,7 +6,7 @@ from django.views.generic import View
 
 from applications.personal_center.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
-from lib.util import get_kwargs
+from lib.util import get_kwargs, str_to_int
 
 """我的简历"""
 
@@ -43,7 +43,8 @@ def get_resume_detail_info(custom_user_id):
             resume_dict = resumes[0]
             career_objective_id = resume_dict.get("career_objective_id", 0)
             if career_objective_id:
-                career_objective_list = list(CareerObjective.objects.filter(id=career_objective_id).values("expect_salary"))
+                career_objective_list = list(
+                    CareerObjective.objects.filter(id=career_objective_id).values("expect_salary"))
                 if career_objective_list:
                     resume_dict["expect_salary"] = career_objective_list[0].get("expect_salary")
 
@@ -60,7 +61,7 @@ def get_resume_detail_info(custom_user_id):
         return result_dict
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class ResumeDetailInfo(View):
     """全量--简历信息"""
 
@@ -71,7 +72,7 @@ class ResumeDetailInfo(View):
             "data": dict(),
         }
         try:
-            custom_user_id = request.GET.get('custom_user_id', 0)  # 用户ID
+            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
             result_dict = get_resume_detail_info(custom_user_id)
         except:
             traceback.print_exc()
@@ -82,7 +83,7 @@ class ResumeDetailInfo(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class ResumeDelete(View):
     """删除简历信息"""
 
@@ -91,8 +92,9 @@ class ResumeDelete(View):
         try:
             param_dict = json.loads(request.body)
             resume_type = param_dict.get("resume_type", "")
-            custom_user_id = param_dict.get("custom_user_id", 0)
-            pk_id = param_dict.get("pk_id", 0)
+            custom_user_id = str_to_int(param_dict.get("custom_user_id", 0))
+            pk_id = str_to_int(param_dict.get("pk_id", 0))
+
             if resume_type and pk_id:
                 resume_type_model = resume_model_dict.get(resume_type)
                 if resume_type_model:
@@ -113,7 +115,7 @@ class ResumeDelete(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class ResumeUpdate(View):
     """修改简历信息"""
 
@@ -121,9 +123,9 @@ class ResumeUpdate(View):
         result_dict = {"err": 0, "msg": "修改成功"}
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = param_dict.get("custom_user_id", 0)
+            custom_user_id = str_to_int(param_dict.get("custom_user_id", 0))
             resume_type = param_dict.get("resume_type", "")
-            pk_id = param_dict.get("pk_id", 0)
+            pk_id = str_to_int(param_dict.get("pk_id", 0))
             resume_info_dict = param_dict.get("resume_info_dict", {})
 
             career_objective_id = resume_info_dict.get("career_objective_id", 0)
@@ -152,7 +154,7 @@ class ResumeUpdate(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class ResumeAdd(View):
     """增加不同类型简历信息"""
 
@@ -162,7 +164,7 @@ class ResumeAdd(View):
             param_dict = json.loads(request.body)
             resume_type = param_dict.get("resume_type", "")
             resume_info_dict = param_dict.get("resume_info_dict", {})
-            custom_user_id = param_dict.get("custom_user_id", 0)
+            custom_user_id = str_to_int(param_dict.get("custom_user_id", 0))
 
             career_objective_id = resume_info_dict.get("career_objective_id", 0)
             user_obj = None

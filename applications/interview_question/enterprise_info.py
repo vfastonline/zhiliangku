@@ -114,7 +114,7 @@ class EnterpriseInfoDetailInfo(View):
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
-            enterpriseinfo_id = self.request.GET.get("enterpriseinfo_id", 0)  # 企业面试题ID
+            enterpriseinfo_id = str_to_int(self.request.GET.get("enterpriseinfo_id", 0))  # 企业面试题ID
             enterpriseinfos = EnterpriseInfo.objects.filter(id=enterpriseinfo_id)
             if enterpriseinfos.exists():
                 enterpriseinfo = enterpriseinfos.first()

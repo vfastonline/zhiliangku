@@ -10,6 +10,7 @@ from django.views.generic import View
 
 from applications.integral.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import str_to_int
 
 
 @class_view_decorator(user_login_required)
@@ -21,7 +22,6 @@ class Redeem(View):
         return render(request, template_name, {})
 
 
-# @class_view_decorator(user_login_required)
 class GetAllGoods(View):
     """所有商品"""
 
@@ -59,14 +59,13 @@ class GetAllGoods(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
 class GoodsDetail(View):
     """商品详情"""
 
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": {}}
         try:
-            goods_id = self.request.GET.get("goods_id", 0)  # 商品ID
+            goods_id = str_to_int(self.request.GET.get("goods_id", 0))  # 商品ID
             goods = Goods.objects.filter(id=goods_id)
             goods_dict = {}
             if goods.exists():
@@ -92,14 +91,14 @@ class GoodsDetail(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class GetExchangeRecords(View):
     """兑换记录"""
 
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": list()}
         try:
-            custom_user_id = self.request.GET.get('custom_user_id', 0)  # 用户ID
+            custom_user_id = str_to_int(self.request.GET.get('custom_user_id', 0))  # 用户ID
             exchangerecords = ExchangeRecords.objects.filter(custom_user_id__id=custom_user_id)
             exchangerecords_list = list()
             if exchangerecords.exists():
@@ -123,7 +122,7 @@ class GetExchangeRecords(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class ExchangeGoods(View):
     """兑换商品"""
 
@@ -131,8 +130,8 @@ class ExchangeGoods(View):
         result_dict = {"err": 0, "msg": "success"}
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = param_dict.get('custom_user_id', 0)  # 用户ID
-            goods_id = param_dict.get("goods_id", 0)  # 商品ID
+            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 用户ID
+            goods_id = str_to_int(param_dict.get("goods_id", 0))  # 商品ID
 
             customuser = CustomUser.objects.filter(id=custom_user_id)
             goods = Goods.objects.filter(id=goods_id)

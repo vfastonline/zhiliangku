@@ -9,8 +9,9 @@ from django.shortcuts import render
 from django.views.generic import View
 
 from applications.interview_question.models import *
-from lib.permissionMixin import class_view_decorator, user_login_required
 from applications.tracks_learning.models import Course
+from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import str_to_int
 
 
 @class_view_decorator(user_login_required)
@@ -22,7 +23,7 @@ class EnterpriseRsult(View):
         return render(request, template_name, {})
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class EnterpriseRsultInfo(View):
     """面试结果--数据"""
 
@@ -30,8 +31,8 @@ class EnterpriseRsultInfo(View):
         result_dict = {"err": 0, "msg": "success", "data": dict()}
         try:
             result_data = dict()
-            custom_user_id = self.request.GET.get('custom_user_id', 0)  # 用户ID
-            enterpriseinfo_id = self.request.GET.get("enterpriseinfo_id", 0)  # 企业ID
+            custom_user_id = str_to_int(self.request.GET.get('custom_user_id', 0))  # 用户ID
+            enterpriseinfo_id = str_to_int(self.request.GET.get("enterpriseinfo_id", 0))  # 企业ID
 
             enterpriseinfos = EnterpriseInfo.objects.filter(id=enterpriseinfo_id)
             if enterpriseinfos.exists():

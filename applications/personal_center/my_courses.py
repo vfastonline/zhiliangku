@@ -9,11 +9,12 @@ from applications.record.models import *
 from applications.tracks_learning.course_list import summarize_course_progress
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import str_to_int
 
 """我的课程"""
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class LearnRecently(View):
     """最近学习"""
 
@@ -24,7 +25,8 @@ class LearnRecently(View):
             "data": list(),
         }
         try:
-            custom_user_id = request.GET.get('custom_user_id', 0)  # 用户ID
+            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+
             watchrecords = WatchRecord.objects.filter(user_id=custom_user_id).order_by("-create_time")
             data_list = list()
             if watchrecords.exists():
@@ -53,7 +55,7 @@ class LearnRecently(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class MyCollect(View):
     """我的收藏"""
 
@@ -64,7 +66,8 @@ class MyCollect(View):
             "data": list(),
         }
         try:
-            custom_user_id = request.GET.get('custom_user_id', 0)  # 用户ID
+            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+
             customusercourses = CustomUserCourse.objects.filter(custom_user_id=custom_user_id)
             data_list = list()
             if customusercourses.exists():
@@ -90,7 +93,7 @@ class MyCollect(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class MyPath(View):
     """我的路径"""
 
@@ -101,7 +104,8 @@ class MyPath(View):
             "data": list(),
         }
         try:
-            custom_user_id = request.GET.get('custom_user_id', 0)  # 用户ID
+            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+            
             customuserpaths = CustomUserPath.objects.filter(custom_user_id=custom_user_id)
             data_list = list()
             if customuserpaths.exists():

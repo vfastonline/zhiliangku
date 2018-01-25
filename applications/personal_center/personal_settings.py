@@ -12,7 +12,7 @@ from lib.util import *
 """个人设置"""
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class UpdateBasicInfo(View):
     """基本信息修改"""
 
@@ -24,7 +24,7 @@ class UpdateBasicInfo(View):
         }
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = param_dict.get('custom_user_id', 0)  # 必填，用户ID
+            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 必填，用户ID
             nickname = param_dict.get('nickname', "")  # 必填，昵称
             sex = param_dict.get('sex')  # 必填，性别
             signature = param_dict.get('signature', "")  # 个性签名
@@ -53,7 +53,7 @@ class UpdateBasicInfo(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class GetUserAccount(View):
     """账号绑定--获取账号"""
 
@@ -64,7 +64,7 @@ class GetUserAccount(View):
             "data": dict(),
         }
         try:
-            custom_user_id = request.GET.get('custom_user_id', 0)  # 用户ID
+            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
             customuserauths = CustomUserAuths.objects.filter(custom_user_id__id=custom_user_id)
             data_dict = dict()
 
@@ -90,7 +90,7 @@ class GetUserAccount(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class AccountBindPhone(View):
     """账号绑定--手机"""
 
@@ -101,7 +101,7 @@ class AccountBindPhone(View):
         }
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = param_dict.get('custom_user_id', 0)  # 用户ID
+            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 用户ID
             phone = param_dict.get('phone', "")  # 手机号
             password = param_dict.get('password')  # 密码
             verify_code = param_dict.get("verify_code")  # 验证码
@@ -167,7 +167,7 @@ class AccountBindPhone(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class AccountBindEmail(View):
     """账号绑定--邮箱"""
 
@@ -178,7 +178,7 @@ class AccountBindEmail(View):
         }
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = param_dict.get('custom_user_id', 0)  # 用户ID
+            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 用户ID
             email = param_dict.get('email', "")  # 邮箱地址
             password = param_dict.get('password')  # 密码
 
@@ -247,7 +247,7 @@ class AccountBindEmail(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class ChangePassword(View):
     """密码设置"""
 
@@ -258,7 +258,7 @@ class ChangePassword(View):
         }
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = param_dict.get('custom_user_id', 0)  # 用户ID
+            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 用户ID
             old_password = param_dict.get('old_password', "")  # 旧密码
             password = param_dict.get('password', "")  # 新密码
 
@@ -289,7 +289,7 @@ class ChangePassword(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class UserAddress(View):
     """收货地址"""
 
@@ -300,7 +300,7 @@ class UserAddress(View):
             "data": dict(),
         }
         try:
-            custom_user_id = request.GET.get('custom_user_id', 0)  # 用户ID
+            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
             customusers = CustomUser.objects.filter(id=custom_user_id)
             data_dict = dict()
 
