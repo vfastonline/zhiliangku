@@ -22,10 +22,9 @@ class CustomUserAvatar(View):
         }
         avatar_type_list = ["custom_user_avatar", "resume_avatar"]
         try:
-            param_dict = json.loads(request.body)
             avatar = request.FILES.get('avatar', None)
-            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 必填，用户ID
-            avatar_type = param_dict.get('avatar_type', None)  # 图片类型
+            custom_user_id = str_to_int(request.POST.get('custom_user_id', 0))  # 必填，用户ID
+            avatar_type = request.POST.get('avatar_type', None)  # 图片类型
 
             if avatar_type not in avatar_type_list:
                 result_dict["err"] = 1
