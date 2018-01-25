@@ -70,7 +70,7 @@ class MyCollect(View):
             if customusercourses.exists():
                 for one in customusercourses.first().course.all():
                     data_dict = dict()
-                    data_dict["course_id"] = one.id
+                    data_dict["last_course_id"] = one.id
                     data_dict["course_name"] = one.name
                     data_dict["course_img"] = one.course_img.url
                     summarize_dict = summarize_course_progress(custom_user_id, one.id)
