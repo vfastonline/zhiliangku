@@ -22,7 +22,7 @@ class CustomUserAvatar(View):
         }
         avatar_type_list = ["custom_user_avatar", "resume_avatar"]
         try:
-            avatar = request.FILES.get('avatar', None)
+            avatar = request.FILES.get('file', None)
             custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 必填，用户ID
             avatar_type = request.GET.get('avatar_type', None)  # 图片类型
 
@@ -43,9 +43,9 @@ class CustomUserAvatar(View):
                 return
 
             # 组装头像存放位置
-            destination = os.path.join(settings.MEDIA_ROOT, 'custom_user_avatar', custom_user_id)
+            destination = os.path.join(settings.MEDIA_ROOT, 'custom_user_avatar', str(custom_user_id))
             if avatar_type == "resume_avatar":
-                destination = os.path.join(settings.MEDIA_ROOT, 'resume_avatar', custom_user_id)
+                destination = os.path.join(settings.MEDIA_ROOT, 'resume_avatar', str(custom_user_id))
 
             # 判断路径是否存在，并创建
             if not os.path.isdir(destination):
@@ -61,7 +61,7 @@ class CustomUserAvatar(View):
                 headfile.write(chunk)
             headfile.close()
 
-            headimg_url = os.path.join("custom_user_avatar", 'custom_user_avatar', custom_user_id, filename)
+            headimg_url = os.path.join("custom_user_avatar", 'custom_user_avatar', str(custom_user_id), filename)
             if avatar_type == "resume_avatar":
                 resume_obj = Resume.objects.filter(custom_user=user).first()
                 headimg_url = os.path.join(settings.MEDIA_ROOT, 'resume_avatar', custom_user_id, filename)
@@ -72,8 +72,9 @@ class CustomUserAvatar(View):
                     Resume.objects.create(custom_user=user, avatar=headimg_url)
                 result_dict["avatar"] = headimg_url
             if avatar_type == "custom_user_avatar":
-                user.avatar = headimg_url
-                user.save()
+                user_obj = user.first()
+                user_obj.avatar = headimg_url
+                user_obj.save()
                 result_dict["avatar"] = headimg_url
         except:
             traceback.print_exc()
