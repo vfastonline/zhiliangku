@@ -287,6 +287,7 @@ class CourseDetailInfo(View):
                     detail["last_time_learn_id"] = summarize_dict.get("last_time_learn_id")  # 最近学习视频ID
                     detail["last_time_learn_type"] = summarize_dict.get("last_time_learn_type")  # 最近学习视频类型
                     detail["vid"] = summarize_dict.get("vid")  # 最近学习视频类型
+                    detail["video_process"] = summarize_dict.get("video_process")  # 最近学习视频观看进度
 
                     # 是否收藏
                     detail["is_collect"] = 0  # 用户是否收藏，1：收藏，0：未收藏
@@ -360,8 +361,9 @@ def summarize_course_progress(custom_user_id, course_id):
         "is_study_record": 0,  # 是否有课程学习记录
         "last_time_learn": "",  # 最近一次学习视频名称
         "last_time_learn_id": "",  # 最近一次学习视频ID
-        "vid": "",  # 最近一次学习视频vid
         "last_time_learn_type": "",  # 最近一次学习视频类型
+        "vid": "",  # 最近一次学习视频vid
+        "video_process": 0,  # 最近一次学习视频观看进度
     }
     try:
         course_objs = Course.objects.filter(id=course_id)
@@ -384,10 +386,11 @@ def summarize_course_progress(custom_user_id, course_id):
                 total_time_str = "%d分%d秒" % (m, s)
                 result_dict["total_time"] = total_time_str
                 if watch_total_time_sum:
-                    last_time_learn = watchrecords.first().video.name  # 上次学到
-                    last_time_learn_id = watchrecords.first().video.id  # 上次学到视频ID
-                    vid = watchrecords.first().video.vid if watchrecords.first().video.vid else ""  # 上次学到视频ID
-                    last_time_learn_type = watchrecords.first().video.type  # 上次学到视频类型
+                    one_watchrecord = watchrecords.first()
+                    last_time_learn = one_watchrecord.video.name  # 上次学到
+                    last_time_learn_id = one_watchrecord.video.id  # 上次学到视频ID
+                    vid = one_watchrecord.video.vid if one_watchrecord.video.vid else ""  # 上次学到视频ID
+                    last_time_learn_type = one_watchrecord.video.type  # 上次学到视频类型
                     remaining_time = duration_sum - watch_total_time_sum
                     schedule = float("%.2f" % (float(watch_total_time_sum) / float(duration_sum)))
                     result_dict["is_study_record"] = 1
@@ -395,6 +398,8 @@ def summarize_course_progress(custom_user_id, course_id):
                     result_dict["last_time_learn_id"] = last_time_learn_id
                     result_dict["last_time_learn_type"] = last_time_learn_type
                     result_dict["vid"] = vid
+                    result_dict["video_process"] = one_watchrecord.video_process
+
                 else:
                     remaining_time = duration_sum
                     schedule = 0
