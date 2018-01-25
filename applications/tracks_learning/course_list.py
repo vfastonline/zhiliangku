@@ -393,8 +393,8 @@ def summarize_course_progress(custom_user_id, course_id):
                     result_dict["is_study_record"] = 1
                     result_dict["last_time_learn"] = last_time_learn
                     result_dict["last_time_learn_id"] = last_time_learn_id
-                    result_dict["vid"] = vid
                     result_dict["last_time_learn_type"] = last_time_learn_type
+                    result_dict["vid"] = vid
                 else:
                     remaining_time = duration_sum
                     schedule = 0
@@ -408,6 +408,7 @@ def summarize_course_progress(custom_user_id, course_id):
                             result_dict["last_time_learn"] = last_time_learn_obj.name  # 上次学到
                             result_dict["last_time_learn_id"] = last_time_learn_obj.id  # 上次学到视频ID
                             result_dict["last_time_learn_type"] = last_time_learn_obj.type  # 上次学到视频类型
+                            result_dict["vid"] = last_time_learn_obj.vid  # 上次学到视频类型
 
                 m, s = divmod(remaining_time, 60)
                 remaining_time_str = "%d分%d秒" % (m, s)
