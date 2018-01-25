@@ -418,7 +418,7 @@ def summarize_course_progress(custom_user_id, course_id):
 
                 m, s = divmod(remaining_time, 60)
                 h, m = divmod(m, 60)
-                remaining_time_str = "02d:%02d:%02d" % (h, m, s)
+                remaining_time_str = "%02d:%02d:%02d" % (h, m, s)
                 result_dict["remaining_time"] = remaining_time_str
                 result_dict["schedule"] = schedule
     except:
