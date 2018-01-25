@@ -18,13 +18,13 @@ class CustomUserAvatar(View):
         result_dict = {
             "err": 0,
             "msg": "success",
-            "data": dict(),
+            "avatar": "",
         }
         avatar_type_list = ["custom_user_avatar", "resume_avatar"]
         try:
             param_dict = json.loads(request.body)
             avatar = request.FILES.get('avatar', None)
-            custom_user_id = param_dict.get('custom_user_id', 0)  # 必填，用户ID
+            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 必填，用户ID
             avatar_type = param_dict.get('avatar_type', None)  # 图片类型
 
             if avatar_type not in avatar_type_list:
@@ -71,11 +71,11 @@ class CustomUserAvatar(View):
                     resume_obj.save()
                 else:
                     Resume.objects.create(custom_user=user, avatar=headimg_url)
-                result_dict["data"]["avatar"] = headimg_url
-            else:
+                result_dict["avatar"] = headimg_url
+            if avatar_type == "custom_user_avatar":
                 user.avatar = headimg_url
                 user.save()
-                result_dict["data"]["avatar"] = headimg_url
+                result_dict["avatar"] = headimg_url
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
