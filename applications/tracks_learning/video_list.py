@@ -78,9 +78,9 @@ class VideoList(View):
                     if one_video.type in ["1", "2"]:  # 点播、直播回放
                         watchrecords = WatchRecord.objects.filter(video=one_video, user_id=custom_user_id)
                         if watchrecords.exists():
-                            video_dict["is_learned"] = 1
-                        if watchrecords.filter(status=1).exists():
                             video_dict["is_learned"] = 99
+                        if watchrecords.filter(status=1).exists():
+                            video_dict["is_learned"] = 1
 
                     if one_video.type == "4":  # 习题
                         pass
