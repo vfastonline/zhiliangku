@@ -23,7 +23,7 @@ class CustomUserAuthsAdmin(admin.ModelAdmin):
 @admin.register(CustomUserPath)
 class CustomUserPathAdmin(admin.ModelAdmin):
     list_display = ('id', 'custom_user', "paths", "create_time")
-    search_fields = ('custom_user__nickname', "paths")
+    search_fields = ('custom_user__nickname', "paths__name")
     filter_horizontal = ('path',)
     form = CustomUserPathForm
 
@@ -36,7 +36,7 @@ class CustomUserPathAdmin(admin.ModelAdmin):
 @admin.register(CustomUserCourse)
 class CustomUserCourseAdmin(admin.ModelAdmin):
     list_display = ('id', 'custom_user', "courses", "create_time")
-    search_fields = ('custom_user__nickname',)
+    search_fields = ('custom_user__nickname', "courses__name")
     filter_horizontal = ('course',)
     form = CustomUserCourseForm
 

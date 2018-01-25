@@ -19,7 +19,7 @@ class GoodsAdmin(admin.ModelAdmin):
 @admin.register(ExchangeRecords)
 class ExchangeRecordsAdmin(admin.ModelAdmin):
     list_display = ('id', 'custom_user', "goods", "ship", 'create_time', "ship_time",)
-    search_fields = ('goods',)
+    search_fields = ('goods__name', "custom_user__nickname")
     list_filter = ('ship',)
 
     def suit_row_attributes(self, obj, request):

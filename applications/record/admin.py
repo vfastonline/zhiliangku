@@ -8,7 +8,8 @@ class WatchRecordAdmin(admin.ModelAdmin):
         'id', 'user', "video", 'course', 'video_process',
         'duration', 'status', 'create_time'
     )
-    search_fields = ('user', 'video', 'course',)
+    search_fields = ('user__nickname', 'video__name', 'course__name',)
+    list_filter = ('status',)
 
     def suit_row_attributes(self, obj, request):
         css_class = {

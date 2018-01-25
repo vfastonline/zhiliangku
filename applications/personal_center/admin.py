@@ -20,7 +20,7 @@ class ResumeAdmin(admin.ModelAdmin):
         "advantage",
         "career_objective",
     )
-    search_fields = ("name", 'years_of_service', "education")
+    search_fields = ("custom_user__nickname", "name", 'years_of_service', "education")
     form = ResumeForm
 
     class Media:
@@ -38,7 +38,7 @@ class CareerObjectiveAdmin(admin.ModelAdmin):
         "expect_salary",
         "industry",
     )
-    search_fields = ('position',)
+    search_fields = ("custom_user__nickname", 'position',)
     form = CareerObjectiveForm
 
 
@@ -53,7 +53,7 @@ class WorkExperienceAdmin(admin.ModelAdmin):
         "end_time",
         "content",
     )
-    search_fields = ('company',)
+    search_fields = ("custom_user__nickname", 'company',)
     form = WorkExperienceForm
 
     class Media:
@@ -73,7 +73,7 @@ class ProjectExperienceAdmin(admin.ModelAdmin):
         "description",
         "performance",
     )
-    search_fields = ('project_name',)
+    search_fields = ("custom_user__nickname", 'name',)
     form = ProjectExperienceForm
 
     class Media:
@@ -92,7 +92,7 @@ class EducationExperienceAdmin(admin.ModelAdmin):
         "end_time",
         "experience",
     )
-    search_fields = ('school',)
+    search_fields = ("custom_user__nickname", 'school',)
     form = EducationExperienceForm
 
     class Media:
