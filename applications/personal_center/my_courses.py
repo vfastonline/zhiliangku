@@ -8,9 +8,9 @@ from applications.custom_user.models import *
 from applications.record.models import *
 from applications.tracks_learning.course_list import summarize_course_progress
 from applications.tracks_learning.models import *
+from applications.tracks_learning.path_list import user_path_summarize
 from lib.permissionMixin import class_view_decorator, user_login_required
 from lib.util import str_to_int
-from applications.tracks_learning.path_list import user_path_summarize
 
 """我的课程"""
 
@@ -99,7 +99,7 @@ class MyPath(View):
         }
         try:
             custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
-            
+
             customuserpaths = CustomUserPath.objects.filter(custom_user_id=custom_user_id)
             data_list = list()
             if customuserpaths.exists():
