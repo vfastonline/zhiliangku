@@ -112,7 +112,7 @@ class FocusOnMyBusiness(View):
             for one in xrange(3):
                 one_dict = dict()
                 one_dict["company"] = "凯奇谷"
-                one_dict["logo"] = "aaa"
+                one_dict["logo"] = "/media/interview_questions/20171227/20171227103821_890.png"
                 one_dict["info"] = "创立于2005年9月，是中国领先的互联网安全软件与互联网服务公司，" \
                                    "曾先后获得过鼎晖创投、红杉资本、高原资本、红点投资、Matrix、IDG等" \
                                    "风险投资商总额高达数千万美元的联合投资"
