@@ -69,13 +69,23 @@ class CustomUserAvatar(View):
                     resume_obj.save()
                 else:
                     Resume.objects.create(custom_user=user, avatar=humbnail)
-                result_dict["avatar"] = Resume.objects.get(custom_user=user).avatar
+                try:
+                    avatar_str = Resume.objects.get(custom_user=user).avatar.url
+                except:
+                    avatar_str = ""
+                    traceback.print_exc()
+                result_dict["avatar"] = avatar_str
             if avatar_type == "custom_user_avatar":
                 user_obj = user.first()
                 user_obj.avatar = humbnail
                 user_obj.save()
 
-                result_dict["avatar"] = user_obj.avatar
+                try:
+                    avatar_str = user_obj.avatar.url
+                except:
+                    avatar_str = ""
+                    traceback.print_exc()
+                result_dict["avatar"] = avatar_str
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
