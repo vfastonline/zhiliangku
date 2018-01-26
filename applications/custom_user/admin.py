@@ -13,7 +13,8 @@ class CustomUserAdmin(admin.ModelAdmin):
     list_filter = ('role', "sex")
 
     def avatars(self, obj):
-        return '<img src="%s" height="24" width="24" />' % (obj.avatar.url)
+        if obj.avatar:
+            return '<img src="%s" height="24" width="24" />' % (obj.avatar.url)
 
     avatars.allow_tags = True
     avatars.short_description = "头像"
