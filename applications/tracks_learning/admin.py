@@ -101,7 +101,7 @@ class VideoAdmin(admin.ModelAdmin):
     list_display = (
         'id', "course", "section", 'name',
         "type", 'sequence', "duration",
-        "live", "live_start_time", "live_end_time", "vid",
+        "lives", "live_start_time", "live_end_time", "vid",
     )
     search_fields = ("section__title", 'name', "live__name", "vid")
     list_filter = ('type',)
@@ -114,6 +114,13 @@ class VideoAdmin(admin.ModelAdmin):
         return ""
 
     course.short_description = "课程"
+
+    def lives(self, obj):
+        if obj.live:
+            return "直播频道：" + obj.lives.name + " 频道号：" + obj.lives.channelId + " 频道密码：" + obj.lives.channelPasswd
+        return ""
+
+    lives.short_description = "直播频道"
 
     fieldsets = [
         ("视频一般信息", {

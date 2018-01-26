@@ -21,16 +21,16 @@ class Live(models.Model):
         ("live", '正在直播'),
         ("end", '直播结束'),
     )
-    name = models.CharField('直播频道名称', max_length=50, unique=True)
-    channelId = models.IntegerField('直播频道ID', blank=True, null=True)
-    channelPasswd = models.CharField('直播频道密码', max_length=50, blank=True, null=True, default="111111")
+    name = models.CharField('频道名称', max_length=50, unique=True)
+    channelId = models.IntegerField('频道号', blank=True, null=True)
+    channelPasswd = models.CharField('频道密码', max_length=50, blank=True, null=True, default="111111")
     playerColor = ColorField('播放器控制栏颜色', max_length=50, blank=True, null=True, default="#666666")
     autoPlay = models.IntegerField('是否自动播放', choices=AUTOPLAY, default=1)  # 是否自动播放，0/1，默认1
     pathwel = models.ImageField('直播图片', upload_to='live/%Y%m%d', storage=ImageStorage())
-    status = models.CharField('直播状态', max_length=5, choices=STATUS, default='end')  # 频道的直播状态，字符串，值包括：live end
+    status = models.CharField('状态', max_length=5, choices=STATUS, default='end')  # 频道的直播状态，字符串，值包括：live end
     data = models.TextField("创建直播接口返回值", blank=True, null=True)
-    desc = models.TextField('直播简介', max_length=1000, blank=True, null=True, default='')
-    start_time = models.TimeField('直播时间', default=timezone.now)
+    desc = models.TextField('简介', max_length=1000, blank=True, null=True, default='')
+    start_time = models.TimeField('时间', default=timezone.now)
 
     def __unicode__(self):
         return self.name
