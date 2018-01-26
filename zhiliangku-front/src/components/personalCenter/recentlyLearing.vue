@@ -34,6 +34,13 @@
         var type = item.last_type,
           courseId = item.last_course_id,
           videoId = item.last_video_id;
+          vid=item.vid;
+          if(type!=4){
+            if(!vid){
+              this.$func.showNotice(this,'内容正在制作中，敬请期待','info');
+              return
+            }
+          }
         this.$func.goCourse(type, courseId, videoId)
       },
       getData() {

@@ -16,5 +16,14 @@ module.exports = (function () {
         break;
     }
   }
+  func.showNotice=function(t,str,type){
+      t.$notify({
+        type: type||'info',
+        message: str,
+        offset: 100,
+        duration: 3000,
+        position: 'bottom-right'
+      });
+  }
   return func
 })()

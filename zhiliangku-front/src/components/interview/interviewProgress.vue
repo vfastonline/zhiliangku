@@ -63,24 +63,19 @@
       mainfun(index) {
         console.log(index)
         var item = this.mainData[index];
+        var mainData = this.mainData;
         // 只有当前激活的索引比最大索引大时才能进入此函数
         if (index > this.barWidthIndex) {
           this.barWidthIndex = index;
           this.barWidth = 1120 * index / (this.mainData.length - 1);
-          var mainData = this.mainData;
-          //目前来看是没有问题的
-          //给当前激活的索引加上最大索引类名
-          item.className = "max-index-selected"
-          console.log(item.className)
-          mainData.forEach((element, elindex) => {
-            //清除索引比当前点击的索引小的元素的最大样式
-            if (elindex < index) {
-              if (element.className == 'max-index-selected') {
-                element.className = 'haveNoAnwser'
-              }
-            }
-          })
         }
+        mainData.forEach((element, elindex) => {
+          //清除索引比当前点击的索引小的元素的最大样式
+          if (element.className == 'max-index-selected') {
+            element.className = 'haveNoAnwser'
+          }
+        })
+        item.className = "max-index-selected"
         //   记录当前激活的题目
         this.activeIndex = index;
         //   将控制按钮显示和隐藏的信息传递过去

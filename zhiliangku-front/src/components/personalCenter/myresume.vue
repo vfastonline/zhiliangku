@@ -35,58 +35,20 @@
         anchorarr: ['个人信息', '我的优势', '求职意向', '工作经历',  '教育经历','项目经验'],
         mainData: {
           resume: {
-            "status": "在职",
-            "name": "许慧良",
-            "advantage": "认真踏实",
-            "expect_salary_high": 2,
-            "sex": "男",
-            "custom_user_id": 31,
-            "avatar": "sss",
-            "expect_salary_low": 1,
-            "id": 1,
-            "position": "Python开发工程师",
-            "education": "大专",
-            "company": "智量酷",
-            "years_of_service": "4"
+            
           },
           "projectexperiences": [{
-            "name": "质量路1",
-            "url": "www.zhiliangku.com",
-            "start_time": "2017-11-2",
-            "custom_user_id": 31,
-            "role": "后台工程",
-            "end_time": "至今",
-            "id": 1,
-            "description": "为学生网上学习使用。"
+            
           }],
           "educationexperiences": [{
-            "discipline": "摄影",
-            "school": "中国环境管理干部学院",
-            "start_time": "2013",
-            "experience": "没敢什么事。",
-            "custom_user_id": 31,
-            "end_time": "至今",
-            "education": "大专",
-            "id": 1
+         
           }],
           "age": 27,
           "workexperiences": [{
-            "company": "智量酷",
-            "id": 1,
-            "content": "主要对智量酷网站做开发。",
-            "custom_user_id": 31,
-            "end_time": "至今",
-            "position": "Python开发工程师",
-            "start_time": "2017-11-2"
+            
           }],
           "careerobjectives": [{
-            "city": "深圳",
-            "expect_salary_low": 1,
-            "expect_salary_high": 2,
-            "industry": "教育",
-            "custom_user_id": 31,
-            "position": "前端开发",
-            "id": 1
+            
           }],
           "career_objective_id": 1
         }

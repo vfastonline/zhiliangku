@@ -81,13 +81,16 @@
         this.$get('/tracks/course/list/info?' + 'category_id=' + spanid).then(
           res => {
             this.courseData = this.$fn.addString(this.$myConst.httpUrl, res.data.data, ['course_img', 'avatar'])
+            console.log(this.courseData)
+            console.log(this.indexli1)
           }
         )
       },
       clickFirstTag() {
+        
         var lidata = this.mainData.pathstages[0];
         var spanData = lidata.coursecategorys[0]
-        this.changeActiveSpan(0, 0, lidata.id, spanData.id)
+        this.changeActiveSpan(0, 0, spanData.id, lidata.id)
       }
     },
     created() {},
@@ -198,12 +201,12 @@
 
   .fade-enter-active,
   .fade-leave-active {
-    transition: opacity 0.5s ease-out;
+    transition: height 0.5s ease-out;
   }
 
   .fade-enter,
   .fade-leave-to {
-    opacity: 0;
+    height: 0;
   }
 
 </style>

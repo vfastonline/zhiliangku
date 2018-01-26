@@ -3,7 +3,7 @@
     <div  class="rc-pi resumewidth incenter">
       <div class="rc-pi-container1">
         <div class="rc-pi-content ">
-           <el-upload class="rc-pic-img floatl round" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarSuccess"
+           <el-upload class="rc-pic-img floatl round" :action="orgnizeUrl()" :show-file-list="false" :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
             <img class="rc-pic-img floatl round"  v-if="imgsrc" :src="imgsrc"   alt="">
           </el-upload>
@@ -46,12 +46,23 @@ import editor from './resumeContent0.0'
     data() {
       return {
         showeditor:false,
-        imgsrc:'/api/media/custom_user_avatar/21/20171222152244_902.jpg'
+        imgsrc:'',
+        actionUrl:''
+      }
+    },
+    watch:{
+      mainData:function(value){
+        this.imgsrc=$myConst.httpUrl+this.mainData.avatar;
       }
     },
     methods:{
+      orgnizeUrl(){
+        var str= this.$myConst.httpUrl+ '/customuser/change/avatar?custom_user_id='+localStorage.uid+'&avatar_type=resume_avatar';
+       return str
+      },
       handleAvatarSuccess(res, file) {
-        this.imgsrc = URL.createObjectURL(file.raw);
+        this.imgsrc=this.$myConst.httpUrl+res.avatar;
+        // this.imgsrc = URL.createObjectURL(file.raw);
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
@@ -83,6 +94,7 @@ import editor from './resumeContent0.0'
     },
     created(){
       console.log(this.mainData)
+      
     }
   }
 

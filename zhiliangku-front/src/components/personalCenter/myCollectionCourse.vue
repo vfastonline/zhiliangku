@@ -34,11 +34,18 @@
         var type = item.last_type,
           courseId = item.last_course_id,
           videoId = item.last_video_id;
+        vid = item.vid;
+        if (type != 4) {
+          if (!vid) {
+            this.$func.showNotice(this, '内容正在制作中，敬请期待', 'info');
+            return
+          }
+        }
         this.$func.goCourse(type, courseId, videoId)
       },
     },
     created() {
-      this.$get('/personal_center/course/mypath?custom_user_id=' + localStorage.uid).then(res => {
+      this.$get('/personal_center/course/mycollect?custom_user_id=' + localStorage.uid).then(res => {
         this.$fn.addString(this.$myConst.httpUrl, res.data.data, 'course_img')
         this.$fn.exchangeArrayObjectKey(res.data.data, 'course_name', 'company')
         this.$fn.exchangeArrayObjectKey(res.data.data, 'course_img', 'logo')
