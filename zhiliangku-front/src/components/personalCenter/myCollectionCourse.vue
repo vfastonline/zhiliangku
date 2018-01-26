@@ -33,7 +33,7 @@
       learn(item) {
         var type = item.last_type,
           courseId = item.last_course_id,
-          videoId = item.last_video_id;
+          videoId = item.last_video_id,
         vid = item.vid;
         if (type != 4) {
           if (!vid) {
