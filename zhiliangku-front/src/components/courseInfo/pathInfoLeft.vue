@@ -12,7 +12,7 @@
         <div class="pilu-tag">
           <div class="fontcenter pilu-tag-green">
             <span class="font20pm2a0000">{{mainData.learn_time_consum.split('分')[0]|info}}</span>
-            <span v-if="mainData.learn_time_consum" class="font14pm2a0000">分钟</span>
+            <!-- <span v-if="mainData.learn_time_consum" class="font14pm2a0000">分钟</span> -->
           </div>
           <div class="fontcenter font14pl5A646E">学习耗时</div>
         </div>
@@ -25,9 +25,11 @@
         </div>
         <div class="pilu-tag">
           <div class="fontcenter pilu-tag-green">
-            <span class="font20pm2a0000">
+            <span v-if="mainData.courses_count" class="font20pm2a0000">
               {{mainData.complete_number}}</span>
-            <span class="font14pm2a0000">/{{mainData.courses_count|info}}</span>
+              <span v-else class="font20pm2a0000">
+              暂无信息</span>
+            <span v-if="mainData.courses_count" class="font14pm2a0000">/{{mainData.courses_count}}</span>
           </div>
           <div class="fontcenter font14pl5A646E">完成节数</div>
         </div>
@@ -49,6 +51,7 @@
     },
     filters: {
       info(value) {
+        if(value==='0')return value;
         if (value) return value;
         return '暂无信息'
       },

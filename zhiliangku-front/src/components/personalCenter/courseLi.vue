@@ -13,7 +13,7 @@
             <span>{{config.tag}}</span>
             <span class="font20pl3a3c50">{{mainData.schedule*100}}%</span>
           </span>
-          <el-button class="floatr" @click="handleClick()">{{config.buttonStr}}</el-button>
+          <el-button class="floatr button_style_0" @click="handleClick()">{{config.buttonStr}}</el-button>
         </div>
         <div class="mrpc-progress">
           <el-progress :percentage="mainData.schedule*100" :width="340" :stroke-width="16" :show-text="false"></el-progress>

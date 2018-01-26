@@ -198,11 +198,13 @@
         this.is_login = true;
       } else {
         this.is_login = false;
+        localStorage.clear();
       }
       Bus.$on('titleBreadCrumb', res => {
         this.videoTitle = res;
       })
       Bus.$on('logout', this.logoutFunc)
+      Bus.$on('refreshAvatar',this.getUserInfo)
     },
     mounted() {
       this.$on('loginClose', function (child) {

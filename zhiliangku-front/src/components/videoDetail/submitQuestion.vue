@@ -14,7 +14,7 @@
       </div>
       <div class="sqc-tip-container ml submit-li">
         <div class="sqct-usericon floatl">
-          <img class="sqct-icon" src="../../assets/img/user-icon.jpg" alt="">
+          <img class="sqct-icon" src="../../assets/img/icons/Search-magnifier.svg" alt="">
         </div>
         <div class="sqct-content font14pr424242">
           在你提问之前，不妨先搜索一下你的问题，其他同学可能问到过同样的问题，应该尽量确保你的问题是独一无二的。
@@ -120,6 +120,7 @@
               position: 'bottom-right'
             });
           }
+          this.$router.push({path:'/question'})
         })
       },
       selectDirection(item) {

@@ -3,9 +3,9 @@
     <div class="mainwidth incenter">
       <div class="pio-detail">
         <div class="pio-user-left">
-          <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarSuccess"
+          <el-upload class="avatar-uploader"  :action="ognizeUrl()" :show-file-list="false" :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
-            <img class="pio-user-img" v-if="imgsrc" :src="imgsrc" alt="" />
+            <img class="pio-user-img" v-if="imgsrc" :src=" imgsrc" alt="" />
           </el-upload>
         </div>
         <div class="pio-user-right">
@@ -30,11 +30,14 @@
         mainData: {},
         imgData: {
           pathwel: ''
-        }
+        },
+        actionUrl:''
       }
     },
     methods: {
       handleAvatarSuccess(res, file) {
+        localStorage.avatar=res.avatar;
+        Bus.$emit('refreshAvatar')
         this.imgsrc = URL.createObjectURL(file.raw);
       },
       beforeAvatarUpload(file) {
@@ -48,6 +51,10 @@
           this.$message.error('上传头像图片大小不能超过 2MB!');
         }
         return isJPG && isLt2M;
+      },
+      ognizeUrl(){
+       var str= this.$myConst.httpUrl+ '/customuser/change/avatar?custom_user_id='+localStorage.uid+'&avatar_type=custom_user_avatar';
+       return str
       },
       getData() {
         this.$get('/personal_center/basic/info?custom_user_id=' + localStorage.uid).then(res => {

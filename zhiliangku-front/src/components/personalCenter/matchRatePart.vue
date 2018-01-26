@@ -72,6 +72,7 @@
   .match-rate-part-inner {
     padding: 16px 24px;
     background: white;
+    margin-bottom: 32px;
   }
 
   .match-rate-part-inner {

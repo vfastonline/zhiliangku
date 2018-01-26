@@ -10,7 +10,7 @@
           alt="">
       </div>
       <div class="fontcenter">
-        <div class="font14plffffff bah-tag1">课程时长</div>
+        <div class="font14plffffff bah-tag1">{{allData.is_study_record?'剩余时长':'课程时长'}}</div>
         <div class="font14plffffff bah-tag2">
           <span class="font16plffffff">{{allData.remaining_time}} </span>
         </div>
