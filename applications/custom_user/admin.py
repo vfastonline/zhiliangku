@@ -7,17 +7,9 @@ from applications.custom_user.model_form import *
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'nickname', "sex", 'role', "position", "receiver", "address", "signature", "integral",
-        "create_time", 'avatars')
+    'id', 'nickname', "sex", 'role', "position", "receiver", "address", "signature", "integral", "create_time")
     search_fields = ('nickname',)
     list_filter = ('role', "sex")
-
-    def avatars(self, obj):
-        if obj.avatar:
-            return '<img src="%s" height="24" width="24" />' % (obj.avatar.url)
-
-    avatars.allow_tags = True
-    avatars.short_description = "头像"
 
 
 @admin.register(CustomUserAuths)
