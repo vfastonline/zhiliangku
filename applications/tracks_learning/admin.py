@@ -7,9 +7,15 @@ from zhiliangku.settings import tinymce_js
 
 @admin.register(Path)
 class PathAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', "lowest_salary", "highest_salary", "path_img", 'desc')
+    list_display = ('id', 'name', "lowest_salary", "highest_salary", 'desc', "path_imgs")
     search_fields = ('name',)
     list_filter = ('home_show',)
+
+    def path_imgs(self, obj):
+        return '<img src="%s" height="24" width="24" />' % (obj.path_img.url)
+
+    path_imgs.allow_tags = True
+    path_imgs.short_description = "路径介绍图片"
 
 
 @admin.register(PathStage)

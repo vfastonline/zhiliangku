@@ -26,7 +26,7 @@ class Goods(models.Model):
     name = models.CharField('商品名称', max_length=256)
     gtype = models.CharField('商品类型', max_length=1, choices=GTYPE)
     style = models.CharField('款式', max_length=50, blank=True, null=True, default="")
-    image = models.ImageField('商品图片', upload_to=upload_to, storage=ImageStorage())
+    images = models.ImageField('商品图片', upload_to=upload_to, storage=ImageStorage())
     integral = models.PositiveIntegerField("积分", validators=[MinValueValidator(1)])
     stock = models.PositiveIntegerField("库存", default=0)
     residue_stock = models.PositiveIntegerField("剩余库存", default=0)

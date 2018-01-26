@@ -7,7 +7,7 @@ from lib.polyv.live_api import getstatus_live
 
 @admin.register(Live)
 class LiveAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', "start_time", "channelId", "channelPasswd", "autoPlay", "status", 'pathwel')
+    list_display = ('id', 'name', "start_time", "channelId", "channelPasswd", "autoPlay", "status", 'pathwels')
     search_fields = ('name', "channelId",)
     list_filter = ('status', "autoPlay",)
     list_editable = ['status', "channelPasswd"]
@@ -44,6 +44,12 @@ class LiveAdmin(admin.ModelAdmin):
 
     delete_selected.short_description = " ".join(["删除所选的", Live._meta.verbose_name])
     get_live_status_selected.short_description = " ".join(["获取所选的", Live._meta.verbose_name, "状态"])
+
+    def pathwels(self, obj):
+        return '<img src="%s" height="24" width="24" />' % (obj.pathwel.url)
+
+    pathwels.allow_tags = True
+    pathwels.short_description = "直播图片"
 
     def suit_row_attributes(self, obj, request):
         css_class = {

@@ -1,10 +1,11 @@
+#!encoding:utf-8
 from django.contrib import admin
 from applications.integral.models import *
 
 
 @admin.register(Goods)
 class GoodsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', "gtype", "style", 'integral', "stock", "residue_stock", 'detail',)
+    list_display = ('id', 'name', "gtype", "style", 'integral', "stock", "residue_stock", 'detail', "imagess")
     search_fields = ('name',)
     list_filter = ('gtype',)
 
@@ -14,6 +15,12 @@ class GoodsAdmin(admin.ModelAdmin):
         }.get(obj.residue_stock)
         if css_class:
             return {'class': css_class}
+
+    def imagess(self, obj):
+        return '<img src="%s" height="24" width="24" />' % (obj.images.url)
+
+    imagess.allow_tags = True
+    imagess.short_description = "商品图片"
 
 
 @admin.register(ExchangeRecords)

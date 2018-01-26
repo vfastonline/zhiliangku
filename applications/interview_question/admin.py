@@ -1,3 +1,4 @@
+#!encoding:utf-8
 from django.contrib import admin
 
 from applications.interview_question.models import *
@@ -8,9 +9,15 @@ from zhiliangku.settings import tinymce_js
 class EnterpriseInfoAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'company', "email", 'position',
-        'lowest_monthly_salary', 'highest_monthly_salary', "duration", "path", 'question_img', "detail", "notes"
+        'lowest_monthly_salary', 'highest_monthly_salary', "duration", "path", "detail", "notes", 'question_imgs'
     )
     search_fields = ('company', 'position',)
+
+    def question_imgs(self, obj):
+        return '<img src="%s" height="24" width="24" />' % (obj.question_img.url)
+
+    question_imgs.allow_tags = True
+    question_imgs.short_description = "面试题图片"
 
     class Media:
         js = tinymce_js
