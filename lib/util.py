@@ -1,4 +1,5 @@
 # encoding: utf8
+import StringIO
 import base64
 import hashlib
 import json
@@ -12,6 +13,8 @@ from datetime import timedelta, date
 from email.header import Header
 from email.mime.text import MIMEText
 
+from PIL import Image
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.urlresolvers import reverse
 from django.db import connection
@@ -43,7 +46,6 @@ def validate(key, fix_pwd):
     try:
         key = base64.b64decode(key)
         x = key.split('|')
-        print x
         if len(x) != 5:
             logging.getLogger().warning('token参数数量不足')
             return {'code': 1, 'msg': 'token参数不足'}
@@ -254,9 +256,9 @@ def sendmessage(phone, sms_param):
             req.rec_num, req.sms_free_sign_name, req.sms_template_code,
             resp['alibaba_aliqin_fc_sms_num_send_response']))
         return True
-    except Exception, e:
+    except:
         traceback.print_exc()
-        logging.getLogger().error(e)
+        logging.getLogger().error(traceback.format_exc())
         return False
 
 
@@ -342,3 +344,24 @@ def time_to_second(t):
         traceback.print_exc()
         h, m, s = 0, 0, 0
     return int(h) * 3600 + int(m) * 60 + int(s)
+
+
+def get_thumbnail(orig, width=200, height=200):
+    """get the thumbnail of orig
+    @return: InMemoryUploadedFile which can be assigned to ImageField
+    """
+    quality = "keep"
+    file_suffix = orig.name.split(".")[-1]
+    filename = orig.name
+    if file_suffix not in ["jpg", "jpeg"]:
+        filename = "%s.jpg" % orig.name[:-(len(file_suffix) + 1)]
+        quality = 95
+    im = Image.open(orig)
+    size = (width, height)
+    thumb = im
+    thumb.thumbnail(size, Image.ANTIALIAS)
+    thumb_io = StringIO.StringIO()
+    thumb.save(thumb_io, format="JPEG", quality=quality)
+    thumb_file = InMemoryUploadedFile(thumb_io, None, filename, 'image/jpeg',
+                                      thumb_io.len, None)
+    return thumb_file

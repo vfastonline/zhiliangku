@@ -1,5 +1,4 @@
 #!encoding:utf-8
-import random
 
 from django.views.generic import View
 
@@ -7,7 +6,6 @@ from applications.custom_user.models import *
 from applications.personal_center.models import Resume
 from lib.permissionMixin import class_view_decorator, user_login_required
 from lib.util import *
-from zhiliangku import settings
 
 
 @class_view_decorator(user_login_required)
@@ -42,40 +40,42 @@ class CustomUserAvatar(View):
                 result_dict["msg"] = "用户不存在"
                 return
 
-            # 组装头像存放位置
-            destination = os.path.join(settings.MEDIA_ROOT, 'custom_user_avatar', str(custom_user_id))
-            if avatar_type == "resume_avatar":
-                destination = os.path.join(settings.MEDIA_ROOT, 'resume_avatar', str(custom_user_id))
-
-            # 判断路径是否存在，并创建
-            if not os.path.isdir(destination):
-                os.system('mkdir -p %s ' % destination)
-
-            # 组装文件名
-            fn = time.strftime('%Y%m%d%H%M%S')
-            fn = fn + '_%d' % random.randint(0, 1000)
-            filename = os.path.join(fn + '.jpg')
-
-            headfile = open(os.path.join(destination, filename), 'wb')
-            for chunk in avatar.chunks():
-                headfile.write(chunk)
-            headfile.close()
-
-            headimg_url = os.path.join("custom_user_avatar", 'custom_user_avatar', str(custom_user_id), filename)
+            # # 组装头像存放位置
+            # destination = os.path.join(settings.MEDIA_ROOT, 'custom_user_avatar', str(custom_user_id))
+            # if avatar_type == "resume_avatar":
+            #     destination = os.path.join(settings.MEDIA_ROOT, 'resume_avatar', str(custom_user_id))
+            #
+            # # 判断路径是否存在，并创建
+            # if not os.path.isdir(destination):
+            #     os.system('mkdir -p %s ' % destination)
+            #
+            # # 组装文件名
+            # fn = time.strftime('%Y%m%d%H%M%S')
+            # fn = fn + '_%d' % random.randint(0, 1000)
+            # filename = os.path.join(fn + '.jpg')
+            #
+            # headfile = open(os.path.join(destination, filename), 'wb')
+            # for chunk in avatar.chunks():
+            #     headfile.write(chunk)
+            # headfile.close()
+            #
+            # headimg_url = os.path.join("custom_user_avatar", 'custom_user_avatar', str(custom_user_id), filename)
+            humbnail = get_thumbnail(avatar)
             if avatar_type == "resume_avatar":
                 resume_obj = Resume.objects.filter(custom_user=user).first()
-                headimg_url = os.path.join(settings.MEDIA_ROOT, 'resume_avatar', custom_user_id, filename)
+                # headimg_url = os.path.join(settings.MEDIA_ROOT, 'resume_avatar', custom_user_id, filename)
                 if resume_obj:
-                    resume_obj.avatar = headimg_url
+                    resume_obj.avatar = humbnail
                     resume_obj.save()
                 else:
-                    Resume.objects.create(custom_user=user, avatar=headimg_url)
-                result_dict["avatar"] = headimg_url
+                    Resume.objects.create(custom_user=user, avatar=humbnail)
+                result_dict["avatar"] = Resume.objects.get(custom_user=user).avatar
             if avatar_type == "custom_user_avatar":
                 user_obj = user.first()
-                user_obj.avatar = headimg_url
+                user_obj.avatar = humbnail
                 user_obj.save()
-                result_dict["avatar"] = headimg_url
+
+                result_dict["avatar"] = user_obj.avatar
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())

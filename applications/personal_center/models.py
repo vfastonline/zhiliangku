@@ -7,7 +7,7 @@ from applications.custom_user.models import *
 class Resume(models.Model):
     """个人简历基础信息"""
     custom_user = models.OneToOneField(CustomUser, verbose_name="用户信息", related_name="Resumes", unique=True)
-    avatar = models.CharField('简历头像', max_length=255, null=True, blank=True, default='')
+    avatar = models.ImageField('简历头像', upload_to='resume', default='custom_user_avatar/defaultUserIcon.png', blank=True)
     name = models.CharField("姓名", max_length=255, null=True, blank=True, default="")
     sex = models.CharField("性别", max_length=2, blank=True, null=True, default="")
     birthday = models.CharField("生日", max_length=30, blank=True, null=True, default="")
