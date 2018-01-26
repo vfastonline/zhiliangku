@@ -27,7 +27,7 @@ class PathStageAdmin(admin.ModelAdmin):
 
 @admin.register(CourseCategory)
 class CourseCategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', "path_stage", 'name', "sequence", "courses_name")
+    list_display = ('id', "path", "path_stage", 'name', "sequence", "courses_name")
     search_fields = ("path_stage__name", 'name',)
     filter_horizontal = ('courses',)
     form = CourseCategoryForm
@@ -36,6 +36,13 @@ class CourseCategoryAdmin(admin.ModelAdmin):
         return ",".join(obj.courses.all().values_list("name", flat=True))
 
     courses_name.short_description = "包含课程"
+
+    def path(self, obj):
+        if obj.path_stage:
+            return obj.path_stage.path.name
+        return ""
+
+    path.short_description = "路径"
 
 
 @admin.register(Course)
