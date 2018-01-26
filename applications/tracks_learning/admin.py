@@ -127,7 +127,7 @@ class VideoAdmin(admin.ModelAdmin):
             'classes': ('suit-tab', 'suit-tab-general',),
             'fields': ['section', "type", "name", "sequence", "duration", "desc"]
         }),
-        ('直播信息，使用微信小程序《LIVE推一推》直播', {
+        ('直播信息，请使用微信小程序《LIVE推一推》进行直播，或下载直播插件：www.polyv.net/download/?pages=live', {
             'classes': ('suit-tab', 'suit-tab-live',),
             'fields': ['live', "live_start_time", "live_end_time"]}),
         ('讲师笔记', {
