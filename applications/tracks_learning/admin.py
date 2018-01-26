@@ -92,7 +92,7 @@ class SectionAdmin(admin.ModelAdmin):
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
     list_display = (
-        'id', "section", 'name',
+        'id', "course", "section", 'name',
         "type", 'sequence', "duration",
         "live", "live_start_time", "live_end_time", "vid",
     )
@@ -100,6 +100,13 @@ class VideoAdmin(admin.ModelAdmin):
     list_filter = ('type',)
     readonly_fields = ("vid", "data",)
     form = VideoForm
+
+    def course(self, obj):
+        if obj.section:
+            return obj.section.course.name
+        return ""
+
+    course.short_description = "课程"
 
     fieldsets = [
         ("视频一般信息", {
