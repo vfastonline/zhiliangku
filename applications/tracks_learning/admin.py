@@ -117,7 +117,7 @@ class VideoAdmin(admin.ModelAdmin):
 
     def lives(self, obj):
         if obj.live:
-            return "直播频道：" + obj.lives.name + " 频道号：" + obj.lives.channelId + " 频道密码：" + obj.lives.channelPasswd
+            return "直播频道：" + obj.live.name + " 频道号：" + obj.live.channelId + " 频道密码：" + obj.live.channelPasswd
         return ""
 
     lives.short_description = "直播频道"
