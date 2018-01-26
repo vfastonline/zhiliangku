@@ -30,7 +30,7 @@ def get_resume_detail_info(custom_user_id):
         "data": dict(),
     }
     try:
-        resumes = list(Resume.objects.filter(custom_user_id=custom_user_id).values())
+        resumes = Resume.objects.filter(custom_user_id=custom_user_id)
         careerobjectives = list(CareerObjective.objects.filter(custom_user_id=custom_user_id).values())
         workexperiences = list(WorkExperience.objects.filter(custom_user_id=custom_user_id).values())
         projectexperiences = list(ProjectExperience.objects.filter(custom_user_id=custom_user_id).values())
@@ -39,14 +39,20 @@ def get_resume_detail_info(custom_user_id):
         resume_dict = dict()
 
         # 基础信息
-        if resumes:
-            resume_dict = resumes[0]
-            career_objective_id = resume_dict.get("career_objective_id", 0)
-            if career_objective_id:
-                career_objective_list = list(
-                    CareerObjective.objects.filter(id=career_objective_id).values("expect_salary"))
-                if career_objective_list:
-                    resume_dict["expect_salary"] = career_objective_list[0].get("expect_salary")
+        if resumes.exists():
+            resume = resumes.first()
+            resume_dict["id"] = resume.id
+            resume_dict["avatar"] = resume.avatar.url if resume.avatar else ""
+            resume_dict["name"] = resume.name
+            resume_dict["sex"] = resume.sex
+            resume_dict["birthday"] = resume.birthday
+            resume_dict["years_of_service"] = resume.years_of_service
+            resume_dict["education"] = resume.education
+            resume_dict["status"] = resume.status
+            resume_dict["company"] = resume.company
+            resume_dict["position"] = resume.position
+            resume_dict["advantage"] = resume.advantage
+            resume_dict["expect_salary"] = resume.career_objective.expect_salary if resume.career_objective else ""
 
         data_dict["resume"] = resume_dict
         data_dict["careerobjectives"] = careerobjectives
