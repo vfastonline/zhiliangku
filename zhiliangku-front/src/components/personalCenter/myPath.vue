@@ -33,7 +33,7 @@
     },
     methods: {
       learn(item) {
-        var type = item.last_type,
+        var type = item.last_video_type,
           courseId = item.last_course_id,
           videoId = item.last_video_id,
         vid = item.vid;
