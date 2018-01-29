@@ -71,6 +71,9 @@ class CourseAdmin(admin.ModelAdmin):
         ('你将学到什么', {
             'classes': ('collapse',),
             'fields': ['learn']}),
+        ('课程描述', {
+            'classes': ('collapse',),
+            'fields': ['description']}),
     ]
 
     class Media:
