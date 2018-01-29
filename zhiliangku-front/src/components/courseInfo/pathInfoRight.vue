@@ -32,7 +32,7 @@
           </div>
           <transition name="fade">
             <!-- <div v-if="indexli==indexli1" class="pirm-heightnone ofhid"> -->
-            <container :myStyle="{}" v-if="indexli==indexli1" class="pirm-heightnone ofhid">
+            <container :myStyle="{}" v-show="indexli==indexli1" class="pirm-heightnone ofhid exmple">
               <hot-course v-for="(item,index) in courseData" :key="index" :mainData="item" :myStyle="hotCourseStyle" :index="index"></hot-course>
             </container>
             <!-- </div> -->
@@ -43,6 +43,19 @@
     <!-- <button></button> -->
   </div>
 </template>
+<style scoped>
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: 'height' 0.5s ease-out;
+     /* transition: all 5s; */
+  }
+  .fade-enter,
+  .fade-leave-active {
+    height: 0;
+     /* transform: translate3d(0, 0, 0); */
+  }
+  
+</style>
 
 <script>
   export default {
@@ -100,6 +113,7 @@
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
   .path-info-right {
     width: 752px;
     float: left;
@@ -199,14 +213,5 @@
     transition: all 0.3s ease;
   }
 
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: height 0.5s ease-out;
-  }
-
-  .fade-enter,
-  .fade-leave-to {
-    height: 0;
-  }
 
 </style>

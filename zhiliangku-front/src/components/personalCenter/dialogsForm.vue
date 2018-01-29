@@ -194,7 +194,7 @@
         }
       },
       getCode(phoneform) {
-        this.guard('phone');
+        this.guard(['phone']);
         if (!this.flag) {
           return
         }
@@ -223,7 +223,7 @@
             flag = false
           }
         }
-        console.log(flag)
+        this.flag=flag;
         return flag
       },
       handlephone(dialogContent) {
@@ -241,10 +241,14 @@
           this.$post('/personal_center/personal_settings/accountbind/phone', postdata).then(res => {
             if (!res.data.err) {
               this.sendMsgToDialogsForm(dialogContent, this.phoneform.phone, '修改手机号')
+              this.sendMsg()
             }
           })
         }
         
+      },
+      sendMsg(){
+        Bus.$emit('countDataChange')
       },
       handleemail(dialogContent) {
         var postdata = {
@@ -260,6 +264,7 @@
           this.$post('/customuser/send_activation_mail', postdata).then(res => {
             if (!res.data.err) {
               this.sendMsgToDialogsForm(dialogContent, this.emailform.email, '修改邮箱')
+               this.sendMsg()
             }
           })
         }

@@ -30,7 +30,7 @@
       </div>
     </div>
     <dialogs></dialogs>
-    <dialogsForm :needpassword="mainData.needpassword"></dialogsForm>
+    <dialogsForm  :needpassword="mainData.needpassword"></dialogsForm>
   </div>
 </template>
 <script>
@@ -51,15 +51,31 @@
     methods:{
       dialogsFormOpen(type,title){
         Bus.$emit('dialogsFormOpen',{type:type,title:title})
-      }
-    },
-    created(){
-      this.$get('/personal_center/personal_settings/useraccount?custom_user_id='+localStorage.uid).then(res=>{
-        this.mainData=res.data.data
+      },
+      haveChangPhone(phone){
+        this.mainData.phone=phone
+      },
+      getData(){
+        this.$get('/personal_center/personal_settings/useraccount?custom_user_id='+localStorage.uid).then(res=>{
+        this.mainData=res.data.data;
+        
         this.mainData.needpassword=false;
         if(!this.mainData.phone&&!this.mainData.email){
           this.mainData.needpassword=true;
         }
+        var arr=['phone','email','qq','weixin'];
+        arr.forEach(ele=>{
+          if(!this.mainData[ele]){
+            this.mainData[ele]='暂未绑定'
+          }
+        })
+      })
+      }
+    },
+    created(){
+      this.getData()
+      Bus.$on('countDataChange',res=>{
+        this.getData()
       })
     },
     components: {

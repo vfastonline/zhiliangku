@@ -7,7 +7,7 @@
         <el-scrollbar class="vdc-el-scrollbar" :style="{'height':maxheight+'px'}">
           <div class="videolist-wrap">
             <div class="marginbottom24 textellipsis">
-              <span class="font20pl3a3c50" :title="mainData.name">{{mainData.name}}</span>
+              <span class="font20pl3a3c50 pointer" :title="mainData.name" @click="goToCourse(mainData.id)">{{mainData.name}}</span>
             </div>
             <ul v-for="(item,index) in mainData.sections" :key="index" class="marginbottom32">
               <li class="font14pl5A646E marginbottom8 videolist-section" :title="item.title">{{item.title}}</li>
@@ -41,6 +41,9 @@
       },
       goInformation(id, type) {
           
+      },
+      goToCourse(id){
+        window.location.href='/tracks/course/detail/?course_id='+id+'&custom_user_id='+localStorage.uid;
       },
       goPages(obj){
         switch(obj.type*1){
