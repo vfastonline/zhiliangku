@@ -28,19 +28,23 @@ class LearnRecently(View):
         try:
             custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
 
+            watchrecord_list = list()
             watchrecords = WatchRecord.objects.filter(user_id=custom_user_id).order_by("-create_time")
+            for one in watchrecords:
+                if one not in watchrecord_list:
+                    watchrecord_list.append(one)
+
             data_list = list()
-            if watchrecords.exists():
-                for one in watchrecords:
-                    data_dict = dict()
-                    data_dict["course_name"] = one.course.name
-                    data_dict["course_img"] = one.course.course_img.url
-                    data_dict["create_time_year"] = one.create_time.strftime("%Y")
-                    data_dict["create_time"] = one.create_time.strftime("%m月%d日")
-                    data_dict["last_course_id"] = one.course.id  # 最近学习课程ID
-                    summarize_dict = summarize_course_progress(custom_user_id, one.course.id)
-                    data_dict.update(summarize_dict)
-                    data_list.append(data_dict)
+            for one in watchrecord_list:
+                data_dict = dict()
+                data_dict["course_name"] = one.course.name
+                data_dict["course_img"] = one.course.course_img.url
+                data_dict["create_time_year"] = one.create_time.strftime("%Y")
+                data_dict["create_time"] = one.create_time.strftime("%m月%d日")
+                data_dict["last_course_id"] = one.course.id  # 最近学习课程ID
+                summarize_dict = summarize_course_progress(custom_user_id, one.course.id)
+                data_dict.update(summarize_dict)
+                data_list.append(data_dict)
             result_dict["data"] = data_list
 
         except:
