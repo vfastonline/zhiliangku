@@ -40,10 +40,8 @@ class PersonalCenterBasicInfo(View):
                 data_dict["nickname"] = customuser.nickname
                 data_dict["avatar"] = customuser.avatar.url
                 data_dict["signature"] = customuser.signature if customuser.signature else ""
-                video_process = WatchRecord.objects.filter(user__id=custom_user_id).aggregate(Sum('video_process')).get(
-                    "video_process__sum")
-                duration = WatchRecord.objects.filter(user__id=custom_user_id, status=1).aggregate(Sum('duration')).get(
-                    "duration__sum")
+                video_process = str_to_int(WatchRecord.objects.filter(user__id=custom_user_id).aggregate(Sum('video_process')).get("video_process__sum"))
+                duration = str_to_int(WatchRecord.objects.filter(user__id=custom_user_id, status=1).aggregate(Sum('duration')).get("duration__sum"))
                 learn_time = video_process + duration
                 m, s = divmod(learn_time, 60)
                 h, m = divmod(m, 60)
