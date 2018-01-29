@@ -27,11 +27,11 @@ class LearnRecently(View):
         }
         try:
             custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
-            query_sql = 'SELECT * FROM WatchRecord where user_id=%s group by course_id' % custom_user_id
-            watchrecord_list = WatchRecord.objects.raw(query_sql)
+            query_sql = 'SELECT * FROM WatchRecord WHERE user_id=%s GROUP BY course_id ORDER BY create_time DESC' % custom_user_id
+            watchrecords = WatchRecord.objects.raw(query_sql)
 
             data_list = list()
-            for one in watchrecord_list:
+            for one in watchrecords:
                 data_dict = dict()
                 data_dict["course_name"] = one.course.name
                 data_dict["course_img"] = one.course.course_img.url
