@@ -3,29 +3,29 @@
     <div class="blur-background index1" :style="{'background-image':'url(' +allData.course_img +')'}"></div>
     <div class="ba-header index10 relative flexstartcenter">
 
-      <div class="font36plffffff">{{allData.name}}
+      <div class="font36plffffff course_title">{{allData.name}}
         <img @click="collect()" v-if="!allData.is_collect" class="bah-star pointer" src="../../assets/img/icons/path+路线+课程_图标/课程详情_收藏_空心.svg"
           alt="">
         <img @click="collect()" v-if="allData.is_collect" class="bah-star pointer" src="../../assets/img/icons/path+路线+课程_图标/课程详情_收藏_实心.svg"
           alt="">
       </div>
-      <div class="fontcenter">
+      <div class="fontcenter  course_sub_title">
         <div class="font14plffffff bah-tag1">{{allData.is_study_record?'剩余时长':'课程时长'}}</div>
-        <div class="font14plffffff bah-tag2">
-          <span class="font16plffffff">{{allData.remaining_time}} </span>
+        <div class="font14plffffff bah-tag2 marginbottom24">
+          <span class="font20plffffff ">{{allData.remaining_time}} </span>
         </div>
-        <div>
-          <el-button class="font20plffffff" :style="buttonStyle" @click="learn(allData.is_study_record)">{{allData.is_study_record?'继续学习':'开始学习'}}</el-button>
+        <div class="course_continue_learn">
+          <el-button class="font20plffffff " :style="buttonStyle" @click="learn(allData.is_study_record)">{{allData.is_study_record?'继续学习':'开始学习'}}</el-button>
         </div>
       </div>
-      <div v-if="allData.participate" class="ba-progressbar">
+    </div>
+    <div v-if="allData.is_study_record" class="ba-progressbar ">
         <div :style="{'width':allData.schedule*100+'%'}" class="ba-progressbar-inner"></div>
         <div class="ba-progress-tip  font12plffffff" :class="{'ba-progress-tip-left':allData.schedule*100<2,'ba-progress-tip-right':allData.schedule*100>98}"
           :style="{'left':allData.schedule*100+'%'}">{{allData.schedule*100+'%'}}
           <div class="bapt-squer " :class="{'bapt-squer-left':allData.schedule*100<2,'bapt-squer-right':allData.schedule*100>98}"></div>
         </div>
       </div>
-    </div>
     <div class="ba-main mainwidth incenter clearfix">
       <div class="ba-teacherInfo rise floatl">
         <ul class="ba-teacherInfo-ul">
@@ -52,12 +52,13 @@
         </ul>
       </div>
       <div class="floatr ba-progress">
-        <div class="bap-p" v-html="allData.learn"></div>
+        <div class="bap-p" v-html="allData.description"></div>
         <div class="bap-all">
-          <el-collapse accordion @change="jj" v-model="activeName">
+          <!-- accordion -->
+          <el-collapse  @change="jj" v-model="activeName">
             <el-collapse-item v-for="(item,index) in allData.sections" :key="index" :name="index+1">
               <template slot="title">
-                <img class="beforeadd-img-icons" v-if="activeName==index+1" src="../../assets/img/icons/path+路线+课程_图标/课程详情_收起.svg" alt="">
+                <img class="beforeadd-img-icons" v-if="activeName.indexOf( index+1)!=-1" src="../../assets/img/icons/path+路线+课程_图标/课程详情_收起.svg" alt="">
                 <img class="beforeadd-img-icons" v-else src="../../assets/img/icons/path+路线+课程_图标/课程详情_展开.svg" alt="">
                 <span class="title-tag font14pl5A646E">{{item.title}}</span>
                 <span class="title-tag font20pl3a3c50 ">{{item.desc}}</span>
@@ -92,13 +93,13 @@
   </div>
 </template>
 <script>
-import func from '../../assets/js/commen/func'
-Vue.prototype.$func=func;
+  import func from '../../assets/js/commen/func'
+  Vue.prototype.$func = func;
   export default {
     name: 'HelloWorld',
     data() {
       return {
-        activeName: 1,
+        activeName: [1],
         buttonStyle: {
           background: '#23B8FF',
           padding: '9px 32px',
@@ -124,11 +125,14 @@ Vue.prototype.$func=func;
         })
       },
       jj(id) {
+        console.log(this.activeName)
+        if(!id.length)return;
+        var id=id[id.length-1];
         if (!id) {
           return
         };
-        this.activeId = id;
-        // if(this.allData.container[id-1].data){return}
+        // this.activeId = id;
+        if(this.allData.container[id-1].data){return}
         this.$get('/tracks/video/list/info?' + this.orgnizeData(id)).then(res => {
           this.allData.container[id - 1].data = res.data.data;
           console.log(this.allData)
@@ -146,7 +150,7 @@ Vue.prototype.$func=func;
           var obj = {};
           obj.id = this.allData.last_time_learn_id;
           obj.type = this.allData.last_time_learn_type;
-          obj.vid=this.allData.vid;
+          obj.vid = this.allData.vid;
           this.goPages(obj)
         } else {
           if (!this.allData.container[0].data[0]) {
@@ -164,7 +168,7 @@ Vue.prototype.$func=func;
             return
           }
         }
-        this.$func.goCourse(obj.type,this.allData.id,obj.id)
+        this.$func.goCourse(obj.type, this.allData.id, obj.id)
       },
       intercept() {
 
@@ -193,15 +197,32 @@ Vue.prototype.$func=func;
           }
         }
         this.allData = res.data.data;
-        this.jj(1);
+        this.allData.sections.forEach((element,ind) => {
+          this.jj([ind+1])
+        });
+        this.allData.schedule>1?1:this.allData.schedule;
         console.log(res)
       })
+    },
+    mounted(){
+        
     }
   }
 
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang='scss'>
+  .course_continue_learn {
+    .el-button:focus,
+    .el-button:hover {
+      color: #ffffff;
+      border-color: #c6e2ff;
+      background-color: #ecf5ff
+    }
+  }
+</style>
+
 <style lang="scss" scoped>
   .beforeadd-img-icons {
     margin-right: 18px;
@@ -211,7 +232,7 @@ Vue.prototype.$func=func;
   .blur-background {
     position: absolute;
     width: 100%;
-    height: 216px;
+    height: 240px;
     background-repeat: no-repeat;
     background-size: cover;
     -webkit-filter: blur(3px);
@@ -224,11 +245,16 @@ Vue.prototype.$func=func;
 
   .ba-header {
     width: 100%;
-    height: 216px;
+    height: 240px;
     background: rgba(0, 0, 0, 0.3);
   }
 
-  .ba-header>div {
+  .course_sub_title {
+    margin: 20px;
+    margin-bottom: 0px;
+  }
+
+  .course_title {
     margin: 24px;
     margin-bottom: 0px;
   }
@@ -385,6 +411,7 @@ Vue.prototype.$func=func;
       }
     }
   }
+
   /* .bapc-videos li{
     margin:5px 24px;
   } */
