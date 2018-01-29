@@ -46,7 +46,7 @@ class VideoList(View):
 
             data_list = list()
             if section_id:
-                videos = Video.objects.filter(section__id=section_id).order_by("sequence")
+                videos = Video.objects.filter(section__id=section_id).order_by("sequence").first()
                 for one_video in videos:
                     video_dict = dict()
                     video_dict["id"] = one_video.id
@@ -68,6 +68,7 @@ class VideoList(View):
                     if one_video.live:
                         video_dict["live_id"] = one_video.live.id
                         video_dict["live_channelId"] = one_video.live.channelId
+                        video_dict["vid"] = one_video.live.channelId
                         video_dict["live_status"] = one_video.live.status
                         video_dict["live_status_name"] = one_video.live.get_status_display()
                         video_dict["live_start_time"] = one_video.live_start_time.strftime("%Y-%m-%d %H:%M") \
