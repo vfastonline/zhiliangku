@@ -327,7 +327,7 @@ class UserAddress(View):
         }
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = param_dict.get('custom_user_id', 0)  # 用户ID
+            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 用户ID
             receiver = param_dict.get('receiver', "")  # 收货人
             address = param_dict.get('address', "")  # 收货地址
             contact_number = param_dict.get('contact_number', "")  # 联系电话
