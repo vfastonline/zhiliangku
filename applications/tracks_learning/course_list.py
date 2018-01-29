@@ -272,6 +272,7 @@ class CourseDetailInfo(View):
                     detail["course_img"] = course_obj.course_img.url if course_obj.course_img else ""
                     detail["prerequisites"] = course_obj.prerequisites
                     detail["learn"] = course_obj.learn
+                    detail["description"] = course_obj.description
                     detail["tech"] = [one_tech.name for one_tech in
                                       course_obj.tech.all()] if course_obj.tech.all().exists() else list()
                     detail["avatar"] = course_obj.lecturer.avatar.url if course_obj.lecturer.avatar else ""

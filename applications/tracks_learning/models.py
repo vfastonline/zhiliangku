@@ -77,6 +77,7 @@ class Course(models.Model):
     tech = models.ManyToManyField("Technology", verbose_name='技术分类')
     prerequisites = models.TextField('先修要求', default="")
     learn = models.TextField('你将学到什么', default="")
+    description = models.TextField('课程描述', default="")
     update_time = models.DateTimeField("更新时间", auto_now=True)
 
     def __unicode__(self):
