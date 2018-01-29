@@ -27,14 +27,8 @@ class LearnRecently(View):
         }
         try:
             custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
-
-            watchrecord_id_list = list()
-            watchrecord_list = list()
-            watchrecords = WatchRecord.objects.filter(user_id=custom_user_id).order_by("-create_time")
-            for one in watchrecords:
-                if one.course.id not in watchrecord_id_list:
-                    watchrecord_list.append(one)
-                    watchrecord_id_list.append(one.course.id)
+            query_sql = 'SELECT * FROM WatchRecord where user_id=%s group by course_id' % custom_user_id
+            watchrecord_list = WatchRecord.objects.raw(query_sql)
 
             data_list = list()
             for one in watchrecord_list:
