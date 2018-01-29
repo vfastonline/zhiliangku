@@ -65,7 +65,7 @@ class VideoList(View):
                     video_dict["duration"] = duration_str
 
                     # 补全直播信息
-                    if one_video.live:
+                    if one_video.type == "3" and one_video.live:
                         video_dict["live_id"] = one_video.live.id
                         video_dict["live_channelId"] = one_video.live.channelId
                         video_dict["vid"] = one_video.live.channelId
@@ -75,6 +75,7 @@ class VideoList(View):
                             if one_video.live_start_time else ""
                         video_dict["live_end_time"] = one_video.live_end_time.strftime("%H:%M") \
                             if one_video.live_end_time else ""
+                        
                     # 补全是否学习状态
                     if one_video.type in ["1", "2"]:  # 点播、直播回放
                         watchrecords = WatchRecord.objects.filter(video=one_video, user_id=custom_user_id)
