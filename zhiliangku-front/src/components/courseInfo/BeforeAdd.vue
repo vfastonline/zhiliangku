@@ -11,8 +11,11 @@
       </div>
       <div class="fontcenter  course_sub_title">
         <div class="font14plffffff bah-tag1">{{allData.is_study_record?'剩余时长':'课程时长'}}</div>
-        <div class="font14plffffff bah-tag2 marginbottom24">
+        <div v-if="allData.is_study_record" class="font14plffffff bah-tag2 marginbottom24">
           <span class="font20plffffff ">{{allData.remaining_time}} </span>
+        </div>
+        <div v-if="!allData.is_study_record" class="font14plffffff bah-tag2 marginbottom24">
+          <span class="font20plffffff ">{{allData.total_time}} </span>
         </div>
         <div class="course_continue_learn">
           <el-button class="font20plffffff " :style="buttonStyle" @click="learn(allData.is_study_record)">{{allData.is_study_record?'继续学习':'开始学习'}}</el-button>
@@ -20,12 +23,12 @@
       </div>
     </div>
     <div v-if="allData.is_study_record" class="ba-progressbar ">
-        <div :style="{'width':allData.schedule*100+'%'}" class="ba-progressbar-inner"></div>
-        <div class="ba-progress-tip  font12plffffff" :class="{'ba-progress-tip-left':allData.schedule*100<2,'ba-progress-tip-right':allData.schedule*100>98}"
-          :style="{'left':allData.schedule*100+'%'}">{{allData.schedule*100+'%'}}
-          <div class="bapt-squer " :class="{'bapt-squer-left':allData.schedule*100<2,'bapt-squer-right':allData.schedule*100>98}"></div>
-        </div>
+      <div :style="{'width':allData.schedule*100+'%'}" class="ba-progressbar-inner"></div>
+      <div class="ba-progress-tip  font12plffffff" :class="{'ba-progress-tip-left':allData.schedule*100<2,'ba-progress-tip-right':allData.schedule*100>98}"
+        :style="{'left':allData.schedule*100+'%'}">{{Math.round(allData.schedule*100,0)+'%'}}
+        <div class="bapt-squer " :class="{'bapt-squer-left':allData.schedule*100<2,'bapt-squer-right':allData.schedule*100>98}"></div>
       </div>
+    </div>
     <div class="ba-main mainwidth incenter clearfix">
       <div class="ba-teacherInfo rise floatl">
         <ul class="ba-teacherInfo-ul">
@@ -55,10 +58,11 @@
         <div class="bap-p" v-html="allData.description"></div>
         <div class="bap-all">
           <!-- accordion -->
-          <el-collapse  @change="jj" v-model="activeName">
+          <el-collapse @change="jj" v-model="activeName">
             <el-collapse-item v-for="(item,index) in allData.sections" :key="index" :name="index+1">
               <template slot="title">
-                <img class="beforeadd-img-icons" v-if="activeName.indexOf( index+1)!=-1" src="../../assets/img/icons/path+路线+课程_图标/课程详情_收起.svg" alt="">
+                <img class="beforeadd-img-icons" v-if="activeName.indexOf( index+1)!=-1" src="../../assets/img/icons/path+路线+课程_图标/课程详情_收起.svg"
+                  alt="">
                 <img class="beforeadd-img-icons" v-else src="../../assets/img/icons/path+路线+课程_图标/课程详情_展开.svg" alt="">
                 <span class="title-tag font14pl5A646E">{{item.title}}</span>
                 <span class="title-tag font20pl3a3c50 ">{{item.desc}}</span>
@@ -121,18 +125,27 @@
           if (!res.err) {
             console.log(this.allData.is_collect)
             this.allData.is_collect = !this.allData.is_collect;
+            this.$notify({
+              type: 'info',
+              message: res.data.msg,
+              offset: 100,
+              duration: 2000,
+              position: 'bottom-right'
+            });
           }
         })
       },
       jj(id) {
         console.log(this.activeName)
-        if(!id.length)return;
-        var id=id[id.length-1];
+        if (!id.length) return;
+        var id = id[id.length - 1];
         if (!id) {
           return
         };
         // this.activeId = id;
-        if(this.allData.container[id-1].data){return}
+        if (this.allData.container[id - 1].data) {
+          return
+        }
         this.$get('/tracks/video/list/info?' + this.orgnizeData(id)).then(res => {
           this.allData.container[id - 1].data = res.data.data;
           console.log(this.allData)
@@ -197,15 +210,15 @@
           }
         }
         this.allData = res.data.data;
-        this.allData.sections.forEach((element,ind) => {
-          this.jj([ind+1])
+        this.allData.sections.forEach((element, ind) => {
+          this.jj([ind + 1])
         });
-        this.allData.schedule>1?1:this.allData.schedule;
+        this.allData.schedule > 1 ? 1 : this.allData.schedule;
         console.log(res)
       })
     },
-    mounted(){
-        
+    mounted() {
+
     }
   }
 
@@ -218,9 +231,20 @@
     .el-button:hover {
       color: #ffffff;
       border-color: #c6e2ff;
-      background-color: #ecf5ff
+      background-color: #ecf5ff;
     }
   }
+
+  .bap-all {
+    .el-collapse-item__header,
+    .el-collapse-item__wrap {
+      background: #fafafa
+    }
+    .bapc-videos {
+      padding-top: 10px;
+    }
+  }
+
 </style>
 
 <style lang="scss" scoped>
@@ -235,6 +259,7 @@
     height: 240px;
     background-repeat: no-repeat;
     background-size: cover;
+    // background-position:center;
     -webkit-filter: blur(3px);
     /* Chrome, Opera */
     -moz-filter: blur(3px);
@@ -283,7 +308,7 @@
       text-align: center;
       background: #23B8FF;
       box-shadow: 0 0 10px 5px rgba(99, 117, 138, 0.10);
-      transition: top ease-out 0.1s;
+      transition: top ease-out 0.3s;
     }
     .ba-progress-tip-right {
       margin-left: -36px;
@@ -379,6 +404,7 @@
     .bacp-v-li {
       box-sizing: border-box;
       padding: 8px 24px;
+      margin-right: 12px;
       .left,
       .main,
       .right {

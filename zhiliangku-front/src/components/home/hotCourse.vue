@@ -40,9 +40,10 @@ Vue.use(VueLazyLoad,{
     methods:{
       go(){
         var url='/tracks/course/detail/?course_id='+this.mainData.id;
-        if(localStorage.uid){
-          url='/tracks/course/detail/?course_id='+this.mainData.id+"&custom_user_id="+localStorage.uid;
-        }
+        //这边加上用户id的意思是？
+        // if(localStorage.uid){
+        //   url='/tracks/course/detail/?course_id='+this.mainData.id+"&custom_user_id="+localStorage.uid;
+        // }
         window.location.href=url;
       }
     },
@@ -74,12 +75,13 @@ Vue.use(VueLazyLoad,{
 <style lang="scss">
   .hotCourse {
     transition: box-shadow 0.3s ease;
-    margin-bottom: 6px;
+    margin-bottom: 32px;
     z-index: 1;
   }
 
   .hotCourse:hover {
     box-shadow: 0 0 10px 5px rgba(99, 117, 138, 0.10);
+    background: white;
     z-index: 2;
   }
 

@@ -1,7 +1,7 @@
 <template>
   <div class="relative path_list_video_cover">
     <div class="inmiddle plvc-inner-container">
-      <div class="fontcenter font36plffffff">质量库高薪就业班报名进行中</div>
+      <div class="fontcenter font36plffffff">智量酷高薪就业班报名进行中</div>
       <div class="fontcenter img-container ">
         <img @click="handleClick" class="player-icon pointer" src="../../assets/img/icons/path+路线+课程_图标/player.svg" alt="">
       </div>
@@ -40,6 +40,7 @@
     width: 100%;
     height: 400px;
     background: rgba(0, 0, 0, .2);
+    background-position: center;
     /* display: flex;
     flex-wrap: wrap;
     flex-direction: column;

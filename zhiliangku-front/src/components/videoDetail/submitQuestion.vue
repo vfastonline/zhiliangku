@@ -31,9 +31,7 @@
       <div class="relative mb16 submit-li">
         <div class="floatl submit-label">问题方向：</div>
         <div class="sq-button-container">
-          <el-button v-for="(item,index) in tags"  :key="index" 
-          :class="{'first-button':index==0}"
-          @click="selectDirection(item)">{{item.name}}</el-button>
+          <el-button v-for="(item,index) in tags" :key="index" :class="{'first-button':index==0,'active-el-button':activeButtonIndex==index}" @click="selectDirection(item,index)">{{item.name}}</el-button>
         </div>
       </div>
       <div class=" submit-li">
@@ -48,10 +46,51 @@
         <el-button @click="submitQuestion()">提交</el-button>
       </div>
     </div>
-
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang='scss'>
+  .sq-button-container {
+    .el-button {
+      padding:4px 8px;
+      border-radius: 100px;
+      background: #6A747F;
+      color: #ffffff;
+    }
+
+    .el-button+.el-button {
+      margin-left: 10px
+    }
+
+    .el-button:focus,
+    .el-button:hover {
+      color: #fafafa;
+      border-color: #c6e2ff;
+      background-color: #6A747F ;
+      opacity: 0.8;
+    }
+    .active-el-button{
+      background: #23B8FF ;
+      color: #ffffff;
+    }
+  }
+  .submit-li{
+    .sq-button-container{
+      .active-el-button{
+      background: #23B8FF ;
+      color: #ffffff;
+    }
+    }
+  }
+  .el-select{
+    width:100%
+  }
+  .sq-submit{
+    .el-button{
+      border-radius: 100px;
+    }
+  }
+</style>
 
 <script>
   import Vue from 'vue'
@@ -64,6 +103,7 @@
     name: 'HelloWorld',
     data() {
       return {
+        activeButtonIndex:-1,
         title: '',
         content: '',
         direction: '',
@@ -90,13 +130,14 @@
         }],
         options: {
           modules: {
-            toolbar: ['bold', 'italic', 'underline', 
-            // 'image',
-             'link', {
-              'list': 'bullet'
-            }, {
-              'list': 'ordered'
-            }, 'blockquote']
+            toolbar: ['bold', 'italic', 'underline',
+              // 'image',
+              'link', {
+                'list': 'bullet'
+              }, {
+                'list': 'ordered'
+              }, 'blockquote'
+            ]
           }
         }
       }
@@ -119,12 +160,15 @@
               duration: 3000,
               position: 'bottom-right'
             });
+            this.$router.push({
+              path: '/question'
+            })
           }
-          this.$router.push({path:'/question'})
         })
       },
-      selectDirection(item) {
+      selectDirection(item,index) {
         this.direction = item.id;
+        this.activeButtonIndex=index;
       }
     },
     created() {
@@ -145,7 +189,7 @@
   .submit-question-container {
     background: #fafafa;
     padding-top: 40px;
-    height: 1000px;
+    height: 700px;
   }
 
   .sqc-title {
@@ -185,12 +229,15 @@
   .ml {
     margin-left: 94px;
   }
-  .sq-button-container{
-    margin-left:85px;
+
+  .sq-button-container {
+    margin-left: 85px;
   }
-  .first-button{
-    margin-left:10px;
+
+  .first-button {
+    margin-left: 10px;
   }
+
   .sqct-content {
     opacity: 0.5;
     margin-left: 30px;
