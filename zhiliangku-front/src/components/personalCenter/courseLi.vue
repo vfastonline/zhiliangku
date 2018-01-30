@@ -11,7 +11,7 @@
           <span v-if="mainData.course_count">{{mainData.course_count}}门课程</span>
           <span  class="mrpc-match-rate inlineblock  font14pl5A646E">
             <span>{{config.tag}}</span>
-            <span class="font20pl3a3c50">{{mainData.schedule*100}}%</span>
+            <span class="font20pl3a3c50">{{Math.round(mainData.schedule*100,0)}}%</span>
           </span>
           <el-button class="floatr button_style_0" @click="handleClick()">{{config.buttonStr}}</el-button>
         </div>

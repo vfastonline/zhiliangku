@@ -1,5 +1,5 @@
 <template>
-  <div id="anchor0" class="rise">
+  <div id="anchor0" >
     <div  class="rc-pi resumewidth incenter">
       <div class="rc-pi-container1">
         <div class="rc-pi-content ">
@@ -38,6 +38,9 @@
     <editor :mainData="mainData" :applyData="applyData"  @close="showeditor=!showeditor" v-if="showeditor"></editor>
   </div>
 </template>
+<style>
+</style>
+
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
 import editor from './resumeContent0.0'
@@ -52,7 +55,7 @@ import editor from './resumeContent0.0'
     },
     watch:{
       mainData:function(value){
-        this.imgsrc=$myConst.httpUrl+this.mainData.avatar;
+        this.imgsrc=this.$myConst.httpUrl+this.mainData.avatar;
       }
     },
     methods:{

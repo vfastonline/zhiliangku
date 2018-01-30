@@ -43,7 +43,6 @@
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
         const isLt2M = file.size / 1024 / 1024 < 2;
-
         if (!isJPG) {
           this.$message.error('上传头像图片只能是 JPG 格式!');
         }
@@ -155,6 +154,9 @@
     line-height: 20px;
     margin-top: 51px;
     opacity: 0.5;
+  }
+  .pio-words{
+    width:600px;
   }
 
   .pio-detail .pio-user-right .pio-exit {
