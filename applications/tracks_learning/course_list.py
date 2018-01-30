@@ -280,15 +280,7 @@ class CourseDetailInfo(View):
 
                     # 汇总数据学习进度
                     summarize_dict = summarize_course_progress(custom_user_id, course_obj.id)
-                    detail["total_time"] = summarize_dict.get("total_time")
-                    detail["remaining_time"] = summarize_dict.get("remaining_time")  # 剩余时长，分钟
-                    detail["schedule"] = summarize_dict.get("schedule")
-                    detail["is_study_record"] = summarize_dict.get("is_study_record")  # 是否有用户无学习记录
-                    detail["last_time_learn"] = summarize_dict.get("last_time_learn")  # 最近学习视频名称
-                    detail["last_time_learn_id"] = summarize_dict.get("last_time_learn_id")  # 最近学习视频ID
-                    detail["last_time_learn_type"] = summarize_dict.get("last_time_learn_type")  # 最近学习视频类型
-                    detail["vid"] = summarize_dict.get("vid")  # 最近学习视频类型
-                    detail["video_process"] = summarize_dict.get("video_process")  # 最近学习视频观看进度
+                    detail.update(summarize_dict)
 
                     # 是否收藏
                     detail["is_collect"] = 0  # 用户是否收藏，1：收藏，0：未收藏
@@ -368,26 +360,27 @@ def summarize_course_progress(custom_user_id, course_id):
     }
     try:
         course_objs = Course.objects.filter(id=course_id)
-        if course_objs.exists() and custom_user_id:
+        if course_objs.exists():
             course_obj = course_objs.first()
 
             # 课程时长
-            duration_sum = Video.objects.filter(section__in=course_obj.Section.all()).aggregate(
-                Sum('duration')).get("duration__sum")
+            duration_sum = Video.objects.filter(section__in=course_obj.Section.all()).aggregate(Sum('duration')).get(
+                "duration__sum")
+            m, s = divmod(duration_sum, 60)
+            h, m = divmod(m, 60)
+            total_time_str = "%02d:%02d:%02d" % (h, m, s)
+            result_dict["total_time"] = total_time_str
 
-            # 用户已经看了多长时间
-            watchrecords = WatchRecord.objects.filter(user_id=custom_user_id, course=course_obj).order_by(
-                "-create_time")
-            watch_total_time_sum = watchrecords.values("video_process").aggregate(Sum('video_process')).get(
-                "video_process__sum")  # 秒
+            if custom_user_id:
 
-            # 计算剩余时长
-            if duration_sum:
-                m, s = divmod(duration_sum, 60)
-                h, m = divmod(m, 60)
-                total_time_str = "%02d:%02d:%02d" % (h, m, s)
-                result_dict["total_time"] = total_time_str
-                if watch_total_time_sum:
+                # 用户已经看了多长时间
+                watchrecords = WatchRecord.objects.filter(user_id=custom_user_id, course=course_obj).order_by(
+                    "-create_time")
+                watch_total_time_sum = watchrecords.values("video_process").aggregate(Sum('video_process')).get(
+                    "video_process__sum")  # 秒
+
+                # 计算剩余时长
+                if duration_sum and watch_total_time_sum:
                     one_watchrecord = watchrecords.first()
                     last_time_learn = one_watchrecord.video.name  # 上次学到
                     last_time_learn_id = one_watchrecord.video.id  # 上次学到视频ID
