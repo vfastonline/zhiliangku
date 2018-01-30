@@ -16,7 +16,7 @@
     <div class="setting-item relative">
       <div class="tag font14pl3a3c50">个性签名：</div>
       <div class="set-content">
-        <el-input :maxlength="20" v-model="value2"></el-input>
+        <el-input type='textarea' :maxlength="120" v-model="value2"></el-input>
       </div>
     </div>
     <rcb @submit="submit" :layer="['submit'] "></rcb>

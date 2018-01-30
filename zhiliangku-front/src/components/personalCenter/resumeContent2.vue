@@ -1,5 +1,5 @@
 <template>
-  <div id="anchor2" class="rise resume-model">
+  <div id="anchor2" class=" resume-model">
     <resumetitle @add="add()" :mainData="titleData">
       <span>
         <img class="imgmiddle imgr" src="../../assets/img/icons/个人中心和积分商城图标/简历_钱币.svg" alt="">求职意向</span>

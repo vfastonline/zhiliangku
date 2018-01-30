@@ -41,7 +41,7 @@
           className: ['floatl', 'rise'],
           outerStyle: {
             'margin-right': '33px',
-            'margin-bottom': '16px'
+            'margin-bottom': '32px'
           },
           num: 3
         },

@@ -1,5 +1,5 @@
 <template>
-  <div id="anchor3" class="rise resume-model">
+  <div id="anchor3" class=" resume-model">
     <resumetitle @add="add()">
       <span>
         <img class="imgmiddle imgr" src="../../assets/img/icons/个人中心和积分商城图标/简历_公文包.svg" alt="">工作经历</span>
