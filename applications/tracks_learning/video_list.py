@@ -60,7 +60,8 @@ class VideoList(View):
                     duration_str = ""
                     if one_video.duration:
                         m, s = divmod(one_video.duration, 60)
-                        duration_str = "%d分%d秒" % (m, s)
+                        h, m = divmod(m, 60)
+                        duration_str = "%02d:%02d:%02d" % (h, m, s)
 
                     video_dict["duration"] = duration_str
 
