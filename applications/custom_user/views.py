@@ -705,7 +705,7 @@ def send_activation_mail(user_email, customer_user_id, customer_user_auth_id):
         pycrypt_obj = PyCrypt(CryptKey)
         crypt_email = pycrypt_obj.encrypt(email_str)
         mail_content = "".join([mail_content, activation_link, crypt_email])
-        print activation_link
+        print activation_link, crypt_email
 
         send_result = sendmail(user_email, mail_subject, mail_content)
     except:
