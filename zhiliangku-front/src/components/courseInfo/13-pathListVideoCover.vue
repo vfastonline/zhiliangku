@@ -41,6 +41,7 @@
     height: 400px;
     background: rgba(0, 0, 0, .2);
     background-position: center;
+    background-repeat: no-repeat;
     /* display: flex;
     flex-wrap: wrap;
     flex-direction: column;
