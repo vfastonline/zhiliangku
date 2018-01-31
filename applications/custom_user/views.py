@@ -813,7 +813,17 @@ class ActivationCustomUserEmail(View):
             result_dict["err"] = 1
             result_dict["msg"] = '通过邮箱激活账户异常, %s' % traceback.format_exc()
         finally:
-            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+            template_name = "customuser/activation/result/index.html"
+            return render(request, template_name, json.dumps(result_dict, ensure_ascii=False))
+            # return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+class ActivationResult(View):
+    """邮箱激活账号结果页面"""
+
+    def get(self, request, *args, **kwargs):
+        template_name = "customuser/activation/result/index.html"
+        return render(request, template_name, {})
 
 
 class RetrievePasswordByPhone(View):
