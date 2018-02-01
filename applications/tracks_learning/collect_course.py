@@ -27,7 +27,7 @@ class CollectCourse(View):
                 customusers = CustomUser.objects.filter(id=custom_user_id)
                 if courses.exists() and customusers.exists():
                     filter_param = {
-                        "custom_user": customusers.first(),
+                        "custom_user_id": customusers.first().id,
                         "course": courses.first()
                     }
                     customusercourses = CustomUserCourse.objects.filter(**filter_param)
