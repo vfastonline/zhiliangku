@@ -22,15 +22,10 @@ class CustomUserAuthsAdmin(admin.ModelAdmin):
 
 @admin.register(CustomUserPath)
 class CustomUserPathAdmin(admin.ModelAdmin):
-    list_display = ('id', 'custom_user', "paths", "create_time")
-    search_fields = ('custom_user__nickname', "paths__name")
-    filter_horizontal = ('path',)
+    list_display = ('id', 'custom_user', "path", "create_time")
+    readonly_fields = ('create_time',)
+    search_fields = ('custom_user__nickname', "path__name")
     form = CustomUserPathForm
-
-    def paths(self, obj):
-        return ",".join(obj.path.all().values_list("name", flat=True))
-
-    paths.short_description = "参与职业路径"
 
 
 @admin.register(CustomUserCourse)
