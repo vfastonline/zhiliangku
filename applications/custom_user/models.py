@@ -37,7 +37,7 @@ class CustomUser(models.Model):
     receiver = models.CharField('收货人', max_length=255, blank=True, null=True, default="")
     address = models.CharField('收货地址', max_length=255, blank=True, null=True, default="")
     contact_number = models.CharField('联系电话', max_length=255, blank=True, null=True, default="")
-    signature = models.CharField('个性签名', max_length=255, blank=True, null=True)
+    signature = models.TextField('个性签名', max_length=255, default="")
     integral = models.PositiveIntegerField("积分", default=10)
     create_time = models.DateTimeField(verbose_name='创建时间', default=timezone.now)
 
