@@ -7,7 +7,8 @@ import traceback
 
 from django.db import models
 from django.utils import timezone
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from lib.storage import ImageStorage
 
 
@@ -51,6 +52,22 @@ class CustomUser(models.Model):
         ordering = ["-create_time"]
 
 
+@receiver(post_save, sender=CustomUser)  # 信号的名字，发送者
+def add_customuser_event(sender, instance, **kwargs):  # 回调函数，收到信号后的操作
+    """新建
+    :param sender:
+    :param instance:
+    :param kwargs:
+    :return:
+    """
+    from applications.personal_center.models import Resume
+    try:
+        Resume.objects.get_or_create(custom_user=instance)
+    except:
+        traceback.print_exc()
+        logging.getLogger().error(traceback.format_exc())
+
+
 class CustomUserAuths(models.Model):
     """用户授权信息"""
     IDENTITYTYPE = (
@@ -80,7 +97,7 @@ class CustomUserPath(models.Model):
     """用户参与路径 """
 
     custom_user = models.ForeignKey(CustomUser, verbose_name="用户", limit_choices_to={'role': 0},
-                                       help_text='只允许选择角色是”学生“的用户。')
+                                    help_text='只允许选择角色是”学生“的用户。')
     path = models.ForeignKey("tracks_learning.Path", verbose_name="职业路径", blank=True, null=True)
     create_time = models.DateTimeField(verbose_name='参与时间', default=timezone.now)
 
