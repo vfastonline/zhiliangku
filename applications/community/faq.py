@@ -50,9 +50,7 @@ class FaqListInfo(View):
             }
             filter_dict = dict()
             [filter_dict.update({query_field: param}) for query_field, param in search_param.items() if param]
-            faqs = list()
-            if filter_dict:
-                faqs = Faq.objects.filter(**filter_dict).order_by("-create_time")
+            faqs = Faq.objects.filter(**filter_dict).order_by("-create_time")
 
             if faqs:
                 # 提供分页数据
