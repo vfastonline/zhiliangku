@@ -65,7 +65,7 @@ class MyCollect(View):
         try:
             custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
 
-            customusercourses = CustomUserCourse.objects.filter(custom_user_id=custom_user_id).order_by("create_time")
+            customusercourses = CustomUserCourse.objects.filter(custom_user_id=custom_user_id)
             data_list = list()
             if customusercourses.exists():
                 for one in customusercourses:
