@@ -286,7 +286,7 @@ class CourseDetailInfo(View):
                     detail["is_collect"] = 0  # 用户是否收藏，1：收藏，0：未收藏
                     collect_filter = {
                         "custom_user_id": custom_user_id,
-                        "course__in": [course_obj],
+                        "course": course_obj,
                     }
                     customusercourses = CustomUserCourse.objects.filter(**collect_filter)
                     if customusercourses.exists():

@@ -65,14 +65,16 @@ class MyCollect(View):
         try:
             custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
 
-            customusercourses = CustomUserCourse.objects.filter(custom_user_id=custom_user_id)
+            customusercourses = CustomUserCourse.objects.filter(custom_user_id=custom_user_id).order_by("create_time")
             data_list = list()
             if customusercourses.exists():
-                for one in customusercourses.first().course.all():
+                for one in customusercourses:
                     data_dict = dict()
-                    data_dict["last_course_id"] = one.id
-                    data_dict["course_name"] = one.name
-                    data_dict["course_img"] = one.course_img.url
+                    data_dict["course_name"] = one.course.name
+                    data_dict["course_img"] = one.course.course_img.url
+                    data_dict["create_time_year"] = one.create_time.strftime("%Y")
+                    data_dict["create_time"] = one.create_time.strftime("%m月%d日")
+                    data_dict["last_course_id"] = one.course.id
                     summarize_dict = summarize_course_progress(custom_user_id, one.id)
                     data_dict.update(summarize_dict)
                     data_list.append(data_dict)
