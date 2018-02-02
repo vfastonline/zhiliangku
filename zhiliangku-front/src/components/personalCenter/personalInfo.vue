@@ -11,7 +11,7 @@
         <div class="pio-user-right">
           <div class="pio-username font20plffffff">{{nickname}}</div>
           <div class="pio-studytime font14prffffff">
-            学习时长：{{mainData.learn_time}}分钟 | 积分：{{mainData.integral}}分</div>
+            学习时长：{{mainData.learn_time}} | 积分：{{mainData.integral}}分</div>
           <div class="pio-words font14prffffff">{{mainData.signature}}</div>
         </div>
       </div>

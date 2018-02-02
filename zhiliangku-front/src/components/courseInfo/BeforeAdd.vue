@@ -83,8 +83,8 @@
                     <div class="right">
                       <img v-if="thisli.is_learned==1" src="../../assets/img/icons/Path.svg">
                       <span v-if="thisli.is_learned==99">正在学习</span>
-                      <span v-if="thisli.is_learned==0&&thisli.live_status!='live'">{{thisli.duration}}</span>
-                      <span v-if="thisli.live_status=='live'" class="font14pr23b8ff">正在直播</span>
+                      <span v-if="thisli.type!=3&&thisli.is_learned==0&&thisli.live_status!='live'">{{thisli.duration}}</span>
+                      <span v-if="thisli.type==3" class="font14pr23b8ff">{{thisli.live_status_name}}</span>
                     </div>
                   </li>
                 </ul>
@@ -170,16 +170,18 @@
             return
           }
           var obj = this.allData.container[0].data[0];
-
           this.goPages(obj)
         }
       },
       goPages(obj) {
-        if (obj.type != 4) {
+        if (['1','2'].indexOf( obj.type)!=-1) {
           if (!obj.vid) {
             this.showNotice('内容正在制作中，敬请期待')
             return
           }
+        }
+        if(obj.type==3){
+          if(obj.)
         }
         this.$func.goCourse(obj.type, this.allData.id, obj.id)
       },

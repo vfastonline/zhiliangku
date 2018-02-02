@@ -11,15 +11,12 @@
     height: 70px;
     line-height: 70px;
   }
-
   .persona-center-navbar .router-link-active {
     color: #23B8FF;
   }
-
 </style>
 <script>
   import Bus from '../../assets/js/bus'
-
   import projectHeader from '../../components/home/projectHeader.vue'
   import projectFooter from '../../components/home/projectFooter.vue'
   import mainRouter from '../../components/personalCenter/mainRouter.vue'

@@ -8,6 +8,11 @@
 <script>
   //页码组件目标，外界仅可通过对象来初始化该组件
   //本组件自身根据传入对象参数，进行请求，并且，请求之后的内容派给父实例
+  // 组件说明：
+  // 1.首先这里面的mainData实际上是页码信息。
+  // 2.url是基础路径。
+  // 3.主要通过bus.js来传递信息
+  // 4.想要改版成不依赖bus.js的版本。
   import Bus from '../../assets/js/bus'
   //接下来要实现的是关联url这一增加功能
   export default {
@@ -96,7 +101,9 @@
       }
       if(this.pageData){this.mainData=this.pageData}
       Bus.$on('additionEnter', res => {
+        debugger
         window.location.search = this.objToSearch(res)
+        
       })
     }
   }

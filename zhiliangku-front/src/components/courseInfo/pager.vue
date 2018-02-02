@@ -27,8 +27,7 @@ import Bus from '../../assets/js/bus'
         this.mainData.page=val;
         console.log(this.mainData)
         this.$get(this.mainData.url+this.objToSearch(this.mainData.params)+'page='+val).then(res=>{
-    
-    Bus.$emit('pagerHaveData',res)
+        Bus.$emit('pagerHaveData',res)
         })
       },
       objToSearch(obj){

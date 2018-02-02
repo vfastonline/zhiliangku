@@ -6,6 +6,7 @@
         <router-link   :to="{path:'/myCourse'}" class="font16pr3a3c50 pointer vc-nav-tag">我的课程</router-link>
         <router-link   :to="{path:'/myResume'}" class="font16pr3a3c50 pointer vc-nav-tag">我的简历</router-link>
         <router-link   :to="{path:'/mySettings'}" class="font16pr3a3c50 pointer vc-nav-tag">个人设置</router-link>
+        <router-link   :to="{path:'/myVIP'}" class="font16pr3a3c50 pointer vc-nav-tag">我的VIP</router-link>
       </div>
     </div>
     <div style="height:1px;"></div>

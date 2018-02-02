@@ -347,13 +347,13 @@
             })
             callback(param)
           }
-          console.log(res)
+          // console.log(res)
         })
       },
       getCode(data, callbackfun, param) {
         this.$post('/customuser/send_sms', this.changeKeys(data, ['phone', 'password'])).then(
           res => {
-            console.log(res)
+            // console.log(res)
             if (callbackfun && !res.data.err) {
               callbackfun(param)
             }
@@ -374,7 +374,7 @@
           }
           //此处是临时处理
           this.closeAll();
-          console.log(res)
+          // console.log(res)
         })
       },
       getPassType(data, callbackfun, param) {
@@ -428,12 +428,12 @@
           '188.com': 'http://www.188.com/',
           'foxmail.coom': 'http://www.foxmail.com'
         };
-        console.log(email)
+        // console.log(email)
         if (hash[email.split('@')[1]]) {
           window.open(hash[email.split('@')[1]])
           return
         } else {
-          console.log('未知邮箱')
+          // console.log('未知邮箱')
         }
       }
     },
@@ -453,8 +453,8 @@
         this.allshow[key] = true;
       })
       this.$on('noActive', function (name) {
-        console.log('noActive')
-        console.log(name)
+        // console.log('noActive')
+        // console.log(name)
         this.changeModal(name)
       })
       this.$on('logupTologin', function () {
