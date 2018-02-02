@@ -75,7 +75,8 @@ class VideoList(View):
                         video_dict["live_status_name"] = one_video.live.get_status_display()
                         if one_video.live_start_time and one_video.live_end_time:
                             if (one_video.live_start_time > timezone.now()) or (one_video.live_end_time < timezone.now()):
-                                video_dict.update({"live_status": "end"})
+                                video_dict["live_status"] = "end"
+                                video_dict["live_status_name"] = "直播结束"
                         else:
                             video_dict["live_status"] = "end"
                             video_dict["live_status_name"] = "直播结束"
