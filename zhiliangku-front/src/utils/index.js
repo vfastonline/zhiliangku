@@ -32,7 +32,6 @@ module.exports = (function () {
   // 该方法支持全是没有修饰的arr，以及arr盛着的对象的多个未修饰的key
   fn.addString = function (str, arr, key) {
     if (arr instanceof Array) {
-
       for (var i = 0; i < arr.length; i++) {
         if (!key) {
           arr.splice(i, 1, str + arr[i])
@@ -51,6 +50,7 @@ module.exports = (function () {
     if (typeof arr == 'string') {
       return str + arr;
     }
+    arr[key]=str+arr[key]
   }
   fn.initMainData = function (obj, arr, brr) {
     for (var i = 1; i < arr.length; i++) {

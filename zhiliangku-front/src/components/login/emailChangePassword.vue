@@ -1,7 +1,7 @@
 <template>
   <div class="loginpage-continer incenter">
     <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px">
-      <el-form-item label="输入新密码：" prop="pass">
+      <el-form-item label="输入密码：" prop="pass">
         <el-input type="password" placeholder="6-16位密码，区分大小写" v-model="ruleForm2.pass" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="再次输入：" placeholder="再次输入密码" prop="checkPass">
@@ -78,6 +78,7 @@
     },
     methods: {
       forgetPassword(){
+        //这个页面本来就是忘记密码的页面，所以不必在意
         Bus.$emit('forgetPassword',this.ruleForm2.account)
       },
       submitForm(formName) {

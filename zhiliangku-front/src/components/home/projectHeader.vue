@@ -23,7 +23,7 @@
                 </el-badge>
               </a>
             </span>
-            <span class="ph-tag pointer">社区</span>
+            <span class="ph-tag pointer"><a href="/community/faq/list/"> 社区</a></span>
             <span class="ph-tag last pointer">线下课程</span>
             <span class="ph-search">
               <!-- <input type="text"> -->
@@ -102,14 +102,14 @@
     },
     watch:{
       is_login:function(a,b){
-        console.log(a)
-        console.log(b)
+        // console.log(a)
+        // console.log(b)
       }
     },
     methods: {
       jj(){
         this.is_login=!this.is_login;
-        console.log('this is ' +this.is_login)
+        // console.log('this is ' +this.is_login)
       },
       changShow() {
         this.show = !this.show;
@@ -118,7 +118,7 @@
         this.showuser = !this.showuser;
       },
       showVideoList() {
-        console.log(this)
+        // console.log(this)
         this.$parent.$emit('showVideoList')
       },
       goindex() {
@@ -126,7 +126,7 @@
       },
       myDispatch(eventName, key) {
         var arr = this.$children;
-        console.log(111)
+        // console.log(111)
         for (let i = 0; i < arr.length; i++) {
           arr[i].$emit(eventName, key)
         }
@@ -143,12 +143,12 @@
         // 不等于首页的页面均需要重载
         if (location.pathname != '/') {
           //这里的逻辑应该是删除掉user_info的字段
-          debugger
+          // debugger
           if(this.$fn.funcUrl('next')||this.$fn.funcUrl('user_info')){
            window.location.href = this.$fn.funcUrlDelArr(['user_info','next'])
           }
         }
-        console.log(this.userinfo)
+        // console.log(this.userinfo)
       },
       logoutFunc() {
         this.is_login = false;
@@ -180,9 +180,9 @@
           localStorage[k] = brr[k]
         }
         this.loginfun();
-        console.log(this.is_login)
+        // console.log(this.is_login)
       }
-      console.log(document.cookie)
+      // console.log(document.cookie)
       if (this.type == 'videoHeader') {
         this.buttonStyle = this.videoButtonStyle;
         this.outerStyle = {
@@ -194,7 +194,7 @@
       //如果先进行这一步判断，然后再进行取user_info的字段就可以完成后退功能
       if (this.$fn.getCookie('token')) {
         this.getUserInfo()
-        console.log(this.userinfo)
+        // console.log(this.userinfo)
         this.is_login = true;
       } else {
         this.is_login = false;

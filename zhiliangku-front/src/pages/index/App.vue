@@ -14,11 +14,11 @@
     },
     methods: {
       jj() {
-        console.log(111)
+        // console.log(111)
       }
     },
     created(){
-      console.log(this)
+      // console.log(this)
     }
   }
 
