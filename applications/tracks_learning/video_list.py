@@ -7,13 +7,14 @@ import traceback
 
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils import timezone
 from django.views.generic import View
 
+from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
 from conf.conf_core import *
 from lib.permissionMixin import class_view_decorator, user_login_required
 from lib.util import str_to_int
-from applications.record.models import WatchRecord
 
 
 class UploadVideoPolyvParam(View):
@@ -72,11 +73,18 @@ class VideoList(View):
                         video_dict["vid"] = one_video.live.channelId
                         video_dict["live_status"] = one_video.live.status
                         video_dict["live_status_name"] = one_video.live.get_status_display()
+                        if one_video.live.live_start_time and one_video.live.live_end_time:
+                            if (one_video.live.live_start_time > timezone.now()) or (
+                                    one_video.live.live_end_time < timezone.now()):
+                                video_dict.update({"status": "end"})
+                        else:
+                            video_dict["live_status"] = "end"
+                            video_dict["live_status_name"] = "直播结束"
                         video_dict["live_start_time"] = one_video.live_start_time.strftime("%Y-%m-%d %H:%M") \
                             if one_video.live_start_time else ""
                         video_dict["live_end_time"] = one_video.live_end_time.strftime("%H:%M") \
                             if one_video.live_end_time else ""
-                        
+
                     # 补全是否学习状态
                     if one_video.type in ["1", "2"]:  # 点播、直播回放
                         watchrecords = WatchRecord.objects.filter(video=one_video, user_id=custom_user_id)
