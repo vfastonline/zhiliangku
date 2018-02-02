@@ -27,9 +27,14 @@ urlpatterns = [
 
     url('^video/list/info$', video_list.VideoList.as_view()),
 
+    # 视频详情
     url('^video/detail/$', video_list.VideoDetail.as_view()),
-    url('^live/detail/$', video_list.LiveDetail.as_view()),
     url('^video/detail/info$', video_list.VideoDetailInfo.as_view()),
+
+    # 直播详情
+    url('^live/detail/$', video_list.LiveDetail.as_view()),
+    url('^live/detail/info$', video_list.LiveDetailInfo.as_view()),
+
     url('^get-polyv$', video_list.UploadVideoPolyvParam.as_view()),
 
     url('^common_question/list/info$', common_question.CommonQuestionList.as_view()),
