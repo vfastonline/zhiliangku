@@ -73,9 +73,8 @@ class VideoList(View):
                         video_dict["vid"] = one_video.live.channelId
                         video_dict["live_status"] = one_video.live.status
                         video_dict["live_status_name"] = one_video.live.get_status_display()
-                        if one_video.live.live_start_time and one_video.live.live_end_time:
-                            if (one_video.live.live_start_time > timezone.now()) or (
-                                    one_video.live.live_end_time < timezone.now()):
+                        if one_video.live_start_time and one_video.live_end_time:
+                            if (one_video.live_start_time > timezone.now()) or (one_video.live_end_time < timezone.now()):
                                 video_dict.update({"status": "end"})
                         else:
                             video_dict["live_status"] = "end"
