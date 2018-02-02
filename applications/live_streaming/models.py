@@ -30,7 +30,6 @@ class Live(models.Model):
     status = models.CharField('状态', max_length=5, choices=STATUS, default='end')  # 频道的直播状态，字符串，值包括：live end
     data = models.TextField("创建直播接口返回值", blank=True, null=True)
     desc = models.TextField('简介', max_length=1000, blank=True, null=True, default='')
-    start_time = models.TimeField('时间', default=timezone.now)
 
     def __unicode__(self):
         return self.name
@@ -63,6 +62,11 @@ class Live(models.Model):
                     raise ValidationError("".join(["设置频道号密码异常 ", set_result_message]))
 
     def delete(self, *args, **kwargs):
+        """删除直播，同时删除保利威视直播频道
+        :param args:
+        :param kwargs:
+        :return:
+        """
         ret_result = False
         try:
             delete_result = delete_live(self.channelId)
@@ -80,4 +84,4 @@ class Live(models.Model):
         db_table = 'Live'
         verbose_name = "直播"
         verbose_name_plural = "直播"
-        ordering = ['start_time']
+        ordering = ['name']

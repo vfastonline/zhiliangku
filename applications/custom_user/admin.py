@@ -7,7 +7,7 @@ from applications.custom_user.model_form import *
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
     list_display = (
-    'id', 'nickname', "sex", 'role', "position", "receiver", "address", "signature", "integral", "create_time")
+        'id', 'nickname', "sex", 'role', "position", "integral", "create_time")
     search_fields = ('nickname',)
     list_filter = ('role', "sex")
 
@@ -22,28 +22,18 @@ class CustomUserAuthsAdmin(admin.ModelAdmin):
 
 @admin.register(CustomUserPath)
 class CustomUserPathAdmin(admin.ModelAdmin):
-    list_display = ('id', 'custom_user', "paths", "create_time")
-    search_fields = ('custom_user__nickname', "paths__name")
-    filter_horizontal = ('path',)
+    list_display = ('id', 'custom_user', "path", "create_time")
+    readonly_fields = ('create_time',)
+    search_fields = ('custom_user__nickname', "path__name")
     form = CustomUserPathForm
-
-    def paths(self, obj):
-        return ",".join(obj.path.all().values_list("name", flat=True))
-
-    paths.short_description = "参与职业路径"
 
 
 @admin.register(CustomUserCourse)
 class CustomUserCourseAdmin(admin.ModelAdmin):
-    list_display = ('id', 'custom_user', "courses", "create_time")
-    search_fields = ('custom_user__nickname', "courses__name")
-    filter_horizontal = ('course',)
+    list_display = ('id', 'custom_user', "course", 'create_time',)
+    readonly_fields = ('create_time',)
+    search_fields = ('custom_user__nickname', "course__name")
     form = CustomUserCourseForm
-
-    def courses(self, obj):
-        return ",".join(obj.course.all().values_list("name", flat=True))
-
-    courses.short_description = "收藏课程"
 
 
 @admin.register(VerifyCode)

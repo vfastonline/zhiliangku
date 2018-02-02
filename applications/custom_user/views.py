@@ -700,12 +700,11 @@ def send_activation_mail(user_email, customer_user_id, customer_user_auth_id):
     try:
         mail_subject = "智量酷邮箱账号激活"
         mail_content = "点击此链接完成激活，"
-        activation_link = "http://www.zhiliangku.com/customuser/activation?hash="
+        activation_link = "http://www.zhiliangku.com/customuser/activation/result/?hash="
         email_str = "|".join([user_email, str(customer_user_id), str(customer_user_auth_id)])
         pycrypt_obj = PyCrypt(CryptKey)
         crypt_email = pycrypt_obj.encrypt(email_str)
         mail_content = "".join([mail_content, activation_link, crypt_email])
-
         send_result = sendmail(user_email, mail_subject, mail_content)
     except:
         traceback.print_exc()
@@ -814,6 +813,14 @@ class ActivationCustomUserEmail(View):
             result_dict["msg"] = '通过邮箱激活账户异常, %s' % traceback.format_exc()
         finally:
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+class ActivationResult(View):
+    """邮箱激活账号结果页面"""
+
+    def get(self, request, *args, **kwargs):
+        template_name = "customuser/activation/result/index.html"
+        return render(request, template_name, {})
 
 
 class RetrievePasswordByPhone(View):

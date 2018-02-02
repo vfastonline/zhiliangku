@@ -7,7 +7,7 @@ from lib.polyv.live_api import getstatus_live
 
 @admin.register(Live)
 class LiveAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', "start_time", "channelId", "channelPasswd", "autoPlay", "status", 'pathwels')
+    list_display = ('id', "channelId", "channelPasswd", 'name', "status", "autoPlay", 'pathwels')
     search_fields = ('name', "channelId",)
     list_filter = ('status', "autoPlay",)
     list_editable = ['status', "channelPasswd"]

@@ -68,12 +68,14 @@ class MyCollect(View):
             customusercourses = CustomUserCourse.objects.filter(custom_user_id=custom_user_id)
             data_list = list()
             if customusercourses.exists():
-                for one in customusercourses.first().course.all():
+                for one in customusercourses:
                     data_dict = dict()
-                    data_dict["last_course_id"] = one.id
-                    data_dict["course_name"] = one.name
-                    data_dict["course_img"] = one.course_img.url
-                    summarize_dict = summarize_course_progress(custom_user_id, one.id)
+                    data_dict["course_name"] = one.course.name
+                    data_dict["course_img"] = one.course.course_img.url
+                    data_dict["create_time_year"] = one.create_time.strftime("%Y")
+                    data_dict["create_time"] = one.create_time.strftime("%m月%d日")
+                    data_dict["last_course_id"] = one.course.id
+                    summarize_dict = summarize_course_progress(custom_user_id, one.course.id)
                     data_dict.update(summarize_dict)
                     data_list.append(data_dict)
             result_dict["data"] = data_list
@@ -103,13 +105,15 @@ class MyPath(View):
             customuserpaths = CustomUserPath.objects.filter(custom_user_id=custom_user_id)
             data_list = list()
             if customuserpaths.exists():
-                for one in customuserpaths.first().path.all():
+                for one in customuserpaths:
                     data_dict = dict()
-                    data_dict["name"] = one.name
-                    data_dict["path_img"] = one.path_img.url
+                    data_dict["name"] = one.path.name
+                    data_dict["path_img"] = one.path.path_img.url
+                    data_dict["create_time_year"] = one.create_time.strftime("%Y")
+                    data_dict["create_time"] = one.create_time.strftime("%m月%d日")
                     data_dict["course_count"] = sum([coursecategory.courses.all().count() for coursecategory in
-                                                     CourseCategory.objects.filter(path_stage__path=one)])
-                    summarize_dict = user_path_summarize(custom_user_id, one)
+                                                     CourseCategory.objects.filter(path_stage__path=one.path)])
+                    summarize_dict = user_path_summarize(custom_user_id, one.path)
                     data_dict.update(summarize_dict)
                     data_list.append(data_dict)
             result_dict["data"] = data_list

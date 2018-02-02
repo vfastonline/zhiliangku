@@ -25,9 +25,25 @@ class GoodsAdmin(admin.ModelAdmin):
 
 @admin.register(ExchangeRecords)
 class ExchangeRecordsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'custom_user', "goods", "ship", 'create_time', "ship_time",)
+    list_display = (
+    'id', 'custom_user', "goods", "ship", 'create_time', "ship_time", "receiver", "contact_number", "address")
     search_fields = ('goods__name', "custom_user__nickname")
     list_filter = ('ship',)
+
+    def receiver(self, obj):
+        return obj.custom_user.receiver
+
+    receiver.short_description = "收货人"
+
+    def contact_number(self, obj):
+        return obj.custom_user.contact_number
+
+    contact_number.short_description = "联系电话"
+
+    def address(self, obj):
+        return obj.custom_user.address
+
+    address.short_description = "收货地址"
 
     def suit_row_attributes(self, obj, request):
         css_class = {

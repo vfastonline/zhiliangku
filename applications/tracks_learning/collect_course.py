@@ -26,23 +26,19 @@ class CollectCourse(View):
                 courses = Course.objects.filter(id=course_id)
                 customusers = CustomUser.objects.filter(id=custom_user_id)
                 if courses.exists() and customusers.exists():
-                    customusercourses = CustomUserCourse.objects.filter(custom_user=customusers.first())
-                    if is_collect:
+                    filter_param = {
+                        "custom_user": customusers.first(),
+                        "course": courses.first()
+                    }
+                    customusercourses = CustomUserCourse.objects.filter(**filter_param)
+                    if is_collect:  # 收藏
                         if not customusercourses.exists():
-                            collect_obj = CustomUserCourse.objects.create(custom_user=customusers.first())
-                            collect_obj.course.add(courses.first())
-                            collect_obj.save()
-
+                            collect_obj = CustomUserCourse.objects.create(**filter_param)
                             if not collect_obj:
                                 result_dict["msg"] = "收藏失败"
-                        else:
-                            add_obj = customusercourses.first()
-                            add_obj.course.add(courses.first())
-                            add_obj.save()
-                    else:
+                    else:  # 取消收藏
                         if customusercourses.exists():
-                            customusercourses.first().course.remove(courses.first())
-
+                            customusercourses.delete()
                         result_dict["msg"] = "成功取消收藏"
                 else:
                     result_dict["err"] = 1

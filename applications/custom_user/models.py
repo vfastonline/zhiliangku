@@ -7,7 +7,8 @@ import traceback
 
 from django.db import models
 from django.utils import timezone
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from lib.storage import ImageStorage
 
 
@@ -37,7 +38,7 @@ class CustomUser(models.Model):
     receiver = models.CharField('收货人', max_length=255, blank=True, null=True, default="")
     address = models.CharField('收货地址', max_length=255, blank=True, null=True, default="")
     contact_number = models.CharField('联系电话', max_length=255, blank=True, null=True, default="")
-    signature = models.CharField('个性签名', max_length=255, blank=True, null=True)
+    signature = models.TextField('个性签名', max_length=255, default="")
     integral = models.PositiveIntegerField("积分", default=10)
     create_time = models.DateTimeField(verbose_name='创建时间', default=timezone.now)
 
@@ -49,6 +50,22 @@ class CustomUser(models.Model):
         verbose_name = "基础信息"
         verbose_name_plural = "基础信息"
         ordering = ["-create_time"]
+
+
+@receiver(post_save, sender=CustomUser)  # 信号的名字，发送者
+def add_customuser_event(sender, instance, **kwargs):  # 回调函数，收到信号后的操作
+    """新建
+    :param sender:
+    :param instance:
+    :param kwargs:
+    :return:
+    """
+    from applications.personal_center.models import Resume
+    try:
+        Resume.objects.get_or_create(custom_user=instance)
+    except:
+        traceback.print_exc()
+        logging.getLogger().error(traceback.format_exc())
 
 
 class CustomUserAuths(models.Model):
@@ -79,9 +96,9 @@ class CustomUserAuths(models.Model):
 class CustomUserPath(models.Model):
     """用户参与路径 """
 
-    custom_user = models.OneToOneField(CustomUser, verbose_name="用户", unique=True, limit_choices_to={'role': 0},
-                                       help_text='只允许选择角色是”学生“的用户。')
-    path = models.ManyToManyField("tracks_learning.Path", verbose_name="职业路径", blank=True)
+    custom_user = models.ForeignKey(CustomUser, verbose_name="用户", limit_choices_to={'role': 0},
+                                    help_text='只允许选择角色是”学生“的用户。')
+    path = models.ForeignKey("tracks_learning.Path", verbose_name="职业路径", blank=True, null=True)
     create_time = models.DateTimeField(verbose_name='参与时间', default=timezone.now)
 
     def __unicode__(self):
@@ -97,9 +114,9 @@ class CustomUserPath(models.Model):
 class CustomUserCourse(models.Model):
     """用户收藏课程 """
 
-    custom_user = models.OneToOneField(CustomUser, verbose_name="用户", unique=True, limit_choices_to={'role': 0},
-                                       help_text='只允许选择角色是”学生“的用户。')
-    course = models.ManyToManyField("tracks_learning.Course", verbose_name="课程", blank=True)
+    custom_user = models.ForeignKey(CustomUser, verbose_name="用户", limit_choices_to={'role': 0},
+                                    help_text='只允许选择角色是”学生“的用户。')
+    course = models.ForeignKey("tracks_learning.Course", verbose_name="课程", blank=True, null=True)
     create_time = models.DateTimeField(verbose_name='收藏时间', default=timezone.now)
 
     def __unicode__(self):
