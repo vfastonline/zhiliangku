@@ -39,7 +39,7 @@ class PolyvCallBack(View):
                 data_list = video_result.get("data", [])
                 if data_list:
                     video_data_dict = data_list[0]
-                    duration_str = video_data_dict.get("video_data_dict", "0:0:0")
+                    duration_str = video_data_dict.get("duration", "0:0:0")
                     duration = time_to_second(duration_str)
 
                 update_dict = {
