@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <project-header></project-header>
+    <!-- <project-header></project-header> -->
     <project-home></project-home>
-    <project-footer></project-footer>
+    <!-- <project-footer></project-footer> -->
   </div>
 </template>
 <script>

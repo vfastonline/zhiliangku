@@ -161,7 +161,8 @@
         this.liveIdObj.id = id;
         var player = polyvObject('#e8888b74d1229efec6b4712e17cb6b7a_e').livePlayer({
           width: '100%',
-          height: window.innerHeight - 70,
+          // height: window.innerHeight - 70,
+          height: window.innerHeight,
           'uid': 'a582a3b650',
           'vid': id
         });

@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <project-header :type="'videoHeader'"></project-header>
+    <!-- <project-header :type="'videoHeader'"></project-header> -->
     <videoView ></videoView>
-    <videolist></videolist>
+    <!-- <videolist></videolist> -->
   </div>
 </template>
 <script>
@@ -34,7 +34,7 @@
     },
     methods: {
       getData(video_id) {
-        this.$get('/tracks/video/detail/info?video_id=' + video_id).then(res => {
+        this.$get('/tracks/live/detail/info?video_id=' + video_id).then(res => {
           this.acction(res)
           console.log(res)
           this.sendMsg(res)
@@ -45,7 +45,7 @@
           this.allData = res.data.data;
       },
       sendMsg(res){
-          this.$children[1].$emit('liveid', res.data.data.live_channelId)
+          this.$children[0].$emit('liveid', res.data.data.live_channelId)
       }
     },
     created() {

@@ -52,6 +52,7 @@
 
 </style>
 <script>
+import funcs from '../../assets/js/commen/func'
   import Bus from '../../assets/js/bus'
   import rcb from './resumeContentButton'
   export default {

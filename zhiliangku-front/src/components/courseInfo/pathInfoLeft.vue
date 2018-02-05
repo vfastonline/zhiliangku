@@ -28,7 +28,7 @@
             <span v-if="mainData.courses_count" class="font20pm2a0000">
               {{mainData.complete_number}}</span>
               <span v-else class="font20pm2a0000">
-              暂无信息</span>
+              0</span>
             <span v-if="mainData.courses_count" class="font14pm2a0000">/{{mainData.courses_count}}</span>
           </div>
           <div class="fontcenter font14pl5A646E">完成节数</div>
@@ -53,7 +53,7 @@
       info(value) {
         if(value==='0')return value;
         if (value) return value;
-        return '暂无信息'
+        return '0'
       },
 
     },

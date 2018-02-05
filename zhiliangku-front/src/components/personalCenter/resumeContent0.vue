@@ -1,15 +1,15 @@
 <template>
-  <div id="anchor0" >
-    <div  class="rc-pi resumewidth incenter">
+  <div id="anchor0">
+    <div class="rc-pi resumewidth incenter">
       <div class="rc-pi-container1">
         <div class="rc-pi-content ">
-           <el-upload class="rc-pic-img floatl round" :action="orgnizeUrl()" :show-file-list="false" :on-success="handleAvatarSuccess"
+          <el-upload class="rc-pic-img floatl round" :action="orgnizeUrl()" :show-file-list="false" :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
-            <img class="rc-pic-img floatl round"  v-if="imgsrc" :src="imgsrc"   alt="">
+            <img class="rc-pic-img floatl round" v-if="imgsrc" :src="imgsrc" alt="">
           </el-upload>
           <div class="rc-pic-word">
             <div @click="showeditor=!showeditor" class="pointer rc-pic-editor">
-              <img  class="imgmiddle imgr" src="../../assets/img/icons/个人中心和积分商城图标/简历_铅笔.svg" alt="">编辑</div>
+              <img class="imgmiddle imgr" src="../../assets/img/icons/个人中心和积分商城图标/简历_铅笔.svg" alt="">编辑</div>
             <div class="rc-pic-word-0">
               <span class="font20pl3a3c50">{{mainData.name}}</span>
               <img class="resume-sex-icon" v-if="mainData.sex=='女'" src="../../assets/img/icons/个人中心和积分商城图标/简历_性别女.svg" alt="">
@@ -35,36 +35,43 @@
           <img class="imgmiddle imgr" src="../../assets/img/icons/个人中心和积分商城图标/简历_钱币.svg" alt="">{{mainData.expect_salary}}</span>
       </div>
     </div>
-    <editor :mainData="mainData" :applyData="applyData"  @close="showeditor=!showeditor" v-if="showeditor"></editor>
+    <editor :mainData="mainData" :applyData="applyData" @close="editor" v-if="showeditor"></editor>
   </div>
 </template>
 <style>
 </style>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
-import editor from './resumeContent0.0'
+  import editor from './resumeContent0.0'
   export default {
     name: 'HelloWorld',
     data() {
       return {
-        showeditor:false,
-        imgsrc:'',
-        actionUrl:''
+        showeditor: false,
+        imgsrc: '',
+        actionUrl: ''
       }
     },
-    watch:{
-      mainData:function(value){
-        this.imgsrc=this.$myConst.httpUrl+this.mainData.avatar;
+    watch: {
+      mainData: function (value) {
+        this.imgsrc = this.$myConst.httpUrl + this.mainData.avatar;
       }
     },
-    methods:{
-      orgnizeUrl(){
-        var str= this.$myConst.httpUrl+ '/customuser/change/avatar?custom_user_id='+localStorage.uid+'&avatar_type=resume_avatar';
-       return str
+    methods: {
+      editor() {
+        if (!this.applyData.length) {
+          funcs.showNotice(this, '尚未添加求职意向，请先完善求职意向信息,然后操作此项', 'info')
+          return
+        }
+        showeditor = !showeditor;
+      },
+      orgnizeUrl() {
+        var str = this.$myConst.httpUrl + '/customuser/change/avatar?custom_user_id=' + localStorage.uid +
+          '&avatar_type=resume_avatar';
+        return str
       },
       handleAvatarSuccess(res, file) {
-        this.imgsrc=this.$myConst.httpUrl+res.avatar;
+        this.imgsrc = this.$myConst.httpUrl + res.avatar;
         // this.imgsrc = URL.createObjectURL(file.raw);
       },
       beforeAvatarUpload(file) {
@@ -79,25 +86,25 @@ import editor from './resumeContent0.0'
         }
         return isJPG && isLt2M;
       },
-      age(){
-        var year=new Date().getFullYear();
-        if(this.mainData.birthday){
-        var brith=this.mainData.birthday.substr(0,4)
-        return year-brith;
+      age() {
+        var year = new Date().getFullYear();
+        if (this.mainData.birthday) {
+          var brith = this.mainData.birthday.substr(0, 4)
+          return year - brith;
         }
         return '未知'
       }
     },
-    components:{
-      editor:editor
+    components: {
+      editor: editor
     },
-    props:{
-      mainData:Object,
-      applyData:Array,
+    props: {
+      mainData: Object,
+      applyData: Array,
     },
-    created(){
+    created() {
       console.log(this.mainData)
-      
+
     }
   }
 
@@ -113,15 +120,18 @@ import editor from './resumeContent0.0'
     padding: 15px 0;
     border-bottom: 2px solid #eef0f2;
   }
-  .rc-pi-content{
-    height:70px;
+
+  .rc-pi-content {
+    height: 70px;
   }
-    .resume-sex-icon{
-    margin:0 38px;
+
+  .resume-sex-icon {
+    margin: 0 38px;
   }
+
   .rc-pi-container2 {
     padding-top: 18px;
-    padding-right:15px;
+    padding-right: 15px;
     display: flex;
     justify-content: space-between;
   }
@@ -137,14 +147,15 @@ import editor from './resumeContent0.0'
 
   .rc-pic-word {
     margin-left: 150px;
-    padding-top:21px;
+    padding-top: 21px;
   }
-  .rc-pic-word-0{
-    margin-bottom: 12px;
-  } 
- .rc-pic-word-1{
 
+  .rc-pic-word-0 {
+    margin-bottom: 12px;
   }
+
+  .rc-pic-word-1 {}
+
   .rc-pic-editor {
     position: absolute;
     right: 0;
@@ -152,4 +163,3 @@ import editor from './resumeContent0.0'
   }
 
 </style>
-

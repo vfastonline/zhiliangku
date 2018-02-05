@@ -24,9 +24,10 @@
       <div class="tag font14pl3a3c50">微信：</div>
       <div class="set-content">
         <div class="sc-info-li">
-          <span class="font14pr424242"> 可用于直接登录，与内容分享</span>
+          <span v-if="mainData.weixin" class="font14pr424242"> 可用于直接登录，与内容分享</span>
+          <span v-else class="font14pr424242">您已绑定微信</span>
         </div>
-        <span class="bind-button font14pr424242 pointer">{{mainData.weixin?'更改':'绑定'}}</span>
+        <span @click="bindWeixin()" class="bind-button font14pr424242 pointer">{{mainData.weixin?'更改':'绑定'}}</span>
       </div>
     </div>
     <dialogs></dialogs>
@@ -38,6 +39,7 @@
   import rcb from './resumeContentButton'
   import dialogs from './dialogs'
   import dialogsForm from './dialogsForm'
+  let Base64 = require('js-base64').Base64;
   export default {
     name: 'HelloWorld',
     data() {
@@ -45,10 +47,15 @@
         str1: '更改',
         str2: '更改',
         str3: '立即绑定',
-        mainData:{}
+        mainData:{},
+        wxBase64Url:'',
+        Base64:Base64
       }
     },
     methods:{
+      bindWeixin(){
+        window.location.href=this.wxBase64Url;
+      },
       dialogsFormOpen(type,title){
         Bus.$emit('dialogsFormOpen',{type:type,title:title})
       },
@@ -77,6 +84,9 @@
       Bus.$on('countDataChange',res=>{
         this.getData()
       })
+      this.wxBase64Url =
+        'https://open.weixin.qq.com/connect/qrconnect?appid=wx7c9efe7b17c8aef2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2flogin&response_type=code&scope=snsapi_login&state=' +
+        this.Base64.encode(window.location.href) + '#wechat_redirect';
     },
     components: {
       rcb: rcb,

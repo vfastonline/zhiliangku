@@ -1,7 +1,10 @@
 <template>
   <div class="lvs-container">
-    <div class="lvs-content clearfix inmiddle mainwidth">
-      <div id="e8888b74d1229efec6b4712e17cb6b7a_e" class="lvsc-video floatl">
+    <div class="mainwidth incenter block logo" >
+      <img class="block incenter" src="../../assets/img/icons/Logo.png" alt="">
+      </div> 
+    <div class="lvs-content clearfix incenter mainwidth">
+      <div id="e8888b74d1229efec6b4712e17cb6b7a_e" class="lvsc-video relative floatl">
         <img :src="imgUrl" alt="">
         <el-button v-if="showButton" class="lvsc-enterButton" :style="myButtonStyle" @click="go()">进入直播间</el-button>
       </div>
@@ -86,6 +89,11 @@
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
+.logo{
+    height: 88px;
+    margin-top:60px;
+    margin-bottom:60px;
+}
   .lvs-container {
     height: 440px;
     width: 100%;

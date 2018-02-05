@@ -1,14 +1,14 @@
 <template>
   <div>
-    <carousel></carousel>
+    <!-- <carousel></carousel> -->
     <!-- <plant></plant> -->
     <lvsm></lvsm>
-    <hcm :mainData="courseData.latestCourse"></hcm>
-    <hcm :mainData="courseData.popularCourse" ></hcm>
-    <hcm :mainData="courseData.recommendCourse" ></hcm>
+    <!-- <hcm :mainData="courseData.latestCourse"></hcm> -->
+    <!-- <hcm :mainData="courseData.popularCourse" ></hcm> -->
+    <!-- <hcm :mainData="courseData.recommendCourse" ></hcm> -->
     <!-- <cpm></cpm> -->
     <!-- <interview-main></interview-main> -->
-    <cooperator></cooperator>
+    <!-- <cooperator></cooperator> -->
   </div>
 </template>
 <style>
