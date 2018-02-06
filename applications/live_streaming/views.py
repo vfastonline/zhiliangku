@@ -19,7 +19,7 @@ class IndexLiveList(View):
             for one in lives:
                 one_dict = {
                     "video_id": one.id,
-                    "course_id": one.section.course.id,
+                    "course_id": one.section.course.id if one.section else "",
                     "name": one.name,
                     "pathwel": one.section.course.course_img.url if one.section else "",
                     "desc": one.desc,
