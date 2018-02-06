@@ -4,8 +4,8 @@
       <img class="block incenter" src="../../assets/img/icons/Logo.png" alt="">
       </div> 
     <div class="lvs-content clearfix incenter mainwidth">
-      <div id="e8888b74d1229efec6b4712e17cb6b7a_e" class="lvsc-video relative floatl">
-        <img :src="imgUrl" alt="">
+      <div :style="{'background-image':'url('+imgUrl+')'}"    class="lvsc-video relative floatl">
+        <!-- <img :src="" alt=""> -->
         <el-button v-if="showButton" class="lvsc-enterButton" :style="myButtonStyle" @click="go()">进入直播间</el-button>
       </div>
       <div class="lvsc-list floatl">
@@ -54,16 +54,6 @@
       },
       go() {
         window.location.href='/tracks/live/detail/?course_id='+this.course_id+'&video_id='+this.video_id
-      },
-      video(vid) {
-        console.log(vid)
-        var obj = {
-          wrap: '#e8888b74d1229efec6b4712e17cb6b7a_e',
-          width: '100%',
-          height: 585,
-          vid: vid,
-        }
-        var player = polyvPlayer(obj);
       },
       getData() {
         this.$get('/lives/index/list').then(res => {
@@ -137,6 +127,9 @@
   }
 
   .lvsc-video {
+    background: no-repeat;
+    background-size: cover;
+    background-position: center;
     height: 440px;
     width: 712px;
     img {
