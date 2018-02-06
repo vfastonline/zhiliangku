@@ -14,7 +14,7 @@ class IndexLiveList(View):
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": []}
         try:
-            lives = Video.objects.filter(type="3").order_by("live_start_time")
+            lives = Video.objects.filter(type="3").order_by("-live_start_time")
             data_list = list()
             for one in lives:
                 one_dict = {
