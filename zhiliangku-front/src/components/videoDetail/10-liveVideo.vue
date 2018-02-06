@@ -57,7 +57,6 @@
         var token = this.$get('http://api.live.polyv.net/watchtoken/gettoken?ts=' + time + '&sign=' + sign).then(res => {
           this.liveIdObj.token = token;
           console.log(res)
-          this.createdLiveVideo()
         })
 
       },
@@ -290,8 +289,12 @@
     },
     created() {
       this.height=window.innerHeight;
+      // this.initLiveVideo()
     },
     mounted() {
+      Bus.$on('haveLogin',()=>{
+        window.location.reload()
+      })
       this.$on('liveid', function (id) {
         this.liveVideo(id);
         this.main();
@@ -300,6 +303,7 @@
         this.liveVideo(id);
         this.main();
       })
+      
     }
   }
 

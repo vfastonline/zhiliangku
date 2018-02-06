@@ -308,10 +308,18 @@
               localStorage[k] = res.data.data.user[k]
             }
             // console.log(res.data.data)
-            // 由于data可能来自别的面页，而且别的页面有着不同的需求，那么此处应该写到loginfun函数之外，不过目前先迁就一次
-            debugger
-
-            if (data.referrer) {
+            this.otherFunction(data)
+            this.dispatchInfo()
+          console.log(res)
+          }
+        })
+      },
+      dispatchInfo(){
+        Bus.$emit('haveLogin')
+      }
+      ,
+      otherFunction(data){
+        if (data.referrer) {
               if (data.url) {
                 window.location.href = data.url;
                 return
@@ -320,9 +328,6 @@
               return
             }
             this.$parent.$emit('login')
-          }
-          console.log(res)
-        })
       },
       goreferre() {
         var str=document.referrer;
