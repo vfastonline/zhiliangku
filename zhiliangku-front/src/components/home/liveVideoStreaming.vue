@@ -4,8 +4,8 @@
       <img class="block incenter" src="../../assets/img/icons/Logo.png" alt="">
       </div> 
     <div class="lvs-content clearfix incenter mainwidth">
-      <div id="e8888b74d1229efec6b4712e17cb6b7a_e" class="lvsc-video relative floatl">
-        <img :src="imgUrl" alt="">
+      <div :style="{'background-image':'url('+imgUrl+')'}"    class="lvsc-video relative floatl">
+        <!-- <img :src="" alt=""> -->
         <el-button v-if="showButton" class="lvsc-enterButton" :style="myButtonStyle" @click="go()">进入直播间</el-button>
       </div>
       <div class="lvsc-list floatl">
@@ -55,16 +55,6 @@
       go() {
         window.location.href='/tracks/live/detail/?course_id='+this.course_id+'&video_id='+this.video_id
       },
-      video(vid) {
-        console.log(vid)
-        var obj = {
-          wrap: '#e8888b74d1229efec6b4712e17cb6b7a_e',
-          width: '100%',
-          height: 585,
-          vid: vid,
-        }
-        var player = polyvPlayer(obj);
-      },
       getData() {
         this.$get('/lives/index/list').then(res => {
           this.liveData = this.$fn.addString(this.$myConst.httpUrl, res.data.data, 'pathwel')
@@ -75,10 +65,11 @@
         this.imgUrl = this.liveData[0]['pathwel'];
         this.video_id=this.liveData[0]['video_id'];
         this.course_id=this.liveData[0]['course_id'];
-        this.showButton=false||this.liveData[0][status]
+        this.showButton=false||this.liveData[0].status
       }
     },
     created() {
+      
       this.getData()
     },
     mounted() {}
@@ -137,6 +128,9 @@
   }
 
   .lvsc-video {
+    background: no-repeat;
+    background-size: cover;
+    background-position: center;
     height: 440px;
     width: 712px;
     img {
