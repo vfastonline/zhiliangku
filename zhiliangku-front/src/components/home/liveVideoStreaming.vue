@@ -65,10 +65,11 @@
         this.imgUrl = this.liveData[0]['pathwel'];
         this.video_id=this.liveData[0]['video_id'];
         this.course_id=this.liveData[0]['course_id'];
-        this.showButton=false||this.liveData[0][status]
+        this.showButton=false||this.liveData[0].status
       }
     },
     created() {
+      
       this.getData()
     },
     mounted() {}

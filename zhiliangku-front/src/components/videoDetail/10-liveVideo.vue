@@ -128,7 +128,8 @@
           var logo = $('<div class="talk-logo"><img class="chat-user-icon" src=' + pic + '><div/>');
           var nick = $('<div class="nickname">' + data.user.nick + '</div>');
           var time = $('<div class="time">' + prettyTime(data.time) + ' </div>');
-          var values = $('<div class="content-msg">' + content + '</div>');
+          var values = $('<div class="content-msg"></div>');
+          values.text(content)
           var list = $('<li />');
           if (data.user.userId === userId) { //当前用户
             nick.addClass('owner');
