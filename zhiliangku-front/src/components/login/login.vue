@@ -457,6 +457,11 @@
         // console.log(name)
         this.changeModal(name)
       })
+      // 在实现的过程之中呢发现用this监听会导致耦合度偏高，所以用Bus做一下补充，两者选用
+      Bus.$on('noActive', (name)=> {
+        this.centerDialogVisible = true;
+        this.changeModal(name)
+      })
       this.$on('logupTologin', function () {
         this.ruleForm1 = this.ruleForm2
       })

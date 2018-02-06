@@ -126,7 +126,6 @@
       },
       myDispatch(eventName, key) {
         var arr = this.$children;
-        // console.log(111)
         for (let i = 0; i < arr.length; i++) {
           arr[i].$emit(eventName, key)
         }

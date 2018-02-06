@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!-- <project-header :type="'videoHeader'"></project-header> -->
+    <project-header :style="pHStyle" :type="'videoHeader'"></project-header>
     <videoView ></videoView>
     <!-- <videolist></videolist> -->
   </div>
@@ -16,7 +16,10 @@
       return {
         allData: {},
         showList: false,
-
+        pHStyle:{
+          height:'0px',
+          overflow:'hidden'
+        }
       }
     },
     watch:{
@@ -45,7 +48,7 @@
           this.allData = res.data.data;
       },
       sendMsg(res){
-          this.$children[0].$emit('liveid', res.data.data.live_channelId)
+          Bus.$emit('liveid', res.data.data.live_channelId)
       }
     },
     created() {

@@ -7,8 +7,8 @@
           <ol class="talk" id="talk"></ol>
         </div>
         <div class="ibox">
-          <input type="text" name="name" id="send">
-          <span class="sendbtn" id="sendBtn">发送</span>
+          <el-input @focus="jj()" name="name" id="send"></el-input>
+          <el-button  class="sendbtn" id="sendBtn" type="primary">发送</el-button>
         </div>
         <div v-if="false" class="emotions" id="emotions">
         </div>
@@ -35,6 +35,10 @@
 
     },
     methods: {
+      jj(){
+        if(localStorage.nickname)return;
+        Bus.$emit('noActive', 'loginActive')
+      },
       // 请求频道信息
       // 以下是直播
       liveVideo(id) {
@@ -132,6 +136,9 @@
           }
           list.append(logo, nick, time, values);
           $talk.append(list);
+          // 接下来两行代码是为了每次有新消息到来之后使得滚动条在最下方
+          var container=$('.text-container')[0];
+          container.scrollTop=container.scrollHeight;
         }
 
         function getHistoryContent(start, end) { //获取过往的聊天内容
@@ -191,7 +198,7 @@
           // getOnlineUserList();
           socket.emit('message', JSON.stringify({ //用户登录
             'EVENT': 'LOGIN',
-            'values': [nickname, pic, userId], //昵称、头像地址、用户id
+            'values': [localStorage.nickname || '游客', pic, userId], //昵称、头像地址、用户id
             'roomId': roomId
           }));
         });
@@ -238,7 +245,7 @@
             return;
           }
           var temp_user = {
-            "nick": nickname,
+            "nick": localStorage.nickname || '游客',
             "pic": pic,
             "userId": userId
           }
@@ -286,6 +293,10 @@
     },
     mounted() {
       this.$on('liveid', function (id) {
+        this.liveVideo(id);
+        this.main();
+      })
+      Bus.$on('liveid', (id)=> {
         this.liveVideo(id);
         this.main();
       })
