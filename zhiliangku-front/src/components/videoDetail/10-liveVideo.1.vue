@@ -1,14 +1,27 @@
+// 励志将这挫劣的代码改成优雅的vue代码； // 思路：1.先从dom框架入手 。2.再从数据构造入手。3.再考虑事件。 // 1.稍微处理了一下dom // 2、打算处理一下脚本
 <template>
   <div class=" incenter" :style="{height:height+'px'}">
     <div class=" video-box " id="e8888b74d1229efec6b4712e17cb6b7a_e"></div>
     <div v-if="showchat" class="wrap " :style="{height:height+'px'}">
       <div>
         <div class="text-container" :style="{height:height-48+'px'}">
-          <ol class="talk" id="talk"></ol>
+          <ol class="talk" id="talk">
+            <li class="otherMsg">
+              <div class="msg-title"></div>
+              <div class="msg-content"></div>
+            </li>
+          </ol>
         </div>
-        <!-- <div class="toolbar"><i class="icon pointer iconfont icon-biaoqing1"></i></div> -->
+        <div class="toolbar">
+          <span>
+            <i class="icon pointer iconfont icon-biaoqing1"></i>
+            <el-scroll class="emotion-container">
+              <img @click="hh()" class="emotion-tag" v-for="(item,index) in emotionslist" :key="index" :src="item.url" alt="">
+            </el-scroll>
+          </span>
+        </div>
         <div class="ibox">
-          <el-input @focus="jj" name="name" id="send"></el-input>
+          <el-input @focus="jj()" name="name" id="send"></el-input>
           <el-button class="sendbtn" id="sendBtn" type="primary">发送</el-button>
         </div>
         <!-- <div  class="emotions" id="emotions"> -->
@@ -49,6 +62,7 @@
   };
   import Bus from '../../assets/js/bus'
   import emotionslist from '../../assets/js/03-emotions'
+  import md5 from 'js-md5';
   export default {
     data() {
       return {
@@ -56,16 +70,21 @@
         liveIdObj: {
           id: ''
         },
-        showchat: true
+        showchat: true,
+        chatRoom:{
+          chatHost = 'http://chat.polyv.net:80', //socket连接地址
+          chatHost2 = "http://apichat.polyv.net:80", //获取聊天内容地址
+        }
       }
     },
     props: {
 
     },
     methods: {
-      jj(event) {
-        console.log(event)
-        event.target.blur();
+      hh() {
+
+      },
+      jj() {
         if (localStorage.nickname) return;
         Bus.$emit('noActive', 'loginActive')
       },
@@ -91,13 +110,132 @@
           this.liveIdObj.token = token;
           console.log(res)
         })
-
       },
       createdLiveVideo() {
 
       },
       getchanlle() {
 
+      },
+      prettyTime(time) { //转换时间格式
+        var now = new Date(time),
+          year = now.getFullYear(),
+          month = now.getMonth() + 1,
+          date = now.getDate(),
+          hours = now.getHours(),
+          minutes = now.getMinutes();
+        if (minutes < 10) {
+          minutes = '0' + minutes;
+        }
+        return year + '/' + month + '/' + date + ' ' + hours + ':' + minutes;
+      },
+      formatEmotions(_html) { //表情转换：表情以'[微笑]'的形式发送和接受，可以根据需要自定义表情形式
+        var $emotions = $('#emotions');
+        if (_html) {
+          var _of = -1;
+          while ((_of = _html.indexOf("[")) != -1) {
+            var _oe = _html.indexOf("]", _of + 1);
+            if (_oe == -1)
+              break;
+            var begin = _html.substring(0, _of);
+            var end = _html.substring(_oe + 1);
+            var valstr = _html.substring(_of + 1, _oe);
+            if (valstr) {
+              var urlstr = $emotions.find("[title='" + valstr + "']").attr('src');
+              if (urlstr) {
+                valstr = '<img src="' + urlstr + '" class="emotionimg">';
+              } else {
+                break;
+              }
+            } else {
+              break;
+            }
+            _html = begin + valstr + end;
+          }
+        }
+        debugger
+        return _html;
+      },
+      addList(data) {
+        var content = data.content || data.values[0];
+        content = this.formatEmotions(content);
+        var pic = data.user.pic;
+        var logo = $('<div class="talk-logo"><img class="chat-user-icon" src=' + pic + '><div/>');
+        var nick = $('<div class="nickname">' + data.user.nick + '</div>');
+        var time = $('<div class="time">' + this.prettyTime(data.time) + ' </div>');
+        var values = $('<div class="content-msg"></div>');
+        values.text(content)
+        var list = $('<li />');
+        if (data.user.userId === userId) { //当前用户
+          nick.addClass('owner');
+        }
+        list.append(logo, nick, time, values);
+        $talk.append(list);
+        // 接下来两行代码是为了每次有新消息到来之后使得滚动条在最下方
+        var container = $('.text-container')[0];
+        container.scrollTop = container.scrollHeight;
+      },
+      getHistoryContent(start, end) { //获取过往的聊天内容
+        var startIndex = start || 0,
+          endIndex = end || startIndex + 4;
+        var url = chatHost2 + '/front/history?roomId=' + roomId + '&start=' + startIndex + '&end=' + endIndex;
+        $.ajax({
+            url: url,
+            type: 'get',
+            dataType: 'jsonp'
+          })
+          .done(function (data) {
+            $(data.reverse()).each(function (index, el) {
+              this.addList(this); //生成dom添加到页面
+            });
+          });
+      },
+      getOnlineUserList() { //获取当前用户列表
+        $.ajax({
+          url: chatHost2 + '/front/listUsers',
+          dataType: 'jsonp',
+          data: {
+            roomId: roomId,
+            page: 1,
+            len: 100 //获取用户数目
+          },
+          success: function (users) {
+            var t = '<p>当前用户数：' + users.count + '<p>';
+            $(users.userlist).each(function () {
+              var pic = this.pic;
+              t += '<img src="' + pic + '" title="' + this.nick + '" /><br>';
+            })
+            $('.userwrap').html(t);
+          }
+        });
+      },
+      sendMsg() {
+        var $that = $('#send');
+        var value = $that.val().trim();
+        if (value == "") {
+          alert('内容为空');
+          return;
+        }
+        var str = '[{"msg":"' + value + '","fontSize":"16","fontColor":"0xffffff","fontMode":"roll"}]';
+        player.j2s_addBarrageMessage(str);
+        var temp_user = {
+          "nick": localStorage.nickname || '游客',
+          "pic": pic,
+          "userId": userId
+        }
+        var obj = {
+          'user': temp_user,
+          'time': new Date().getTime(),
+          'content': value
+        }
+        this.addList(obj);
+        var data = JSON.stringify({
+          'EVENT': 'SPEAK',
+          'values': [value],
+          'roomId': roomId
+        });
+        socket.emit('message', data); //发送消息
+        $that.val('');
       },
       main(obj) {
         this.showchat = true;
@@ -110,106 +248,10 @@
           // pic = this.$myConst.httpUrl +  localStorage.avatar || '/media/custom_user_avatar/defaultUserIcon.png';
           pic = '//livestatic.videocc.net/v_102/assets/wimages/missing_face.png';
         var $ = window.$;
-        console.log($('#talk'))
         var socket = null;
         var $talk = $('#talk');
+        this.getHistoryContent();
 
-        function prettyTime(time) { //转换时间格式
-          var now = new Date(time),
-            year = now.getFullYear(),
-            month = now.getMonth() + 1,
-            date = now.getDate(),
-            hours = now.getHours(),
-            minutes = now.getMinutes();
-          if (minutes < 10) {
-            minutes = '0' + minutes;
-          }
-          return year + '/' + month + '/' + date + ' ' + hours + ':' + minutes;
-        }
-
-        function formatEmotions(_html) { //表情转换：表情以'[微笑]'的形式发送和接受，可以根据需要自定义表情形式
-          var $emotions = $('#emotions');
-          if (_html) {
-            var _of = -1;
-            while ((_of = _html.indexOf("[")) != -1) {
-              var _oe = _html.indexOf("]", _of + 1);
-              if (_oe == -1)
-                break;
-              var begin = _html.substring(0, _of);
-              var end = _html.substring(_oe + 1);
-              var valstr = _html.substring(_of + 1, _oe);
-              if (valstr) {
-                var urlstr = $emotions.find("[title='" + valstr + "']").attr('src');
-                if (urlstr) {
-                  valstr = '<img src="' + urlstr + '" class="emotionimg">';
-                } else {
-                  break;
-                }
-              } else {
-                break;
-              }
-              _html = begin + valstr + end;
-            }
-          }
-          return _html;
-        };
-
-        function addList(data) {
-          var content = data.content || data.values[0];
-          content = formatEmotions(content);
-          var pic = data.user.pic;
-          var logo = $('<div class="talk-logo"><img class="chat-user-icon" src=' + pic + '><div/>');
-          var nick = $('<div class="nickname">' + data.user.nick + '</div>');
-          var time = $('<div class="time">' + prettyTime(data.time) + ' </div>');
-          var values = $('<div class="content-msg"></div>');
-          values.text(content)
-          var list = $('<li />');
-          if (data.user.userId === userId) { //当前用户
-            nick.addClass('owner');
-          }
-          list.append(logo, nick, time, values);
-          $talk.append(list);
-          // 接下来两行代码是为了每次有新消息到来之后使得滚动条在最下方
-          var container = $('.text-container')[0];
-          container.scrollTop = container.scrollHeight;
-        }
-
-        function getHistoryContent(start, end) { //获取过往的聊天内容
-          var startIndex = start || 0,
-            endIndex = end || startIndex + 9;
-          var url = chatHost2 + '/front/history?roomId=' + roomId + '&start=' + startIndex + '&end=' + endIndex;
-          $.ajax({
-              url: url,
-              type: 'get',
-              dataType: 'jsonp'
-            })
-            .done(function (data) {
-              $(data.reverse()).each(function (index, el) {
-                addList(this); //生成dom添加到页面
-              });
-            });
-        }
-        getHistoryContent();
-
-        function getOnlineUserList() { //获取当前用户列表
-          $.ajax({
-            url: chatHost2 + '/front/listUsers',
-            dataType: 'jsonp',
-            data: {
-              roomId: roomId,
-              page: 1,
-              len: 100 //获取用户数目
-            },
-            success: function (users) {
-              var t = '<p>当前用户数：' + users.count + '<p>';
-              $(users.userlist).each(function () {
-                var pic = this.pic;
-                t += '<img src="' + pic + '" title="' + this.nick + '" /><br>';
-              })
-              $('.userwrap').html(t);
-            }
-          });
-        }
         //每20秒刷新一次  
         // setInterval(getOnlineUserList, 20000); 
         //连接socket
@@ -245,7 +287,7 @@
               case 'GONGGAO': //系统公告
                 break;
               case 'SPEAK': // 用户发言
-                addList(data); //将用户发言生成dom添加到页面
+                this.addList(data); //将用户发言生成dom添加到页面
                 break;
               case 'REWARD': //奖励信息
                 break;
@@ -269,39 +311,6 @@
             }
           }
         });
-
-        function sendMsg() {
-          if(!this.$fn.getCookie('token')){
-            Bus.$emit('noActive', 'loginActive')
-            return
-          }
-          var $that = $('#send');
-          var value = $that.val().trim();
-          if (value == "") {
-            alert('内容为空');
-            return;
-          }
-          var str = '[{"msg":"' + value + '","fontSize":"16","fontColor":"0xffffff","fontMode":"roll"}]';
-          player.j2s_addBarrageMessage(str);
-          var temp_user = {
-            "nick": localStorage.nickname || '游客',
-            "pic": pic,
-            "userId": userId
-          }
-          var obj = {
-            'user': temp_user,
-            'time': new Date().getTime(),
-            'content': value
-          }
-          addList(obj);
-          var data = JSON.stringify({
-            'EVENT': 'SPEAK',
-            'values': [value],
-            'roomId': roomId
-          });
-          socket.emit('message', data); //发送消息
-          $that.val('');
-        }
         $('#send').on('keypress', function (e) {
           if (e.which === 13) {
             sendMsg();
