@@ -7,7 +7,7 @@
     <!-- 解释一下id是有脚本进行绑定的所以不能改变 -->
     <div class="video-box">
       <object v-if="showVideo"  type="application/x-shockwave-flash" data="http://player.polyv.net/live/player.swf" 
-      id="142802" width="100%" :height="height"
+      :id="liveIdObj.id" width="100%" :height="height"
         class="polyvFlashObject">
         <param name="allowScriptAccess" value="always">
         <param name="allowFullScreen" value="true">
