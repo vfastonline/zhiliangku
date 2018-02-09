@@ -46,7 +46,7 @@ SUIT_CONFIG = {
         {'app': 'record', 'icon': 'icon-list-alt', 'models': ('WatchRecord',)},
 
         # 直播
-        {'app': 'live_streaming', 'icon': 'icon-film', },
+        {'label': '保利威视-直播间', 'app': 'live_streaming', 'icon': 'icon-film', },
 
         # 习题
         {'app': 'exercise', 'icon': 'icon-th', },
