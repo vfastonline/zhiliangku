@@ -3,5 +3,6 @@ module.exports = (function () {
     // httpUrl: '/api',
     httpUrl:'',
   };
+  
   return obj
 })();

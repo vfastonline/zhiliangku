@@ -368,6 +368,8 @@
   .video-box {
     float: left;
     width: 80%;
+    position: relative;
+    z-index: 1;
   }
 
   .chat-box {

@@ -1,5 +1,20 @@
 <template>
   <div class=" incenter" :style="{height:height+'px'}">
+    <!-- <object type="application/x-shockwave-Flash" width="600" height="100">
+      <param value="opaque" name="wmode"></param>
+      <embed wmode="opaque" type="application/x-shockwave-Flash"></embed>
+    </object> -->
+    <!-- <div class="video-box">
+      <object type="application/x-shockwave-flash" data="http://player.polyv.net/live/player.swf" id="142802" width="100%" height="219"
+        class="polyvFlashObject">
+        <param name="allowScriptAccess" value="always">
+        <param name="allowFullScreen" value="true">
+        <param name="quality" value="high">
+        <param name="bgcolor" value="#ffffff">
+        <param name="wmode" value="transparent">
+        <param name="flashvars" value="is_barrage=on&amp;vid=142802&amp;uid=a582a3b650&amp;useFastDns=off&amp;">
+      </object>
+    </div> -->
     <div class=" video-box " id="e8888b74d1229efec6b4712e17cb6b7a_e"></div>
     <div v-if="showchat" class="wrap " :style="{height:height+'px'}">
       <div>
@@ -65,8 +80,8 @@
     methods: {
       jj(event) {
         console.log(event)
-        event.target.blur();
         if (localStorage.nickname) return;
+        event.target.blur();
         Bus.$emit('noActive', 'loginActive')
       },
       // 请求频道信息
@@ -81,7 +96,8 @@
             "is_barrage": "on"
           },
           'uid': 'a582a3b650',
-          'vid': id
+          'vid': id,
+          'wmode': "opaque",
         });
       },
       initLiveVideo() {
@@ -101,6 +117,7 @@
       },
       main(obj) {
         this.showchat = true;
+        var that=this;
         var chatHost = 'http://chat.polyv.net:80', //socket连接地址
           chatHost2 = "http://apichat.polyv.net:80", //获取聊天内容地址
           chatToken = this.liveIdObj.token,
@@ -271,7 +288,7 @@
         });
 
         function sendMsg() {
-          if(!this.$fn.getCookie('token')){
+          if(!that.$fn.getCookie('token')){
             Bus.$emit('noActive', 'loginActive')
             return
           }
@@ -358,7 +375,9 @@
 
   .video-box {
     float: left;
+    position: relative;
     width: 80%;
+    z-index: 1
   }
 
   .chat-box {
