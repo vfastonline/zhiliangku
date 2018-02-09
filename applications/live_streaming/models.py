@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from colorfield.fields import ColorField
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.utils import timezone
 
 from lib.polyv.live_api import *
 from lib.storage import ImageStorage
@@ -52,6 +51,14 @@ class Live(models.Model):
                 raise ValidationError("".join(["创建直播频道异常 ", message]))
         else:  # 修改已经创建的直播
             history_live_obj = Live.objects.filter(id=self.id).first()
+
+            # 修改直播频道名称
+            if self.name != history_live_obj.name:
+                set_result = update_live_name(self.channelId, self.name)
+                set_result_code = set_result.get("code")
+                set_result_message = set_result.get("message", "")
+                if set_result_code != 200:
+                    raise ValidationError("".join(["修改频道名称异常 ", set_result_message]))
 
             # 设置频道密码
             if self.channelPasswd != history_live_obj.channelPasswd:
