@@ -82,6 +82,6 @@ class Live(models.Model):
 
     class Meta:
         db_table = 'Live'
-        verbose_name = "直播"
-        verbose_name_plural = "直播"
+        verbose_name = "直播间"
+        verbose_name_plural = "直播间"
         ordering = ['name']
