@@ -92,7 +92,7 @@ def setlivepasswd(channelId, passwd, is_batch=False):
                 APPSECRET, APPID, channelId, passwd, timestamp, APPSECRET)
             sign = hashlib.md5(sign).hexdigest().upper()
             url = (
-                PASSWD_SET_LIVE + "?appId={appId}&timestamp={timestamp}&channelId={channelId}&passwd={passwd}&sign={sign}").format(
+                    PASSWD_SET_LIVE + "?appId={appId}&timestamp={timestamp}&channelId={channelId}&passwd={passwd}&sign={sign}").format(
                 userId=USERID, appId=APPID, timestamp=timestamp, channelId=channelId, passwd=passwd, sign=sign)
         r = requests.post(url)
         result = r.json()
@@ -127,3 +127,26 @@ def getstatus_live(channelIds):
         logging.getLogger().error(traceback.format_exc())
     finally:
         return result
+
+
+def update_live_name(channelId, name):
+    """修改直播名称
+    :param channelId:直播，频道号
+    :param name:频道名称
+    :return:
+    """
+    result = dict()
+    try:
+        timestamp = (int(round(time.time() * 1000)))
+        sign = '%sappId%sname%stimestamp%s%s' % (
+            APPSECRET, APPID, name, timestamp, APPSECRET)
+        sign = hashlib.md5(sign).hexdigest().upper()
+        url = (
+                UPDATE_LIVE_NAME + "?appId={appId}&timestamp={timestamp}&name={name}&sign={sign}").format(
+            channelId=channelId, appId=APPID, timestamp=timestamp, name=name, sign=sign)
+        r = requests.post(url)
+        result = r.json()
+    except:
+        traceback.print_exc()
+        logging.getLogger().error(traceback.format_exc())
+    return result

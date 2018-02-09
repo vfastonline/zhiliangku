@@ -10,7 +10,7 @@ class LiveAdmin(admin.ModelAdmin):
     list_display = ('id', "channelId", "channelPasswd", 'name', "status", "autoPlay", 'pathwels')
     search_fields = ('name', "channelId",)
     list_filter = ('status', "autoPlay",)
-    list_editable = ['status', "channelPasswd"]
+    list_editable = ['status', "name", "channelPasswd"]
     readonly_fields = ("channelId", "data",)
     actions = ["delete_selected", "get_live_status_selected"]
     list_per_page = 20
