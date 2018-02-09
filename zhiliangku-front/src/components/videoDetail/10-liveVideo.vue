@@ -11,9 +11,10 @@
         class="polyvFlashObject">
         <param name="allowScriptAccess" value="always">
         <param name="allowFullScreen" value="true">
-        <param name="quality" value="high">
+        <!-- <param name="quality" value="high"> -->
         <param name="bgcolor" value="#ffffff">
         <param name="wmode" value="transparent">
+        <embed wmode="opaque" type="application/x-shockwave-Flash"></embed>
         <param name="flashvars" :value="'is_barrage=on&amp;vid='+liveIdObj.id +'&amp;uid=a582a3b650&amp;useFastDns=off&amp;'">
       </object>
     </div>
@@ -189,6 +190,8 @@
           var nick = $('<div class="nickname">' + data.user.nick + '</div>');
           var time = $('<div class="time">' + prettyTime(data.time) + ' </div>');
           var values = $('<div class="content-msg"></div>');
+          var str = '[{"msg":"' + content + '","fontSize":"16","fontColor":"0xffffff","fontMode":"roll"}]';
+          window.player.j2s_addBarrageMessage(str);
           values.text(content)
           var list = $('<li />');
           if (data.user.userId === userId) { //当前用户
@@ -308,8 +311,8 @@
             alert('内容为空');
             return;
           }
-          var str = '[{"msg":"' + value + '","fontSize":"16","fontColor":"0xffffff","fontMode":"roll"}]';
-          player.j2s_addBarrageMessage(str);
+          // var str = '[{"msg":"' + value + '","fontSize":"16","fontColor":"0xffffff","fontMode":"roll"}]';
+          // player.j2s_addBarrageMessage(str);
           var temp_user = {
             "nick": localStorage.nickname || '游客',
             "pic": pic,
