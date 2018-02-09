@@ -4,18 +4,20 @@
       <param value="opaque" name="wmode"></param>
       <embed wmode="opaque" type="application/x-shockwave-Flash"></embed>
     </object> -->
-    <!-- <div class="video-box">
-      <object type="application/x-shockwave-flash" data="http://player.polyv.net/live/player.swf" id="142802" width="100%" height="219"
+    <!-- 解释一下id是有脚本进行绑定的所以不能改变 -->
+    <div class="video-box">
+      <object v-if="showVideo"  type="application/x-shockwave-flash" data="http://player.polyv.net/live/player.swf" 
+      id="142802" width="100%" :height="height"
         class="polyvFlashObject">
         <param name="allowScriptAccess" value="always">
         <param name="allowFullScreen" value="true">
         <param name="quality" value="high">
         <param name="bgcolor" value="#ffffff">
         <param name="wmode" value="transparent">
-        <param name="flashvars" value="is_barrage=on&amp;vid=142802&amp;uid=a582a3b650&amp;useFastDns=off&amp;">
+        <param name="flashvars" :value="'is_barrage=on&amp;vid='+liveIdObj.id +'&amp;uid=a582a3b650&amp;useFastDns=off&amp;'">
       </object>
-    </div> -->
-    <div class=" video-box " id="e8888b74d1229efec6b4712e17cb6b7a_e"></div>
+    </div>
+    <!-- <div class=" video-box " id="e8888b74d1229efec6b4712e17cb6b7a_e"></div> -->
     <div v-if="showchat" class="wrap " :style="{height:height+'px'}">
       <div>
         <div class="text-container" :style="{height:height-48+'px'}">
@@ -71,7 +73,8 @@
         liveIdObj: {
           id: ''
         },
-        showchat: true
+        showchat: true,
+        showVideo:false,
       }
     },
     props: {
@@ -88,7 +91,13 @@
       // 以下是直播
       liveVideo(id) {
         this.liveIdObj.id = id;
-        window.player = polyvObject('#e8888b74d1229efec6b4712e17cb6b7a_e').livePlayer({
+        this.showVideo=true;
+        debugger
+        // 精髓。。。
+        Vue.nextTick(function(){
+          this;
+          debugger
+          window.player = polyvObject('#e8888b74d1229efec6b4712e17cb6b7a_e').livePlayer({
           width: '100%',
           // height: window.innerHeight - 70,
           height: window.innerHeight,
@@ -99,6 +108,7 @@
           'vid': id,
           'wmode': "opaque",
         });
+        })       
       },
       initLiveVideo() {
         var time = Math.floor(new Date() / 1000);
