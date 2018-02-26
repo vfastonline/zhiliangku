@@ -125,10 +125,10 @@ class SearchForCourse(View):
             page = self.request.GET.get("page", 1)  # 页码
             per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
             if name:
-                course_objs = Course.objects.filter(Q(name__icontains=name) \
-                                                    | Q(prerequisites__icontains=name) \
-                                                    | Q(learn__icontains=name) \
-                                                    | Q(description__icontains=name) \
+                course_objs = Course.objects.filter(Q(name__icontains=name)
+                                                    | Q(prerequisites__icontains=name)
+                                                    | Q(learn__icontains=name)
+                                                    | Q(description__icontains=name)
                                                     | Q(tech__name__icontains=name)
                                                     )
 
