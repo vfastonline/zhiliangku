@@ -105,6 +105,76 @@ class CourseList(View):
         return render(request, template_name, {})
 
 
+class SearchForCourse(View):
+    """首页--模糊查询--课程信息"""
+
+    def get(self, request, *args, **kwargs):
+        result_dict = {
+            "err": 0,
+            "msg": "success",
+            "data": [],
+            "filter": {
+                "course_path": [{"name": "全部", "id": 0, "active": 1}],
+                "technology": [{"name": "全部", "id": 0, "active": 1}]
+            },
+            "paginator": {}
+        }
+        try:
+            # 获取查询参数
+            name = self.request.GET.get("name")
+            page = self.request.GET.get("page", 1)  # 页码
+            per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
+            if name:
+                course_objs = Course.objects.filter(Q(name__icontains=name) \
+                                                    | Q(prerequisites__icontains=name) \
+                                                    | Q(learn__icontains=name) \
+                                                    | Q(description__icontains=name) \
+                                                    | Q(tech__name__icontains=name)
+                                                    )
+
+                if course_objs:
+                    course_objs = list(set(list(course_objs)))
+                    page_obj = Paginator(course_objs, per_page)
+                    total_count = page_obj.count  # 记录总数
+                    num_pages = page_obj.num_pages  # 总页数
+                    page_range = list(page_obj.page_range)  # 页码列表
+                    paginator_dict = {
+                        "total_count": total_count,
+                        "num_pages": num_pages,
+                        "page_range": page_range,
+                        "page": page,
+                        "per_page": per_page
+                    }
+                    result_dict["paginator"] = paginator_dict
+
+                    try:
+                        course_objs = page_obj.page(page).object_list
+                    except:
+                        course_objs = list()
+
+                    # 课程数据
+                    result_dict["data"] = [
+                        {
+                            "id": one.id,
+                            "name": one.name,
+                            "tech": [one_tech.name for one_tech in
+                                     one.tech.all()] if one.tech.all().exists() else list(),
+                            "course_img": one.course_img.url if one.course_img else "",
+                            "lecturer": one.lecturer.nickname if one.lecturer else "",
+                            "avatar": one.lecturer.avatar.url if one.lecturer.avatar else "",
+                        }
+                        for one in course_objs
+                    ]
+
+        except:
+            traceback.print_exc()
+            logging.getLogger().error(traceback.format_exc())
+            result_dict["err"] = 1
+            result_dict["msg"] = traceback.format_exc()
+        finally:
+            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
 class CourseListInfo(View):
     """获取课程信息"""
 

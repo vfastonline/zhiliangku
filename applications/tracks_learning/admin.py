@@ -48,7 +48,7 @@ class CourseCategoryAdmin(admin.ModelAdmin):
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     list_display = (
-    'id', 'name', "recommend", 'lecturer', 'course_img', "prerequisites", "learn", "description", "update_time")
+        'id', 'name', "recommend", 'lecturer', 'course_img', "prerequisites", "learn", "description", "update_time")
     search_fields = ('name',)
     list_filter = ('recommend',)
     filter_horizontal = ('tech',)
@@ -63,7 +63,7 @@ class CourseAdmin(admin.ModelAdmin):
 
     fieldsets = [
 
-        (None, {'fields': ['name', "recommend", 'lecturer', 'course_img']}),
+        (None, {'fields': ['name', "recommend", 'lecturer', 'course_img', 'tech']}),
 
         ('先修要求', {
             'classes': ('collapse',),  # Specify fieldset classes here

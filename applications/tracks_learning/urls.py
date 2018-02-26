@@ -23,6 +23,7 @@ urlpatterns = [
 
     url('^course/list/$', course_list.CourseList.as_view()),
     url('^course/list/info$', course_list.CourseListInfo.as_view()),
+    url('^search/course/list/info$', course_list.SearchForCourse.as_view()),
 
     url('^course/detail/$', course_list.CourseDetail.as_view()),
     url('^course/detail/info$', course_list.CourseDetailInfo.as_view()),
