@@ -165,6 +165,8 @@ class SearchForCourse(View):
                         }
                         for one in course_objs
                     ]
+            filter_result = get_filter_data(0, 0)
+            result_dict["filter"] = filter_result
 
         except:
             traceback.print_exc()
@@ -250,7 +252,7 @@ class CourseListInfo(View):
 
             # 无课程类，别组装过滤数据
             if not category_id:
-                filter_result = self.get_filter_data(coursepath_id, technology_id)
+                filter_result = get_filter_data(coursepath_id, technology_id)
                 result_dict["filter"] = filter_result
 
         except:
@@ -262,54 +264,54 @@ class CourseListInfo(View):
         finally:
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
-    @staticmethod
-    def get_filter_data(course_path_id, technology_id):
-        """组装过滤数据
-        :param course_path_id: 课程方向ID
-        :param technology_id: 技术分类ID
-        :return:课程方向+课程技术分类信息
-        """
-        result_dict = {
-            "course_path": [{"name": "全部", "id": 0}],
-            "technology": [{"name": "全部", "id": 0}]
-        }
-        try:
-            course_paths = CoursePath.objects.all().values()
-            if course_paths:
-                result_dict["course_path"].extend(course_paths)
 
-            # 增加方向选中flag
-            if not course_path_id and technology_id:
-                coursepaths = CoursePath.objects.filter(tech__id__in=[technology_id])
-                if coursepaths.exists():
-                    course_path_id = coursepaths.first().id
+def get_filter_data(course_path_id, technology_id):
+    """组装过滤数据
+    :param course_path_id: 课程方向ID
+    :param technology_id: 技术分类ID
+    :return:课程方向+课程技术分类信息
+    """
+    result_dict = {
+        "course_path": [{"name": "全部", "id": 0}],
+        "technology": [{"name": "全部", "id": 0}]
+    }
+    try:
+        course_paths = CoursePath.objects.all().values()
+        if course_paths:
+            result_dict["course_path"].extend(course_paths)
 
-            for one in result_dict["course_path"]:
-                if int(one.get("id", 0)) == int(course_path_id):
-                    one.update({"active": 1})
-                    break
+        # 增加方向选中flag
+        if not course_path_id and technology_id:
+            coursepaths = CoursePath.objects.filter(tech__id__in=[technology_id])
+            if coursepaths.exists():
+                course_path_id = coursepaths.first().id
 
-            # 组装过滤数据-方向-技术分类
-            technologys = list()
-            if not course_path_id:
-                technologys = Technology.objects.all().values("id", "name")
-            else:
-                technology_objs = CoursePath.objects.filter(id=course_path_id)
-                if technology_objs.exists():
-                    technologys = technology_objs.first().tech.all().values("id", "name")
-            result_dict["technology"].extend(technologys)
+        for one in result_dict["course_path"]:
+            if int(one.get("id", 0)) == int(course_path_id):
+                one.update({"active": 1})
+                break
 
-            # 增加分类选中flag
-            for one in result_dict["technology"]:
-                if int(one.get("id", 0)) == int(technology_id):
-                    one.update({"active": 1})
-                    break
+        # 组装过滤数据-方向-技术分类
+        technologys = list()
+        if not course_path_id:
+            technologys = Technology.objects.all().values("id", "name")
+        else:
+            technology_objs = CoursePath.objects.filter(id=course_path_id)
+            if technology_objs.exists():
+                technologys = technology_objs.first().tech.all().values("id", "name")
+        result_dict["technology"].extend(technologys)
 
-        except:
-            traceback.print_exc()
-            logging.getLogger().error(traceback.format_exc())
-        finally:
-            return result_dict
+        # 增加分类选中flag
+        for one in result_dict["technology"]:
+            if int(one.get("id", 0)) == int(technology_id):
+                one.update({"active": 1})
+                break
+
+    except:
+        traceback.print_exc()
+        logging.getLogger().error(traceback.format_exc())
+    finally:
+        return result_dict
 
 
 class CourseDetail(View):
