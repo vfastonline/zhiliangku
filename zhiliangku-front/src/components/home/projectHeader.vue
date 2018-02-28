@@ -1,7 +1,17 @@
 <template>
   <div class="project-header " :style="outerStyle">
     <login></login>
-    <div class="ph-container mainwidth inmiddle clearfix">
+    <div class="ph-container mainwidth inmiddle clearfix ">
+      <div @click="inputActive"  @keyup.enter="search" class="ph-search inmiddle fontcenter">
+        <input @blur="inputNoActive"  type="text" id="search-input" class="search-input" :class="inputClass" ref="searchInput" placeholder="课程搜索">
+        <img class="phs-magnifier  pointer " :class="iconClass" src="../../assets/img/icons/Search-magnifier.svg" alt="">
+        <!-- <div class="inmiddle  input-mask">
+          <div class="input-mask-inner ">
+            <img class="phs-magnifier search-active pointer " src="../../assets/img/icons/Search-magnifier.svg" alt="">
+            <span class="font18pl7c7e8c">课程搜索</span>
+          </div>
+        </div> -->
+      </div>
       <div class="main">
         <div class="inner">
           <div v-if="type=='videoHeader'" class="ph-content white">
@@ -9,13 +19,10 @@
             >
             <span>{{videoTitle.name}}</span>
           </div>
-          <div v-if="!type" class="ph-content">
-            <span class="ph-tag pointer">
+          <div v-if="!type" class="ph-content ">
+            <!-- <span class="ph-tag pointer">
               <a href="/tracks/course/list/"> 课程</a>
             </span>
-            <!-- <span class="ph-tag pointer">
-              <a href="/tracks/video/detail/#/note"> 直播</a>
-            </span> -->
             <span class="ph-tag pointer">
               <a href="/tracks/path/list/">
                 <el-badge value="free!"  class="project-header-free">
@@ -24,11 +31,7 @@
               </a>
             </span>
             <span class="ph-tag pointer"><a href="/community/faq/list/"> 社区</a></span>
-            <span class="ph-tag last pointer">线下课程</span>
-            <span class="ph-search">
-              <!-- <input type="text"> -->
-              <!-- <img class="phs-magnifier pointer" src="../../assets/img/icons/Search-magnifier.svg" alt=""> -->
-            </span>
+            <span class="ph-tag last pointer">线下课程</span> -->
           </div>
         </div>
       </div>
@@ -52,6 +55,51 @@
     </div>
   </div>
 </template>
+<style>
+  #search-input {
+    height: 46px;
+    width: 360px;
+    box-sizing: border-box;
+    border-radius: 200px;
+    background-color: #CFD8DC;
+    border: none;
+    outline: none;
+    padding-left: 23px;
+    padding-right: 23px;
+    text-align: center;
+    color: #7C7E8C;
+    font-size: 18px;
+    font-family: 'PingFangSC-Light', '微软雅黑';
+  }
+
+  #search-input:focus {
+    height: 46px;
+    width: 360px;
+    border-radius: 200px;
+    /* background-color:rgba(0, 0, 0, 0); */
+    color: black;
+    border: none;
+  }
+
+  .input-mask {
+    height: 46px;
+    line-height: 42px;
+  }
+
+  .input-mask-inner {
+    width: 118px;
+    margin-left: 110px;
+    overflow: hidden;
+    /* transition: all ease 0.2s; */
+  }
+
+  .input-mask-inner-active {
+    margin-left: 2px;
+    width: 24px;
+  }
+
+</style>
+
 <script>
   import Bus from '../../assets/js/bus'
   import Login from '../../components/login/login.vue'
@@ -89,7 +137,9 @@
         userinfo: {
           avatar: ''
         },
-        videoTitle: {}
+        videoTitle: {},
+        inputClass: [],
+        iconClass:[],
       };
     },
     components: {
@@ -100,15 +150,40 @@
     props: {
       type: String,
     },
-    watch:{
-      is_login:function(a,b){
+    watch: {
+      is_login: function (a, b) {
         // console.log(a)
         // console.log(b)
       }
     },
     methods: {
-      jj(){
-        this.is_login=!this.is_login;
+      inputActive() {
+        this.inputClass=['input-mask-inner-active'];
+        this.iconClass=['search-active'];
+        var inputDom= this.$refs.searchInput;
+        inputDom.placeholder='';
+        inputDom.style.paddingLeft='43px';
+        inputDom.style.textAlign='left';
+        inputDom.style.color='black';
+      },
+      inputNoActive(){
+        var inputDom=this.$refs.searchInput;
+        if(!inputDom.value.trim()){
+        this.inputClass=[];
+        this.iconClass=[];
+        inputDom.value='';
+        inputDom.placeholder='搜索课程';
+        inputDom.style.paddingLeft='23px'
+        inputDom.style.textAlign='center';
+        }
+      },
+      search(){
+        console.log('search')
+        return
+        window.href=''
+      },
+      jj() {
+        this.is_login = !this.is_login;
         // console.log('this is ' +this.is_login)
       },
       changShow() {
@@ -143,8 +218,8 @@
         if (location.pathname != '/') {
           //这里的逻辑应该是删除掉user_info的字段
           // debugger
-          if(this.$fn.funcUrl('next')||this.$fn.funcUrl('user_info')){
-           window.location.href = this.$fn.funcUrlDelArr(['user_info','next'])
+          if (this.$fn.funcUrl('next') || this.$fn.funcUrl('user_info')) {
+            window.location.href = this.$fn.funcUrlDelArr(['user_info', 'next'])
           }
         }
         // console.log(this.userinfo)
@@ -203,7 +278,7 @@
         this.videoTitle = res;
       })
       Bus.$on('logout', this.logoutFunc)
-      Bus.$on('refreshAvatar',this.getUserInfo)
+      Bus.$on('refreshAvatar', this.getUserInfo)
     },
     mounted() {
       this.$on('loginClose', function (child) {
@@ -265,8 +340,8 @@
   }
 
   .project-header-free {
-    sup{
-      top:20px!important;
+    sup {
+      top: 20px !important;
     }
   }
 
@@ -294,7 +369,7 @@
     }
     .ph-tag {
       opacity: 0.8;
-      font-family: 'PingFangSC-Light' ,"Microsoft YaHei" ,"宋体";
+      font-family: 'PingFangSC-Light', "Microsoft YaHei", "宋体";
       font-size: 18px;
       color: #3a3c50;
       margin-right: 35px;
@@ -307,13 +382,20 @@
       border-radius: 100px;
     }
     .ph-search {
-      margin-right: 5.556%;
+      width: 360px;
       vertical-align: text-bottom;
     }
     .phs-magnifier {
       vertical-align: middle;
       width: 24px;
       height: 24px;
+      position: absolute;
+      left: 118px;
+      top: 23px;
+      // transition: all ease 0.2s;
+    }
+    .search-active {
+      left: 10px;
     }
     .ph-button {
       vertical-align: middle;
@@ -327,11 +409,11 @@
       vertical-align: middle;
       border-radius: 24px;
     }
-    .ph-tag .el-badge{
-        vertical-align: unset;
-      }  
+    .ph-tag .el-badge {
+      vertical-align: unset;
+    }
     .project-header {
-     
+
       .el-dialog__wrapper {
         position: fixed;
         top: 0;

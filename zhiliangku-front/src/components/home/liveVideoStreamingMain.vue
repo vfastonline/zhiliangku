@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <subtitle :msg="msg"></subtitle> -->
+    <subtitle :msg="msg"></subtitle>
     <lvs></lvs>
   </div>
 </template>

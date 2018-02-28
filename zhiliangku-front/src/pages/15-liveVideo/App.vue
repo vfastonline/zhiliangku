@@ -9,7 +9,7 @@
   import Bus from '../../assets/js/bus'
   import projectHeader from '../../components/home/projectHeader.vue'
   import videolist from '../../components/videoDetail/videolist.vue'
-  import  videoView from '../../components/videoDetail/10-liveVideo.vue'
+  import  videoView from '../../components/videoDetail/10-liveVideo.1.vue'
   export default {
     name: 'app',
     data() {

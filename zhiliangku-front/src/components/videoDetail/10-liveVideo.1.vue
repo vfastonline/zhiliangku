@@ -1,48 +1,101 @@
-// 励志将这挫劣的代码改成优雅的vue代码； // 思路：1.先从dom框架入手 。2.再从数据构造入手。3.再考虑事件。 // 1.稍微处理了一下dom // 2、打算处理一下脚本
 <template>
   <div class=" incenter" :style="{height:height+'px'}">
-    <div class=" video-box " id="e8888b74d1229efec6b4712e17cb6b7a_e"></div>
+    <!-- 播放器s -->
+    <div class="video-box">
+      <object v-if="showVideo" type="application/x-shockwave-flash" data="http://player.polyv.net/live/player.swf" :id="liveIdObj.id"
+        width="100%" :height="height" class="polyvFlashObject">
+        <param name="allowScriptAccess" value="always">
+        <param name="allowFullScreen" value="true">
+        <param name="bgcolor" value="#ffffff">
+        <param name="wmode" value="transparent">
+        <embed wmode="opaque" type="application/x-shockwave-Flash"></embed>
+        <param name="flashvars" :value="'is_barrage=on&amp;vid='+liveIdObj.id +'&amp;uid=a582a3b650&amp;useFastDns=off&amp;'">
+      </object>
+    </div>
+    <!-- 播放器e -->
+    <!-- 聊天室s -->
     <div v-if="showchat" class="wrap " :style="{height:height+'px'}">
       <div>
-        <div class="text-container" :style="{height:height-48+'px'}">
-          <ol class="talk" id="talk">
-            <li class="otherMsg">
-              <div class="msg-title"></div>
-              <div class="msg-content"></div>
+        <div class="button-nav">
+            <div class="chatButton " :class="{'backdar':!showChatRoom}">
+              <!-- <img src="" alt=""> -->
+              <span class="pointer" @click="showChatRoom=true">聊天室</span>
+            </div>
+            <div class="onlinePeople " :class="{'backdar':showChatRoom}">
+              <span class="pointer" @click="showChatRoom=false">{{baseParam.number}}人在观看</span>
+            </div>
+          </div>
+        <div class="text-container " :style="{height:height-118+'px'}">
+          <ol v-if="showChatRoom" class="talk" id="talk">
+            <li v-for="(item,index) in chatMsgList" :key="index">
+              <!-- <div class="talk-logo">
+                <img class="chat-user-icon" :src="item.imgsrc" alt="">
+              </div> -->
+              <div class="nickname " :class="{'owner':item.selfMsg}">{{item.nickname}}</div>
+              <!-- <div class="time">{{prettyTime(item.time)}}</div> -->
+              <div class="content-msg font14prffffff">{{item.content}}</div>
             </li>
           </ol>
-        </div>
-        <div class="toolbar">
-          <span>
-            <i class="icon pointer iconfont icon-biaoqing1"></i>
-            <el-scroll class="emotion-container">
-              <img @click="hh()" class="emotion-tag" v-for="(item,index) in emotionslist" :key="index" :src="item.url" alt="">
-            </el-scroll>
-          </span>
+          <ul class="userlist_container" v-else>
+            <li v-for="item in baseParam.userlist" :key="item.userId">
+              <img class="user_list_icon" :src="item.pic.substr(2)" alt=""><span class="nickname">{{item.nick}}</span>
+            </li>
+          </ul>
         </div>
         <div class="ibox">
-          <el-input @focus="jj()" name="name" id="send"></el-input>
+          <el-input @focus="jj" name="name" id="send"></el-input>
           <el-button class="sendbtn" id="sendBtn" type="primary">发送</el-button>
         </div>
-        <!-- <div  class="emotions" id="emotions"> -->
       </div>
     </div>
+    <!-- 聊天室e -->
     <div class="userwrap"></div>
   </div>
 </template>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
+<style lang="scss" >
   .toolbar {
     .icon {
       margin-left: 15px;
       font-size: 20px;
     }
   }
-
+  .user_list_icon{
+    height:48px;
+    width:48px;
+    border-radius: 50%;
+    margin-right: 16px;
+  }
   .ibox {
     .el-input {
       margin-left: 15px;
     }
+  }
+
+  .button-nav {
+    height: 70px;
+    background: #535762;
+    line-height: 70px;
+    position: relative;
+  }
+
+  .chatButton {
+    float: left;
+    padding-left: 19px;
+    width: 50%;
+    height: 70px;
+    box-sizing: border-box;
+  }
+
+  .onlinePeople {
+    float: left;
+    padding-left: 19px;
+    width: 50%;
+    height: 70px;
+    box-sizing: border-box;
+  }
+
+  .backdar {
+    background: #333742;
   }
 
 </style>
@@ -62,7 +115,6 @@
   };
   import Bus from '../../assets/js/bus'
   import emotionslist from '../../assets/js/03-emotions'
-  import md5 from 'js-md5';
   export default {
     data() {
       return {
@@ -70,10 +122,16 @@
         liveIdObj: {
           id: ''
         },
+        showChatRoom: true,
         showchat: true,
-        chatRoom:{
-          chatHost = 'http://chat.polyv.net:80', //socket连接地址
-          chatHost2 = "http://apichat.polyv.net:80", //获取聊天内容地址
+        showVideo: false,
+        chatMsgList: [],
+        baseParam: {
+          chatHost: 'http://chat.polyv.net:80',
+          chatHost2: "http://apichat.polyv.net:80",
+          userId: '',
+          number:'',
+          userlist:[],
         }
       }
     },
@@ -81,27 +139,30 @@
 
     },
     methods: {
-      hh() {
-
-      },
-      jj() {
+      jj(event) {
         if (localStorage.nickname) return;
+        event.target.blur();
         Bus.$emit('noActive', 'loginActive')
       },
       // 请求频道信息
       // 以下是直播
       liveVideo(id) {
         this.liveIdObj.id = id;
-        window.player = polyvObject('#e8888b74d1229efec6b4712e17cb6b7a_e').livePlayer({
-          width: '100%',
-          // height: window.innerHeight - 70,
-          height: window.innerHeight,
-          'flashvars': {
-            "is_barrage": "on"
-          },
-          'uid': 'a582a3b650',
-          'vid': id
-        });
+        this.showVideo = true;
+        // 精髓。。。
+        Vue.nextTick(function () {
+          window.player = polyvObject('#e8888b74d1229efec6b4712e17cb6b7a_e').livePlayer({
+            width: '100%',
+            // height: window.innerHeight - 70,
+            height: window.innerHeight,
+            'flashvars': {
+              "is_barrage": "on"
+            },
+            'uid': 'a582a3b650',
+            'vid': id,
+            'wmode': "opaque",
+          });
+        })
       },
       initLiveVideo() {
         var time = Math.floor(new Date() / 1000);
@@ -110,6 +171,7 @@
           this.liveIdObj.token = token;
           console.log(res)
         })
+
       },
       createdLiveVideo() {
 
@@ -129,8 +191,9 @@
         }
         return year + '/' + month + '/' + date + ' ' + hours + ':' + minutes;
       },
+      // aaa
       formatEmotions(_html) { //表情转换：表情以'[微笑]'的形式发送和接受，可以根据需要自定义表情形式
-        var $emotions = $('#emotions');
+        var $emotions = window.$('#emotions');
         if (_html) {
           var _of = -1;
           while ((_of = _html.indexOf("[")) != -1) {
@@ -153,75 +216,86 @@
             _html = begin + valstr + end;
           }
         }
-        debugger
         return _html;
       },
       addList(data) {
+        var obj = {};
         var content = data.content || data.values[0];
-        content = this.formatEmotions(content);
-        var pic = data.user.pic;
-        var logo = $('<div class="talk-logo"><img class="chat-user-icon" src=' + pic + '><div/>');
-        var nick = $('<div class="nickname">' + data.user.nick + '</div>');
-        var time = $('<div class="time">' + this.prettyTime(data.time) + ' </div>');
-        var values = $('<div class="content-msg"></div>');
-        values.text(content)
-        var list = $('<li />');
-        if (data.user.userId === userId) { //当前用户
-          nick.addClass('owner');
+        obj.content = this.formatEmotions(content);
+        obj.imgsrc = data.user.pic;
+        obj.nickname = data.user.nick;
+        obj.time = data.time;
+        if (data.user.userId == this.baseParam.userId) {
+          obj.self = true;
         }
-        list.append(logo, nick, time, values);
-        $talk.append(list);
+        this.chatMsgList.push(obj)
+        var str = '[{"msg":"' + content + '","fontSize":"16","fontColor":"0xffffff","fontMode":"roll"}]';
+        // 这里会有报错信息，在初始化聊天列表的时候。但是不影响弹幕功能的使用，所以禁止报错了
+        try {
+          window.player.j2s_addBarrageMessage(str);
+        } catch (err) {}
         // 接下来两行代码是为了每次有新消息到来之后使得滚动条在最下方
-        var container = $('.text-container')[0];
-        container.scrollTop = container.scrollHeight;
+        Vue.nextTick(function (dom) {
+          var container = window.$('.text-container')[0];
+          $(".text-container").getNiceScroll().resize();
+          $(".text-container").getNiceScroll(0).doScrollTop(container.scrollHeight, 0.2);
+        })
       },
       getHistoryContent(start, end) { //获取过往的聊天内容
+        var vue = this;
         var startIndex = start || 0,
-          endIndex = end || startIndex + 4;
-        var url = chatHost2 + '/front/history?roomId=' + roomId + '&start=' + startIndex + '&end=' + endIndex;
-        $.ajax({
+          endIndex = end || startIndex + 9;
+        var url = this.baseParam.chatHost2 + '/front/history?roomId=' + this.liveIdObj.id + '&start=' + startIndex +
+          '&end=' + endIndex;
+        window.$.ajax({
             url: url,
             type: 'get',
             dataType: 'jsonp'
           })
           .done(function (data) {
-            $(data.reverse()).each(function (index, el) {
-              this.addList(this); //生成dom添加到页面
+            window.$(data.reverse()).each(function (index, el) {
+              // aaaa
+              vue.addList(this); //生成dom添加到页面
             });
           });
       },
       getOnlineUserList() { //获取当前用户列表
-        $.ajax({
+      var chatHost2=this.baseParam.chatHost2,roomId=this.liveIdObj.id,vue=this;
+        window.$.ajax({
           url: chatHost2 + '/front/listUsers',
           dataType: 'jsonp',
           data: {
             roomId: roomId,
             page: 1,
-            len: 100 //获取用户数目
+            len: 1000 //获取用户数目
           },
           success: function (users) {
-            var t = '<p>当前用户数：' + users.count + '<p>';
-            $(users.userlist).each(function () {
-              var pic = this.pic;
-              t += '<img src="' + pic + '" title="' + this.nick + '" /><br>';
-            })
-            $('.userwrap').html(t);
+            vue.baseParam.number=users.count;
+            vue.baseParam.userlist=users.userlist;
           }
         });
+        window.$('.user_list_icon').niceScroll({
+          cursorcolor: "#424242",
+        })
+
       },
       sendMsg() {
+        if (!this.$fn.getCookie('token')) {
+          Bus.$emit('noActive', 'loginActive')
+          return
+        }
         var $that = $('#send');
         var value = $that.val().trim();
         if (value == "") {
           alert('内容为空');
           return;
         }
-        var str = '[{"msg":"' + value + '","fontSize":"16","fontColor":"0xffffff","fontMode":"roll"}]';
-        player.j2s_addBarrageMessage(str);
+        // var str = '[{"msg":"' + value + '","fontSize":"16","fontColor":"0xffffff","fontMode":"roll"}]';
+        // player.j2s_addBarrageMessage(str);
         var temp_user = {
           "nick": localStorage.nickname || '游客',
-          "pic": pic,
-          "userId": userId
+          "pic": this.baseParam.imgsrc,
+          "userId": this.baseParam.userId
         }
         var obj = {
           'user': temp_user,
@@ -232,29 +306,41 @@
         var data = JSON.stringify({
           'EVENT': 'SPEAK',
           'values': [value],
-          'roomId': roomId
+          'roomId': this.liveIdObj.id
         });
-        socket.emit('message', data); //发送消息
+        this.socket.emit('message', data); //发送消息
         $that.val('');
       },
       main(obj) {
+        var vue = this;
         this.showchat = true;
+        Vue.nextTick(()=>{
+          // console.log(window.$('.text-container')[0].value)
+          window.$('.text-container').niceScroll({
+            cursorcolor: "#424242",
+          })
+           $(".text-container").getNiceScroll().resize();
+        })
+        var that = this;
         var chatHost = 'http://chat.polyv.net:80', //socket连接地址
           chatHost2 = "http://apichat.polyv.net:80", //获取聊天内容地址
           chatToken = this.liveIdObj.token,
           roomId = this.liveIdObj.id,
           userId = Math.random(0, 1000 * 10000) * 1000 * 10000,
           nickname = localStorage.nickname || '游客', //自定义用户名
-          // pic = this.$myConst.httpUrl +  localStorage.avatar || '/media/custom_user_avatar/defaultUserIcon.png';
-          pic = '//livestatic.videocc.net/v_102/assets/wimages/missing_face.png';
+          // aaaa
+          //此处的pic参数有保利威视的限制：有具体域名地址的形式
+          pic = '//'+ this.$myConst.httpUrl +  (localStorage.avatar || '/media/custom_user_avatar/defaultUserIcon.png');
+          debugger
+          // pic = '//livestatic.videocc.net/v_102/assets/wimages/missing_face.png';
+        this.baseParam.userId = userId;
         var $ = window.$;
-        var socket = null;
         var $talk = $('#talk');
         this.getHistoryContent();
-
         //每20秒刷新一次  
-        // setInterval(getOnlineUserList, 20000); 
+        // setInterval(vue.getOnlineUserList(), 2000); 
         //连接socket
+        var socket = null;
         var supportsWebSockets = 'WebSocket' in window || 'MozWebSocket' in window;
         if (supportsWebSockets) {
           socket = io.connect(chatHost, {
@@ -267,17 +353,18 @@
             'transports': ['polling']
           });
         }
+        this.socket = socket;
         socket.on('connect', function () {
           //连接服务器成功
           console.info('success');
-          // getOnlineUserList();
+          vue.getOnlineUserList();
           socket.emit('message', JSON.stringify({ //用户登录
             'EVENT': 'LOGIN',
             'values': [localStorage.nickname || '游客', pic, userId], //昵称、头像地址、用户id
             'roomId': roomId
           }));
         });
-        socket.on('message', function (message) { //接收信息事件
+        socket.on('message', (message) => { //接收信息事件
           var data = JSON.parse(message);
           console.log(data);
           if (data && data.EVENT) { //根据返回的不同事件类型作相应处理
@@ -302,7 +389,7 @@
               case 'KICK': // 用户被踢
                 break;
               case 'REMOVE_HISTORY': //清空聊天记录
-                $talk.empty();
+                window.$talk.empty();
                 break;
               case 'CLOSE_DANMU': //关闭弹幕
                 break;
@@ -311,13 +398,14 @@
             }
           }
         });
+
         $('#send').on('keypress', function (e) {
           if (e.which === 13) {
-            sendMsg();
+            vue.sendMsg();
           }
         });
         $('#sendBtn').on('click', function () {
-          sendMsg();
+          vue.sendMsg();
         });
         // 设置表情库
         function setEmotions() {
@@ -342,6 +430,8 @@
       // this.initLiveVideo()
     },
     mounted() {
+      var that=this;
+      setInterval(function(){that.getOnlineUserList()}, 2000); 
       Bus.$on('haveLogin', () => {
         window.location.reload()
       })
@@ -359,7 +449,7 @@
 
 </script>
 
-<style>
+<style >
   .videoModule {
     background: red;
     width: 1152px;
@@ -367,9 +457,9 @@
 
   .video-box {
     float: left;
-    width: 80%;
     position: relative;
-    z-index: 1;
+    width: 80%;
+    z-index: 1
   }
 
   .chat-box {
@@ -381,7 +471,7 @@
     margin-left: 80%;
     width: 20%;
     position: relative;
-    /* background: rgb(51, 55, 66) */
+    background: #535762;
   }
 
   .chat-user-icon {
@@ -405,15 +495,13 @@
     display: flex;
     justify-content: space-between;
   }
-
-  /* .ibox>* {
-    float: left;
-  } */
-
   .text-container {
-    overflow-y: scroll;
+    overflow-y:scroll;
+    overflow-x: hidden;
   }
-
+  .text-container .el-scrollbar__wrap{
+    overflow-x:hidden;
+  }
   input {
     display: inline-block;
     outline: none;
@@ -442,7 +530,7 @@
 
   li {
     margin: 10px;
-    border-bottom: 1px solid #e5e5e5;
+    /* border-bottom: 1px solid #e5e5e5; */
     padding-bottom: 10px;
   }
 
@@ -457,10 +545,10 @@
 
   .nickname,
   .time {
-    font-size: 12px;
-    color: #666;
-  }
-
+    font-size: 14px;
+    color: #a9abb0;
+    font-family: 'PingFangSC-Regular' ,'Microsoft YaHei';
+    }
   .owner {
     color: blue !important;
   }

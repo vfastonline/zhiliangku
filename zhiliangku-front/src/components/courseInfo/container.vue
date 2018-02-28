@@ -1,4 +1,5 @@
 <template>
+<!-- 这个就是容器，不过实现容器适配的规则在卡片身上 -->
   <div class="incenter" :class="className" :style="myStyle">
     <slot></slot>
   </div>

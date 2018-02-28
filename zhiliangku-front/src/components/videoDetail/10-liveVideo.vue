@@ -6,9 +6,8 @@
     </object> -->
     <!-- 解释一下id是有脚本进行绑定的所以不能改变 -->
     <div class="video-box">
-      <object v-if="showVideo"  type="application/x-shockwave-flash" data="http://player.polyv.net/live/player.swf" 
-      :id="liveIdObj.id" width="100%" :height="height"
-        class="polyvFlashObject">
+      <object v-if="showVideo" type="application/x-shockwave-flash" data="http://player.polyv.net/live/player.swf" :id="liveIdObj.id"
+        width="100%" :height="height" class="polyvFlashObject">
         <param name="allowScriptAccess" value="always">
         <param name="allowFullScreen" value="true">
         <!-- <param name="quality" value="high"> -->
@@ -75,7 +74,7 @@
           id: ''
         },
         showchat: true,
-        showVideo:false,
+        showVideo: false,
       }
     },
     props: {
@@ -92,24 +91,21 @@
       // 以下是直播
       liveVideo(id) {
         this.liveIdObj.id = id;
-        this.showVideo=true;
-        debugger
+        this.showVideo = true;
         // 精髓。。。
-        Vue.nextTick(function(){
-          this;
-          debugger
+        Vue.nextTick(function () {
           window.player = polyvObject('#e8888b74d1229efec6b4712e17cb6b7a_e').livePlayer({
-          width: '100%',
-          // height: window.innerHeight - 70,
-          height: window.innerHeight,
-          'flashvars': {
-            "is_barrage": "on"
-          },
-          'uid': 'a582a3b650',
-          'vid': id,
-          'wmode': "opaque",
-        });
-        })       
+            width: '100%',
+            // height: window.innerHeight - 70,
+            height: window.innerHeight,
+            'flashvars': {
+              "is_barrage": "on"
+            },
+            'uid': 'a582a3b650',
+            'vid': id,
+            'wmode': "opaque",
+          });
+        })
       },
       initLiveVideo() {
         var time = Math.floor(new Date() / 1000);
@@ -128,7 +124,7 @@
       },
       main(obj) {
         this.showchat = true;
-        var that=this;
+        var that = this;
         var chatHost = 'http://chat.polyv.net:80', //socket连接地址
           chatHost2 = "http://apichat.polyv.net:80", //获取聊天内容地址
           chatToken = this.liveIdObj.token,
@@ -191,7 +187,10 @@
           var time = $('<div class="time">' + prettyTime(data.time) + ' </div>');
           var values = $('<div class="content-msg"></div>');
           var str = '[{"msg":"' + content + '","fontSize":"16","fontColor":"0xffffff","fontMode":"roll"}]';
-          window.player.j2s_addBarrageMessage(str);
+          // 这里会有报错信息，在初始化聊天列表的时候。但是不影响弹幕功能的使用，所以禁止报错了
+          try {
+            window.player.j2s_addBarrageMessage(str);
+          } catch (err) {}
           values.text(content)
           var list = $('<li />');
           if (data.user.userId === userId) { //当前用户
@@ -231,6 +230,7 @@
               len: 100 //获取用户数目
             },
             success: function (users) {
+              console.log(users)
               var t = '<p>当前用户数：' + users.count + '<p>';
               $(users.userlist).each(function () {
                 var pic = this.pic;
@@ -241,7 +241,7 @@
           });
         }
         //每20秒刷新一次  
-        // setInterval(getOnlineUserList, 20000); 
+        setInterval(getOnlineUserList, 2000); 
         //连接socket
         var supportsWebSockets = 'WebSocket' in window || 'MozWebSocket' in window;
         if (supportsWebSockets) {
@@ -301,7 +301,7 @@
         });
 
         function sendMsg() {
-          if(!that.$fn.getCookie('token')){
+          if (!that.$fn.getCookie('token')) {
             Bus.$emit('noActive', 'loginActive')
             return
           }
