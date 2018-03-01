@@ -73,7 +73,8 @@ class Course(models.Model):
     lecturer = models.ForeignKey("custom_user.CustomUser", verbose_name="讲师", limit_choices_to={'role': 1}, null=True,
                                  blank=True,
                                  on_delete=models.SET_NULL, help_text='只允许选择角色是”老师“的用户。')
-    course_img = models.ImageField('课程介绍图片', upload_to='course/%Y%m%d', storage=ImageStorage())
+    course_img = models.ImageField('课程介绍图片', upload_to='course/%Y%m%d', storage=ImageStorage(),
+                                   help_text="上传前先压缩：https://tinypng.com")
     tech = models.ManyToManyField("Technology", verbose_name='技术分类')
     prerequisites = models.TextField('先修要求', default="")
     learn = models.TextField('你将学到什么', default="")
