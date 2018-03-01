@@ -1,10 +1,10 @@
 <template>
   <div class="lvs-container">
-    <div class="mainwidth incenter block logo" >
+    <!-- <div class="mainwidth incenter block logo">
       <img class="block incenter" src="../../assets/img/icons/Logo.png" alt="">
-      </div> 
+    </div> -->
     <div class="lvs-content clearfix incenter mainwidth">
-      <div :style="{'background-image':'url('+imgUrl+')'}"    class="lvsc-video relative floatl">
+      <div :style="{'background-image':'url('+imgUrl+')'}" class="lvsc-video relative floatl">
         <!-- <img :src="" alt=""> -->
         <el-button v-if="showButton" class="lvsc-enterButton" :style="myButtonStyle" @click="go()">进入直播间</el-button>
       </div>
@@ -28,7 +28,7 @@
     name: "HelloWorld",
     data() {
       return {
-        showButton:'',
+        showButton: '',
         liveData: [],
         imgUrl: '',
         myButtonStyle: {
@@ -44,17 +44,17 @@
     },
     methods: {
       changeImg(item) {
-        if(item.status=='live'){
-          this.showButton=true;
-        }else{
-          this.showButton=false;
+        if (item.status == 'live') {
+          this.showButton = true;
+        } else {
+          this.showButton = false;
         }
         this.imgUrl = item.pathwel
-        this.video_id=item['video_id'];
-        this.course_id=item['course_id'];
+        this.video_id = item['video_id'];
+        this.course_id = item['course_id'];
       },
       go() {
-        window.location.href='/tracks/live/detail/?course_id='+this.course_id+'&video_id='+this.video_id
+        window.location.href = '/tracks/live/detail/?course_id=' + this.course_id + '&video_id=' + this.video_id
       },
       getData() {
         this.$get('/lives/index/list').then(res => {
@@ -62,15 +62,14 @@
           this.initi()
         })
       },
-      initi(){
+      initi() {
         this.imgUrl = this.liveData[0]['pathwel'];
-        this.video_id=this.liveData[0]['video_id'];
-        this.course_id=this.liveData[0]['course_id'];
-        this.showButton=false||this.liveData[0].status
+        this.video_id = this.liveData[0]['video_id'];
+        this.course_id = this.liveData[0]['course_id'];
+        this.showButton = false || (this.liveData[0].status == 'live')
       }
     },
     created() {
-      
       this.getData()
     },
     mounted() {}
@@ -81,11 +80,12 @@
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-.logo{
+  .logo {
     height: 88px;
-    margin-top:60px;
-    margin-bottom:60px;
-}
+    margin-top: 60px;
+    margin-bottom: 60px;
+  }
+
   .lvs-container {
     height: 440px;
     width: 100%;

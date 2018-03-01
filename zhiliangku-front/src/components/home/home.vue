@@ -3,19 +3,27 @@
     <!-- <carousel></carousel> -->
     <!-- <plant></plant> -->
     <lvsm></lvsm>
+    <div class="white">
+    <CourseSelect :hometitle="true"></CourseSelect>
+    </div>
+    <!-- <homeSelectCourse></homeSelectCourse> -->
     <!-- <hcm :mainData="courseData.latestCourse"></hcm> -->
     <!-- <hcm :mainData="courseData.popularCourse" ></hcm> -->
     <!-- <hcm :mainData="courseData.recommendCourse" ></hcm> -->
     <!-- <cpm></cpm> -->
     <!-- <interview-main></interview-main> -->
-    <!-- <cooperator></cooperator> -->
+    <cooperator></cooperator>
   </div>
 </template>
 <style>
-
+.white{
+  background-color: white;
+}
 
 </style>
 <script>
+import CourseSelect from '../courseInfo/courseSelect'
+import homeSelectCourse from './18-homeSelectCourse'
   export default {
     name: "home",
     data() {
@@ -50,6 +58,10 @@
           },
         }
       };
+    },
+    components:{
+      homeSelectCourse:homeSelectCourse,
+      CourseSelect:CourseSelect
     }
   };
 
