@@ -12,6 +12,7 @@ from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
 from django.http import Http404
 from lib.util import str_to_int
+from urllib import unquote
 
 
 class IndexCourseList(View):
@@ -122,6 +123,7 @@ class SearchForCourse(View):
         try:
             # 获取查询参数
             name = self.request.GET.get("name")
+            name = unquote(name)
             page = self.request.GET.get("page", 1)  # 页码
             per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
             if name:
