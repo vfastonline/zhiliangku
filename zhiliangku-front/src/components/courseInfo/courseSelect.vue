@@ -3,7 +3,7 @@
     <div v-show="hometitle" class="home-select-course">
       <div  class="hsc_tags mainwidth incenter relative">
         <div class="tags_container">
-          <span @click="changeSlected(item,'course_path')" v-for="(item,index) in  allData.filter.course_path" :key='item' :class="{'hsc_tag_active':item.active}" class="hsc_tag pointer font16pr3a3c50">{{item.name}}</span>
+          <span @click="changeSlected(item,'course_path')" v-for="(item) in  allData.filter.course_path" :key='item.name' :class="{'hsc_tag_active':item.active}" class="hsc_tag pointer font16pr3a3c50">{{item.name}}</span>
         </div>
         <a class="hsc_more font14pl5A646E pointer" href="/tracks/course/list/index.html" >更多>></a>
       </div>
@@ -72,6 +72,7 @@
     data() {
       return {
         url: '/tracks/course/list/info',
+        searchWord:'',
         allData: {
           filter: []
         },
@@ -104,7 +105,11 @@
         this.pagerKey = new Date().getTime();
       },
       addtionalString() {
-        return this.url + '?coursepath_id=' + this.course_path + '&technology_id=' + this.technology;
+        var str=this.url + '?coursepath_id=' + this.course_path + '&technology_id=' + this.technology;
+        // if(this.url='/tracks/search/course/list/info'){
+        //   str+='&name='+this.searchWord;
+        // }
+        return str
       },
       changeSlected(item, key) {
         //状态标签清零
@@ -157,7 +162,12 @@
       }
     },
     created() {
-      this.getData();
+      var str='';
+      if(this.$fn.funcUrl('searchWord')){
+        Bus.$emit('haveSearchWord',this.$fn.funcUrl('searchWord'))
+        str='/tracks/search/course/list/info'+'?name='+this.$fn.funcUrl('searchWord');
+      }
+      this.getData(str);
       Bus.$on('pagerHaveData', res => {
         this.$fn.addString(this.$myConst.httpUrl, res.data.data, ['course_img', 'avatar'])
         console.log(res.data)

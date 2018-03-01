@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <project-header :style="pHStyle" :type="'videoHeader'"></project-header>
+    <project-header :style="pHStyle" :type="'liveHeader'"></project-header>
     <videoView ></videoView>
-    <!-- <videolist></videolist> -->
+    <videolist></videolist>
   </div>
 </template>
 <script>
@@ -17,7 +17,7 @@
         allData: {},
         showList: false,
         pHStyle:{
-          height:'0px',
+          height:'70px',
           overflow:'hidden'
         }
       }

@@ -8,7 +8,7 @@
         <param name="allowFullScreen" value="true">
         <param name="bgcolor" value="#ffffff">
         <param name="wmode" value="transparent">
-        <embed wmode="opaque" type="application/x-shockwave-Flash"></embed>
+        <embed wmode="opaque" type="application/x-shockwave-Flash">
         <param name="flashvars" :value="'is_barrage=on&amp;vid='+liveIdObj.id +'&amp;uid=a582a3b650&amp;useFastDns=off&amp;'">
       </object>
     </div>
@@ -17,15 +17,17 @@
     <div v-if="showchat" class="wrap " :style="{height:height+'px'}">
       <div>
         <div class="button-nav">
-            <div class="chatButton " :class="{'backdar':!showChatRoom}">
-              <!-- <img src="" alt=""> -->
-              <span class="pointer" @click="showChatRoom=true">聊天室</span>
-            </div>
-            <div class="onlinePeople " :class="{'backdar':showChatRoom}">
-              <span class="pointer" @click="showChatRoom=false">{{baseParam.number}}人在观看</span>
-            </div>
+          <div class="chatButton " :class="{'activeButton':showChatRoom}">
+            <!-- <img src="" alt=""> -->
+            <span class="pointer button-item" @click="showChatRoom=true">
+              <i class="iconfont  icon-msnui-bubble buttonIcon imgmiddle"></i> 聊天室</span>
           </div>
-        <div class="text-container " :style="{height:height-118+'px'}">
+          <div class="onlinePeople " :class="{'activeButton':!showChatRoom}">
+            <span class="pointer button-item" @click="showChatRoom=false">
+              <i class="iconfont  icon-yonghu1 buttonIcon imgmiddle"></i> {{baseParam.number}}人在观看</span>
+          </div>
+        </div>
+        <div class="text-container " :style="{height:height-211+'px'}">
           <ol v-if="showChatRoom" class="talk" id="talk">
             <li v-for="(item,index) in chatMsgList" :key="index">
               <!-- <div class="talk-logo">
@@ -38,13 +40,21 @@
           </ol>
           <ul class="userlist_container" v-else>
             <li v-for="item in baseParam.userlist" :key="item.userId">
-              <img class="user_list_icon" :src="item.pic.substr(2)" alt=""><span class="nickname">{{item.nick}}</span>
+              <img class="user_list_icon" :src="item.pic.substr(2)" alt="">
+              <span class="nickname">{{item.nick}}</span>
             </li>
           </ul>
         </div>
         <div class="ibox">
-          <el-input @focus="jj" name="name" id="send"></el-input>
-          <el-button class="sendbtn" id="sendBtn" type="primary">发送</el-button>
+          <div class="icon-func-container">
+            <div><img class="pointer icon-func1" src="../../assets/img/icons/视频播放+习题图标/icon_60_flower_fill@2x.svg" alt="">
+            <img class="pointer icon-func2" src="../../assets/img/icons/视频播放+习题图标/clap-hands.svg" alt=""></div>
+            <div><img class="pointer icon-func3" src="../../assets/img/icons/视频播放+习题图标/emoticon.svg" alt=""></div>
+          </div>
+          <div>
+            <textarea @focus="jj" name="name" placeholder="请输入文字，按enter键发送" class="msg-input" id="send"/>
+            <!-- <el-button class="sendbtn" id="sendBtn" type="primary">发送</el-button> -->
+          </div>
         </div>
       </div>
     </div>
@@ -52,19 +62,21 @@
     <div class="userwrap"></div>
   </div>
 </template>
-<style lang="scss" >
+<style lang="scss">
   .toolbar {
     .icon {
       margin-left: 15px;
       font-size: 20px;
     }
   }
-  .user_list_icon{
-    height:48px;
-    width:48px;
+
+  .user_list_icon {
+    height: 48px;
+    width: 48px;
     border-radius: 50%;
     margin-right: 16px;
   }
+
   .ibox {
     .el-input {
       margin-left: 15px;
@@ -73,34 +85,78 @@
 
   .button-nav {
     height: 70px;
-    background: #535762;
+    background: #333742;
     line-height: 70px;
     position: relative;
+    border-bottom: 1px solid #333742;
   }
 
   .chatButton {
     float: left;
     padding-left: 19px;
-    width: 50%;
+    width: 40%;
     height: 70px;
     box-sizing: border-box;
   }
-
+  .button-item{
+    height: 32px;
+    line-height:32px;
+    display: inline-block;
+  }
   .onlinePeople {
     float: left;
     padding-left: 19px;
-    width: 50%;
+    width: 60%;
     height: 70px;
     box-sizing: border-box;
   }
 
-  .backdar {
-    background: #333742;
+  .activeButton {
+    background: #535762;
   }
 
+  .activeButton span {
+    color: white
+  }
+
+  .button-nav .buttonIcon {
+    font-size: 32px;
+  }
+  .icon-func-container{
+    height: 80px;
+    line-height: 80px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .icon-func1{
+    margin:0   28px 0    28px;
+  }
+  .icon-func2{
+     margin:0 28px 0 0;
+  }
+  .icon-func3{
+    margin-right:28px;
+  }
+  .msg-input{
+    width:210px;
+    padding-right:8px;
+    position: relative;
+    display: block;
+    border: none;
+    background: transparent;
+    margin-left:28px;
+    color: white;
+    resize: none;
+  }
+  .msg-input :focus{
+    outline: none;
+  }
+  .msg-input :placeholder{
+    color: #A9ABB0;
+  }
 </style>
 <style>
-  @import "//at.alicdn.com/t/font_483463_1t9ycpancbjiqkt9.css";
+  @import "//at.alicdn.com/t/font_577305_itisanydxrxgk3xr.css";
 
 </style>
 
@@ -130,8 +186,8 @@
           chatHost: 'http://chat.polyv.net:80',
           chatHost2: "http://apichat.polyv.net:80",
           userId: '',
-          number:'',
-          userlist:[],
+          number: '',
+          userlist: [],
         }
       }
     },
@@ -260,7 +316,9 @@
           });
       },
       getOnlineUserList() { //获取当前用户列表
-      var chatHost2=this.baseParam.chatHost2,roomId=this.liveIdObj.id,vue=this;
+        var chatHost2 = this.baseParam.chatHost2,
+          roomId = this.liveIdObj.id,
+          vue = this;
         window.$.ajax({
           url: chatHost2 + '/front/listUsers',
           dataType: 'jsonp',
@@ -270,8 +328,8 @@
             len: 1000 //获取用户数目
           },
           success: function (users) {
-            vue.baseParam.number=users.count;
-            vue.baseParam.userlist=users.userlist;
+            vue.baseParam.number = users.count;
+            vue.baseParam.userlist = users.userlist;
           }
         });
         window.$('.user_list_icon').niceScroll({
@@ -314,12 +372,15 @@
       main(obj) {
         var vue = this;
         this.showchat = true;
-        Vue.nextTick(()=>{
+        Vue.nextTick(() => {
           // console.log(window.$('.text-container')[0].value)
           window.$('.text-container').niceScroll({
             cursorcolor: "#424242",
           })
-           $(".text-container").getNiceScroll().resize();
+          window.$('.msg-input').niceScroll({
+            cursorcolor: "#424242",
+          })
+          $(".text-container").getNiceScroll().resize();
         })
         var that = this;
         var chatHost = 'http://chat.polyv.net:80', //socket连接地址
@@ -330,9 +391,8 @@
           nickname = localStorage.nickname || '游客', //自定义用户名
           // aaaa
           //此处的pic参数有保利威视的限制：有具体域名地址的形式
-          pic = '//'+ this.$myConst.httpUrl +  (localStorage.avatar || '/media/custom_user_avatar/defaultUserIcon.png');
-          debugger
-          // pic = '//livestatic.videocc.net/v_102/assets/wimages/missing_face.png';
+          pic = '//' + this.$myConst.httpUrl + (localStorage.avatar || '/media/custom_user_avatar/defaultUserIcon.png');
+        // pic = '//livestatic.videocc.net/v_102/assets/wimages/missing_face.png';
         this.baseParam.userId = userId;
         var $ = window.$;
         var $talk = $('#talk');
@@ -425,13 +485,15 @@
       }
     },
     created() {
-
+      window.$('body').niceScroll()
       this.height = window.innerHeight;
       // this.initLiveVideo()
     },
     mounted() {
-      var that=this;
-      setInterval(function(){that.getOnlineUserList()}, 2000); 
+      var that = this;
+      setInterval(function () {
+        that.getOnlineUserList()
+      }, 2000);
       Bus.$on('haveLogin', () => {
         window.location.reload()
       })
@@ -443,13 +505,15 @@
         this.liveVideo(id);
         this.main();
       })
-
+      setTimeout(function(){
+        window.$('body').niceScroll().doScrollTop(70,0.5)
+      },1500)
     }
   }
 
 </script>
 
-<style >
+<style>
   .videoModule {
     background: red;
     width: 1152px;
@@ -491,17 +555,22 @@
   }
 
   .ibox {
-    height: 47px;
-    display: flex;
-    justify-content: space-between;
+    position: relative;
+    z-index:10;
+    height: 140px;
+    background-color:#333742;
+    box-shadow: 0 -5px 2px #333742;
   }
+
   .text-container {
-    overflow-y:scroll;
+    overflow-y: scroll;
     overflow-x: hidden;
   }
-  .text-container .el-scrollbar__wrap{
-    overflow-x:hidden;
+
+  .text-container .el-scrollbar__wrap {
+    overflow-x: hidden;
   }
+
   input {
     display: inline-block;
     outline: none;
@@ -547,8 +616,9 @@
   .time {
     font-size: 14px;
     color: #a9abb0;
-    font-family: 'PingFangSC-Regular' ,'Microsoft YaHei';
-    }
+    font-family: 'PingFangSC-Regular', 'Microsoft YaHei';
+  }
+
   .owner {
     color: blue !important;
   }

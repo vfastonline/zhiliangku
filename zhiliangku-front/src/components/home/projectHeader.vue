@@ -2,8 +2,9 @@
   <div class="project-header " :style="outerStyle">
     <login></login>
     <div class="ph-container mainwidth inmiddle clearfix ">
-      <div @click="inputActive"  @keyup.enter="search" class="ph-search inmiddle fontcenter">
-        <input @blur="inputNoActive"  type="text" id="search-input" class="search-input" :class="inputClass" ref="searchInput" placeholder="课程搜索">
+      <div v-if="!(['videoHeader','liveHeader'].indexOf(type)+1)" @click="inputActive" @keyup.enter="search" class="ph-search inmiddle fontcenter">
+        <input @blur="inputNoActive" type="text" id="search-input" v-model="searchValue" class="search-input" :class="inputClass"
+          ref="searchInput" placeholder="课程搜索">
         <img class="phs-magnifier  pointer " :class="iconClass" src="../../assets/img/icons/Search-magnifier.svg" alt="">
         <!-- <div class="inmiddle  input-mask">
           <div class="input-mask-inner ">
@@ -14,7 +15,7 @@
       </div>
       <div class="main">
         <div class="inner">
-          <div v-if="type=='videoHeader'" class="ph-content white">
+          <div v-if="['videoHeader','liveHeader'].indexOf(type)+1" class="ph-content white">
             <span>{{videoTitle.section_desc}}</span>
             >
             <span>{{videoTitle.name}}</span>
@@ -37,7 +38,7 @@
       </div>
       <div class="left">
         <img v-if="!type" class='ph-logo pointer' @click="goindex()" src='../../assets/img/icons/Logo.png' alt="">
-        <img v-if="type=='videoHeader'" @click="showVideoList()" class='ph-expend-button pointer' src='../../assets/img/icons/视频播放+习题图标/视频播放_汉堡按钮.svg'
+        <img v-if="['videoHeader','liveHeader'].indexOf(type)+1" @click="showVideoList()" class='ph-expend-button pointer' src='../../assets/img/icons/视频播放+习题图标/视频播放_汉堡按钮.svg'
           alt="">
       </div>
       <div class="rightbar">
@@ -75,6 +76,7 @@
   #search-input:focus {
     height: 46px;
     width: 360px;
+    box-sizing: border-box;
     border-radius: 200px;
     /* background-color:rgba(0, 0, 0, 0); */
     color: black;
@@ -139,7 +141,8 @@
         },
         videoTitle: {},
         inputClass: [],
-        iconClass:[],
+        iconClass: [],
+        searchValue: ''
       };
     },
     components: {
@@ -158,33 +161,31 @@
     },
     methods: {
       inputActive() {
-        this.inputClass=['input-mask-inner-active'];
-        this.iconClass=['search-active'];
-        var inputDom= this.$refs.searchInput;
-        inputDom.placeholder='';
-        inputDom.style.paddingLeft='43px';
-        inputDom.style.textAlign='left';
-        inputDom.style.color='black';
+        this.inputClass = ['input-mask-inner-active'];
+        this.iconClass = ['search-active'];
+        var inputDom = this.$refs.searchInput;
+        // inputDom.placeholder = '';
+        inputDom.style.paddingLeft = '43px';
+        inputDom.style.textAlign = 'left';
+        inputDom.style.color = 'black';
+        inputDom.focus();
       },
-      inputNoActive(){
-        var inputDom=this.$refs.searchInput;
-        if(!inputDom.value.trim()){
-        this.inputClass=[];
-        this.iconClass=[];
-        inputDom.value='';
-        inputDom.placeholder='搜索课程';
-        inputDom.style.paddingLeft='23px'
-        inputDom.style.textAlign='center';
+      inputNoActive() {
+        var inputDom = this.$refs.searchInput;
+        if (!this.searchValue.trim()) {
+          this.inputClass = [];
+          this.iconClass = [];
+          // inputDom.value = '';
+          inputDom.placeholder = '搜索课程';
+          inputDom.style.paddingLeft = '23px'
+          inputDom.style.textAlign = 'center';
         }
       },
-      search(){
-        console.log('search')
-        return
-        window.href=''
+      search() {
+          window.location.href = '/tracks/course/list/index.html?searchWord=' + encodeURI(this.searchValue) ;
       },
       jj() {
         this.is_login = !this.is_login;
-        // console.log('this is ' +this.is_login)
       },
       changShow() {
         this.show = !this.show;
@@ -257,7 +258,7 @@
         // console.log(this.is_login)
       }
       // console.log(document.cookie)
-      if (this.type == 'videoHeader') {
+      if (['videoHeader','liveHeader'].indexOf(this.type)+1) {
         this.buttonStyle = this.videoButtonStyle;
         this.outerStyle = {
           background: '#333742'
@@ -279,11 +280,17 @@
       })
       Bus.$on('logout', this.logoutFunc)
       Bus.$on('refreshAvatar', this.getUserInfo)
+       
     },
     mounted() {
       this.$on('loginClose', function (child) {
         this.showLogin = false;
       })
+      if(this.$fn.funcUrl('searchWord')){
+       this.searchValue= this.$fn.funcUrl('searchWord')
+       this.inputActive()
+       this.$refs.searchInput.blur()
+      }
     }
   };
 
@@ -382,7 +389,7 @@
       border-radius: 100px;
     }
     .ph-search {
-      width: 360px;
+      width: 380px;
       vertical-align: text-bottom;
     }
     .phs-magnifier {
@@ -391,11 +398,10 @@
       height: 24px;
       position: absolute;
       left: 118px;
-      top: 23px;
-      // transition: all ease 0.2s;
+      top: 23px; // transition: all ease 0.2s;
     }
     .search-active {
-      left: 10px;
+      left: 20px;
     }
     .ph-button {
       vertical-align: middle;
