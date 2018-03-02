@@ -28,19 +28,34 @@
           </div>
         </div>
         <div class="text-container " :style="{height:height-211+'px'}">
-          <ol v-if="showChatRoom" class="talk" id="talk">
+          <ol v-show="showChatRoom" class="talk" id="talk">
             <li v-for="(item,index) in chatMsgList" :key="index">
-              <!-- <div class="talk-logo">
-                <img class="chat-user-icon" :src="item.imgsrc" alt="">
-              </div> -->
-              <div class="nickname " :class="{'owner':item.selfMsg}">{{item.nickname}}</div>
-              <!-- <div class="time">{{prettyTime(item.time)}}</div> -->
-              <div class="content-msg font14prffffff">{{item.content}}</div>
+              <div v-if="item.type==1">
+                <div class="nickname " :class="{'owner':item.selfMsg}">{{item.nickname}}</div>
+                <!-- <div class="time">{{prettyTime(item.time)}}</div> -->
+                <div class="content-msg font14prffffff">
+                  <span v-for="(msgPice,index) in item.content" :key="index">
+                    <span v-if="msgPice.type==2" v-text="msgPice.html"></span>
+                    <span v-if="msgPice.type==1" v-html="msgPice.html"></span>
+                  </span>
+                </div>
+              </div>
+              <div v-if="[2,3].indexOf(item.type*1)+1" class="present-container fontcenter">
+                <div>{{item.nickname}}</div>
+                <div>
+                  <svg v-if="item.type==2" class="present-icon" aria-hidden="true">
+                    <use xlink:href="#icon-xianhua-"></use>
+                  </svg>
+                 <svg v-if="item.type==3" class="present-icon" aria-hidden="true">
+                    <use xlink:href="#icon-car__easyicon"></use>
+                  </svg>
+                </div>
+              </div>
             </li>
           </ol>
-          <ul class="userlist_container" v-else>
+          <ul class="userlist_container" v-show="!showChatRoom">
             <li v-for="item in baseParam.userlist" :key="item.userId">
-              <img class="user_list_icon" :src="item.pic.substr(2)" alt="">
+              <img class="user_list_icon" v-lazy="item.pic.substr(2)" alt="">
               <span class="nickname">{{item.nick}}</span>
             </li>
           </ul>
@@ -53,8 +68,13 @@
           </div>
           <div class="icon-func-container">
             <div>
-              <img class="pointer icon-func1" src="../../assets/img/icons/视频播放+习题图标/icon_60_flower_fill@2x.svg" alt="">
-              <img class="pointer icon-func2" src="../../assets/img/icons/视频播放+习题图标/clap-hands.svg" alt="">
+              <img @click="sendMsg('%E9%80%81%E5%87%BA%E4%BA%86%E9%B2%9C%E8%8A%B1')" class="pointer icon-func1" src="../../assets/img/icons/视频播放+习题图标/icon_60_flower_fill@2x.svg"
+                alt="">
+              <!-- <img @click="sendMsg('%E7%BB%99%E5%87%BA%E4%BA%86%E7%83%AD%E7%83%88%E7%9A%84%E6%8E%8C%E5%A3%B0')" class="pointer icon-func2"
+                src="../../assets/img/icons/视频播放+习题图标/clap-hands.svg" alt=""> -->
+              <svg @click="sendMsg('%E7%BB%99%E5%87%BA%E4%BA%86%E7%83%AD%E7%83%88%E7%9A%84%E6%8E%8C%E5%A3%B0')" class="icon-paoche icon-func2 pointer" aria-hidden="true">
+                    <use xlink:href="#icon-qiche"></use>
+              </svg>
             </div>
             <div>
               <img @click.stop="showEmoji=!showEmoji" class="pointer icon-func3" src="../../assets/img/icons/视频播放+习题图标/emoticon.svg" alt="">
@@ -79,8 +99,31 @@
     fill: currentColor;
     overflow: hidden;
   }
-
+  .present-icon{
+    width:80px;
+    height: 80px;
+    vertical-align: middle;
+    fill: currentColor;
+  }
+  .icon-paoche{
+    width: 28px;
+    height: 28px;
+    /* vertical-align: middle; */
+    fill: currentColor;
+    overflow: hidden;
+    margin-top:3px;
+  }
 </style>
+<style lang="scss">
+  .present-container {
+    width: 200px;
+    background: #3f424b;
+    border-radius: 5px;
+    padding:5px
+  }
+  
+</style>
+
 <style lang="scss">
   .emoji-container {
     box-sizing: border-box;
@@ -221,6 +264,8 @@
   };
   import Bus from '../../assets/js/bus'
   import emotionslist from '../../assets/js/03-emotions'
+  import VueLazyLoad from 'vue-lazyload'
+  Vue.use(VueLazyLoad, {})
   export default {
     data() {
       return {
@@ -275,7 +320,6 @@
         var sign = md5(time + 'polyvsign');
         var token = this.$get('http://api.live.polyv.net/watchtoken/gettoken?ts=' + time + '&sign=' + sign).then(res => {
           this.liveIdObj.token = token;
-          console.log(res)
         })
 
       },
@@ -298,49 +342,87 @@
         return year + '/' + month + '/' + date + ' ' + hours + ':' + minutes;
       },
       // aaa
-      formatEmotions(_html) { //表情转换：表情以'[微笑]'的形式发送和接受，可以根据需要自定义表情形式
+      formatEmotions(_html) {
+        // 这个函数是不够完善的，希望有更好的办法进行修复
         var $emotions = window.$('#emotions');
-        if (_html) {
-          var _of = -1;
-          while ((_of = _html.indexOf("[")) != -1) {
-            var _oe = _html.indexOf("]", _of + 1);
-            if (_oe == -1)
-              break;
-            var begin = _html.substring(0, _of);
-            var end = _html.substring(_oe + 1);
-            var valstr = _html.substring(_of + 1, _oe);
-            if (valstr) {
-              var urlstr = this.
-              if (urlstr) {
-                valstr = '<img src="' + urlstr + '" class="emotionimg">';
-              } else {
-                break;
-              }
-            } else {
-              break;
-            }
-            _html = begin + valstr + end;
+        var contentArry = [],
+          endArry = [];
+        var arr = _html.split(/[[]/g)
+        var brr;
+        arr.forEach((item) => {
+          item.split(/[\]]/g).forEach((item) => {
+            contentArry.push(item)
+          })
+        })
+        contentArry.forEach((item) => {
+          if (item === '') {
+            return
           }
-        }
-        return _html;
+          var obj = {},
+            b;
+          if (this.emojiList.some((el, index) => {
+              if (el.name == item) {
+                b = el;
+                return true
+              }
+            })) {
+            obj.type = 1;
+            obj.html = "<svg class='icon' aria-hidden='true'><use xlink:href='#icon-emoji-" + b.index +
+              "'></use></svg>";
+          } else {
+            obj.type = 2;
+            obj.html = item
+          }
+          endArry.push(obj)
+        })
+        return endArry
       },
-      addList(data) {
+      addpresent(type, data) {
         var obj = {};
-        var content = data.content || data.values[0];
-        obj.content = this.formatEmotions(content);
         obj.imgsrc = data.user.pic;
         obj.nickname = data.user.nick;
         obj.time = data.time;
+        obj.type = type
+        // 判断是否是自己发送的消息
         if (data.user.userId == this.baseParam.userId) {
           obj.self = true;
         }
         this.chatMsgList.push(obj)
+        this.refreshScroll()
+        console.log(this.chatMsgList)
+      },
+      addList(data) {
+        var content = data.content || data.values[0];
+        if (content == '%E9%80%81%E5%87%BA%E4%BA%86%E9%B2%9C%E8%8A%B1') {
+          this.addpresent(2, data)
+          return
+        }
+        if (content == '%E7%BB%99%E5%87%BA%E4%BA%86%E7%83%AD%E7%83%88%E7%9A%84%E6%8E%8C%E5%A3%B0') {
+          this.addpresent(3, data)
+          return
+        }
+        var obj = {};
+
+        obj.content = this.formatEmotions(content);
+        obj.imgsrc = data.user.pic;
+        obj.nickname = data.user.nick;
+        obj.time = data.time;
+        obj.type = '1'
+        // 判断是否是自己发送的消息
+        if (data.user.userId == this.baseParam.userId) {
+          obj.self = true;
+        }
+        this.chatMsgList.push(obj)
+        console.log(this.chatMsgList)
         var str = '[{"msg":"' + content + '","fontSize":"16","fontColor":"0xffffff","fontMode":"roll"}]';
         // 这里会有报错信息，在初始化聊天列表的时候。但是不影响弹幕功能的使用，所以禁止报错了
         try {
           window.player.j2s_addBarrageMessage(str);
         } catch (err) {}
         // 接下来两行代码是为了每次有新消息到来之后使得滚动条在最下方
+        this.refreshScroll()
+      },
+      refreshScroll() {
         Vue.nextTick(function (dom) {
           var container = window.$('.text-container')[0];
           $(".text-container").getNiceScroll().resize();
@@ -379,6 +461,12 @@
           },
           success: function (users) {
             vue.baseParam.number = users.count;
+            // users.userlist.forEach((item)=>{
+            //   console.log( /[^(/api)]/.test(item.pic.substr(2)))
+            //   if( /[^(/api)]/.test(item.pic.substr(2))){
+            //     return}
+            //   item.pic='//'+vue.$myConst.httpUrl+item.pic.substr(2)
+            // });
             vue.baseParam.userlist = users.userlist;
           }
         });
@@ -387,13 +475,16 @@
         })
 
       },
-      sendMsg() {
+      sendMsg(othervalue) {
         if (!this.$fn.getCookie('token')) {
           Bus.$emit('noActive', 'loginActive')
           return
         }
         var $that = $('#send');
         var value = $that.val().trim();
+        if (othervalue) {
+          value = othervalue;
+        }
         if (value == "") {
           alert('内容为空');
           return;
@@ -418,12 +509,12 @@
         });
         this.socket.emit('message', data); //发送消息
         $that.val('');
+        this.showEmoji = false;
       },
       main(obj) {
         var vue = this;
         this.showchat = true;
         Vue.nextTick(() => {
-          // console.log(window.$('.text-container')[0].value)
           window.$('.text-container').niceScroll({
             cursorcolor: "#424242",
           })
@@ -476,7 +567,7 @@
         });
         socket.on('message', (message) => { //接收信息事件
           var data = JSON.parse(message);
-          console.log(data);
+          console.log(message);
           if (data && data.EVENT) { //根据返回的不同事件类型作相应处理
             switch (data.EVENT) {
               case 'CLOSEROOM': // room closed
@@ -538,22 +629,28 @@
         this.emojiList.push({
           className: 'icon-emoji-',
           name: 'emoji-1',
-          htmlStr: "<svg class='icon' aria-hidden='true'><use xlink:href='#icon-emoji-'></use></svg>"
+          htmlStr: "<svg class='icon' aria-hidden='true'><use xlink:href='#icon-emoji-'></use></svg>",
+          index: ''
         })
         for (let i = 1; i <= 20; i++) {
           var obj = {};
           obj.name = 'emoji-' + (i + 1);
-          obj.className = 'icon-emoji-' + 'i';
+          obj.className = 'icon-emoji-' + i;
           obj.htmlStr = "<svg class='icon' aria-hidden='true'><use xlink:href='#icon-emoji-" + i + "'></use></svg>";
+          obj.index = i;
           this.emojiList.push(obj)
         }
-        console.log(this.emojiList)
+        // console.log(this.emojiList)
       },
       selectEmoji(item) {
+        if (!this.$fn.getCookie('token')) {
+          Bus.$emit('noActive', 'loginActive')
+          return
+        }
         window.$('#send')[0].value += ('[' + item.name + ']');
         this.$refs.sendMessage.focus();
       },
-      hh(){}
+      hh() {}
     },
     created() {
       this.initEmojiList();
@@ -578,13 +675,13 @@
         this.main();
       })
       setTimeout(function () {
-        if (!window.$('body').scrollTop) {
-          debugger
+        // if (!window.$('body').scrollTop) {
+          // debugger
           window.$('body').niceScroll().doScrollTop(70, 0.5)
-        }
+        // }
       }, 1500)
       document.addEventListener('click', (e) => {
-          this.showEmoji = false
+        this.showEmoji = false
       })
     }
   }
