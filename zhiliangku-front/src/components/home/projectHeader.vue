@@ -182,7 +182,7 @@
         }
       },
       search() {
-          window.location.href = '/tracks/course/list/index.html?searchWord=' + encodeURI(this.searchValue) ;
+          window.location.href = '/tracks/course/list/?searchWord=' + encodeURI(this.searchValue) ;
       },
       jj() {
         this.is_login = !this.is_login;

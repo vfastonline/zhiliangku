@@ -45,14 +45,23 @@
             </li>
           </ul>
         </div>
+
         <div class="ibox">
+          <div v-show="showEmoji" @click.stop="hh" class="emoji-container">
+            <span @click.stop="selectEmoji(item)" class="emoji-inner pointer" v-for="item in emojiList" :key="item.className" v-html='item.htmlStr'>
+            </span>
+          </div>
           <div class="icon-func-container">
-            <div><img class="pointer icon-func1" src="../../assets/img/icons/视频播放+习题图标/icon_60_flower_fill@2x.svg" alt="">
-            <img class="pointer icon-func2" src="../../assets/img/icons/视频播放+习题图标/clap-hands.svg" alt=""></div>
-            <div><img class="pointer icon-func3" src="../../assets/img/icons/视频播放+习题图标/emoticon.svg" alt=""></div>
+            <div>
+              <img class="pointer icon-func1" src="../../assets/img/icons/视频播放+习题图标/icon_60_flower_fill@2x.svg" alt="">
+              <img class="pointer icon-func2" src="../../assets/img/icons/视频播放+习题图标/clap-hands.svg" alt="">
+            </div>
+            <div>
+              <img @click.stop="showEmoji=!showEmoji" class="pointer icon-func3" src="../../assets/img/icons/视频播放+习题图标/emoticon.svg" alt="">
+            </div>
           </div>
           <div>
-            <textarea @focus="jj" name="name" placeholder="请输入文字，按enter键发送" class="msg-input" id="send"/>
+            <textarea @focus="jj" name="name" ref="sendMessage" placeholder="请输入文字，按enter键发送" class="msg-input" id="send" />
             <!-- <el-button class="sendbtn" id="sendBtn" type="primary">发送</el-button> -->
           </div>
         </div>
@@ -62,6 +71,37 @@
     <div class="userwrap"></div>
   </div>
 </template>
+<style type="text/css">
+  .icon {
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
+    fill: currentColor;
+    overflow: hidden;
+  }
+
+</style>
+<style lang="scss">
+  .emoji-container {
+    box-sizing: border-box;
+    padding-left: 8px;
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    position: absolute;
+    transform: translate(0, -100%);
+    background: #333742;
+    border-bottom: 1px solid #535762;
+  }
+
+  .emoji-inner {
+    display: inline-block;
+    margin: 5px;
+  }
+
+</style>
+
 <style lang="scss">
   .toolbar {
     .icon {
@@ -98,11 +138,13 @@
     height: 70px;
     box-sizing: border-box;
   }
-  .button-item{
+
+  .button-item {
     height: 32px;
-    line-height:32px;
+    line-height: 32px;
     display: inline-block;
   }
+
   .onlinePeople {
     float: left;
     padding-left: 19px;
@@ -122,38 +164,46 @@
   .button-nav .buttonIcon {
     font-size: 32px;
   }
-  .icon-func-container{
+
+  .icon-func-container {
     height: 80px;
     line-height: 80px;
     display: flex;
     justify-content: space-between;
   }
-  .icon-func1{
-    margin:0   28px 0    28px;
+
+  .icon-func1 {
+    margin: 0 28px 0 28px;
   }
-  .icon-func2{
-     margin:0 28px 0 0;
+
+  .icon-func2 {
+    margin: 0 28px 0 0;
   }
-  .icon-func3{
-    margin-right:28px;
+
+  .icon-func3 {
+    margin-right: 28px;
   }
-  .msg-input{
-    width:210px;
-    padding-right:8px;
+
+  .msg-input {
+    width: 210px;
+    padding-right: 8px;
     position: relative;
     display: block;
     border: none;
     background: transparent;
-    margin-left:28px;
+    margin-left: 28px;
     color: white;
     resize: none;
   }
-  .msg-input :focus{
+
+  .msg-input :focus {
     outline: none;
   }
-  .msg-input :placeholder{
+
+  .msg-input :placeholder {
     color: #A9ABB0;
   }
+
 </style>
 <style>
   @import "//at.alicdn.com/t/font_577305_itisanydxrxgk3xr.css";
@@ -174,6 +224,7 @@
   export default {
     data() {
       return {
+        showEmoji: '',
         height: '',
         liveIdObj: {
           id: ''
@@ -188,12 +239,11 @@
           userId: '',
           number: '',
           userlist: [],
-        }
+        },
+        emojiList: [],
       }
     },
-    props: {
-
-    },
+    props: {},
     methods: {
       jj(event) {
         if (localStorage.nickname) return;
@@ -260,7 +310,7 @@
             var end = _html.substring(_oe + 1);
             var valstr = _html.substring(_of + 1, _oe);
             if (valstr) {
-              var urlstr = $emotions.find("[title='" + valstr + "']").attr('src');
+              var urlstr = this.
               if (urlstr) {
                 valstr = '<img src="' + urlstr + '" class="emotionimg">';
               } else {
@@ -482,9 +532,31 @@
           var value = $('#send').val() + '[' + title + ']'
           $('#send').val(value);
         });
-      }
+      },
+      // 表情部分开始
+      initEmojiList() {
+        this.emojiList.push({
+          className: 'icon-emoji-',
+          name: 'emoji-1',
+          htmlStr: "<svg class='icon' aria-hidden='true'><use xlink:href='#icon-emoji-'></use></svg>"
+        })
+        for (let i = 1; i <= 20; i++) {
+          var obj = {};
+          obj.name = 'emoji-' + (i + 1);
+          obj.className = 'icon-emoji-' + 'i';
+          obj.htmlStr = "<svg class='icon' aria-hidden='true'><use xlink:href='#icon-emoji-" + i + "'></use></svg>";
+          this.emojiList.push(obj)
+        }
+        console.log(this.emojiList)
+      },
+      selectEmoji(item) {
+        window.$('#send')[0].value += ('[' + item.name + ']');
+        this.$refs.sendMessage.focus();
+      },
+      hh(){}
     },
     created() {
+      this.initEmojiList();
       window.$('body').niceScroll()
       this.height = window.innerHeight;
       // this.initLiveVideo()
@@ -505,9 +577,15 @@
         this.liveVideo(id);
         this.main();
       })
-      setTimeout(function(){
-        window.$('body').niceScroll().doScrollTop(70,0.5)
-      },1500)
+      setTimeout(function () {
+        if (!window.$('body').scrollTop) {
+          debugger
+          window.$('body').niceScroll().doScrollTop(70, 0.5)
+        }
+      }, 1500)
+      document.addEventListener('click', (e) => {
+          this.showEmoji = false
+      })
     }
   }
 
@@ -556,9 +634,9 @@
 
   .ibox {
     position: relative;
-    z-index:10;
+    z-index: 10;
     height: 140px;
-    background-color:#333742;
+    background-color: #333742;
     box-shadow: 0 -5px 2px #333742;
   }
 

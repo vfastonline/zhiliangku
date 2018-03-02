@@ -5,7 +5,7 @@
         <div class="tags_container">
           <span @click="changeSlected(item,'course_path')" v-for="(item) in  allData.filter.course_path" :key='item.name' :class="{'hsc_tag_active':item.active}" class="hsc_tag pointer font16pr3a3c50">{{item.name}}</span>
         </div>
-        <a class="hsc_more font14pl5A646E pointer" href="/tracks/course/list/index.html" >更多>></a>
+        <a class="hsc_more font14pl5A646E pointer" href="/tracks/course/list/" >更多>></a>
       </div>
       <div></div>
     </div>
