@@ -1,7 +1,7 @@
 <template>
   <div class="project-header " :style="outerStyle">
     <login></login>
-    <div class="ph-container mainwidth inmiddle clearfix ">
+    <div class="ph-container  inmiddle clearfix ">
       <div v-if="!(['videoHeader','liveHeader'].indexOf(type)+1)" @click="inputActive" @keyup.enter="search" class="ph-search inmiddle fontcenter">
         <input @blur="inputNoActive" type="text" id="search-input" v-model="searchValue" class="search-input" :class="inputClass"
           ref="searchInput" placeholder="课程搜索">
@@ -38,12 +38,13 @@
       </div>
       <div class="left">
         <img v-if="!type" class='ph-logo pointer' @click="goindex()" src='../../assets/img/icons/Logo.png' alt="">
-        <img v-if="['videoHeader','liveHeader'].indexOf(type)+1" @click="showVideoList()" class='ph-expend-button pointer' src='../../assets/img/icons/视频播放+习题图标/视频播放_汉堡按钮.svg'
+        <img v-if="['videoHeader','liveHeader'].indexOf(type)+1" @click="showVideoList()" 
+        class='ph-expend-button pointer' src='../../assets/img/icons/视频播放+习题图标/视频播放_汉堡按钮.svg'
           alt="">
       </div>
       <div class="rightbar">
         <!--<el-button @click="changShow()" class="ph-button" type="primary" :style="buttonStyle" round>岗位匹配</el-button>-->
-        <span class="user-info font18pl3a3c50">
+        <span class="user-info  font18pl3a3c50" :class="{'white':['videoHeader','liveHeader'].indexOf(type)+1}" >
           <img v-if="is_login" @click="changeUsershow()" class="user-icon pointer" :src="userinfo.avatar" alt="">
           <span v-if="!is_login" class="pointer" @click="myDispatch('open','loginActive')">登录 |</span>
           <span v-if="!is_login" class="pointer" @click="myDispatch('open','logupActive')">注册</span>
@@ -330,7 +331,8 @@
 
   .rightbar {
     // background: red;
-    width: 285px;
+    width: 235px;
+    padding-right:50px;
     float: left;
     margin-left: -285px;
     height: 100%;
@@ -367,11 +369,14 @@
       line-height: 70px; // background: skyblue;
     }
     .ph-logo {
+      margin-left: 50px;
       width: 132px;
       height: 48px;
       vertical-align: middle;
     }
     .ph-expend-button {
+      position: relative;
+      left: 40px;
       vertical-align: middle;
     }
     .ph-tag {

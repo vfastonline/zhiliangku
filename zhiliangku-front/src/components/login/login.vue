@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login-box">
     <!-- 极有可能是bug的地方：回车键的体验 -->
     <el-dialog @close="modalClose()" :show-close="false" :visible.sync="centerDialogVisible">
       <!-- 1.login模块 -->
@@ -489,6 +489,43 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style  lang="scss">
+.login-box{
+  .el-dialog__wrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+    margin: 0;
+    background:rgba(0, 0, 0, .5);
+    overflow: hidden;
+  }
+  .el-dialog {
+    position: relative;
+    margin: 0 auto 50px;
+    background:rgba(0, 0, 0, .5);
+    border-radius: 2px;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 412px;
+    padding: 16px;
+  }
+  .el-dialog__body {
+      background: #ffffff;
+    padding: 24px 40px;
+    color: #5a5e66;
+    line-height: 24px;
+    font-size: 14px
+  }
+  .el-dialog__header{
+      padding:0;
+  }
+}
+</style>
 <style scoped>
   .login-middle-button-container {
     width: 340px;

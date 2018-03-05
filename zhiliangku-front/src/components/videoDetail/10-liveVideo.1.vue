@@ -1,7 +1,9 @@
 <template>
-  <div class=" incenter" :style="{height:height+'px'}">
+  <div class=" incenter live-video-box" :style="{height:height+'px'}">
+    <!-- <button @click="kk()">1231231321</button>
+    <input type="text" v-model="test" @keydown.enter="sendAnwser(test)"> -->
     <!-- 播放器s -->
-    <div class="video-box">
+    <div class="video-box" :height="height">
       <object v-if="showVideo" type="application/x-shockwave-flash" data="http://player.polyv.net/live/player.swf" :id="liveIdObj.id"
         width="100%" :height="height" class="polyvFlashObject">
         <param name="allowScriptAccess" value="always">
@@ -15,7 +17,7 @@
     <!-- 播放器e -->
     <!-- 聊天室s -->
     <div v-if="showchat" class="wrap " :style="{height:height+'px'}">
-      <div>
+      <div class="relative">
         <div class="button-nav">
           <div class="chatButton " :class="{'activeButton':showChatRoom}">
             <!-- <img src="" alt=""> -->
@@ -27,6 +29,11 @@
               <i class="iconfont  icon-yonghu1 buttonIcon imgmiddle"></i> {{baseParam.number}}人在观看</span>
           </div>
         </div>
+        <transition name="fade" >
+        <div v-if="showAnswerSelect" class="answer-container">
+          <el-button v-for="item in AnswerList" :key="item" @click="sendAnwser(item)" class="answer-item fontcenter pointer">{{item.label}}</el-button>
+        </div>
+        </transition>
         <div class="text-container " :style="{height:height-211+'px'}">
           <ol v-show="showChatRoom" class="talk" id="talk">
             <li v-for="(item,index) in chatMsgList" :key="index">
@@ -46,7 +53,7 @@
                   <svg v-if="item.type==2" class="present-icon" aria-hidden="true">
                     <use xlink:href="#icon-xianhua-"></use>
                   </svg>
-                 <svg v-if="item.type==3" class="present-icon" aria-hidden="true">
+                  <svg v-if="item.type==3" class="present-icon" aria-hidden="true">
                     <use xlink:href="#icon-car__easyicon"></use>
                   </svg>
                 </div>
@@ -72,8 +79,9 @@
                 alt="">
               <!-- <img @click="sendMsg('%E7%BB%99%E5%87%BA%E4%BA%86%E7%83%AD%E7%83%88%E7%9A%84%E6%8E%8C%E5%A3%B0')" class="pointer icon-func2"
                 src="../../assets/img/icons/视频播放+习题图标/clap-hands.svg" alt=""> -->
-              <svg @click="sendMsg('%E7%BB%99%E5%87%BA%E4%BA%86%E7%83%AD%E7%83%88%E7%9A%84%E6%8E%8C%E5%A3%B0')" class="icon-paoche icon-func2 pointer" aria-hidden="true">
-                    <use xlink:href="#icon-qiche"></use>
+              <svg @click="sendMsg('%E7%BB%99%E5%87%BA%E4%BA%86%E7%83%AD%E7%83%88%E7%9A%84%E6%8E%8C%E5%A3%B0')" class="icon-paoche icon-func2 pointer"
+                aria-hidden="true">
+                <use xlink:href="#icon-qiche"></use>
               </svg>
             </div>
             <div>
@@ -91,6 +99,38 @@
     <div class="userwrap"></div>
   </div>
 </template>
+<style scoped type="text/css">
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .65s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+  .answer-container {
+    box-sizing: border-box;
+    position: absolute;
+    height: 60px;
+    display: flex;
+    width:100%;
+    z-index:10;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .answer-container .el-button{
+    padding: 0;
+  }
+  .answer-container .el-button+.el-button{
+    margin: 0px;
+  }
+  .answer-item {
+    height: 48px;
+    width:48px;
+    background: white;
+    border-radius: 8px;
+  }
+
+</style>
+
 <style type="text/css">
   .icon {
     width: 32px;
@@ -99,29 +139,32 @@
     fill: currentColor;
     overflow: hidden;
   }
-  .present-icon{
-    width:80px;
+
+  .present-icon {
+    width: 80px;
     height: 80px;
     vertical-align: middle;
     fill: currentColor;
   }
-  .icon-paoche{
+
+  .icon-paoche {
     width: 28px;
     height: 28px;
     /* vertical-align: middle; */
     fill: currentColor;
     overflow: hidden;
-    margin-top:3px;
+    margin-top: 3px;
   }
+
 </style>
 <style lang="scss">
   .present-container {
     width: 200px;
     background: #3f424b;
     border-radius: 5px;
-    padding:5px
+    padding: 5px
   }
-  
+
 </style>
 
 <style lang="scss">
@@ -269,6 +312,7 @@
   export default {
     data() {
       return {
+        test:'',
         showEmoji: '',
         height: '',
         liveIdObj: {
@@ -277,6 +321,8 @@
         showChatRoom: true,
         showchat: true,
         showVideo: false,
+        showAnswerSelect: false,
+        AnswerList: [],
         chatMsgList: [],
         baseParam: {
           chatHost: 'http://chat.polyv.net:80',
@@ -389,7 +435,7 @@
         }
         this.chatMsgList.push(obj)
         this.refreshScroll()
-        console.log(this.chatMsgList)
+        // console.log(this.chatMsgList)
       },
       addList(data) {
         var content = data.content || data.values[0];
@@ -413,7 +459,7 @@
           obj.self = true;
         }
         this.chatMsgList.push(obj)
-        console.log(this.chatMsgList)
+        // console.log(this.chatMsgList)
         var str = '[{"msg":"' + content + '","fontSize":"16","fontColor":"0xffffff","fontMode":"roll"}]';
         // 这里会有报错信息，在初始化聊天列表的时候。但是不影响弹幕功能的使用，所以禁止报错了
         try {
@@ -461,12 +507,6 @@
           },
           success: function (users) {
             vue.baseParam.number = users.count;
-            // users.userlist.forEach((item)=>{
-            //   console.log( /[^(/api)]/.test(item.pic.substr(2)))
-            //   if( /[^(/api)]/.test(item.pic.substr(2))){
-            //     return}
-            //   item.pic='//'+vue.$myConst.httpUrl+item.pic.substr(2)
-            // });
             vue.baseParam.userlist = users.userlist;
           }
         });
@@ -580,8 +620,10 @@
               case 'REWARD': //奖励信息
                 break;
               case 'QUESTION':
+                this.getQuestion(data)
                 break;
               case 'CLOSE_QUESTION':
+                this.closeQuestion()
                 break;
               case 'ANSWER':
                 break;
@@ -650,11 +692,52 @@
         window.$('#send')[0].value += ('[' + item.name + ']');
         this.$refs.sendMessage.focus();
       },
-      hh() {}
+      // 进入页面之后延时滚动
+      hh() {
+        setTimeout(function () {
+          if (window.scrollY) return;
+          var body = $("html, body");
+          body.stop().animate({
+            scrollTop: 70
+          }, 1000, 'swing', );
+        }, 1000)
+      },
+      // 回答选择题功能
+      getQuestion(data) {
+        this.showAnswerSelect = true;
+        if(data.question=='PD'){
+          this.AnswerList=[{label:'正确',value:'correct'},{label:'错误',value:'error'}]
+          return
+        }
+        var arr=[];
+        data.question.split('').forEach((el,index)=>{
+          var obj={};
+          obj.value=el;
+          obj.label=el;
+          arr.push(obj)
+        })
+        this.AnswerList=arr;
+      },
+      sendAnwser(item) {
+        var obj = {
+          EVENT: 'ANSWER',
+          roomId: this.liveIdObj.id,
+          answer:item.value,
+        }
+        this.socket.emit('message', JSON.stringify(obj));
+        this.showAnswerSelect=false
+      },
+      closeQuestion(){
+        this.showAnswerSelect=false;
+      },
+      kk(){
+        this.showAnswerSelect=true;
+        this.AnswerList=['a','b','c','d','e']
+      }
     },
     created() {
       this.initEmojiList();
-      window.$('body').niceScroll()
+      // window.$('body').niceScroll()
       this.height = window.innerHeight;
       // this.initLiveVideo()
     },
@@ -663,6 +746,9 @@
       setInterval(function () {
         that.getOnlineUserList()
       }, 2000);
+      if (!window.scrollY) {
+        this.hh()
+      }
       Bus.$on('haveLogin', () => {
         window.location.reload()
       })
@@ -674,12 +760,6 @@
         this.liveVideo(id);
         this.main();
       })
-      setTimeout(function () {
-        // if (!window.$('body').scrollTop) {
-          // debugger
-          window.$('body').niceScroll().doScrollTop(70, 0.5)
-        // }
-      }, 1500)
       document.addEventListener('click', (e) => {
         this.showEmoji = false
       })
@@ -688,7 +768,7 @@
 
 </script>
 
-<style>
+<style scoped>
   .videoModule {
     background: red;
     width: 1152px;
@@ -697,6 +777,7 @@
   .video-box {
     float: left;
     position: relative;
+    overflow: hidden;
     width: 80%;
     z-index: 1
   }
@@ -746,7 +827,7 @@
     overflow-x: hidden;
   }
 
-  input {
+  .live-video-box input {
     display: inline-block;
     outline: none;
     /* flex-grow: 1; */
@@ -767,23 +848,27 @@
     cursor: pointer;
   }
 
-  h2 {
+  .live-video-box {
+    overflow: hidden;
+  }
+
+  .live-video-box h2 {
     text-align: right;
     font-weight: 500;
   }
 
-  li {
+  .live-video-box li {
     margin: 10px;
     /* border-bottom: 1px solid #e5e5e5; */
     padding-bottom: 10px;
   }
 
-  li>div {
+  .live-video-box li>div {
     display: inline-block;
     margin-left: 20px;
   }
 
-  li img {
+  .video-box li img {
     vertical-align: middle;
   }
 
