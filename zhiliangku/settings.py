@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'applications.record',
     'applications.personal_center',
     'applications.integral',
+    'applications.face',
 ]
 
 MIDDLEWARE = [
