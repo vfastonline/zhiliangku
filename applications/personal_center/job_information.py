@@ -47,7 +47,7 @@ class PostMatch(View):
                 "position": "资深Java工程师",
                 "post_id": "3",
                 "schedule": 0.6,
-                "logo": "/media/course/20171204/20180307140057_462.jpg",
+                "logo": "/media/course/20180307/20180307140057_462.jpg",
             }
             result_dict["data"].append(one_dict)
         except:
@@ -136,6 +136,7 @@ class FocusOnMyBusiness(View):
             one_dict["scale"] = 7000
             result_dict["data"].append(one_dict)
 
+            one_dict = dict()
             one_dict["company"] = "百度"
             one_dict["logo"] = "/media/interview_questions/20171227/20171227103713_417.png"
             one_dict["info"] = "百度（纳斯达克：BIDU），全球最大的中文搜索引擎、最大的中文网站。" \
@@ -144,6 +145,7 @@ class FocusOnMyBusiness(View):
             one_dict["scale"] = 8000
             result_dict["data"].append(one_dict)
 
+            one_dict = dict()
             one_dict["company"] = "阿里巴巴"
             one_dict["logo"] = "/media/interview_questions/20171227/20171227103541_136.png"
             one_dict["info"] = "阿里巴巴网络技术有限公司（简称：阿里巴巴集团）是以曾担任英语教师的马云为首的18人于1999年在浙江杭州创立。"
