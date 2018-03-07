@@ -24,14 +24,32 @@ class PostMatch(View):
         try:
             custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
 
-            for one in xrange(3):
-                one_dict = dict()
-                one_dict["company"] = "凯奇谷"
-                one_dict["position"] = "Python工程师"
-                one_dict["post_id"] = "1"
-                one_dict["schedule"] = 0.34
-                one_dict["logo"] = "/media/course/20171204/20171204160021_91.png"
-                result_dict["data"].append(one_dict)
+            one_dict = {
+                "company": "凯奇谷",
+                "position": "Python工程师",
+                "post_id": "1",
+                "schedule": 0.34,
+                "logo": "/media/course/20171204/20171204160021_91.png",
+            }
+            result_dict["data"].append(one_dict)
+
+            one_dict = {
+                "company": "百度",
+                "position": "web前端工程师",
+                "post_id": "2",
+                "schedule": 0.1,
+                "logo": "/media/course/20180307/20180307141417_82.jpg",
+            }
+            result_dict["data"].append(one_dict)
+
+            one_dict = {
+                "company": "阿里巴巴",
+                "position": "资深Java工程师",
+                "post_id": "3",
+                "schedule": 0.6,
+                "logo": "/media/course/20171204/20180307140057_462.jpg",
+            }
+            result_dict["data"].append(one_dict)
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
@@ -109,15 +127,28 @@ class FocusOnMyBusiness(View):
         }
         try:
             custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
-            for one in xrange(3):
-                one_dict = dict()
-                one_dict["company"] = "凯奇谷"
-                one_dict["logo"] = "/media/interview_questions/20171227/20171227103821_890.png"
-                one_dict["info"] = "创立于2005年9月，是中国领先的互联网安全软件与互联网服务公司，" \
-                                   "曾先后获得过鼎晖创投、红杉资本、高原资本、红点投资、Matrix、IDG等" \
-                                   "风险投资商总额高达数千万美元的联合投资"
-                one_dict["scale"] = 7000
-                result_dict["data"].append(one_dict)
+            one_dict = dict()
+            one_dict["company"] = "凯奇谷"
+            one_dict["logo"] = "/media/interview_questions/20171227/20171227103821_890.png"
+            one_dict["info"] = "创立于2005年9月，是中国领先的互联网安全软件与互联网服务公司，" \
+                               "曾先后获得过鼎晖创投、红杉资本、高原资本、红点投资、Matrix、IDG等" \
+                               "风险投资商总额高达数千万美元的联合投资"
+            one_dict["scale"] = 7000
+            result_dict["data"].append(one_dict)
+
+            one_dict["company"] = "百度"
+            one_dict["logo"] = "/media/interview_questions/20171227/20171227103713_417.png"
+            one_dict["info"] = "百度（纳斯达克：BIDU），全球最大的中文搜索引擎、最大的中文网站。" \
+                               "1999年底,身在美国硅谷的李彦宏看到了中国互联网及中文搜索引擎服务的巨大发展潜力，抱着技术改变世界的梦想，" \
+                               "他毅然辞掉硅谷的高薪工作，携搜索引擎专利技术，于 2000年1月1日在中关村创建了百度公司。"
+            one_dict["scale"] = 8000
+            result_dict["data"].append(one_dict)
+
+            one_dict["company"] = "阿里巴巴"
+            one_dict["logo"] = "/media/interview_questions/20171227/20171227103541_136.png"
+            one_dict["info"] = "阿里巴巴网络技术有限公司（简称：阿里巴巴集团）是以曾担任英语教师的马云为首的18人于1999年在浙江杭州创立。"
+            one_dict["scale"] = 7500
+            result_dict["data"].append(one_dict)
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
