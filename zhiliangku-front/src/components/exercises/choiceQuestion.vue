@@ -3,7 +3,7 @@
     <div v-if="!show" class="defen">
       <div>
         <div class="fontcenter score">本次得分</div>
-        <div class="fontcenter score" :class="{'redscore':sorce.value<60}" >{{score.value}}</div>
+        <div class="fontcenter score" :class="{'redscore':score.score<60}">{{score.score}}</div>
         <div class="tags-container">
           <div class="tags-container-item">
             <span class="status-tag status-black "></span>
@@ -51,9 +51,9 @@
           <div class="cqat-bar inmiddle zindex1"></div>
           <span class="cqat-title font16pr3a3c50 zindex10 relative">习题详解</span>
         </div>
-        <div class="answerContent font16pr3a3c50">
+        <!-- <div class="answerContent font16pr3a3c50">
           不会代码的ui不是好导演
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -63,6 +63,7 @@
     font-size: 22px;
     margin: 10px;
   }
+
   .tags-container {
     display: flex;
     justify-content: center;
@@ -74,9 +75,11 @@
     min-height: 300px;
 
   }
-  .redscore{
-      color: #ef6360
+
+  .redscore {
+    color: #ef6360
   }
+
   .status-tag {
     height: 20px;
     width: 20px;
@@ -85,18 +88,22 @@
     display: inline-block;
     vertical-align: bottom;
   }
+
   .status-black {
     border: 2px solid #CFD8DC;
   }
-  .status{
-      vertical-align: bottom;
-      height:24px;
-      width:24px;
-      display: inline-block;
+
+  .status {
+    vertical-align: bottom;
+    height: 24px;
+    width: 24px;
+    display: inline-block;
   }
-  .tags-container-item{
-      margin: 10px;
+
+  .tags-container-item {
+    margin: 10px;
   }
+
   .status_icon {
     height: 24px;
     width: 24px;
@@ -115,24 +122,22 @@
       return {
         mainData: {},
         buttonInfo: {},
-        score:{},
-        show:true
+        score: {},
+        show: true
       }
     },
     watch: {},
     methods: {
-        haveScore(obj){
-            
-        },
-        reload(){
-            window.location.reload()
-        },
-        nextSection(){
-            this.$get('/tracks/next/video?course_id='+this.$fn.funcUrl('course_id')+'&video_id='+this.$fn.funcUrl('video_id')).then(res=>{
-                var data=res.data.data;
-                this.$func.goCourse(data.type,data.course_id,data.video_id)
-            })
-        },
+      reload() {
+        window.location.reload()
+      },
+      nextSection() {
+        this.$get('/tracks/next/video?course_id=' + this.$fn.funcUrl('course_id') + '&video_id=' + this.$fn.funcUrl(
+          'video_id')).then(res => {
+          var data = res.data.data;
+          this.$func.goCourse(data.type, data.course_id, data.video_id)
+        })
+      },
       emit(event) {
         Bus.$emit(event)
       },
@@ -154,10 +159,11 @@
         this.buttonInfo = buttonInfo;
         console.log(this.mainData)
       })
-      Bus.$on('haveScore',obj=>{
-          obj.value=Math.ceil(obj.value*100)
-          this.score=obj;
-          this.show=false;
+      Bus.$on('haveScoreReady', obj => {
+        obj.score=Math.ceil(obj.score*100);
+        this.score = obj;
+        console.log(this.score);
+        this.show = false;
       })
     },
     mounted() {}

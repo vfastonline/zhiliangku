@@ -84,7 +84,8 @@
         this.mainfun((this.activeIndex + 1))
       })
       Bus.$on('submitPaper', () => {
-        var r = 0,w=0,s=0,value;
+        debugger
+        var r = 0,w=0,s=0,value=0;
         for (var i = 0; i < this.mainData.length; i++) {
           var obj = this.mainData[i];
           if (obj.selectedOptionName) {
@@ -95,8 +96,11 @@
             s++
           }
         }
-        value=this.mainData.length?r/this.mainData.length:0;
-        Bus.$emit('haveScore',{r:r,w:w,s:s,value:value})
+        if(this.mainData.length){
+          value=r/this.mainData.length;
+        }
+        var obj1={'r':r,'w':w,'s':s,'score':value};
+        Bus.$emit('haveScoreReady',obj1);
         console.log(this.mainData)
       })
       this.$get('/exercise/list/info?video_id=' + this.$fn.funcUrl('video_id')).then(res => {
