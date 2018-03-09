@@ -31,6 +31,7 @@ urlpatterns = [
     url('^collect/course$', collect_course.CollectCourse.as_view()),
 
     url('^video/list/info$', video_list.VideoList.as_view()),
+    url('^next/video$', video_list.GetNextVideo.as_view()),
 
     # 视频详情，观看页
     url('^video/detail/$', video_list.VideoDetail.as_view()),

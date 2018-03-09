@@ -144,3 +144,37 @@ class VideoDetailInfo(View):
             result_dict["msg"] = traceback.format_exc()
         finally:
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
+class GetNextVideo(View):
+    """获取下一节视频信息"""
+
+    def get(self, request, *args, **kwargs):
+        result_dict = {"err": 0, "msg": "success", "data": {}}
+        try:
+            # 获取查询参数
+            course_id = str_to_int(request.GET.get('course_id', 0))  # 当前访问课程ID
+            video_id = str_to_int(request.GET.get('video_id', 0))  # 当前访问视频ID
+
+            video_objs = Video.objects.filter(section__course__id=course_id)
+            if video_objs.exists():
+                video = video_objs.filter(id=video_id).first()
+                video_list = list(video_objs)
+                next_video = None
+                try:
+                    next_video = video_list[video_list.index(video) + 1]
+                except:
+                    pass
+                if next_video:
+                    result_dict["data"]["type"] = next_video.type
+                    result_dict["data"]["video_id"] = next_video.id
+                    result_dict["data"]["course_id"] = next_video.section.course_id
+
+        except:
+            traceback.print_exc()
+            logging.getLogger().error(traceback.format_exc())
+            result_dict["err"] = 1
+            result_dict["msg"] = traceback.format_exc()
+        finally:
+            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
