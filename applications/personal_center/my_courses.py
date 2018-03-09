@@ -125,3 +125,35 @@ class MyPath(View):
             result_dict["msg"] = traceback.format_exc()
         finally:
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
+class Recommend(View):
+    """推荐课程"""
+
+    def get(self, request, *args, **kwargs):
+        result_dict = {
+            "err": 0,
+            "msg": "success",
+            "data": list(),
+        }
+        try:
+            course_objs = Course.objects.filter()[:4]
+            data_list = list()
+            if course_objs.exists():
+                for one in course_objs:
+                    data_dict = dict()
+                    data_dict["name"] = one.name
+                    data_dict["lecturer"] = one.lecturer.nickname
+                    data_dict["course_img"] = one.course_img.url
+                    data_dict["description"] = one.description
+                    data_list.append(data_dict)
+            result_dict["data"] = data_list
+
+        except:
+            traceback.print_exc()
+            logging.getLogger().error(traceback.format_exc())
+            result_dict["err"] = 1
+            result_dict["msg"] = traceback.format_exc()
+        finally:
+            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))

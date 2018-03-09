@@ -29,6 +29,7 @@ urlpatterns = [
     url('^course/learn_recently$', my_courses.LearnRecently.as_view()),
     url('^course/mycollect$', my_courses.MyCollect.as_view()),
     url('^course/mypath$', my_courses.MyPath.as_view()),
+    url('^course/recommend$', my_courses.Recommend.as_view()),
 
     # 职业信息
     url('^job/post/match$', job_information.PostMatch.as_view()),
