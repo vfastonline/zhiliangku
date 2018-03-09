@@ -63,7 +63,7 @@
           funcs.showNotice(this, '尚未添加求职意向，请先完善求职意向信息,然后操作此项', 'info')
           return
         }
-        showeditor = !showeditor;
+        this.showeditor = !this.showeditor;
       },
       orgnizeUrl() {
         var str = this.$myConst.httpUrl + '/customuser/change/avatar?custom_user_id=' + localStorage.uid +
@@ -104,7 +104,6 @@
     },
     created() {
       console.log(this.mainData)
-
     }
   }
 

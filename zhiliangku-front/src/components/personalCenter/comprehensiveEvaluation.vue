@@ -29,7 +29,8 @@ export default {
   data () {
     return {
       tagsarr:['可靠','表达','团队','自驱','独立','自律'],
-      mainData:[]
+      mainData:[],
+      values:[]
     }
   },
   methods:{

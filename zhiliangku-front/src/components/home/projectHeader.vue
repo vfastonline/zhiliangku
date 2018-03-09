@@ -16,7 +16,7 @@
       <div class="main">
         <div class="inner">
           <div v-if="['videoHeader','liveHeader'].indexOf(type)+1" class="ph-content white">
-            <span>{{videoTitle.section_desc}}</span>
+            <span class="font16prffffff bigCatergory">{{videoTitle.section_desc}}</span>
             >
             <span>{{videoTitle.name}}</span>
           </div>
@@ -44,14 +44,16 @@
       </div>
       <div class="rightbar">
         <!--<el-button @click="changShow()" class="ph-button" type="primary" :style="buttonStyle" round>岗位匹配</el-button>-->
-        <span class="user-info  font18pl3a3c50" :class="{'white':['videoHeader','liveHeader'].indexOf(type)+1}" >
+        <span
+        v-on:mouseenter="changeUsershow1()" v-on:mouseleave="changeUsershow2()"
+         class="user-info  font18pl3a3c50" :class="{'white':['videoHeader','liveHeader'].indexOf(type)+1}" >
           <img v-if="is_login" @click="changeUsershow()" class="user-icon pointer" :src="userinfo.avatar" alt="">
           <span v-if="!is_login" class="pointer" @click="myDispatch('open','loginActive')">登录 |</span>
           <span v-if="!is_login" class="pointer" @click="myDispatch('open','logupActive')">注册</span>
         </span>
-        <transition name='fade'>
+        <transition   name='fade'>
           <!--<postbMatch v-if="show" class="floatr"></postbMatch>-->
-          <userMune v-if="showuser"></userMune>
+          <userMune v-on:mouseenter="changeUsershow1()" v-on:mouseleave="changeUsershow2()" v-if="showuser"></userMune>
         </transition>
       </div>
     </div>
@@ -193,6 +195,18 @@
       },
       changeUsershow() {
         this.showuser = !this.showuser;
+      },
+      changeUsershow1() {
+        if(!this.is_login){return}
+        if(this.setTimer){
+        clearTimeout(this.setTimer)
+        }
+        this.showuser = true;
+      },
+      changeUsershow2() {
+       this.setTimer= setTimeout(()=>{
+          this.showuser = false;
+        },2000)
       },
       showVideoList() {
         // console.log(this)
@@ -345,7 +359,7 @@
   }
 
   .ph-content {
-    padding-left: 50px;
+    margin-left: -42px;
   }
 
   .project-header-free {
@@ -363,6 +377,9 @@
     box-shadow: 0 3px 2px rgba(0, 0, 0, 0.1);
     .ph-container {
       line-height: 70px;
+    }
+    .bigCatergory{
+      opacity: 0.75;
     }
     .ph-content {
       height: 70px;

@@ -11,12 +11,12 @@
           <span v-if="mainData.course_count">{{mainData.course_count}}门课程</span>
           <span  class="mrpc-match-rate inlineblock  font14pl5A646E">
             <span>{{config.tag}}</span>
-            <span class="font20pl3a3c50">{{Math.round(mainData.schedule*100,0)}}%</span>
+            <span class="font20pl3a3c50">{{Math.round((mainData.schedule?mainData.schedule:0)*100,0)}}%</span>
           </span>
           <el-button class="floatr button_style_0" @click="handleClick()">{{config.buttonStr}}</el-button>
         </div>
         <div class="mrpc-progress">
-          <el-progress :percentage="mainData.schedule*100" :width="340" :stroke-width="16" :show-text="false"></el-progress>
+          <el-progress :percentage="(mainData.schedule?mainData.schedule:0)*100" :width="340" :stroke-width="16" :show-text="false"></el-progress>
         </div>
       </div>
     </div>

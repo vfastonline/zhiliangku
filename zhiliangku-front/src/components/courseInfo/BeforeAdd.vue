@@ -183,6 +183,7 @@
         if(obj.type==3){
           if(obj.live_status!='live'){
            this.$func.showNotice(this,'直播已经结束')
+           return
           }
         }
         this.$func.goCourse(obj.type, this.allData.id, obj.id)

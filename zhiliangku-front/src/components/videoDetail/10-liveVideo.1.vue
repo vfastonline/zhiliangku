@@ -29,10 +29,10 @@
               <i class="iconfont  icon-yonghu1 buttonIcon imgmiddle"></i> {{baseParam.number}}人在观看</span>
           </div>
         </div>
-        <transition name="fade" >
-        <div v-if="showAnswerSelect" class="answer-container">
-          <el-button v-for="item in AnswerList" :key="item" @click="sendAnwser(item)" class="answer-item fontcenter pointer">{{item.label}}</el-button>
-        </div>
+        <transition name="fade">
+          <div v-if="showAnswerSelect" class="answer-container">
+            <el-button v-for="item in AnswerList" :key="item" @click="sendAnwser(item)" class="answer-item fontcenter pointer">{{item.label}}</el-button>
+          </div>
         </transition>
         <div class="text-container " :style="{height:height-211+'px'}">
           <ol v-show="showChatRoom" class="talk" id="talk">
@@ -62,7 +62,7 @@
           </ol>
           <ul class="userlist_container" v-show="!showChatRoom">
             <li v-for="item in baseParam.userlist" :key="item.userId">
-              <img class="user_list_icon" v-lazy="item.pic.substr(2)" alt="">
+              <img class="user_list_icon imgmiddle" v-lazy="item.pic.substr(2)" alt="">
               <span class="nickname">{{item.nick}}</span>
             </li>
           </ul>
@@ -100,31 +100,41 @@
   </div>
 </template>
 <style scoped type="text/css">
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .65s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity .65s;
+  }
+
+  .fade-enter,
+  .fade-leave-to
+  /* .fade-leave-active below version 2.1.8 */
+
+    {
+    opacity: 0;
+  }
+
   .answer-container {
     box-sizing: border-box;
     position: absolute;
     height: 60px;
     display: flex;
-    width:100%;
-    z-index:10;
+    width: 100%;
+    z-index: 10;
     justify-content: space-between;
     align-items: center;
   }
-  .answer-container .el-button{
+
+  .answer-container .el-button {
     padding: 0;
   }
-  .answer-container .el-button+.el-button{
+
+  .answer-container .el-button+.el-button {
     margin: 0px;
   }
+
   .answer-item {
     height: 48px;
-    width:48px;
+    width: 48px;
     background: white;
     border-radius: 8px;
   }
@@ -312,7 +322,7 @@
   export default {
     data() {
       return {
-        test:'',
+        test: '',
         showEmoji: '',
         height: '',
         liveIdObj: {
@@ -448,7 +458,6 @@
           return
         }
         var obj = {};
-
         obj.content = this.formatEmotions(content);
         obj.imgsrc = data.user.pic;
         obj.nickname = data.user.nick;
@@ -459,6 +468,18 @@
           obj.self = true;
         }
         this.chatMsgList.push(obj)
+        // var item = {
+        //   img: '', //图片 
+        //   info: '1231', //文字 
+        //   href: '', //链接 
+        //   close: false, //显示关闭按钮 
+        //   speed: 6, //延迟,单位秒,默认6 
+        //   color: '#ffffff', //颜色,默认白色 
+        //   old_ie_color: '#ffffff', //ie低版兼容色,不能与网页背景相同,默认黑色 
+        // }
+        // var id=this.liveIdObj.id;
+        // window.$('.video-box').barrager(item)
+
         // console.log(this.chatMsgList)
         var str = '[{"msg":"' + content + '","fontSize":"16","fontColor":"0xffffff","fontMode":"roll"}]';
         // 这里会有报错信息，在初始化聊天列表的时候。但是不影响弹幕功能的使用，所以禁止报错了
@@ -645,6 +666,7 @@
         $('#send').on('keypress', function (e) {
           if (e.which === 13) {
             vue.sendMsg();
+            e.preventDefault();
           }
         });
         $('#sendBtn').on('click', function () {
@@ -705,34 +727,40 @@
       // 回答选择题功能
       getQuestion(data) {
         this.showAnswerSelect = true;
-        if(data.question=='PD'){
-          this.AnswerList=[{label:'正确',value:'correct'},{label:'错误',value:'error'}]
+        if (data.question == 'PD') {
+          this.AnswerList = [{
+            label: '正确',
+            value: 'correct'
+          }, {
+            label: '错误',
+            value: 'error'
+          }]
           return
         }
-        var arr=[];
-        data.question.split('').forEach((el,index)=>{
-          var obj={};
-          obj.value=el;
-          obj.label=el;
+        var arr = [];
+        data.question.split('').forEach((el, index) => {
+          var obj = {};
+          obj.value = el;
+          obj.label = el;
           arr.push(obj)
         })
-        this.AnswerList=arr;
+        this.AnswerList = arr;
       },
       sendAnwser(item) {
         var obj = {
           EVENT: 'ANSWER',
           roomId: this.liveIdObj.id,
-          answer:item.value,
+          answer: item.value,
         }
         this.socket.emit('message', JSON.stringify(obj));
-        this.showAnswerSelect=false
+        this.showAnswerSelect = false
       },
-      closeQuestion(){
-        this.showAnswerSelect=false;
+      closeQuestion() {
+        this.showAnswerSelect = false;
       },
-      kk(){
-        this.showAnswerSelect=true;
-        this.AnswerList=['a','b','c','d','e']
+      kk() {
+        this.showAnswerSelect = true;
+        this.AnswerList = ['a', 'b', 'c', 'd', 'e']
       }
     },
     created() {

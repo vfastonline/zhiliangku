@@ -2,6 +2,7 @@
   <div>
     <!-- <carousel></carousel> -->
     <!-- <plant></plant> -->
+    <homeimg></homeimg>
     <lvsm></lvsm>
     <div class="white">
     <CourseSelect :hometitle="true"></CourseSelect>
@@ -24,6 +25,7 @@
 <script>
 import CourseSelect from '../courseInfo/courseSelect'
 import homeSelectCourse from './18-homeSelectCourse'
+import homeimg from './19-home-img'
   export default {
     name: "home",
     data() {
@@ -61,7 +63,8 @@ import homeSelectCourse from './18-homeSelectCourse'
     },
     components:{
       homeSelectCourse:homeSelectCourse,
-      CourseSelect:CourseSelect
+      CourseSelect:CourseSelect,
+      homeimg:homeimg
     }
   };
 

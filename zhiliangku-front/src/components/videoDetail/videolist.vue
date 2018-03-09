@@ -10,10 +10,10 @@
               <span class="font20plffffff pointer  " :title="mainData.name" @click="goToCourse(mainData.id)">{{mainData.name}}</span>
             </div>
             <ul v-for="(item,index) in mainData.sections" :key="index" class="marginbottom32">
-              <li class="font14plffffff  videolist-section thispadding0" :title="item.title">{{item.title}}</li>
-              <li class="font20plffffff  thispadding0" :title="item.desc">{{item.desc}}</li>
+              <li class="font16plffffff  videolist-section thispadding0" :title="item.title">{{item.title}}</li>
+              <!-- <li class="font20plffffff  thispadding0" :title="item.desc">{{item.desc}}</li> -->
               <li v-for="(li,liIndex) in item.videos" :key="liIndex" 
-              class="font14plffffff  pointer section-li thispadding1"
+              class="font14plffffff course-detail  pointer section-li thispadding1"
               @click="goPages(li)"
               >
                 <span class="vlw-video-name textellipsis" :title="li.name" @click="goInformation(li.id,li.type)">{{li.name}}</span>
@@ -60,7 +60,10 @@
   }
 
   .videolist-section {
-    opacity: 0.5;
+    opacity: 0.9;
+  }
+  .course-detail{
+    opacity: 0.7;
   }
   .section-li{
     display: flex;

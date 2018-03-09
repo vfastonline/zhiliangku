@@ -1,5 +1,5 @@
 <template>
-  <div class="uim-container floatr rised">
+  <div @mouseenter="mouseenter()" v-on:mouseleave="mouseleave()" class="uim-container floatr rised">
     <div class="uim-username pointer">
       <span>
         <a href="/personal_center/page/#/occupational/matchingRate">{{nickname}}</a>
@@ -88,6 +88,12 @@
       this.nickname = localStorage.nickname;
     },
     methods: {
+      mouseleave(){
+        this.$emit('mouseleave')
+      },
+      mouseenter(){
+        this.$emit('mouseenter')
+      },
       logout() {
         this.$post('/customuser/logout').then(res => {
           if (!res.data.err) {

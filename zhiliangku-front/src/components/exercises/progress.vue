@@ -3,7 +3,8 @@
     <div class="mainwidth progress-bar">
       <!-- 已知此进度条的宽度为总宽度减去32并且除以（length-1） -->
       <div class="progress-background-bar zindex1" :style="{'width':barWidth+'px'}"></div>
-      <span v-for="(item,index) in mainData" :key="index" @click="mainfun(index)" class="progress-dot pointer zindex10" :class="item.className">
+      <span v-for="(item,index) in mainData" :key="index" @click="mainfun(index)" class="progress-dot pointer zindex10" 
+      :class="item.className">
         <img v-if="item.className=='right-selected'" src="../../assets/img/icons/选择题/小圆点_已答对.svg" alt="">
         <img v-if="item.className=='wrong-selected'" src="../../assets/img/icons/选择题/小圆点_已答错.svg" alt="">
       </span>
@@ -35,16 +36,15 @@
           this.barWidth = 1120 * index / (this.mainData.length - 1);
         }
         var mainData = this.mainData;
-          mainData.forEach((element, elindex) => {
-            if (element.className == 'max-index-selected') {
-              element.className = 'unselected'
-            }
-            debugger
-          })
-          if(item.className=='unselected'){
-          item.className = "max-index-selected"
-              
+        mainData.forEach((element, elindex) => {
+          if (element.className == 'max-index-selected') {
+            element.className = 'unselected'
           }
+        })
+        if (item.className == 'unselected') {
+          item.className = "max-index-selected"
+
+        }
         //   记录当前激活的题目
         this.activeIndex = index;
         //   将控制按钮显示和隐藏的信息传递过去
@@ -84,7 +84,20 @@
         this.mainfun((this.activeIndex + 1))
       })
       Bus.$on('submitPaper', () => {
-
+        var r = 0,w=0,s=0,value;
+        for (var i = 0; i < this.mainData.length; i++) {
+          var obj = this.mainData[i];
+          if (obj.selectedOptionName) {
+            if (obj.selectedOptionName == obj.right_answer_name) {
+              r++
+            }else{w++}
+          }else{
+            s++
+          }
+        }
+        value=this.mainData.length?r/this.mainData.length:0;
+        Bus.$emit('haveScore',{r:r,w:w,s:s,value:value})
+        console.log(this.mainData)
       })
       this.$get('/exercise/list/info?video_id=' + this.$fn.funcUrl('video_id')).then(res => {
         res.data.data.forEach((element, index) => {
