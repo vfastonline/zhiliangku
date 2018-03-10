@@ -8,7 +8,7 @@
             <img class="rc-pic-img floatl round" v-if="imgsrc" :src="imgsrc" alt="">
           </el-upload>
           <div class="rc-pic-word">
-            <div @click="showeditor=!showeditor" class="pointer rc-pic-editor">
+            <div @click="ifshowEditor" class="pointer rc-pic-editor">
               <img class="imgmiddle imgr" src="../../assets/img/icons/个人中心和积分商城图标/简历_铅笔.svg" alt="">编辑</div>
             <div class="rc-pic-word-0">
               <span class="font20pl3a3c50">{{mainData.name}}</span>
@@ -42,6 +42,7 @@
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
+  import funcs from '../../assets/js/commen/func.js'
   import editor from './resumeContent0.0'
   export default {
     name: 'HelloWorld',
@@ -55,14 +56,21 @@
     watch: {
       mainData: function (value) {
         this.imgsrc = this.$myConst.httpUrl + this.mainData.avatar;
+      },
+      showeditor:function(){
+
       }
     },
     methods: {
-      editor() {
+      ifshowEditor(){
+        debugger
         if (!this.applyData.length) {
           funcs.showNotice(this, '尚未添加求职意向，请先完善求职意向信息,然后操作此项', 'info')
           return
         }
+      this.showeditor = !this.showeditor;
+      },
+      editor() {
         this.showeditor = !this.showeditor;
       },
       orgnizeUrl() {
