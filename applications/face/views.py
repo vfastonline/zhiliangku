@@ -22,7 +22,7 @@ def face(request):
             valence = round(float(request.POST.get('valence')[0]), 3)
             contempt = round(float(request.POST.get('contempt')[0]), 3)
             disgust = round(float(request.POST.get('disgust')[0]), 3)
-            vtime = request.POST.get('vtime', 0)
+            vtime = str(request.POST.get('vtime', 0))
             vtime = int(vtime.split('.')[0])
             logging.getLogger().info('%s %s  %s  %s %s %s' % (engagement, surprise, valence, contempt, disgust, vtime))
 
