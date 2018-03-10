@@ -154,7 +154,7 @@ class FocusOnMyBusiness(View):
 
             one_dict = dict()
             one_dict["company"] = "京东商城"
-            one_dict["logo"] = "/media/jingdong.jog"
+            one_dict["logo"] = "/media/jingdong.jpg"
             one_dict["info"] = "京东商城目前已成长为中国最大的自营式电商企业，2015年第三季度在中国自营式B2C电商市场的占有率为56.9%*。" \
                                "京东商城致力于打造一站式综合购物平台，服务中国亿万家庭，3C事业部、家电事业部、消费品事业部、服饰家居事业部、生鲜事业部和新通路事业部六大部门领航发力，覆盖用户多元需求。" \
                                "同时，京东商城还为第三方卖家提供在线销售平台和物流等一系列增值服务。" \
