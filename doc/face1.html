@@ -1,0 +1,197 @@
+<html>
+
+<head>
+  <title>智量酷 Demo</title>
+  <meta charset="utf-8" />
+  <!-- <link rel="stylesheet" href="demo/css/bootstrap-darkly.min.css" /> -->
+  <!-- <link href="demo/css/demo.css" rel="stylesheet" type="text/css" /> -->
+  <!-- outside vendor files -->
+  <!-- <script src="demo/js/vendor/jquery-2.1.4.js"></script>
+  <script src="demo/js/vendor/d3.min.js"></script> -->
+
+  <!-- <script src="demo/js/vendor/affdex.js"></script> -->
+  <!-- demo files -->
+  <!-- <script src="https://download.affectiva.com/js/3.2/affdex.js"/> -->
+  <script src="https://download.affectiva.com/js/3.2/affdex.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <style>
+    .routine {
+      width: 200px;
+      height: 100px;
+      float: right;
+      margin-right: 140px;
+    }
+
+    .routine_button {
+      margin-top: 10px;
+      width: 200px;
+      height: 40px;
+      background-color: #1AFD9C;
+      border-radius: 5px;
+      padding: 0;
+      border-width: inherit;
+      color: blue;
+    }
+
+    .photo {
+      width: 640px;
+      height: 480px;
+      background-color: #abcdef;
+      float: left;
+    }
+
+    .cnent {
+      width: 1000px;
+      margin: 0 auto;
+      margin-top: 50px;
+    }
+
+    #video-window {
+      background-color: #2F3746;
+      width: 641px;
+      height: 481px;
+      position: relative;
+    }
+
+    .biao {
+      margin: 0 auto;
+      width: 1000px;
+      height: 300px;
+    }
+
+    .notice {
+      background: #f3f3f3;
+      position: absolute;
+      padding: 10px;
+      font-family: 'Microsoft YaHei', "PingFangSC-Light";
+      font-size: 18px;
+      border-radius: 8px;
+      margin-left: 50%;
+      transform: translate(-50%, 0);
+      top: 20px;
+      color: #666;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="notice">未检测到面部</div>
+  <div class="cnent">
+    <div class="photo">
+      <div class="testt" style="width:640px;height:480px;border:1px solid #aaa;"></div>
+      <video id="video-window" style="display:none" autoplay="autoplay"></video>
+    </div>
+    <div class="routine">
+      <button class="routine_button a" >示例地址1</button>
+      <button class="routine_button b" >示例地址2</button>
+      <button class="routine_button c" style="margin-top:330px" onclick="window.open('/face3.html')">观看详情</button>
+    </div>
+    <div style="clear: both"></div>
+  </div>
+  <script>
+    $(document).ready(function(){
+      $('.a').click(function(){
+        $('.testt').css({display:'none'});
+        $('#video-window').css({display:'block'}).src='http://www.zhilaingku.com/3.mp4'
+      })
+      $('.a').click(function(){
+        $('.testt').css({display:'none'});
+        $('#video-window').css({display:'block'}).src='http://www.zhilaingku.com/4.mp4'
+      })
+    })
+    // var srt = document.getElementById("video-window");
+    // function adr() {
+    //   document.getElementsByClassName('.video-window')[0].style.display='block';
+    //   document.getElementsByClassName('.testt')[0].style.display='none';
+    //   srt.src = "http://www.zhiliangku.com/3.mp4";
+    //   var curTime = srt.currentTime;
+    //   console.log(curTime);
+    //   console.log(srt.duration)
+    //   console.log(srt.ended)
+    // }
+
+    // function ade() {
+    //   srt.src = "./1.mp4";
+    // }
+  </script>
+</body>
+<script type="text/javascript">
+$(document).ready(function(){
+  var divRoot = $(".testt")[0];
+
+  // The captured frame's width in pixels
+  var width = 640;
+
+  // The captured frame's height in pixels
+  var height = 480;
+
+  var faceMode = affdex.FaceDetectorMode.LARGE_FACES;
+
+  var detector = new affdex.CameraDetector(divRoot, width, height, faceMode);
+
+
+  detector.addEventListener("onInitializeSuccess", function () {
+    console.log("现在开始加载视频测试页面")
+  });
+  detector.addEventListener("onInitializeFailure", function () {});
+  /* 
+  onImageResults success is called when a frame is processed successfully and receives 3 parameters:
+  - Faces: Dictionary of faces in the frame keyed by the face id.
+           For each face id, the values of detected emotions, expressions, appearane metrics 
+           and coordinates of the feature points
+  - image: An imageData object containing the pixel values for the processed frame.
+  - timestamp: The timestamp of the captured image in seconds.
+*/
+var p=0;
+  var time = new Date();
+  //六秒之内不能执行两次
+  detector.addEventListener("onImageResultsSuccess", function (faces, image, timestamp) {
+    var time1 = new Date();
+    if ((time1 - time) < 3000) {
+      return
+    } else {
+      time = time1
+    }
+    if (!faces.length) {
+      document.querySelector('.notice').style.display = 'block'
+      setTimeout(function () {
+        document.querySelector('.notice').style.display = 'none';
+      }, 1500)
+      return
+    }
+    var tmp = faces[0];
+    var emo = tmp.emotions;
+    console.log(emo)
+    myVid = document.getElementById("video-window");
+    console.log([myVid])
+    console.log(p++)
+    $.post('http://www.zhiliangku.com/r/face', emo, function (data) {
+      data = JSON.parse(data)
+      console.log(data, timestamp)
+    });
+  });
+  detector.addEventListener("onWebcamConnectFailure", function () {
+    console.log("I've failed to connect to the camera :(");
+  });
+
+  // Track smiles
+  detector.detectExpressions.smile = true;
+
+  // Track joy emotion
+  detector.detectEmotions.joy = true;
+
+  // Detect person's gender
+  detector.detectAppearance.gender = true;
+
+  detector.detectAllExpressions();
+  detector.detectAllEmotions();
+  detector.detectAllEmojis();
+  detector.detectAllAppearance();
+
+  detector.start();    
+    })
+  
+</script>
+
+</html>
