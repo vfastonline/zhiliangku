@@ -31,6 +31,7 @@ def face(request):
                                      disgust=disgust)
         return HttpResponse(json.dumps({'code': 0}))
     except:
+        traceback.print_exc()
         logging.getLogger().error(traceback.format_exc())
         return HttpResponse(json.dumps({'code': 128}, ensure_ascii=False))
 
