@@ -52,7 +52,6 @@
 
 </style>
 <script>
-  import funcs from '../../assets/js/commen/func'
   import Bus from '../../assets/js/bus'
   import rcb from './resumeContentButton'
   export default {
@@ -70,7 +69,7 @@
         experienceoption: ['实习生', '1年', '2年', '3年', '4年', '5年', '6年', '7年', '8年', '9年', '10年', '10年以上'],
         degreeoption: ['中专及以下', '高中', '专科', '本科', '研究生', '博士'],
         stateoption: ['离职-随时到岗', '在职-暂不考虑', '在职-考虑机会', '在职-月内到岗'],
-        intentoption: [''],
+        intentoption: [],
         url: '/personal_center/resume/update'
       }
     },
