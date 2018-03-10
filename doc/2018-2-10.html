@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<script src="https://download.affectiva.com/js/3.2/affdex.js" />
+
+
+<body>
+  <div id="affdex_elements"></div>
+</body>
+<script>
+  /*
+       SDK Needs to create video and canvas nodes in the DOM in order to function
+       Here we are adding those nodes a predefined div.
+    */
+  //sdk需要一个预先定义的div，来创造出video和canvas的dom用以实现功能
+  var divRoot = $("#affdex_elements")[0];
+  var width = 640;
+  var height = 480;
+
+  /*
+     Face detector configuration - If not specified, defaults to
+     affdex.FaceDetectorMode.LARGE_FACES
+     affdex.FaceDetectorMode.LARGE_FACES=Faces occupying large portions of the frame
+     affdex.FaceDetectorMode.SMALL_FACES=Faces occupying small portions of the frame
+  */
+  var faceMode = affdex.FaceDetectorMode.LARGE_FACES;
+
+  //Construct a CameraDetector and specify the image width / height and face detector mode.
+  var detector = new affdex.CameraDetector(divRoot, width, height, faceMode);
+  detector.addEventListener("onInitializeSuccess", function () {
+    console.log('success')
+  });
+  detector.addEventListener("onInitializeFailure", function () {
+    console.log('failure')
+  });
+  /* 
+  onImageResults success is called when a frame is processed successfully and receives 3 parameters:
+  - Faces: Dictionary of faces in the frame keyed by the face id.
+           For each face id, the values of detected emotions, expressions, appearane metrics 
+           and coordinates of the feature points
+  - image: An imageData object containing the pixel values for the processed frame.
+  - timestamp: The timestamp of the captured image in seconds.
+*/
+  //创建出来的video中的每一帧渲染之后会触发onImageResultsSuccess，并且传入三个参数，脸们，该帧所对应图片，获取该帧时的时间戳。
+  var i = 0;
+  detector.addEventListener("onImageResultsSuccess", function (faces, image, timestamp) {
+    console.log(i++)
+  });
+  detector.start();
+
+</script>
+
+</html>

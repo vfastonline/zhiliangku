@@ -1,9 +1,9 @@
 #!encoding:utf-8
-import json
 
 from django.http import HttpResponse
 
 from applications.custom_user.models import *
+from applications.face.api import *
 from applications.face.models import Watchface
 from lib.util import dictfetchall
 
@@ -43,7 +43,6 @@ def getface(request):
     try:
         sql = "select *, count(distinct vtime) as tmp from Watchface group by vtime;"
         result = dictfetchall(sql)
-        print result
         joy, surprise, valence, engagement, sadness, disgust, anger, fear = [], [], [], [], [], [], [], []
         vtime = []
         for item in result:
@@ -59,6 +58,24 @@ def getface(request):
         return HttpResponse(
             json.dumps({'code': 0, 'joy': joy, 'surprise': surprise, 'valence': valence, 'engagement': engagement,
                         'sadness': sadness, 'disgust': disgust, 'anger': anger, 'fear': fear, 'vtime': vtime}))
+    except:
+        logging.getLogger().error(traceback.format_exc())
+        return HttpResponse(json.dumps({'code': 128}, ensure_ascii=False))
+
+
+def user_image(request):
+    """
+    :param request:
+    :return:
+    """
+    try:
+        if request.method == "POST":
+            image = request.POST.get('image')
+            ret = Detect(image)
+            if ret:
+                return HttpResponse(json.dumps({'code': 0, 'msg': 'ok'}))
+            else:
+                return HttpResponse(json.dumps({'code': 1, 'msg': 'disapper'}))
     except:
         logging.getLogger().error(traceback.format_exc())
         return HttpResponse(json.dumps({'code': 128}, ensure_ascii=False))
