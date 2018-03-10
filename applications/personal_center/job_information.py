@@ -47,7 +47,7 @@ class PostMatch(View):
                 "position": "Java 开发工程师",
                 "post_id": "3",
                 "schedule": 0.6,
-                "logo": "/media/lianjia.jpg",
+                "logo": "/media/lianjia.png",
             }
             result_dict["data"].append(one_dict)
         except:
@@ -142,7 +142,7 @@ class FocusOnMyBusiness(View):
             custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
             one_dict = dict()
             one_dict["company"] = "链家"
-            one_dict["logo"] = "/media/lianjia.jpg"
+            one_dict["logo"] = "/media/lianjia.png"
             one_dict["info"] = "链家是集房源信息搜索、产品研发、大数据处理、服务标准建立为一体的以数据驱动的全价值链房产服务平台。" \
                                "提供二手房、新房、租房、旅居房产、海外房产等房产交易服务，并拥有业内独有的房屋数据、人群数据、交易数据，" \
                                "以数据技术驱动服务品质及行业效率的提升。" \
@@ -165,7 +165,7 @@ class FocusOnMyBusiness(View):
 
             one_dict = dict()
             one_dict["company"] = "今日头条"
-            one_dict["logo"] = "/media/lianjia.jpg"
+            one_dict["logo"] = "/media/toutiao.jpg"
             one_dict["info"] = "北京字节跳动科技有限公司成立于2012年3月，是一家技术驱动的移动互联网公司，公司致力于采用先进的推荐引擎技术，" \
                                "提供基于移动设备的信息分发解决方案。公司的主要产品“今日头条”资讯客户端，是一款基于数据挖掘技术的个性化推荐引擎产品，" \
                                "致力于帮助用户在移动互联网上方便快捷地获取最有价值的信息，它会根据用户的兴趣为其推荐内容，对传统信息的分发方式产生了巨大颠覆。" \
