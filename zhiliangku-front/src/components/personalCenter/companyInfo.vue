@@ -2,8 +2,8 @@
   <div class="cio-company rise pointer marginbottom24">
     <div class="cio-top">
       <div class="cio-left-logo"><img v-lazy="mainData.logo"></div>
-      <div class="cio-right-content">
-        <p class="font14pl5a646e">{{mainData.info}}</p>
+      <div class="cio-right-content ofhid">
+        <p class="font16pl5a646e">{{mainData.info}}</p>
       </div>
     </div>
     <div class="cio-bottom">
@@ -33,7 +33,8 @@
 }
 .cio-top .cio-left-logo img{
     width:155px;
-    height:56px;
+    height:80px;
+    vertical-align: bottom;
 }
 /*右侧公司简介 */
 .cio-top .cio-right-content{

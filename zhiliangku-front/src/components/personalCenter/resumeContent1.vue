@@ -1,7 +1,7 @@
 <template>
   <div id="anchor1" class=" resume-model">
     <resumetitle :tag="{label:'编辑',eventName:'editor'}" @editor="showeditor=!showeditor" :mainData="titleData">
-        <span><img   class="imgmiddle imgr" src="../../assets/img/icons/个人中心和积分商城图标/简历_钱币.svg" alt="">优势描述</span>
+        <span><img   class="imgmiddle imgr" src="../../assets/img/icons/个人中心和积分商城图标/简历_小人.svg" alt="">我的优势</span>
     </resumetitle>
     <div  class="resumewidth incenter ">
       <p>
