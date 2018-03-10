@@ -6,5 +6,6 @@ from applications.face import views
 urlpatterns = [
     url('^face$', views.face),
     url('^getface$', views.getface),
+    url(r'^userimage$', views.user_image),
 
 ]
