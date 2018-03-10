@@ -3,8 +3,8 @@
 <head>
   <title>智量酷 Demo</title>
   <meta charset="utf-8" />
-  <link rel="stylesheet" href="demo/css/bootstrap-darkly.min.css" />
-  <link href="demo/css/demo.css" rel="stylesheet" type="text/css" />
+  <!--<link rel="stylesheet" href="demo/css/bootstrap-darkly.min.css" />-->
+  <!--<link href="demo/css/demo.css" rel="stylesheet" type="text/css" />-->
   <script src="https://download.affectiva.com/js/3.2/affdex.js"></script>
   <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
   <style>
@@ -72,7 +72,7 @@
   <div class="notice">未检测到面部</div>
   <div class="cnent">
     <div class="photo">
-      <div class="testt" style="width:640px;height:480px;border:1px solid #aaa;"></div>
+      <div class="test" style="width:640px;height:480px;border:1px solid #aaa;"></div>
       <video id="video-window" style="display:none" autoplay="autoplay"></video>
     </div>
     <div class="routine">
@@ -85,12 +85,12 @@
   <script>
     $(document).ready(function(){
       $('.a').click(function(){
-        $('.testt').css({display:'none'});
+        $('.test').css({display:'none'});
         $('#video-window').css({display:'block'}).attr('src','http://www.zhiliangku.com/3.mp4')
         
       })
       $('.b').click(function(){
-        $('.testt').css({display:'none'});
+        $('.test').css({display:'none'});
         $('#video-window').css({display:'block'}).attr('src','http://www.zhiliangku.com/1.mp4')
       })
     })
@@ -98,7 +98,7 @@
 </body>
 <script type="text/javascript">
 $(document).ready(function(){
-  var divRoot = $(".testt")[0];
+  var divRoot = $(".test")[0];
 
   // The captured frame's width in pixels
   var width = 640;
@@ -153,13 +153,10 @@ $(document).ready(function(){
 
   // Track smiles
   detector.detectExpressions.smile = true;
-
   // Track joy emotion
   detector.detectEmotions.joy = true;
-
   // Detect person's gender
   detector.detectAppearance.gender = true;
-
   detector.detectAllExpressions();
   detector.detectAllEmotions();
   detector.detectAllEmojis();
