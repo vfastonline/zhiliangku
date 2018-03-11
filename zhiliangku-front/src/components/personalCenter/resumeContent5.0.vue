@@ -97,8 +97,8 @@
             "url": this.value2,
             "start_time": this.value3,
             "end_time": this.value4,
-            "description": this.value5,
-            'performance':this.value6
+            "description": this.changebr(this.value5),
+            'performance': this.changebr(this.value6)
           }
         }
         if (this.mainData[this.editorIndex]) {
@@ -121,7 +121,9 @@
           'value0', 'value1', 'value2', 'value3', 'value4','value5','value6'
         ])
       }
- 
+      ['value5','value6'].forEach(el=>{
+        this[el]=this.changen(el)
+      })
     },
     components: {
       rcb: rcb

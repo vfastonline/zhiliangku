@@ -9,7 +9,7 @@
           <el-input v-model="ruleForm1.age"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="pass">
-          <el-input type="password" v-model="ruleForm1.pass" auto-complete="off"></el-input>
+          <el-input @keyup.enter.native="submitForm('myform1','loginFun',ruleForm1)" type="password" v-model="ruleForm1.pass" auto-complete="off"></el-input>
         </el-form-item>
         <el-button @click="submitForm('myform1','loginFun',ruleForm1)" :class="['marginbottom8','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">登录</el-button>
         <div class="marginbottom24 fontcenter">
@@ -40,7 +40,8 @@
           <el-input v-model="ruleForm2.age"></el-input>
         </el-form-item>
         <el-form-item label="6-16位密码（区分大小写）" prop="pass">
-          <el-input type="password" v-model="ruleForm2.pass" auto-complete="off"></el-input>
+          <el-input @keyup.enter.native="submitForm('myform2','logupType',ruleForm2,changeModal,'verifyEmailActive')" type="password" v-model="ruleForm2.pass"
+            auto-complete="off"></el-input>
         </el-form-item>
         <el-button @click="submitForm('myform2','logupType',ruleForm2,changeModal,'verifyEmailActive')" :class="['marginbottom24','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">创建</el-button>
         <div class="clearfix">
@@ -64,7 +65,7 @@
       <div v-show="allshow.getPasswordActive" slot="title" class="fontcenter font18plffffff marginbottom8">找回密码</div>
       <el-form v-show="allshow.getPasswordActive" :model="ruleForm3" status-icon :rules="rules2" ref="myform3">
         <el-form-item label="请输入邮箱/手机号" prop="age">
-          <el-input v-on:keydown.enter="null" v-model="ruleForm3.age"></el-input>
+          <el-input @keydown.enter.native="submitForm('myform3','getPassType',ruleForm3,changeModal,'verificationCodeActive')" v-model="ruleForm3.age"></el-input>
         </el-form-item>
         <el-button @click="submitForm('myform3','getPassType',ruleForm3,changeModal,'verificationCodeActive')" :class="['marginbottom8','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">发送验证码</el-button>
       </el-form>
@@ -75,7 +76,7 @@
           <el-input v-model="ruleForm4.age"></el-input>
         </el-form-item>
         <el-form-item label="输入新的密码" prop="pass">
-          <el-input type="password" v-model="ruleForm4.pass" auto-complete="off"></el-input>
+          <el-input @keydown.enter.native="submitForm('myform4','modifyPass',ruleForm4,ruleForm3)" type="password" v-model="ruleForm4.pass" auto-complete="off"></el-input>
         </el-form-item>
         <el-button @click="submitForm('myform4','modifyPass',ruleForm4,ruleForm3)" :class="['marginbottom8','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">提交</el-button>
         <div class="incenter fontcenter">
@@ -88,7 +89,7 @@
       <div v-show="allshow.verifyCodeActive" slot="title" class="fontcenter font18plffffff marginbottom8">账号创建</div>
       <el-form v-show="allshow.verifyCodeActive" :model="ruleForm5" status-icon :rules="rules2" ref="myform5">
         <el-form-item label="请输入短信验证码">
-          <el-input v-model="ruleForm5.age"></el-input>
+          <el-input @keydown.enter.native="verifyPhoneCode()" v-model="ruleForm5.age"></el-input>
         </el-form-item>
         <el-button @click="verifyPhoneCode()" :class="['marginbottom8','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">登录</el-button>
         <div class="incenter fontcenter">
@@ -310,34 +311,32 @@
             // console.log(res.data.data)
             this.otherFunction(data)
             this.dispatchInfo()
-          console.log(res)
+            console.log(res)
           }
         })
       },
-      dispatchInfo(){
+      dispatchInfo() {
         Bus.$emit('haveLogin')
-      }
-      ,
-      otherFunction(data){
+      },
+      otherFunction(data) {
         if (data.referrer) {
-              if (data.url) {
-                window.location.href = data.url;
-                return
-              }
-              this.goreferre()
-              return
-            }
-            this.$parent.$emit('login')
+          if (data.url) {
+            window.location.href = data.url;
+            return
+          }
+          this.goreferre()
+          return
+        }
+        this.$parent.$emit('login')
       },
       goreferre() {
-        var str=document.referrer;
-        var host=str.split('://')[1].split('/')[0];
+        var str = document.referrer;
+        var host = str.split('://')[1].split('/')[0];
         // 同源的时候才会跳转上一来源网页，否则跳转到首页
-        if(host==window.location.host){
-          window.location.href=document.referrer;
-        }
-        else{
-          window.location.href='http://'+window.location.host+'/'
+        if (host == window.location.host) {
+          window.location.href = document.referrer;
+        } else {
+          window.location.href = 'http://' + window.location.host + '/'
         }
       },
       logupFun(data, callback, param) {
@@ -463,7 +462,7 @@
         this.changeModal(name)
       })
       // 在实现的过程之中呢发现用this监听会导致耦合度偏高，所以用Bus做一下补充，两者选用
-      Bus.$on('noActive', (name)=> {
+      Bus.$on('noActive', (name) => {
         this.centerDialogVisible = true;
         this.changeModal(name)
       })
@@ -489,42 +488,43 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style  lang="scss">
-.login-box{
-  .el-dialog__wrapper {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    overflow: auto;
-    margin: 0;
-    background:rgba(0, 0, 0, .5);
-    overflow: hidden;
-  }
-  .el-dialog {
-    position: relative;
-    margin: 0 auto 50px;
-    background:rgba(0, 0, 0, .5);
-    border-radius: 2px;
-    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 412px;
-    padding: 16px;
-  }
-  .el-dialog__body {
+<style lang="scss">
+  .login-box {
+    .el-dialog__wrapper {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      overflow: auto;
+      margin: 0;
+      background: rgba(0, 0, 0, .5);
+      overflow: hidden;
+    }
+    .el-dialog {
+      position: relative;
+      margin: 0 auto 50px;
+      background: rgba(0, 0, 0, .5);
+      border-radius: 2px;
+      -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      width: 412px;
+      padding: 16px;
+    }
+    .el-dialog__body {
       background: #ffffff;
-    padding: 24px 40px;
-    color: #5a5e66;
-    line-height: 24px;
-    font-size: 14px
+      padding: 24px 40px;
+      color: #5a5e66;
+      line-height: 24px;
+      font-size: 14px
+    }
+    .el-dialog__header {
+      padding: 0;
+    }
   }
-  .el-dialog__header{
-      padding:0;
-  }
-}
+
 </style>
 <style scoped>
   .login-middle-button-container {

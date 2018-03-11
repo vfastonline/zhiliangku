@@ -48,7 +48,7 @@
           resume_type: 'resume',
           pk_id:this.mainData.id,
           resume_info_dict: {
-            advantage: this.value0
+            advantage: this.changebr(this.value0) 
           },
           custom_user_id: localStorage.uid
         }).then(res => {
@@ -61,9 +61,8 @@
       }
     },
     created(){
-       this.initForm(this, this.mainData, ['advantage' ], [
-        'value0'
-      ])
+       this.initForm(this, this.mainData, ['advantage' ], ['value0'])
+       this.value0=this.changen(this.value0)
     },
     components: {
       rcb: rcb

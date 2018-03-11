@@ -89,7 +89,7 @@ import rcb from './resumeContentButton'
             "education": this.value2,
             "start_time": this.value3,
             "end_time": this.value4,
-            "experience": this.value5,
+            "experience": this.changebr(this.value5),
           }
         }
         if (this.mainData[this.editorIndex]) {
@@ -111,7 +111,7 @@ import rcb from './resumeContentButton'
         ], [
           'value0', 'value1', 'value2', 'value3', 'value4','value5'
         ])
-
+        this.value5=this.changen(this.value5)
       }
       //  "educationexperiences": [{
       //       "discipline": "摄影",
