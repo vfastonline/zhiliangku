@@ -134,18 +134,19 @@
   - timestamp: The timestamp of the captured image in seconds.
 */
     var time = new Date();
-
+    var timer;
     //六秒之内不能执行两次
     detector.addEventListener("onImageResultsSuccess", function (faces, image, timestamp) {
       var time1 = new Date();
-      if ((time1 - time) < 3000) {
+      if ((time1 - time) < 1000) {
         return
       } else {
         time = time1
       }
       if (!faces.length) {
+        clearTimeout(timer)
         document.querySelector('.notice').style.display = 'block'
-        setTimeout(function () {
+        timer = setTimeout(function () {
           document.querySelector('.notice').style.display = 'none';
         }, 1500)
         return

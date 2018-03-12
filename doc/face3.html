@@ -7,7 +7,8 @@
 <style>
     body {
         background-color: #F3F3F3;
-        #container {
+    }
+    #container {
             position: absolute;
             left:0;
             top:0;
@@ -15,21 +16,12 @@
             right:0;
             margin:auto;
         }
-    }
 </style>
 
 <body style="height: 100%; margin: 0;background:#F3F3F3">
     <div id="container" style="height: 80%;width:80%;margin:auto"></div>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
-    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
-    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
-    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
-    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
-    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
-    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
-    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
     <script type="text/javascript">
         var dom = document.getElementById("container");
         var myChart = echarts.init(dom);
@@ -71,7 +63,7 @@
             series: [{
                     name: '生气',
                     type: 'line',
-                    stack: '总量',
+                    smooth:true,
                     data: [],
                     lineStyle:{
                         color:'#000000'
@@ -83,7 +75,7 @@
                 {
                     name: '反感',
                     type: 'line',
-                    stack: '总量',
+                    smooth:true,
                     data: [],
                     lineStyle:{
                         color:'#000099'
@@ -95,7 +87,7 @@
                 {
                     name: '恐惧',
                     type: 'line',
-                    stack: '总量',
+                    smooth:true,
                     data: [],
                     lineStyle:{
                         color:'#006600'
@@ -107,7 +99,7 @@
                 {
                     name: '愉悦',
                     type: 'line',
-                    stack: '总量',
+                    smooth:true,
                     data: [],
                     lineStyle:{
                         color:'#0099CC'
@@ -119,7 +111,7 @@
                 {
                     name: '悲伤',
                     type: 'line',
-                    stack: '总量',
+                    smooth:true,
                     data: [],
                     lineStyle:{
                         color:'#FFFF00'
@@ -131,7 +123,7 @@
                 {
                     name: '惊喜',
                     type: 'line',
-                    stack: '总量',
+                    smooth:true,
                     data: [],
                     lineStyle:{
                         color:'#FF0000'
@@ -144,7 +136,7 @@
         };
         var ser = option.series;
         var dData = function () {
-            $.get("/r/getface", function (data) {
+            $.get("http://www.zhiliangku.com/r/getface", function (data) {
                 data = JSON.parse(data)
                 ser[0].data = data.anger;
                 ser[1].data = data.disgust;
@@ -158,10 +150,8 @@
         };
         setInterval(function () {
             dData()
-        }, 2000)
-        // if (option && typeof option === "object") {
-        //     myChart.setOption(option, true);
-        // }
+        }, 1000)
+
     </script>
 </body>
 
