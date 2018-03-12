@@ -133,5 +133,4 @@
 </script>
 <style lang="scss">
   @import "../../style/scss/components/resumeForm.scss";
-
 </style>

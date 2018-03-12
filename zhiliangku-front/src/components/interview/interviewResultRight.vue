@@ -1,7 +1,7 @@
 <template>
   <div class="">
       <div>
-    <div>你尚未掌握的知识点有</div>
+    <div class="font18pl3a3c50 marginbottom8">你尚未掌握的知识点有</div>
     <div><el-button v-for="(item, index) in  mainData.tech_name_list" :key="index" :class="{'firstbutton':!index}">{{item}}</el-button><el-button>Yaml</el-button></div>
     </div>
     <div>

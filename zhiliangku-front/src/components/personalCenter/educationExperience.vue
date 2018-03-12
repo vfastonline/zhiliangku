@@ -2,7 +2,7 @@
   <div class="experience-container">
       <div @click="handleClick" class="editor pointer"><img src="../../assets/img/icons/个人中心和积分商城图标/简历_铅笔.svg" alt=""><span>编辑</span></div>
       <div class="marginbottom16"><span>{{mainData.discipline}}</span> | <span>{{mainData.education}}</span></div>
-      <p v-if="mainData.experience">{{mainData.experience}}</p>
+      <p v-if="mainData.experience" v-html="mainData.experience"></p>
 
   </div>
 </template>

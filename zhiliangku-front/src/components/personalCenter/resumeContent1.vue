@@ -4,8 +4,7 @@
         <span><img   class="imgmiddle imgr" src="../../assets/img/icons/个人中心和积分商城图标/简历_小人.svg" alt="">我的优势</span>
     </resumetitle>
     <div  class="resumewidth incenter ">
-      <p>
-        {{mainData.advantage}}
+      <p v-html="mainData.advantage">
       </p>
     </div>
     <editor :mainData="mainData" @close="showeditor=!showeditor" v-if="showeditor"></editor>

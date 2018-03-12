@@ -12,7 +12,7 @@
     <!-- <hcm :mainData="courseData.popularCourse" ></hcm> -->
     <!-- <hcm :mainData="courseData.recommendCourse" ></hcm> -->
     <!-- <cpm></cpm> -->
-    <!-- <interview-main></interview-main> -->
+    <interviewMainVue></interviewMainVue>
     <cooperator></cooperator>
   </div>
 </template>
@@ -26,6 +26,7 @@
 import CourseSelect from '../courseInfo/courseSelect'
 import homeSelectCourse from './18-homeSelectCourse'
 import homeimg from './19-home-img'
+import interviewMainVue from './interviewMain.vue';
   export default {
     name: "home",
     data() {
@@ -64,7 +65,8 @@ import homeimg from './19-home-img'
     components:{
       homeSelectCourse:homeSelectCourse,
       CourseSelect:CourseSelect,
-      homeimg:homeimg
+      homeimg:homeimg,
+      interviewMainVue:interviewMainVue
     }
   };
 

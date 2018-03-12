@@ -45,7 +45,7 @@
     methods: {
       changeImg(item,index) {
         if(index==0){
-          window.location.href='/face.html'
+          window.open('/face.html')
           return
         }
         if (item.status == 'live') {

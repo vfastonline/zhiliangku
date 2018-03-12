@@ -26,9 +26,11 @@ Vue.prototype.initForm=function(vue, obj, keys1, keys2) {
   }
 }
 Vue.prototype.changebr=function(value){
+  if(typeof(value)=='undefined'){return  ''}
   return value.replace(/\n|\r\n/g,"<br>") 
 }
 Vue.prototype.changen=function(vallue){
+  if(typeof(value)=='undefined'){return  ''}
   return value.replace(/<br>/g,'\n')
 }
 var indexvue = new Vue({
