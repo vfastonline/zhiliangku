@@ -82,7 +82,7 @@
           resume_type: 'workexperience',
           resume_info_dict: {
             "company": this.value0,
-            "content": this.value4,
+            "content": this.changebr(this.value4),
             "end_time": this.value3,
             "position": this.value1,
             "start_time": this.value2
@@ -107,7 +107,7 @@
         ], [
           'value0', 'value1', 'value2', 'value3', 'value4'
         ])
-
+        this.value4=this.changen(this.value4)
       }
       //  "workexperiences": [{
       //       "company": "智量酷",

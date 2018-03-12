@@ -25,7 +25,12 @@ Vue.prototype.initForm=function(vue, obj, keys1, keys2) {
     vue[keys2[i]] = obj[keys1[i]];
   }
 }
-
+Vue.prototype.changebr=function(value){
+  return value.replace(/\n|\r\n/g,"<br>") 
+}
+Vue.prototype.changen=function(vallue){
+  return value.replace(/<br>/g,'\n')
+}
 var indexvue = new Vue({
   el: '#app',
   router,

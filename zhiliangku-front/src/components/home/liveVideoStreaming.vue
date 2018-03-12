@@ -11,7 +11,7 @@
       <div class="lvsc-list floatl">
         <el-scrollbar class="lvsc-list-container">
           <ul>
-            <li v-for="item in liveData" @click="changeImg(item)" :key="item.id" class="lvsc-info textellipsis">
+            <li v-for="(item,index) in liveData" @click="changeImg(item,index)" :key="item.id" class="lvsc-info textellipsis">
               <span v-if="item.status=='end'" class="lvsc-tag font16pmCCCCCC">{{item['start_time']}}</span>
               <span v-if="item.status=='live'" class="lvsc-tag lvsc-live">即将直播</span>
               <span class="lvsc-content font16pr07111B pointer">{{item.name}}</span>
@@ -43,7 +43,11 @@
       };
     },
     methods: {
-      changeImg(item) {
+      changeImg(item,index) {
+        if(index==0){
+          window.location.href='/face.html'
+          return
+        }
         if (item.status == 'live') {
           this.showButton = true;
         } else {

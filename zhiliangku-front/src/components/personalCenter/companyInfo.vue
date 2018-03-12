@@ -1,13 +1,13 @@
 <template>
   <div class="cio-company rise pointer marginbottom24">
     <div class="cio-top">
-      <div class="cio-left-logo"><img v-lazy="mainData.logo"></div>
-      <div class="cio-right-content ofhid">
+      <div class="cio-left-logo fontcenter"><img v-lazy="mainData.logo"></div>
+      <div class="cio-right-content ofhid ">
         <p class="font16pl5a646e">{{mainData.info}}</p>
       </div>
     </div>
     <div class="cio-bottom">
-      <div class="cio-company-name font16pl3a3c50" >{{mainData.company}}</div>
+      <div class="cio-company-name fontcenter font16pl3a3c50" >{{mainData.company}}</div>
       <div class="cio-company-people font14pr3a3c50">人员规模：{{mainData.scale}}人</div>
     </div>  
   </div>
@@ -26,15 +26,20 @@
 }
 .cio-top{
   height:80px;
+  margin-bottom:8px;
 }
 /*左侧公司logo */
 .cio-top .cio-left-logo {
     float:left;
 }
+.cio-left-logo{
+  width: 155px;
+}
 .cio-top .cio-left-logo img{
-    width:155px;
-    height:80px;
+    max-width:155px;
+    max-height:80px;
     vertical-align: bottom;
+    margin: auto
 }
 /*右侧公司简介 */
 .cio-top .cio-right-content{
@@ -46,6 +51,9 @@
 /*公司名字和人数 */
 .cio-bottom .cio-company-name{
   float:left;
+}
+.cio-company-name{
+  width: 155px;
 }
 .cio-bottom .cio-company-people{
   float:right;
