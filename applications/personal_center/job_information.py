@@ -79,7 +79,7 @@ class PostMatchDetail(View):
                     "claim_list": [
                         {"checked": 1, "matches": "有扎实的编程能力，有优秀的设计能力和代码品位，热爱编程"},
                         {"checked": 1, "matches": "深刻理解计算机原理，有良好的数据结构和算法基础"},
-                        {"checked": 1, "matches": "有高并发服务设计和实现经验，对分布式系统有自己的理解"},
+                        {"checked": 0, "matches": "有高并发服务设计和实现经验，对分布式系统有自己的理解"},
                         {"checked": 1, "matches": "对软件产品有强烈的责任心，具备良好的沟通能力和优秀的团队协作能力"},
                     ]
                 },
@@ -89,10 +89,10 @@ class PostMatchDetail(View):
                     "claim_list": [
                         {"checked": 1, "matches": "有较强的技术能力与视野，对技术有强烈的好奇心和求知欲"},
                         {"checked": 1, "matches": "擅长 HTML, CSS, JavaScript, Ajax 等 WEB 前端技术"},
-                        {"checked": 1, "matches": "熟悉 webpack/gulp 等打包工具的使用，对新技术框架（ES6, Babel, Vue）等有一定的见解和实践"},
-                        {"checked": 1, "matches": "有后端、NodeJS 开发经验优先"},
-                        {"checked": 1, "matches": "对用户体验、产品设计有深刻的认识"},
-                        {"checked": 1, "matches": "良好的工作态度及沟通表达能力"},
+                        {"checked": 0, "matches": "熟悉 webpack/gulp 等打包工具的使用，对新技术框架（ES6, Babel, Vue）等有一定的见解和实践"},
+                        {"checked": 0, "matches": "有后端、NodeJS 开发经验优先"},
+                        {"checked": 0, "matches": "对用户体验、产品设计有深刻的认识"},
+                        {"checked": 0, "matches": "良好的工作态度及沟通表达能力"},
                     ]
                 },
                 "3": {
@@ -102,13 +102,13 @@ class PostMatchDetail(View):
                         {"checked": 1, "matches": "2年以上大型web研发经验"},
                         {"checked": 1, "matches": "精通java，熟悉常用框架，如spring、ibatis、struts等"},
                         {"checked": 1, "matches": "优秀的数据库设计优化能力，至少精通一种数据库应用"},
-                        {"checked": 1, "matches": "精通多线程及并发技术，精通socket网络编程"},
+                        {"checked": 0, "matches": "精通多线程及并发技术，精通socket网络编程"},
                         {"checked": 1, "matches": "熟悉大数据处理和高并发性能解决方案"},
-                        {"checked": 1, "matches": "熟悉数据安全解决方案"},
+                        {"checked": 0, "matches": "熟悉数据安全解决方案"},
                         {"checked": 1, "matches": "扎实的计算机基础，熟悉常用数据结构和算法"},
                         {"checked": 1, "matches": "熟悉linux，能熟练应用shell/python等脚本语言"},
                         {"checked": 1, "matches": "学习能力强，有较好的沟通能力，能迅速融入团队"},
-                        {"checked": 1, "matches": "有搜索、数据仓库经验者优先"},
+                        {"checked": 0, "matches": "有搜索、数据仓库经验者优先"},
                         {"checked": 1, "matches": "较强的逻辑思维能力，具有较强产品意识者优先"},
                     ]
                 },
