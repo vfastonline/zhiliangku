@@ -8,14 +8,15 @@
     body {
         background-color: #F3F3F3;
     }
+
     #container {
-            position: absolute;
-            left:0;
-            top:0;
-            bottom:0;
-            right:0;
-            margin:auto;
-        }
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+    }
 </style>
 
 <body style="height: 100%; margin: 0;background:#F3F3F3">
@@ -55,81 +56,90 @@
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
-                data: []
+                data: [],
             },
             yAxis: {
-                type: 'value'
+                type: 'value',
+                min:0,
+                max:10,
+                scale:true
             },
+            dataZoom: [{
+                type: 'inside',
+                minSpan:20,
+                maxSpan:100
+
+            }],
             series: [{
                     name: '生气',
                     type: 'line',
-                    smooth:true,
+                    smooth: true,
                     data: [],
-                    lineStyle:{
-                        color:'#000000'
+                    lineStyle: {
+                        color: '#000000'
                     },
-                    itemStyle:{
-                        color:'#000000'
+                    itemStyle: {
+                        color: '#000000'
                     }
                 },
                 {
                     name: '反感',
                     type: 'line',
-                    smooth:true,
+                    smooth: true,
                     data: [],
-                    lineStyle:{
-                        color:'#000099'
+                    lineStyle: {
+                        color: '#000099'
                     },
-                    itemStyle:{
-                        color:'#000099'
+                    itemStyle: {
+                        color: '#000099'
                     }
                 },
                 {
                     name: '恐惧',
                     type: 'line',
-                    smooth:true,
+                    smooth: true,
                     data: [],
-                    lineStyle:{
-                        color:'#006600'
+                    lineStyle: {
+                        color: '#006600'
                     },
-                    itemStyle:{
-                        color:'#006600'
+                    itemStyle: {
+                        color: '#006600'
                     }
                 },
                 {
                     name: '愉悦',
                     type: 'line',
-                    smooth:true,
+                    smooth: true,
                     data: [],
-                    lineStyle:{
-                        color:'#0099CC'
+                    lineStyle: {
+                        color: '#0099CC'
                     },
-                    itemStyle:{
-                        color:'#0099CC'
+                    itemStyle: {
+                        color: '#0099CC'
                     }
                 },
                 {
                     name: '悲伤',
                     type: 'line',
-                    smooth:true,
+                    smooth: true,
                     data: [],
-                    lineStyle:{
-                        color:'#FFFF00'
+                    lineStyle: {
+                        color: '#FFFF00'
                     },
-                    itemStyle:{
-                        color:'#FFFF00'
+                    itemStyle: {
+                        color: '#FFFF00'
                     }
                 },
                 {
                     name: '惊喜',
                     type: 'line',
-                    smooth:true,
+                    smooth: true,
                     data: [],
-                    lineStyle:{
-                        color:'#FF0000'
+                    lineStyle: {
+                        color: '#FF0000'
                     },
-                    itemStyle:{
-                        color:'#FF0000'
+                    itemStyle: {
+                        color: '#FF0000'
                     }
                 }
             ]
@@ -151,7 +161,6 @@
         setInterval(function () {
             dData()
         }, 1000)
-
     </script>
 </body>
 
