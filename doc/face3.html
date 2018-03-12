@@ -7,11 +7,19 @@
 <style>
     body {
         background-color: #F3F3F3;
+        #container {
+            position: absolute;
+            left:0;
+            top:0;
+            bottom:0;
+            right:0;
+            margin:auto;
+        }
     }
 </style>
 
 <body style="height: 100%; margin: 0;background:#F3F3F3">
-    <div id="container" style="height: 100%"></div>
+    <div id="container" style="height: 80%;width:80%;margin:auto"></div>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
     <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
@@ -29,7 +37,7 @@
         option = null;
         option = {
             title: {
-                text: '折线图堆叠',
+                text: '用户情感分析图',
                 left: '3%',
                 textStyle: {
                     color: '#666',
@@ -64,37 +72,73 @@
                     name: '生气',
                     type: 'line',
                     stack: '总量',
-                    data: []
+                    data: [],
+                    lineStyle:{
+                        color:'#000000'
+                    },
+                    itemStyle:{
+                        color:'#000000'
+                    }
                 },
                 {
                     name: '反感',
                     type: 'line',
                     stack: '总量',
-                    data: []
+                    data: [],
+                    lineStyle:{
+                        color:'#000099'
+                    },
+                    itemStyle:{
+                        color:'#000099'
+                    }
                 },
                 {
                     name: '恐惧',
                     type: 'line',
                     stack: '总量',
-                    data: []
+                    data: [],
+                    lineStyle:{
+                        color:'#006600'
+                    },
+                    itemStyle:{
+                        color:'#006600'
+                    }
                 },
                 {
                     name: '愉悦',
                     type: 'line',
                     stack: '总量',
-                    data: []
+                    data: [],
+                    lineStyle:{
+                        color:'#0099CC'
+                    },
+                    itemStyle:{
+                        color:'#0099CC'
+                    }
                 },
                 {
                     name: '悲伤',
                     type: 'line',
                     stack: '总量',
-                    data: []
+                    data: [],
+                    lineStyle:{
+                        color:'#FFFF00'
+                    },
+                    itemStyle:{
+                        color:'#FFFF00'
+                    }
                 },
                 {
                     name: '惊喜',
                     type: 'line',
                     stack: '总量',
-                    data: []
+                    data: [],
+                    lineStyle:{
+                        color:'#FF0000'
+                    },
+                    itemStyle:{
+                        color:'#FF0000'
+                    }
                 }
             ]
         };
