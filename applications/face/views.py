@@ -24,6 +24,8 @@ def face(request):
             disgust = round(float(request.POST.get('disgust')[0]), 3)
             vtime = str(request.POST.get('vtime', 0))
             vtime = int(vtime.split('.')[0])
+            if not vtime:
+                Watchface.objects.all().delete()
             logging.getLogger().info('%s %s  %s  %s %s %s' % (engagement, surprise, valence, contempt, disgust, vtime))
 
             Watchface.objects.create(userid=userid, joy=joy, engagement=engagement, sadness=sadness, anger=anger,
