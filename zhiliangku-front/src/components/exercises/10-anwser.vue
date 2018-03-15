@@ -1,77 +1,126 @@
 <template>
   <div class="anwser-container incenter">
-    <div class="relative">
-      <img class="question-user-icon imgmiddle" src="../../assets/img/user-icon.jpg" alt="">
-      <span class="font14pl7c7e8c">bob</span>
-      <span class="font14pl7c7e8c scan">2018-19-29</span>
+    <div class="relative userinfo">
+      <img class="question-user-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
+      <span class="font14pl7c7e8c">{{mainData.custom_user_nickname}}</span>
+      <span class="font14pl7c7e8c scan">{{mainData.create_time}}</span>
     </div>
-    <div>
-      这是问题内容
+    <div v-html="mainData.answer">
     </div>
-    <div class="relative">
+    <div class="toolbar">
       <div>
-        <img src="../../assets/img/icons/QQ.svg" alt="">
-        <span class="question-yes font16fbc02d">3</span>
-        <img src="../../assets/img/icons/QQ.svg" alt="">
-        <span class="question-yes ">3</span>
+        <i @click="support ()" v-show="!mainData.approve" class="iconfont  icon-zan  pointer weizan"></i>
+        <i @click="oppose ()" else class="iconfont  icon-zan1  pointer yizan"></i>
+        <span class="question-yes font16fbc02d">{{mainData.approve}}</span>
       </div>
-      <div>
-        回复
-        <img src="../../assets/img/icons/QQ.svg" alt="">
-      </div>
-    </div>
-    <div class="msg-moudel">
-      <div class="relative">
-        <img class="question-user-icon imgmiddle" src="../../assets/img/user-icon.jpg" alt="">
-        <span class="font14pl7c7e8c">bob</span>
-        <span class="font14pl7c7e8c scan">2018-19-29 12:45</span>
-      </div>
-      <div class="msg-container">
+      <div class="pointer">
+        <span>展开回复</span>
+        <i class="iconfont icon-zhankai"></i>
       </div>
     </div>
-    <div></div>
+    <reply v-for="(item,index) in mainData.answer_reply_list" :key="index" :mainData="item"></reply>
+    <replyMsg></replyMsg>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  .anwser-container {
-    padding: 32px;
-  }
-
-  .question-user-icon {
-    width: 48px;
-    height: 48px;
-    margin-right: 32px;
-  }
-
-  .question-yes {
-    margin-right: 54px;
-  }
-  .msg-container{
-      padding-left:80px;
-  }
-  .msg-moudel{
-      
-  }
-</style>
 <script>
+  import reply from './13-reply'
+  import replyMsg from './14-reply-msg'
   export default {
     name: 'HelloWorld',
     data() {
       return {}
     },
     props: {
-
+      mainData: Object
     },
     methods: {
-
+      support(type) {
+        var obj;
+        switch (type) {
+          case 0:
+            obj = {
+              oppose: 0,
+              approve: 1
+            };
+            break;
+          case 1:
+            obj = {
+              oppose: 1,
+              approve: 0
+            };
+            break;
+          default:
+            break;
+        }
+        this.$post('/community/appraisal/faqanswer', obj).then(res => {
+          console.log(res)
+        })
+      }
     },
     created() {
 
     },
     components: {
-
+      reply: reply,
+      replyMsg: replyMsg
     }
   }
 
 </script>
+
+<style scoped>
+  .user_status {
+    background: #FCF8E3;
+    border-radius: 3px;
+    padding: 2px;
+    margin-left: 5px;
+  }
+
+  .userinfo {
+    margin-bottom: 10px;
+  }
+
+  .icon-zhankai {
+    transition: all ease 0.5s;
+  }
+
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .weizan {
+    font-size: 22px;
+    color: #666;
+  }
+
+  .yizan {
+    font-size: 24px;
+    color: #fbc02d;
+  }
+
+  .anwser-container {
+    padding: 32px;
+    margin: 32PX 0;
+    background: white;
+  }
+
+  .question-user-icon {
+    width: 48px;
+    height: 48px;
+    margin-right: 32px;
+    border-radius: 50%;
+  }
+
+  .question-yes {
+    margin-right: 54px;
+  }
+
+  .msg-container {
+    padding-left: 80px;
+  }
+
+  .msg-moudel {}
+
+</style>

@@ -1,28 +1,27 @@
 <template>
   <div id="app">
     <project-header></project-header>
-    <AQinfo></AQinfo>
+      <AQinfo></AQinfo>
     <project-footer></project-footer>
   </div>
 </template>
 <script>
-import AQinfo from '../../components/exercises/08-AQinfo.vue'
+  import AQinfo from '../../components/exercises/08-AQinfo.vue'
   export default {
     name: 'app',
     data() {
-      return {
-      }
+      return {}
     },
     methods: {
       jj() {
         console.log(111)
       }
     },
-    created(){
+    created() {
       // console.log(this)
     },
-    components:{
-      AQinfo:AQinfo
+    components: {
+      AQinfo: AQinfo
     }
   }
 
@@ -34,4 +33,5 @@ import AQinfo from '../../components/exercises/08-AQinfo.vue'
 <style lang="scss">
   @import "../../style/bass";
   @import "../../style/scss/components/06-AQinfo.scss";
+
 </style>

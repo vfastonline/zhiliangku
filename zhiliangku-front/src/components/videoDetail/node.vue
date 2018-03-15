@@ -39,7 +39,7 @@
     data() {
       return {
         name: 'notes',
-        mainData: '1231221',
+        mainData: '',
       }
     },
     props: {

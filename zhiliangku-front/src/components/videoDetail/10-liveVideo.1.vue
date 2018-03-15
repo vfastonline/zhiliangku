@@ -4,7 +4,7 @@
     <input type="text" v-model="test" @keydown.enter="sendAnwser(test)"> -->
     <!-- 播放器s -->
     <div class="video-box" :height="height">
-      <object v-if="showVideo" type="application/x-shockwave-flash" data="http://player.polyv.net/live/player.swf" :id="liveIdObj.id"
+      <object v-if="showVideo" type="application/x-shockwave-flash" data="https://player.polyv.net/live/player.swf" :id="liveIdObj.id"
         width="100%" :height="height" class="polyvFlashObject">
         <param name="allowScriptAccess" value="always">
         <param name="allowFullScreen" value="true">
@@ -335,8 +335,8 @@
         AnswerList: [],
         chatMsgList: [],
         baseParam: {
-          chatHost: 'http://chat.polyv.net:80',
-          chatHost2: "http://apichat.polyv.net:80",
+          chatHost: 'https://chat.polyv.net:443',
+          chatHost2: "https://apichat.polyv.net",
           userId: '',
           number: '',
           userlist: [],
@@ -374,7 +374,7 @@
       initLiveVideo() {
         var time = Math.floor(new Date() / 1000);
         var sign = md5(time + 'polyvsign');
-        var token = this.$get('http://api.live.polyv.net/watchtoken/gettoken?ts=' + time + '&sign=' + sign).then(res => {
+        var token = this.$get('https://api.live.polyv.net/watchtoken/gettoken?ts=' + time + '&sign=' + sign).then(res => {
           this.liveIdObj.token = token;
         })
 
@@ -585,8 +585,8 @@
           $(".text-container").getNiceScroll().resize();
         })
         var that = this;
-        var chatHost = 'http://chat.polyv.net:80', //socket连接地址
-          chatHost2 = "http://apichat.polyv.net:80", //获取聊天内容地址
+        var chatHost = 'https://chat.polyv.net:443', //socket连接地址
+          chatHost2 = "https://apichat.polyv.net", //获取聊天内容地址
           chatToken = this.liveIdObj.token,
           roomId = this.liveIdObj.id,
           userId = Math.random(0, 1000 * 10000) * 1000 * 10000,

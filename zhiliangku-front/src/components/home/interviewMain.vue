@@ -37,7 +37,7 @@
     },
     methods:{
       go(item){
-        window.location.href='http://'+window.location.host+'/interview_questions/enterpriseinfo/detail/?enterpriseinfo_id='+item.id;
+        window.location.href='https://'+window.location.host+'/interview_questions/enterpriseinfo/detail/?enterpriseinfo_id='+item.id;
       }
     },
     created(){

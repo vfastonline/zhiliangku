@@ -6,7 +6,7 @@
     </object> -->
     <!-- 解释一下id是有脚本进行绑定的所以不能改变 -->
     <div class="video-box">
-      <object v-if="showVideo" type="application/x-shockwave-flash" data="http://player.polyv.net/live/player.swf" :id="liveIdObj.id"
+      <object v-if="showVideo" type="application/x-shockwave-flash" data="https://player.polyv.net/live/player.swf" :id="liveIdObj.id"
         width="100%" :height="height" class="polyvFlashObject">
         <param name="allowScriptAccess" value="always">
         <param name="allowFullScreen" value="true">
@@ -110,7 +110,7 @@
       initLiveVideo() {
         var time = Math.floor(new Date() / 1000);
         var sign = md5(time + 'polyvsign');
-        var token = this.$get('http://api.live.polyv.net/watchtoken/gettoken?ts=' + time + '&sign=' + sign).then(res => {
+        var token = this.$get('https://api.live.polyv.net/watchtoken/gettoken?ts=' + time + '&sign=' + sign).then(res => {
           this.liveIdObj.token = token;
           console.log(res)
         })
