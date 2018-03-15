@@ -33,6 +33,7 @@ class AppraisalFaqAnswer(View):
                         faqanswer.approve = F('oppose') + 1  # 反对
                     faqanswer.save()
                     faqanswer.refresh_from_db()
+                    FaqAnswerFeedback.objects.create(faqanswer=faqanswer, user=faqanswer.user, feedback=appraisal)
                     result_dict["data"]["approve"] = faqanswer.approve
                     result_dict["data"]["oppose"] = faqanswer.oppose
             else:

@@ -60,6 +60,22 @@ class FaqAnswer(models.Model):
         ordering = ["-create_time"]
 
 
+class FaqAnswerFeedback(models.Model):
+    """问题-回答 反馈"""
+    faqanswer = models.ForeignKey(FaqAnswer, verbose_name="问题-回答", related_name="FaqAnswerFeedback")
+    user = models.ForeignKey(CustomUser, verbose_name="反馈用户", related_name="CustomUserFaqAnswerFeedback")
+    feedback = models.CharField(max_length=200, verbose_name='支持/反对')
+
+    def __unicode__(self):
+        return self.feedback
+
+    class Meta:
+        db_table = 'FaqAnswerFeedback'
+        verbose_name = "问题-回答 反馈"
+        verbose_name_plural = "问题-回答 反馈"
+        index_together = ["faqanswer", "user"]
+
+
 class FaqAnswerReply(models.Model):
     faqanswer = models.ForeignKey(FaqAnswer, verbose_name="问题回答", related_name="FaqAnswerReply")
     user = models.ForeignKey(CustomUser, verbose_name="回复用户", related_name="CustomUserFaqAnswerReply")

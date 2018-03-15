@@ -12,6 +12,7 @@ from django.views.generic import View
 from applications.community.models import *
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import str_to_int
 
 
 @class_view_decorator(user_login_required)
@@ -115,6 +116,7 @@ class FaqDetaiInfo(View):
         try:
             # 获取查询参数
             faq_id = request.GET.get('faq_id', 0)  # 问题ID
+            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
 
             if faq_id:
                 faqs = Faq.objects.filter(id=faq_id)
@@ -150,6 +152,15 @@ class FaqDetaiInfo(View):
                         answer_dict["optimal"] = one_answer.optimal
                         faqanswerreplys = one_answer.FaqAnswerReply.all()
                         answer_dict["answer_reply_amount"] = faqanswerreplys.count()
+                        faqanswerfeedbacks = FaqAnswerFeedback.objects.filter(faqanswer=one_answer,
+                                                                              user__id=custom_user_id)
+                        answer_dict["feedback"] = ""
+                        try:
+                            if faqanswerfeedbacks.exists():
+                                feedback = faqanswerfeedbacks.first().feedback
+                                answer_dict["feedback"] = feedback
+                        except:
+                            traceback.print_exc()
 
                         # 获取问题回答回复
                         faq_answer_reply_list = list()
