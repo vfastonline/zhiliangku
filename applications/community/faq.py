@@ -127,6 +127,7 @@ class FaqDetaiInfo(View):
                     faq_dict = dict()
                     faq_dict["id"] = faq.id
                     faq_dict["title"] = faq.title
+                    faq_dict["description"] = faq.description
                     faq_dict["video_id"] = faq.video.id if faq.video else ""
                     faq_dict["custom_user_id"] = faq.user.id
                     faq_dict["custom_user_nickname"] = faq.user.nickname
