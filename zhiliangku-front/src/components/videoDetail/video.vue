@@ -1,14 +1,24 @@
 <template>
-  <div class=" incenter ">
-    <div id="e8888b74d1229efec6b4712e17cb6b7a_e">
+  <div class=" incenter myvideo-container">
+    <div class="myvideo-course" id="e8888b74d1229efec6b4712e17cb6b7a_e">
     </div>
+
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .myvideo-container {
+    position: relative;
+  }
+
   .videoModule {
     background: red;
     width: 1152px;
+  }
+
+  .myvideo-course {
+    position: relative;
+    z-index: 10;
   }
 
 </style>
@@ -21,10 +31,10 @@
         vidObj: {
           player: "",
           state: false,
-          timer:''
+          timer: ''
         },
-        liveIdObj:{
-          id:''
+        liveIdObj: {
+          id: ''
         }
       }
     },
@@ -43,16 +53,16 @@
         this.vidObj.player = player;
       },
       postInfo() {
-       this.vidObj.timer= setInterval(() => {
+        this.vidObj.timer = setInterval(() => {
           console.log('hello')
           this.postMsg()
-        }, 10*1000)
+        }, 10 * 1000)
 
       },
-      postMsg(){
+      postMsg() {
         this.$post('/record/handle/watchrecord', this.orgnizeVidData()).then(res => {
-            console.log(res)
-          })
+          console.log(res)
+        })
       },
       orgnizeVidData() {
         var obj = {
@@ -81,7 +91,7 @@
       },
       // 以下是直播
       liveVideo(id) {
-        this.liveIdObj.id=id;
+        this.liveIdObj.id = id;
         var player = polyvObject('#e8888b74d1229efec6b4712e17cb6b7a_e').livePlayer({
           width: '100%',
           height: window.innerHeight - 70,
@@ -89,23 +99,23 @@
           'vid': id
         });
       },
-      initLiveVideo(){
-        var time= Math.floor( new Date()/1000);
-        var sign=md5(time+'polyvsign');
-        var token=this.$get('http://api.live.polyv.net/watchtoken/gettoken?ts='+time+'&sign='+sign).then(res=>{
+      initLiveVideo() {
+        var time = Math.floor(new Date() / 1000);
+        var sign = md5(time + 'polyvsign');
+        var token = this.$get('//api.live.polyv.net/watchtoken/gettoken?ts=' + time + '&sign=' + sign).then(res => {
           console.log(res)
           this.createdLiveVideo()
         })
-      
+
       },
-      createdLiveVideo(){
-         var chatHost = 'http://chat.polyv.net:80',  //socket连接地址
-          chatHost2 = "http://apichat.polyv.net:80",  //获取聊天内容地址
+      createdLiveVideo() {
+        var chatHost = 'https://chat.polyv.net:443', //socket连接地址
+          chatHost2 = "https://apichat.polyv.net", //获取聊天内容地址
           chatToken = token,
           roomId = liveIdObj.id,
-          userId = Math.random(0,1000*10000),
-          nickname = 'polyv-test',   //自定义用户名
-          pic = 'http://livestatic.videocc.net/assets/wimages/missing_face.png';
+          userId = Math.random(0, 1000 * 10000),
+          nickname = 'polyv-test', //自定义用户名
+          pic = '//livestatic.videocc.net/assets/wimages/missing_face.png';
       }
     },
     created() {
@@ -121,11 +131,11 @@
       })
     },
     mounted() {
-      window.s2j_onPlayStart=()=>{
+      window.s2j_onPlayStart = () => {
         this.startVid();
       }
-      window.s2j_onPlayOver=()=>{
-        this.vidObj.state=1;
+      window.s2j_onPlayOver = () => {
+        this.vidObj.state = 1;
         this.postMsg();
         clearInterval(this.vidObj.timer)
       }

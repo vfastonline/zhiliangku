@@ -5,8 +5,8 @@
       <li v-for="(item ,index ) in mainData.answers" :key="index" class="choiceQuestion-option font16pr3a3c50 pointer" @click="selectedAnwser(mainData,item,index)"
         :class="item.className">
         <div>
-          <div class="floatl font20pl3a3c50">{{item.option_name}}</div>
-          <div class="choiceQuestion-content font16pr3a3c50">{{item.content}}</div>
+          <div class="floatl font20pl3a3c50" v-html="item.option_name"></div>
+          <div class="choiceQuestion-content font16pr3a3c50" v-html="item.content"></div>
         </div>
       </li>
     </ul>

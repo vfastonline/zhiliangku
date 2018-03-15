@@ -1,9 +1,10 @@
 <template>
   <div class=" incenter">
     <div class="question-container">
-      <question></question>
+      <question :mainData="mainData"></question>
     </div>
-    <anwserlist></anwserlist>
+    <anwserlist :mainData="mainData"></anwserlist>
+    <richtext class="richtext incenter" ></richtext>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -13,28 +14,36 @@
     padding-top: 44px;
     padding-bottom: 24px;
   }
-
+  .richtext{
+    width: 780px;
+  }
 </style>
 <script>
   import question from './09-question'
   import anwserlist from './11-anwserList'
+  import richtext from './15-richtexteditor.vue'
   export default {
     name: 'HelloWorld',
     data() {
-      return {}
+      return {
+        mainData:{}
+      }
     },
     props: {
 
     },
     methods: {},
     created() {
-      this.$get('/community/faq/detail/info?id=' + this.$fn.funcUrl('id')).then(res => {
+      this.$get('/community/faq/detail/info?faq_id=' + this.$fn.funcUrl('id')).then(res => {
         console.log(res)
+        this.mainData=res.data.data;
+
       })
     },
     components: {
       question: question,
-      anwserlist: anwserlist
+      anwserlist: anwserlist,
+      richtext:richtext
     }
   }
 

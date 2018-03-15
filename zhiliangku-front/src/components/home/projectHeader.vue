@@ -2,17 +2,18 @@
   <div class="project-header " :style="outerStyle">
     <login></login>
     <div class="ph-container  inmiddle clearfix ">
-      <div v-if="!(['videoHeader','liveHeader'].indexOf(type)+1)" @click="inputActive" @keyup.enter="search" class="ph-search inmiddle fontcenter">
+      <!-- <div v-if="!(['videoHeader','liveHeader'].indexOf(type)+1)" @click="inputActive" @keyup.enter="search" class="ph-search inmiddle fontcenter">
         <input @blur="inputNoActive" type="text" id="search-input" v-model="searchValue" class="search-input" :class="inputClass"
           ref="searchInput" placeholder="课程搜索">
         <img class="phs-magnifier  pointer " :class="iconClass" src="../../assets/img/icons/Search-magnifier.svg" alt="">
+      </div> -->
         <!-- <div class="inmiddle  input-mask">
           <div class="input-mask-inner ">
             <img class="phs-magnifier search-active pointer " src="../../assets/img/icons/Search-magnifier.svg" alt="">
             <span class="font18pl7c7e8c">课程搜索</span>
           </div>
         </div> -->
-      </div>
+      
       <div class="main">
         <div class="inner">
           <div v-if="['videoHeader','liveHeader'].indexOf(type)+1" class="ph-content white">
@@ -20,8 +21,8 @@
             >
             <span>{{videoTitle.name}}</span>
           </div>
-          <div v-if="!type" class="ph-content ">
-            <!-- <span class="ph-tag pointer">
+          <div v-if="!type" class="nav_tags ">
+            <span class="ph-tag pointer">
               <a href="/tracks/course/list/"> 课程</a>
             </span>
             <span class="ph-tag pointer">
@@ -32,7 +33,7 @@
               </a>
             </span>
             <span class="ph-tag pointer"><a href="/community/faq/list/"> 社区</a></span>
-            <span class="ph-tag last pointer">线下课程</span> -->
+            <span class="ph-tag last pointer">线下课程</span>
           </div>
         </div>
       </div>
@@ -361,7 +362,9 @@
   .ph-content {
     margin-left: -42px;
   }
-
+  .nav_tags{
+    margin-left: 150px;
+  }
   .project-header-free {
     sup {
       top: 20px !important;

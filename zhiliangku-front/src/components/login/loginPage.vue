@@ -5,7 +5,7 @@
         <el-input type="text" placeholder="请输入登录邮箱/手机号" v-model="ruleForm2.account" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="密码：" prop="pass">
-        <el-input type="password" placeholder="6-16位密码，区分大小写" v-model="ruleForm2.pass" auto-complete="off"></el-input>
+        <el-input @keydown.enter.native="submitForm('ruleForm2')" type="password" placeholder="6-16位密码，区分大小写" v-model="ruleForm2.pass" auto-complete="off"></el-input>
       </el-form-item>
     </el-form>
     <div class="fontcenter loginpage-button">
@@ -120,7 +120,7 @@
             obj.referrer = true;
             if (this.$fn.funcUrl('next')) {
               debugger
-              obj.url = 'http://' + window.location.host + decodeURIComponent(this.$fn.funcUrl('next'))
+              obj.url = 'https://' + window.location.host + decodeURIComponent(this.$fn.funcUrl('next'))
             }
             Bus.$emit('loginPagerLogin', obj)
           } else {
@@ -137,7 +137,7 @@
       // document.referrer
       var str;
       if (this.$fn.funcUrl('next')) {       
-          str= 'http://' + window.location.host + decodeURIComponent(this.$fn.funcUrl('next'))
+          str= 'https://' + window.location.host + decodeURIComponent(this.$fn.funcUrl('next'))
       }
       debugger
       this.wxBase64Url =
