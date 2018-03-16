@@ -56,7 +56,7 @@ class AcceptFaqAnswer(View):
         result_dict = {"err": 0, "msg": "成功采纳这个答案"}
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 用户ID
             faq_id = str_to_int(param_dict.get('faq_id', 0))  # 必填，问题ID
             faq_answer_id = str_to_int(param_dict.get('faq_answer_id', 0))  # 必填，问题回复ID
 
