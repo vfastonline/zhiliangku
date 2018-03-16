@@ -33,11 +33,11 @@ class FaqListInfo(View):
         try:
             # 获取查询参数
             # 按过滤条件查询
-            video_id = int(request.GET.get('video_id', 0))  # 视频ID
+            video_id = str_to_int(request.GET.get('video_id', 0))  # 视频ID
             status = request.GET.get('status')  # 问题状态，"0"：未解决；"1"：已解决
-            custom_user_id = request.GET.get('custom_user_id', 0)  # 提问用户ID
-            participate_custom_user_id = request.GET.get('participate_custom_user_id', 0)  # 回答用户ID,我参与的
-            follow_custom_user_id = request.GET.get('follow_custom_user_id', 0)  # 用户ID,我关注的
+            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 提问用户ID
+            participate_custom_user_id = str_to_int(request.GET.get('participate_custom_user_id', 0))  # 回答用户ID,我参与的
+            follow_custom_user_id = str_to_int(request.GET.get('follow_custom_user_id', 0))  # 用户ID,我关注的
             page = self.request.GET.get("page", 1)  # 页码
             per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
 
@@ -115,7 +115,7 @@ class FaqDetaiInfo(View):
         result_dict = {"err": 0, "msg": "success", "data": {}}
         try:
             # 获取查询参数
-            faq_id = request.GET.get('faq_id', 0)  # 问题ID
+            faq_id = str_to_int(request.GET.get('faq_id', 0))  # 问题ID
             custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
 
             if faq_id:
@@ -220,11 +220,11 @@ class AddFaq(View):
         try:
             # 提问参数
             param_dict = json.loads(request.body)
-            video_id = param_dict.get('video_id', 0)  # 视频ID
-            custom_user_id = param_dict.get('custom_user_id', 0)  # 必填，用户ID
+            video_id = str_to_int(param_dict.get('video_id', 0))  # 视频ID
+            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 必填，用户ID
             title = param_dict.get('title')  # 必填，标题
             description = param_dict.get('description')  # 必填，问题描述
-            path_id = param_dict.get('path_id')  # 问题方向
+            path_id = str_to_int(param_dict.get('path_id'))  # 问题方向
             reward = param_dict.get('reward', 0)  # 悬赏
 
             required_dict = {"用户ID": custom_user_id, "问题标题": title, "问题描述": description}
@@ -279,8 +279,8 @@ class FollowFaq(View):
         result_dict = {"err": 0, "msg": "success"}
         try:
             param_dict = json.loads(request.body)
-            faq_id = param_dict.get('faq_id', 0)  # 必填，问题ID
-            custom_user_id = param_dict.get('custom_user_id', 0)  # 关注问题用户ID
+            faq_id = str_to_int(param_dict.get('faq_id', 0))  # 必填，问题ID
+            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 关注问题用户ID
 
             faqs = Faq.objects.filter(id=faq_id)
             customusers = CustomUser.objects.filter(id=custom_user_id)
