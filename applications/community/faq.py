@@ -112,11 +112,18 @@ class FaqDetaiInfo(View):
     """提问信息详情"""
 
     def get(self, request, *args, **kwargs):
-        result_dict = {"err": 0, "msg": "success", "data": {}}
+        result_dict = {
+            "err": 0,
+            "msg": "success",
+            "data": {},
+            "paginator": {}
+        }
         try:
             # 获取查询参数
             faq_id = str_to_int(request.GET.get('faq_id', 0))  # 问题ID
             custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+            page = self.request.GET.get("page", 1)  # 页码
+            per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
 
             if faq_id:
                 faqs = Faq.objects.filter(id=faq_id)
@@ -139,7 +146,27 @@ class FaqDetaiInfo(View):
 
                     # 获取问题回答
                     faq_answer_list = list()
-                    for one_answer in faq.FaqAnswer.all():
+
+                    faqanswer_objs = list(set(list(faq.FaqAnswer.all())))
+                    page_obj = Paginator(faqanswer_objs, per_page)
+                    total_count = page_obj.count  # 记录总数
+                    num_pages = page_obj.num_pages  # 总页数
+                    page_range = list(page_obj.page_range)  # 页码列表
+                    paginator_dict = {
+                        "total_count": total_count,
+                        "num_pages": num_pages,
+                        "page_range": page_range,
+                        "page": page,
+                        "per_page": per_page
+                    }
+                    result_dict["paginator"] = paginator_dict
+
+                    try:
+                        faqanswer_objs = page_obj.page(page).object_list
+                    except:
+                        faqanswer_objs = list()
+
+                    for one_answer in faqanswer_objs:
                         answer_dict = dict()
                         answer_dict["id"] = one_answer.id
                         answer_dict["answer"] = one_answer.answer
