@@ -30,7 +30,7 @@ class AppraisalFaqAnswer(View):
                     if appraisal == "approve":
                         faqanswer.approve = F('approve') + 1  # 支持
                     elif appraisal == "oppose":
-                        faqanswer.approve = F('oppose') + 1  # 反对
+                        faqanswer.oppose = F('oppose') + 1  # 反对
                     faqanswer.save()
                     faqanswer.refresh_from_db()
                     FaqAnswerFeedback.objects.create(faqanswer=faqanswer, user=faqanswer.user, feedback=appraisal)
