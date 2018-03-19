@@ -1,5 +1,6 @@
 <template>
   <div class="block  fontcenter">
+    <!-- 注意这个是功能最完善的页码组件 -->
     <el-pagination background @current-change="handleCurrentChange" :current-page="mainData.page*1" :page-size="mainData.per_page*1"
       layout="  prev, pager, next,total, jumper" :total="mainData.total_count*1">
     </el-pagination>
@@ -20,6 +21,8 @@
   export default {
     data() {
       return {
+        urladdition:'',
+        // currentPage没啥用  先预留着吧
         currentPage: 1,
         mainData: {
           "per_page": 12,
@@ -53,17 +56,30 @@
     props: {
       //url为必传参数
       url: String,
+      // 这里是外部传入的不变的参数
       initParam: Object,
+      // 页码信息此处页码信息不用关心，除非后端调整了页码信息所在的层级
       pageData: Object,
-      addition: Object
+      // 附加的可变条件
+      addition: Object,
+      // 是否保持urladdition
+      keep:Boolean,
+      // 页码组件加载之后，是否立即请求数据。
+      firstData:Boolean
     },
     methods: {
       orgnizeUrl(val) {
+        // 这里是组织url将各种条件混合起来
+        // 首先将传递的条件序列化
+        var search1 = '',search2='';
         var search = this.objToSearch(this.addition);
-        var search1 = '';
+        // 这里传递的是固定不变的参数。理论上讲此处与urladdition无差别，但是可以将urladdition进行配置，来决定是否要它；
         if (this.initParam)(
           search1 = '&' + this.objToSearch(this.initParam)
         );
+        if(this.urladdition&&this.keep){
+          search2='&'+this.objToSearch(this.urladdition);
+        }
         var pageInfo = '';
         if (val) {
           pageInfo = 'page=' + val;
@@ -72,7 +88,7 @@
             pageInfo = '&' + pageInfo;
           }
         }
-        return this.url + '?' + search + search1 + pageInfo;
+        return this.url + '?' + search + search1 +search2+ pageInfo;
       },
       handleCurrentChange(val) {
         this.getData(val)
@@ -106,6 +122,7 @@
         this.mainData = initData;
       },
       getaddition() {
+        //这里主要是获取url中自带的初始参数，而且这个参数相当于initParam的一部分
         var str = window.location.search;
         if (!str) return true;
         var tstr = str.substr(1);
@@ -115,14 +132,30 @@
           obj[i.split('=')[0]] = i.split('=')[1]
         })
         if (JSON.stringify(obj) != '{}') {
-          this.addition = obj;
+          this.urladdition = obj;
         }
-      }
+      },
+       updata(){
+         var count=this.mainData.total_count;
+         var size=this.mainData.per_page;
+         var cpage=this.mainData.page;
+         console.log(count%size)
+         if(!(count%size)&&count){
+           debugger
+           this.getData(cpage+1);  
+           return
+        }
+        this.getData(this.mainData.page);
+        }
     },
     created() {
       this.getaddition();
       Bus.$on('additionEnter', res => {
         this.addition = res
+      })
+      if(this.firstData){this.getData(1)}
+      Bus.$on('updated',()=>{
+        this.updata()
       })
       //目前不觉的有用
       // if (this.pageData) {

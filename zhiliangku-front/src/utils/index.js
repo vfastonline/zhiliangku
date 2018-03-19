@@ -50,7 +50,7 @@ module.exports = (function () {
     if (typeof arr == 'string') {
       return str + arr;
     }
-    arr[key]=str+arr[key]
+    arr[key] = str + arr[key]
   }
   fn.initMainData = function (obj, arr, brr) {
     for (var i = 1; i < arr.length; i++) {
@@ -196,6 +196,16 @@ module.exports = (function () {
     var url = baseUrl + window.JSON.stringify(obj).replace(/[\"\{\}]/g, "").replace(/\:/g, "=").replace(/\,/g, "&");
     return url
   }
+
+  fn.showNotice = function (t, str, type) {
+    t.$notify({
+      type: type || 'info',
+      message: str,
+      offset: 100,
+      duration: 3000,
+      position: 'bottom-right'
+    })
+  }
   fn.funcUrl = function (name, value, type) {
     var loca = window.location;
     var baseUrl = type == undefined ? loca.origin + loca.pathname + "?" : "";
@@ -230,7 +240,5 @@ module.exports = (function () {
     };
     // return url;
   }
-
-
   return fn
 })();

@@ -3,7 +3,7 @@
     <myNavBar class="navbar" @haveClick="tagChange" :mainData="navbarData"></myNavBar>
     <questionList v-if="allData.length" :mainData="allData"></questionList>
     <noData v-else></noData>
-    <mypager @pagerGetData='manipulationData' :key="pagerkey" :url="url" :addition="params"  ></mypager>
+    <mypager @pagerGetData='manipulationData' :key="pagerkey" :url="url" :addition="params"></mypager>
   </div>
 </template>
 < !-- Add "scoped" attribute to limit CSS to this component only -->
@@ -18,6 +18,7 @@
 
   </style>
   <script>
+    import submitQuestion from '../videoDetail/submitQuestion.vue'
     import Bus from '../../assets/js/bus'
     import myNavBar from './04-navBar'
     import questionList from './05-questionList.vue'
@@ -60,10 +61,9 @@
       },
       props: {},
       methods: {
-        manipulationData(res){
-          this.$fn.addString(this.$myConst.httpUrl,res.data.data,'custom_user_avatar')
-          this.allData=res.data.data;
-          
+        manipulationData(res) {
+          this.$fn.addString(this.$myConst.httpUrl, res.data.data, 'custom_user_avatar')
+          this.allData = res.data.data;
         },
         tagChange(item) {
           this.changeParams(item.id);
@@ -107,8 +107,8 @@
       components: {
         myNavBar: myNavBar,
         questionList: questionList,
-        mypager:mypager,
-        noData:noData
+        mypager: mypager,
+        noData: noData
       }
     }
 

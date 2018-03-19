@@ -372,7 +372,7 @@
   }
 
   .project-header {
-    z-index: 10000;
+    // z-index: 100;
     width: 100%;
     height: 70px; // background: brown;
     position: relative; // background: #FFFFFF;
