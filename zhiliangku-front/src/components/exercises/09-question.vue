@@ -15,7 +15,7 @@
       </div>
     </div>
     <el-dialog  :visible.sync="dialogVisible">
-      <submitQuestion  id="question_container" :where="'community'" @submitover="dialogVisible=false"></submitQuestion>
+      <submitQuestion  id="question_container" :where="'community'" @submitover="over"></submitQuestion>
     </el-dialog>
   </div>
 </template>
@@ -33,6 +33,10 @@ import submitQuestion from '../videoDetail/submitQuestion.vue'
       mainData: Object
     },
     methods: {
+      over(){
+        this.dialogVisible=false;
+        window.location.href='/community/faq/list/'
+      },
       foucus(){
         var obj={};
         obj.faq_id=this.$fn.funcUrl('id');
