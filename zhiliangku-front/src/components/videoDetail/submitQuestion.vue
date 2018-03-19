@@ -24,7 +24,7 @@
         <div class="floatl submit-label">问题描述：</div>
         <div class="ml">
           <!-- 注意此处是富文本编辑器 -->
-          <quill-editor v-model="content" :options="options" ref="myQuillEditor">
+          <quill-editor  v-model="content" :options="options" ref="myQuillEditor">
           </quill-editor>
         </div>
       </div>
@@ -103,6 +103,8 @@
     name: 'HelloWorld',
     data() {
       return {
+        // 这个参数是为了防止用户点击过快，造成问题的多次提交。
+        disable:false,
         activeButtonIndex:-1,
         title: '',
         content: '',
@@ -139,31 +141,45 @@
               }, 'blockquote'
             ]
           }
-        }
+        },
       }
     },
+    props:{
+      where:String
+    },
     methods: {
+      jj(){
+        console.log(11111)
+      },
       submitQuestion() {
-        this.$post('/community/add/faq', {
-          video_id: this.$fn.funcUrl('video_id'),
+        if(this.disable){
+          // this.$fn.showNotice(this,'数据正在传输……请稍后哦')
+          return
+        }
+        this.disable=true;
+        var obj={
           custom_user_id: localStorage.uid,
           title: this.title,
           description: this.content,
           path: this.direction,
           reward: this.reward
-        }).then(res => {
+        };
+        if(this.$fn.funcUrl('video_id')){
+          obj.video_id=this.$fn.funcUrl('video_id')
+        }
+        this.$post('/community/add/faq',obj ).then(res => {
           if (!res.data.err) {
-            this.$notify({
-              type: 'success',
-              message: res.data.msg,
-              offset: 100,
-              duration: 3000,
-              position: 'bottom-right'
-            });
+            this.$fn.showNotice(this,res.data.msg,'success');
+            if(this.where=='community'){
+              this.$emit('submitover');
+              return
+            }
             this.$router.push({
               path: '/question'
             })
+            return
           }
+          this.disable=false;
         })
       },
       selectDirection(item,index) {

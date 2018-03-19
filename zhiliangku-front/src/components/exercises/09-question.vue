@@ -1,8 +1,8 @@
 <template>
   <div class="mainwidth incenter aq_container">
     <div class="aq-width incenter relative">
-      <el-button class="foucusButton">关注这个问题</el-button>
-      <el-button class="quizButton">我要提问</el-button>
+      <el-button @click="foucus"  class="foucusButton">关注这个问题</el-button>
+      <el-button @click="dialogVisible=true" class="quizButton">我要提问</el-button>
       <div class="question-title font20pr3a3c50">{{mainData.title}}</div>
       <div>
         <div class="info relative">
@@ -14,9 +14,55 @@
         <div v-html="mainData.description"></div>
       </div>
     </div>
+    <el-dialog  :visible.sync="dialogVisible">
+      <submitQuestion  id="question_container" :where="'community'" @submitover="dialogVisible=false"></submitQuestion>
+    </el-dialog>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<script>
+import submitQuestion from '../videoDetail/submitQuestion.vue'
+  export default {
+    name: 'HelloWorld',
+    data() {
+      return {
+        dialogVisible:false,
+      }
+    },
+    props: {
+      mainData: Object
+    },
+    methods: {
+      foucus(){
+        var obj={};
+        obj.faq_id=this.$fn.funcUrl('id');
+        obj.custom_user_id=localStorage.uid;
+        this.$post('/community/follow/faq',obj).then(res=>{
+          this.$fn.showNotice(this,'您已成功关注该问题','success')
+        })
+      }
+    },
+    created() {
+
+    },
+    components: {
+      submitQuestion:submitQuestion,
+    }
+  }
+
+</script>
+
+<style>
+#question_container{
+  height: inherit;
+  padding-top:0px;
+}
+.el-dialog__body{
+  padding-top:0px;
+  padding-bottom: 0px;
+}
+</style>
+
 <style scoped>
   .aq-width {
     width: 780px;
@@ -39,24 +85,3 @@
     border-radius: 50%;
   }
 </style>
-<script>
-  export default {
-    name: 'HelloWorld',
-    data() {
-      return {}
-    },
-    props: {
-      mainData: Object
-    },
-    methods: {
-
-    },
-    created() {
-
-    },
-    components: {
-
-    }
-  }
-
-</script>

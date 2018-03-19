@@ -1,8 +1,8 @@
 <template>
   <div class="aq-width incenter anwser_list_container relative">
-    <div class="answernum">{{mainData.faq_answer_list.length}}个回答</div>
+    <div class="answernum">{{dataLength()}}个回答</div>
     <div class="anwser_list" >
-    <anwser v-for="(item,index) in mainData.faq_answer_list" :key="index" :mainData="item"></anwser>
+    <anwser v-for="(item,index) in mainData.faq_answer_list" :key="index" :questionId="mainData.id" :mainData="item"></anwser>
     </div>
   </div>
 </template>
@@ -31,7 +31,10 @@
       mainData:Object
     },
     methods: {
-
+      dataLength(){
+        if(!this.mainData||!this.mainData.faq_answer_list){return}
+        return this.mainData.faq_answer_list.length;
+      }
     },
     created() {
 

@@ -25,7 +25,7 @@ import Bus from '../../assets/js/bus'
       handleCurrentChange(val) {
         //这里需要一个将对象转换为search字段的函数，而且不用属于公用函数
         this.mainData.page=val;
-        console.log(this.mainData)
+        console.log(this.mainData);
         this.$get(this.mainData.url+this.objToSearch(this.mainData.params)+'page='+val).then(res=>{
         Bus.$emit('pagerHaveData',res)
         })

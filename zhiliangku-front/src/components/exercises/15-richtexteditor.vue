@@ -40,12 +40,13 @@
   import 'quill/dist/quill.core.css'
   import 'quill/dist/quill.snow.css'
   import 'quill/dist/quill.bubble.css'
+  import Bus from '../../assets/js/bus'
   Vue.use(VueQuillEditor)
   export default {
     name: 'HelloWorld',
     data() {
       return {
-        content: '',
+        content: '&nbsp;',
         userIcon: "",
         options: {
           modules: {
@@ -67,7 +68,11 @@
     methods: {
       sendAnwser() {
         this.$post('/community/add/faqanswer',this.organizeData() ).then(res => {
-
+          if(!res.data.err){
+            Bus.$emit('replyover');
+            this.content='\0\0';
+            this.$fn.showNotice(this,'您已成功提交答案','success')
+          }
         })
       },
       organizeData() {
@@ -83,7 +88,7 @@
       this.userIcon = this.$myConst.httpUrl + localStorage.avatar;
     },
     components: {
-
+      
     }
   }
 

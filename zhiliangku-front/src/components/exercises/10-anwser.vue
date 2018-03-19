@@ -1,5 +1,8 @@
 <template>
-  <div class="anwser-container incenter">
+  <div class="anwser-container incenter relative">
+    <div v-if="mainData.optimal" class="bestAnwser fontcenter">
+      <span class="bestAnwserContent font16prffffff ">最佳答案</span>
+    </div>
     <div class="relative userinfo">
       <img class="question-user-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
       <span class="font14pl7c7e8c">{{mainData.custom_user_nickname}}</span>
@@ -9,57 +12,105 @@
     </div>
     <div class="toolbar">
       <div>
-        <i @click="support ()" v-show="!mainData.approve" class="iconfont  icon-zan  pointer weizan"></i>
-        <i @click="oppose ()" else class="iconfont  icon-zan1  pointer yizan"></i>
-        <span class="question-yes font16fbc02d">{{mainData.approve}}</span>
+        <div class="floatl">
+          <i @click="support ('approve')" v-if="state" class="iconfont  icon-zan  pointer beforeApprove"></i>
+          <i @click="notice" v-if="mainData.feedback=='approve'" class="iconfont  icon-zan1  pointer " :class="{'afterApprove':mainData.feedback=='approve'}"></i>
+          <span class="question-yes  " :class="{'font16fbc02d':mainData.feedback=='approve'}">{{mainData.approve}}</span>
+        </div>
+        <div class="floatl">
+          <i @click="support ('oppose')" v-if="state1" class="iconfont  icon-cai  pointer beforeOppose"></i>
+          <i @click="notice" v-if="mainData.feedback=='oppose'" class="iconfont  icon-buzan  pointer " :class="{'afterOppose':mainData.feedback=='oppose'}"></i>
+          <span class="question-yes" :class="{'font16fbc02d':mainData.feedback=='oppose'}">{{mainData.oppose}}</span>
+        </div>
       </div>
-      <div class="pointer">
-        <span>展开回复</span>
-        <i class="iconfont icon-zhankai"></i>
+      <div>
+        <span @click="adoptAnwser" v-if="showAdopt" class="adopt pointer">采纳该答案</span>
+        <span class="pointer" @click="showReply()">
+          <span>展开回复</span>
+          <i class="iconfont icon-zhankai"></i>
+        </span>
       </div>
+
     </div>
-    <reply v-for="(item,index) in mainData.answer_reply_list" :key="index" :mainData="item"></reply>
-    <replyMsg></replyMsg>
+    <reply v-show="showr" v-for="(item,index) in mainData.answer_reply_list" :key="index" :mainData="item"></reply>
+    <replyMsg :mainData="mainData"></replyMsg>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
+  import Bus from '../../assets/js/bus'
   import reply from './13-reply'
   import replyMsg from './14-reply-msg'
   export default {
     name: 'HelloWorld',
     data() {
-      return {}
+      return {
+        showr: true,
+      }
     },
     props: {
-      mainData: Object
+      mainData: Object,
+      questionId: Number
+    },
+    computed: {
+      state: function () {
+        if (this.mainData.feedback == '' || this.mainData.feedback == 'oppose') {
+          return true
+        } else return false;
+      },
+      state1: function () {
+        if (this.mainData.feedback == '' || this.mainData.feedback == 'approve') {
+          return true
+        } else return false;
+      },
     },
     methods: {
-      support(type) {
-        var obj;
-        switch (type) {
-          case 0:
-            obj = {
-              oppose: 0,
-              approve: 1
-            };
-            break;
-          case 1:
-            obj = {
-              oppose: 1,
-              approve: 0
-            };
-            break;
-          default:
-            break;
+      notice() {
+        this.$fn.showNotice(this, '禁止重复操作哟~')
+      },
+      adoptAnwser() {
+        var obj = {
+          faq_id: this.questionId,
+          custom_user_id: localStorage.uid,
+          faq_answer_id: this.mainData.id
+        };
+        this.$post('/community/accept/faqanswer', obj).then(res => {
+          if (!res.data.err) {
+            this.$fn.showNotice(this, res.data.msg, 'success');
+            Bus.$emit('replyover');
+          }
+        })
+      },
+      support(str) {
+        if (this.mainData.feedback) {
+          this.notice();
+          return
         }
+        var obj = {};
+        obj.faq_answer_id = this.mainData.id;
+        obj.appraisal = str;
         this.$post('/community/appraisal/faqanswer', obj).then(res => {
           console.log(res)
+          if (!res.data.err) {
+            this.mainData.feedback = str;
+            if (str == 'approve') {
+              this.mainData.approve++
+            }
+            if (str == 'oppose') {
+              this.mainData.oppose++
+            }
+          }
         })
+      },
+      showReply() {
+        this.showr = !this.showr;
       }
     },
     created() {
-
+      console.log(this.mainData.feedback)
+      if (this.mainData.custom_user_id == localStorage.uid) {
+        this.showAdopt = true;
+      }
     },
     components: {
       reply: reply,
@@ -70,6 +121,16 @@
 </script>
 
 <style scoped>
+  .bestAnwser {
+    width: 88px;
+    height: 128px;
+    line-height: 128px;
+    background: #66bb6a;
+    position: absolute;
+    left: -95px;
+    top: 0px;
+  }
+
   .user_status {
     background: #FCF8E3;
     border-radius: 3px;
@@ -88,14 +149,25 @@
   .toolbar {
     display: flex;
     justify-content: space-between;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.09);
   }
 
-  .weizan {
+  .disabled {
+    cursor: disabled;
+  }
+
+  .adopt {
+    margin-right: 24px;
+  }
+
+  .beforeApprove,
+  .beforeOppose {
     font-size: 22px;
     color: #666;
   }
 
-  .yizan {
+  .afterApprove,
+  .afterOppose {
     font-size: 24px;
     color: #fbc02d;
   }
@@ -115,6 +187,8 @@
 
   .question-yes {
     margin-right: 54px;
+    font-size: 16px;
+    font-family: "MicroSoft YaHei", "PingFangSC-Light";
   }
 
   .msg-container {

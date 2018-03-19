@@ -20,7 +20,7 @@ export default {
   },
   methods:{
     godetail(item){
-      window.location.href='/community/faq/detail/index.html?id='+item.id
+      window.location.href='/community/faq/detail/?id='+item.id
     }
   },
   created(){
