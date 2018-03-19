@@ -91,7 +91,7 @@ PolyvUpload.prototype.addHander = function (ele, type, handler) {
 PolyvUpload.prototype._init = function () {
     var self = this;
     var uploadButton = this.uploadButton;
-    var url = self.url = "http://v.polyv.net/file/plug-in2/index.html";
+    var url = self.url = "https://v.polyv.net/file/plug-in2/index.html";
     self.param = {
         "sign": self.sign,
         "userid": self.userid,
