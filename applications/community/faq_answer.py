@@ -20,12 +20,14 @@ class AppraisalFaqAnswer(View):
         result_dict = {"err": 0, "msg": "success", "data": {}}
         try:
             param_dict = json.loads(request.body)
+            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 反馈用户
             faq_answer_id = str_to_int(param_dict.get('faq_answer_id', 0))  # 必填，问题回复ID
             appraisal = param_dict.get('appraisal')  # 必填，赞同：approve， 反对：oppose
 
-            if faq_answer_id and appraisal:
+            if faq_answer_id and appraisal and custom_user_id:
+                customusers = CustomUser.objects.filter(id=custom_user_id)
                 faqanswers = FaqAnswer.objects.filter(id=faq_answer_id)
-                if faqanswers.exists():
+                if faqanswers.exists() and customusers.exists():
                     faqanswer = faqanswers.first()
                     if appraisal == "approve":
                         faqanswer.approve = F('approve') + 1  # 支持
@@ -33,12 +35,12 @@ class AppraisalFaqAnswer(View):
                         faqanswer.oppose = F('oppose') + 1  # 反对
                     faqanswer.save()
                     faqanswer.refresh_from_db()
-                    FaqAnswerFeedback.objects.create(faqanswer=faqanswer, user=faqanswer.user, feedback=appraisal)
+                    FaqAnswerFeedback.objects.create(faqanswer=faqanswer, user=customusers.first(), feedback=appraisal)
                     result_dict["data"]["approve"] = faqanswer.approve
                     result_dict["data"]["oppose"] = faqanswer.oppose
             else:
                 result_dict["err"] = 1
-                result_dict["msg"] = "缺少问题回复ID或评价类型"
+                result_dict["msg"] = "缺少问题回复ID或评价类型或反馈用户信息"
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
