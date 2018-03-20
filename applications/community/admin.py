@@ -45,17 +45,21 @@ class FaqAnswerReplyAdmin(admin.ModelAdmin):
 
 @admin.register(FaqAnswerFeedback)
 class FaqAnswerReplyAdmin(admin.ModelAdmin):
-    list_display = ('id', "faqanswer", 'user', "feedback")
+    list_display = ('id', "faqanswer", 'user', "feedbacks")
     search_fields = ('user__nickname',)
 
-    def feedback(self, obj):
+    def feedbacks(self, obj):
         name = ""
         try:
-            if obj == "approve":
+
+            if obj.feedback == "approve":
                 name = "支持"
-            if obj == "approve":
-                name = "反对"
+            if obj.feedback == "oppose":
+                name = "-反对-"
         except:
             traceback.print_exc()
         finally:
             return name
+
+    feedbacks.allow_tags = True
+    feedbacks.short_description = "反馈"
