@@ -94,6 +94,7 @@
         var obj = {};
         obj.faq_answer_id = this.mainData.id;
         obj.appraisal = str;
+        obj.custom_user_id=localStorage.uid;
         this.$post('/community/appraisal/faqanswer', obj).then(res => {
           console.log(res)
           if (!res.data.err) {

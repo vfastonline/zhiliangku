@@ -13,7 +13,7 @@
           <ul>
             <li v-for="(item,index) in liveData" @click="changeImg(item,index)" :key="item.id" class="lvsc-info textellipsis">
               <span v-if="item.status=='end'" class="lvsc-tag font16pmCCCCCC">{{item['start_time']}}</span>
-              <span v-if="item.status=='live'" class="lvsc-tag lvsc-live">即将直播</span>
+              <span v-if="item.status=='live'" class="lvsc-tag lvsc-live">直播中</span>
               <span class="lvsc-content font16pr07111B pointer">{{item.name}}</span>
             </li>
           </ul>
