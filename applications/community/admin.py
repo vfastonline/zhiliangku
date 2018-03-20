@@ -37,3 +37,10 @@ class FaqAnswerAdmin(admin.ModelAdmin):
 class FaqAnswerReplyAdmin(admin.ModelAdmin):
     list_display = ('id', "faqanswer", 'reply', "user", "create_time")
     search_fields = ('user__nickname',)
+
+
+@admin.register(FaqAnswerFeedback)
+class FaqAnswerReplyAdmin(admin.ModelAdmin):
+    list_display = ('id', "faqanswer", 'user', "feedback")
+    search_fields = ('user__nickname',)
+

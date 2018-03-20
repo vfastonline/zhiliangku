@@ -143,6 +143,7 @@ class FaqDetaiInfo(View):
                     faq_dict["custom_user_avatar"] = faq.user.avatar.url
                     faq_dict["browse_amount"] = faq.browse_amount
                     faq_dict["create_time"] = faq.create_time.strftime("%Y-%m-%d")
+                    faq_dict["is_follow_user"] = 1 if faqs.filter(follow_user=custom_user_id).exists() else 0
 
                     # 获取问题回答
                     faq_answer_list = list()

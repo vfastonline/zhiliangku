@@ -64,7 +64,7 @@ SUIT_CONFIG = {
 
         # 社区问答
         {'app': 'community', 'icon': 'icon-comment',
-         'models': ('Faq', 'FaqAnswer', "FaqAnswerReply")},
+         'models': ('Faq', 'FaqAnswer', "FaqAnswerReply", "FaqAnswerFeedback")},
 
         # 积分商城
         {'label': '积分商城', 'app': 'integral', 'icon': 'icon-shopping-cart',
