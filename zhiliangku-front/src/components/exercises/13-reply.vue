@@ -20,7 +20,7 @@
     margin-bottom: 10px;
     box-sizing: border-box;
     /* padding-left: 39px; */
-    background: #ccc;
+    background: #eee;
     margin-left: 53px;
     padding: 8px;
 }

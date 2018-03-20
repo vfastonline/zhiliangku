@@ -55,7 +55,8 @@
             arr.unshift(arr.splice(index, 1)[0])
           }
         })
-        }        
+        }
+
         this.mainData = res.data.data;
       },
     },

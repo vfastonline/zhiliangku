@@ -112,9 +112,9 @@
       }
     },
     created() {
-      console.log(this.mainData.feedback)
+      console.log(this.mainData)
       if (this.mainData.custom_user_id == localStorage.uid) {
-        if(this.mainData.optimal=true){
+        if(this.mainData.optimal==true){
           this.showAreadyAdopt=true
         }
         else{
