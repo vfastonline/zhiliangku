@@ -5,7 +5,7 @@
     </div>
     <anwserlist :mainData="mainData"></anwserlist>
     <richtext class="richtext incenter"></richtext>
-    <mypager ref="pager" @updata="jj()" @pagerGetData='manipulationData' :key="pagerkey" :url="url" :addition="params" :firstData="true"></mypager>
+    <mypager v-show="showpager" ref="pager" @updata="jj()" @pagerGetData='manipulationData' :key="pagerkey" :url="url" :addition="params" :firstData="true"></mypager>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -46,6 +46,9 @@
       },
       manipulationData(res) {
         var arr = res.data.data.faq_answer_list;
+        if(res.data.paginator.total_count>12){
+          this.showpager=true
+        }
         if(arr){
           arr.forEach((el, index) => {
           if (el.optimal) {

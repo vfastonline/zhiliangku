@@ -9,7 +9,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .anwser_list_container {
-     
   }
   .answernum{
     position: absolute;
@@ -32,16 +31,14 @@
     },
     methods: {
       dataLength(){
-        if(!this.mainData||!this.mainData.faq_answer_list){return}
+        if(!this.mainData||!this.mainData.faq_answer_list){return 0}
         return this.mainData.faq_answer_list.length;
       }
     },
     created() {
-
     },
     components: {
       anwser: anwser
     }
   }
-
 </script>

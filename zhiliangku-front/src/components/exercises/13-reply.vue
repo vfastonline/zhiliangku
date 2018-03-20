@@ -13,18 +13,26 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.user_info{
+  padding-top: 5px;
+}
 .msg-container{
-    margin-bottom:10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    /* padding-left: 39px; */
+    background: #ccc;
+    margin-left: 53px;
+    padding: 8px;
 }
 .reply_container{
     padding: 8px 0 10px 0;
     border-bottom:1px solid rgba(0,0,0,0.09);
 }
 .question-user-icon {
-    width: 48px;
-    height: 48px;
-    margin-right: 32px;
+    width: 32px;
+    height: 32px;
+    margin-left: 16px;
+    margin-right: 16px;
     border-radius: 50%;
   }
 .user_info{

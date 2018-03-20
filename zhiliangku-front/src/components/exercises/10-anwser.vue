@@ -8,7 +8,7 @@
       <span class="font14pl7c7e8c">{{mainData.custom_user_nickname}}</span>
       <span class="font14pl7c7e8c scan">{{mainData.create_time}}</span>
     </div>
-    <div v-html="mainData.answer">
+    <div class="answerContent" v-html="mainData.answer">
     </div>
     <div class="toolbar">
       <div>
@@ -25,15 +25,17 @@
       </div>
       <div>
         <span @click="adoptAnwser" v-if="showAdopt" class="adopt pointer">采纳该答案</span>
+        <span  v-if="showAreadyAdopt" class="adopt">您已采纳该答案</span>
+        <span @click="showTextarea=!showTextarea"  class="pointer reply">回复</span>
         <span class="pointer" @click="showReply()">
           <span>展开回复</span>
-          <i class="iconfont icon-zhankai"></i>
+          <i class="iconfont icon-zhankai" :class="{'spread':showr}"></i>
         </span>
       </div>
 
     </div>
     <reply v-show="showr" v-for="(item,index) in mainData.answer_reply_list" :key="index" :mainData="item"></reply>
-    <replyMsg :mainData="mainData"></replyMsg>
+    <replyMsg v-show="showTextarea"  :mainData="mainData"></replyMsg>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -45,7 +47,9 @@
     name: 'HelloWorld',
     data() {
       return {
-        showr: true,
+        showr: false,
+        showTextarea:false,
+        showAreadyAdopt:false,
       }
     },
     props: {
@@ -76,6 +80,7 @@
         };
         this.$post('/community/accept/faqanswer', obj).then(res => {
           if (!res.data.err) {
+            this.showAreadyAdopt=true;
             this.$fn.showNotice(this, res.data.msg, 'success');
             Bus.$emit('replyover');
           }
@@ -109,7 +114,12 @@
     created() {
       console.log(this.mainData.feedback)
       if (this.mainData.custom_user_id == localStorage.uid) {
-        this.showAdopt = true;
+        if(this.mainData.optimal=true){
+          this.showAreadyAdopt=true
+        }
+        else{
+          this.showAdopt = true;
+        }
       }
     },
     components: {
@@ -130,19 +140,27 @@
     left: -95px;
     top: 0px;
   }
-
+  .answerContent{
+    padding:8px;
+  }
   .user_status {
     background: #FCF8E3;
     border-radius: 3px;
     padding: 2px;
     margin-left: 5px;
   }
-
+  .spread{
+    transform: rotate(-180deg);
+  }
+  .reply{
+    margin-right: 24px;
+  }
   .userinfo {
     margin-bottom: 10px;
   }
 
   .icon-zhankai {
+    display: inline-block;
     transition: all ease 0.5s;
   }
 
@@ -150,6 +168,8 @@
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+    padding: 8px;
+    padding-top: 0px;
   }
 
   .disabled {
