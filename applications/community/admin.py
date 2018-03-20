@@ -1,4 +1,8 @@
+#!encoding:utf-8
+import traceback
+
 from django.contrib import admin
+
 from applications.community.models import *
 
 
@@ -44,3 +48,14 @@ class FaqAnswerReplyAdmin(admin.ModelAdmin):
     list_display = ('id', "faqanswer", 'user', "feedback")
     search_fields = ('user__nickname',)
 
+    def feedback(self, obj):
+        name = ""
+        try:
+            if obj == "approve":
+                name = "支持"
+            if obj == "approve":
+                name = "反对"
+        except:
+            traceback.print_exc()
+        finally:
+            return name
