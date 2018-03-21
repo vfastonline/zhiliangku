@@ -49,17 +49,17 @@ class FaqAnswerReplyAdmin(admin.ModelAdmin):
     search_fields = ('user__nickname',)
 
     def feedbacks(self, obj):
-        name = ""
+        name = None
         try:
 
             if obj.feedback == "approve":
-                name = "支持"
+                name = True
             if obj.feedback == "oppose":
-                name = "-反对-"
+                name = False
         except:
             traceback.print_exc()
         finally:
             return name
 
-    feedbacks.allow_tags = True
-    feedbacks.short_description = "反馈"
+    feedbacks.boolean = True
+    feedbacks.short_description = "支持/反馈"
