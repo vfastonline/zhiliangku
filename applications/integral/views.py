@@ -42,7 +42,7 @@ class GetAllGoods(View):
                 one_dict["gtype"] = one.gtype
                 one_dict["gtype_name"] = one.get_gtype_display()
                 one_dict["style"] = one.style
-                one_dict["image"] = one.image.url if one.image else ""
+                one_dict["image"] = one.images.url if one.images else ""
                 one_dict["integral"] = one.integral
                 one_dict["stock"] = one.stock
                 one_dict["residue_stock"] = one.residue_stock
