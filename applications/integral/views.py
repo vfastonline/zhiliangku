@@ -42,7 +42,7 @@ class GetAllGoods(View):
                 one_dict["gtype"] = one.gtype
                 one_dict["gtype_name"] = one.get_gtype_display()
                 one_dict["style"] = one.style
-                one_dict["image"] = one.images.url if one.images else ""
+                one_dict["images"] = one.images.url if one.images else ""
                 one_dict["integral"] = one.integral
                 one_dict["stock"] = one.stock
                 one_dict["residue_stock"] = one.residue_stock
@@ -75,7 +75,7 @@ class GoodsDetail(View):
                 goods_dict["gtype"] = one.gtype
                 goods_dict["gtype_name"] = one.get_gtype_display()
                 goods_dict["style"] = one.style
-                goods_dict["image"] = one.image.url
+                goods_dict["images"] = one.images.url if one.images else ""
                 goods_dict["integral"] = one.integral
                 goods_dict["stock"] = one.stock
                 goods_dict["residue_stock"] = one.residue_stock
