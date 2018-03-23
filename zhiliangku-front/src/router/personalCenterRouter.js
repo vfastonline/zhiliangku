@@ -17,6 +17,8 @@ import focusonme from '../components/personalCenter/focusOnMe.vue'
 import recentlylearning from '../components/personalCenter/recentlyLearing.vue'
 import mycollection from '../components/personalCenter/myCollectionCourse.vue'
 import mypath from '../components/personalCenter/myPath.vue'
+import myVIP from '../components/personalCenter/43-vip.vue'
+import recommondCourse from  '../components/personalCenter/44-recommendCourse.vue'
 export default new Router({
   routes: [{
       path: '/',
@@ -39,7 +41,8 @@ export default new Router({
         {path:'',redirect:'recentlyLearing'},
         {path:'recentlyLearing',component:recentlylearning},
         {path:'myCollection',component:mycollection},
-        {path:'myPath',component:mypath}
+        {path:'myPath',component:mypath},
+        {path:'recommondCourse',component:recommondCourse}
       ]
     },
     {
@@ -56,6 +59,10 @@ export default new Router({
         {path:'password',component:password},
         {path:'address',component:address}
       ]
+    },
+    {
+      path:'/myVIP',
+      component:myVIP,
     },
   ]
 })

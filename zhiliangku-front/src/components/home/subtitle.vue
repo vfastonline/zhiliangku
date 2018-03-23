@@ -10,7 +10,7 @@
       </div>
       <div class="zhtitle2  ">
         <div :style="msg.myStyle" class="zhtitle2  font14pr2C343B fontcenter ">{{msg.slogon}}</div>
-        <div class="subtitle-link">
+        <div v-if="msg.linker" class="subtitle-link">
           <a :style="msg.myStyle" class=" font14pl5A646E" :href="msg.linker">更多>></a>
         </div>
       </div>

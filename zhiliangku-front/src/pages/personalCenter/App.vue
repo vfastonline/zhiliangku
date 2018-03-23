@@ -2,7 +2,7 @@
   <div id="app">
     <projectHeader></projectHeader>
     <personalInfo></personalInfo>
-    <mainRouter></mainRouter>
+    <mainRouter :routerInfo="routerData"></mainRouter>
     <projectFooter></projectFooter>
   </div>
 </template>
@@ -19,14 +19,36 @@
 </style>
 <script>
   import Bus from '../../assets/js/bus'
-
   import projectHeader from '../../components/home/projectHeader.vue'
   import projectFooter from '../../components/home/projectFooter.vue'
   import mainRouter from '../../components/personalCenter/mainRouter.vue'
   import personalInfo from '../../components/personalCenter/personalInfo.vue'
   export default {
     data() {
-      return {}
+      return {
+        routerData: [{
+            to: {path:'/occupational'},
+            name: '职业信息'
+          },
+          {
+            to: {path:'/myCourse'},
+            name: '我的课程'
+          },
+          {
+            to: {path:'/myResume'},
+            name: '我的简历'
+          },
+          {
+            to: {path:'/mySettings'},
+            name: '个人设置'
+          },
+          {
+            to: {path:'/myVIP'},
+            name: '我的VIP'
+          }
+
+        ]
+      }
     },
     methods: {
       jj() {

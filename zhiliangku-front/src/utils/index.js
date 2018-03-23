@@ -1,23 +1,29 @@
 module.exports = (function () {
   var fn = {};
   //切换显隐开关的函数，支持传入数组、index，对象、key，show。该函数还有优化空间。
-  fn.changeShow = function (arr) {
-    console.log(arr)
-    var show = arr[1],
-      index = arr[2];
-    console.log(this)
-    if (typeof index != 'undefined') {
-      if (this.show instanceof Array) {
-        this.show.splice(index, 1, !this.show[index])
-        return show
-      }
-      if (show instanceof Object) {
-        this.show.index = !this.show.index;
-        return show
-      }
-    }
-    this.show = !this.show;
-    return show
+  // fn.changeShow = function (arr) {
+  //   console.log(arr)
+  //   var show = arr[1],
+  //     index = arr[2];
+  //   console.log(this)
+  //   if (typeof index != 'undefined') {
+  //     if (this.show instanceof Array) {
+  //       this.show.splice(index, 1, !this.show[index])
+  //       return show
+  //     }
+  //     if (show instanceof Object) {
+  //       this.show.index = !this.show.index;
+  //       return show
+  //     }
+  //   }
+  //   this.show = !this.show;
+  //   return show
+  // }
+  fn.go = function (str) {
+    window.location.href = 'http://' + window.location.host + str;
+  }
+  fn.changeShow = function (obj, key) {
+    obj[key] = !obj[key]
   }
   fn.addObjString = function (str, obj, key) {
     obj[key] = str + obj[key]
@@ -26,7 +32,6 @@ module.exports = (function () {
   // 该方法支持全是没有修饰的arr，以及arr盛着的对象的多个未修饰的key
   fn.addString = function (str, arr, key) {
     if (arr instanceof Array) {
-      
       for (var i = 0; i < arr.length; i++) {
         if (!key) {
           arr.splice(i, 1, str + arr[i])
@@ -45,6 +50,7 @@ module.exports = (function () {
     if (typeof arr == 'string') {
       return str + arr;
     }
+    arr[key] = str + arr[key]
   }
   fn.initMainData = function (obj, arr, brr) {
     for (var i = 1; i < arr.length; i++) {
@@ -112,10 +118,10 @@ module.exports = (function () {
       }
     },
     fn.getCookie = function (key) {
-      var arr = document.cookie.split('&');
+      var arr = document.cookie.split(';');
       for (var i = 0; i < arr.length; i++) {
         var brr = arr[i].split('=');
-        if (brr[0] == key) {
+        if (brr[0] == key || brr[0] == ' ' + key) {
           console.log(key)
           return brr[1]
         }
@@ -155,6 +161,51 @@ module.exports = (function () {
     }
     return ret;
   }
+  fn.funcUrlDel = function (name) {
+    var loca = window.location;
+    var baseUrl = loca.origin + loca.pathname + "?";
+    var query = loca.search.substr(1);
+    if (query.indexOf(name) > -1) {
+      var obj = {}
+      var arr = query.split("&");
+      for (var i = 0; i < arr.length; i++) {
+        arr[i] = arr[i].split("=");
+        obj[arr[i][0]] = arr[i][1];
+      };
+      delete obj[name];
+      var url = baseUrl + window.JSON.stringify(obj).replace(/[\"\{\}]/g, "").replace(/\:/g, "=").replace(/\,/g, "&");
+      return url
+    };
+  }
+
+  fn.funcUrlDelArr = function (nameArr) {
+    var loca = window.location;
+    var baseUrl = loca.origin + loca.pathname + "?";
+    var query = loca.search.substr(1);
+    var obj = {};
+    var arr = query.split("&");
+    for (var i = 0; i < arr.length; i++) {
+      arr[i] = arr[i].split("=");
+      obj[arr[i][0]] = arr[i][1];
+    };
+    for (var j = 0; j < nameArr.length; j++) {
+      if (query.indexOf(nameArr[j]) > -1) {
+        delete obj[nameArr[j]];
+      }
+    };
+    var url = baseUrl + window.JSON.stringify(obj).replace(/[\"\{\}]/g, "").replace(/\:/g, "=").replace(/\,/g, "&");
+    return url
+  }
+
+  fn.showNotice = function (t, str, type) {
+    t.$notify({
+      type: type || 'info',
+      message: str,
+      offset: 100,
+      duration: 3000,
+      position: 'bottom-right'
+    })
+  }
   fn.funcUrl = function (name, value, type) {
     var loca = window.location;
     var baseUrl = type == undefined ? loca.origin + loca.pathname + "?" : "";
@@ -174,7 +225,7 @@ module.exports = (function () {
       // url = baseUrl + name + "=" + value;
       //现在改为，如果没有search值则加入
       url = name + "=" + value;
-      window.location.search='?'+url;
+      window.location.search = '?' + url;
     } else {
       // 如果没有 search 值,则在其中修改对应的值,并且去重,最后返回 url
       var obj = {};
@@ -185,11 +236,9 @@ module.exports = (function () {
       };
       obj[name] = value;
       // url = baseUrl + window.JSON.stringify(obj).replace(/[\"\{\}]/g, "").replace(/\:/g, "=").replace(/\,/g, "&");
-      window.location.search='?'+window.JSON.stringify(obj).replace(/[\"\{\}]/g, "").replace(/\:/g, "=").replace(/\,/g, "&");
+      window.location.search = '?' + window.JSON.stringify(obj).replace(/[\"\{\}]/g, "").replace(/\:/g, "=").replace(/\,/g, "&");
     };
     // return url;
   }
-
-
   return fn
 })();

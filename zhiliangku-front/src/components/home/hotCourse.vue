@@ -1,7 +1,7 @@
 <template>
   <div @click="go()" class="hotCourse floatl pointer" :style="outerStyle">
     <div  class="hc-imgContainer" :style="imgStyle">
-      <img class="hcic-img" :src="mainData.course_img" alt="" :style="imgStyle">
+      <img class="hcic-img" v-lazy="mainData.course_img" alt="" :style="imgStyle">
       <div class="hcic-tag textellipsis">
         <el-button v-for="(item,index) in mainData.tech" v-if="index<2" :key="item" :style="buttonStyle">{{item}}</el-button>
       </div>
@@ -9,13 +9,16 @@
     <ul class="hc-info" :style="barStyle">
       <li class="hci-li font14pl2C343B textellipsis">{{mainData.name}}</li>
       <li class="hci-li textellipsis">
-        <img :src="mainData.avatar" alt="">
+        <img v-lazy="mainData.avatar" alt="">
         <span class="font14prb2bbbf hcil-teachername">{{mainData.lecturer}}</span>
       </li>
     </ul>
   </div>
 </template>
 <script>
+import VueLazyLoad from 'vue-lazyload'
+Vue.use(VueLazyLoad,{
+})
   export default {
     data() {
       return {
@@ -37,9 +40,10 @@
     methods:{
       go(){
         var url='/tracks/course/detail/?course_id='+this.mainData.id;
-        if(localStorage.uid){
-          url='/tracks/course/detail/?course_id='+this.mainData.id+"&custom_user_id="+localStorage.uid;
-        }
+        //这边加上用户id的意思是？
+        // if(localStorage.uid){
+        //   url='/tracks/course/detail/?course_id='+this.mainData.id+"&custom_user_id="+localStorage.uid;
+        // }
         window.location.href=url;
       }
     },
@@ -71,12 +75,13 @@
 <style lang="scss">
   .hotCourse {
     transition: box-shadow 0.3s ease;
-    margin-bottom: 6px;
+    margin-bottom: 32px;
     z-index: 1;
   }
 
   .hotCourse:hover {
     box-shadow: 0 0 10px 5px rgba(99, 117, 138, 0.10);
+    background: white;
     z-index: 2;
   }
 
@@ -89,7 +94,7 @@
   }
 
   .hcic-tag {
-    // width: 276px;
+    width: 100%;
     box-sizing: border-box;
     height: 24px;
     padding-left: 8px;

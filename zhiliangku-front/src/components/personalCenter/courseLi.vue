@@ -1,21 +1,22 @@
 <template>
-    <div class="match-rate-part-inner rise" :style="outerStyle">
+    <div class="match-rate-part-inner " :style="outerStyle">
       <img class="mrpc-company-logo floatl" 
-       src="../../assets/img/user-icon.jpg" alt=""
+       :src="mainData.logo" alt=""
        :style="imgStyle"
        >
       <div class="mrpc-company-info" :style="boxStyle">
-        <div class="font20pl3a3c50">凯奇谷</div>
+        <div class="font20pl3a3c50">{{mainData.company}}</div>
         <div class="clearfix mrpc-company-line2">
-          <span v-if="mainData.job" class="mrpc-job-name inlineblock font14pl5A646E">游戏开发工程师（Python）初级</span>
-          <span v-if="mainData.course">4门课程</span>
-          <span  class="mrpc-match-rate inlineblock  font14pl5A646E">匹配度：
-            <span class="font20pl3a3c50">70%</span>
+          <span v-if="mainData.position" class="mrpc-job-name inlineblock font14pl5A646E">{{mainData.position}}</span>
+          <span v-if="mainData.course_count">{{mainData.course_count}}门课程</span>
+          <span  class="mrpc-match-rate inlineblock  font14pl5A646E">
+            <span>{{config.tag}}</span>
+            <span class="font20pl3a3c50">{{Math.round((mainData.schedule?mainData.schedule:0)*100,0)}}%</span>
           </span>
-          <el-button class="floatr" @click="handleClick()">查看详情</el-button>
+          <el-button class="floatr button_style_0" @click="handleClick()">{{config.buttonStr}}</el-button>
         </div>
         <div class="mrpc-progress">
-          <el-progress :percentage="70" :width="340" :stroke-width="16" :show-text="false"></el-progress>
+          <el-progress :percentage="(mainData.schedule?mainData.schedule:0)*100" :width="340" :stroke-width="16" :show-text="false"></el-progress>
         </div>
       </div>
     </div>
@@ -38,7 +39,9 @@
       }
     },
     props:{
-      mainData:Object
+      mainData:Object,
+      styleData:Object,
+      config:Object
     },
     created(){
       this.$fn.initStyle(this,'mainData',['imgStyle','outerStyle','boxStyle'])

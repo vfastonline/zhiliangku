@@ -30,7 +30,7 @@
       }
     },
     props: {
-      mianData: Object
+      mainData: Object
     },
     methods: {
       word(key) {
@@ -48,13 +48,21 @@
           resume_type: 'resume',
           pk_id:this.mainData.id,
           resume_info_dict: {
-            advantage: value0
+            advantage: this.changebr(this.value0) 
           },
           custom_user_id: localStorage.uid
         }).then(res => {
+          if(!res.data.err){
+            Bus.$emit('refreshResume',res.data.data)
+          }
+          this.close();
           console.log(res)
         })
       }
+    },
+    created(){
+       this.initForm(this, this.mainData, ['advantage' ], ['value0'])
+       this.value0=this.changen(this.value0)
     },
     components: {
       rcb: rcb

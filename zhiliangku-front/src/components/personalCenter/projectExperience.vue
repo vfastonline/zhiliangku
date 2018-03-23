@@ -1,8 +1,9 @@
 <template>
   <div class="experience-container">
-      <div class="editor pointer"><img src="../../assets/img/icons/个人中心和积分商城图标/简历_铅笔.svg" alt=""><span>编辑</span></div>
+      <div @click="handleClick" class="editor pointer"><img src="../../assets/img/icons/个人中心和积分商城图标/简历_铅笔.svg" alt=""><span>编辑</span></div>
       <div class="marginbottom16"><span>{{mainData.role}}</span></div>
-      <p v-if="mainData.description">{{mainData.description}}</p>
+      <p v-if="mainData.description" v-html="'项目描述：'+ mainData.description"></p>
+      <p v-if="mainData.description" v-html="'项目业绩：'+mainData.performance"></p>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -28,6 +29,11 @@ export default {
   },
   props:{
     mainData:Object
+  },
+  methods:{
+    handleClick(){
+      this.$emit('editor')
+    }
   },
   created(){
     console.log(this.mainData)

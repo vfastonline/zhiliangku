@@ -8,7 +8,7 @@
       </div>
       <div class="item  the-input">
         <span class="tags">生日：</span>
-        <el-date-picker v-model="value1" type="month" placeholder="选择月">
+        <el-date-picker v-model="value1" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"  placeholder="选择日期">
         </el-date-picker>
       </div>
       <div class="item  the-input">
@@ -38,7 +38,8 @@
       <div class="item  the-input">
         <span class="tags">首要意向：</span>
         <el-select v-model="value6">
-          <el-option v-for="(item,index) in intentoption" :key="index" :value="item" :label="item"></el-option>
+          <el-option v-for="(item,index) in intentoption" v-if="item.expect_salary" 
+          :key="index" :value="item.id" :label="item.expect_salary"></el-option>
         </el-select>
       </div>
     </div>
@@ -47,9 +48,11 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+
 </style>
 <script>
-import Bus from '../../assets/js/bus'
+  import Bus from '../../assets/js/bus'
   import rcb from './resumeContentButton'
   export default {
     name: 'HelloWorld',
@@ -66,26 +69,28 @@ import Bus from '../../assets/js/bus'
         experienceoption: ['实习生', '1年', '2年', '3年', '4年', '5年', '6年', '7年', '8年', '9年', '10年', '10年以上'],
         degreeoption: ['中专及以下', '高中', '专科', '本科', '研究生', '博士'],
         stateoption: ['离职-随时到岗', '在职-暂不考虑', '在职-考虑机会', '在职-月内到岗'],
-        intentoption: [''],
-        url:'/personal_center/resume/update'
+        intentoption: [],
+        url: '/personal_center/resume/update'
       }
     },
-    props:{
-      mainData:Object
+    props: {
+      mainData: Object,
+      applyData: Array
     },
     methods: {
       close() {
         this.$emit('close')
       },
       submitIfon() {
-        if(JSON.stringify(this.mainData)=="{}"){
-          this.url='/personal_center/resume/add';
+        if (JSON.stringify(this.mainData) == "{}") {
+          this.url = '/personal_center/resume/add';
         }
-        this.$post(this.url,{
+        this.$post(this.url, {
           resume_type: 'resume',
-          pk_id:this.mainData.id,
+          pk_id: this.mainData.id,
           resume_info_dict: {
             name: this.value0,
+            birthday: this.value1,
             sex: this.value2,
             years_of_service: this.value3,
             education: this.value4,
@@ -93,14 +98,22 @@ import Bus from '../../assets/js/bus'
             career_objective_id: this.value6,
           },
           custom_user_id: localStorage.uid
-        }).then(res=>{
-          if(!res.data.err){
-            Bus.$emit('refreshResume')
+        }).then(res => {
+          if (!res.data.err) {
+            Bus.$emit('refreshResume', res.data.data)
           }
           this.close()
           console.log(res)
         })
       }
+    },
+    created() {
+      console.log(this.applyData)
+      this.intentoption = this.applyData;
+      this.initForm(this, this.mainData, ['name', 'birthday', 'sex', 'years_of_service',
+      'education','status','career_objective_id'], [
+        'value0','value1','value2', 'value3', 'value4', 'value5','value6'
+      ])
     },
     components: {
       rcb: rcb

@@ -3,156 +3,97 @@
     <div class="setting-item relative">
       <div class="tag font14pl3a3c50">邮箱：</div>
       <div class="set-content">
-        <div class="sc-info-li">wangxinmu@qq.com
-          <span class="font14pr424242"> </span>
+        <div class="sc-info-li">
+          <span class="font14pr424242">{{mainData.email}} </span>
         </div>
-        <span @click="changeShow('email','修改邮箱')" class="bind-button font14pr424242 pointer">{{str1}}</span>
+        <span @click="dialogsFormOpen('email','修改邮箱')"
+         class="bind-button font14pr424242 pointer">{{mainData.emil?'更改':'绑定'}}</span>
       </div>
     </div>
     <div class="setting-item relative">
       <div class="tag font14pl3a3c50">手机号：</div>
       <div class="set-content">
-        <div class="sc-info-li">wangxinmu@qq.com
-          <span class="font14pr424242"> </span>
+        <div class="sc-info-li">
+          <span class="font14pr424242">{{mainData.phone}} </span>
         </div>
-        <span @click="changeShow('phone','修改手机号')" class="bind-button font14pr424242 pointer">{{str1}}</span>
+        <span @click="dialogsFormOpen('phone','修改手机号')"
+         class="bind-button font14pr424242 pointer">{{mainData.phone?'更改':'绑定'}}</span>
       </div>
     </div>
     <div class="setting-item relative">
       <div class="tag font14pl3a3c50">微信：</div>
       <div class="set-content">
         <div class="sc-info-li">
-          <span class="font14pr424242"> 可用于直接登陆，与内容分享</span>
+          <span v-if="mainData.weixin" class="font14pr424242"> 可用于直接登录，与内容分享</span>
+          <span v-else class="font14pr424242">您已绑定微信</span>
         </div>
-        <span class="bind-button font14pr424242 pointer">{{str1}}</span>
+        <span @click="bindWeixin()" class="bind-button font14pr424242 pointer">{{mainData.weixin?'更改':'绑定'}}</span>
       </div>
     </div>
-    <el-dialog :width="'650px'" :title="dialogTitle" :visible.sync="show">
-      <div class="dialog-li incenter emial-container relative">
-        <div class="input-li relative">
-          <div class="tags">邮箱地址：</div>
-          <el-form :model="emailform" :rules="emailRule">
-            <el-form-item prop="email">
-              <el-input v-model="emailform.email" auto-complete="off"></el-input>
-            </el-form-item>
-          </el-form>
-        </div>
-      </div>
-      <div class="dialog-li incenter emial-container relative">
-        <div class="input-li relative">
-          <div class="tags">手机号：</div>
-          <el-form :model="phoneform" :rules="phoneRule">
-            <el-form-item prop="phone">
-              <el-input v-model="phoneform.phone" auto-complete="off"></el-input>
-            </el-form-item>
-          </el-form>
-        </div>
-      </div>
-      <div class="dialog-li incenter emial-container relative">
-        <div class="input-li relative">
-          <div class="tags">短信验证码：</div>
-          <el-form :model="phoneform" :rules="phoneRule">
-            <el-form-item prop="phone">
-              <el-input v-model="phoneform.phone" auto-complete="off"></el-input>
-            </el-form-item>
-          </el-form>
-        </div>
-      </div>
-      <rcb :styleData="buttonContainerStyle" class="footer-button-group" slot="footer"></rcb>
-    </el-dialog>
+    <dialogs></dialogs>
+    <dialogsForm  :needpassword="mainData.needpassword"></dialogsForm>
   </div>
 </template>
 <script>
+  import Bus from '../../assets/js/bus'
   import rcb from './resumeContentButton'
+  import dialogs from './dialogs'
+  import dialogsForm from './dialogsForm'
+  let Base64 = require('js-base64').Base64;
   export default {
     name: 'HelloWorld',
     data() {
-      var checkEmail = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('邮箱不能为空'))
-        }
-        var emailcheck = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
-        if (emailcheck.test(value)) {
-          callback()
-        }
-        callback(new Error('请输入正确的邮箱'))
-      }
-      var checkPhone = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('手机不能为空'))
-        }
-        var phonecheck = /^1[3|4|5|7|8][0-9]{9}$/;
-        if (phonecheck.test(value)) {
-          callback()
-        }
-        callback(new Error('请输入正确的邮箱'))
-      }
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        }
-        if (value.length < 6 || value.length > 16) {
-          callback(new Error('请输入6-16位密码（区分大小写）'))
-        }
-        callback()
-      };
       return {
-        emailform: {
-          email: ''
-        },
-        emailRule: {
-          email: [{
-            validator: checkEmail,
-            trigger: 'blur'
-          }]
-        },
-        phoneform:{
-          phone:''
-        },
-        phoneRule:{
-          phone:[{
-            validator:checkPhone,
-            trigger:'blur'
-          }]
-        },
-        show: false,
-        dialogTitle: '',
-        dialogContent: '',
-        buttonContainerStyle: {
-          'text-align': 'center'
-        },
-        ruleForm1: {
-          age: '',
-          pass: ''
-        },
-        ruleForm2: {
-          age: '',
-          pass: ''
-        },
-        value0: '',
-        value1: '',
-        value2: '',
-        value3: '',
-        value4: '',
-        value5: '',
-        value6: '',
         str1: '更改',
         str2: '更改',
         str3: '立即绑定',
+        mainData:{},
+        wxBase64Url:'',
+        Base64:Base64
       }
     },
-    methods: {
-      changeShow(type, str) {
-        this.dialogTitle = str;
-        this.show = !this.show;
-        this.dialogContent = type;
+    methods:{
+      bindWeixin(){
+        window.location.href=this.wxBase64Url;
+      },
+      dialogsFormOpen(type,title){
+        Bus.$emit('dialogsFormOpen',{type:type,title:title})
+      },
+      haveChangPhone(phone){
+        this.mainData.phone=phone
+      },
+      getData(){
+        this.$get('/personal_center/personal_settings/useraccount?custom_user_id='+localStorage.uid).then(res=>{
+        this.mainData=res.data.data;
+        
+        this.mainData.needpassword=false;
+        if(!this.mainData.phone&&!this.mainData.email){
+          this.mainData.needpassword=true;
+        }
+        var arr=['phone','email','qq','weixin'];
+        arr.forEach(ele=>{
+          if(!this.mainData[ele]){
+            this.mainData[ele]='暂未绑定'
+          }
+        })
+      })
       }
+    },
+    created(){
+      this.getData()
+      Bus.$on('countDataChange',res=>{
+        this.getData()
+      })
+      this.wxBase64Url =
+        'https://open.weixin.qq.com/connect/qrconnect?appid=wx7c9efe7b17c8aef2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2flogin&response_type=code&scope=snsapi_login&state=' +
+        this.Base64.encode(window.location.href) + '#wechat_redirect';
     },
     components: {
-      rcb: rcb
+      rcb: rcb,
+      dialogs: dialogs,
+      dialogsForm:dialogsForm
     }
   }
-
 </script>
 <style lang="scss">
   .sc-info-li {
@@ -169,13 +110,13 @@
   .input-li {
     width: 473px;
     margin-left: 94px;
-    .tags{
+    .tags {
       position: absolute;
-      width:85px;
-      top:50%;
+      width: 85px;
+      top: 50%;
       text-align: right;
-      left:-100px;
-      transform: translate(0,-50%)
+      left: -100px;
+      transform: translate(0, -50%)
     }
   }
 

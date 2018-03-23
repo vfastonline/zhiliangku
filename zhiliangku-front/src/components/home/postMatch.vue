@@ -15,7 +15,7 @@ export default {
     };
   },
   mounted() {
-    var radarGraph = this.$echarts.init(document.getElementById("radarGraph"));
+    var radarGraph = echarts.init(document.getElementById("radarGraph"));
     // console.log(radarGraph)
     var option = {
       radar: {

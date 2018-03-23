@@ -11,9 +11,7 @@ Vue.prototype.$myConst = Obj;
 //引入选择的插件
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import Echarts from 'echarts'
 Vue.use(ElementUI)
-Vue.prototype.$echarts = Echarts;
 // 引入样式表
 import '../../style/base/modifiedel.css'
 import '../../utils/axios'

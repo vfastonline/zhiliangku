@@ -14,7 +14,7 @@
       </div>
       <div class="sqc-tip-container ml submit-li">
         <div class="sqct-usericon floatl">
-          <img class="sqct-icon" src="../../assets/img/user-icon.jpg" alt="">
+          <img class="sqct-icon" src="../../assets/img/icons/Search-magnifier.svg" alt="">
         </div>
         <div class="sqct-content font14pr424242">
           在你提问之前，不妨先搜索一下你的问题，其他同学可能问到过同样的问题，应该尽量确保你的问题是独一无二的。
@@ -24,16 +24,14 @@
         <div class="floatl submit-label">问题描述：</div>
         <div class="ml">
           <!-- 注意此处是富文本编辑器 -->
-          <quill-editor v-model="content" :options="options" ref="myQuillEditor">
+          <quill-editor  v-model="content" :options="options" ref="myQuillEditor">
           </quill-editor>
         </div>
       </div>
       <div class="relative mb16 submit-li">
         <div class="floatl submit-label">问题方向：</div>
         <div class="sq-button-container">
-          <el-button v-for="(item,index) in tags"  :key="index" 
-          :class="{'first-button':index==0}"
-          @click="selectDirection(item)">{{item.name}}</el-button>
+          <el-button v-for="(item,index) in tags" :key="index" :class="{'first-button':index==0,'active-el-button':activeButtonIndex==index}" @click="selectDirection(item,index)">{{item.name}}</el-button>
         </div>
       </div>
       <div class=" submit-li">
@@ -48,10 +46,51 @@
         <el-button @click="submitQuestion()">提交</el-button>
       </div>
     </div>
-
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang='scss'>
+  .sq-button-container {
+    .el-button {
+      padding:4px 8px;
+      border-radius: 100px;
+      background: #6A747F;
+      color: #ffffff;
+    }
+
+    .el-button+.el-button {
+      margin-left: 10px
+    }
+
+    .el-button:focus,
+    .el-button:hover {
+      color: #fafafa;
+      border-color: #c6e2ff;
+      background-color: #6A747F ;
+      opacity: 0.8;
+    }
+    .active-el-button{
+      background: #23B8FF ;
+      color: #ffffff;
+    }
+  }
+  .submit-li{
+    .sq-button-container{
+      .active-el-button{
+      background: #23B8FF ;
+      color: #ffffff;
+    }
+    }
+  }
+  .el-select{
+    width:100%
+  }
+  .sq-submit{
+    .el-button{
+      border-radius: 100px;
+    }
+  }
+</style>
 
 <script>
   import Vue from 'vue'
@@ -64,6 +103,9 @@
     name: 'HelloWorld',
     data() {
       return {
+        // 这个参数是为了防止用户点击过快，造成问题的多次提交。
+        disable:false,
+        activeButtonIndex:-1,
         title: '',
         content: '',
         direction: '',
@@ -90,38 +132,59 @@
         }],
         options: {
           modules: {
-            toolbar: ['bold', 'italic', 'underline', 'image', 'link', {
-              'list': 'bullet'
-            }, {
-              'list': 'ordered'
-            }, 'blockquote']
+            toolbar: ['bold', 'italic', 'underline',
+              // 'image',
+              'link', {
+                'list': 'bullet'
+              }, {
+                'list': 'ordered'
+              }, 'blockquote'
+            ]
           }
-        }
+        },
       }
     },
+    props:{
+      where:String
+    },
     methods: {
+      jj(){
+        console.log(11111)
+      },
       submitQuestion() {
-        this.$post('/community/add/faq', {
-          video_id: this.$fn.funcUrl('video_id'),
+        if(this.disable){
+          // this.$fn.showNotice(this,'数据正在传输……请稍后哦')
+          return
+        }
+        this.disable=true;
+        var obj={
           custom_user_id: localStorage.uid,
           title: this.title,
           description: this.content,
           path: this.direction,
           reward: this.reward
-        }).then(res => {
+        };
+        if(this.$fn.funcUrl('video_id')){
+          obj.video_id=this.$fn.funcUrl('video_id')
+        }
+        this.$post('/community/add/faq',obj ).then(res => {
           if (!res.data.err) {
-            this.$notify({
-              type: 'success',
-              message: res.data.msg,
-              offset: 100,
-              duration: 3000,
-              position: 'bottom-right'
-            });
+            this.$fn.showNotice(this,res.data.msg,'success');
+            if(this.where=='community'){
+              this.$emit('submitover');
+              return
+            }
+            this.$router.push({
+              path: '/question'
+            })
+            return
           }
+          this.disable=false;
         })
       },
-      selectDirection(item) {
+      selectDirection(item,index) {
         this.direction = item.id;
+        this.activeButtonIndex=index;
       }
     },
     created() {
@@ -142,7 +205,7 @@
   .submit-question-container {
     background: #fafafa;
     padding-top: 40px;
-    height: 1000px;
+    height: 700px;
   }
 
   .sqc-title {
@@ -182,12 +245,15 @@
   .ml {
     margin-left: 94px;
   }
-  .sq-button-container{
-    margin-left:85px;
+
+  .sq-button-container {
+    margin-left: 85px;
   }
-  .first-button{
-    margin-left:10px;
+
+  .first-button {
+    margin-left: 10px;
   }
+
   .sqct-content {
     opacity: 0.5;
     margin-left: 30px;

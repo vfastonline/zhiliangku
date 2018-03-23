@@ -4,7 +4,9 @@
     <div class="ce-echart-container">
     <div id="delicacyradarGraph" style="width:298px;height:272px;"></div>
     <ul class="ce-info-list">
-      <li class="font14pl5A646E"><span class="font20pl3a3c50">70%</span> - <span>{{tagsarr[0]}}</span></li>
+      <li class="font14pl5A646E" v-for="(item,index) in listData" :key=index>
+        <span class="font20pl3a3c50">{{item.value*100+'%'}}</span> - <span>{{item.name}}</span>
+      </li>
     </ul>
     </div>
   </div>
@@ -28,12 +30,17 @@
 export default {
   data () {
     return {
-      tagsarr:['可靠','表达','团队','自驱','独立','自律']
+      
+       listData:[],
+      mainData:[],
+      values:[]
     }
   },
-  mounted() {
-    var delicacyradarGraph = this.$echarts.init(document.getElementById("delicacyradarGraph"));
-    // console.log(delicacyradarGraph)
+  methods:{
+    initEcharts(){
+      var delicacyradarGraph = this.$echarts.init(document.getElementById("delicacyradarGraph"));
+    var mainData=this.mainData;
+    console.log(mainData)
     var option = {
       radar: {
         name: {
@@ -62,12 +69,12 @@ export default {
         },
         splitNumber: 3,
         indicator: [
-          { name: "可靠", max: 100 },
-          { name: "表达", max: 100 },
-          { name: "团队", max: 100 },
-          { name: "自驱", max: 100 },
-          { name: "独立", max: 100 },
-          { name: "自律", max: 100 }
+          { name: "技术", max: 1 },
+          { name: "表达", max: 1 },
+          { name: "团队", max: 1 },
+          { name: "自驱", max: 1 },
+          { name: "独立", max: 1 },
+          { name: "自律", max: 1 }
         ]
       },
       series: [
@@ -83,7 +90,7 @@ export default {
           },
           data: [
             {
-              value: [90, 90, 90, 90, 90, 90],
+              value: mainData,
               areaStyle: {
                 normal: {
                   color: "rgba(255, 255, 255, 0.5)"
@@ -100,6 +107,20 @@ export default {
       ]
     };
     delicacyradarGraph.setOption(option);
+    }
+  },
+  created(){
+    this.$get('/personal_center/job/overallqualityscore?custom_user_id='+localStorage.uid).then(res=>{
+      var tagsarr=['技术','表达','团队','自驱','独立','自律'];
+      res.data.data.forEach((element,index) => {
+        this.listData.push({name:tagsarr[index],value:element})        
+      });
+      this.mainData=res.data.data;
+      this.initEcharts()
+    })
+  },
+  mounted() {
+    
   }
 }
 </script>

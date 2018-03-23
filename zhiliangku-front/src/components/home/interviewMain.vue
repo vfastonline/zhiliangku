@@ -5,7 +5,7 @@
       
           <el-scrollbar >
             <div class="clearfix" :style="{'width':boxWidth,position:'absolute',left:'50%','margin-left':'-576px'}">
-               <interview-cover  v-for="item in interviewData" :key="item.id"  :layout="layout" :mainData="item" :myStyle="{className:['floatl'],outerStyle:{'margin-right':'32px'}}"></interview-cover>
+               <interview-cover  @click="go(item)" v-for="item in interviewData" :key="item.id"  :layout="layout" :mainData="item" :myStyle="{className:['floatl'],outerStyle:{'margin-right':'32px'}}"></interview-cover>
             </div>
           </el-scrollbar>
       
@@ -18,6 +18,7 @@
     data() {
       return {
         msg: {
+          linker:'/interview_questions/enterpriseinfo/list/',
           enTitle: 'Interview Question',
           title: '企业面试题',
           slogon: '知己知彼，百战不殆',
@@ -32,6 +33,11 @@
         boxWidth:'',
         interviewData:{},
         layout:['company','number']
+      }
+    },
+    methods:{
+      go(item){
+        window.location.href='https://'+window.location.host+'/interview_questions/enterpriseinfo/detail/?enterpriseinfo_id='+item.id;
       }
     },
     created(){

@@ -38,7 +38,6 @@
       this.$get('/tracks/video/detail/info?video_id=' + this.$fn.funcUrl('video_id')).then(res => {
         Bus.$emit('titleBreadCrumb',res.data.data)
       })
-    console.log(this)
   }
 }
 </script>

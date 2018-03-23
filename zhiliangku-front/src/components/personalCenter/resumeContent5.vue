@@ -1,16 +1,19 @@
 <template>
-  <div id="anchor5" class="rise resume-model">
-    <resumetitle @editor="showeditor=!showeditor">
+  <div id="anchor5" class="  resume-model">
+    <resumetitle @add="add()">
       <span>
         <img class="imgmiddle imgr" src="../../assets/img/icons/个人中心和积分商城图标/简历_项目.svg" alt="">项目经验</span>
     </resumetitle>
     <div class="resumewidth incenter">
-      <p>你可以描述一下之前工作中所参与的项目，一段精彩的项目经历可以最直观的突出你的优势</p>
+      <p v-if="!mainData.length">你可以描述一下之前工作中所参与的项目，一段精彩的项目经历可以最直观的突出你的优势</p>
     </div>
     <div v-for="(item,index) in mainData" :key="index" class="resumewidth incenter">
-      <timerbox :config="{title:'name',linkTitle:true}" :first="!index" :mainData="item"><projectExp :mainData="item"></projectExp></timerbox>
+      <timerbox :config="{title:'name',linkTitle:true}" 
+      :first="!index" :mainData="item">
+      <projectExp @editor="editorInfo(index)" :mainData="item">
+        </projectExp></timerbox>
     </div>
-    <!-- <editor :mainData="mainData" @close="showeditor=!showeditor" v-if="showeditor"></editor> -->
+    <editor :key="editorKey" :url="editorUrl" :editorIndex="editorIndex"  :mainData="mainData" @close="close()" v-if="showeditor"></editor>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -27,31 +30,33 @@
     name: 'HelloWorld',
     data() {
       return {
-        showeditor: false
+        showeditor: false,
+        editorUrl: '',
+        editorIndex: '-1',
+        editorKey: '1',
       }
     },
     props: {
       mainData: Array
     },
-    methods: {
+       methods: {
       close() {
-        this.$emit('close')
+        this.$fn.changeShow(this.getSelf(), 'showeditor');
+        this.editorIndex = -1;
       },
-      deleteInfo() {
-
+      add() {
+        this.editorIndex = -1;
+        this.editorUrl = "/personal_center/resume/add";
+        this.$fn.changeShow(this.getSelf(), 'showeditor');
       },
-      submit() {
-        if (!this.mainData.length) {
-          this.url = '/personal_center/resume/add'
+      editorInfo(index) {
+        this.editorUrl = "/personal_center/resume/update";
+        if (this.editorIndex == index || this.editorIndex == -1) {
+          this.$fn.changeShow(this.getSelf(), 'showeditor');
         }
-        this.$post(this.url, {
-          custom_user_id: localStorage.uid,
-          resume_type: 'resume',
-          resume_info_dict: {}
-        }).then(res => {
-          console.log(res)
-          Bus.$emit('refreshResume')
-        })
+        this.editorIndex = index;
+        this.editorKey = new Date() + '';
+        
       }
     },
     created(){

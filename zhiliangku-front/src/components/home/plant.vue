@@ -1,5 +1,5 @@
 <template>
-  <div class="mainwidth incenter clearfix">
+  <div class="mainwidth incenter clearfix hhhh">
     <div class="plant-title mainwidth incenter fontcenter font20pl3a3c50">以岗位需求为导向的在线学习平台</div>
     <div class="plant-left-video floatl">
       <video src="  " width="520px" height="292px" controls="controls">
@@ -56,6 +56,9 @@
     margin-bottom: 11px;
   }
 
+.hhhh{
+  z-index: 1001;
+}
 </style>
 <script>
   export default {
@@ -63,7 +66,7 @@
     data() {
       return {
         msg: 'Welcome to Your Vue.js App'
-      }
+      }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
     }
   }
 

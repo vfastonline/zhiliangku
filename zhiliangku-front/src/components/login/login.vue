@@ -1,30 +1,30 @@
 <template>
-  <div>
+  <div class="login-box">
     <!-- 极有可能是bug的地方：回车键的体验 -->
     <el-dialog @close="modalClose()" :show-close="false" :visible.sync="centerDialogVisible">
       <!-- 1.login模块 -->
-      <div v-show="allshow.loginActive" slot="title" class="fontcenter font18plffffff marginbottom8">登陆</div>
+      <div v-show="allshow.loginActive" slot="title" class="fontcenter font18plffffff marginbottom8">登录</div>
       <el-form v-show="allshow.loginActive" :model="ruleForm1" status-icon :rules="rules2" ref="myform1">
         <el-form-item label="请输入邮箱/手机号注册" prop="age">
           <el-input v-model="ruleForm1.age"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="pass">
-          <el-input type="password" v-model="ruleForm1.pass" auto-complete="off"></el-input>
+          <el-input @keyup.enter.native="submitForm('myform1','loginFun',ruleForm1)" type="password" v-model="ruleForm1.pass" auto-complete="off"></el-input>
         </el-form-item>
-        <el-button @click="submitForm('myform1','loginFun',ruleForm1)" :class="['marginbottom8','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">登陆</el-button>
+        <el-button @click="submitForm('myform1','loginFun',ruleForm1)" :class="['marginbottom8','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">登录</el-button>
         <div class="marginbottom24 fontcenter">
           <span class="letterspace1 font14pr23b8ff pointer" @click="changeModal('getPasswordActive')">忘记密码了</span>
         </div>
         <div class="clearfix">
-          <div class="floatl font14pl5A646E">其他登陆方式:</div>
+          <div class="floatl font14pl5A646E">其他登录方式:</div>
           <div class="icons floatr">
-            <a target="_blank" :href="qqBase64Url">
+            <a :href="qqBase64Url">
               <img class="longin-bottom-icons pointer" src="../../assets/img/icons/QQ.svg" alt="">
             </a>
-            <a target="_blank" :href="wxBase64Url">
+            <a :href="wxBase64Url">
               <img class="longin-bottom-icons pointer" src="../../assets/img/icons/wechat.svg" alt="">
             </a>
-            <img class="pointer" src="../../assets/img/icons/weibo.svg" alt="">
+
           </div>
         </div>
       </el-form>
@@ -40,32 +40,32 @@
           <el-input v-model="ruleForm2.age"></el-input>
         </el-form-item>
         <el-form-item label="6-16位密码（区分大小写）" prop="pass">
-          <el-input type="password" v-model="ruleForm2.pass" auto-complete="off"></el-input>
+          <el-input @keyup.enter.native="submitForm('myform2','logupType',ruleForm2,changeModal,'verifyEmailActive')" type="password" v-model="ruleForm2.pass"
+            auto-complete="off"></el-input>
         </el-form-item>
         <el-button @click="submitForm('myform2','logupType',ruleForm2,changeModal,'verifyEmailActive')" :class="['marginbottom24','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">创建</el-button>
         <div class="clearfix">
-          <div class="floatl font14pl5A646E">其他登陆方式:</div>
+          <div class="floatl font14pl5A646E">其他登录方式:</div>
           <div class="icons floatr">
-            <a target="_blank" :href="qqBase64Url">
+            <a :href="qqBase64Url">
               <img class="longin-bottom-icons pointer" src="../../assets/img/icons/QQ.svg" alt="">
             </a>
-            <a target="_blank" :href="wxBase64Url">
+            <a :href="wxBase64Url">
               <img class="longin-bottom-icons pointer" src="../../assets/img/icons/wechat.svg" alt="">
             </a>
-            <img class="pointer" src="../../assets/img/icons/weibo.svg" alt="">
           </div>
         </div>
       </el-form>
       <div v-show="allshow.logupActive" slot="footer">
         <div @click="changeModal('loginActive')" class="login-bottom-button incenter fontcenter pointer font20plffffff">
-          <span>已有账号，去登陆</span>
+          <span>已有账号，去登录</span>
         </div>
       </div>
       <!--3. getpassword模块 -->
       <div v-show="allshow.getPasswordActive" slot="title" class="fontcenter font18plffffff marginbottom8">找回密码</div>
       <el-form v-show="allshow.getPasswordActive" :model="ruleForm3" status-icon :rules="rules2" ref="myform3">
         <el-form-item label="请输入邮箱/手机号" prop="age">
-          <el-input v-on:keydown.enter="null" v-model="ruleForm3.age"></el-input>
+          <el-input @keydown.enter.native="submitForm('myform3','getPassType',ruleForm3,changeModal,'verificationCodeActive')" v-model="ruleForm3.age"></el-input>
         </el-form-item>
         <el-button @click="submitForm('myform3','getPassType',ruleForm3,changeModal,'verificationCodeActive')" :class="['marginbottom8','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">发送验证码</el-button>
       </el-form>
@@ -76,7 +76,7 @@
           <el-input v-model="ruleForm4.age"></el-input>
         </el-form-item>
         <el-form-item label="输入新的密码" prop="pass">
-          <el-input type="password" v-model="ruleForm4.pass" auto-complete="off"></el-input>
+          <el-input @keydown.enter.native="submitForm('myform4','modifyPass',ruleForm4,ruleForm3)" type="password" v-model="ruleForm4.pass" auto-complete="off"></el-input>
         </el-form-item>
         <el-button @click="submitForm('myform4','modifyPass',ruleForm4,ruleForm3)" :class="['marginbottom8','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">提交</el-button>
         <div class="incenter fontcenter">
@@ -89,9 +89,9 @@
       <div v-show="allshow.verifyCodeActive" slot="title" class="fontcenter font18plffffff marginbottom8">账号创建</div>
       <el-form v-show="allshow.verifyCodeActive" :model="ruleForm5" status-icon :rules="rules2" ref="myform5">
         <el-form-item label="请输入短信验证码">
-          <el-input v-model="ruleForm5.age"></el-input>
+          <el-input @keydown.enter.native="verifyPhoneCode()" v-model="ruleForm5.age"></el-input>
         </el-form-item>
-        <el-button @click="verifyPhoneCode()" :class="['marginbottom8','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">登陆</el-button>
+        <el-button @click="verifyPhoneCode()" :class="['marginbottom8','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">登录</el-button>
         <div class="incenter fontcenter">
           <span @click="changeModal('logupActive')" class="font14pl7c7e8c pointer">
             返回修改手机号
@@ -135,6 +135,7 @@
 </template>
 <script>
   var Base64 = require('js-base64').Base64;
+  import Bus from '../../assets/js/bus'
   export default {
     name: 'HelloWorld',
     data() {
@@ -221,6 +222,7 @@
           goEmailActive: false,
           emailVerifyAginActive: false
         },
+        //目标邮件地址
         keyEmail: ''
       }
     },
@@ -259,6 +261,7 @@
         this.$post('/customuser/register', data).then(res => {
           if (res) {
             if (res.data.msg == 'success') {
+              this.loginFun(this.ruleForm2)
               this.centerDialogVisible = false;
             }
           }
@@ -297,32 +300,64 @@
       },
       loginFun(data) {
         this.haveKeyValue('keyEmail', data, 'age')
+        var obj = this.changeKeys(data)
         this.$post('/customuser/login', this.changeKeys(data)).then(res => {
           if (!res.data.err) {
             if (res.data.msg = 'success') this.centerDialogVisible = false;
             //remenber user info
-            for (var k in res.data.data.user){
-              localStorage[k]=res.data.data.user[k]
+            for (var k in res.data.data.user) {
+              localStorage[k] = res.data.data.user[k]
             }
-            console.log(res.data.data)
-            this.$parent.$emit('login')
+            // console.log(res.data.data)
+            this.otherFunction(data)
+            this.dispatchInfo()
+            console.log(res)
           }
-          console.log(res)
         })
+      },
+      dispatchInfo() {
+        Bus.$emit('haveLogin')
+      },
+      otherFunction(data) {
+        if (data.referrer) {
+          if (data.url) {
+            window.location.href = data.url;
+            return
+          }
+          this.goreferre()
+          return
+        }
+        this.$parent.$emit('login')
+      },
+      goreferre() {
+        var str = document.referrer;
+        var host = str.split('://')[1].split('/')[0];
+        // 同源的时候才会跳转上一来源网页，否则跳转到首页
+        if (host == window.location.host) {
+          window.location.href = document.referrer;
+        } else {
+          window.location.href = 'http://' + window.location.host + '/'
+        }
       },
       logupFun(data, callback, param) {
         this.$post('/customuser/register', this.changeKeys(data)).then(res => {
-
           if (callback && !res.data.err) {
+            this.$notify({
+              type: 'success',
+              message: '验证码已成功发送',
+              offset: 100,
+              duration: 3000,
+              position: 'bottom-right'
+            })
             callback(param)
           }
-          console.log(res)
+          // console.log(res)
         })
       },
       getCode(data, callbackfun, param) {
         this.$post('/customuser/send_sms', this.changeKeys(data, ['phone', 'password'])).then(
           res => {
-            console.log(res)
+            // console.log(res)
             if (callbackfun && !res.data.err) {
               callbackfun(param)
             }
@@ -332,8 +367,8 @@
         var mainData = this.changeKeys(form4, ['verify_code', 'new_password']);
         mainData.phone = form3.age;
         this.$post('/customuser/retrieve_password_by_phone', mainData).then(res => {
-          if(!res.data.err){
-             this.$notify({
+          if (!res.data.err) {
+            this.$notify({
               type: 'success',
               message: res.data.msg,
               offset: 100,
@@ -343,7 +378,7 @@
           }
           //此处是临时处理
           this.closeAll();
-          console.log(res)
+          // console.log(res)
         })
       },
       getPassType(data, callbackfun, param) {
@@ -352,7 +387,14 @@
           this.getCode(data, callbackfun, param)
         }
         if (this.usernameType.email) {
-          callbackfun('goEmailActive')
+          this.$post('/customuser/send_email_retrieve_password', {
+            email: this.keyEmail
+          }).then(res => {
+            if (!res.data.err) {
+              callbackfun('goEmailActive')
+            }
+          })
+
         }
       },
       logupType(data, callbackfun) {
@@ -390,23 +432,38 @@
           '188.com': 'http://www.188.com/',
           'foxmail.coom': 'http://www.foxmail.com'
         };
-        console.log(email)
+        // console.log(email)
         if (hash[email.split('@')[1]]) {
           window.open(hash[email.split('@')[1]])
           return
         } else {
-          console.log('未知邮箱')
+          // console.log('未知邮箱')
         }
       }
     },
     created() {
+      Bus.$on('forgetPassword', (res) => {
+        this.centerDialogVisible = true;
+        this.allshow['getPasswordActive'] = true;
+        if (res) {
+          this.form3.age = res
+        }
+      })
+      Bus.$on('loginPagerLogin', (res) => {
+        this.loginFun(res)
+      })
       this.$on('open', function (key) {
         this.centerDialogVisible = true;
         this.allshow[key] = true;
       })
       this.$on('noActive', function (name) {
-        console.log('noActive')
-        console.log(name)
+        // console.log('noActive')
+        // console.log(name)
+        this.changeModal(name)
+      })
+      // 在实现的过程之中呢发现用this监听会导致耦合度偏高，所以用Bus做一下补充，两者选用
+      Bus.$on('noActive', (name) => {
+        this.centerDialogVisible = true;
         this.changeModal(name)
       })
       this.$on('logupTologin', function () {
@@ -414,10 +471,10 @@
       })
       this.wxBase64Url =
         'https://open.weixin.qq.com/connect/qrconnect?appid=wx7c9efe7b17c8aef2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2flogin&response_type=code&scope=snsapi_login&state=' +
-        this.Base64.encode(window.location.pathname) + '#wechat_redirect';
+        this.Base64.encode(window.location.href) + '#wechat_redirect';
       this.qqBase64Url =
         'https://graph.qq.com/oauth2.0/show?which=Login&display=pc&response_type=code&client_id=101447834&redirect_uri=http%3A%2F%2Fwww.zhiliangku.com%2Fcustomuser%2Fqq%2Flogin&state=' +
-        this.Base64.encode(window.location.pathname) + '&scope=get_user_info,get_info';
+        this.Base64.encode(window.location.href) + '&scope=get_user_info,get_info';
       // 我的实现方式应该是,一个大组件,大组件是一直显示的，但是可以通过改变里面的参数来改变其显示的各种小组件
     },
     mounted() {
@@ -431,6 +488,44 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss">
+  .login-box {
+    .el-dialog__wrapper {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      overflow: auto;
+      margin: 0;
+      background: rgba(0, 0, 0, .5);
+      overflow: hidden;
+    }
+    .el-dialog {
+      position: relative;
+      margin: 0 auto 50px;
+      background: rgba(0, 0, 0, .5);
+      border-radius: 2px;
+      -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      width: 412px;
+      padding: 16px;
+    }
+    .el-dialog__body {
+      background: #ffffff;
+      padding: 24px 40px;
+      color: #5a5e66;
+      line-height: 24px;
+      font-size: 14px
+    }
+    .el-dialog__header {
+      padding: 0;
+    }
+  }
+
+</style>
 <style scoped>
   .login-middle-button-container {
     width: 340px;

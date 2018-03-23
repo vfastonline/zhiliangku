@@ -1,6 +1,6 @@
 <template>
   <div>
-    <companyInfo></companyInfo>
+    <companyInfo v-for="(item,index) in mianData" :key="index" :mainData="item"></companyInfo>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -13,8 +13,14 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      mianData:{}
     }
+  },
+  created(){
+    this.$get('/personal_center/job/focusonmybusiness?custom_user_id='+localStorage.uid).then(res=>{
+      this.$fn.addString(this.$myConst.httpUrl,res.data.data,'logo')
+      this.mianData=res.data.data
+    })
   },
   components:{
     companyInfo:companyInfo

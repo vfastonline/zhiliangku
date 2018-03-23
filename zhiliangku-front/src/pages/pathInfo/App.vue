@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <project-header></project-header>
-    <path-info></path-info>
-    <project-footer></project-footer>
+    <projectHeader></projectHeader>
+    <pathInfo></pathInfo>
+    <projectFooter></projectFooter> 
   </div>
 </template>
 <script>
+import projectHeader from '../../components/home/projectHeader.vue'
   export default {
     name: 'app',
     data() {
@@ -13,12 +14,11 @@
       }
     },
     methods: {
-      jj() {
-        console.log(111)
-      }
+    },
+    components:{
+      projectHeader:projectHeader
     },
     created(){
-      console.log(this)
     }
   }
 

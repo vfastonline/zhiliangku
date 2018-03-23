@@ -22,18 +22,17 @@
           'pirm-line-end-expand':(indexli==indexli1)&&(indexli==mainData.pathstages.length-1)
           }"></div>
           <div class="clearfix pirm-tags-container ">
-            <div v-for="(span,indexspan) in lidata.coursecategorys" :key="indexspan" class="floatl">
+            <div v-for="(span,indexspan) in lidata.coursecategorys" :key="indexspan" class="floatl ">
               <span @click="changeActiveSpan(indexli,indexspan,span.id,lidata.id)" :class="{'pirm-selected':indexli1==indexli&&indexspan1==indexspan}"
                 class="font16pl3a3c50 pirm-tag pointer">
                 {{span.name}}
               </span>
-              <img v-if="indexspan!=lidata.coursecategorys.length-1" class="pirm-icon" src="../../assets/img/icons/Search-magnifier.svg"
-                alt="">
+              <img v-if="indexspan!=lidata.coursecategorys.length-1" src="../../assets/img/icons/path+路线+课程_图标/路线详情_阶段_右箭头.svg" alt="">
             </div>
           </div>
           <transition name="fade">
             <!-- <div v-if="indexli==indexli1" class="pirm-heightnone ofhid"> -->
-            <container :myStyle="{}" v-if="indexli==indexli1" class="pirm-heightnone ofhid">
+            <container :myStyle="{}" v-show="indexli==indexli1" class="pirm-heightnone ofhid exmple">
               <hot-course v-for="(item,index) in courseData" :key="index" :mainData="item" :myStyle="hotCourseStyle" :index="index"></hot-course>
             </container>
             <!-- </div> -->
@@ -44,6 +43,19 @@
     <!-- <button></button> -->
   </div>
 </template>
+<style scoped>
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: 'height' 0.5s ease-out;
+     /* transition: all 5s; */
+  }
+  .fade-enter,
+  .fade-leave-active {
+    height: 0;
+     /* transform: translate3d(0, 0, 0); */
+  }
+  
+</style>
 
 <script>
   export default {
@@ -67,6 +79,14 @@
         courseData: {}
       }
     },
+    props: {
+      mainData: Object
+    },
+    watch: {
+      mainData: function () {
+        this.clickFirstTag()
+      }
+    },
     methods: {
       changeActiveSpan(indexli, indexspan, spanid, liid) {
         this.indexli1 = indexli;
@@ -74,21 +94,26 @@
         this.$get('/tracks/course/list/info?' + 'category_id=' + spanid).then(
           res => {
             this.courseData = this.$fn.addString(this.$myConst.httpUrl, res.data.data, ['course_img', 'avatar'])
+            console.log(this.courseData)
+            console.log(this.indexli1)
           }
         )
+      },
+      clickFirstTag() {
+        
+        var lidata = this.mainData.pathstages[0];
+        var spanData = lidata.coursecategorys[0]
+        this.changeActiveSpan(0, 0, spanData.id, lidata.id)
       }
     },
-    created() {
+    created() {},
 
-    },
-    props: {
-      mainData: Object
-    }
   }
 
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
   .path-info-right {
     width: 752px;
     float: left;
@@ -178,11 +203,6 @@
     padding: 4px 8px;
   }
 
-  .pirm-icon {
-    height: 12px;
-    width: 12px;
-  }
-
   .pirm-selected {
     color: white;
     background: #23B8FF;
@@ -193,14 +213,5 @@
     transition: all 0.3s ease;
   }
 
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity 0.5s ease-out;
-  }
-
-  .fade-enter,
-  .fade-leave-to {
-    opacity: 0;
-  }
 
 </style>

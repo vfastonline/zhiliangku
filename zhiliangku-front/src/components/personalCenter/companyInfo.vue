@@ -1,20 +1,15 @@
 <template>
-  <div class="cio-company rise pointer">
+  <div class="cio-company rise pointer marginbottom24">
     <div class="cio-top">
-      <div class="cio-left-logo"><img src="../../assets/img/user-icon.jpg"></div>
-      <div class="cio-right-content">
-        <p class="font14pl5a646e">该公司主要依靠在线广告、游戏、互联网和增值业务创收。
-        2014年1月15日，奇虎360宣布进军台湾，授权希悦资讯为台湾地区总代理。
-        2015年2月4日，内部人士确认，奇虎360公司斥巨资收购国际顶级域名360.com，
-        收购价格为1700万美元，约合人民币1.1亿元……</p>
+      <div class="cio-left-logo fontcenter"><img v-lazy="mainData.logo"></div>
+      <div class="cio-right-content ofhid ">
+        <p class="font16pl5a646e">{{mainData.info}}</p>
       </div>
     </div>
     <div class="cio-bottom">
-      <div class="cio-company-name font16pl3a3c50" >360奇虎科技有限公司</div>
-      <div class="cio-company-people font14pr3a3c50">人员规模：7000人</div>
-    </div>
-  
-    
+      <div class="cio-company-name fontcenter font16pl3a3c50" >{{mainData.company}}</div>
+      <div class="cio-company-people font14pr3a3c50">人员规模：{{mainData.scale}}人</div>
+    </div>  
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -31,14 +26,20 @@
 }
 .cio-top{
   height:80px;
+  margin-bottom:8px;
 }
 /*左侧公司logo */
 .cio-top .cio-left-logo {
     float:left;
 }
+.cio-left-logo{
+  width: 155px;
+}
 .cio-top .cio-left-logo img{
-    width:155px;
-    height:56px;
+    max-width:155px;
+    max-height:80px;
+    vertical-align: bottom;
+    margin: auto
 }
 /*右侧公司简介 */
 .cio-top .cio-right-content{
@@ -51,17 +52,26 @@
 .cio-bottom .cio-company-name{
   float:left;
 }
+.cio-company-name{
+  width: 155px;
+}
 .cio-bottom .cio-company-people{
   float:right;
 }
 </style>
 <script>
+import VueLazyLoad from 'vue-lazyload'
+Vue.use(VueLazyLoad,{
+})
 export default {
   name: 'HelloWorld',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  props:{
+    mainData:Object
   }
 }
 </script>
