@@ -111,6 +111,7 @@ class GetExchangeRecords(View):
                     one_dict["integral"] = one.goods.integral
                     one_dict["stock"] = one.goods.stock
                     one_dict["residue_stock"] = one.goods.residue_stock
+                    one_dict["images"] = one.goods.images.url if one.goods.images else ""
                     exchangerecords_list.append(one_dict)
             result_dict["data"] = exchangerecords_list
         except:
