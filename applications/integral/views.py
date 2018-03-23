@@ -59,7 +59,16 @@ class GetAllGoods(View):
             return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
+@class_view_decorator(user_login_required)
 class GoodsDetail(View):
+    """积分兑换详情--页面"""
+
+    def get(self, request, *args, **kwargs):
+        template_name = "integral/goods/detail/index.html"
+        return render(request, template_name, {})
+
+
+class GoodsDetailInfo(View):
     """商品详情"""
 
     def get(self, request, *args, **kwargs):
