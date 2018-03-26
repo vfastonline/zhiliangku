@@ -15,9 +15,11 @@
         <span>个人设置</span>
       </div>
     </a>
-    <div class="uim-select pointer">
+    <a href="/integral/redeem/">
+      <div class="uim-select pointer">
       <span>积分兑换</span>
     </div>
+    </a>
     <div class="uim-select pointer" @click="logout()">
       <span>退出登录</span>
     </div>
@@ -51,6 +53,7 @@
 
   .uim-container {
     overflow: hidden;
+    z-index: 1000;
   }
 
   .uim-container .uim-select {

@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <project-header></project-header>
-      <AQinfo></AQinfo>
     <project-footer></project-footer>
   </div>
 </template>

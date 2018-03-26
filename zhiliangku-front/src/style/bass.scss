@@ -33,6 +33,10 @@ body {
 .imgmiddle{
 vertical-align: middle;
 }
+.img_container{
+  background-size: cover;
+  background-position: center;
+}
 .middle{
   position: absolute;
   top:50%;
@@ -250,6 +254,11 @@ a:hover{
   font-size: 16px;
   color: #5A646E;
 }
+.font20pl5A646E {
+  font-family: "PingFangSC-Light"  ,"Microsoft YaHei" ;
+  font-size: 20px;
+  color: #5A646E;
+}
 .font14pr5a646e {
   font-family: "PingFangSC-Regular"  ,"Microsoft YaHei" ;
   font-size: 14px;
@@ -266,6 +275,11 @@ a:hover{
   color: #5A646E;
 }
 .font16pl23b8ff {
+  font-family: "PingFangSC-Light"  ,"Microsoft YaHei" ;
+  font-size: 16px;
+  color: #23B8FF;
+}
+.font20pl23b8ff{
   font-family: "PingFangSC-Light"  ,"Microsoft YaHei" ;
   font-size: 16px;
   color: #23B8FF;

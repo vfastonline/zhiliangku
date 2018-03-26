@@ -133,6 +133,7 @@
   .pio-detail .pio-user-right {
     margin-left: 276px;
     box-sizing: border-box;
+    max-width:400px;
     padding-top: 25px;
     position: relative;
   }
