@@ -53,6 +53,7 @@
 
   .uim-container {
     overflow: hidden;
+    z-index: 1000;
   }
 
   .uim-container .uim-select {

@@ -54,7 +54,7 @@
         </span>
         <transition   name='fade'>
           <!--<postbMatch v-if="show" class="floatr"></postbMatch>-->
-          <userMune class="" v-on:mouseenter="changeUsershow1()" v-on:mouseleave="changeUsershow2()" v-if="showuser"></userMune>
+          <userMune class="" v-on:mouseenter="changeUsershow1()" v-on:mouseleave="changeUsershow2()" v-if="true"></userMune>
         </transition>
       </div>
     </div>
