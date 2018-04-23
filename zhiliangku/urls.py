@@ -42,6 +42,7 @@ urlpatterns = [
     url('^integral/', include('applications.integral.urls')),
     url(r'^record/', include('applications.record.urls')),
     url(r'^r/', include('applications.face.urls')),
+    url(r'^assess/', include('applications.assessment.urls')),
 
     url(r'^select2/', include('django_select2.urls')),
     url(r'^upload', views.upload, name='upload'),
