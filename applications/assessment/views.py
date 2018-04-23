@@ -1,7 +1,7 @@
 #!encoding:utf-8
 import json
 import logging
-import subprocess
+import commands
 import traceback
 
 from django.http import HttpResponse
@@ -13,7 +13,9 @@ class AssessmentPage(View):
     """考核-页面"""
 
     def get(self, request, *args, **kwargs):
-        subprocess.check_output("ssh root@docker sh /usr/local/share/xiaodu/script/start_docker.sh")
+        start_info = commands.getoutput("ssh root@docker sh /usr/local/share/xiaodu/script/start_docker.sh")
+        # "{'code':0, 'imageid':'f9205a57c661'}"
+        start_info = json.loads(start_info)
         template_name = "assess/info/index.html"
         return render(request, template_name, {})
 
@@ -24,7 +26,7 @@ class AssessmentResult(View):
     def post(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": ""}
         try:
-            result_info = subprocess.check_output("ssh root@docker sh /usr/local/share/xiaodu/script/demo_kaohe.sh")
+            result_info = commands.getoutput("ssh root@docker sh /usr/local/share/xiaodu/script/demo_kaohe.sh")
             result_dict["data"] = json.loads(result_info)
         except:
             traceback.print_exc()
