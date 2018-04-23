@@ -1,7 +1,7 @@
 #!encoding:utf-8
+import commands
 import json
 import logging
-import commands
 import traceback
 
 from django.http import HttpResponse
