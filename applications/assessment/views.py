@@ -27,7 +27,8 @@ class AssessmentResult(View):
         result_dict = {"err": 0, "msg": "success", "data": ""}
         try:
             result_info = commands.getoutput("ssh root@docker sh /usr/local/share/xiaodu/script/demo_kaohe.sh")
-            result_dict["data"] = json.loads(result_info)
+            result_dict = json.loads(result_info)
+            result_dict["data"] = result_dict.get("msg")
         except:
             traceback.print_exc()
             logging.getLogger().error(traceback.format_exc())
