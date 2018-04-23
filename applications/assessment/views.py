@@ -26,6 +26,7 @@ class AssessmentResult(View):
     def post(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "grade": "0"}
         try:
+            # pexpect
             result_info = commands.getoutput("ssh root@docker sh /usr/local/share/xiaodu/script/demo_kaohe.sh")
             result_dicts = json.loads(result_info)
             result_dict["grade"] = result_dicts.get("grade")
