@@ -25,14 +25,15 @@ export default new Router({
       path: '/virtualProduct',
       component: allProduct,
       props: {
-        type: 1
+        type: 2
       }
     },
     {
       path: '/entityProduct',
       component: allProduct,
       props: {
-        type: 2
+        type: 1
+        
       }
     },
     {

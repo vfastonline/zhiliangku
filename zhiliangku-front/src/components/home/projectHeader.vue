@@ -1,5 +1,5 @@
 <template>
-  <div class="project-header " :style="outerStyle">
+  <div class="project-header "  :style="outerStyle">
     <login></login>
     <div class="ph-container  inmiddle clearfix ">
       <!-- <div v-if="!(['videoHeader','liveHeader'].indexOf(type)+1)" @click="inputActive" @keyup.enter="search" class="ph-search inmiddle fontcenter">
