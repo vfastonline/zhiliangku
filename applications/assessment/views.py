@@ -24,7 +24,7 @@ class AssessmentResult(View):
     """考核-结果"""
 
     def post(self, request, *args, **kwargs):
-        result_dict = {"err": 0, "msg": "success", "data": ""}
+        result_dict = {"err": 0, "msg": "success", "grade": "0"}
         try:
             result_info = commands.getoutput("ssh root@docker sh /usr/local/share/xiaodu/script/demo_kaohe.sh")
             result_dicts = json.loads(result_info)
