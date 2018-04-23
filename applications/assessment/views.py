@@ -28,7 +28,7 @@ class AssessmentResult(View):
         try:
             result_info = commands.getoutput("ssh root@docker sh /usr/local/share/xiaodu/script/demo_kaohe.sh")
             result_dicts = json.loads(result_info)
-            result_dict["grad"] = result_dicts.get("grad")
+            result_dict["grade"] = result_dicts.get("grade")
             result_dict["msg"] = result_dicts.get("msg")
         except:
             traceback.print_exc()
