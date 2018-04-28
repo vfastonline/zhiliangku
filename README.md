@@ -1,9 +1,9 @@
 ![](https://www.zhiliangku.com/static/img/Logo.a827faf.png)
-#智量酷
-##Zhiliangku - A Smart classroom 
+# 智量酷
+## Zhiliangku - A Smart classroom 
 [官方主页](https://www.zhiliangku.com "智量酷")
 
-####Directory description
+#### Directory description
 * applications：包含项目所有应用
     * ├── assessment：考核
     * ├── community：社区问答
@@ -27,7 +27,7 @@
 * zhiliangku：总路由，包含settings
 * zhiliangku-front：前端编译后文件
 
-####Requirements
+#### Requirements
 * Django==1.10
 * MySQL-python
 * requests
@@ -38,13 +38,13 @@
 * django-cors-headers
 * django-multiselectfield
 
-####Installation
+#### Installation
 ```
 git clone https://github.com/vfastonline/zhiliangku.git
 cd zhiliangku 
 pip install -r requirements.txt
 ```
 
-####Architecture
+#### Architecture
 * git, vue
 
