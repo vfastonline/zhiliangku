@@ -5,19 +5,19 @@
 
 #### Directory description
 * applications：包含项目所有应用
-    * ├── assessment：考核
-    * ├── community：社区问答
-    * ├── company_jobs：公司招聘职位
-    * ├── custom_user：用户管理
-    * ├── exercise：习题
-    * ├── face：面部识别
-    * ├── integral：积分商城
-    * ├── interview_question：企业面试题
-    * ├── live_streaming：直播
-    * ├── personal_center：个人中心
-    * ├── record：视频官咖记录
-    * ├── slideshow：轮播图
-    * └── tracks_learning：职业路径
+    * assessment：考核
+    * community：社区问答
+    * company_jobs：公司招聘职位
+    * custom_user：用户管理
+    * exercise：习题
+    * face：面部识别
+    * integral：积分商城
+    * interview_question：企业面试题
+    * live_streaming：直播
+    * personal_center：个人中心
+    * record：视频官咖记录
+    * slideshow：轮播图
+    * tracks_learning：职业路径
 * conf：配置文件
 * doc：相关文档
 * lib：公用工具
