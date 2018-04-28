@@ -1,4 +1,4 @@
-![nihao](https://www.zhiliangku.com/static/img/Logo.a827faf.png)
+![](https://www.zhiliangku.com/static/img/Logo.a827faf.png)
 #智量酷
 ##Zhiliangku - A Smart classroom 
 [官方主页](https://www.zhiliangku.com "智量酷")
