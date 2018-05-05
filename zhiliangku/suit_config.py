@@ -51,8 +51,11 @@ SUIT_CONFIG = {
         # 习题
         {'app': 'exercise', 'icon': 'icon-th', },
 
-        # 轮播图
-        {'app': 'slideshow', 'icon': 'icon-repeat', "models": ("Carousel", "WebsiteIntroduce")},
+        # 首页相关--轮播图
+        {'app': 'slideshow', 'icon': 'icon-repeat', "models": ("Carousel", "WebsiteIntroduce", "RecruitmentPlan")},
+
+        # 项目说明书
+        {'app': 'projects', 'icon': 'icon-repeat'},
 
         # 企业面试题
         {'app': 'interview_question', 'icon': 'icon-globe',

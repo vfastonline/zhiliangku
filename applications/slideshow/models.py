@@ -52,3 +52,20 @@ class WebsiteIntroduce(models.Model):
         verbose_name = "智量酷是什么"
         verbose_name_plural = "智量酷是什么"
         ordering = ['sequence']
+
+
+class RecruitmentPlan(models.Model):
+    """企业人才招聘方案"""
+    title = models.CharField('标题', max_length=255)
+    desc = models.TextField('介绍描述', max_length=1000, blank=True, null=True, default='')
+    sequence = models.PositiveIntegerField('显示顺序', blank=True, default=1, validators=[MinValueValidator(1)],
+                                           help_text="从1开始，默认顺序为1")
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        db_table = 'RecruitmentPlan'
+        verbose_name = "企业人才招聘方案"
+        verbose_name_plural = "企业人才招聘方案"
+        ordering = ['sequence']

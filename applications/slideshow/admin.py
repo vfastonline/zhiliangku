@@ -28,3 +28,9 @@ class WebsiteIntroduceAdmin(admin.ModelAdmin):
 
     pathwels.allow_tags = True
     pathwels.short_description = "介绍图片"
+
+
+@admin.register(RecruitmentPlan)
+class RecruitmentPlanAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', "sequence", "desc")
+    search_fields = ('title',)
