@@ -58,6 +58,7 @@ class RecruitmentPlan(models.Model):
     """企业人才招聘方案"""
     title = models.CharField('标题', max_length=255)
     desc = models.TextField('介绍描述', max_length=1000, blank=True, null=True, default='')
+    pathwel = models.ImageField('图片', upload_to='plan/%Y%m%d', storage=ImageStorage())
     sequence = models.PositiveIntegerField('显示顺序', blank=True, default=1, validators=[MinValueValidator(1)],
                                            help_text="从1开始，默认顺序为1")
 

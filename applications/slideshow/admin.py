@@ -32,5 +32,5 @@ class WebsiteIntroduceAdmin(admin.ModelAdmin):
 
 @admin.register(RecruitmentPlan)
 class RecruitmentPlanAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', "sequence", "desc")
+    list_display = ('id', 'title', "sequence", "desc", "pathwel")
     search_fields = ('title',)
