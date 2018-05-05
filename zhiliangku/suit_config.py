@@ -52,7 +52,7 @@ SUIT_CONFIG = {
         {'app': 'exercise', 'icon': 'icon-th', },
 
         # 轮播图
-        {'app': 'slideshow', 'icon': 'icon-repeat', },
+        {'app': 'slideshow', 'icon': 'icon-repeat', "models": ("Carousel", "WebsiteIntroduce")},
 
         # 企业面试题
         {'app': 'interview_question', 'icon': 'icon-globe',

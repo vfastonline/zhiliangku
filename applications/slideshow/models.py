@@ -34,3 +34,21 @@ class Carousel(models.Model):
         # unique_together = (("category", "sequence"),)
         ordering = ["category", 'sequence']
         index_together = ["name", "category"]
+
+
+class WebsiteIntroduce(models.Model):
+    """智量酷介绍（智量酷是什么）"""
+    pathwel = models.ImageField('介绍图片', upload_to='introduc/%Y%m%d', storage=ImageStorage())
+    title = models.CharField('标题', max_length=50)
+    desc = models.TextField('介绍描述', max_length=1000, blank=True, null=True, default='')
+    sequence = models.PositiveIntegerField('显示顺序', blank=True, default=1, validators=[MinValueValidator(1)],
+                                           help_text="从1开始，默认顺序为1")
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        db_table = 'WebsiteIntroduce'
+        verbose_name = "智量酷是什么"
+        verbose_name_plural = "智量酷是什么"
+        ordering = ['sequence']

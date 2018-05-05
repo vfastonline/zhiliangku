@@ -16,3 +16,15 @@ class CarouselAdmin(admin.ModelAdmin):
 
     pathwels.allow_tags = True
     pathwels.short_description = "轮播图片"
+
+
+@admin.register(WebsiteIntroduce)
+class WebsiteIntroduceAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', "sequence", "desc", 'pathwels')
+    search_fields = ('title',)
+
+    def pathwels(self, obj):
+        return '<img src="%s" height="24" width="24" />' % (obj.pathwel.url)
+
+    pathwels.allow_tags = True
+    pathwels.short_description = "介绍图片"
