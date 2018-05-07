@@ -109,3 +109,6 @@ media
 
 # plugin
 # templates
+
+zhinengjiaoshifront/node_modules
+zhinengjiaoshifront/test
