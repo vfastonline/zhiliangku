@@ -1,0 +1,35 @@
+@import './baseConstScss';
+@import './initScss';
+// 版心宽度
+.mw{
+  width: $mainWidth
+}
+.vm{
+  vertical-align: middle;
+}
+.vb{
+  vertical-align: baseline;
+}
+// horizontal下的块级元素居中
+.hc{
+  margin: auto;
+}
+// 上下左右均居中 center_center
+.cc{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%)
+}
+.db{
+  display: block;
+}
+.dib{
+  display: inline-block;
+}
+.fl{
+  float: left;
+}
+.fr{
+  float:right;
+}
