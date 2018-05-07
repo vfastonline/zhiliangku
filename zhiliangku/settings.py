@@ -64,8 +64,6 @@ INSTALLED_APPS = [
     'applications.personal_center',
     'applications.integral',
     'applications.face',
-
-    'applications.projects',
 ]
 
 MIDDLEWARE = [

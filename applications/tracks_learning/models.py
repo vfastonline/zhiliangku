@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from colorfield.fields import ColorField
 from django.core.validators import MinValueValidator
+from django.core.validators import MaxValueValidator
 from django.db import models
 
 from lib.storage import ImageStorage
@@ -63,6 +64,25 @@ class CourseCategory(models.Model):
         verbose_name_plural = "课程类别"
         unique_together = (("path_stage", "sequence"),)
         ordering = ["path_stage", 'sequence']
+
+
+class Project(models.Model):
+    """项目说明书"""
+    pathwel = models.ImageField('介绍图片', upload_to='introduc/%Y%m%d', storage=ImageStorage())
+    title = models.CharField('标题', max_length=50)
+    name = models.CharField('名称', max_length=50)
+    desc = models.TextField('项目简介', max_length=1000, blank=True, null=True, default='')
+    learn = models.PositiveIntegerField('正在学习', null=True, blank=True, default=0)
+    registered = models.PositiveIntegerField('已报名', null=True, blank=True, default=0)
+    difficulty = models.PositiveIntegerField('难度系数', null=True, blank=True, validators=[MaxValueValidator(5)])
+
+    def __unicode__(self):
+        return self.title + self.name
+
+    class Meta:
+        db_table = 'Project'
+        verbose_name = "项目"
+        verbose_name_plural = "项目"
 
 
 class Course(models.Model):

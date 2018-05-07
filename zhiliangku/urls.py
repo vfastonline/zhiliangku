@@ -30,7 +30,6 @@ urlpatterns = [
     url(r'^$', views.index),
     url(r'^login/(?P<err>[0-9]+)/$', views.Login.as_view(), name="login"),
     url('^slides/', include('applications.slideshow.urls')),
-    url('^projects/', include('applications.projects.urls')),
     url('^tracks/', include('applications.tracks_learning.urls')),
     url('^lives/', include('applications.live_streaming.urls')),
     url('^interview_questions/', include('applications.interview_question.urls')),

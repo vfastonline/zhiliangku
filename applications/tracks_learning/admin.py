@@ -45,6 +45,11 @@ class CourseCategoryAdmin(admin.ModelAdmin):
     path.short_description = "路径"
 
 
+@admin.register(Project)
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', "name", "desc", "learn", "registered", "difficulty", "pathwel")
+    search_fields = ('title',)
+
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     list_display = (

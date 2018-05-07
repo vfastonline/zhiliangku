@@ -8,6 +8,7 @@ import live
 import path_list
 import poly_upload_video
 import video_list
+import projects_list
 
 urlpatterns = [
     url('^index_path/list$', path_list.IndexPathList.as_view()),
@@ -15,6 +16,9 @@ urlpatterns = [
 
     url('^path/list/$', path_list.PathList.as_view()),
     url('^path/list/info$', path_list.PathListInfo.as_view()),
+
+    url('^projects/list/$', projects_list.ProjectList.as_view()),
+    url('^projects/list/info$', projects_list.ProjectListInfo.as_view()),
 
     url('^path/detail/$', path_list.PathDetail.as_view()),
     url('^path/detail/info$', path_list.PathDetailInfo.as_view()),

@@ -39,8 +39,9 @@ SUIT_CONFIG = {
          'models': ('Path', 'PathStage', 'CourseCategory')},
 
         # 课程
-        {'label': '课程', 'app': 'tracks_learning', 'icon': 'icon-bookmark',
-         'models': ('Course', 'Section', "Video", "CommonQuestion", 'CoursePath', "Technology", "Faq", "FaqAnswer")},
+        {'label': '项目-课程', 'app': 'tracks_learning', 'icon': 'icon-bookmark',
+         'models': (
+         'Project', 'Course', 'Section', "Video", "CommonQuestion", 'CoursePath', "Technology", "Faq", "FaqAnswer")},
 
         # 观看进度
         {'app': 'record', 'icon': 'icon-list-alt', 'models': ('WatchRecord',)},
@@ -53,9 +54,6 @@ SUIT_CONFIG = {
 
         # 首页相关--轮播图
         {'app': 'slideshow', 'icon': 'icon-repeat', "models": ("Carousel", "WebsiteIntroduce", "RecruitmentPlan")},
-
-        # 项目说明书
-        {'app': 'projects', 'icon': 'icon-repeat'},
 
         # 企业面试题
         {'app': 'interview_question', 'icon': 'icon-globe',

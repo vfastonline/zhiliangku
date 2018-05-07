@@ -4,12 +4,20 @@ import logging
 import traceback
 
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.views.generic import View
+from applications.tracks_learning.models import Project
 
-from applications.projects.models import *
+
+class ProjectList(View):
+    """获取职业路径-页面"""
+
+    def get(self, request, *args, **kwargs):
+        template_name = "tracks/path/list/index.html"
+        return render(request, template_name, {})
 
 
-class PrjectList(View):
+class ProjectListInfo(View):
     """项目说明"""
 
     def get(self, request, *args, **kwargs):
@@ -22,7 +30,8 @@ class PrjectList(View):
                     "pathwel": one.pathwel.url if one.pathwel else "",
                     "title": one.title,
                     "name": one.name,
-                    "desc": one.desc
+                    "desc": one.desc,
+                    "desc": one.desc,
                 }
                 for one in projects
             ]
