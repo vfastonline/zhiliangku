@@ -5,9 +5,9 @@ from django_select2.forms import Select2Widget
 from applications.custom_user.models import *
 
 
-class CustomUserPathForm(forms.ModelForm):
+class CustomUserProjectForm(forms.ModelForm):
     class Meta:
-        model = CustomUserPath
+        model = CustomUserProject
         fields = "__all__"
         widgets = {
             'custom_user': Select2Widget
@@ -16,7 +16,7 @@ class CustomUserPathForm(forms.ModelForm):
 
 class CustomUserAuthsForm(forms.ModelForm):
     class Meta:
-        model = CustomUserPath
+        model = CustomUserProject
         fields = "__all__"
         widgets = {
             'custom_user_id': Select2Widget
@@ -25,7 +25,7 @@ class CustomUserAuthsForm(forms.ModelForm):
 
 class CustomUserCourseForm(forms.ModelForm):
     class Meta:
-        model = CustomUserPath
+        model = CustomUserProject
         fields = "__all__"
         widgets = {
             'custom_user': Select2Widget

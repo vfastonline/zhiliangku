@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'zhiliangku',
-    'applications.interview_question',
     'applications.slideshow',
     'applications.live_streaming',
     'applications.tracks_learning',

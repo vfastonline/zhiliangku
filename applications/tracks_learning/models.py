@@ -11,193 +11,95 @@ from applications.live_streaming.models import Live
 from applications.custom_user.models import CustomUser
 
 
-class Path(models.Model):
-    """职业路径"""
-    name = models.CharField('路径名称', max_length=255)
-    home_show = models.BooleanField("是否首页展示", default=False, help_text="首页展示3个职业路径，请查询已勾选个数后设置。")
-    lowest_salary = models.PositiveIntegerField("最低平均月薪", default=0)
-    highest_salary = models.PositiveIntegerField("最高平均月薪", default=0)
-    path_img = models.ImageField('路径介绍图片', upload_to='path/%Y%m%d', storage=ImageStorage())
-    desc = models.TextField('路径简介', max_length=1000, blank=True, null=True, default='')
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        db_table = 'Path'
-        verbose_name = "路径"
-        verbose_name_plural = "路径"
-
-
-class PathStage(models.Model):
-    """职业路径阶段"""
-    path = models.ForeignKey(Path, verbose_name="职业路径", related_name='PathStage')
-    name = models.CharField('路线阶段名称', max_length=255)
-    sequence = models.PositiveIntegerField('路线阶段顺序', default=1, validators=[MinValueValidator(1)],
-                                           help_text="从1开始，默认顺序为1")
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        db_table = 'PathStage'
-        verbose_name = "路径阶段"
-        verbose_name_plural = "路径阶段"
-        unique_together = (("path", "sequence"),)
-        ordering = ['path', "sequence"]
-
-
-class CourseCategory(models.Model):
-    """路径阶段-课程类别"""
-    path_stage = models.ForeignKey(PathStage, verbose_name="职业路径阶段", related_name='CourseCategory')
-    name = models.CharField('课程类别名称', max_length=255)
-    sequence = models.PositiveIntegerField('路线阶段顺序', default=1, validators=[MinValueValidator(1)],
-                                           help_text="从1开始，默认顺序为1")
-    courses = models.ManyToManyField("Course", verbose_name="包含课程", blank=True)
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        db_table = 'CourseCategory'
-        verbose_name = "课程类别"
-        verbose_name_plural = "课程类别"
-        unique_together = (("path_stage", "sequence"),)
-        ordering = ["path_stage", 'sequence']
-
-
 class Project(models.Model):
-    """项目说明书"""
-    pathwel = models.ImageField('介绍图片', upload_to='introduc/%Y%m%d', storage=ImageStorage())
-    title = models.CharField('标题', max_length=50)
-    name = models.CharField('名称', max_length=50)
-    desc = models.TextField('项目简介', max_length=1000, blank=True, null=True, default='')
-    learn = models.PositiveIntegerField('正在学习', null=True, blank=True, default=0)
-    registered = models.PositiveIntegerField('已报名', null=True, blank=True, default=0)
-    difficulty = models.PositiveIntegerField('难度系数', null=True, blank=True, validators=[MaxValueValidator(5)])
+	"""项目说明书"""
+	name = models.CharField('名称', max_length=50)
+	pathwel = models.ImageField('介绍图片', upload_to='project/%Y%m%d', storage=ImageStorage())
+	desc = models.TextField('简介', max_length=1000, blank=True, null=True, default='')
+	color = ColorField('颜色', max_length=50, default="#00CCFF")
 
-    def __unicode__(self):
-        return self.title + self.name
+	def __unicode__(self):
+		return self.name
 
-    class Meta:
-        db_table = 'Project'
-        verbose_name = "项目"
-        verbose_name_plural = "项目"
+	class Meta:
+		db_table = 'Project'
+		verbose_name = "项目"
+		verbose_name_plural = "项目"
 
 
 class Course(models.Model):
-    """课程"""
+	"""课程"""
 
-    name = models.CharField('课程名称', max_length=50)
-    recommend = models.BooleanField('推荐课程', blank=True, default=False, help_text="是否在网站首页'推荐课程'板块显示。")
-    lecturer = models.ForeignKey("custom_user.CustomUser", verbose_name="讲师", limit_choices_to={'role': 1}, null=True,
-                                 blank=True,
-                                 on_delete=models.SET_NULL, help_text='只允许选择角色是”老师“的用户。')
-    course_img = models.ImageField('课程介绍图片', upload_to='course/%Y%m%d', storage=ImageStorage(),
-                                   help_text="上传前先压缩：https://tinypng.com")
-    tech = models.ManyToManyField("Technology", verbose_name='技术分类')
-    prerequisites = models.TextField('先修要求', default="")
-    learn = models.TextField('你将学到什么', default="")
-    description = models.TextField('课程描述', default="")
-    update_time = models.DateTimeField("更新时间", auto_now=True)
+	project = models.ForeignKey(Project, verbose_name='归属项目', related_name='Courses', blank=True, null=True)
+	lecturer = models.ForeignKey(CustomUser, verbose_name='讲师', related_name='Course_custom_user', blank=True, null=True)
+	name = models.CharField('名称', max_length=50)
+	pathwel = models.ImageField('介绍图片', upload_to='course/%Y%m%d', storage=ImageStorage(), null=True, blank=True)
+	desc = models.TextField('描述', default="", null=True, blank=True)
+	sequence = models.PositiveIntegerField('顺序', default=1, validators=[MinValueValidator(1)], help_text="默认顺序为1")
+	update_time = models.DateTimeField("更新时间", auto_now=True)
 
-    def __unicode__(self):
-        return self.name
+	def __unicode__(self):
+		return self.name
 
-    class Meta:
-        db_table = 'Course'
-        verbose_name = "课程"
-        verbose_name_plural = "课程"
-        ordering = ['-update_time']
-
-
-class CoursePath(models.Model):
-    """课程方向"""
-    name = models.CharField('方向名称', max_length=50)
-    tech = models.ManyToManyField("Technology", verbose_name='技术分类')
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        db_table = 'CoursePath'
-        verbose_name = "方向"
-        verbose_name_plural = "方向"
-
-
-class Technology(models.Model):
-    """技术分类"""
-    name = models.CharField('技术类别', max_length=50)
-    color = ColorField('颜色', max_length=50, default='#FFFFFF')
-    desc = models.TextField('技术简介', default='')
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        db_table = 'Technology'
-        verbose_name = "技术分类"
-        verbose_name_plural = "技术分类"
+	class Meta:
+		db_table = 'Course'
+		verbose_name = "课程"
+		verbose_name_plural = "课程"
+		ordering = ['-update_time']
 
 
 class Section(models.Model):
-    """课程-章节"""
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='所属课程', related_name='Section')
-    title = models.CharField('章节标题', max_length=100, default='')
-    sequence = models.PositiveIntegerField('章节顺序', default=1, validators=[MinValueValidator(1)],
-                                           help_text="从1开始，默认顺序为1")
-    desc = models.TextField('章节描述', default='')
+	"""课程-章节"""
+	course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='所属课程', related_name='Section')
+	title = models.CharField('章节标题', max_length=100, default='')
+	desc = models.TextField('章节描述', default='', null=True, blank=True)
+	sequence = models.PositiveIntegerField('章节顺序', default=1, validators=[MinValueValidator(1)], help_text="默认顺序为1")
 
-    def __unicode__(self):
-        return self.title
+	def __unicode__(self):
+		return self.title
 
-    class Meta:
-        db_table = 'Section'
-        verbose_name = "章节"
-        verbose_name_plural = "章节"
-        ordering = ["course", 'sequence']
+	class Meta:
+		db_table = 'Section'
+		verbose_name = "章节"
+		verbose_name_plural = "章节"
+		ordering = ["course", 'sequence']
 
 
 class Video(models.Model):
-    TYPE = (
-        ("1", "点播"),
-        ("2", "直播回放"),
-        ("3", "直播"),
-        ("4", "习题"),
-    )
-    section = models.ForeignKey(Section, verbose_name='所属章节', related_name='Videos', blank=True, null=True)
-    type = models.CharField('类型', max_length=1, choices=TYPE)
-    name = models.CharField('视频/习题名称', max_length=255)
-    sequence = models.PositiveIntegerField('显示顺序', default=1, validators=[MinValueValidator(1)],
-                                           help_text="从1开始，默认：1")
-    duration = models.PositiveIntegerField('总时长(秒)', default=0, help_text="视频成功上传后，由后台补全；单位：秒")
-    live = models.ForeignKey(Live, verbose_name='直播频道', related_name='Live', blank=True, null=True)
-    live_start_time = models.DateTimeField("直播起始时间", blank=True, null=True)
-    live_end_time = models.DateTimeField("直播终止时间", blank=True, null=True)
-    desc = models.TextField('描述', default='')
-    notes = models.TextField('讲师笔记', default='', null=True, blank=True)
-    vid = models.CharField("vid", max_length=255, blank=True, null=True, help_text="由保利威视回调接口补充")
-    data = models.TextField("视频信息", blank=True, null=True, help_text="由保利威视回调接口补充")
+	TYPE = (
+		("1", "视频"),
+		("2", "考核习题"),
+	)
+	section = models.ForeignKey(Section, verbose_name='所属章节', related_name='Videos', blank=True, null=True)
+	type = models.CharField('类型', max_length=1, choices=TYPE)
+	name = models.CharField('视频/习题名称', max_length=255)
+	address = models.FileField('视频', upload_to='video/%y%m%d', null=True, blank=True)
+	subtitle = models.FileField('字幕', upload_to='video/%y%m%d', null=True, blank=True, default=' ')
+	sequence = models.PositiveIntegerField('显示顺序', default=1, validators=[MinValueValidator(1)],
+	                                       help_text="从1开始，默认：1")
+	duration = models.PositiveIntegerField('总时长(秒)', default=0, help_text="视频成功上传后，由后台补全；单位：秒")
+	desc = models.TextField('描述', default='', null=True, blank=True)
+	notes = models.TextField('讲师笔记', default='', null=True, blank=True)
 
-    def __unicode__(self):
-        return self.name
+	def __unicode__(self):
+		return self.name
 
-    class Meta:
-        db_table = 'Video'
-        verbose_name = "视频"
-        verbose_name_plural = "视频"
-        ordering = ["section", 'sequence']
+	class Meta:
+		db_table = 'Video'
+		verbose_name = "视频"
+		verbose_name_plural = "视频"
+		ordering = ["section", 'sequence']
 
 
 class CommonQuestion(models.Model):
-    video = models.ForeignKey(Video, verbose_name="视频", limit_choices_to={'type__in': [1, 2]})
-    question = models.CharField(max_length=200, verbose_name='问题')
-    answer = models.TextField(verbose_name='回答')
+	video = models.ForeignKey(Video, verbose_name="视频", limit_choices_to={'type__in': [1, 2]})
+	question = models.CharField(max_length=200, verbose_name='问题')
+	answer = models.TextField(verbose_name='回答')
 
-    def __unicode__(self):
-        return self.question
+	def __unicode__(self):
+		return self.question
 
-    class Meta:
-        db_table = 'CommonQuestion'
-        verbose_name = "视频常见问题"
-        verbose_name_plural = "视频常见问题"
+	class Meta:
+		db_table = 'CommonQuestion'
+		verbose_name = "视频常见问题"
+		verbose_name_plural = "视频常见问题"

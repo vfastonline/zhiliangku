@@ -28,20 +28,17 @@ SUIT_CONFIG = {
 
         # 用户管理
         {'app': 'custom_user', 'icon': 'icon-user',
-         'models': ('CustomUser', 'CustomUserAuths', 'CustomUserPath', "CustomUserCourse", "VerifyCode")},
+         'models': ('CustomUser', 'CustomUserAuths', 'CustomUserProject', "CustomUserCourse", "VerifyCode")},
 
         # 个人中心
         {'app': 'personal_center', 'icon': 'icon-star',
          'models': ('Resume', 'CareerObjective', 'WorkExperience', "ProjectExperience", "EducationExperience")},
 
-        # 职业路径
-        {'app': 'tracks_learning', 'icon': 'icon-map-marker',
-         'models': ('Path', 'PathStage', 'CourseCategory')},
-
         # 课程
         {'label': '项目-课程', 'app': 'tracks_learning', 'icon': 'icon-bookmark',
          'models': (
-         'Project', 'Course', 'Section', "Video", "CommonQuestion", 'CoursePath', "Technology", "Faq", "FaqAnswer")},
+             'Project', 'Course', 'Section', "Video", "CommonQuestion", 'CoursePath', "Technology", "Faq",
+             "FaqAnswer")},
 
         # 观看进度
         {'app': 'record', 'icon': 'icon-list-alt', 'models': ('WatchRecord',)},
@@ -54,11 +51,6 @@ SUIT_CONFIG = {
 
         # 首页相关--轮播图
         {'app': 'slideshow', 'icon': 'icon-repeat', "models": ("Carousel", "WebsiteIntroduce", "RecruitmentPlan")},
-
-        # 企业面试题
-        {'app': 'interview_question', 'icon': 'icon-globe',
-         'models': ('EnterpriseInfo', 'ExaminationQuestion', 'ExaminationAnswer',
-                    "AnswerRecord", "CompletedInterviewQuestion")},
 
         # 公司招聘职位
         {'app': 'company_jobs', 'icon': 'icon-briefcase', },

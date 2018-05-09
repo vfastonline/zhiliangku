@@ -23,7 +23,6 @@ class Faq(models.Model):
     user = models.ForeignKey(CustomUser, verbose_name="提问用户", related_name="CustomUserFaq")
     title = models.CharField(max_length=200, verbose_name='标题')
     description = models.TextField(verbose_name='问题描述')
-    path = models.ForeignKey(CoursePath, verbose_name='问题方向', blank=True, null=True)
     reward = models.CharField('悬赏', max_length=1, choices=REWARD, default="0")
     create_time = models.DateTimeField(verbose_name='提问时间', auto_now=True)
     browse_amount = models.PositiveIntegerField('浏览次数', default=0)
