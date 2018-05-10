@@ -50,6 +50,16 @@ class UnlockVideoAdmin(admin.ModelAdmin):
 	search_fields = ("video__name", 'custom_user')
 
 
+@admin.register(Nodus)
+class NodusAdmin(admin.ModelAdmin):
+	list_display = ('id', "video", "title", 'notes', "moment")
+	search_fields = ("video__name", 'title')
+	form = NodusForm
+
+	class Media:
+		js = tinymce_js
+
+
 @admin.register(CommonQuestion)
 class CommonQuestionAdmin(admin.ModelAdmin):
 	list_display = ('id', "video", "question", 'answer')

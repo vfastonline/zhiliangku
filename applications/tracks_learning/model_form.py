@@ -15,6 +15,14 @@ class SectionForm(forms.ModelForm):
 			'course': Select2Widget
 		}
 
+class NodusForm(forms.ModelForm):
+	class Meta:
+		model = CommonQuestion
+		fields = "__all__"
+		widgets = {
+			'video': Select2Widget,
+		}
+
 
 class CommonQuestionForm(forms.ModelForm):
 	class Meta:

@@ -37,7 +37,15 @@ SUIT_CONFIG = {
 		# 课程
 		{'label': '项目-课程', 'app': 'tracks_learning', 'icon': 'icon-bookmark',
 		 'models': (
-			 'Project', 'Course', 'Section', "Video", "UnlockVideo", "CommonQuestion", 'CoursePath', "Technology",
+			 'Project',
+			 'Course',
+			 'Section',
+			 "Video",
+			 "Nodus",
+			 "UnlockVideo",
+			 "CommonQuestion",
+			 'CoursePath',
+			 "Technology",
 			 "Faq",
 			 "FaqAnswer", "StudentNotes")},
 

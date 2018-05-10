@@ -3,6 +3,7 @@ from django.conf.urls import url
 
 import collect_course
 import common_question
+import nodus_views
 import student_notes
 import course_list
 import live
@@ -22,6 +23,7 @@ urlpatterns = [
 	url('^course/detail/info$', course_list.CourseDetailInfo.as_view()),
 
 	url('^common_question/list/info$', common_question.CommonQuestionList.as_view()),  # 视频常见问题
+	url('^nodus/list/info$', nodus_views.NodusList.as_view()),  # 视频难点解析
 	url('^next/video$', video_list.GetNextVideo.as_view()),  # 获取下一节视频信息
 
 	# 视频详情，观看页

@@ -113,9 +113,25 @@ class UnlockVideo(models.Model):
 		verbose_name_plural = "用户通过考核"
 
 
+class Nodus(models.Model):
+	"""视频难点"""
+	video = models.ForeignKey(Video, verbose_name="视频", limit_choices_to={'type': 1})
+	title = models.CharField(max_length=200, verbose_name="标题")
+	notes = models.TextField(verbose_name='解析')
+	moment = models.PositiveIntegerField(verbose_name='视频时刻', help_text="单位：秒")
+
+	def __unicode__(self):
+		return self.title
+
+	class Meta:
+		db_table = 'Nodus'
+		verbose_name = "视频难点解析"
+		verbose_name_plural = "视频难点解析"
+
+
 class CommonQuestion(models.Model):
 	"""视频常见问题"""
-	video = models.ForeignKey(Video, verbose_name="视频", limit_choices_to={'type__in': [1, 2]})
+	video = models.ForeignKey(Video, verbose_name="视频", limit_choices_to={'type': 1})
 	question = models.CharField(max_length=200, verbose_name='问题')
 	answer = models.TextField(verbose_name='回答')
 
