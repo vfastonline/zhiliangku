@@ -8,18 +8,27 @@ from django.core.exceptions import ValidationError
 
 
 class SectionForm(forms.ModelForm):
-    class Meta:
-        model = Section
-        fields = "__all__"
-        widgets = {
-            'course': Select2Widget
-        }
+	class Meta:
+		model = Section
+		fields = "__all__"
+		widgets = {
+			'course': Select2Widget
+		}
 
 
 class CommonQuestionForm(forms.ModelForm):
-    class Meta:
-        model = CommonQuestion
-        fields = "__all__"
-        widgets = {
-            'video': Select2Widget,
-        }
+	class Meta:
+		model = CommonQuestion
+		fields = "__all__"
+		widgets = {
+			'video': Select2Widget,
+		}
+
+
+class StudentNotesForm(forms.ModelForm):
+	class Meta:
+		model = StudentNotes
+		fields = "__all__"
+		widgets = {
+			'video': Select2Widget,
+		}

@@ -24,7 +24,6 @@ class ProjectListInfo(View):
 			result_dict["data"] = [
 				{
 					"id": one.id,
-					"pathwel": one.pathwel.url if one.pathwel else "",
 					"name": one.name,
 					"desc": one.desc,
 					"color": one.color,
@@ -70,7 +69,6 @@ class ProjectDetailInfo(View):
 					detail["name"] = projects_obj.name
 					detail["desc"] = projects_obj.desc
 					detail["color"] = projects_obj.color
-					detail["pathwel"] = projects_obj.pathwel.url if projects_obj.pathwel else ""
 
 					courses = projects_obj.Courses.all().order_by("sequence")
 					# 提供分页数据

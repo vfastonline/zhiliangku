@@ -3,6 +3,7 @@ from django.conf.urls import url
 
 import collect_course
 import common_question
+import student_notes
 import course_list
 import live
 import path_list
@@ -10,12 +11,26 @@ import poly_upload_video
 import video_list
 import projects_list
 
+
 urlpatterns = [
+	url('^projects/list/info$', projects_list.ProjectListInfo.as_view()),  # 项目信息列表
 
-	url('^projects/list/info$', projects_list.ProjectListInfo.as_view()),
+	url('^projects/detail/$', projects_list.ProjectDetail.as_view()),  # 项目详情--页面
+	url('^projects/detail/info$', projects_list.ProjectDetailInfo.as_view()),  # 项目详情--信息
 
-	url('^projects/detail/$', projects_list.ProjectDetail.as_view()),
-	url('^projects/detail/info$', projects_list.ProjectDetailInfo.as_view()),
+	url('^course/detail/$', course_list.CourseDetail.as_view()),
+	url('^course/detail/info$', course_list.CourseDetailInfo.as_view()),
+
+	url('^common_question/list/info$', common_question.CommonQuestionList.as_view()),  # 视频常见问题
+	url('^next/video$', video_list.GetNextVideo.as_view()),  # 获取下一节视频信息
+
+	# 视频详情，观看页
+	url('^video/detail/$', video_list.VideoDetail.as_view()),
+	url('^video/detail/info$', video_list.VideoDetailInfo.as_view()),
+
+	# 学生笔记
+	url('^student/notes/list/info$', student_notes.StudentNotesList.as_view()),  # 学生笔记
+	url('^student/add/notes/info$', student_notes.AddStudentNotes.as_view()),  # 增加--学生笔记
 
 	# url('^project/list/info$', path_list.ParticipateProject.as_view()),  # 参与学习项目
 
@@ -32,17 +47,11 @@ urlpatterns = [
 	url('^course/list/info$', course_list.CourseListInfo.as_view()),
 	url('^search/course/list/info$', course_list.SearchForCourse.as_view()),
 
-	url('^course/detail/$', course_list.CourseDetail.as_view()),
-	url('^course/detail/info$', course_list.CourseDetailInfo.as_view()),
-
 	url('^collect/course$', collect_course.CollectCourse.as_view()),
 
 	url('^video/list/info$', video_list.VideoList.as_view()),
-	url('^next/video$', video_list.GetNextVideo.as_view()),
 
-	# 视频详情，观看页
-	url('^video/detail/$', video_list.VideoDetail.as_view()),
-	url('^video/detail/info$', video_list.VideoDetailInfo.as_view()),
+
 
 	# 直播详情，观看页
 	url('^live/detail/$', live.LiveDetail.as_view()),
@@ -50,9 +59,6 @@ urlpatterns = [
 
 	# 获取上传视频参数
 	url('^get-polyv$', poly_upload_video.UploadVideoPolyvParam.as_view()),
-
-	# 视频常见问题
-	url('^common_question/list/info$', common_question.CommonQuestionList.as_view()),
 
 	# 问题方向
 	url('^question/path/info$', course_list.QuestionPathInfo.as_view()),

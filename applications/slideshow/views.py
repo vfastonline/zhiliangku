@@ -79,6 +79,7 @@ class RecruitmentPlanList(View):
                     "id": one.id,
                     "title": one.title,
                     "sequence": one.sequence if one.sequence else 0,
+                    "pathwel": one.pathwel.url if one.pathwel else "",
                     "desc": one.desc
                 }
                 for one in recruitmentplans

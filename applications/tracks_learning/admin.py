@@ -7,7 +7,7 @@ from zhiliangku.settings import tinymce_js
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-	list_display = ('id', "name", "desc", "pathwel")
+	list_display = ('id', "name", "desc")
 	search_fields = ('title',)
 
 
@@ -44,11 +44,27 @@ class VideoAdmin(admin.ModelAdmin):
 		js = ['js/webPlugins.js'] + tinymce_js
 
 
+@admin.register(UnlockVideo)
+class UnlockVideoAdmin(admin.ModelAdmin):
+	list_display = ('id', "video", "custom_user")
+	search_fields = ("video__name", 'custom_user')
+
+
 @admin.register(CommonQuestion)
 class CommonQuestionAdmin(admin.ModelAdmin):
 	list_display = ('id', "video", "question", 'answer')
 	search_fields = ("video__name", 'question')
 	form = CommonQuestionForm
+
+	class Media:
+		js = tinymce_js
+
+
+@admin.register(StudentNotes)
+class StudentNotesAdmin(admin.ModelAdmin):
+	list_display = ('id', "video", "custom_user", "title", 'notes', "create_time")
+	search_fields = ("video__name", 'title')
+	form = StudentNotesForm
 
 	class Media:
 		js = tinymce_js
