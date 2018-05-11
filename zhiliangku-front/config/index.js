@@ -52,10 +52,10 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../zhiliangku-front/index.html'),
+    index: path.resolve(__dirname, '../front/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../zhiliangku-front'),
+    assetsRoot: path.resolve(__dirname, '../front'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
 
