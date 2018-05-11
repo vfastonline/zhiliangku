@@ -96,8 +96,9 @@ class ProjectsListInfo(View):
 			except:
 				projects_objs = list()
 
-			self.result_dict["data"] = [
-				{
+			data_list = list()
+			for one in projects_objs:
+				one_dict = {
 					"id": one.id,
 					"name": one.name,
 					"desc": one.desc,
@@ -105,8 +106,20 @@ class ProjectsListInfo(View):
 					"is_lock": one.is_lock,
 					"technology": {"name": one.technology.name, "color": one.technology.color}
 				}
-				for one in projects_objs
-			]
+				# 计算项目所有课程总时长
+				courses = one.Courses.all()
+				duration_sum = 0
+				for course in courses:
+					sections = course.Section.all()
+					duration_sum = Video.objects.filter(section__in=sections).aggregate(Sum('duration')).get("duration__sum")
+				m, s = divmod(duration_sum, 60)
+				h, m = divmod(m, 60)
+				total_time_str = "%02d:%02d:%02d" % (h, m, s)
+				one_dict["total_time"] = total_time_str
+
+				data_list.append(one_dict)
+
+			self.result_dict["data"] = data_list
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
@@ -122,6 +135,7 @@ class ProjectsListInfo(View):
 			self.result_dict["breadcrumbs"] = make_bread_crumbs(self.request)
 		except:
 			traceback.print_exc()
+
 
 
 class ProjectsDetail(View):
