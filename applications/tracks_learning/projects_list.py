@@ -15,6 +15,31 @@ from applications.tracks_learning.models import *
 from lib.util import str_to_int
 
 
+class TechnologyListInfo(View):
+	"""技术类别列表"""
+
+	def get(self, request, *args, **kwargs):
+		result_dict = {"err": 0, "msg": "success", "data": []}
+		try:
+			technologys = Technology.objects.all()
+			data_list = list()
+			for technology in technologys:
+				one_dict = dict()
+				one_dict["id"] = technology.id
+				one_dict["name"] = technology.name
+				one_dict["color"] = technology.color
+				one_dict["desc"] = technology.desc
+				data_list.append(one_dict)
+			result_dict["data"] = data_list
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			result_dict["err"] = 1
+			result_dict["msg"] = traceback.format_exc()
+		finally:
+			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
 class ProjectList(View):
 	"""项目-页面"""
 
@@ -28,17 +53,52 @@ class ProjectListInfo(View):
 	"""项目列表"""
 
 	def get(self, request, *args, **kwargs):
-		result_dict = {"err": 0, "msg": "success", "data": []}
+		result_dict = {"err": 0, "msg": "success", "data": [], "paginator": {}}
 		try:
-			projects = Project.objects.filter()
+			name = request.GET.get('name', "")
+			technology_id = str_to_int(request.GET.get('technology_id', 0))
+			page = self.request.GET.get("page", 1)  # 页码
+			per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
+
+			param_dict = {
+				"technology_id": technology_id,
+				"name__icontains": name
+			}
+			filter_dict = dict()
+			for key, val in param_dict.items():
+				if val:
+					filter_dict[key] = val
+			projects = Project.objects.filter(**filter_dict)
+
+			# 提供分页数据
+			page_obj = Paginator(projects, per_page)
+			total_count = page_obj.count  # 记录总数
+			num_pages = page_obj.num_pages  # 总页数
+			page_range = list(page_obj.page_range)  # 页码列表
+			paginator_dict = {
+				"total_count": total_count,
+				"num_pages": num_pages,
+				"page_range": page_range,
+				"page": page,
+				"per_page": per_page
+			}
+
+			result_dict["paginator"] = paginator_dict
+			try:
+				projects_objs = page_obj.page(page).object_list
+			except:
+				projects_objs = list()
+
 			result_dict["data"] = [
 				{
 					"id": one.id,
 					"name": one.name,
 					"desc": one.desc,
 					"color": one.color,
+					"is_lock": one.is_lock,
+					"technology": {"name": one.technology.name, "color": one.technology.color}
 				}
-				for one in projects
+				for one in projects_objs
 			]
 		except:
 			traceback.print_exc()

@@ -11,11 +11,28 @@ from applications.live_streaming.models import Live
 from applications.custom_user.models import CustomUser
 
 
+class Technology(models.Model):
+	"""技术分类"""
+	name = models.CharField('技术类别', max_length=50)
+	color = ColorField('颜色', max_length=50, default='#FFFFFF')
+	desc = models.TextField('技术简介', default='', blank=True, null=True)
+
+	def __unicode__(self):
+		return self.name
+
+	class Meta:
+		db_table = 'Technology'
+		verbose_name = "技术分类"
+		verbose_name_plural = "技术分类"
+
+
 class Project(models.Model):
 	"""项目说明书"""
 	name = models.CharField('名称', max_length=50)
 	desc = models.TextField('简介', max_length=1000, blank=True, null=True, default='')
+	technology = models.ForeignKey(Technology, verbose_name="技术分类", blank=True, null=True)
 	color = ColorField('颜色', max_length=50, default="#00CCFF")
+	is_lock = models.BooleanField("锁定", default=True)
 
 	def __unicode__(self):
 		return self.name

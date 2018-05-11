@@ -14,6 +14,8 @@ import projects_list
 
 
 urlpatterns = [
+	url('^technology/list/info$', projects_list.TechnologyListInfo.as_view()),  # 技术分类
+
 	url('^projects/list/info$', projects_list.ProjectListInfo.as_view()),  # 项目信息列表
 	url('^projects/list/$', projects_list.ProjectList.as_view(), name='projects'),  # 项目信息列表页面
 
