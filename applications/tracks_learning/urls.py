@@ -15,6 +15,7 @@ import projects_list
 
 urlpatterns = [
 	url('^projects/list/info$', projects_list.ProjectListInfo.as_view()),  # 项目信息列表
+	url('^projects/list/$', projects_list.ProjectList.as_view()),  # 项目信息列表页面
 
 	url('^projects/detail/$', projects_list.ProjectDetail.as_view()),  # 项目详情--页面
 	url('^projects/detail/info$', projects_list.ProjectDetailInfo.as_view()),  # 项目详情--信息

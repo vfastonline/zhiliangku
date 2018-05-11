@@ -14,6 +14,15 @@ from applications.tracks_learning.models import *
 from lib.util import str_to_int
 
 
+class ProjectList(View):
+	"""项目-页面"""
+
+	def get(self, request, *args, **kwargs):
+		request.breadcrumbs([(u"主页", '/'), (u"项目", '/tracks/projects/list/')])
+		template_name = "tracks/project/list/index.html"
+		return render(request, template_name, {})
+
+
 class ProjectListInfo(View):
 	"""项目列表"""
 
@@ -43,6 +52,7 @@ class ProjectDetail(View):
 	"""项目详情-页面"""
 
 	def get(self, request, *args, **kwargs):
+		request.breadcrumbs([(u"主页", '/'), (u"项目", '/tracks/projects/list/'), (u"项目详情", '/tracks/projects/detail/')])
 		template_name = "tracks/project/detail/index.html"
 		return render(request, template_name, {})
 
