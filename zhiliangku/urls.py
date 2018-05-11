@@ -27,10 +27,10 @@ handler400 = "zhiliangku.views.redirect_400_error"
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.index),
+    url(r'^$', views.index, name="home"),
     url(r'^login/(?P<err>[0-9]+)/$', views.Login.as_view(), name="login"),
     url('^slides/', include('applications.slideshow.urls')),
-    url('^tracks/', include('applications.tracks_learning.urls')),
+    url('^tracks/', include('applications.tracks_learning.urls', namespace="tracks")),
     url('^lives/', include('applications.live_streaming.urls')),
     url('^company/', include('applications.company_jobs.urls')),
     url('^customuser/', include('applications.custom_user.urls')),

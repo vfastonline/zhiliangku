@@ -19,6 +19,7 @@ class ProjectList(View):
 	"""项目-页面"""
 
 	def get(self, request, *args, **kwargs):
+
 		request.breadcrumbs([(u"主页", reverse('home')), (u"项目", reverse('tracks:projects'))])
 		template_name = "tracks/project/list/index.html"
 		return render(request, template_name, {})
