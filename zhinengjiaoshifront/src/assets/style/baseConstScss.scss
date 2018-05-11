@@ -1,6 +1,21 @@
 $mainWidth: 1200px;
-$greater16font: 'MicroSoft YaHei  ', 'SimSun';
-$less165font: 'SimSun';
-$color3: #333333;
-$color6: #666666;
-$color9: #999999;
+$font1: 'MicroSoft YaHei  ', 'SimSun';
+$font2: 'SimSun';
+$c3: #333333;
+$c6: #666666;
+$c9: #999999;
+$cb4: #00bcd4;
+$cf: #ffffff;
+$fontMap: (font1:$font1, font2:$font2);
+$colorMap:(3:#333333,6:#666666,9:#999999,b4:#00bcd4,f:#ffffff);
+@each $fKey, $fValue in $fontMap{
+  @each $cKey,$cValue in $colorMap{
+    @for $size from 7 through 24{
+      .#{$fKey}_#{$size * 2}_#{$cKey}{
+        font-family: $fValue;
+        font-size: $size * 2px;
+        color: $cValue;
+      }
+    }
+  }
+}
