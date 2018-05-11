@@ -12,7 +12,7 @@ from django.views.generic import View
 
 from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
-from lib.util import str_to_int
+from lib.util import str_to_int, make_bread_crumbs
 
 
 class TechnologyListInfo(View):
@@ -40,7 +40,7 @@ class TechnologyListInfo(View):
 			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-class ProjectList(View):
+class ProjectsList(View):
 	"""项目-页面"""
 
 	def get(self, request, *args, **kwargs):
@@ -49,21 +49,7 @@ class ProjectList(View):
 		return render(request, template_name, {})
 
 
-def make_bread_crumbs(request):
-	result = ""
-	try:
-		breadcrumbs_list = list()
-		for one in request.breadcrumbs:
-			breadcrumbs_list.append('<a href="%s">%s</a>' % (one.url, one.name))
-		result = " > ".join(breadcrumbs_list)
-	except:
-		traceback.print_exc()
-		logging.getLogger().error(traceback.format_exc())
-	finally:
-		return result
-
-
-class ProjectListInfo(View):
+class ProjectsListInfo(View):
 	"""项目列表"""
 
 	def get(self, request, *args, **kwargs):
@@ -129,16 +115,16 @@ class ProjectListInfo(View):
 			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-class ProjectDetail(View):
+class ProjectsDetail(View):
 	"""项目详情-页面"""
 
 	def get(self, request, *args, **kwargs):
 		request.breadcrumbs([(u"主页", '/'), (u"项目", '/tracks/projects/list/'), (u"项目详情", '/tracks/projects/detail/')])
-		template_name = "tracks/project/detail/index.html"
+		template_name = "tracks/projects/detail/index.html"
 		return render(request, template_name, {})
 
 
-class ProjectDetailInfo(View):
+class ProjectsDetailInfo(View):
 	"""项目详情"""
 
 	def get(self, request, *args, **kwargs):
