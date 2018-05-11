@@ -1,1 +1,6 @@
 @import './baseConstScss';
+@mixin fontStyle($family:$font1,$size:16px,$color:$color3){
+  font-family: $family;
+  font-size: $size;
+  color: $color
+}

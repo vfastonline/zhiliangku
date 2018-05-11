@@ -1,35 +1,81 @@
 @import './baseConstScss';
 @import './initScss';
+@import './baseMixin';
 // 版心宽度
-.mw{
+.mw {
   width: $mainWidth
 }
-.vm{
+
+.vm {
   vertical-align: middle;
 }
-.vb{
+
+.r {
+  position: relative;
+}
+
+.a {
+  position: absolute;
+}
+.rose{
+  box-shadow: 5px 5px 10px  rgba(99, 117, 138, 0.30);
+}
+.rise {
+  transition: box-shadow 0.3s ease;
+}
+
+.rise:hover {
+  box-shadow: 0 0 10px 5px rgba(99, 117, 138, 0.30);
+}
+
+.visibility_h{
+  visibility: hidden;
+}
+.vb {
   vertical-align: baseline;
 }
+.vbt{
+  vertical-align: bottom;
+}
 // horizontal下的块级元素居中
-.hc{
+.hc {
   margin: auto;
 }
+
 // 上下左右均居中 center_center
-.cc{
-    position: absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%)
+.cc {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%)
 }
-.db{
+
+.ftc {
+  text-align: center;
+}
+
+.ftl {
+  text-align: left;
+}
+
+.ftr {
+  text-align: right;
+}
+.ftj{
+  text-align: justify;
+}
+.db {
   display: block;
 }
-.dib{
+
+.dib {
   display: inline-block;
 }
-.fl{
+
+.fl {
   float: left;
 }
-.fr{
-  float:right;
+
+.fr {
+  float: right;
 }
