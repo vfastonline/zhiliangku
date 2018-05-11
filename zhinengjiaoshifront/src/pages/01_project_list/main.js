@@ -5,7 +5,6 @@ import App from './app'
 import '../../assets/js/index'
 import '../../assets/style/baseScss.scss'
 Vue.config.productionTip = false
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   components: { App },

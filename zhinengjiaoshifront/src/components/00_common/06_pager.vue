@@ -151,7 +151,6 @@
         var cpage = this.mainData.page;
         console.log(count % size)
         if (!(count % size) && count) {
-          debugger
           this.getData(cpage + 1);
           return
         }
