@@ -102,17 +102,17 @@ class MyPath(View):
         try:
             custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
 
-            customuserpaths = CustomUserPath.objects.filter(custom_user_id=custom_user_id)
+            customuserprojects = CustomUserProject.objects.filter(custom_user_id=custom_user_id)
             data_list = list()
-            if customuserpaths.exists():
-                for one in customuserpaths:
+            if customuserprojects.exists():
+                for one in customuserprojects:
                     data_dict = dict()
                     data_dict["name"] = one.path.name
                     data_dict["path_img"] = one.path.path_img.url
                     data_dict["create_time_year"] = one.create_time.strftime("%Y")
                     data_dict["create_time"] = one.create_time.strftime("%m月%d日")
-                    data_dict["course_count"] = sum([coursecategory.courses.all().count() for coursecategory in
-                                                     CourseCategory.objects.filter(path_stage__path=one.path)])
+                    # data_dict["course_count"] = sum([coursecategory.courses.all().count() for coursecategory in
+                    #                                  CourseCategory.objects.filter(path_stage__path=one.path)])
                     summarize_dict = user_path_summarize(custom_user_id, one.path)
                     data_dict.update(summarize_dict)
                     data_list.append(data_dict)

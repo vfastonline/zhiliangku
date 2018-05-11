@@ -22,8 +22,8 @@ class HandleWatchRecord(View):
             custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 必填，用户ID
             course_id = str_to_int(param_dict.get('course_id', 0))  # 必填，课程ID
             video_id = str_to_int(param_dict.get('video_id', 0))  # 必填，视频ID
-            real_play_video_time = str_to_int(param_dict.get('real_play_video_time', 0))  # 当前观看时间（不包含视频缓冲时间）,秒
-            duration = str_to_int(param_dict.get('duration', 0))  # 当前视频的时长，秒
+            real_play_video_time = str_to_int(param_dict.get('real_play_video_time', 0))  # 当前已观看时长（不包含视频缓冲时间）,秒
+            duration = str_to_int(param_dict.get('duration', 0))  # 视频总时长，秒
             status = str_to_int(param_dict.get('status', 0))  # 1：已看完；0：未看完
 
             # 查询是否有观看记录

@@ -38,7 +38,7 @@ class CustomUser(models.Model):
     receiver = models.CharField('收货人', max_length=255, blank=True, null=True, default="")
     address = models.CharField('收货地址', max_length=255, blank=True, null=True, default="")
     contact_number = models.CharField('联系电话', max_length=255, blank=True, null=True, default="")
-    signature = models.TextField('个性签名', max_length=255, default="")
+    signature = models.TextField('个性签名', max_length=255, default="", null=True, blank=True)
     integral = models.PositiveIntegerField("积分", default=10)
     create_time = models.DateTimeField(verbose_name='创建时间', default=timezone.now)
 
@@ -93,21 +93,21 @@ class CustomUserAuths(models.Model):
         ordering = ["-create_time", "custom_user_id"]
 
 
-class CustomUserPath(models.Model):
-    """用户参与路径 """
+class CustomUserProject(models.Model):
+    """用户参与项目 """
 
     custom_user = models.ForeignKey(CustomUser, verbose_name="用户", limit_choices_to={'role': 0},
                                     help_text='只允许选择角色是”学生“的用户。')
-    path = models.ForeignKey("tracks_learning.Path", verbose_name="职业路径", blank=True, null=True)
+    project = models.ForeignKey("tracks_learning.Project", verbose_name="参与项目", blank=True, null=True)
     create_time = models.DateTimeField(verbose_name='参与时间', default=timezone.now)
 
     def __unicode__(self):
         return self.custom_user.nickname
 
     class Meta:
-        db_table = 'CustomUserPath'
-        verbose_name = "参与路径"
-        verbose_name_plural = "参与路径"
+        db_table = 'CustomUserProject'
+        verbose_name = "参与项目"
+        verbose_name_plural = "参与项目"
         ordering = ["-create_time"]
 
 

@@ -20,12 +20,12 @@ class CustomUserAuthsAdmin(admin.ModelAdmin):
     form = CustomUserAuthsForm
 
 
-@admin.register(CustomUserPath)
-class CustomUserPathAdmin(admin.ModelAdmin):
-    list_display = ('id', 'custom_user', "path", "create_time")
+@admin.register(CustomUserProject)
+class CustomUserProjectAdmin(admin.ModelAdmin):
+    list_display = ('id', 'custom_user', "project", "create_time")
     readonly_fields = ('create_time',)
     search_fields = ('custom_user__nickname', "path__name")
-    form = CustomUserPathForm
+    form = CustomUserProjectForm
 
 
 @admin.register(CustomUserCourse)

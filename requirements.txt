@@ -7,3 +7,4 @@ django-suit
 pycrypto
 django-cors-headers
 django-multiselectfield
+django-breadcrumbs

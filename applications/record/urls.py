@@ -4,6 +4,6 @@ from django.conf.urls import url
 from applications.record import views
 
 urlpatterns = [
-    url('^handle/watchrecord$', views.HandleWatchRecord.as_view()),
+	url('^handle/watchrecord$', views.HandleWatchRecord.as_view()),
 
 ]
