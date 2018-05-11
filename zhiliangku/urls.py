@@ -26,25 +26,25 @@ handler403 = "zhiliangku.views.redirect_403_error"
 handler400 = "zhiliangku.views.redirect_400_error"
 
 urlpatterns = [
-	url(r'^admin/', admin.site.urls),
-	url(r'^$', views.index, name="home"),
-	url(r'^login/(?P<err>[0-9]+)/$', views.Login.as_view(), name="login"),
-	url('^slides/', include('applications.slideshow.urls')),
-	url('^tracks/', include('applications.tracks_learning.urls'), name='tracks'),
-	url('^lives/', include('applications.live_streaming.urls')),
-	url('^company/', include('applications.company_jobs.urls')),
-	url('^customuser/', include('applications.custom_user.urls')),
-	url('^community/', include('applications.community.urls')),
-	url('^exercise/', include('applications.exercise.urls')),
-	url('^polyv/callback', PolyvCallBack.as_view()),
-	url('^personal_center/', include('applications.personal_center.urls')),
-	url('^integral/', include('applications.integral.urls')),
-	url(r'^record/', include('applications.record.urls')),
-	url(r'^r/', include('applications.face.urls')),
-	url(r'^assess/', include('applications.assessment.urls')),
+    url(r'^admin/', admin.site.urls),
+    url(r'^$', views.index),
+    url(r'^login/(?P<err>[0-9]+)/$', views.Login.as_view(), name="login"),
+    url('^slides/', include('applications.slideshow.urls')),
+    url('^tracks/', include('applications.tracks_learning.urls')),
+    url('^lives/', include('applications.live_streaming.urls')),
+    url('^company/', include('applications.company_jobs.urls')),
+    url('^customuser/', include('applications.custom_user.urls')),
+    url('^community/', include('applications.community.urls')),
+    url('^exercise/', include('applications.exercise.urls')),
+    url('^polyv/callback', PolyvCallBack.as_view()),
+    url('^personal_center/', include('applications.personal_center.urls')),
+    url('^integral/', include('applications.integral.urls')),
+    url(r'^record/', include('applications.record.urls')),
+    url(r'^r/', include('applications.face.urls')),
+    url(r'^assess/', include('applications.assessment.urls')),
 
-	url(r'^select2/', include('django_select2.urls')),
-	url(r'^upload', views.upload, name='upload'),
+    url(r'^select2/', include('django_select2.urls')),
+    url(r'^upload', views.upload, name='upload'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
