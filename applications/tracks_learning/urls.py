@@ -19,7 +19,7 @@ urlpatterns = [
 	url('^projects/list/$', projects_list.ProjectsList.as_view(), name='projects'),  # 项目信息列表页面
 
 	url('^projects/detail/$', projects_list.ProjectsDetail.as_view()),  # 项目详情--页面
-	url('^projects/detail/info$', projects_list.ProjectsDetailInfo.as_view()),  # 项目详情--信息
+	url('^projects/detail/info$', projects_list.ProjectsDetailInfo.as_view(), name="project-detail"),  # 项目详情--信息
 
 	url('^course/detail/$', course_list.CourseDetail.as_view()),
 	url('^course/detail/info$', course_list.CourseDetailInfo.as_view()),

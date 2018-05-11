@@ -327,7 +327,6 @@ def str_to_int(param):
 	try:
 		param = int(param)
 	except:
-		traceback.print_exc()
 		param = 0
 	finally:
 		return param

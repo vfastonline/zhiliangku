@@ -52,19 +52,20 @@ class ProjectsList(View):
 class ProjectsListInfo(View):
 	"""项目列表"""
 
+	def __init__(self):
+		super(ProjectsListInfo, self).__init__()
+		self.result_dict = dict()
+
 	def get(self, request, *args, **kwargs):
-		result_dict = {"err": 0, "msg": "success", "data": [], "paginator": {}, "breadcrumbs": ""}
-
-		# 面包屑
-		request.breadcrumbs([(u"主页", reverse('home')), (u"项目", reverse('tracks:projects'))])
-		breadcrumbs = make_bread_crumbs(request)
-		result_dict["breadcrumbs"] = breadcrumbs
-
+		self.result_dict = {"err": 0, "msg": "success", "data": [], "paginator": {}, "breadcrumbs": ""}
 		try:
 			name = request.GET.get('name', "")
 			technology_id = str_to_int(request.GET.get('technology_id', 0))
 			page = self.request.GET.get("page", 1)  # 页码
 			per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
+
+			# 面包屑
+			self.make_breadcrumbs()
 
 			param_dict = {
 				"technology_id": technology_id,
@@ -89,13 +90,13 @@ class ProjectsListInfo(View):
 				"per_page": per_page
 			}
 
-			result_dict["paginator"] = paginator_dict
+			self.result_dict["paginator"] = paginator_dict
 			try:
 				projects_objs = page_obj.page(page).object_list
 			except:
 				projects_objs = list()
 
-			result_dict["data"] = [
+			self.result_dict["data"] = [
 				{
 					"id": one.id,
 					"name": one.name,
@@ -109,32 +110,45 @@ class ProjectsListInfo(View):
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
-			result_dict["err"] = 1
-			result_dict["msg"] = traceback.format_exc()
+			self.result_dict["err"] = 1
+			self.result_dict["msg"] = traceback.format_exc()
 		finally:
-			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
+
+	def make_breadcrumbs(self):
+		"""制作面包屑"""
+		try:
+			self.request.breadcrumbs([(u"主页", reverse('home')), (u"项目", reverse('tracks:projects'))])
+			self.result_dict["breadcrumbs"] = make_bread_crumbs(self.request)
+		except:
+			traceback.print_exc()
 
 
 class ProjectsDetail(View):
 	"""项目详情-页面"""
 
 	def get(self, request, *args, **kwargs):
-		request.breadcrumbs([(u"主页", '/'), (u"项目", '/tracks/projects/list/'), (u"项目详情", '/tracks/projects/detail/')])
 		template_name = "tracks/projects/detail/index.html"
 		return render(request, template_name, {})
 
 
 class ProjectsDetailInfo(View):
 	"""项目详情"""
+	def __init__(self):
+		super(ProjectsDetailInfo, self).__init__()
+		self.result_dict = dict()
 
 	def get(self, request, *args, **kwargs):
-		result_dict = {"err": 0, "msg": "success", "data": [], "paginator": {}}
+		self.result_dict = {"err": 0, "msg": "success", "data": [], "paginator": {}}
 		try:
 			filter_param = dict()
 			project_id = str_to_int(request.GET.get('project_id', 0))
 			custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))
 			page = self.request.GET.get("page", 1)  # 页码
 			per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
+
+			# 面包屑
+			self.make_breadcrumbs()
 
 			detail = dict()
 			if project_id:
@@ -160,7 +174,7 @@ class ProjectsDetailInfo(View):
 						"page": page,
 						"per_page": per_page
 					}
-					result_dict["paginator"] = paginator_dict
+					self.result_dict["paginator"] = paginator_dict
 
 					try:
 						course_objs = page_obj.page(page).object_list
@@ -187,14 +201,26 @@ class ProjectsDetailInfo(View):
 						# 汇总当前用户完成百分比
 
 						detail["courses"].append(course_dict)
-			result_dict["data"] = detail
+			self.result_dict["data"] = detail
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
-			result_dict["err"] = 1
-			result_dict["msg"] = traceback.format_exc()
+			self.result_dict["err"] = 1
+			self.result_dict["msg"] = traceback.format_exc()
 		finally:
-			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
+
+	def make_breadcrumbs(self):
+		"""制作面包屑"""
+		try:
+			self.request.breadcrumbs([
+				(u"主页", reverse('home')),
+				(u"项目", reverse('tracks:projects')),
+				(u"项目详情", "#"),
+			])
+			self.result_dict["breadcrumbs"] = make_bread_crumbs(self.request)
+		except:
+			traceback.print_exc()
 
 
 def project_summarize_course_progress(custom_user_id, course):
