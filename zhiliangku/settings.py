@@ -76,6 +76,7 @@ MIDDLEWARE = [
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	"breadcrumbs.middleware.BreadcrumbsMiddleware"
 ]
 
 ROOT_URLCONF = 'zhiliangku.urls'
