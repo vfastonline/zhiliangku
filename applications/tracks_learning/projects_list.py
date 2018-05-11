@@ -49,11 +49,31 @@ class ProjectList(View):
 		return render(request, template_name, {})
 
 
+def make_bread_crumbs(request):
+	result = ""
+	try:
+		breadcrumbs_list = list()
+		for one in request.breadcrumbs:
+			breadcrumbs_list.append('<a href="%s">%s</a>' % (one.url, one.name))
+		result = " > ".join(breadcrumbs_list)
+	except:
+		traceback.print_exc()
+		logging.getLogger().error(traceback.format_exc())
+	finally:
+		return result
+
+
 class ProjectListInfo(View):
 	"""项目列表"""
 
 	def get(self, request, *args, **kwargs):
-		result_dict = {"err": 0, "msg": "success", "data": [], "paginator": {}}
+		result_dict = {"err": 0, "msg": "success", "data": [], "paginator": {}, "breadcrumbs": ""}
+
+		# 面包屑
+		request.breadcrumbs([(u"主页", reverse('home')), (u"项目", reverse('tracks:projects'))])
+		breadcrumbs = make_bread_crumbs(request)
+		result_dict["breadcrumbs"] = breadcrumbs
+
 		try:
 			name = request.GET.get('name', "")
 			technology_id = str_to_int(request.GET.get('technology_id', 0))
