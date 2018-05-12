@@ -1,18 +1,12 @@
 #!encoding:utf-8
-import json
-import logging
-import traceback
 
-from django.core.paginator import Paginator
-from django.core.urlresolvers import reverse
 from django.db.models import *
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
 
 from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
-from lib.util import str_to_int, make_bread_crumbs
+from lib.util import *
 
 
 class TechnologyListInfo(View):
@@ -111,7 +105,8 @@ class ProjectsListInfo(View):
 				duration_sum = 0
 				for course in courses:
 					sections = course.Section.all()
-					duration_sum = Video.objects.filter(section__in=sections).aggregate(Sum('duration')).get("duration__sum")
+					duration_sum = Video.objects.filter(section__in=sections).aggregate(Sum('duration')).get(
+						"duration__sum")
 				m, s = divmod(duration_sum, 60)
 				h, m = divmod(m, 60)
 				total_time_str = "%02d:%02d:%02d" % (h, m, s)
@@ -137,7 +132,6 @@ class ProjectsListInfo(View):
 			traceback.print_exc()
 
 
-
 class ProjectsDetail(View):
 	"""项目详情-页面"""
 
@@ -148,12 +142,12 @@ class ProjectsDetail(View):
 
 class ProjectsDetailInfo(View):
 	"""项目详情"""
+
 	def __init__(self):
 		super(ProjectsDetailInfo, self).__init__()
-		self.result_dict = dict()
+		self.result_dict = {"err": 0, "msg": "success", "data": [], "paginator": {}}
 
 	def get(self, request, *args, **kwargs):
-		self.result_dict = {"err": 0, "msg": "success", "data": [], "paginator": {}}
 		try:
 			filter_param = dict()
 			project_id = str_to_int(request.GET.get('project_id', 0))
@@ -197,6 +191,7 @@ class ProjectsDetailInfo(View):
 
 					# 项目下所有课程
 					detail["courses"] = list()
+					previous_course = None
 					for course in course_objs:
 						course_dict = {
 							"id": course.id,
@@ -205,12 +200,13 @@ class ProjectsDetailInfo(View):
 							"desc": course.desc,
 							"sequence": course.sequence,
 							"lecturer": course.lecturer.nickname if course.lecturer else "",
-							"avatar": course.lecturer.avatar.url if course.lecturer.avatar else "",
+							"avatar": course.lecturer.avatar.url if course.lecturer else "",
 							"summary": {}
 						}
 						# 获取课程所有视频总时长
-						summarize_dict = project_summarize_course_progress(custom_user_id, course)
+						summarize_dict = project_summarize_course_progress(custom_user_id, course, previous_course)
 						course_dict["summary"] = summarize_dict
+						previous_course = course
 
 						# 汇总当前用户完成百分比
 
@@ -237,24 +233,42 @@ class ProjectsDetailInfo(View):
 			traceback.print_exc()
 
 
-def project_summarize_course_progress(custom_user_id, course):
+def project_summarize_course_progress(custom_user_id, course, previous_course):
 	"""汇总项目下每个课程完成进度
 	:param custom_user_id:用户ID
 	:param course:课程
+	:param previous_course:上一个课程
 	:return:课程学习进度
 	"""
+	# print previous_course, course
 	result_dict = {
 		"total_time": "",  # 课程总时长，秒
 		"remaining_time": "",  # 用户剩余学习时长，秒
-		"schedule": 0,  # 课程学习进度
+		"schedule": 0,  # 课程学习进度， 完成学习：1；未开始：0；正在学习 0< schedule <1
 		"is_study": 0,  # 是否有课程学习记录
 		"learn_video_name": "",  # 最近一次学习视频名称
 		"learn_video_id": "",  # 最近一次学习视频ID
 		"learn_video_type": "",  # 最近一次学习视频类型
 		"video_address": "",  # 最近一次学习视频地址
 		"video_process": 0,  # 最近一次学习视频观看进度
+		"unlock": False,  # 解锁
 	}
 	try:
+		# 判断是否解锁
+		if not previous_course:
+			result_dict["unlock"] = True
+		else:
+			assessment_video = previous_course.Section.last().Videos.filter(type="2")  # 上一个课程->最后章节->考核
+			if assessment_video.exists():
+				filter_param = {
+					"custom_user__id": custom_user_id,
+					"video": assessment_video.first()
+				}
+				unlockvideos = UnlockVideo.objects.filter(**filter_param)
+				if unlockvideos.exists():
+					result_dict["unlock"] = True
+			else:
+				result_dict["unlock"] = True
 		# 课程时长
 		sections = course.Section.all()
 		duration_sum = Video.objects.filter(section__in=sections).aggregate(Sum('duration')).get("duration__sum")

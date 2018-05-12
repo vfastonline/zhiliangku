@@ -62,7 +62,7 @@ class Course(models.Model):
 		db_table = 'Course'
 		verbose_name = "课程"
 		verbose_name_plural = "课程"
-		ordering = ['-update_time']
+		ordering = ['project', "sequence"]
 
 
 class Section(models.Model):
@@ -116,6 +116,7 @@ class Video(models.Model):
 
 
 class UnlockVideo(models.Model):
+	"""学生通过考核记录"""
 	video = models.ForeignKey(Video, verbose_name="考核", related_name='UnlockVideos', limit_choices_to={'type': 2})
 	custom_user = models.ForeignKey(CustomUser, verbose_name='学生', related_name='UnlockVideoCustomUser',
 	                                limit_choices_to={'role': 0}, blank=True, null=True)

@@ -1,19 +1,16 @@
 #!encoding:utf-8
-import json
+from urllib import unquote
 
-from django.core.paginator import Paginator
 from django.db.models import *
-from django.http import HttpResponse
+from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import View
 
-from applications.custom_user.models import *
 from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
-from django.http import Http404
-from lib.util import str_to_int
-from urllib import unquote
 from applications.tracks_learning.projects_list import project_summarize_course_progress
+from lib.util import *
+from lib.util import str_to_int
 
 
 class IndexCourseList(View):
@@ -329,16 +326,23 @@ class CourseDetail(View):
 class CourseDetailInfo(View):
 	"""课程详情"""
 
+	def __init__(self):
+		super(CourseDetailInfo, self).__init__()
+		self.result_dict = {"err": 0, "msg": "success", "data": dict(), "breadcrumbs": ""}
+		self.course_id = 0
+		self.custom_user_id = 0
+
 	def get(self, request, *args, **kwargs):
-		result_dict = {"err": 0, "msg": "success", "data": dict()}
 		try:
-			filter_param = dict()
-			course_id = str_to_int(request.GET.get('course_id', 0))
-			custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+			self.course_id = str_to_int(request.GET.get('course_id', 0))
+			self.custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+
+			# 面包屑
+			self.make_breadcrumbs()
+
 			detail = dict()
-			if course_id:
-				filter_param["id"] = course_id
-				course_objs = Course.objects.filter(**filter_param)
+			if self.course_id:
+				course_objs = Course.objects.filter(id=self.course_id)
 				if course_objs.exists():
 					course_obj = course_objs.first()
 					detail["id"] = course_obj.id
@@ -346,22 +350,22 @@ class CourseDetailInfo(View):
 					detail["lecturer"] = course_obj.lecturer.nickname if course_obj.lecturer else ""
 					detail["pathwel"] = course_obj.pathwel.url if course_obj.pathwel else ""
 					detail["desc"] = course_obj.desc
-					detail["avatar"] = course_obj.lecturer.avatar.url if course_obj.lecturer.avatar else ""
-					detail["position"] = course_obj.lecturer.position if course_obj.lecturer.position else ""
+					detail["avatar"] = course_obj.lecturer.avatar.url if course_obj.lecturer else ""
+					detail["position"] = course_obj.lecturer.position if course_obj.lecturer else ""
+					detail["summary"] = {}
 
 					# 汇总数据学习进度
-					summarize_dict = project_summarize_course_progress(custom_user_id, course_obj)
-					detail.update(summarize_dict)
+					previous_course = None
+					filter_param = {
+						"project": course_obj.project,
+						"sequence": course_obj.sequence - 1,
+					}
+					previous_courses = Course.objects.filter(**filter_param)
+					if previous_courses.exists():
+						previous_course = previous_courses.first()
 
-					# # 是否收藏
-					# detail["is_collect"] = 0  # 用户是否收藏，1：收藏，0：未收藏
-					# collect_filter = {
-					#     "custom_user_id": custom_user_id,
-					#     "course": course_obj,
-					# }
-					# customusercourses = CustomUserCourse.objects.filter(**collect_filter)
-					# if customusercourses.exists():
-					#     detail["is_collect"] = 1  # 用户是否收藏，1：收藏，0：未收藏
+					summarize_dict = project_summarize_course_progress(self.custom_user_id, course_obj, previous_course)
+					detail["summary"] = summarize_dict
 
 					# 查询课程下所有章节信息
 					detail["sections"] = list()
@@ -372,6 +376,7 @@ class CourseDetailInfo(View):
 							"title": one_section.title,
 							"sequence": one_section.sequence,
 							"desc": one_section.desc,
+							"unlock": False
 						}
 						videos = one_section.Videos.all().order_by("sequence")
 
@@ -379,18 +384,23 @@ class CourseDetailInfo(View):
 						if videos.exists():
 							# 查找考核视频，判断用户手通过考核
 							unlock = False
-							if not previous_videos:
-								unlock = True
+							if not previous_videos:  # 没有上一个章节， 查找：上一个课程->最后章节->考核
+								assessment_video = previous_course.Section.last().Videos.filter(type="2")
 							else:
 								assessment_video = previous_videos.filter(type="2")
-								if assessment_video.exists():
-									unlock_filter = {
-										"custom_user__id": custom_user_id,
-										"video": assessment_video.first()
-									}
-									unlockvideos = UnlockVideo.objects.filter(**unlock_filter)
-									if unlockvideos.exists():
-										unlock = True
+
+							if assessment_video.exists():
+								unlock_filter = {
+									"custom_user__id": self.custom_user_id,
+									"video": assessment_video.first()
+								}
+								unlockvideos = UnlockVideo.objects.filter(**unlock_filter)
+								if unlockvideos.exists():
+									unlock = True
+							else:
+								unlock = True
+							section["unlock"] = unlock
+
 							# 当前视频集设为上一章节视频集，用来校验是否解锁下一节视频
 							previous_videos = videos
 
@@ -407,7 +417,7 @@ class CourseDetailInfo(View):
 								video_dict["unlock"] = unlock
 
 								watchrecord_param = {
-									"user__id": custom_user_id,
+									"user__id": self.custom_user_id,
 									"video": video,
 									"course": course_obj,
 									"status": 1
@@ -421,15 +431,30 @@ class CourseDetailInfo(View):
 							section["videos"] = video_list
 
 						detail["sections"].append(section)
-			result_dict["data"] = detail
+			self.result_dict["data"] = detail
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
-			result_dict["err"] = 1
-			result_dict["msg"] = traceback.format_exc()
+			self.result_dict["err"] = 1
+			self.result_dict["msg"] = traceback.format_exc()
 			raise Http404()
 		finally:
-			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
+
+	def make_breadcrumbs(self):
+		"""制作面包屑"""
+		try:
+			project_detail_url_param = "course_id=%s&custom_user_id=%s" % (self.course_id, self.custom_user_id)
+			project_detail_url = "?".join([reverse('tracks:project-detail'), project_detail_url_param])
+			self.request.breadcrumbs([
+				(u"主页", reverse('home')),
+				(u"项目", reverse('tracks:projects')),
+				(u"课程", project_detail_url),
+				(u"课程详情", "#"),
+			])
+			self.result_dict["breadcrumbs"] = make_bread_crumbs(self.request)
+		except:
+			traceback.print_exc()
 
 
 def summarize_course_progress(custom_user_id, course_id):
