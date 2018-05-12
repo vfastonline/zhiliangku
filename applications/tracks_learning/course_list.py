@@ -413,8 +413,10 @@ class CourseDetailInfo(View):
 								video_dict["is_complete"] = 0
 								video_dict["address"] = video.address.url if video.address else ""
 								video_dict["subtitle"] = video.subtitle.url if video.subtitle else ""
-								video_dict["duration"] = video.duration
 								video_dict["unlock"] = unlock
+								m, s = divmod(video.duration, 60)
+								h, m = divmod(m, 60)
+								video_dict["duration"] = "%02d:%02d:%02d" % (h, m, s)
 
 								watchrecord_param = {
 									"user__id": self.custom_user_id,
