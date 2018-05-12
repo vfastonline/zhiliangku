@@ -439,7 +439,6 @@ class CourseDetailInfo(View):
 			logging.getLogger().error(traceback.format_exc())
 			self.result_dict["err"] = 1
 			self.result_dict["msg"] = traceback.format_exc()
-			raise Http404()
 		finally:
 			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
 
@@ -451,7 +450,7 @@ class CourseDetailInfo(View):
 			self.request.breadcrumbs([
 				(u"主页", reverse('home')),
 				(u"项目", reverse('tracks:projects')),
-				(u"课程", project_detail_url),
+				(u"项目课程", project_detail_url),
 				(u"课程详情", "#"),
 			])
 			self.result_dict["breadcrumbs"] = make_bread_crumbs(self.request)
