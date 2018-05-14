@@ -51,7 +51,6 @@ class Course(models.Model):
 	name = models.CharField('名称', max_length=50)
 	lecturer = models.ForeignKey(CustomUser, verbose_name='讲师', related_name='Course_custom_user',
 	                             limit_choices_to={'role': 1}, blank=True, null=True)
-	pathwel = models.ImageField('介绍图片', upload_to='course/%Y%m%d', storage=ImageStorage(), null=True, blank=True)
 	desc = models.TextField('描述', default="", null=True, blank=True)
 	sequence = models.PositiveIntegerField('顺序', default=1, validators=[MinValueValidator(1)], help_text="默认顺序为1")
 	update_time = models.DateTimeField("更新时间", auto_now=True)
