@@ -3,12 +3,11 @@ from __future__ import unicode_literals
 
 from colorfield.fields import ColorField
 from django.core.validators import MinValueValidator
-from django.core.validators import MaxValueValidator
 from django.db import models
 
-from lib.storage import ImageStorage
-from applications.live_streaming.models import Live
 from applications.custom_user.models import CustomUser
+from applications.live_streaming.models import Live
+from lib.storage import ImageStorage
 
 
 class Technology(models.Model):
@@ -33,6 +32,7 @@ class Project(models.Model):
 	technology = models.ForeignKey(Technology, verbose_name="技术分类", blank=True, null=True)
 	color = ColorField('颜色', max_length=50, default="#00CCFF")
 	is_lock = models.BooleanField("锁定", default=True)
+	home_show = models.BooleanField("首页展示", default=False)
 
 	def __unicode__(self):
 		return self.name

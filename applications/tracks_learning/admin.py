@@ -13,7 +13,7 @@ class TechnologyAdmin(admin.ModelAdmin):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-	list_display = ('id', "name", "technology", "color", "desc", "is_lock")
+	list_display = ('id', "name", "technology", "color", "desc", "is_lock", "home_show")
 	search_fields = ('name',)
 
 	def technology(self, obj):

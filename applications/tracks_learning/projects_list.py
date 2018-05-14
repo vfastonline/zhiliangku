@@ -98,6 +98,7 @@ class ProjectsListInfo(View):
 					"desc": one.desc,
 					"color": one.color,
 					"is_lock": one.is_lock,
+					"home_show": one.home_show,
 					"technology": {"name": one.technology.name, "color": one.technology.color}
 				}
 				# 计算项目所有课程总时长
