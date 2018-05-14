@@ -26,7 +26,7 @@ class SlideList(View):
                         "pathwel": one.pathwel.url,
                         "category_name": one.get_category_display(),
                         "category": one.category,
-                        "video_address": one.video.address.url if one.video else "",
+                        "video_address": one.video.address.url if one.video.address else "",
                         "sequence": one.sequence if one.sequence else 0,
                         "desc": one.desc
                     }
