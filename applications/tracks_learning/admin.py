@@ -26,7 +26,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-	list_display = ('id', "project", 'name', "desc", "update_time")
+	list_display = ('id', "project", 'name', "lecturer", "desc", "sequence", "update_time")
 	search_fields = ('name',)
 
 	class Media:
