@@ -55,20 +55,27 @@ class ProjectsListInfo(View):
 		try:
 			name = request.GET.get('name', "")
 			technology_id = str_to_int(request.GET.get('technology_id', 0))
+			home_show = str_to_int(request.GET.get('home_show', 0))
 			page = self.request.GET.get("page", 1)  # 页码
 			per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
 
 			# 面包屑
 			self.make_breadcrumbs()
 
-			param_dict = {
-				"technology_id": technology_id,
-				"name__icontains": name
-			}
+			if home_show:
+				param_dict = {
+					"home_show": True
+				}
+			else:
+				param_dict = {
+					"technology_id": technology_id,
+					"name__icontains": name
+				}
 			filter_dict = dict()
 			for key, val in param_dict.items():
 				if val:
 					filter_dict[key] = val
+
 			projects = Project.objects.filter(**filter_dict)
 
 			# 提供分页数据
@@ -99,6 +106,7 @@ class ProjectsListInfo(View):
 					"color": one.color,
 					"is_lock": one.is_lock,
 					"home_show": one.home_show,
+					"pathwel": one.pathwel.url if one.pathwel else "",
 					"technology": {"name": one.technology.name, "color": one.technology.color}
 				}
 				# 计算项目所有课程总时长
