@@ -5,10 +5,23 @@ from applications.tracks_learning.model_form import *
 from zhiliangku.settings import tinymce_js
 
 
+@admin.register(Technology)
+class TechnologyAdmin(admin.ModelAdmin):
+	list_display = ('id', "name", "color", "desc")
+	search_fields = ('name',)
+
+
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-	list_display = ('id', "name", "desc")
-	search_fields = ('title',)
+	list_display = ('id', "name", "technology", "color", "desc", "is_lock", "home_show", "pathwel")
+	search_fields = ('name',)
+
+	def technology(self, obj):
+		if obj.technology:
+			return obj.technologys.name
+		return ""
+
+	technology.short_description = u"技术分类"
 
 
 @admin.register(Course)

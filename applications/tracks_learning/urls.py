@@ -12,13 +12,14 @@ import poly_upload_video
 import video_list
 import projects_list
 
-
 urlpatterns = [
-	url('^projects/list/info$', projects_list.ProjectListInfo.as_view()),  # 项目信息列表
-	url('^projects/list/$', projects_list.ProjectList.as_view(), name='projects'),  # 项目信息列表页面
+	url('^technology/list/info$', projects_list.TechnologyListInfo.as_view()),  # 技术分类
 
-	url('^projects/detail/$', projects_list.ProjectDetail.as_view()),  # 项目详情--页面
-	url('^projects/detail/info$', projects_list.ProjectDetailInfo.as_view()),  # 项目详情--信息
+	url('^projects/list/info$', projects_list.ProjectsListInfo.as_view()),  # 项目信息列表
+	url('^projects/list/$', projects_list.ProjectsList.as_view(), name='projects'),  # 项目信息列表页面
+
+	url('^projects/detail/$', projects_list.ProjectsDetail.as_view()),  # 项目详情--页面
+	url('^projects/detail/info$', projects_list.ProjectsDetailInfo.as_view(), name="project-detail"),  # 项目详情--信息
 
 	url('^course/detail/$', course_list.CourseDetail.as_view()),
 	url('^course/detail/info$', course_list.CourseDetailInfo.as_view()),
@@ -53,8 +54,6 @@ urlpatterns = [
 	url('^collect/course$', collect_course.CollectCourse.as_view()),
 
 	url('^video/list/info$', video_list.VideoList.as_view()),
-
-
 
 	# 直播详情，观看页
 	url('^live/detail/$', live.LiveDetail.as_view()),

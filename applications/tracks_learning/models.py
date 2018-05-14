@@ -3,19 +3,37 @@ from __future__ import unicode_literals
 
 from colorfield.fields import ColorField
 from django.core.validators import MinValueValidator
-from django.core.validators import MaxValueValidator
 from django.db import models
 
-from lib.storage import ImageStorage
-from applications.live_streaming.models import Live
 from applications.custom_user.models import CustomUser
+from applications.live_streaming.models import Live
+from lib.storage import ImageStorage
+
+
+class Technology(models.Model):
+	"""技术分类"""
+	name = models.CharField('技术类别', max_length=50)
+	color = ColorField('颜色', max_length=50, default='#FFFFFF')
+	desc = models.TextField('技术简介', default='', blank=True, null=True)
+
+	def __unicode__(self):
+		return self.name
+
+	class Meta:
+		db_table = 'Technology'
+		verbose_name = "技术分类"
+		verbose_name_plural = "技术分类"
 
 
 class Project(models.Model):
 	"""项目说明书"""
 	name = models.CharField('名称', max_length=50)
 	desc = models.TextField('简介', max_length=1000, blank=True, null=True, default='')
+	technology = models.ForeignKey(Technology, verbose_name="技术分类", blank=True, null=True)
 	color = ColorField('颜色', max_length=50, default="#00CCFF")
+	is_lock = models.BooleanField("锁定", default=True)
+	home_show = models.BooleanField("首页展示", default=False)
+	pathwel = models.ImageField('介绍图片', upload_to='project/%Y%m%d', storage=ImageStorage(), null=True, blank=True)
 
 	def __unicode__(self):
 		return self.name
@@ -45,7 +63,7 @@ class Course(models.Model):
 		db_table = 'Course'
 		verbose_name = "课程"
 		verbose_name_plural = "课程"
-		ordering = ['-update_time']
+		ordering = ['project', "sequence"]
 
 
 class Section(models.Model):
@@ -99,6 +117,7 @@ class Video(models.Model):
 
 
 class UnlockVideo(models.Model):
+	"""学生通过考核记录"""
 	video = models.ForeignKey(Video, verbose_name="考核", related_name='UnlockVideos', limit_choices_to={'type': 2})
 	custom_user = models.ForeignKey(CustomUser, verbose_name='学生', related_name='UnlockVideoCustomUser',
 	                                limit_choices_to={'role': 0}, blank=True, null=True)

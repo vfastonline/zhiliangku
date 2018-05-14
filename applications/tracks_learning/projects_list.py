@@ -1,45 +1,30 @@
 #!encoding:utf-8
-import json
-import logging
-import traceback
 
-from django.core.paginator import Paginator
-from django.core.urlresolvers import reverse
 from django.db.models import *
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
 
 from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
-from lib.util import str_to_int
+from lib.util import *
 
 
-class ProjectList(View):
-	"""项目-页面"""
-
-	def get(self, request, *args, **kwargs):
-		request.breadcrumbs([(u"主页", reverse('home')), (u"项目", reverse('tracks:projects'))])
-		template_name = "tracks/projects/list/index.html"
-		return render(request, template_name, {})
-
-
-class ProjectListInfo(View):
-	"""项目列表"""
+class TechnologyListInfo(View):
+	"""技术类别列表"""
 
 	def get(self, request, *args, **kwargs):
 		result_dict = {"err": 0, "msg": "success", "data": []}
 		try:
-			projects = Project.objects.filter()
-			result_dict["data"] = [
-				{
-					"id": one.id,
-					"name": one.name,
-					"desc": one.desc,
-					"color": one.color,
-				}
-				for one in projects
-			]
+			technologys = Technology.objects.all()
+			data_list = list()
+			for technology in technologys:
+				one_dict = dict()
+				one_dict["id"] = technology.id
+				one_dict["name"] = technology.name
+				one_dict["color"] = technology.color
+				one_dict["desc"] = technology.desc
+				data_list.append(one_dict)
+			result_dict["data"] = data_list
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
@@ -49,26 +34,138 @@ class ProjectListInfo(View):
 			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-class ProjectDetail(View):
-	"""项目详情-页面"""
+class ProjectsList(View):
+	"""项目-页面"""
 
 	def get(self, request, *args, **kwargs):
-		request.breadcrumbs([(u"主页", '/'), (u"项目", '/tracks/projects/list/'), (u"项目详情", '/tracks/projects/detail/')])
-		template_name = "tracks/project/detail/index.html"
+		request.breadcrumbs([(u"主页", reverse('home')), (u"项目", reverse('tracks:projects'))])
+		template_name = "tracks/projects/list/index.html"
 		return render(request, template_name, {})
 
 
-class ProjectDetailInfo(View):
-	"""项目详情"""
+class ProjectsListInfo(View):
+	"""项目列表"""
+
+	def __init__(self):
+		super(ProjectsListInfo, self).__init__()
+		self.result_dict = dict()
 
 	def get(self, request, *args, **kwargs):
-		result_dict = {"err": 0, "msg": "success", "data": [], "paginator": {}}
+		self.result_dict = {"err": 0, "msg": "success", "data": [], "paginator": {}, "breadcrumbs": ""}
+		try:
+			name = request.GET.get('name', "")
+			technology_id = str_to_int(request.GET.get('technology_id', 0))
+			home_show = str_to_int(request.GET.get('home_show', 0))
+			page = self.request.GET.get("page", 1)  # 页码
+			per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
+
+			# 面包屑
+			self.make_breadcrumbs()
+
+			if home_show:
+				param_dict = {
+					"home_show": True
+				}
+			else:
+				param_dict = {
+					"technology_id": technology_id,
+					"name__icontains": name
+				}
+			filter_dict = dict()
+			for key, val in param_dict.items():
+				if val:
+					filter_dict[key] = val
+
+			projects = Project.objects.filter(**filter_dict)
+
+			# 提供分页数据
+			page_obj = Paginator(projects, per_page)
+			total_count = page_obj.count  # 记录总数
+			num_pages = page_obj.num_pages  # 总页数
+			page_range = list(page_obj.page_range)  # 页码列表
+			paginator_dict = {
+				"total_count": total_count,
+				"num_pages": num_pages,
+				"page_range": page_range,
+				"page": page,
+				"per_page": per_page
+			}
+
+			self.result_dict["paginator"] = paginator_dict
+			try:
+				projects_objs = page_obj.page(page).object_list
+			except:
+				projects_objs = list()
+
+			data_list = list()
+			for one in projects_objs:
+				one_dict = {
+					"id": one.id,
+					"name": one.name,
+					"desc": one.desc,
+					"color": one.color,
+					"is_lock": one.is_lock,
+					"home_show": one.home_show,
+					"pathwel": one.pathwel.url if one.pathwel else "",
+					"technology": {"name": one.technology.name, "color": one.technology.color}
+				}
+				# 计算项目所有课程总时长
+				courses = one.Courses.all()
+				duration_sum = 0
+				for course in courses:
+					sections = course.Section.all()
+					duration_sum = Video.objects.filter(section__in=sections).aggregate(Sum('duration')).get(
+						"duration__sum")
+				m, s = divmod(duration_sum, 60)
+				h, m = divmod(m, 60)
+				total_time_str = "%02d:%02d:%02d" % (h, m, s)
+				one_dict["total_time"] = total_time_str
+
+				data_list.append(one_dict)
+
+			self.result_dict["data"] = data_list
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			self.result_dict["err"] = 1
+			self.result_dict["msg"] = traceback.format_exc()
+		finally:
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
+
+	def make_breadcrumbs(self):
+		"""制作面包屑"""
+		try:
+			self.request.breadcrumbs([(u"主页", reverse('home')), (u"项目", reverse('tracks:projects'))])
+			self.result_dict["breadcrumbs"] = make_bread_crumbs(self.request)
+		except:
+			traceback.print_exc()
+
+
+class ProjectsDetail(View):
+	"""项目详情-页面"""
+
+	def get(self, request, *args, **kwargs):
+		template_name = "tracks/projects/detail/index.html"
+		return render(request, template_name, {})
+
+
+class ProjectsDetailInfo(View):
+	"""项目详情"""
+
+	def __init__(self):
+		super(ProjectsDetailInfo, self).__init__()
+		self.result_dict = {"err": 0, "msg": "success", "data": [], "paginator": {}}
+
+	def get(self, request, *args, **kwargs):
 		try:
 			filter_param = dict()
 			project_id = str_to_int(request.GET.get('project_id', 0))
 			custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))
 			page = self.request.GET.get("page", 1)  # 页码
 			per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
+
+			# 面包屑
+			self.make_breadcrumbs()
 
 			detail = dict()
 			if project_id:
@@ -94,7 +191,7 @@ class ProjectDetailInfo(View):
 						"page": page,
 						"per_page": per_page
 					}
-					result_dict["paginator"] = paginator_dict
+					self.result_dict["paginator"] = paginator_dict
 
 					try:
 						course_objs = page_obj.page(page).object_list
@@ -103,6 +200,7 @@ class ProjectDetailInfo(View):
 
 					# 项目下所有课程
 					detail["courses"] = list()
+					previous_course = None
 					for course in course_objs:
 						course_dict = {
 							"id": course.id,
@@ -111,44 +209,75 @@ class ProjectDetailInfo(View):
 							"desc": course.desc,
 							"sequence": course.sequence,
 							"lecturer": course.lecturer.nickname if course.lecturer else "",
-							"avatar": course.lecturer.avatar.url if course.lecturer.avatar else "",
+							"avatar": course.lecturer.avatar.url if course.lecturer else "",
 							"summary": {}
 						}
 						# 获取课程所有视频总时长
-						summarize_dict = project_summarize_course_progress(custom_user_id, course)
+						summarize_dict = project_summarize_course_progress(custom_user_id, course, previous_course)
 						course_dict["summary"] = summarize_dict
+						previous_course = course
 
 						# 汇总当前用户完成百分比
 
 						detail["courses"].append(course_dict)
-			result_dict["data"] = detail
+			self.result_dict["data"] = detail
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
-			result_dict["err"] = 1
-			result_dict["msg"] = traceback.format_exc()
+			self.result_dict["err"] = 1
+			self.result_dict["msg"] = traceback.format_exc()
 		finally:
-			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
+
+	def make_breadcrumbs(self):
+		"""制作面包屑"""
+		try:
+			self.request.breadcrumbs([
+				(u"主页", reverse('home')),
+				(u"项目", reverse('tracks:projects')),
+				(u"项目详情", "#"),
+			])
+			self.result_dict["breadcrumbs"] = make_bread_crumbs(self.request)
+		except:
+			traceback.print_exc()
 
 
-def project_summarize_course_progress(custom_user_id, course):
+def project_summarize_course_progress(custom_user_id, course, previous_course):
 	"""汇总项目下每个课程完成进度
 	:param custom_user_id:用户ID
 	:param course:课程
+	:param previous_course:上一个课程
 	:return:课程学习进度
 	"""
+	# print previous_course, course
 	result_dict = {
 		"total_time": "",  # 课程总时长，秒
 		"remaining_time": "",  # 用户剩余学习时长，秒
-		"schedule": 0,  # 课程学习进度
+		"schedule": 0,  # 课程学习进度， 完成学习：1；未开始：0；正在学习 0< schedule <1
 		"is_study": 0,  # 是否有课程学习记录
 		"learn_video_name": "",  # 最近一次学习视频名称
 		"learn_video_id": "",  # 最近一次学习视频ID
 		"learn_video_type": "",  # 最近一次学习视频类型
 		"video_address": "",  # 最近一次学习视频地址
 		"video_process": 0,  # 最近一次学习视频观看进度
+		"unlock": False,  # 解锁
 	}
 	try:
+		# 判断是否解锁
+		if not previous_course:
+			result_dict["unlock"] = True
+		else:
+			assessment_video = previous_course.Section.last().Videos.filter(type="2")  # 上一个课程->最后章节->考核
+			if assessment_video.exists():
+				filter_param = {
+					"custom_user__id": custom_user_id,
+					"video": assessment_video.first()
+				}
+				unlockvideos = UnlockVideo.objects.filter(**filter_param)
+				if unlockvideos.exists():
+					result_dict["unlock"] = True
+			else:
+				result_dict["unlock"] = True
 		# 课程时长
 		sections = course.Section.all()
 		duration_sum = Video.objects.filter(section__in=sections).aggregate(Sum('duration')).get("duration__sum")
