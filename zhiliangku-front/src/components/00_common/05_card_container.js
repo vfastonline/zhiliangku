@@ -25,8 +25,8 @@ Vue.component('CardContainer', {
   props: {
     config:{
       num: {type: Number, required: true},
-      card: {type: Object, required: true},
-      cardData:{required:true}
+      card: {type: Object, required: true},//card 的vue基础对象
+      cardData:{required:true}//最后补充的card需要填充的数据，避免被隐藏card报错
     }
   }
 })

@@ -3,10 +3,11 @@
     <div class="main">
       <MyHeader></MyHeader>
       <div class="top_img"></div>
-      <div v-text="bread_crumb"></div>
+      <!--<div v-html="str"></div>-->
       <section class="project_list">
         <CardContainer class="mw hc " :config="{num:3,card:ProjectStep,cardData:true}">
           <!--<a href="/projectSubjectList/index.html">-->
+          <ProjectStep class="margin"></ProjectStep>
           <ProjectStep class="margin"></ProjectStep>
           <ProjectStep class="margin"></ProjectStep>
           <ProjectStep class="margin"></ProjectStep>
@@ -54,7 +55,7 @@
     data() {
       return {
         ProjectStep: ProjectStep,
-        bread_crumb: '{% for breadcrumb in request.breadcrumbs %}<a href=\"{{ breadcrumb.url }}\">{{ breadcrumb.name }}</a>{% if not forloop.last %} » {% endif %}{% endfor %}   '
+        str:''
       }
     },
     components: {
@@ -62,6 +63,11 @@
       F: F,
       ProjectStep: ProjectStep,
       Pager: Pager
+    },
+    created(){
+      this.$get('/tracks/projects/list/info?project_id=1').then(res=>{
+       this.str= res.data.breadcrumbs
+      })
     }
   }
 </script>

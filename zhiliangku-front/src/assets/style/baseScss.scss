@@ -64,6 +64,13 @@
 .ftj{
   text-align: justify;
 }
+// 这是因为ftj在文本只有一行的时候不生效，从而加的一个hack
+.line2{
+  width: 100%;
+  height: 0;
+  display: inline-block;
+  line-height: 0px;
+}
 .db {
   display: block;
 }

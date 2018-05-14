@@ -6,7 +6,8 @@
       112 sdfahd oiasjdf asdhfhu sdfhuais sdhfu sdhu chuaid hvuai sdhuiw weuhfia asdhfiuasd asdhufia ddshuif schuaiw
       112 sdfahd oiasjdf asdhfhu sdfhuais sdhfu sdhu chuaid hvuai sdhuiw weuhfia asdhfiuasd asdhufia ddshuif schuaiw
     </p>
-    <span class="dib font1_24_f tag">拆分课程</span>
+    <span v-if="show_id === 1" class="dib font1_24_f tag">拆分课程</span>
+    <span v-if="show_id === 2" class="dib font1_24_f tag course"  >课程详情</span>
   </section>
 </template>
 <style scoped>
@@ -35,6 +36,9 @@
     border-radius: 10px;
     margin-bottom: 40px;
   }
+  .course{
+    margin-left: 110px;
+  }
 </style>
 <script>
   export default {
@@ -45,9 +49,13 @@
 
       }
     },
+    props:{
+      show_id:{default:1}
+    },
     components: {
     },
     created() {
+      console.log(this.show_id)
     }
   }
 </script>
