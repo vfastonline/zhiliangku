@@ -112,3 +112,5 @@ media
 
 zhiliangku-front/node_modules
 zhiliangku-front/test
+zhiliangku-front/00_node_server
+!zhiliangku-front/build
