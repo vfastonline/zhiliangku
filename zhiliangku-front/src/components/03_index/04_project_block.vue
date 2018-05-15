@@ -1,11 +1,11 @@
 <template>
-  <section :style="S" class="project_block mw hc">
-    <div class="project_image_container fl ftc"><img class="project_face_image  " src="./img/project_face_1.png" alt="">
+  <section :style="S" class="hc mw">
+    <div class="project_image_container fl ftc"><img class="project_face_image  " :src="main_data.pathwel" alt="">
     </div>
     <div class="project_info">
-      <h4 class="project_type font1_22_b_4">hello world !</h4>
-      <h2 class="project_name font1_30_3">Hello World</h2>
-      <p class="project_introduce">hello World</p>
+      <h4 class="project_type font1_22_b4">精选项目{{main_data.id}}</h4>
+      <h2 class="project_name font1_30_3">{{main_data.name}}</h2>
+      <p class="project_introduce">{{main_data.desc}}</p>
       <!--<el-button> <span class="font1_26_ff project_button">查看详情</span></el-button>-->
       <a href="#">
         <Button>查看详情</Button>
@@ -25,11 +25,18 @@
         default: function () {
           return {'margin-bottom': '60px'}
         }
+      },
+      main_data:{
+        required:true
       }
     },
     components: {
       Button: Button
-    }
+    },
+    data() {
+      return {}
+    },
+    methods: {},
   }
 </script>
 

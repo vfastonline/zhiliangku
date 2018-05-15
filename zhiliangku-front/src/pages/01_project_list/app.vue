@@ -6,14 +6,8 @@
       <!--<div v-html="str"></div>-->
       <section class="project_list">
         <CardContainer class="mw hc " :config="{num:3,card:ProjectStep,cardData:true}">
-          <!--<a href="/projectSubjectList/index.html">-->
-          <ProjectStep class="margin"></ProjectStep>
-          <ProjectStep class="margin"></ProjectStep>
-          <ProjectStep class="margin"></ProjectStep>
-          <ProjectStep class="margin"></ProjectStep>
-          <!--</a>-->
-          <a href="/projectSubjectList/index.html">
-            <ProjectStep class="margin"></ProjectStep>
+          <a href="/projectSubjectList/index.html" v-for="(item, index) in project_lists" :key="index">
+            <ProjectStep :main_data="item" class="margin"></ProjectStep>
           </a>
         </CardContainer>
       </section>
@@ -55,7 +49,7 @@
     data() {
       return {
         ProjectStep: ProjectStep,
-        str:''
+        project_lists:''
       }
     },
     components: {
@@ -65,8 +59,9 @@
       Pager: Pager
     },
     created(){
-      this.$get('/tracks/projects/list/info?project_id=1').then(res=>{
-       this.str= res.data.breadcrumbs
+      this.$get('/tracks/projects/list/info?home_show=0').then(res=>{
+        console.table(res.data.data)
+        this.project_lists = res.data.data;
       })
     }
   }
