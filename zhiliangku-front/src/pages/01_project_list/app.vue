@@ -2,7 +2,7 @@
   <div>
     <div class="main">
       <MyHeader></MyHeader>
-      <div class="top_img"></div>
+      <div class="top_img mw hc"></div>
       <!--<div v-html="str"></div>-->
       <section class="project_list">
         <CardContainer class="mw hc " :config="{num:3,card:ProjectStep,cardData:true}">
@@ -11,19 +11,17 @@
           <ProjectStep class="margin"></ProjectStep>
           <ProjectStep class="margin"></ProjectStep>
           <ProjectStep class="margin"></ProjectStep>
-          <!--</a>-->
-          <a href="/projectSubjectList/index.html">
-            <ProjectStep class="margin"></ProjectStep>
-          </a>
+          <ProjectStep class="margin"></ProjectStep>
         </CardContainer>
       </section>
-      <Pager></Pager>
+      <Pager class="mw hc"></Pager>
       <img class="bottom_image db" src="./img/tree_wave.png" alt="">
     </div>
     <F></F>
   </div>
 </template>
 <style scoped lang='scss'>
+
   .margin {
     margin-bottom: 40px;
   }
@@ -55,7 +53,7 @@
     data() {
       return {
         ProjectStep: ProjectStep,
-        str:''
+        str: ''
       }
     },
     components: {
@@ -64,9 +62,9 @@
       ProjectStep: ProjectStep,
       Pager: Pager
     },
-    created(){
-      this.$get('/tracks/projects/list/info?project_id=1').then(res=>{
-       this.str= res.data.breadcrumbs
+    created() {
+      this.$get('/tracks/projects/list/info?project_id=1').then(res => {
+        this.str = res.data.breadcrumbs
       })
     }
   }
