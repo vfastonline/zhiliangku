@@ -32,6 +32,9 @@ urlpatterns = [
 	url('^video/detail/$', video_list.VideoDetail.as_view()),
 	url('^video/detail/info$', video_list.VideoDetailInfo.as_view()),
 
+	# 考核
+	url('^assessment/detail/$', video_list.AssessmentDetail.as_view()),
+
 	# 学生笔记
 	url('^student/notes/list/info$', student_notes.StudentNotesList.as_view()),  # 学生笔记
 	url('^student/add/notes/info$', student_notes.AddStudentNotes.as_view()),  # 增加--学生笔记
