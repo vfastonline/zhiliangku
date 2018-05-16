@@ -11,9 +11,9 @@
       <IntroduceTitle :title="'企业人才招聘方案'"></IntroduceTitle>
       <p class="hc font1_22_6 mw ftc" v-if="enterprise_need[0]" v-html="enterprise_need[0].title"></p>
       <EnterpriseRecruitment :main_data="enterprise_need"></EnterpriseRecruitment>
-      <IntroduceTitle :title="'Hello World ！'"></IntroduceTitle>
-      <ProjectFace></ProjectFace>
-      <ProjectFace></ProjectFace>
+      <IntroduceTitle :title="'项目说明书'"></IntroduceTitle>
+      <ProjectFace v-for="(item,index) in project_home_lists" :key="index" :main_data="item"></ProjectFace>
+      <!--<ProjectFace></ProjectFace>-->
       <!--<JoinUs></JoinUs>-->
       <Joined></Joined>
     </div>
@@ -36,7 +36,9 @@
     data() {
       return {
         introduce_list: [],
-        enterprise_need: []
+        enterprise_need: [],
+        project_home_lists:[],
+
       }
     },
     methods: {
@@ -50,11 +52,18 @@
             this.enterprise_need = res.data.data
           this.$fn.addString(this.$myConst.httpUrl,res.data.data,'pathwel')
         })
+      },
+      get_project_list() {
+        this.$get('/tracks/projects/list/info?home_show=1').then(res=>{
+          this.$fn.addString(this.$myConst.httpUrl,res.data.data,'pathwel')
+          this.project_home_lists = res.data.data;
+        })
       }
     },
     created() {
       this.get_introduce_list()
       this.get_enterprise_need()
+      this.get_project_list()
     },
     components: {
       MyHeader: MyHeader,
