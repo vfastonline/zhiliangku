@@ -89,10 +89,19 @@ class VideoList(View):
 
 @class_view_decorator(user_login_required)
 class VideoDetail(View):
-	"""视频详情页面"""
+	"""视频详情--页面"""
 
 	def get(self, request, *args, **kwargs):
 		template_name = "tracks/video/detail/index.html"
+		return render(request, template_name, {})
+
+
+@class_view_decorator(user_login_required)
+class AssessmentDetail(View):
+	"""视频考核详情--页面"""
+
+	def get(self, request, *args, **kwargs):
+		template_name = "tracks/video/assessment/detail/index.html"
 		return render(request, template_name, {})
 
 

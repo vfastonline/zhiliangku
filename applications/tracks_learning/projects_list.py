@@ -38,7 +38,6 @@ class ProjectsList(View):
 	"""项目-页面"""
 
 	def get(self, request, *args, **kwargs):
-		request.breadcrumbs([(u"主页", reverse('home')), (u"项目", reverse('tracks:projects'))])
 		template_name = "tracks/projects/list/index.html"
 		return render(request, template_name, {})
 
@@ -48,19 +47,28 @@ class ProjectsListInfo(View):
 
 	def __init__(self):
 		super(ProjectsListInfo, self).__init__()
-		self.result_dict = dict()
+		self.result_dict = {
+			"err": 0,
+			"msg": "success",
+			"data": [],
+			"paginator": {},
+			"breadcrumbs": "",
+			"general_assessment": {}
+		}
 
 	def get(self, request, *args, **kwargs):
-		self.result_dict = {"err": 0, "msg": "success", "data": [], "paginator": {}, "breadcrumbs": ""}
 		try:
-			name = request.GET.get('name', "")
-			technology_id = str_to_int(request.GET.get('technology_id', 0))
-			home_show = str_to_int(request.GET.get('home_show', 0))
+			name = request.GET.get('name', "")  # 项目名称，支持模糊查询
+			self.technology_id = str_to_int(request.GET.get('technology_id', 0))  # 技术方向ID
+			home_show = str_to_int(request.GET.get('home_show', 0))  # 是否首页展示
 			page = self.request.GET.get("page", 1)  # 页码
 			per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
 
 			# 面包屑
 			self.make_breadcrumbs()
+
+			# 技术方向--所有项目--总考核
+			self.get_technology_assessment()
 
 			if home_show:
 				param_dict = {
@@ -68,7 +76,7 @@ class ProjectsListInfo(View):
 				}
 			else:
 				param_dict = {
-					"technology_id": technology_id,
+					"technology_id": self.technology_id,
 					"name__icontains": name
 				}
 			filter_dict = dict()
@@ -107,7 +115,12 @@ class ProjectsListInfo(View):
 					"is_lock": one.is_lock,
 					"home_show": one.home_show,
 					"pathwel": one.pathwel.url if one.pathwel else "",
-					"technology": {"name": one.technology.name, "color": one.technology.color}
+					"technology": {"name": one.technology.name, "color": one.technology.color},
+					"video": {
+						"id": one.video.id,
+						"docker": one.video.docker,
+						"docker_name": one.video.get_docker_display(),
+					}
 				}
 				# 计算项目所有课程总时长
 				courses = one.Courses.all()
@@ -137,6 +150,25 @@ class ProjectsListInfo(View):
 		try:
 			self.request.breadcrumbs([(u"主页", reverse('home')), (u"项目", reverse('tracks:projects'))])
 			self.result_dict["breadcrumbs"] = make_bread_crumbs(self.request)
+		except:
+			traceback.print_exc()
+
+	def get_technology_assessment(self):
+		"""获取技术方向下总考核信息
+		:return:
+		"""
+		try:
+			if self.technology_id:
+				technologys = Technology.objects.filter(id=self.technology_id)
+				if technologys.exists():
+					video_obj = technologys.first().video
+					if video_obj:
+						video_dict = {
+							"id": video_obj.id,
+							"docker": video_obj.docker,
+							"docker_name": video_obj.get_docker_display(),
+						}
+						self.result_dict["general_assessment"] = video_dict
 		except:
 			traceback.print_exc()
 
