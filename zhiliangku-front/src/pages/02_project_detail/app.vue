@@ -22,9 +22,9 @@
 <script>
   import MyHeader from '../../components/01_header_footer/01_header'
   import F from '../../components/01_header_footer/03_footer'
-  import SubjectList from '../../components/05_project_subject_list/02_subject_info'
+  import SubjectList from '../../components/05_project_detail/02_subject_info'
   import '../../components/00_common/05_card_container'
-  import SubjectBlock from '../../components/05_project_subject_list/01_subject_block'
+  import SubjectBlock from '../../components/05_project_detail/01_subject_block'
   import pager from '../../components/00_common/06_pager'
   export default {
     data() {

@@ -2,27 +2,21 @@
   <div>
     <div class="main">
       <MyHeader></MyHeader>
-      <div class="top_img"></div>
-      <div v-text="bread_crumb"></div>
+      <div class="top_img mw hc"></div>
+      <!--<div v-html="str"></div>-->
       <section class="project_list">
-        <CardContainer class="mw hc " :config="{num:3,card:ProjectStep,cardData:true}">
-          <!--<a href="/projectSubjectList/index.html">-->
-          <ProjectStep class="margin"></ProjectStep>
-          <ProjectStep class="margin"></ProjectStep>
-          <ProjectStep class="margin"></ProjectStep>
-          <!--</a>-->
-          <a href="/projectSubjectList/index.html">
-            <ProjectStep class="margin"></ProjectStep>
-          </a>
+        <CardContainer v-if="project_lists.length" class="mw hc " :config="{num:3,card:ProjectStep,cardData:project_lists[0]}">
+            <ProjectStep  v-for="(item, index) in project_lists" v-if="item" :key="index" :main_data="item" class="margin"></ProjectStep>
         </CardContainer>
       </section>
-      <Pager></Pager>
+      <Pager class="mw hc"></Pager>
       <img class="bottom_image db" src="./img/tree_wave.png" alt="">
     </div>
     <F></F>
   </div>
 </template>
 <style scoped lang='scss'>
+
   .margin {
     margin-bottom: 40px;
   }
@@ -54,7 +48,15 @@
     data() {
       return {
         ProjectStep: ProjectStep,
-        bread_crumb: '{% for breadcrumb in request.breadcrumbs %}<a href=\"{{ breadcrumb.url }}\">{{ breadcrumb.name }}</a>{% if not forloop.last %} » {% endif %}{% endfor %}   '
+<<<<<<< HEAD
+        project_lists:[]
+=======
+<<<<<<< HEAD
+        str: ''
+=======
+        project_lists:''
+>>>>>>> 2028d52fa6d348aec59f7aa249c3f8a5aee73cfb
+>>>>>>> 44e428effa84f9af9260cb509cf07a058b06f713
       }
     },
     components: {
@@ -62,6 +64,18 @@
       F: F,
       ProjectStep: ProjectStep,
       Pager: Pager
+    },
+<<<<<<< HEAD
+    created() {
+      this.$get('/tracks/projects/list/info?project_id=1').then(res => {
+        this.str = res.data.breadcrumbs
+=======
+    created(){
+      this.$get('/tracks/projects/list/info?home_show=0').then(res=>{
+        console.table(res.data.data)
+        this.project_lists = res.data.data;
+>>>>>>> 2028d52fa6d348aec59f7aa249c3f8a5aee73cfb
+      })
     }
   }
 </script>
