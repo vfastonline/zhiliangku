@@ -5,10 +5,8 @@
       <div class="top_img"></div>
       <!--<div v-html="str"></div>-->
       <section class="project_list">
-        <CardContainer class="mw hc " :config="{num:3,card:ProjectStep,cardData:true}">
-          <a href="/projectSubjectList/index.html" v-for="(item, index) in project_lists" :key="index">
-            <ProjectStep :main_data="item" class="margin"></ProjectStep>
-          </a>
+        <CardContainer v-if="project_lists.length" class="mw hc " :config="{num:3,card:ProjectStep,cardData:project_lists[0]}">
+            <ProjectStep  v-for="(item, index) in project_lists" v-if="item" :key="index" :main_data="item" class="margin"></ProjectStep>
         </CardContainer>
       </section>
       <Pager></Pager>
@@ -49,7 +47,7 @@
     data() {
       return {
         ProjectStep: ProjectStep,
-        project_lists:''
+        project_lists:[]
       }
     },
     components: {
