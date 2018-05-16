@@ -1,12 +1,14 @@
 <template>
   <div class="addition_bar ftj mw hc">
           <span class="dib addition_tags">
-            <span @click="get_data_addition" class="dib addition_tag font1_24_4 ftc" v-for="(item,index) in testArr"
-                  :key="index" :class="{'font1_24_f':item.active,'selected':item.active}">{{item}}</span>
+            <span class="dib addition_tag font1_24_6 ftc cp" v-for="(item,index) in tags_arr"
+                  :key="index" @click="get_data_addition(item)"
+                  :class="{'font1_24_f':item.active,'selected':item.active}">{{item.name}}</span>
           </span>
     <span class="dib search_block">
-            <input class="search_input " type="text" placeholder="请输入关键字">
-            <img @click="get_search_data" class="vb" src="./img/search.png" alt="">
+            <input v-model="search_value" @keydown.enter="get_search_data(search_value)" class="search_input "
+                   type="text" placeholder="请输入关键字">
+            <img @click="get_search_data(search_value)" class="vb" src="./img/search.png" alt="">
           </span>
     <span class="line2"></span>
   </div>
@@ -44,27 +46,60 @@
   }
 
   .addition_bar {
+    margin-top: 80px;
     margin-bottom: 60px;
   }
 
 </style>
 <script>
-    export default {
-        name: "search_input",
-      data(){
-          return {
-            testArr: ['大数据', '运维', '大数据', '运维', '大数据', '运维', '大数据', '运维', '大数据', '运维', '大数据', '运维'],
-          }
-      },
-      methods: {
-        get_data_addition() {
-          // 这里面写入处理函数，目标为：将所有item的active属性变为false，然后将选中的item加上active属性。切记如果item中无active则要在刚刚请求到active的时候写入这个属性。
-        },
-        get_search_data(){
+  import Bus from '../../assets/js/02_bus'
 
+  export default {
+    name: "search_input",
+    data() {
+      return {
+        tags_arr: [],
+        search_value: '',
+        technology_id:''
+        // search_data: ''
+      }
+    },
+    methods: {
+      get_data_addition(item) {
+        // 这里面写入处理函数，目标为：将所有item的active属性变为false，然后将选中的item加上active属性。切记如果item中无active则要在刚刚请求到active的时候写入这个属性。
+        this.handle_active(item)
+        Bus.$emit('additionEnter', {'technology_id': item.id})
+      },
+      handle_active(item) {
+        this.tags_arr.forEach(el => {
+          el.active = false
+        })
+        item.active = true
+        this.technology_id=item.id
+      },
+      get_search_data(search_data) {
+        if (search_data) {
+          var id=this.technology_id
+          Bus.$emit('additionEnter', {'name':search_data,'technology_id':id})
         }
       },
-    }
+      //获取tags数据
+      get_tags() {
+        this.$get('/tracks/technology/list/info').then(res => {
+          res.data.data.forEach(el => {
+            el.active = false
+          })
+          if (res.data.data.length) {
+            this.get_data_addition(res.data.data[0])
+          }
+          this.tags_arr = res.data.data;
+        })
+      }
+    },
+    created() {
+      this.get_tags()
+    },
+  }
 </script>
 
 <style scoped>

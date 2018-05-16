@@ -1,6 +1,6 @@
 <template>
   <section class="subject_list mw hc">
-    <div class="project_title font1_32_f">项目1</div>
+    <div class="project_title font1_32_f">项1</div>
     <p class="project_text">
       112 sdfahd oiasjdf asdhfhu sdfhuais sdhfu sdhu chuaid hvuai sdhuiw weuhfia asdhfiuasd asdhufia ddshuif schuaiw
       112 sdfahd oiasjdf asdhfhu sdfhuais sdhfu sdhu chuaid hvuai sdhuiw weuhfia asdhfiuasd asdhufia ddshuif schuaiw

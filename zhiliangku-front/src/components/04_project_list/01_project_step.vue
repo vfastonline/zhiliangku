@@ -10,7 +10,7 @@
     </div>
     <div class="project_info ftj">
       <span class="font1_22_3 dib vbt project_name">{{main_data.name}}</span>
-      <CB class="vb">{{main_data.technology.name}}</CB>
+      <CB class="vb" :class="main_data.technology.color">{{main_data.technology.name}}</CB>
       <span class="line2"></span>
     </div>
     <p class="project_text font2_14_9">{{main_data.desc}}</p>
