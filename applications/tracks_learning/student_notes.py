@@ -18,12 +18,12 @@ class StudentNotesList(View):
 	def get(self, request, *args, **kwargs):
 		result_dict = {"err": 0, "msg": "success", "data": list()}
 		try:
-			# 获取查询参数
-			video_id = str_to_int(request.GET.get('video_id', 0))
+			video_id = str_to_int(request.GET.get('video_id', 0))  # 视频ID
+			custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
 
 			data_list = list()
 			if video_id:
-				student_notes = StudentNotes.objects.filter(video__id=video_id)
+				student_notes = StudentNotes.objects.filter(video__id=video_id, custom_user__id=custom_user_id)
 				if student_notes.exists():
 					for note in student_notes:
 						note_dict = dict()
@@ -44,7 +44,7 @@ class StudentNotesList(View):
 			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class AddStudentNotes(View):
 	"""增加--学生笔记列表"""
 
@@ -83,6 +83,37 @@ class AddStudentNotes(View):
 			else:
 				result_dict["msg"] = u"缺少笔记标题或内容"
 				result_dict["err"] = 1
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			result_dict["err"] = 1
+			result_dict["msg"] = traceback.format_exc()
+		finally:
+			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
+class DeleteStudentNotes(View):
+	"""删除--学生笔记列表"""
+
+	def post(self, request, *args, **kwargs):
+		result_dict = {"err": 0, "msg": "success"}
+		try:
+			# 获取查询参数
+			param_dict = json.loads(request.body)
+			video_id = str_to_int(param_dict.get('video_id', 0))
+			custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))
+			notes_id = str_to_int(param_dict.get('notes_id', 0))
+
+			filter_parm = {
+				"video__id": video_id,
+				"custom_user__id": custom_user_id,
+				"id": notes_id,
+			}
+			deleted, _rows_count = StudentNotes.objects.filter(**filter_parm).delete()
+			if not deleted:
+				result_dict["msg"] = u"未找到要删除的笔记信息"
+
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())

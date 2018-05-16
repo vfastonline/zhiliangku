@@ -1,15 +1,12 @@
 #!encoding:utf-8
-import json
-import logging
 import random
-import traceback
 
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
 
 from applications.exercise.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import *
 
 
 @class_view_decorator(user_login_required)
@@ -25,16 +22,32 @@ class QuestionList(View):
 class QuestionListInfo(View):
 	"""习题详情"""
 
+	def __init__(self):
+		super(QuestionListInfo, self).__init__()
+		self.course_id = 0
+		self.video_id = 0
+		self.custom_user_id = 0
+		self.result_dict = {
+			"err": 0,
+			"msg": "success",
+			"data": list(),
+			"breadcrumbs": "",
+		}
+
 	def get(self, request, *args, **kwargs):
-		result_dict = {"err": 0, "msg": "success", "data": list()}
 		try:
 			# 获取查询参数
 			# 按过滤条件查询
-			video_id = request.GET.get('video_id', 0)  # 视频ID
+			self.video_id = str_to_int(request.GET.get('video_id', 0))  # 视频ID
+			self.custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+
+			# 面包屑
+			self.make_breadcrumbs()
 
 			data_list = list()
-			questions = Question.objects.filter(video__id=video_id)
+			questions = Question.objects.filter(video__id=self.video_id)
 			if questions.exists():
+				self.course_id = questions.first().video.section.course.id
 				for question in questions:
 					question_dict = dict()
 					question_dict["id"] = question.id
@@ -52,14 +65,30 @@ class QuestionListInfo(View):
 					question_dict["answers"] = answer_list
 					data_list.append(question_dict)
 			random.shuffle(data_list)
-			result_dict["data"] = data_list
+			self.result_dict["data"] = data_list
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
-			result_dict["err"] = 1
-			result_dict["msg"] = traceback.format_exc()
+			self.result_dict["err"] = 1
+			self.result_dict["msg"] = traceback.format_exc()
 		finally:
-			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
+
+	def make_breadcrumbs(self):
+		"""制作面包屑"""
+		try:
+			project_detail_url_param = "course_id=%s&custom_user_id=%s" % (self.course_id, self.custom_user_id)
+			project_detail_url = "?".join([reverse('tracks:project-detail'), project_detail_url_param])
+			breadcrumbs = [
+				(u"主页", reverse('home')),
+				(u"项目", reverse('tracks:projects')),
+				(u"课程详情", project_detail_url),
+				(u"课后练习", "#"),
+			]
+			self.request.breadcrumbs(breadcrumbs)
+			self.result_dict["breadcrumbs"] = make_bread_crumbs(self.request)
+		except:
+			traceback.print_exc()
 
 
 @class_view_decorator(user_login_required)

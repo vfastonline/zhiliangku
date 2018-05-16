@@ -182,3 +182,4 @@ class StudentNotes(models.Model):
 		db_table = 'StudentNotes'
 		verbose_name = "学生笔记"
 		verbose_name_plural = "学生笔记"
+		ordering = ["-create_time"]
