@@ -158,9 +158,9 @@
       }
     },
     created() {
-      // if(this.additionData){
+      if(this.additionData){
         this.addition=this.additionData
-      // }
+      }
       this.getAddition();
       Bus.$on('additionEnter', res => {
         this.addition = res
