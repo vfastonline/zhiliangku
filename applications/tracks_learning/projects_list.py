@@ -266,7 +266,7 @@ class ProjectsDetailInfo(View):
 			self.request.breadcrumbs([
 				(u"主页", reverse('home')),
 				(u"项目", reverse('tracks:projects')),
-				(u"项目详情", "#"),
+				(u"项目课程", "#"),
 			])
 			self.result_dict["breadcrumbs"] = make_bread_crumbs(self.request)
 		except:

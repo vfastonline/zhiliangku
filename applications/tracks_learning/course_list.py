@@ -348,10 +348,9 @@ class CourseDetailInfo(View):
 					detail["id"] = course_obj.id
 					detail["name"] = course_obj.name
 					detail["lecturer"] = course_obj.lecturer.nickname if course_obj.lecturer else ""
-					detail["pathwel"] = course_obj.pathwel.url if course_obj.pathwel else ""
-					detail["desc"] = course_obj.desc
 					detail["avatar"] = course_obj.lecturer.avatar.url if course_obj.lecturer else ""
 					detail["position"] = course_obj.lecturer.position if course_obj.lecturer else ""
+					detail["desc"] = course_obj.desc
 					detail["summary"] = {}
 
 					# 汇总数据学习进度
