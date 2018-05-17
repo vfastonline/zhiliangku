@@ -376,7 +376,7 @@ def make_bread_crumbs(request):
 	try:
 		breadcrumbs_list = list()
 		for one in request.breadcrumbs:
-			breadcrumbs_list.append('<a href="%s">%s</a>' % (one.url, one.name))
+			breadcrumbs_list.append("<a href='%s'>%s</a>" % (one.url, one.name))
 		result = " > ".join(breadcrumbs_list)
 	except:
 		traceback.print_exc()
