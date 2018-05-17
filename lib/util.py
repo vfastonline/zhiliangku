@@ -361,8 +361,7 @@ def get_thumbnail(orig, width=200, height=200):
 	thumb.thumbnail(size, Image.ANTIALIAS)
 	thumb_io = StringIO.StringIO()
 	thumb.save(thumb_io, format="JPEG", quality=quality)
-	thumb_file = InMemoryUploadedFile(thumb_io, None, filename, 'image/jpeg',
-	                                  thumb_io.len, None)
+	thumb_file = InMemoryUploadedFile(thumb_io, None, filename, 'image/jpeg', thumb_io.len, None)
 	return thumb_file
 
 

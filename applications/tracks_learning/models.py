@@ -116,8 +116,8 @@ class Video(models.Model):
 
 	class Meta:
 		db_table = 'Video'
-		verbose_name = "视频"
-		verbose_name_plural = "视频"
+		verbose_name = "视频/练习题/考核"
+		verbose_name_plural = "视频/练习题/考核"
 		ordering = ["section", 'sequence']
 
 
@@ -133,8 +133,8 @@ class UnlockVideo(models.Model):
 
 	class Meta:
 		db_table = 'UnlockVideo'
-		verbose_name = "用户通过考核"
-		verbose_name_plural = "用户通过考核"
+		verbose_name = "通过考核学生"
+		verbose_name_plural = "通过考核学生"
 
 
 class Nodus(models.Model):

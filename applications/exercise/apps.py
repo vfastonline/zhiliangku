@@ -6,4 +6,4 @@ from django.apps import AppConfig
 
 class ExerciseConfig(AppConfig):
     name = 'applications.exercise'
-    verbose_name = "习题"
+    verbose_name = "练习题"
