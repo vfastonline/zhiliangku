@@ -4,7 +4,9 @@
       <MyHeader></MyHeader>
       <div class="top_img mw hc"></div>
       <!--<div v-html="str"></div>-->
+      <TagSearch></TagSearch>
       <section class="project_list">
+<<<<<<< HEAD
         <CardContainer class="mw hc " :config="{num:3,card:ProjectStep,cardData:true}">
           <!--<a href="/projectSubjectList/index.html">-->
           <ProjectStep class="margin"></ProjectStep>
@@ -15,9 +17,13 @@
           <a href="/projectSubjectList/index.html" v-for="(item, index) in project_lists" :key="index">
             <ProjectStep :main_data="item" class="margin"></ProjectStep>
           </a>
+=======
+        <CardContainer v-if="project_lists.length" class="mw hc " :config="{num:3,card:ProjectStep,cardData:project_lists[0]}">
+            <ProjectStep  v-for="(item, index) in project_lists" v-if="item" :key="index" :main_data="item" class="margin"></ProjectStep>
+>>>>>>> e04daa4403efe3b030e363778039df87896e7453
         </CardContainer>
       </section>
-      <Pager class="mw hc"></Pager>
+      <Pager class="mw hc" @pagerGetData="mainPagerdata" :url="url"></Pager>
       <img class="bottom_image db" src="./img/tree_wave.png" alt="">
     </div>
     <F></F>
@@ -51,21 +57,36 @@
   import ProjectStep from '../../components/04_project_list/01_project_step'
   import '../../components/00_common/05_card_container'
   import Pager from '../../components/00_common/06_pager'
+  import TagSearch from '../../components/04_project_list/02_search_input'
 
   export default {
     data() {
       return {
         ProjectStep: ProjectStep,
+<<<<<<< HEAD
         str:'',
         project_lists:''
+=======
+        url:'/tracks/projects/list/info',
+        project_lists: [],
+>>>>>>> e04daa4403efe3b030e363778039df87896e7453
       }
     },
     components: {
       MyHeader: MyHeader,
       F: F,
       ProjectStep: ProjectStep,
-      Pager: Pager
+      Pager: Pager,
+      TagSearch: TagSearch
     },
+    methods: {
+      //获取pager分页组件返回的分页数据
+      mainPagerdata(res) {
+        this.project_lists = res.data.data
+        // console.table(res)
+      }
+    },
+<<<<<<< HEAD
     created() {
       this.$get('/tracks/projects/list/info?project_id=1').then(res => {
         this.str = res.data.breadcrumbs})
@@ -73,6 +94,12 @@
         console.table(res.data.data)
         this.project_lists = res.data.data;
       })
+=======
+    created(){
+      // this.$get('/tracks/projects/list/info?home_show=0').then( res =>{
+      //   this.project_lists = res.data.data;
+      // })
+>>>>>>> e04daa4403efe3b030e363778039df87896e7453
     }
   }
 </script>

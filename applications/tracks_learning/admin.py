@@ -7,13 +7,13 @@ from zhiliangku.settings import tinymce_js
 
 @admin.register(Technology)
 class TechnologyAdmin(admin.ModelAdmin):
-	list_display = ('id', "name", "color", "desc")
+	list_display = ('id', "name", "color", "desc", "video")
 	search_fields = ('name',)
 
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-	list_display = ('id', "name", "technology", "color", "desc", "is_lock", "home_show", "pathwel")
+	list_display = ('id', "name", "technology", "color", "desc", "is_lock", "home_show", "pathwel", "video")
 	search_fields = ('name',)
 
 	def technology(self, obj):
@@ -26,7 +26,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-	list_display = ('id', "project", 'name', "desc", "update_time")
+	list_display = ('id', "project", 'name', "lecturer", "desc", "sequence", "update_time")
 	search_fields = ('name',)
 
 	class Media:

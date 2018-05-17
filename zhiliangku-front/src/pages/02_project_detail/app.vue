@@ -39,6 +39,16 @@
       SubjectList: SubjectList,
       SubjectBlock:SubjectBlock,
       pager:pager
+    },
+    methods: {
+      get_project_detail_lists() {
+        this.$get("/tracks/projects/detail/info?project_id=1").then(res => {
+          console.log(res.data)
+        })
+      }
+    },
+    created() {
+      this.get_project_detail_lists()
     }
   }
 </script>

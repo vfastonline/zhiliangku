@@ -1,30 +1,19 @@
 <template>
   <section class=" project_step r rose " :style="{'border':'1px solid'+colorArr[index]}">
-    <div class="mock a">
+    <div class="mock a" v-if="main_data.is_lock">
       <img class="cc" src="./img/lock_icon.png" alt="">
     </div>
     <div class="project_title">
       <img class="vm" src="./img/01_book_tag.png" alt="">
-      <span class="font1_18_f dib">时长：12小时</span>
+      <span class="font1_18_f dib">时长：{{main_data.total_time}}</span>
       <span class="line2"></span>
     </div>
     <div class="project_info ftj">
-      <span class="font1_22_3 dib vbt project_name">大数据</span>
-      <CB class="vb">开发工具</CB>
+      <span class="font1_22_3 dib vbt project_name">{{main_data.name}}</span>
+      <CB class="vb" :class="main_data.technology.color">{{main_data.technology.name}}</CB>
       <span class="line2"></span>
     </div>
-    <p class="project_text font2_14_9">
-      123123sfasdfwefwadf2ef2e
-      123123sfasdfwefwadf2ef2e
-      123123sfasdfwefwadf2ef2e
-      123123sfasdfwefwadf2ef2e
-      123123sfasdfwefwadf2ef2e
-      123123sfasdfwefwadf2ef2e
-      123123sfasdfwefwadf2ef2e
-      123123sfasdfwefwadf2ef2e
-      123123sfasdfwefwadf2ef2e
-      123123sfasdfwefwadf2ef2e
-    </p>
+    <p class="project_text font2_14_9">{{main_data.desc}}</p>
     <div class="ftc">
       <BlueButton>查看详情</BlueButton>
     </div>
@@ -95,11 +84,17 @@ import BlueButton from '../00_common/04_blue_button'
       margin_top: {
         type: String,
         default: '60px'
+      },
+      main_data: {
+        // required: true
       }
     },
     components: {
       CB: CB,
       BlueButton:BlueButton
+    },
+    created(){
+      // console.log(this.main_data)
     }
   }
 </script>

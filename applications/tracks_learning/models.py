@@ -11,18 +11,20 @@ from lib.storage import ImageStorage
 
 
 class Technology(models.Model):
-	"""技术分类"""
-	name = models.CharField('技术类别', max_length=50)
+	"""技术方向"""
+	name = models.CharField('名称', max_length=50)
 	color = ColorField('颜色', max_length=50, default='#FFFFFF')
-	desc = models.TextField('技术简介', default='', blank=True, null=True)
+	desc = models.TextField('简介', default='', blank=True, null=True)
+	video = models.ForeignKey("Video", verbose_name='总考核', related_name='Technology', blank=True, null=True,
+	                          limit_choices_to={'type': 3}, help_text=u"针对本技术方向下所有项目的总考核")
 
 	def __unicode__(self):
 		return self.name
 
 	class Meta:
 		db_table = 'Technology'
-		verbose_name = "技术分类"
-		verbose_name_plural = "技术分类"
+		verbose_name = "技术方向"
+		verbose_name_plural = "技术方向"
 
 
 class Project(models.Model):
@@ -34,6 +36,8 @@ class Project(models.Model):
 	is_lock = models.BooleanField("锁定", default=True)
 	home_show = models.BooleanField("首页展示", default=False)
 	pathwel = models.ImageField('介绍图片', upload_to='project/%Y%m%d', storage=ImageStorage(), null=True, blank=True)
+	video = models.ForeignKey("Video", verbose_name='项目考核', related_name='Project', blank=True, null=True,
+	                          limit_choices_to={'type': 3}, help_text=u"针对本项目下所有课程的考核")
 
 	def __unicode__(self):
 		return self.name
@@ -51,7 +55,6 @@ class Course(models.Model):
 	name = models.CharField('名称', max_length=50)
 	lecturer = models.ForeignKey(CustomUser, verbose_name='讲师', related_name='Course_custom_user',
 	                             limit_choices_to={'role': 1}, blank=True, null=True)
-	pathwel = models.ImageField('介绍图片', upload_to='course/%Y%m%d', storage=ImageStorage(), null=True, blank=True)
 	desc = models.TextField('描述', default="", null=True, blank=True)
 	sequence = models.PositiveIntegerField('顺序', default=1, validators=[MinValueValidator(1)], help_text="默认顺序为1")
 	update_time = models.DateTimeField("更新时间", auto_now=True)
@@ -86,7 +89,8 @@ class Section(models.Model):
 class Video(models.Model):
 	TYPE = (
 		("1", "视频"),
-		("2", "考核习题"),
+		("2", "练习题"),
+		("3", "考核"),
 	)
 	DOCKER = (
 		("0", "Linux"),
@@ -118,7 +122,7 @@ class Video(models.Model):
 
 class UnlockVideo(models.Model):
 	"""学生通过考核记录"""
-	video = models.ForeignKey(Video, verbose_name="考核", related_name='UnlockVideos', limit_choices_to={'type': 2})
+	video = models.ForeignKey(Video, verbose_name="考核", related_name='UnlockVideos', limit_choices_to={'type': 3})
 	custom_user = models.ForeignKey(CustomUser, verbose_name='学生', related_name='UnlockVideoCustomUser',
 	                                limit_choices_to={'role': 0}, blank=True, null=True)
 	update_time = models.DateTimeField("更新时间", auto_now=True)
@@ -178,3 +182,4 @@ class StudentNotes(models.Model):
 		db_table = 'StudentNotes'
 		verbose_name = "学生笔记"
 		verbose_name_plural = "学生笔记"
+		ordering = ["-create_time"]

@@ -94,7 +94,6 @@
         var pageInfo = '';
         if (val) {
           pageInfo = 'page=' + val;
-          // debugger
           if (search + search1) {
             pageInfo = '&' + pageInfo;
           }

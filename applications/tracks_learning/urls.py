@@ -18,7 +18,7 @@ urlpatterns = [
 	url('^projects/list/info$', projects_list.ProjectsListInfo.as_view()),  # 项目信息列表
 	url('^projects/list/$', projects_list.ProjectsList.as_view(), name='projects'),  # 项目信息列表页面
 
-	url('^projects/detail/$', projects_list.ProjectsDetail.as_view()),  # 项目详情--页面
+	url('^projects/detail/$', projects_list.ProjectsDetail.as_view(),name="project-detail"),  # 项目详情--页面
 	url('^projects/detail/info$', projects_list.ProjectsDetailInfo.as_view(), name="project-detail"),  # 项目详情--信息
 
 	url('^course/detail/$', course_list.CourseDetail.as_view()),
@@ -32,9 +32,13 @@ urlpatterns = [
 	url('^video/detail/$', video_list.VideoDetail.as_view()),
 	url('^video/detail/info$', video_list.VideoDetailInfo.as_view()),
 
+	# 考核
+	url('^assessment/detail/$', video_list.AssessmentDetail.as_view()),
+
 	# 学生笔记
 	url('^student/notes/list/info$', student_notes.StudentNotesList.as_view()),  # 学生笔记
 	url('^student/add/notes/info$', student_notes.AddStudentNotes.as_view()),  # 增加--学生笔记
+	url('^student/del/notes/info$', student_notes.DeleteStudentNotes.as_view()),  # 删除--学生笔记
 
 	# url('^project/list/info$', path_list.ParticipateProject.as_view()),  # 参与学习项目
 
