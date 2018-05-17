@@ -236,7 +236,6 @@ class ProjectsDetailInfo(View):
 					for course in course_objs:
 						course_dict = {
 							"id": course.id,
-							"pathwel": course.pathwel.url if course.pathwel else "",
 							"name": course.name,
 							"desc": course.desc,
 							"sequence": course.sequence,

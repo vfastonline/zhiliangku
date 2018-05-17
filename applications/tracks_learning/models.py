@@ -59,6 +59,7 @@ class Course(models.Model):
 	sequence = models.PositiveIntegerField('顺序', default=1, validators=[MinValueValidator(1)], help_text="默认顺序为1")
 	update_time = models.DateTimeField("更新时间", auto_now=True)
 
+
 	def __unicode__(self):
 		return self.name
 
