@@ -117,9 +117,9 @@ class ProjectsListInfo(View):
 					"pathwel": one.pathwel.url if one.pathwel else "",
 					"technology": {"name": one.technology.name, "color": one.technology.color},
 					"video": {
-						"id": one.video.id,
-						"docker": one.video.docker,
-						"docker_name": one.video.get_docker_display(),
+						"id": one.video.id if one.video else "",
+						"docker": one.video.docker if one.video else "",
+						"docker_name": one.video.get_docker_display() if one.video else "",
 					}
 				}
 				# 计算项目所有课程总时长
