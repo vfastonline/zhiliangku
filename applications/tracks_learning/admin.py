@@ -9,6 +9,7 @@ from zhiliangku.settings import tinymce_js
 class TechnologyAdmin(admin.ModelAdmin):
 	list_display = ('id', "name", "color", "desc", "video")
 	search_fields = ('name',)
+	form = TechnologyForm
 
 
 @admin.register(Project)
