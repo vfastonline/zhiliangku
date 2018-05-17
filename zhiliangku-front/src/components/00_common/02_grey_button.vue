@@ -1,5 +1,5 @@
 <template>
-  <el-button><slot></slot></el-button>
+  <el-button ><slot></slot></el-button>
 </template>
 
 <script>
@@ -18,8 +18,8 @@
     line-height: 1;
     white-space: nowrap;
     cursor: pointer;
-    background: #00bcd4;
-    border: 1px solid #00bcd4;
+    background: #a3abb6;
+    border: 1px solid #a3abb6;
     color: #ffffff;
     -webkit-appearance: none;
     text-align: center;
@@ -39,18 +39,18 @@
   }
 
   .el-button + .el-button {
-    margin-left: 10px
+    margin-left: 0px
   }
 
   .el-button:focus, .el-button:hover {
     color: #ffffff;
-    border-color: #00bcd4;
-    background-color: #00bcd4
+    border-color: #a3abb6;
+    background-color: #a3abb6
   }
 
   .el-button:active {
     color: #ffffff;
-    border-color: #00bcd4;
+    border-color: #a3abb6;
     outline: 0
   }
 

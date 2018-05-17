@@ -38,7 +38,7 @@
   }
 
   .el-button + .el-button {
-    margin-left: 10px
+    margin-left: 0px
   }
 
   .el-button:focus, .el-button:hover {

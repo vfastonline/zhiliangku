@@ -7,6 +7,7 @@ Axios.defaults.baseURL = Obj.httpUrl
 // 此处写拦截函数
 var intercept = function (res, obj) {
   var showNotify = function (callback) {
+    if(obj){return}
     var nds = obj.$notify({
       type: 'error',
       message: res.data.msg,

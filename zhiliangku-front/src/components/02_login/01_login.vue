@@ -26,8 +26,8 @@
         </el-form-item>
         <el-button @click="submitForm('myform1','loginFun',ruleForm1)"
                    :class="['marginbottom8','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">登录</el-button>
-        <div class="marginbottom24 fontcenter">
-          <span class="letterspace1 font14pr23b8ff pointer"
+        <div class="marginbottom24 fc">
+          <span class="letterspace1 font2_14_3 pointer"
                 @click="changeModal('getPasswordActive')">忘记密码了</span>
         </div>
         <div class="clearfix">
@@ -225,6 +225,12 @@
 </template>
 <script>
 import Bus from '../../assets/js/02_bus'
+import {Form, FormItem,Dialog,Input} from 'element-ui'
+import Vue from 'vue'
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Dialog)
+Vue.use(Input)
 var Base64 = require('js-base64').Base64
 export default {
   name: 'HelloWorld',
@@ -369,6 +375,9 @@ export default {
           return false
         }
       })
+    },
+    deepCopy(obj){
+        return JSON.parse(JSON.stringify(obj))
     },
     changeKeys (data, brr) {
       var keyarr = ['username', 'password']

@@ -43,6 +43,7 @@
             1
           ]
         },
+        addition:{},
         // 备份
         storeMainData: {
           "per_page": 12,
@@ -71,7 +72,7 @@
       // 页码信息此处页码信息不用关心，除非后端调整了页码信息所在的层级
       pageData: Object,
       // 附加的可变条件
-      addition: Object,
+      additionData: Object,
       // 是否保持urlAddition
       keep: Boolean,
       // 页码组件加载之后，是否立即请求数据。
@@ -158,6 +159,9 @@
       }
     },
     created() {
+      if(this.additionData){
+      this.addition=this.additionData
+      }
       this.getAddition();
       Bus.$on('additionEnter', res => {
         this.addition = res

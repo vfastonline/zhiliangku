@@ -6,18 +6,15 @@
       <!--<div v-html="str"></div>-->
       <section class="project_list">
         <CardContainer class="mw hc " :config="{num:3,card:ProjectStep,cardData:true}">
-<<<<<<< HEAD
           <!--<a href="/projectSubjectList/index.html">-->
           <ProjectStep class="margin"></ProjectStep>
           <ProjectStep class="margin"></ProjectStep>
           <ProjectStep class="margin"></ProjectStep>
           <ProjectStep class="margin"></ProjectStep>
           <ProjectStep class="margin"></ProjectStep>
-=======
           <a href="/projectSubjectList/index.html" v-for="(item, index) in project_lists" :key="index">
             <ProjectStep :main_data="item" class="margin"></ProjectStep>
           </a>
->>>>>>> 2028d52fa6d348aec59f7aa249c3f8a5aee73cfb
         </CardContainer>
       </section>
       <Pager class="mw hc"></Pager>
@@ -59,11 +56,8 @@
     data() {
       return {
         ProjectStep: ProjectStep,
-<<<<<<< HEAD
-        str: ''
-=======
+        str:'',
         project_lists:''
->>>>>>> 2028d52fa6d348aec59f7aa249c3f8a5aee73cfb
       }
     },
     components: {
@@ -72,16 +66,12 @@
       ProjectStep: ProjectStep,
       Pager: Pager
     },
-<<<<<<< HEAD
     created() {
       this.$get('/tracks/projects/list/info?project_id=1').then(res => {
-        this.str = res.data.breadcrumbs
-=======
-    created(){
+        this.str = res.data.breadcrumbs})
       this.$get('/tracks/projects/list/info?home_show=0').then(res=>{
         console.table(res.data.data)
         this.project_lists = res.data.data;
->>>>>>> 2028d52fa6d348aec59f7aa249c3f8a5aee73cfb
       })
     }
   }

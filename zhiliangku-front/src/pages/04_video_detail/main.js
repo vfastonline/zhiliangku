@@ -4,10 +4,12 @@ import Vue from 'vue'
 import App from './app'
 import '../../assets/js/index'
 import '../../assets/style/baseScss.scss'
+import router from '../../router/01_video_router'
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  router,
   components: { App },
   template: '<App/>'
 })

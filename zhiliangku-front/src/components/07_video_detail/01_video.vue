@@ -98,7 +98,6 @@
     mounted() {
       //  注意此处要请求数据之后进行操作
       this.scroll = Scrollbar.init(this.$refs.section_scroll)
-      console.log(this.scroll)
     }
   }
 </script>
