@@ -383,12 +383,14 @@ class CourseDetailInfo(View):
 						if videos.exists():
 							# 查找考核视频，判断用户手通过考核
 							unlock = False
+							assessment_video = None
 							if not previous_videos:  # 没有上一个章节， 查找：上一个课程->最后章节->考核
-								assessment_video = previous_course.Section.last().Videos.filter(type="2")
+								if previous_course:
+									assessment_video = previous_course.Section.last().Videos.filter(type="2")
 							else:
 								assessment_video = previous_videos.filter(type="2")
 
-							if assessment_video.exists():
+							if assessment_video:
 								unlock_filter = {
 									"custom_user__id": self.custom_user_id,
 									"video": assessment_video.first()
