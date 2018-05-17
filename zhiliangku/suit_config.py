@@ -37,17 +37,19 @@ SUIT_CONFIG = {
 		# 课程
 		{'label': '项目-课程', 'app': 'tracks_learning', 'icon': 'icon-bookmark',
 		 'models': (
+			 "Technology",
 			 'Project',
 			 'Course',
 			 'Section',
 			 "Video",
+			 "CommonQuestion",
 			 "Nodus",
 			 "UnlockVideo",
-			 "CommonQuestion",
-			 'CoursePath',
-			 "Technology",
-			 "Faq",
-			 "FaqAnswer", "StudentNotes")},
+			 # 'CoursePath',
+			 # "Faq",
+			 # "FaqAnswer",
+			 "StudentNotes"
+		 )},
 
 		# 观看进度
 		{'app': 'record', 'icon': 'icon-list-alt', 'models': ('WatchRecord',)},
