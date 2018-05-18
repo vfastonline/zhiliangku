@@ -9,25 +9,24 @@
       <span class="dib"><a href="#"> <span class="font1_22_3"> 社区</span> </a></span>
     </div>
     <div v-if="!is_login" class="fr">
-      <span @click="myDispatch('open','loginActive')" class="font1_20_3 cp">登录</span>
+      <span @click="myDispatch('specify_display',{show_key:'log_in',title_key:'登录'})" class="font1_20_3 cp">登录</span>
       <span class="font1_20_3"> / </span>
-      <span @click="myDispatch('open','logupActive')" class="font1_20_3 cp">注册</span>
+      <span @click="myDispatch('specify_display',{show_key:'log_up',title_key:'用户注册'})" class="font1_20_3 cp">注册</span>
     </div>
-    <div class="fr aaa">
+    <div v-else class="fr aaa">
       <span class="dib r notice_icon_container">
-       <!--<img class="vm notice_icon" src="./img/notice_icon.png" alt="">-->
+       <img class="vm notice_icon" src="./img/notice_icon.png" alt="">
         <i class="red_point a"></i>
       </span>
-      <img class="user_icon vm" src="./img/user_icon.png" alt="">
+      <img class="user_icon vm" v-lazy="userinfo.avatar" alt="">
     </div>
-    <login></login>
+    <LoginNew @success="is_login=true"></LoginNew>
   </header>
 </template>
 
 <script>
   import Bus from '../../assets/js/02_bus'
-  import Login from '../02_login/01_login'
-  // import postMatch from '../../components/home/postMatch'
+  import LoginNew from '../02_login/02_login_module'
   import userMune from './04_user_menu'
   let Base64 = require('js-base64').Base64;
   export default {
@@ -68,17 +67,16 @@
       };
     },
     components: {
-      'login': Login,
       // 'postMatch': postMatch,
-      'userMune': userMune
+      'userMune': userMune,
+      'LoginNew':LoginNew
     },
     props: {
       type: String,
     },
     watch: {
       is_login: function (a, b) {
-        // console.log(a)
-        // console.log(b)
+
       }
     },
     methods: {
@@ -137,10 +135,7 @@
         window.location.href = '/'
       },
       myDispatch(eventName, key) {
-        var arr = this.$children;
-        for (let i = 0; i < arr.length; i++) {
-          arr[i].$emit(eventName, key)
-        }
+        Bus.$emit(eventName,key)
       },
       getUserInfo() {
         this.userinfo.avatar = this.$myConst.httpUrl + localStorage.avatar;
@@ -174,7 +169,6 @@
       }
     },
     created() {
-      console.log(this);
       // window.location.search='?'+Base64.encode('uid=46&nickname=猛熊爱吃蜜&role=0&avatar=/media/custom_user_avatar/46/20171225094221_weixin.jpg&position=');
       // window.location.search='?user_info=P3VpZD00NiZuaWNrbmFtZT3njJvnhorniLHlkIPonJwmcm9sZT3lrabnlJ8mYXZhdGFyPS9tZWRpYS9jdXN0b21fdXNlcl9hdmF0YXIvNDYvMjAxNzEyMjUwOTQyMjFfd2VpeGluLmpwZyZwb3NpdGlvbj0='
       //获取包含用户信息的base64加密字符串
@@ -250,6 +244,8 @@
   .user_icon {
     border-radius: 50%;
     margin-left: 24px;
+    height: 80px;
+    width: 80px;
   }
 
   .red_point {
