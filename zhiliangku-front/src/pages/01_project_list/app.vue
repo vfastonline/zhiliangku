@@ -6,21 +6,8 @@
       <!--<div v-html="str"></div>-->
       <TagSearch></TagSearch>
       <section class="project_list">
-<<<<<<< HEAD
-        <CardContainer class="mw hc " :config="{num:3,card:ProjectStep,cardData:true}">
-          <!--<a href="/projectSubjectList/index.html">-->
-          <ProjectStep class="margin"></ProjectStep>
-          <ProjectStep class="margin"></ProjectStep>
-          <ProjectStep class="margin"></ProjectStep>
-          <ProjectStep class="margin"></ProjectStep>
-          <ProjectStep class="margin"></ProjectStep>
-          <a href="/projectSubjectList/index.html" v-for="(item, index) in project_lists" :key="index">
-            <ProjectStep :main_data="item" class="margin"></ProjectStep>
-          </a>
-=======
         <CardContainer v-if="project_lists.length" class="mw hc " :config="{num:3,card:ProjectStep,cardData:project_lists[0]}">
             <ProjectStep  v-for="(item, index) in project_lists" v-if="item" :key="index" :main_data="item" class="margin"></ProjectStep>
->>>>>>> e04daa4403efe3b030e363778039df87896e7453
         </CardContainer>
       </section>
       <Pager class="mw hc" @pagerGetData="mainPagerdata" :url="url"></Pager>
@@ -63,13 +50,8 @@
     data() {
       return {
         ProjectStep: ProjectStep,
-<<<<<<< HEAD
-        str:'',
-        project_lists:''
-=======
         url:'/tracks/projects/list/info',
         project_lists: [],
->>>>>>> e04daa4403efe3b030e363778039df87896e7453
       }
     },
     components: {
@@ -86,7 +68,6 @@
         // console.table(res)
       }
     },
-<<<<<<< HEAD
     created() {
       this.$get('/tracks/projects/list/info?project_id=1').then(res => {
         this.str = res.data.breadcrumbs})
@@ -94,12 +75,7 @@
         console.table(res.data.data)
         this.project_lists = res.data.data;
       })
-=======
-    created(){
-      // this.$get('/tracks/projects/list/info?home_show=0').then( res =>{
-      //   this.project_lists = res.data.data;
-      // })
->>>>>>> e04daa4403efe3b030e363778039df87896e7453
+
     }
   }
 </script>
