@@ -26,10 +26,10 @@
               <img v-if="!item.unlock" src="./img/onplay.png" alt=""> {{item.title}}
             </div>
             <ul class="section_list">
-              <li class="font1_16_f vm" v-for="(element,index) in item.videos" :key="index">
-                <img class="vm" v-if="item.unlock" src="./img/unlock.png" alt="">
-                <img class="vm" v-if="!item.unlock" src="./img/Shape.png" alt="">
-                <img class="vm" v-if="!item.unlock" src="./img/Shape.png" alt=""> {{element.name}}</li>
+              <li class="font1_16_f vm" :class ="{active: (element.id==video_id) }" v-for="(element,index) in item.videos" :key="index">
+                <img class="vm" v-if="(item.unlock)&&(element.id==video_id)" src="./img/onplay.png" alt="">
+                <img class="vm" v-else-if="!item.unlock" src="./img/Shape.png" alt="">
+                <img class="vm" v-else-if="item.unlock" src="./img/unlock.png" alt=""> {{element.name}}</li>
             </ul>
           </div>
         </div>
@@ -62,7 +62,9 @@
           }],
           // fluid: true,
           poster: ""// 海豹图片地址
-        }
+        },
+        video_id: '',
+        isActive: true,
       }
     },
     props: {
@@ -75,7 +77,13 @@
     methods: {
       jj() {
         this.scroll.refresh();
+      },
+      getPlayId() {
+        this.video_id = this.$fn.funcUrl("video_id")
       }
+    },
+    created() {
+      this.getPlayId()
     },
     mounted() {
       //  注意此处要请求数据之后进行操作
@@ -99,11 +107,12 @@
 
   .section_list li {
     margin-bottom: 10px;
-    margin-left: 20px;
+    text-indent:20px;
     line-height:30px;
   }
 
   .list_content {
+    padding-top:10px;
     margin-left: 20px;
     height: 100%;
     overflow: hidden;
