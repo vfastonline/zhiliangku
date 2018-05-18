@@ -159,25 +159,25 @@ module.exports = (function () {
   //   }
   //   return ret
   // }
-  // fn.funcUrlDel = function (name) {
-  //   var loca = window.location
-  //   var baseUrl = loca.origin + loca.pathname + '?'
-  //   var query = loca.search.substr(1)
-  //   if (query.indexOf(name) > -1) {
-  //     var obj = {}
-  //     var arr = query.split('&')
-  //     for (var i = 0; i < arr.length; i++) {
-  //       arr[i] = arr[i].split('=')
-  //       obj[arr[i][0]] = arr[i][1]
-  //     }
-  //     delete obj[name]
-  //     var url = baseUrl + window.JSON.stringify(obj)
-  //     .replace(/[\"\{\}]/g, '')
-  //     .replace(/\:/g, '=')
-  //     .replace(/\,/g, '&')
-  //     return url
-  //   }
-  // }
+  fn.funcUrlDel = function (name) {
+    var loca = window.location
+    var baseUrl = loca.origin + loca.pathname + '?'
+    var query = loca.search.substr(1)
+    if (query.indexOf(name) > -1) {
+      var obj = {}
+      var arr = query.split('&')
+      for (var i = 0; i < arr.length; i++) {
+        arr[i] = arr[i].split('=')
+        obj[arr[i][0]] = arr[i][1]
+      }
+      delete obj[name]
+      var url = baseUrl + window.JSON.stringify(obj)
+        .replace(/[\"\{\}]/g, '')
+        .replace(/\:/g, '=')
+        .replace(/\,/g, '&')
+      return url
+    }
+  }
 
   // fn.funcUrlDelArr = function (nameArr) {
   //   var loca = window.location
@@ -214,7 +214,7 @@ module.exports = (function () {
   }
   fn.funcUrl = function (name, value, type) {
     var loca = window.location
-    // var baseUrl = type === undefined ? loca.origin + loca.pathname + '?' : ''
+    var baseUrl = type === undefined ? loca.origin + loca.pathname + '?' : ''
     var query = loca.search.substr(1)
     // 如果没有传参,就返回 search 值 不包含问号
     if (name === undefined) {
@@ -228,7 +228,7 @@ module.exports = (function () {
     var url
     if (query === '') {
       // 如果没有 search 值,则返回追加了参数的 url
-      // url = baseUrl + name + "=" + value;
+      url = baseUrl + name + "=" + value;
       // 现在改为，如果没有search值则加入
       url = name + '=' + value
       window.location.search = '?' + url
@@ -241,13 +241,13 @@ module.exports = (function () {
         obj[arr[i][0]] = arr[i][1]
       }
       obj[name] = value
-      // url = baseUrl + window.JSON.stringify(obj).replace(/[\"\{\}]/g, "").replace(/\:/g, "=").replace(/\,/g, "&");
-      // window.location.search =
-      //   '?' +
-      //   window.JSON.stringify(obj)
-      //     .replace(/[\"\{\}]/g, '')
-      //     .replace(/\:/g, '=')
-      //     .replace(/\,/g, '&')
+      url = baseUrl + window.JSON.stringify(obj).replace(/[\"\{\}]/g, "").replace(/\:/g, "=").replace(/\,/g, "&");
+      window.location.search =
+        '?' +
+        window.JSON.stringify(obj)
+          .replace(/[\"\{\}]/g, '')
+          .replace(/\:/g, '=')
+          .replace(/\,/g, '&')
     }
     // return url;
   }

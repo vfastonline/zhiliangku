@@ -1,7 +1,12 @@
 <template>
   <section class="mw hc video_container">
     <div class="video_title ftj">
-      <span class="dib font1_18_f">1231</span>
+      <span class="dib font1_18_f">
+        <span class="dib ">{{main_data.project}} &gt;</span>
+        <span class="dib ">{{main_data.course}} &gt;</span>
+        <span class="dib ">{{main_data.section_title}} &gt;</span>
+        <span class="dib ">{{main_data.name}} </span>
+      </span>
       <!--<span @click="list_switch=!list_switch" class="cp dib font1_18_f pointer ">-->
       <span  class="cp dib font1_18_f pointer ">
         <svg class="icon" aria-hidden="true">
@@ -15,43 +20,7 @@
       <video-player id="my-video" :options="playerOptions"></video-player>
       <div v-show="list_switch" class="a content_list ">
         <div ref="section_scroll" class="list_content">
-          <div>
-            <div class="section_title font1_22_f"><i></i>初识别HTML</div>
-            <ul class="section_list">
-              <li class="font1_16_f"><i></i>HTML基础</li>
-            </ul>
-            <div class="section_title font1_22_f"><i></i>初识别HTML</div>
-            <ul class="section_list">
-              <li class="font1_16_f"><i></i>HTML基础</li>
-            </ul>
-            <div class="section_title font1_22_f"><i></i>初识别HTML</div>
-            <ul class="section_list">
-              <li class="font1_16_f"><i></i>HTML基础</li>
-            </ul>
-            <div class="section_title font1_22_f"><i></i>初识别HTML</div>
-            <ul class="section_list">
-              <li class="font1_16_f"><i></i>HTML基础</li>
-            </ul>
-            <div class="section_title font1_22_f"><i></i>初识别HTML</div>
-            <ul class="section_list">
-              <li class="font1_16_f"><i></i>HTML基础</li>
-            </ul>
-            <div class="section_title font1_22_f"><i></i>初识别HTML</div>
-            <ul class="section_list">
-              <li class="font1_16_f"><i></i>HTML基础</li>
-            </ul>
-            <div class="section_title font1_22_f"><i></i>初识别HTML</div>
-            <ul class="section_list">
-              <li class="font1_16_f"><i></i>HTML基础</li>
-            </ul>
-            <div class="section_title font1_22_f"><i></i>初识别HTML</div>
-            <ul class="section_list">
-              <li class="font1_16_f"><i></i>HTML基础</li>
-            </ul>
-            <div class="section_title font1_22_f"><i></i>初识别HTML</div>
-            <ul class="section_list">
-              <li class="font1_16_f"><i></i>HTML基础</li>
-            </ul>
+          <div >
             <div class="section_title font1_22_f"><i></i>初识别HTML</div>
             <ul class="section_list">
               <li class="font1_16_f"><i></i>HTML基础</li>
@@ -88,6 +57,10 @@
           // fluid: true,
           poster: ""// 海豹图片地址
         }
+      }
+    },
+    props: {
+      main_data: {
       }
     },
     methods: {

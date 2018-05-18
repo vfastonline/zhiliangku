@@ -15,7 +15,9 @@
     </div>
     <p class="project_text font2_14_9">{{main_data.desc}}</p>
     <div class="ftc">
-      <BlueButton>查看详情</BlueButton>
+      <a :href="link" >
+        <BlueButton >查看详情</BlueButton>
+      </a>
     </div>
   </section>
 </template>
@@ -73,7 +75,8 @@ import BlueButton from '../00_common/04_blue_button'
     name: "project_item",
     data() {
       return {
-        colorArr: ['#324e5c', '#c25a75']
+        colorArr: ['#324e5c', '#c25a75'],
+        link:''
       }
     },
     props: {
@@ -93,8 +96,14 @@ import BlueButton from '../00_common/04_blue_button'
       CB: CB,
       BlueButton:BlueButton
     },
+    methods: {
+      organize_link(){
+        // debugger
+         this.link="/tracks/projects/detail/index.html?project_id="+this.main_data.id
+      }
+    },
     created(){
-      // console.log(this.main_data)
+      this.organize_link()
     }
   }
 </script>

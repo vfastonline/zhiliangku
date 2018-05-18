@@ -1,22 +1,30 @@
 <template>
   <div class="course_section_container">
     <div class="course_section ftj">
-      <span class="fl"><img class="vm first_icon " src="./img/player.png" alt=""></span>
       <span class="dib ftj section_name fr">
-          <span class="dib font1_24_3 lesson_name fl">第一章：test1</span>
-          <span class="dib font1_18_9 lesson_info fr">
-            <span class="dib timer">时长：356分钟</span>
-            <span class="dib progress">完成：100%</span></span>
+        <span class="fl">
+          <img v-if="main_data.unlock" class="vm first_icon " src="./img/player.png" alt="">
+          <img v-if="!main_data.unlock" class="vm first_icon " src="./img/lock.png" alt="">
+        </span>
+          <span class="dib font1_24_3 lesson_name fl">{{main_data.title}}</span>
+          <span class="dib font1_16_9 lesson_info fr">
+            <span class="dib timer">时长：{{main_data.duration}}</span>
+            <span class="dib progress">{{main_data.is_complete?"完成":"未完成"}}</span></span>
       </span>
     </div>
-    <ul>
-      <li class="section_li">
-        <span class="fl"><img class="vm first_icon " src="./img/player.png" alt=""></span>
+    <ul  >
+      <li class="section_li" @click="go_video_detail(item)" v-for="(item, index) in main_data.videos" :key="index">
+        <span class="fl">
+          <span class="fl">
+            <img v-if="item.unlock" class="vm first_icon " src="./img/player.png" alt="">
+            <img v-if="!item.unlock" class="vm first_icon " src="./img/lock.png" alt="">
+        </span>
+        </span>
         <span class="dib ftj lesson_child fr">
-          <span class="dib font1_18_6 lesson_name fl">第一章：test1</span>
+          <span class="dib font1_22_3 lesson_name fl">{{item.name}}</span>
           <span class="dib font1_18_9 lesson_info fr">
-            <span class="dib timer">时长：356分钟</span>
-            <span class="dib progress">完成：100%</span>
+            <span class="dib timer">时长：{{item.duration}}</span>
+            <span class="dib progress">{{item.is_complete?"完成":"未完成"}}</span>
           </span>
       </span>
       </li>
@@ -26,7 +34,24 @@
 
 <script>
   export default {
-    name: "course_section"
+    name: "course_section",
+    data(){
+      return {
+      }
+    },
+    props: {
+      main_data: {
+        required: true
+      }
+    },
+    methods: {
+      go_video_detail(item){
+        window.open("/tracks/video/detail/index.html?video_id="+item.id)
+      }
+    },
+    created() {
+    }
+
   }
 </script>
 
@@ -34,6 +59,11 @@
   .course_section_container {
     margin-left: 110px;
     width: 990px;
+    margin-bottom:20px;
+  }
+  .course_section {
+    background-color:#eee;
+    font-weight:700;
   }
 
   .first_icon {
