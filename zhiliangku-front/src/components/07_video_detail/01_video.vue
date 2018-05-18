@@ -20,10 +20,16 @@
       <video-player id="my-video" :options="playerOptions"></video-player>
       <div v-show="list_switch" class="a content_list ">
         <div ref="section_scroll" class="list_content">
-          <div >
-            <div class="section_title font1_22_f"><i></i>初识别HTML</div>
+          <div v-for="(item,index) in main_list.sections" :key="index">
+            <div class="section_title font1_22_f vm">
+              <img v-if="item.unlock" src="./img/unlock.png" alt="">
+              <img v-if="!item.unlock" src="./img/onplay.png" alt=""> {{item.title}}
+            </div>
             <ul class="section_list">
-              <li class="font1_16_f"><i></i>HTML基础</li>
+              <li class="font1_16_f vm" v-for="(element,index) in item.videos" :key="index">
+                <img class="vm" v-if="item.unlock" src="./img/unlock.png" alt="">
+                <img class="vm" v-if="!item.unlock" src="./img/Shape.png" alt="">
+                <img class="vm" v-if="!item.unlock" src="./img/Shape.png" alt=""> {{element.name}}</li>
             </ul>
           </div>
         </div>
@@ -52,7 +58,7 @@
           playbackRates: [1.0, 1.25, 1.5, 1.75, 2.0],
           sources: [{
             type: "video/mp4",
-            src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
+            src: ""
           }],
           // fluid: true,
           poster: ""// 海豹图片地址
@@ -61,6 +67,9 @@
     },
     props: {
       main_data: {
+      },
+      main_list: {
+
       }
     },
     methods: {
@@ -89,7 +98,9 @@
   }
 
   .section_list li {
-    margin-bottom: 16px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    line-height:30px;
   }
 
   .list_content {
@@ -121,5 +132,12 @@
 
   .video_content {
     height: 525px;
+  }
+  .section_title {
+    padding-left: 20px;
+    line-height:30px;
+  }
+  .active {
+    background-color: #2b2d30;
   }
 </style>

@@ -1,18 +1,18 @@
 <template>
   <div class="course_section_container">
     <div class="course_section ftj">
-      <span class="dib ftj section_name fr">
-        <span class="fl">
+      <span class="fl">
           <img v-if="main_data.unlock" class="vm first_icon " src="./img/player.png" alt="">
           <img v-if="!main_data.unlock" class="vm first_icon " src="./img/lock.png" alt="">
-        </span>
+      </span>
+      <span class="dib ftj section_name fr">
           <span class="dib font1_24_3 lesson_name fl">{{main_data.title}}</span>
           <span class="dib font1_16_9 lesson_info fr">
-            <span class="dib timer">时长：{{main_data.duration}}</span>
+            <span class="dib timer">总时长：{{main_data.duration}}</span>
             <span class="dib progress">{{main_data.is_complete?"完成":"未完成"}}</span></span>
       </span>
     </div>
-    <ul  >
+    <ul>
       <li class="section_li" @click="go_video_detail(item)" v-for="(item, index) in main_data.videos" :key="index">
         <span class="fl">
           <span class="fl">
@@ -23,7 +23,7 @@
         <span class="dib ftj lesson_child fr">
           <span class="dib font1_22_3 lesson_name fl">{{item.name}}</span>
           <span class="dib font1_18_9 lesson_info fr">
-            <span class="dib timer">时长：{{item.duration}}</span>
+            <span class="dib timer" :total_time="item.duration">时长：{{item.duration}}</span>
             <span class="dib progress">{{item.is_complete?"完成":"未完成"}}</span>
           </span>
       </span>
@@ -37,6 +37,7 @@
     name: "course_section",
     data(){
       return {
+        total_time: ''
       }
     },
     props: {
@@ -46,10 +47,19 @@
     },
     methods: {
       go_video_detail(item){
-        window.open("/tracks/video/detail/index.html?video_id="+item.id)
+        let course_id = this.$fn.funcUrl("course_id")
+        window.open("/tracks/video/detail/index.html?course_id=" +course_id + "&video_id="+item.id)
+      },
+      getTime(){
+        console.log(this.total_time)
+
       }
     },
     created() {
+
+    },
+    mounted() {
+      this.getTime()
     }
 
   }
@@ -62,7 +72,6 @@
     margin-bottom:20px;
   }
   .course_section {
-    background-color:#eee;
     font-weight:700;
   }
 
@@ -81,6 +90,7 @@
     /*margin-bottom: 20px;*/
     height: 100%;
     width: 950px;
+    background-color:#eee;
   }
 
   .lesson_info {
