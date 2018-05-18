@@ -7,7 +7,20 @@ from django.db.models import Q
 from django.core.exceptions import ValidationError
 
 
+class TechnologyForm(forms.ModelForm):
+	"""技术方向"""
+
+	class Meta:
+		model = Technology
+		fields = "__all__"
+		widgets = {
+			'video': Select2Widget
+		}
+
+
 class SectionForm(forms.ModelForm):
+	"""章节"""
+
 	class Meta:
 		model = Section
 		fields = "__all__"
@@ -15,7 +28,10 @@ class SectionForm(forms.ModelForm):
 			'course': Select2Widget
 		}
 
+
 class NodusForm(forms.ModelForm):
+	"""视频难点"""
+
 	class Meta:
 		model = CommonQuestion
 		fields = "__all__"
@@ -25,6 +41,8 @@ class NodusForm(forms.ModelForm):
 
 
 class CommonQuestionForm(forms.ModelForm):
+	"""视频常见问题"""
+
 	class Meta:
 		model = CommonQuestion
 		fields = "__all__"
@@ -34,6 +52,8 @@ class CommonQuestionForm(forms.ModelForm):
 
 
 class StudentNotesForm(forms.ModelForm):
+	"""学生笔记"""
+
 	class Meta:
 		model = StudentNotes
 		fields = "__all__"

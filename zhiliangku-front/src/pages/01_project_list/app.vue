@@ -4,13 +4,13 @@
       <MyHeader></MyHeader>
       <div class="top_img mw hc"></div>
       <!--<div v-html="str"></div>-->
-      <TagSearch></TagSearch>
+      <SearchInput></SearchInput>
       <section class="project_list">
         <CardContainer v-if="project_lists.length" class="mw hc " :config="{num:3,card:ProjectStep,cardData:project_lists[0]}">
             <ProjectStep  v-for="(item, index) in project_lists" v-if="item" :key="index" :main_data="item" class="margin"></ProjectStep>
         </CardContainer>
       </section>
-      <Pager class="mw hc" @pagerGetData="mainPagerdata" :url="url"></Pager>
+      <Pager class="mw hc" @pagerGetData="mainPagerData" :url="url" :addition-data="params"></Pager>
       <img class="bottom_image db" src="./img/tree_wave.png" alt="">
     </div>
     <F></F>
@@ -44,7 +44,7 @@
   import ProjectStep from '../../components/04_project_list/01_project_step'
   import '../../components/00_common/05_card_container'
   import Pager from '../../components/00_common/06_pager'
-  import TagSearch from '../../components/04_project_list/02_search_input'
+  import SearchInput from '../../components/04_project_list/02_search_input'
 
   export default {
     data() {
@@ -52,6 +52,7 @@
         ProjectStep: ProjectStep,
         url:'/tracks/projects/list/info',
         project_lists: [],
+        params: {}
       }
     },
     components: {
@@ -59,23 +60,19 @@
       F: F,
       ProjectStep: ProjectStep,
       Pager: Pager,
-      TagSearch: TagSearch
+      SearchInput: SearchInput
     },
     methods: {
       //获取pager分页组件返回的分页数据
-      mainPagerdata(res) {
+      mainPagerData(res) {
         this.project_lists = res.data.data
-        // console.table(res)
       }
     },
-    created() {
-      this.$get('/tracks/projects/list/info?project_id=1').then(res => {
-        this.str = res.data.breadcrumbs})
-      this.$get('/tracks/projects/list/info?home_show=0').then(res=>{
-        console.table(res.data.data)
-        this.project_lists = res.data.data;
-      })
-
+    created(){
+      let custom_user_id = localStorage.getItem('uid')
+      this.params={
+        'custom_user_id':custom_user_id,
+      }
     }
   }
 </script>

@@ -38,6 +38,11 @@
       GreyButton: GreyButton,
       PrimeButton: PrimeButton
     },
+    props: {
+      // main_data: {
+      //   required: true
+      // }
+    },
     created() {
       console.log(this.$refs)
     }

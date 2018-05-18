@@ -1,16 +1,25 @@
 <template>
   <section class="subject_block rose">
-    <p class="subject_name  ftc font1_22_ff">科目1</p>
-    <p class="subject_introduce font1_16_6">
-      大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术大数据技术</p>
+    <p class="subject_name  ftc font1_20_f">{{main_data.name}}</p>
+    <p class="subject_introduce font1_16_6">{{main_data.desc}}</p>
     <ul class="subject_info">
-      <li class="font1_18_9 subject_info_li_1"><span>时长：</span><span class="dib subject_time_value">365分钟</span> <span>完成</span><span>100%</span>
+      <li class="subject_info_li_1">{{main_data.summary.desc}}</li>
+      <li class="font1_18_9 subject_info_li_1"><span>时长：</span><span class="dib subject_time_value">{{main_data.summary.total_time}}</span>
+        <span>完成</span><span>{{main_data.summary.video_process}}</span>
       </li>
       <li class="subject_info_li_2">
         <span class="dib">
-          <img src="./img/user_icon.png" class="user_icon vm" alt="">
-          <span class="dib vbo font1_18_6">李老师</span></span>
-        <BlueButton class="func_button">继续学习</BlueButton>
+          <img :src="main_data.avatar" class="user_icon vm" alt="">
+          <span class="dib vbo font1_18_6">{{main_data.lecturer}}</span></span>
+        <a :href="link">
+          <span>
+            <a :href="link">
+              <BlueButton v-if="(main_data.summary.schedule!=1)&&(main_data.summary.unlock)" class="func_button">继续学习</BlueButton>
+            </a>
+            <img v-if="!main_data.summary.unlock" src="./img/Shape.png" alt="">
+            <img v-if="(main_data.summary.schedule===1)&&(main_data.summary.unlock)" src="./img/finish_icon.png" alt="">
+          </span>
+        </a>
         <span class="line2"></span></li>
     </ul>
   </section>
@@ -26,7 +35,8 @@
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
   }
-  .func_button{
+
+  .func_button {
     vertical-align: bottom;
   }
 </style>
@@ -37,20 +47,28 @@
     name: "subject_block",
     data() {
       return {
-        a: 1,
-        b: 3
+        summary: {},
+        link: ''
       }
     },
     props: {
-      aaa: {}
+      main_data: {}
     },
     components: {
       BlueButton: BlueButton
     },
-    created() {
-      if (this.aaa) {
-        console.log(this.aaa)
+    methods: {
+      goLink(){
+        this.link = "/tracks/course/detail/index.html?course_id="+this.main_data.id
       }
+    },
+    created() {
+      var key = this.main_data.summary.schedule
+      if (!key) {
+        this.main_data.summary.schedule = 0
+      }
+      console.log(key)
+      this.goLink()
     }
   }
 </script>
