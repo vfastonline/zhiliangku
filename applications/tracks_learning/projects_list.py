@@ -117,9 +117,9 @@ class ProjectsListInfo(View):
 					"pathwel": one.pathwel.url if one.pathwel else "",
 					"technology": {"name": one.technology.name, "color": one.technology.color},
 					"video": {
-						"id": one.video.id,
-						"docker": one.video.docker,
-						"docker_name": one.video.get_docker_display(),
+						"id": one.video.id if one.video else "",
+						"docker": one.video.docker if one.video else "",
+						"docker_name": one.video.get_docker_display() if one.video else "",
 					}
 				}
 				# 计算项目所有课程总时长
@@ -236,7 +236,6 @@ class ProjectsDetailInfo(View):
 					for course in course_objs:
 						course_dict = {
 							"id": course.id,
-							"pathwel": course.pathwel.url if course.pathwel else "",
 							"name": course.name,
 							"desc": course.desc,
 							"sequence": course.sequence,
@@ -267,7 +266,7 @@ class ProjectsDetailInfo(View):
 			self.request.breadcrumbs([
 				(u"主页", reverse('home')),
 				(u"项目", reverse('tracks:projects')),
-				(u"项目详情", "#"),
+				(u"项目课程", "#"),
 			])
 			self.result_dict["breadcrumbs"] = make_bread_crumbs(self.request)
 		except:

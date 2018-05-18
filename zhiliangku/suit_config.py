@@ -26,6 +26,9 @@ SUIT_CONFIG = {
 		# {'label': 'Settings', 'icon':'icon-cog', 'models': ('auth.user', 'auth.group')},
 		# {'label': 'Support', 'icon':'icon-question-sign', 'url': '/support/'},
 
+		# 首页相关--轮播图
+		{'app': 'slideshow', 'icon': 'icon-repeat', "models": ("Carousel", "WebsiteIntroduce", "RecruitmentPlan")},
+
 		# 用户管理
 		{'app': 'custom_user', 'icon': 'icon-user',
 		 'models': ('CustomUser', 'CustomUserAuths', 'CustomUserProject', "CustomUserCourse", "VerifyCode")},
@@ -37,40 +40,40 @@ SUIT_CONFIG = {
 		# 课程
 		{'label': '项目-课程', 'app': 'tracks_learning', 'icon': 'icon-bookmark',
 		 'models': (
+			 "Technology",
 			 'Project',
 			 'Course',
 			 'Section',
 			 "Video",
+			 "CommonQuestion",
 			 "Nodus",
 			 "UnlockVideo",
-			 "CommonQuestion",
-			 'CoursePath',
-			 "Technology",
-			 "Faq",
-			 "FaqAnswer", "StudentNotes")},
+			 # 'CoursePath',
+			 # "Faq",
+			 # "FaqAnswer",
+			 "StudentNotes",
+			 "record.WatchRecord"
+		 )},
 
-		# 观看进度
-		{'app': 'record', 'icon': 'icon-list-alt', 'models': ('WatchRecord',)},
-
-		# 直播
-		{'label': '保利威视-直播间', 'app': 'live_streaming', 'icon': 'icon-film', },
-
-		# 习题
+		# 练习题
 		{'app': 'exercise', 'icon': 'icon-th', },
-
-		# 首页相关--轮播图
-		{'app': 'slideshow', 'icon': 'icon-repeat', "models": ("Carousel", "WebsiteIntroduce", "RecruitmentPlan")},
-
-		# 公司招聘职位
-		{'app': 'company_jobs', 'icon': 'icon-briefcase', },
 
 		# 社区问答
 		{'app': 'community', 'icon': 'icon-comment',
 		 'models': ('Faq', 'FaqAnswer', "FaqAnswerReply", "FaqAnswerFeedback")},
 
-		# 积分商城
-		{'label': '积分商城', 'app': 'integral', 'icon': 'icon-shopping-cart',
-		 'models': ('Goods', 'ExchangeRecords')},
+		# # 观看进度
+		# {'app': 'record', 'icon': 'icon-list-alt', 'models': ('WatchRecord',)},
+
+		# # 直播
+		# {'label': '保利威视-直播间', 'app': 'live_streaming', 'icon': 'icon-film', },
+
+		# # 公司招聘职位
+		# {'app': 'company_jobs', 'icon': 'icon-briefcase', },
+
+		# # 积分商城
+		# {'label': '积分商城', 'app': 'integral', 'icon': 'icon-shopping-cart',
+		#  'models': ('Goods', 'ExchangeRecords')},
 	),
 
 	# misc

@@ -26,8 +26,8 @@ class WatchRecord(models.Model):
 
     class Meta:
         db_table = 'WatchRecord'
-        verbose_name = "用户观看视频记录"
-        verbose_name_plural = "用户观看视频记录"
+        verbose_name = "学生观看视频记录"
+        verbose_name_plural = "学生观看视频记录"
 
 # class WatchCourse(models.Model):
 #     """记录用户那些课程都已经观看完成"""
