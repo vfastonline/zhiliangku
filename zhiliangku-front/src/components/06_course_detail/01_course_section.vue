@@ -13,12 +13,11 @@
       </span>
     </div>
     <ul>
-      <li class="section_li" @click="go_video_detail(item)" v-for="(item, index) in main_data.videos" :key="index">
+      <li class="section_li" @click="item.unlock&&go_video_detail(item)" v-for="(item, index) in main_data.videos" :key="index">
+        <div class="isUnlock"></div>
         <span class="fl">
-          <span class="fl">
-            <img v-if="item.unlock" class="vm first_icon " src="./img/player.png" alt="">
-            <img v-if="!item.unlock" class="vm first_icon " src="./img/lock.png" alt="">
-        </span>
+          <img v-if="item.unlock" class="vm first_icon " src="./img/player.png" alt="">
+          <img v-if="!item.unlock" class="vm first_icon " src="./img/lock.png" alt="">
         </span>
         <span class="dib ftj lesson_child fr">
           <span class="dib font1_22_3 lesson_name fl">{{item.name}}</span>
@@ -43,23 +42,18 @@
     props: {
       main_data: {
         required: true
-      }
+      },
+      videos: []
     },
     methods: {
       go_video_detail(item){
         let course_id = this.$fn.funcUrl("course_id")
         window.open("/tracks/video/detail/index.html?course_id=" +course_id + "&video_id="+item.id)
-      },
-      getTime(){
-        console.log(this.total_time)
-
       }
     },
     created() {
-
     },
     mounted() {
-      this.getTime()
     }
 
   }
@@ -111,6 +105,14 @@
     line-height: 30px;
     height: 30px;
     cursor: pointer;
+    position:relative;
+  }
+
+  .isUnlock {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index:2;
   }
 
   .section_li:hover .lesson_child {

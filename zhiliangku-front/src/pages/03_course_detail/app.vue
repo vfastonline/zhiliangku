@@ -39,10 +39,46 @@
       getMainData() {
         let custom_user_id = localStorage.getItem('uid')
         let course_id= this.$fn.funcUrl("course_id")||1
+        let totalTime=0
         this.$get("/tracks/course/detail/info?custom_user_id="+custom_user_id+"&course_id="+course_id).then(res => {
-          console.log(res.data)
+          console.log(res.data.data.sections)
+            res.data.data.sections.forEach( el => {
+              if(el.videos){
+                el.videos.forEach(item => {
+                    totalTime+= parseInt(this.timeToSecond(item.duration))
+                })
+                el.duration = this.secondToTime(totalTime)
+                totalTime=0
+              }
+            })
             this.course_detail_lists = res.data.data
         })
+      },
+      timeToSecond(time) {
+        var s = '';
+        var hour = time.split(':')[0];
+        var min = time.split(':')[1];
+        var sec = time.split(':')[2];
+        s = Number(hour*3600) + Number(min*60) + Number(sec);
+        return s;
+      },
+      secondToTime(s) {
+        var t;
+        if(s > -1){
+          var hour = Math.floor(s/3600);
+          var min = Math.floor(s/60) % 60;
+          var sec = s % 60;
+          if(hour < 10) {
+            t = '0'+ hour + ":";
+          } else {
+            t = hour + ":";
+          }
+          if(min < 10){t += "0";}
+          t += min + ":";
+          if(sec < 10){t += "0";}
+          t += sec;
+        }
+        return t;
       }
     },
     created() {
