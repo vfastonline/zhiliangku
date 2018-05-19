@@ -8,7 +8,7 @@
         <span class="dib ">{{main_data.name}} </span>
       </span>
       <!--<span @click="list_switch=!list_switch" class="cp dib font1_18_f pointer ">-->
-      <span  class="cp dib font1_18_f pointer ">
+      <span class="cp dib font1_18_f pointer ">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-hanbaobao"></use>
         </svg>
@@ -26,10 +26,12 @@
               <img v-if="!item.unlock" src="./img/onplay.png" alt=""> {{item.title}}
             </div>
             <ul class="section_list">
-              <li class="font1_16_f vm" :class ="{active: (element.id==video_id) }" v-for="(element,index) in item.videos" :key="index">
+              <li class="font1_14_f vm" :class="{active: (element.id==video_id) }"
+                  v-for="(element,index) in item.videos" :key="index">
                 <img class="vm" v-if="(item.unlock)&&(element.id==video_id)" src="./img/onplay.png" alt="">
                 <img class="vm" v-else-if="!item.unlock" src="./img/Shape.png" alt="">
-                <img class="vm" v-else-if="item.unlock" src="./img/unlock.png" alt=""> {{element.name}}</li>
+                <img class="vm" v-else-if="item.unlock" src="./img/unlock.png" alt=""> {{element.name}}
+              </li>
             </ul>
           </div>
         </div>
@@ -68,11 +70,8 @@
       }
     },
     props: {
-      main_data: {
-      },
-      main_list: {
-
-      }
+      main_data: {},
+      main_list: {}
     },
     methods: {
       jj() {
@@ -100,19 +99,22 @@
   }
 
   .section_list {
-    margin-left: 20px;
-    margin-top: 20px;
-    margin-bottom: 24px;
+    margin: 20px 20px 24px;
   }
 
   .section_list li {
     margin-bottom: 10px;
-    text-indent:20px;
-    line-height:30px;
+    text-indent: 20px;
+    line-height: 30px;
+  }
+
+  .section_list li:hover {
+    background-color: #2b2d30;
+    cursor: pointer;
   }
 
   .list_content {
-    padding-top:10px;
+    padding-top: 10px;
     margin-left: 20px;
     height: 100%;
     overflow: hidden;
@@ -142,10 +144,12 @@
   .video_content {
     height: 525px;
   }
+
   .section_title {
     padding-left: 20px;
-    line-height:30px;
+    line-height: 30px;
   }
+
   .active {
     background-color: #2b2d30;
   }
