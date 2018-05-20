@@ -14,7 +14,6 @@
     </div>
     <ul>
       <li class="section_li" @click="item.unlock&&go_video_detail(item)" v-for="(item, index) in main_data.videos" :key="index">
-        <div class="isUnlock"></div>
         <span class="fl">
           <img v-if="item.unlock" class="vm first_icon " src="./img/player.png" alt="">
           <img v-if="!item.unlock" class="vm first_icon " src="./img/lock.png" alt="">
@@ -105,14 +104,6 @@
     line-height: 30px;
     height: 30px;
     cursor: pointer;
-    position:relative;
-  }
-
-  .isUnlock {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index:2;
   }
 
   .section_li:hover .lesson_child {
