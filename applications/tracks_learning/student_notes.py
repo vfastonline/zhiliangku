@@ -21,16 +21,17 @@ class StudentNotesList(View):
 		}
 
 	def get(self, request, *args, **kwargs):
-		print "1111", kwargs
 		try:
 			video_id = str_to_int(request.GET.get('video_id', 0))  # 视频ID
-			custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			page = self.request.GET.get("page", 1)  # 页码
 			per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
 
 			student_notes = StudentNotes.objects.filter(video__id=video_id, custom_user__id=custom_user_id)
 
 			# 提供分页数据
+			if not page: page = 1
+			if not per_page: page = 12
 			page_obj = Paginator(student_notes, per_page)
 			total_count = page_obj.count  # 记录总数
 			num_pages = page_obj.num_pages  # 总页数
@@ -78,7 +79,7 @@ class AddStudentNotes(View):
 			# 获取查询参数
 			param_dict = json.loads(request.body)
 			video_id = str_to_int(param_dict.get('video_id', 0))
-			custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			title = param_dict.get('title', "")
 			notes = param_dict.get('notes', "")
 
@@ -126,7 +127,7 @@ class DeleteStudentNotes(View):
 			# 获取查询参数
 			param_dict = json.loads(request.body)
 			video_id = str_to_int(param_dict.get('video_id', 0))
-			custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			notes_id = str_to_int(param_dict.get('notes_id', 0))
 
 			filter_parm = {
