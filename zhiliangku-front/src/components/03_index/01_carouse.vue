@@ -27,6 +27,7 @@
       }
     },
     created() {
+      console.log(this.$myConst)
       if (this.requestUrl) {
         this.address = this.requestUrl
       }

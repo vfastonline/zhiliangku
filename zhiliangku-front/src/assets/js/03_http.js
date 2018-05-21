@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Axios from 'axios'
-import Obj from './01_const.js'
+import Obj from 'api'
 import Bus from './02_bus'
 
 

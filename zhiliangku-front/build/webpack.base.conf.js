@@ -19,7 +19,8 @@ const createLintingRule = () => ({
   }
 })
 // console.log(entryDist.Entry)
-console.log(entryDist.Dist)
+// console.log(entryDist.Dist)
+console.log(process.env.NODE_ENV)
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: entryDist.Entry,
@@ -34,7 +35,8 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src')
+      '@': resolve('src'),
+      "api$":process.env.NODE_ENV === 'production' ? resolve('src/assets/js/01_const.js'): resolve('src/assets/js/00_const.js')
     }
   },
   module: {
