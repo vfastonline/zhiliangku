@@ -14,6 +14,7 @@ from lib.permissionMixin import class_view_decorator, user_login_required
 from lib.util import str_to_int
 
 
+@class_view_decorator(user_login_required)
 class VideoList(View):
 	"""视频列表"""
 
@@ -22,7 +23,7 @@ class VideoList(View):
 		try:
 			# 获取查询参数
 			section_id = str_to_int(request.GET.get('section_id', 0))
-			custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 
 			data_list = list()
 			if section_id:

@@ -24,7 +24,7 @@ class UpdateBasicInfo(View):
         }
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 必填，用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             nickname = param_dict.get('nickname', "")  # 必填，昵称
             sex = param_dict.get('sex')  # 必填，性别
             signature = param_dict.get('signature', "")  # 个性签名
@@ -64,7 +64,7 @@ class GetUserAccount(View):
             "data": dict(),
         }
         try:
-            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             customuserauths = CustomUserAuths.objects.filter(custom_user_id__id=custom_user_id)
             data_dict = dict()
 
@@ -101,7 +101,7 @@ class AccountBindPhone(View):
         }
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             phone = param_dict.get('phone', "")  # 手机号
             password = param_dict.get('password')  # 密码
             verify_code = param_dict.get("verify_code")  # 验证码
@@ -178,7 +178,7 @@ class AccountBindEmail(View):
         }
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             email = param_dict.get('email', "")  # 邮箱地址
             password = param_dict.get('password')  # 密码
 
@@ -258,7 +258,7 @@ class ChangePassword(View):
         }
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             old_password = param_dict.get('old_password', "")  # 旧密码
             password = param_dict.get('password', "")  # 新密码
 
@@ -300,7 +300,7 @@ class UserAddress(View):
             "data": dict(),
         }
         try:
-            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             customusers = CustomUser.objects.filter(id=custom_user_id)
             data_dict = dict()
 
@@ -327,7 +327,7 @@ class UserAddress(View):
         }
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             receiver = param_dict.get('receiver', "")  # 收货人
             address = param_dict.get('address', "")  # 收货地址
             contact_number = param_dict.get('contact_number', "")  # 联系电话

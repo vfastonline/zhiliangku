@@ -26,7 +26,7 @@ class LearnRecently(View):
             "data": list(),
         }
         try:
-            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             query_sql = 'SELECT * FROM WatchRecord WHERE user_id=%s GROUP BY course_id ORDER BY create_time DESC' % custom_user_id
             watchrecords = WatchRecord.objects.raw(query_sql)
 
@@ -63,7 +63,7 @@ class MyCollect(View):
             "data": list(),
         }
         try:
-            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 
             customusercourses = CustomUserCourse.objects.filter(custom_user_id=custom_user_id)
             data_list = list()
@@ -100,7 +100,7 @@ class MyPath(View):
             "data": list(),
         }
         try:
-            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 
             customuserprojects = CustomUserProject.objects.filter(custom_user_id=custom_user_id)
             data_list = list()

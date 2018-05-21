@@ -22,7 +22,7 @@ class PostMatch(View):
             "data": list(),
         }
         try:
-            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 
             one_dict = {
                 "company": "今日头条",
@@ -70,7 +70,7 @@ class PostMatchDetail(View):
             "data": dict(),
         }
         try:
-            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             post_id = str_to_int(request.GET.get('post_id', 0))  # 岗位ID
             result_dict = {
                 "1": {
@@ -134,7 +134,7 @@ class OverallQualityScore(View):
             "data": list(),
         }
         try:
-            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             result_dict["data"] = [0.7, 0.98, 0.87, 0.82, 0.64, 0.69]
         except:
             traceback.print_exc()
@@ -156,7 +156,7 @@ class FocusOnMyBusiness(View):
             "data": list(),
         }
         try:
-            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             one_dict = dict()
             one_dict["company"] = "链家"
             one_dict["logo"] = "/media/lianjia.png"

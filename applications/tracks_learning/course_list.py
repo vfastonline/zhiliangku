@@ -335,7 +335,7 @@ class CourseDetailInfo(View):
 	def get(self, request, *args, **kwargs):
 		try:
 			self.course_id = str_to_int(request.GET.get('course_id', 0))
-			self.custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+			self.custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 
 			# 面包屑
 			self.make_breadcrumbs()

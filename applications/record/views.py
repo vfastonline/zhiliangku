@@ -19,7 +19,7 @@ class HandleWatchRecord(View):
         result_dict = {"err": 0, "msg": "success"}
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 必填，用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             course_id = str_to_int(param_dict.get('course_id', 0))  # 必填，课程ID
             video_id = str_to_int(param_dict.get('video_id', 0))  # 必填，视频ID
             real_play_video_time = str_to_int(param_dict.get('real_play_video_time', 0))  # 当前已观看时长（不包含视频缓冲时间）,秒

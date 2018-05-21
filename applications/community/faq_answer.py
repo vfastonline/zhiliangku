@@ -20,7 +20,7 @@ class AppraisalFaqAnswer(View):
         result_dict = {"err": 0, "msg": "success", "data": {}}
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 反馈用户
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             faq_answer_id = str_to_int(param_dict.get('faq_answer_id', 0))  # 必填，问题回复ID
             appraisal = param_dict.get('appraisal')  # 必填，赞同：approve， 反对：oppose
 
@@ -58,7 +58,7 @@ class AcceptFaqAnswer(View):
         result_dict = {"err": 0, "msg": "成功采纳这个答案"}
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             faq_id = str_to_int(param_dict.get('faq_id', 0))  # 必填，问题ID
             faq_answer_id = str_to_int(param_dict.get('faq_answer_id', 0))  # 必填，问题回复ID
 
@@ -132,7 +132,7 @@ class AddFaqAnswer(View):
             # 回答参数
             param_dict = json.loads(request.body)
             faq_id = str_to_int(param_dict.get('faq_id', 0))  # 必填，问题ID
-            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 必填，回答用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             answer = param_dict.get('answer', "")  # 回答内容
 
             required_dict = {"问题ID": faq_id, "回答用户ID": custom_user_id, "回答内容": answer}

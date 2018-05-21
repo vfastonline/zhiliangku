@@ -107,7 +107,7 @@ class GetExchangeRecords(View):
     def get(self, request, *args, **kwargs):
         result_dict = {"err": 0, "msg": "success", "data": list()}
         try:
-            custom_user_id = str_to_int(self.request.GET.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             exchangerecords = ExchangeRecords.objects.filter(custom_user_id__id=custom_user_id)
             exchangerecords_list = list()
             if exchangerecords.exists():
@@ -140,7 +140,7 @@ class ExchangeGoods(View):
         result_dict = {"err": 0, "msg": "success"}
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             goods_id = str_to_int(param_dict.get("goods_id", 0))  # 商品ID
 
             customuser = CustomUser.objects.filter(id=custom_user_id)
