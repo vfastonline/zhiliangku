@@ -39,7 +39,7 @@ def user_login_required(function):
             logging.getLogger().warning("Validate error: %s" % traceback.format_exc())
             resolved_login_url = resolve_url(reverse('login', args=(1,)))
             return redirect_to_login(path, resolved_login_url, REDIRECT_FIELD_NAME)
-        return function(request, *args, **kwargs)
+        return function(request, *args, **validate_result)
 
     return _wrapped_view
 
