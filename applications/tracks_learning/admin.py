@@ -52,8 +52,8 @@ class SectionAdmin(admin.ModelAdmin):
 	def project(self, obj):
 		name = ""
 		try:
-			if obj.section:
-				name = obj.section.course.project.name
+			if obj.course:
+				name = obj.course.project.name
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
