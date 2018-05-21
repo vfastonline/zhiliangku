@@ -8,7 +8,7 @@
         <span class="dib ">{{main_data.name}} </span>
       </span>
       <!--<span @click="list_switch=!list_switch" class="cp dib font1_18_f pointer ">-->
-      <span  class="cp dib font1_18_f pointer ">
+      <span class="cp dib font1_18_f pointer ">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-hanbaobao"></use>
         </svg>
@@ -20,10 +20,18 @@
       <video-player id="my-video" :options="playerOptions"></video-player>
       <div v-show="list_switch" class="a content_list ">
         <div ref="section_scroll" class="list_content">
-          <div >
-            <div class="section_title font1_22_f"><i></i>初识别HTML</div>
+          <div v-for="(item,index) in main_list.sections" :key="index">
+            <div class="section_title font1_22_f vm">
+              <img v-if="item.unlock" src="./img/unlock.png" alt="">
+              <img v-if="!item.unlock" src="./img/onplay.png" alt=""> {{item.title}}
+            </div>
             <ul class="section_list">
-              <li class="font1_16_f"><i></i>HTML基础</li>
+              <li class="font1_14_f vm" :class="{active: (element.id==video_id) }"
+                  v-for="(element,index) in item.videos" :key="index">
+                <img class="vm" v-if="(item.unlock)&&(element.id==video_id)" src="./img/onplay.png" alt="">
+                <img class="vm" v-else-if="!item.unlock" src="./img/Shape.png" alt="">
+                <img class="vm" v-else-if="item.unlock" src="./img/unlock.png" alt=""> {{element.name}}
+              </li>
             </ul>
           </div>
         </div>
@@ -52,21 +60,29 @@
           playbackRates: [1.0, 1.25, 1.5, 1.75, 2.0],
           sources: [{
             type: "video/mp4",
-            src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
+            src: ""
           }],
           // fluid: true,
           poster: ""// 海豹图片地址
-        }
+        },
+        video_id: '',
+        isActive: true,
       }
     },
     props: {
-      main_data: {
-      }
+      main_data: {},
+      main_list: {}
     },
     methods: {
       jj() {
         this.scroll.refresh();
+      },
+      getPlayId() {
+        this.video_id = this.$fn.funcUrl("video_id")
       }
+    },
+    created() {
+      this.getPlayId()
     },
     mounted() {
       //  注意此处要请求数据之后进行操作
@@ -83,16 +99,22 @@
   }
 
   .section_list {
-    margin-left: 20px;
-    margin-top: 20px;
-    margin-bottom: 24px;
+    margin: 20px 20px 24px;
   }
 
   .section_list li {
-    margin-bottom: 16px;
+    margin-bottom: 10px;
+    text-indent: 20px;
+    line-height: 30px;
+  }
+
+  .section_list li:hover {
+    background-color: #2b2d30;
+    cursor: pointer;
   }
 
   .list_content {
+    padding-top: 10px;
     margin-left: 20px;
     height: 100%;
     overflow: hidden;
@@ -121,5 +143,14 @@
 
   .video_content {
     height: 525px;
+  }
+
+  .section_title {
+    padding-left: 20px;
+    line-height: 30px;
+  }
+
+  .active {
+    background-color: #2b2d30;
   }
 </style>

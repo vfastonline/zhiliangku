@@ -42,7 +42,7 @@
       main_data: {}
     },
     created() {
-      console.log(this.$refs)
+      // console.log(this.$refs)
     }
   }
 </script>
