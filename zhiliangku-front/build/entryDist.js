@@ -21,6 +21,10 @@ const entry = {
   video_detail:{
     path:'04_video_detail',
     filename:'tracks/video/detail/index.html'
+  },
+  test:{
+    path:'21_test',
+    filename:'assess/info/index.html'
   }
 }
 var entryObj = {}

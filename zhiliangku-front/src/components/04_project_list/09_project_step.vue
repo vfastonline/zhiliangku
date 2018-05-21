@@ -2,20 +2,7 @@
   <section class="mw project_step  rise hc" :style="{'border':'1px solid'+colorArr[index],'margin-top':margin_top}">
     <div class="project_title font1_32_ff" :style="{'background-color':colorArr[index]}">项目一：大数据</div>
     <div class="info_container ">
-      <p class="info_text dib vm font1_20_9">dsh uji fgg jhj jk hh gh gf lj lj jhj k jkh ;klk ghg fgd hj hg ghg ghj kjk
-        ghg
-        jhj lk lg jhgdsh uji fgg jhj jk hh gh gf lj lj jhj k jkh ;klk ghg fgd hj hg ghg ghj kjk
-        ghg
-        jhj lk lg jhgdsh uji fgg jhj jk hh gh gf lj lj jhj k jkh ;klk ghg fgd hj hg ghg ghj kjk
-        ghg
-        jhj lk lg jhgdsh uji fgg jhj jk hh gh gf lj lj jhj k jkh ;klk ghg fgd hj hg ghg ghj kjk
-        ghg
-        jhj lk lg jhgdsh uji fgg jhj jk hh gh gf lj lj jhj k jkh ;klk ghg fgd hj hg ghg ghj kjk
-        ghg
-        jhj lk lg jhgdsh uji fgg jhj jk hh gh gf lj lj jhj k jkh ;klk ghg fgd hj hg ghg ghj kjk
-        ghg
-        jhj lk lg jhg
-
+      <p class="info_text dib vm font1_20_9">
       </p>
       <img class="project_image" src="./img/project_1.png" alt="">
     </div>

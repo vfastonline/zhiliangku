@@ -1,5 +1,5 @@
-<template xmlns:v-lazy="http://www.w3.org/1999/xhtml">
-  <div class="carousel zindex1">
+<template >
+  <div class="carousel ">
     <el-carousel :style="{ width: '100%'}" :interval="5000">
       <el-carousel-item v-for="item in urls"
                         :key="item.id">
@@ -43,75 +43,74 @@
   }
 </script>
 
-<style>
+<style lang="scss">
   .carousel {
     height: 720px;
     width: 100%;
-  }
-  .el-icon-arrow-left ,.el-icon-arrow-right{
-    margin-top: -70px;
-    font-size: 140px;
-  }
-  .el-carousel__container {
-    height: 720px;
-  }
+    .el-carousel__arrow {
+      border: none;
+      outline: 0;
+      padding: 0;
+      margin: 0;
+      height: 36px;
+      width: 36px;
+      cursor: pointer;
+      -webkit-transition: .3s;
+      transition: .3s;
+      border-radius: 50%;
+      /*background-color: rgba(31, 45, 61, .11);*/
+      background-color: rgba(31, 45, 61, 0);
+      color: #fff;
+      position: absolute;
+      top: 50%;
+      z-index: 10;
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);
+      text-align: center;
+      font-size: 12px
+    }
 
-  .carouselimg {
-    width: 100%;
-    height: 100%;
-  }
-</style>
-<style lang="scss">
-  .el-carousel__arrow {
-    border: none;
-    outline: 0;
-    padding: 0;
-    margin: 0;
-    height: 36px;
-    width: 36px;
-    cursor: pointer;
-    -webkit-transition: .3s;
-    transition: .3s;
-    border-radius: 50%;
-    /*background-color: rgba(31, 45, 61, .11);*/
-    background-color: rgba(31, 45, 61, 0);
-    color: #fff;
-    position: absolute;
-    top: 50%;
-    z-index: 10;
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
-    text-align: center;
-    font-size: 12px
-  }
+    .el-carousel__arrow--left {
+      left: 136px
+    }
 
-  .el-carousel__arrow--left {
-    left: 136px
-  }
+    .el-carousel__arrow--right {
+      right: 136px
+    }
 
-  .el-carousel__arrow--right {
-    right: 136px
-  }
+    .el-carousel__arrow:hover {
+      /*background-color: rgba(31, 45, 61, .23)*/
+      background-color: rgba(31, 45, 61, 0)
+    }
+    .el-carousel__button {
+      display: block;
+      opacity: .48;
+      width: 20px;
+      height: 20px;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
+      background-color: #fff;
+      border: none;
+      outline: 0;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      -webkit-transition: .3s;
+      transition: .3s
+    }
 
-  .el-carousel__arrow:hover {
-    /*background-color: rgba(31, 45, 61, .23)*/
-    background-color: rgba(31, 45, 61, 0)
-  }
-  .el-carousel__button {
-    display: block;
-    opacity: .48;
-    width: 20px;
-    height: 20px;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-    background-color: #fff;
-    border: none;
-    outline: 0;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-    -webkit-transition: .3s;
-    transition: .3s
+    .el-icon-arrow-left ,.el-icon-arrow-right{
+      margin-top: -70px;
+      font-size: 140px;
+    }
+    .el-carousel__container {
+      height: 720px;
+    }
+
+    .carouselimg {
+      width: 100%;
+      height: 100%;
+    }
   }
 </style>

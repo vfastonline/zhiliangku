@@ -81,10 +81,10 @@
         this.course_id = this.$fn.funcUrl("course_id")
         this.video_id = this.$fn.funcUrl("video_id")
         //假视屏地址
-        this.src = "/tracks/video/detail/index.html?course_id=" + this.video_id
+        this.src = "/tracks/video/detail/?course_id=" + this.video_id
       },
       go_video_detail(item) {
-        location.href="/tracks/video/detail/index.html?course_id=" + this.course_id +"&video_id="+ item.id
+        location.href="/tracks/video/detail/?course_id=" + this.course_id +"&video_id="+ item.id
       }
     },
     created() {

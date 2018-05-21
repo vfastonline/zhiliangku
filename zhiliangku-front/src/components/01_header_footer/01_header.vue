@@ -18,7 +18,7 @@
        <img class="vm notice_icon" src="./img/notice_icon.png" alt="">
         <i class="red_point a"></i>
       </span>
-      <img class="user_icon vm" src="userinfo.avatar" alt="">
+      <img class="user_icon vm" :src="userinfo.avatar" alt="">
     </div>
     <LoginNew @success="is_login=true"></LoginNew>
   </header>

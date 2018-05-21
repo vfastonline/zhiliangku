@@ -47,7 +47,7 @@
     methods: {
       go_video_detail(item){
         let course_id = this.$fn.funcUrl("course_id")
-        window.open("/tracks/video/detail/index.html?course_id=" +course_id + "&video_id="+item.id)
+        window.open("/tracks/video/detail/?course_id=" +course_id + "&video_id="+item.id)
       }
     },
     created() {
