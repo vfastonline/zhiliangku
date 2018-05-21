@@ -99,7 +99,7 @@ import BlueButton from '../00_common/04_blue_button'
     methods: {
       organize_link(){
         // debugger
-         this.link="/tracks/projects/detail/index.html?project_id="+this.main_data.id
+         this.link="/tracks/projects/detail?project_id="+this.main_data.id
       }
     },
     created(){

@@ -2,7 +2,7 @@
   <header class="mw project_header hc">
     <div class="fl">
       <img class="logo dib vm" src="./img/智量酷-logo-slogan.png" alt="">
-      <span class="dib nav_tag"><a href="/tracks/projects/list/index.html"> <span
+      <span class="dib nav_tag"><a href="/tracks/projects/list"> <span
         class="font1_22_3"> 项目</span> </a></span>
       <!--<span class="dib nav_tag"><a href="#"> <span class="font1_22_3"> 考核</span> </a></span>-->
       <span class="dib nav_tag"><a href="#"> <span class="font1_22_3"> 就业</span> </a></span>
