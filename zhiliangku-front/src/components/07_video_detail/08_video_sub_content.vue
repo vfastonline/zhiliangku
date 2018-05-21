@@ -2,11 +2,11 @@
   <div>
     <div class="mw vc-nav-bar hc ftj">
       <span class="dib ">
-        <router-link to="/note" class="font16pr3a3c50 pointer vc-nav-tag">
+        <router-link to="/note" params="" class="font16pr3a3c50 pointer vc-nav-tag">
           <GreyButton class="grey_button">讲师笔记</GreyButton><PrimeButton class="blue_button">讲师笔记</PrimeButton>
         </router-link>
         <router-link to="/question" class="font16pr3a3c50 pointer vc-nav-tag">
-          <GreyButton class="grey_button">学生笔记</GreyButton><PrimeButton class="blue_button">学习笔记</PrimeButton>
+          <GreyButton class="grey_button">学习笔记</GreyButton><PrimeButton class="blue_button">学习笔记</PrimeButton>
         </router-link>
         <router-link to="/section" class="font16pr3a3c50 pointer vc-nav-tag">
           <GreyButton class="grey_button">FAQ</GreyButton><PrimeButton class="blue_button">FAQ</PrimeButton>
@@ -39,9 +39,7 @@
       PrimeButton: PrimeButton
     },
     props: {
-      // main_data: {
-      //   required: true
-      // }
+      main_data: {}
     },
     created() {
       // console.log(this.$refs)
