@@ -1,6 +1,6 @@
 module.exports = (function () {
   var obj = {
-    httpUrl: '/'
+    httpUrl: '/api'
   }
   return obj
 })()
