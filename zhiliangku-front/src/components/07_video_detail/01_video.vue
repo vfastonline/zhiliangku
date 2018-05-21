@@ -80,7 +80,7 @@
       getPlayId() {
         this.course_id = this.$fn.funcUrl("course_id")
         this.video_id = this.$fn.funcUrl("video_id")
-        //假视屏地址 
+        //假视屏地址
         this.src = "/tracks/video/detail/index.html?course_id=" + this.video_id
       },
       go_video_detail(item) {
