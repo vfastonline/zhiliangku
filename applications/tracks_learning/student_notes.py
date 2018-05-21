@@ -21,6 +21,7 @@ class StudentNotesList(View):
 		}
 
 	def get(self, request, *args, **kwargs):
+		print "1111", kwargs
 		try:
 			video_id = str_to_int(request.GET.get('video_id', 0))  # 视频ID
 			custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
