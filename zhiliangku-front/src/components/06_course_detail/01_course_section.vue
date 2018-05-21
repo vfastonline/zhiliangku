@@ -6,7 +6,7 @@
           <img v-if="!main_data.unlock" class="vm first_icon " src="./img/lock.png" alt="">
       </span>
       <span class="dib ftj section_name fr">
-          <span class="dib font1_24_3 lesson_name fl">{{main_data.title}}</span>
+          <span class="dib font1_22_3 lesson_name fl">{{main_data.title}}</span>
           <span class="dib font1_16_9 lesson_info fr">
             <span class="dib timer">总时长：{{main_data.duration}}</span>
             <span class="dib progress">{{main_data.is_complete?"完成":"未完成"}}</span></span>
@@ -19,8 +19,8 @@
           <img v-if="!item.unlock" class="vm first_icon " src="./img/lock.png" alt="">
         </span>
         <span class="dib ftj lesson_child fr">
-          <span class="dib font1_22_3 lesson_name fl">{{item.name}}</span>
-          <span class="dib font1_18_9 lesson_info fr">
+          <span class="dib font1_18_3 lesson_name fl">{{item.name}}</span>
+          <span class="dib font1_16_9 lesson_info fr">
             <span class="dib timer" :total_time="item.duration">时长：{{item.duration}}</span>
             <span class="dib progress">{{item.is_complete?"完成":"未完成"}}</span>
           </span>

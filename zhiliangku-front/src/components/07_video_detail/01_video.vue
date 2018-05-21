@@ -21,16 +21,16 @@
       <div v-show="list_switch" class="a content_list ">
         <div ref="section_scroll" class="list_content">
           <div v-for="(item,index) in main_list.sections" :key="index">
-            <div class="section_title font1_22_f vm">
+            <div class="section_title font1_18_f vm">
               <img v-if="item.unlock" src="./img/unlock.png" alt="">
               <img v-if="!item.unlock" src="./img/onplay.png" alt=""> {{item.title}}
             </div>
             <ul class="section_list">
-              <li class="font1_14_f vm" :class="{active: (element.id==video_id) }"
+              <li class="font1_14_f vm" :class="{active: (element.id==video_id) }" @click = "element.unlock && go_video_detail(element)"
                   v-for="(element,index) in item.videos" :key="index">
-                <img class="vm" v-if="(item.unlock)&&(element.id==video_id)" src="./img/onplay.png" alt="">
-                <img class="vm" v-else-if="!item.unlock" src="./img/Shape.png" alt="">
-                <img class="vm" v-else-if="item.unlock" src="./img/unlock.png" alt=""> {{element.name}}
+                <img class="vm" v-if="(element.unlock)&&(element.id==video_id)" src="./img/onplay.png" alt="">
+                <img class="vm" v-else-if="!element.unlock" src="./img/Shape.png" alt="">
+                <img class="vm" v-else-if="element.unlock" src="./img/unlock.png" alt=""> {{element.name}}
               </li>
             </ul>
           </div>
@@ -78,7 +78,13 @@
         this.scroll.refresh();
       },
       getPlayId() {
+        this.course_id = this.$fn.funcUrl("course_id")
         this.video_id = this.$fn.funcUrl("video_id")
+        //假视屏地址
+        this.src = "/tracks/video/detail/index.html?course_id=" + this.video_id
+      },
+      go_video_detail(item) {
+        location.href="/tracks/video/detail/index.html?course_id=" + this.course_id +"&video_id="+ item.id
       }
     },
     created() {

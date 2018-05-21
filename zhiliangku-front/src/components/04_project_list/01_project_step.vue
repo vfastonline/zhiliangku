@@ -15,7 +15,7 @@
     </div>
     <p class="project_text font2_14_9">{{main_data.desc}}</p>
     <div class="ftc">
-      <a :href="link" >
+      <a :href="link" target="_blank">
         <BlueButton >查看详情</BlueButton>
       </a>
     </div>
