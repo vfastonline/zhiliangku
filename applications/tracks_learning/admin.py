@@ -45,15 +45,28 @@ class CourseAdmin(admin.ModelAdmin):
 
 @admin.register(Section)
 class SectionAdmin(admin.ModelAdmin):
-	list_display = ('id', 'course', 'title', 'sequence', "desc")
-	search_fields = ("course__name", 'title',)
+	list_display = ('id', "project", 'course', 'title', 'sequence', "desc")
+	search_fields = ("course__project__name", "course__name", 'title',)
 	form = SectionForm
+
+	def project(self, obj):
+		name = ""
+		try:
+			if obj.section:
+				name = obj.section.course.project.name
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+		finally:
+			return name
+
+	project.short_description = "项目"
 
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
 	list_display = ('id', "project", "course", "section", 'name', "type", "address", "subtitle", 'sequence', "duration")
-	search_fields = ("section__course__name", "section__title", 'name')
+	search_fields = ("section__course__project__name", "section__course__name", "section__title", 'name')
 	list_filter = ('type',)
 
 	def project(self, obj):
