@@ -28,7 +28,7 @@ class ProjectAdmin(admin.ModelAdmin):
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
 	list_display = ('id', "project", 'name', "lecturer", "desc", "sequence", "update_time")
-	search_fields = ('name',)
+	search_fields = ('name', "project__name")
 
 	class Media:
 		js = tinymce_js
