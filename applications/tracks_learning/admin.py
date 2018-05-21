@@ -44,7 +44,7 @@ class SectionAdmin(admin.ModelAdmin):
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
 	list_display = ('id', "course", "section", 'name', "type", "address", "subtitle", 'sequence', "duration",)
-	search_fields = ("section__title", 'name')
+	search_fields = ("course", "section__title", 'name')
 	list_filter = ('type',)
 
 	def course(self, obj):
