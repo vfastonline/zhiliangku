@@ -1,8 +1,8 @@
 <template>
   <header class="mw project_header hc">
     <div class="fl">
-      <img class="logo dib vm" src="./img/智量酷-logo-slogan.png" alt="">
-      <span class="dib nav_tag"><a href="/tracks/projects/list/index.html"> <span
+      <a href="/"><img class="logo dib vm" src="./img/智量酷-logo-slogan.png" alt=""></a>
+      <span class="dib nav_tag"><a href="/tracks/projects/list/"><span
         class="font1_22_3"> 项目</span> </a></span>
       <!--<span class="dib nav_tag"><a href="#"> <span class="font1_22_3"> 考核</span> </a></span>-->
       <span class="dib nav_tag"><a href="#"> <span class="font1_22_3"> 就业</span> </a></span>
@@ -18,7 +18,7 @@
        <img class="vm notice_icon" src="./img/notice_icon.png" alt="">
         <i class="red_point a"></i>
       </span>
-      <img class="user_icon vm" v-lazy="userinfo.avatar" alt="">
+      <img class="user_icon vm" src="userinfo.avatar" alt="">
     </div>
     <LoginNew @success="is_login=true"></LoginNew>
   </header>
