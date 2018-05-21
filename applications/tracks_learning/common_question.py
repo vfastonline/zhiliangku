@@ -29,7 +29,7 @@ class CommonQuestionList(View):
 
 			data_list = list()
 			if video_id:
-				common_problems = CommonQuestion.objects.filter(video__id=video_id).values()
+				common_problems = CommonQuestion.objects.filter(video__id=video_id)
 
 				# 提供分页数据
 				page_obj = Paginator(common_problems, per_page)
