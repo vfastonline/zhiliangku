@@ -13,7 +13,7 @@
           <span class="dib vbo font1_18_6">{{main_data.lecturer}}</span></span>
         <a :href="link">
           <span>
-            <a :href="link">
+            <a :href="link" target="_blank">
               <BlueButton v-if="(main_data.summary.schedule!=1)&&(main_data.summary.unlock)" class="func_button">继续学习</BlueButton>
             </a>
             <img v-if="!main_data.summary.unlock" src="./img/Shape.png" alt="">
@@ -67,7 +67,6 @@
       if (!key) {
         this.main_data.summary.schedule = 0
       }
-      console.log(key)
       this.goLink()
     }
   }
