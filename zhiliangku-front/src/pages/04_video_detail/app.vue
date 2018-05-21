@@ -3,7 +3,7 @@
     <div id="main">
       <MyHeader></MyHeader>
       <MyVideo :main_data="video_detail_lists"></MyVideo>
-      <VideoRouterBar ></VideoRouterBar>
+      <VideoRouterBar :mainData="video_detail_lists"></VideoRouterBar>
       <button>123123123</button>
     </div>
     <F></F>

@@ -53,6 +53,7 @@
         this.courses = this.project_detail_lists.courses
       }
     },
+
     created() {
       // this.get_project_detail_lists()
       let custom_user_id = localStorage.getItem('uid');
