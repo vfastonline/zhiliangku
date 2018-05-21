@@ -1,17 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import note from '../components/07_video_detail/02_teacher_note.vue'
-import qa from '../components/07_video_detail/03_question_answer.vue'
-import sa from '../components/07_video_detail/05_FAQ.vue'
-import question from '../components/07_video_detail/07_submit_question.vue'
+import teacher_note from '../components/07_video_detail/02_teacher_note.vue'
+import student_note from '../components/07_video_detail/09_student_notes'
+import FAQ from '../components/07_video_detail/05_FAQ.vue'
+import submit_question from '../components/07_video_detail/07_submit_question.vue'
 
 Vue.use(Router)
 export default new Router({
   routes: [
-    {path: '/', redirect: '/note'},
-    {path: '/note', name: 'note', components: {'videoContent': note}},
-    {path: '/question', name: 'question', components: {'videoContent': qa}},
-    {path: '/section', name: 'section', components: {'videoContent': sa}},
-    {path: '/submitQuestion', name: 'submitQuestion', components: {'videoContent': question}},
+    {path: '/', redirect: '/teacher_note'},
+    {path: '/teacher_note', name: 'teacher_note', component: teacher_note},
+    {path: '/student_note', name: 'student_note', component: student_note},
+    {path: '/FAQ', name: 'FAQ', component: FAQ},
+    {path: '/submit_question', name: 'submit_question', component: submit_question},
   ]
 })

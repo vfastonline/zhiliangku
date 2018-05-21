@@ -1,6 +1,6 @@
 <template>
   <div class="submit-question-container">
-    <div class="submit-question incenter">
+    <div class="submit-question  mw hc">
       <div class="font20pl3a3c50 mb16 sqc-title">提问</div>
       <div class=" submit-li">
         <div class="floatl submit-label">标题：</div>
@@ -98,9 +98,11 @@
   import 'quill/dist/quill.core.css'
   import 'quill/dist/quill.snow.css'
   import 'quill/dist/quill.bubble.css'
-  import {Form,FormItem} from 'element-ui'
+  import {Form,FormItem,Select,Option} from 'element-ui'
   Vue.use(Form)
   Vue.use(FormItem)
+  Vue.use(Select)
+  Vue.use(Option)
   Vue.use(VueQuillEditor)
   export default {
     name: 'HelloWorld',

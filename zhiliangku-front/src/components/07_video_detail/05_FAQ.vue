@@ -1,8 +1,9 @@
 <template>
-  <div class="sfq-container marginbottom24">
+  <div class="sfq-container mw hc">
     <div class="incenter sfq-content">
       <sectionli v-for="(item,index) in mainData" :key="index" :mainData="item"></sectionli>
     </div>
+    <Pager></Pager>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -18,28 +19,27 @@
 </style>
 <script>
   import sectionli from './06_QA_unit'
+  import Pager from '../00_common/06_pager'
   export default {
-    name: 'F&Q',
+    name: 'FAQ',
     data () {
       return {
         mainData:""
       }
     },
     components:{
-      sectionli:sectionli
+      sectionli:sectionli,
+      Pager:Pager
     },
     created(){
-      var video_id=this.$fn.getSearchKey('video_id');
-      if(!video_id){
-        video_id=1;
-        var g='';
-        if(window.location.search.length>1){g='&'}
-        window.location.search+=g+'video_id='+video_id
-      }
-      this.$get('/tracks/common_question/list/info?video_id='+this.$fn.getSearchKey('video_id')).then(res=>{
-        console.log(res.data.data)
-        this.mainData=res.data.data
-      })
+      //这代码没什么用
+      // var video_id=this.$fn.getSearchKey('video_id');
+      // if(!video_id){
+      //   video_id=1;
+      //   var g='';
+      //   if(window.location.search.length>1){g='&'}
+      //   window.location.search+=g+'video_id='+video_id
+      // }
     }
   }
 </script>

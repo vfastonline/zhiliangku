@@ -1,6 +1,6 @@
 <template>
-  <div class="qa-container">
-    <div class="mainwidth incenter">
+  <div class="qa-container ">
+    <div  class="mw hc">
       <qustionli v-for="(item,index) in mainData" :key="index" :mainData="item"></qustionli>
     </div>
   </div>
@@ -26,7 +26,7 @@
       qustionli:qustionli
     },
     created(){
-      this.$get('/community/faq/list/info?video_id='+this.$fn.getSearchKey('video_id')).then(res=>{
+      this.$get('/community/faq/list/info?video_id='+this.$fn.funcUrl('video_id')).then(res=>{
         console.log(res)
         this.$fn.addString(this.$myConst.httpUrl,res.data.data,'custom_user_avatar')
         this.mainData=res.data.data

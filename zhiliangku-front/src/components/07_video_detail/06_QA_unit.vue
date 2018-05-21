@@ -1,7 +1,7 @@
 <template>
-  <div class="sc-container rise">
+  <div class="sc-container rise mw hc">
     <div class=" sc-question-container">
-      <div class="fl font20pl3a3c50 sc-tag">Q:</div>
+      <div class="fl  font1_20_b4 sc-tag">Q:</div>
       <div class="sc-question-title font14pl3a3c50" v-html="mainData.question"></div>
     </div>
     <div class="sc-question-content font14pl3a3c50" v-html="mainData.answer"></div>

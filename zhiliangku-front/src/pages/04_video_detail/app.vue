@@ -4,7 +4,6 @@
       <MyHeader></MyHeader>
       <MyVideo :main_data="video_detail_datas" :main_list="video_detail_lists"></MyVideo>
       <VideoRouterBar ></VideoRouterBar>
-      <button>123123123</button>
     </div>
     <F></F>
   </div>
@@ -17,6 +16,7 @@
   import F from '../../components/01_header_footer/03_footer'
   import MyVideo from '../../components/07_video_detail/01_video'
   import VideoRouterBar from '../../components/07_video_detail/08_video_sub_content'
+  import Bus from '../../assets/js/02_bus'
 
   export default {
     data() {
@@ -40,9 +40,8 @@
           this.video_detail_datas = res.data.data
         })
         this.$get("/tracks/course/detail/info?custom_user_id="+custom_user_id+"&course_id="+course_id).then(res => {
-          console.log(res.data)
-
           this.video_detail_lists = res.data.data
+          Bus.$emit('noteData',res.data.data.notes)
         })
       }
     },
