@@ -9,6 +9,7 @@ class DockerType(models.Model):
 
 	name = models.CharField('类型名称', max_length=255)
 	image = models.CharField('镜像名称', max_length=255, help_text=u"固定并准确,用于创建docker时补全命令")
+	port = models.CharField('镜像端口', max_length=10, help_text=u"先确认阿里云服务器开放端口并没有被其他镜像占用")
 	introduce = models.TextField('介绍', default='', null=True, blank=True)
 
 	def __unicode__(self):
@@ -21,10 +22,12 @@ class DockerType(models.Model):
 
 
 class DockerPort(models.Model):
-	"""Docker 端口"""
+	"""Docker 容器端口"""
 
 	container = models.CharField('容器', max_length=255)
 	port = models.CharField('端口', max_length=7)
+	create = models.DateTimeField('创建时间', auto_now=True)
+	maturity = models.DateTimeField('到期时间', blank=True)
 
 	def __unicode__(self):
 		return self.container
