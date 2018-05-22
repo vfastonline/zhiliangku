@@ -55,6 +55,9 @@ SUIT_CONFIG = {
 			 "record.WatchRecord"
 		 )},
 
+		# Docker字典
+		{'app': 'assessment', 'icon': 'icon-comment', 'models': ('DockerType', 'DockerPort')},
+
 		# 练习题
 		{'app': 'exercise', 'icon': 'icon-th', },
 
