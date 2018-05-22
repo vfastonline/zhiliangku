@@ -55,7 +55,7 @@ class ConstructDocker(View):
 				image = videos.first().docker.image if videos.first().docker else ""
 				image_port = videos.first().docker.port if videos.first().docker else ""
 				assess_time = videos.first().assess_time
-				shell_name = videos.first().shell.split("/")[-1]
+				shell_name = videos.first().shell.url.split("/")[-1] if videos.first().shell else ""
 				topic = videos.first().topic
 
 			# 检查容器是否已经存在

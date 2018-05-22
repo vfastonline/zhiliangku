@@ -14,7 +14,7 @@ from django.dispatch import receiver
 from applications.assessment.models import DockerType
 from applications.custom_user.models import CustomUser
 from applications.live_streaming.models import Live
-from lib.storage import ImageStorage
+from lib.storage import ShellStorage
 
 
 class Technology(models.Model):
@@ -109,7 +109,7 @@ class Video(models.Model):
 	desc = models.TextField('描述', default='', null=True, blank=True)
 	notes = models.TextField('讲师笔记', default='', null=True, blank=True)
 	topic = models.TextField('考核题目', default='', null=True, blank=True)
-	shell = models.FileField('考核shell', upload_to='shell', storage=ImageStorage(), null=True, blank=True)
+	shell = models.FileField('考核shell', upload_to='shell', storage=ShellStorage(), null=True, blank=True)
 	docker = models.ForeignKey(DockerType, verbose_name='Docker类型', null=True, blank=True)
 	assess_time = models.PositiveIntegerField('考核时长(分)', default=5, help_text="考核时长，默认5分钟；单位：分")
 
