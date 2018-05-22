@@ -19,7 +19,7 @@ docker run -it --rm -d  -v /usr/local/share/xiaodu/script:/usr/local/share/xiaod
 """
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class AssessmentPage(View):
 	"""考核-页面"""
 
@@ -28,7 +28,7 @@ class AssessmentPage(View):
 		return render(request, template_name, {})
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class ConstructDocker(View):
 	"""构建docker"""
 
@@ -83,7 +83,7 @@ class ConstructDocker(View):
 			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class AssessmentResult(View):
 	"""考核-结果"""
 
