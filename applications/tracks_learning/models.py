@@ -99,7 +99,7 @@ class Video(models.Model):
 	address = models.FileField('视频', upload_to='video/%y%m%d', null=True, blank=True)
 	subtitle = models.FileField('字幕', upload_to='video/%y%m%d', null=True, blank=True, default=' ')
 	shell = models.FileField('考核shell', upload_to='shell/%y%m%d', null=True, blank=True)
-	docker = models.ForeignKey(DockerType, verbose_name='Docker类型', null=True, blank=True)
+	# docker = models.ForeignKey(DockerType, verbose_name='Docker类型', null=True, blank=True)
 	sequence = models.PositiveIntegerField('显示顺序', default=1, validators=[MinValueValidator(1)], help_text="从1开始，默认：1")
 	duration = models.PositiveIntegerField('总时长(秒)', default=0, help_text="视频成功上传后，由后台补全；单位：秒")
 	desc = models.TextField('描述', default='', null=True, blank=True)
