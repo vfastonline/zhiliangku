@@ -66,8 +66,12 @@ class ConstructDocker(View):
 			dockerports = DockerPort.objects.filter(container=container)
 			if dockerports.exists():  # 销毁，不使用旧环境，避免定时任务提前销毁
 				stop_info = commands.getoutput(stop_command)
-				if not int(stop_info):
-					dockerports.delete()
+				try:
+					if not int(stop_info):
+						dockerports.delete()
+				except:
+					traceback.print_exc()
+					logging.getLogger().error(traceback.format_exc())
 			start_info = commands.getoutput(start_command)
 			print start_command
 			print start_info
@@ -102,7 +106,7 @@ class AssessmentResult(View):
 			videos = Video.objects.filter(id=video_id, type="3")
 			shell_name = ""
 			if videos.exists():
-				shell_name = videos.first().shell.split("/")[-1]
+				shell_name = videos.first().shell.url.split("/")[-1]
 
 			command = "ssh root@docker sh /usr/local/share/xiaodu/script/kaohe.sh {container} {shell_name}".format(
 				container=container, shell_name=shell_name)
@@ -114,8 +118,12 @@ class AssessmentResult(View):
 			stop_command = "ssh root@docker sh /usr/local/share/xiaodu/script/docker.sh stop {container}".format(
 				container=container)
 			stop_info = commands.getoutput(stop_command)
-			if not int(stop_info):
-				dockerports = DockerPort.objects.filter(container=container).delete()
+			try:
+				if not int(stop_info):
+					dockerports = DockerPort.objects.filter(container=container).delete()
+			except:
+				traceback.print_exc()
+				logging.getLogger().error(traceback.format_exc())
 
 			result_dicts = json.loads(result_info)
 			result_dict["grade"] = result_dicts.get("grade", "x")
