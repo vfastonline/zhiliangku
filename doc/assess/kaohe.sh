@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # $1=容器名称
 # $2=考核脚本名称
 
