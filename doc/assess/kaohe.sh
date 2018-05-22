@@ -17,4 +17,4 @@ function kaohe(){
 }
 
 
-kaohe
+kaohe $1 $2

@@ -11,7 +11,7 @@ function start(){
     then
         imageid=`docker ps | grep $2 | awk '{print $1}'`
     else
-        tmpid=`docker run -it --rm -d  -v /usr/local/share/xiaodu/script/$6:/usr/local/share/xiaodu/script/$6  -p $3:$4 --name '$2' $5`
+        tmpid=`docker run -it --rm -d  -v /usr/local/share/xiaodu/script/$6:/usr/local/share/xiaodu/script/$6  -p $3:$4 --name $2 $5`
         imageid=${tmpid:0:12}
     fi
     echo {\"code\":0, \"imageid\":\"$imageid\"}
@@ -27,9 +27,9 @@ function stop() {
 
 case "$1" in
     start)
-    start;;
+    start docker $2 $3 $4 $5 $6;;
     stop)
-    stop;;
+    stop docker $2;;
     *)
     echo  $"Usage: $0 {start|stop|}"
     exit 2

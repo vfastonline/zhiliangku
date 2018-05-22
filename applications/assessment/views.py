@@ -66,6 +66,8 @@ class ConstructDocker(View):
 			dockerports = DockerPort.objects.filter(container=container)
 			if dockerports.exists():  # 销毁，不使用旧环境，避免定时任务提前销毁
 				stop_info = commands.getoutput(stop_command)
+				if not int(stop_info):
+					dockerports.delete()
 			start_info = commands.getoutput(start_command)
 			print start_command
 			print start_info
@@ -107,6 +109,15 @@ class AssessmentResult(View):
 				container=container, shell_name=shell_name)
 			result_info = commands.getoutput(command)
 			print type(result_info), result_info
+
+			# 销毁docker
+			container = "-".join([token, str(video_id)])
+			stop_command = "ssh root@docker sh /usr/local/share/xiaodu/script/docker.sh stop {container}".format(
+				container=container)
+			stop_info = commands.getoutput(stop_command)
+			if not int(stop_info):
+				dockerports = DockerPort.objects.filter(container=container).delete()
+			
 			result_dicts = json.loads(result_info)
 			result_dict["grade"] = result_dicts.get("grade", "x")
 			result_dict["msg"] = result_dicts.get("msg", "x")
