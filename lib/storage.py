@@ -38,7 +38,7 @@ class ShellStorage(FileSystemStorage):
 		ext = os.path.splitext(name)[1]
 		# 文件目录
 		d = os.path.dirname(name)
-		name = name.split(".")[1]
+		name = name.split(".")[0]
 		# 定义文件名，年月日时分秒随机数
 		fn = time.strftime('%Y%m%d%H%M%S')
 		fn = name + fn + '_%d' % random.randint(0, 1000)
