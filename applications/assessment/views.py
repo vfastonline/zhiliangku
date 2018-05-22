@@ -59,9 +59,9 @@ class ConstructDocker(View):
 				topic = videos.first().topic
 
 			# 检查容器是否已经存在
-			stop_command = "ssh root@docker sh /usr/local/share/xiaodu/script/docker.sh stop '{container}'".format(
+			stop_command = "ssh root@docker sh /usr/local/share/xiaodu/script/docker.sh stop {container}".format(
 				container=container)
-			start_command = "ssh root@docker sh /usr/local/share/xiaodu/script/docker.sh start '{container}' '{port}' '{image_port}' '{image}' '{shell_name}'".format(
+			start_command = "ssh root@docker sh /usr/local/share/xiaodu/script/docker.sh start {container} {port} {image_port} {image} {shell_name}".format(
 				container=container, port=port, image_port=image_port, image=image, shell_name=shell_name)
 			dockerports = DockerPort.objects.filter(container=container)
 			if dockerports.exists():  # 销毁，不使用旧环境，避免定时任务提前销毁
@@ -103,7 +103,7 @@ class AssessmentResult(View):
 				container = "-".join([token, video_id])
 				shell_name = videos.first().shell.split("/")[-1]
 
-			command = "ssh root@docker sh /usr/local/share/xiaodu/script/kaohe.sh '{container}' '{shell_name}'".format(
+			command = "ssh root@docker sh /usr/local/share/xiaodu/script/kaohe.sh {container} {shell_name}".format(
 				container=container, shell_name=shell_name)
 			result_info = commands.getoutput(command)
 			print type(result_info), result_info
