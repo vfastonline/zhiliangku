@@ -24,7 +24,7 @@ class DockerPort(models.Model):
 	"""Docker 端口"""
 
 	container = models.CharField('容器', max_length=255)
-	port = models.CharField('端口', max_length=255)
+	port = models.CharField('端口', max_length=7)
 
 	def __unicode__(self):
 		return self.container
