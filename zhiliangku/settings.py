@@ -65,6 +65,7 @@ INSTALLED_APPS = [
 	'applications.personal_center',
 	'applications.integral',
 	'applications.face',
+	'applications.assessment',
 ]
 
 SITE_ID = 1
