@@ -7,7 +7,7 @@ from zhiliangku.settings import tinymce_js
 
 @admin.register(DockerType)
 class DockerTypeAdmin(admin.ModelAdmin):
-	list_display = ('id', "name", 'image', "introduce")
+	list_display = ('id', "name", 'image', "port", "introduce")
 	search_fields = ('name', "image")
 
 	class Media:
