@@ -8,7 +8,7 @@ class DockerType(models.Model):
 	"""Docker 类型"""
 
 	name = models.CharField('类型名称', max_length=255)
-	image = models.CharField('镜像名称', max_length=255, help_text=u"固定并准确，类似tsl0922/ttyd，用于创建docker时补全命令")
+	image = models.CharField('镜像名称', max_length=255, help_text=u"固定并准确,用于创建docker时补全命令")
 	introduce = models.TextField('介绍', default='', null=True, blank=True)
 
 	def __unicode__(self):
