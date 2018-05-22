@@ -33,4 +33,3 @@ class DockerPort(models.Model):
 		db_table = 'DockerPort'
 		verbose_name = "Docker端口"
 		verbose_name_plural = "Docker端口"
-		index_together = ['container', 'port']
