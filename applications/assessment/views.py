@@ -46,6 +46,7 @@ class ConstructDocker(View):
 			image = ""
 			shell_name = ""
 			assess_time = 0
+			topic = ""
 
 			# 容器名字
 			videos = Video.objects.filter(id=video_id, type="3")
@@ -55,6 +56,7 @@ class ConstructDocker(View):
 				image_port = videos.first().docker.port if videos.first().port else ""
 				assess_time = videos.first().assess_time
 				shell_name = videos.first().shell.split("/")[-1]
+				topic = videos.first().topic
 
 			# 检查容器是否已经存在
 			stop_command = "ssh root@docker sh /usr/local/share/xiaodu/script/docker.sh stop '{container}'".format(
@@ -70,7 +72,7 @@ class ConstructDocker(View):
 			maturity = datetime.datetime.now() + datetime.timedelta(minutes=assess_time)
 			DockerPort.objects.get_or_create(container=container, port=port, maturity=maturity)
 			start_info = json.loads(start_info)
-			result_data = {"ip": "", "port": port}
+			result_data = {"ip": "", "port": port, "topic": topic}
 			result_dict["data"] = result_data
 		except:
 			traceback.print_exc()
