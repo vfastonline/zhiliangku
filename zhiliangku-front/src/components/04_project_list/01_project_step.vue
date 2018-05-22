@@ -58,7 +58,7 @@
     line-height: 36px;
   }
   .project_text {
-    padding: 5px 20px 0 30px;
+    padding: 5px 20px 5px 30px;
     margin-bottom: 25px;
     height: 108px;
     overflow: hidden;
@@ -98,8 +98,7 @@ import BlueButton from '../00_common/04_blue_button'
     },
     methods: {
       organize_link(){
-        // debugger
-         this.link="/tracks/projects/detail?project_id="+this.main_data.id
+         this.link="/tracks/projects/detail/?project_id="+this.main_data.id
       }
     },
     created(){

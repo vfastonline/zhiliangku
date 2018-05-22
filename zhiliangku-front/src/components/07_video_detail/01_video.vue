@@ -84,7 +84,7 @@
         this.src = "/media/video/180521/fullsizeoutput_89.mov"
       },
       go_video_detail(item) {
-        location.href="/tracks/video/detail?course_id=" + this.course_id +"&video_id="+ item.id
+        location.href="/tracks/video/detail/?course_id=" + this.course_id +"&video_id="+ item.id
       }
     },
     created() {

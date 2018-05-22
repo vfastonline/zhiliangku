@@ -241,7 +241,7 @@ class ParticipateProject(View):
         try:
             param_dict = json.loads(request.body)
             project_id = str_to_int(param_dict.get('project_id', 0))  # 必填，路径ID
-            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 必填，用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 
             if not project_id:
                 result_dict["err"] = 1

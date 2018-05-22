@@ -8,6 +8,7 @@ import student_notes
 import course_list
 import live
 import path_list
+import assessment
 import poly_upload_video
 import video_list
 import projects_list
@@ -18,7 +19,7 @@ urlpatterns = [
 	url('^projects/list/info$', projects_list.ProjectsListInfo.as_view()),  # 项目信息列表
 	url('^projects/list/$', projects_list.ProjectsList.as_view(), name='projects'),  # 项目信息列表页面
 
-	url('^projects/detail/$', projects_list.ProjectsDetail.as_view(),name="project-detail"),  # 项目详情--页面
+	url('^projects/detail/$', projects_list.ProjectsDetail.as_view(), name="project-detail"),  # 项目详情--页面
 	url('^projects/detail/info$', projects_list.ProjectsDetailInfo.as_view(), name="project-detail"),  # 项目详情--信息
 
 	url('^course/detail/$', course_list.CourseDetail.as_view()),
@@ -33,7 +34,7 @@ urlpatterns = [
 	url('^video/detail/info$', video_list.VideoDetailInfo.as_view()),
 
 	# 考核
-	url('^assessment/detail/$', video_list.AssessmentDetail.as_view()),
+	url('^assessment/detail/$', assessment.AssessmentDetail.as_view()),
 
 	# 学生笔记
 	url('^student/notes/list/info$', student_notes.StudentNotesList.as_view()),  # 学生笔记

@@ -19,7 +19,7 @@ class CollectCourse(View):
         try:
             param_dict = json.loads(request.body)
             course_id = str_to_int(param_dict.get('course_id', 0))  # 必填，课程ID
-            custom_user_id = str_to_int(param_dict.get('custom_user_id', 0))  # 必填，用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             is_collect = str_to_int(param_dict.get('is_collect', 0))  # 必填，1：收藏；0：取消收藏
 
             if custom_user_id and course_id:

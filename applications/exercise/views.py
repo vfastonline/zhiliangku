@@ -39,7 +39,7 @@ class QuestionListInfo(View):
 			# 获取查询参数
 			# 按过滤条件查询
 			self.video_id = str_to_int(request.GET.get('video_id', 0))  # 视频ID
-			self.custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+			self.custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 
 			# 面包屑
 			self.make_breadcrumbs()

@@ -98,6 +98,7 @@
             }
             this.$fn.showNotice(this,'您已成功登录','success')
             this.$emit('log_in_success')
+            Bus.$emit('refreshAvatar')
           }
         })
       },

@@ -39,14 +39,10 @@
       PrimeButton: PrimeButton
     },
     props: {
-      main_data: {}
+      // main_data: {}
     },
     created() {
       // console.log(this.$refs)
-      let video_id = this.$fn.funcUrl('video_id')
-      this.params={
-        'video_id':video_id,
-      }
     }
   }
 </script>

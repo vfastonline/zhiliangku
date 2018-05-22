@@ -21,7 +21,7 @@ class CustomUserAvatar(View):
         avatar_type_list = ["custom_user_avatar", "resume_avatar"]
         try:
             avatar = request.FILES.get('file', None)
-            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 必填，用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             avatar_type = request.GET.get('avatar_type', None)  # 图片类型
 
             if avatar_type not in avatar_type_list:

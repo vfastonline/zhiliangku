@@ -78,7 +78,7 @@ class ResumeDetailInfo(View):
             "data": dict(),
         }
         try:
-            custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))  # 用户ID
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             result_dict = get_resume_detail_info(custom_user_id)
         except:
             traceback.print_exc()
@@ -98,7 +98,7 @@ class ResumeDelete(View):
         try:
             param_dict = json.loads(request.body)
             resume_type = param_dict.get("resume_type", "")
-            custom_user_id = str_to_int(param_dict.get("custom_user_id", 0))
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             pk_id = str_to_int(param_dict.get("pk_id", 0))
 
             if resume_type and pk_id:
@@ -129,7 +129,7 @@ class ResumeUpdate(View):
         result_dict = {"err": 0, "msg": "修改成功"}
         try:
             param_dict = json.loads(request.body)
-            custom_user_id = str_to_int(param_dict.get("custom_user_id", 0))
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
             resume_type = param_dict.get("resume_type", "")
             pk_id = str_to_int(param_dict.get("pk_id", 0))
             resume_info_dict = param_dict.get("resume_info_dict", {})
@@ -170,7 +170,7 @@ class ResumeAdd(View):
             param_dict = json.loads(request.body)
             resume_type = param_dict.get("resume_type", "")
             resume_info_dict = param_dict.get("resume_info_dict", {})
-            custom_user_id = str_to_int(param_dict.get("custom_user_id", 0))
+            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 
             career_objective_id = resume_info_dict.get("career_objective_id", 0)
             user_obj = None

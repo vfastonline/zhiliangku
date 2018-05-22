@@ -1,11 +1,11 @@
 #!encoding:utf-8
-
 from django.db.models import *
 from django.shortcuts import render
 from django.views.generic import View
 
 from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
+from lib.permissionMixin import class_view_decorator, user_login_required
 from lib.util import *
 
 
@@ -181,6 +181,7 @@ class ProjectsDetail(View):
 		return render(request, template_name, {})
 
 
+@class_view_decorator(user_login_required)
 class ProjectsDetailInfo(View):
 	"""项目详情"""
 
@@ -192,7 +193,7 @@ class ProjectsDetailInfo(View):
 		try:
 			filter_param = dict()
 			project_id = str_to_int(request.GET.get('project_id', 0))
-			custom_user_id = str_to_int(request.GET.get('custom_user_id', 0))
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			page = self.request.GET.get("page", 1)  # 页码
 			per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
 
