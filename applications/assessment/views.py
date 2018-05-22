@@ -53,7 +53,7 @@ class ConstructDocker(View):
 			if videos.exists():
 				container = "-".join([token, str(video_id)])
 				image = videos.first().docker.image if videos.first().docker else ""
-				image_port = videos.first().docker.port if videos.first().port else ""
+				image_port = videos.first().docker.port if videos.first().docker else ""
 				assess_time = videos.first().assess_time
 				shell_name = videos.first().shell.split("/")[-1]
 				topic = videos.first().topic
