@@ -14,7 +14,7 @@ from django.dispatch import receiver
 from applications.assessment.models import DockerType
 from applications.custom_user.models import CustomUser
 from applications.live_streaming.models import Live
-from lib.storage import ShellStorage
+from lib.storage import *
 
 
 class Technology(models.Model):
