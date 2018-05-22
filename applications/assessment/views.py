@@ -71,7 +71,7 @@ class ConstructDocker(View):
 			# 入库创建记录
 			maturity = datetime.datetime.now() + datetime.timedelta(minutes=assess_time)
 			DockerPort.objects.get_or_create(container=container, port=port, maturity=maturity)
-			start_info = json.loads(start_info)
+			# start_info = json.loads(start_info)
 			result_data = {"ip": "", "port": port, "topic": topic}
 			result_dict["data"] = result_data
 		except:
