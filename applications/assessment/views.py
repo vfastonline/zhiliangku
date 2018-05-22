@@ -51,7 +51,7 @@ class ConstructDocker(View):
 			# 容器名字
 			videos = Video.objects.filter(id=video_id, type="3")
 			if videos.exists():
-				container = "-".join([token, video_id])
+				container = "-".join([token, str(video_id)])
 				image = videos.first().docker.image if videos.first().docker else ""
 				image_port = videos.first().docker.port if videos.first().port else ""
 				assess_time = videos.first().assess_time
