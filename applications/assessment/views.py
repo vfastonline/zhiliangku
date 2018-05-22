@@ -98,11 +98,10 @@ class AssessmentResult(View):
 			token = kwargs.get('token', "")  # 当前登录用户token
 			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			video_id = str_to_int(param_dict.get('video_id', 0))
-			container = "-".join([token, video_id])
+			container = "-".join([token, str(video_id)])
 			videos = Video.objects.filter(id=video_id, type="3")
 			shell_name = ""
 			if videos.exists():
-				container = "-".join([token, video_id])
 				shell_name = videos.first().shell.split("/")[-1]
 
 			command = "ssh root@docker sh /usr/local/share/xiaodu/script/kaohe.sh {container} {shell_name}".format(
@@ -117,7 +116,7 @@ class AssessmentResult(View):
 			stop_info = commands.getoutput(stop_command)
 			if not int(stop_info):
 				dockerports = DockerPort.objects.filter(container=container).delete()
-			
+
 			result_dicts = json.loads(result_info)
 			result_dict["grade"] = result_dicts.get("grade", "x")
 			result_dict["msg"] = result_dicts.get("msg", "x")
