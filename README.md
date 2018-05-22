@@ -90,6 +90,12 @@ cd zhiliangku
 pip install -r requirements.txt
 ```
 
+#### Scheduled task
+```
+定时销毁超时的考核容器
+0 */1 * * * /usr/local/bin/python manage.py destroydocker
+```
+
 #### Architecture
 * git, vue
 
