@@ -62,6 +62,12 @@
           this.handleCurrentChange(1)
         },
         deep: true
+      },
+      additionData: {
+        handler: function () {
+          this.addition=this.additionData
+        },
+        deep: true
       }
     },
     props: {

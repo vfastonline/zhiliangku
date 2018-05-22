@@ -31,15 +31,15 @@
     data() {
       return {
         name: 'videoContent',
-        button_show_switch: [true]
+        button_show_switch: [true],
       }
+    },
+    props:{
+      main_data:{}
     },
     components: {
       GreyButton: GreyButton,
       PrimeButton: PrimeButton
-    },
-    props: {
-      main_data: {}
     },
     created() {
       // console.log(this.$refs)

@@ -53,12 +53,14 @@
     props: {},
     created() {
       Bus.$on('noteData', (obj) => {
+        console.log(1231)
+        console.log(obj)
         this.mainData = (obj + '').replace(/src="/g, 'src="' + this.$myConst.httpUrl);
       })
       //接下来的内容我不认为是一个合理的处置
-      // if (this.$parent.$parent.noteData) {
-      //   this.mainData = (this.$parent.$parent.noteData + '').replace(/src="/g, 'src="' + this.$myConst.httpUrl);
-      // }
+      if (this.$parent.$parent.noteData) {
+        this.mainData = (this.$parent.$parent.noteData + '').replace(/src="/g, 'src="' + this.$myConst.httpUrl);
+      }
     }
   }
 
