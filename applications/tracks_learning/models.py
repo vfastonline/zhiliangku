@@ -8,6 +8,7 @@ from django.db import models
 from applications.custom_user.models import CustomUser
 from applications.live_streaming.models import Live
 from lib.storage import ImageStorage
+from applications.assessment.models import DockerType
 
 
 class Technology(models.Model):
@@ -59,7 +60,6 @@ class Course(models.Model):
 	sequence = models.PositiveIntegerField('顺序', default=1, validators=[MinValueValidator(1)], help_text="默认顺序为1")
 	update_time = models.DateTimeField("更新时间", auto_now=True)
 
-
 	def __unicode__(self):
 		return self.name
 
@@ -93,19 +93,13 @@ class Video(models.Model):
 		("2", "练习题"),
 		("3", "考核"),
 	)
-	DOCKER = (
-		("0", "Linux"),
-		("1", "Java"),
-		("2", "Hadoop"),
-		("3", "Oracle"),
-	)
 	section = models.ForeignKey(Section, verbose_name='所属章节', related_name='Videos', blank=True, null=True)
 	type = models.CharField('类型', max_length=1, choices=TYPE)
 	name = models.CharField('视频/习题名称', max_length=255)
 	address = models.FileField('视频', upload_to='video/%y%m%d', null=True, blank=True)
 	subtitle = models.FileField('字幕', upload_to='video/%y%m%d', null=True, blank=True, default=' ')
 	shell = models.FileField('考核shell', upload_to='shell/%y%m%d', null=True, blank=True)
-	docker = models.CharField('Docker类型', max_length=1, choices=DOCKER, null=True, blank=True)
+	# docker = models.ForeignKey(DockerType, verbose_name='Docker类型', null=True, blank=True)
 	sequence = models.PositiveIntegerField('显示顺序', default=1, validators=[MinValueValidator(1)], help_text="从1开始，默认：1")
 	duration = models.PositiveIntegerField('总时长(秒)', default=0, help_text="视频成功上传后，由后台补全；单位：秒")
 	desc = models.TextField('描述', default='', null=True, blank=True)

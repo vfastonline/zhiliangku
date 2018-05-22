@@ -9,6 +9,7 @@ from django.shortcuts import render
 from django.views.generic import View
 
 
+
 class AssessmentPage(View):
 	"""考核-页面"""
 

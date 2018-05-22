@@ -150,7 +150,7 @@
       }
     },
     props:{
-      where:String
+      // where:String
     },
     methods: {
       jj(){

@@ -11,7 +11,7 @@
 <style lang="scss">
   .sc-container {
     padding: 31px 40px 24px 40px;
-    background: white;
+    background: #fafafa;
     margin-bottom: 24px;
   }
 

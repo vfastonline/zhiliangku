@@ -1,9 +1,9 @@
 <template>
   <section class="mw hc">
     <div>
-    <NoteLi></NoteLi>
+      <NoteLi v-for="(item,index) in student_note_datas" :key="index" :noteData="item"></NoteLi>
     </div>
-    <Pager></Pager>
+    <Pager @pagerGetData="mainPagerData" :url="url" :addition-data="params"></Pager>
   </section>
 </template>
 
@@ -12,18 +12,32 @@
   import Pager from '../00_common/06_pager'
   export default {
     name: "student_notes",
-    methods:{
-      get_data(){
-
+    data() {
+      return {
+        main_data: '',
+        student_note_datas: '',
+        url:'/tracks/student/notes/list/info',
+        params: ''
       }
     },
     components: {
       NoteLi: NoteLi,
       Pager:Pager
     },
+    methods: {
+      mainPagerData(res) {
+        console.log(res.data.data)
+        this.student_note_datas = res.data.data
+      }
+    },
     created(){
-      this.get_data()
-    }
+      let video_id = this.$fn.funcUrl('video_id')
+      this.params = {
+        'custom_user_id':localStorage.uid,
+        'video_id':video_id
+      }
+    },
+
   }
 </script>
 

@@ -7,7 +7,7 @@
       <h2 class="project_name font1_30_3">{{main_data.name}}</h2>
       <p class="project_introduce">{{main_data.desc}}</p>
       <!--<el-button> <span class="font1_26_ff project_button">查看详情</span></el-button>-->
-      <a :href="link">
+      <a :href="link" target="_blank">
         <Button>查看详情</Button>
       </a>
     </div>

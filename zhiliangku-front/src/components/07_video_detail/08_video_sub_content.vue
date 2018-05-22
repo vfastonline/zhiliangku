@@ -40,9 +40,6 @@
     components: {
       GreyButton: GreyButton,
       PrimeButton: PrimeButton
-    },
-    created() {
-      // console.log(this.$refs)
     }
   }
 </script>
