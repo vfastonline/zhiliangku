@@ -68,7 +68,7 @@
         // 这里面写入处理函数，目标为：将所有item的active属性变为false，然后将选中的item加上active属性。切记如果item中无active则要在刚刚请求到active的时候写入这个属性。
         this.handle_active(item)
         Bus.$emit('additionEnter', {
-          'project_id': item.id,
+          'technology_id': item.id,
         })
       },
       handle_active(item) {

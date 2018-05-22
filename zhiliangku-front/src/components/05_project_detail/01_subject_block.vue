@@ -59,7 +59,7 @@
     },
     methods: {
       goLink(){
-        this.link = "/tracks/course/detail/index.html?course_id="+this.main_data.id
+        this.link = "/tracks/course/detail?course_id="+this.main_data.id
       }
     },
     created() {

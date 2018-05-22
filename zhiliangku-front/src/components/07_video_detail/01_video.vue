@@ -22,8 +22,8 @@
         <div ref="section_scroll" class="list_content">
           <div v-for="(item,index) in main_list.sections" :key="index">
             <div class="section_title font1_18_f vm">
-              <img v-if="item.unlock" src="./img/unlock.png" alt="">
-              <img v-if="!item.unlock" src="./img/onplay.png" alt=""> {{item.title}}
+              <img class="vm" v-if="item.unlock" src="./img/unlock.png" alt="">
+              <img class="vm" v-if="!item.unlock" src="./img/onplay.png" alt=""> {{item.title}}
             </div>
             <ul class="section_list">
               <li class="font1_14_f vm" :class="{active: (element.id==video_id) }" @click = "element.unlock && go_video_detail(element)"
@@ -60,7 +60,7 @@
           playbackRates: [1.0, 1.25, 1.5, 1.75, 2.0],
           sources: [{
             type: "video/mp4",
-            src: ""
+            src: "/media/video/180521/fullsizeoutput_89.mov"
           }],
           // fluid: true,
           poster: ""// 海豹图片地址
@@ -81,7 +81,7 @@
         this.course_id = this.$fn.funcUrl("course_id")
         this.video_id = this.$fn.funcUrl("video_id")
         //假视屏地址
-        this.src = "/tracks/video/detail/?course_id=" + this.video_id
+        this.src = "/media/video/180521/fullsizeoutput_89.mov"
       },
       go_video_detail(item) {
         location.href="/tracks/video/detail/?course_id=" + this.course_id +"&video_id="+ item.id

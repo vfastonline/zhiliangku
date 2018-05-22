@@ -39,7 +39,7 @@
       PrimeButton: PrimeButton
     },
     props: {
-      main_data: {}
+      // main_data: {}
     },
     created() {
       // console.log(this.$refs)
