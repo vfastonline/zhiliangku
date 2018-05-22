@@ -67,6 +67,8 @@ class ConstructDocker(View):
 			if dockerports.exists():  # 销毁，不使用旧环境，避免定时任务提前销毁
 				stop_info = commands.getoutput(stop_command)
 			start_info = commands.getoutput(start_command)
+			print start_command
+			print start_info
 
 			# 入库创建记录
 			maturity = datetime.datetime.now() + datetime.timedelta(minutes=assess_time)
