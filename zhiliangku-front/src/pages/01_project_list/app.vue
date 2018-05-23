@@ -66,6 +66,7 @@
       //获取pager分页组件返回的分页数据
       mainPagerData(res) {
         this.project_lists = res.data.data
+        // console.log( res.data.data )
       }
     },
     created(){

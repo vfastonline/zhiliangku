@@ -1,5 +1,5 @@
 <template>
-  <section class="mw project_step  rise hc" :style="{'border':'1px solid'+colorArr[index],'margin-top':margin_top}">
+  <section class="mw project_step  rise hc" :style="{'border':'1px solid '+colorArr[index],'margin-top':margin_top}">
     <div class="project_title font1_32_ff" :style="{'background-color':colorArr[index]}">项目一：大数据</div>
     <div class="info_container ">
       <p class="info_text dib vm font1_20_9">

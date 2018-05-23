@@ -4,7 +4,7 @@
     <span class="dib search_block">
        <input v-model="search_value" @keydown.enter=" handleSearch(search_value)" class="search_input "
               type="text" placeholder="请输入关键字">
-            <img @click="handleSearch(search_value)" class="vb" src="./img/search.png" alt="">
+            <img @click="handleSearch(search_value)" class="vb searchBox" src="./img/search.png" alt="">
     </span>
     <el-button @click="foucus" class="foucusButton fr">我要提问</el-button>
 
@@ -37,7 +37,9 @@
     font-size: 16px;
     line-height: 30px;
   }
-
+  .searchBox {
+    cursor: pointer;
+  }
   .foucusButton {
     corlor:white;
     background-color: #00bcd0;
