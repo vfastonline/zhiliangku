@@ -1,5 +1,5 @@
 <template>
-  <div @click="handleClick" class="mainwidth rise qc-container marginbottom24 pointer">
+  <div @click="handleClick" class="mw rise qc-container  cp">
     <div class="clearfix">
       <!--<img class="fl qc-user-icon" :src="mainData.custom_user_avatar" alt="">-->
       <div class=" qc-text-container">

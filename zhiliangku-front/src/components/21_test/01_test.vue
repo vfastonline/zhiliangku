@@ -16,7 +16,7 @@
         </ul>
       </div>
       <div>
-        <iframe src="http://118.190.209.153:7681/" onload="" frameborder="0" width="1088px" height="400" scrolling='no'
+        <iframe :src="src" onload="" frameborder="0" width="1088px" height="400" scrolling='no'
                 hspace="0"
                 vspace="0"></iframe>
       </div>
@@ -59,6 +59,7 @@
       return {
         mark: {mark: ''},
         dialogVisible: false,
+        src:''
       }
     },
     props: {},
@@ -67,7 +68,7 @@
         console.log(111)
       },
       submit() {
-        this.$post('/assess/result', {}).then(res => {
+        this.$post('/assess/result', {video_id:177}).then(res => {
           console.log(res);
           this.mark.mark = res.data.grade;
           this.dialogVisible = true;
@@ -75,6 +76,11 @@
       }
     },
     created() {
+      this.$get('/assess/construct?video_id=177').then(res=>{
+        this.src='http://118.190.209.153:7681/'
+      })
+    },
+    mounted(){
 
     },
     components: {}

@@ -1,6 +1,6 @@
 <template>
   <div class="sfq-container mw hc">
-    <div class="incenter sfq-content">
+    <div class=" sfq-content">
       <sectionli v-for="(item,index) in mainData" :key="index" :mainData="item"></sectionli>
     </div>
     <Pager @pagerGetData="mainPagerData" :url="url" :addition-data="params"></Pager>
@@ -11,14 +11,16 @@
   .sfq-container{
     padding-top:32px;
     /*background:#fafafa;*/
-    min-height:500px;
+    min-height:70vh;
+    margin-bottom: 30px;
   }
   .sfq-content{
     width:780px;
+    min-height: 65vh;
   }
 </style>
 <script>
-  import sectionli from './06_QA_unit'
+  import sectionli from './06_FQA_unit'
   import Pager from '../00_common/06_pager'
   export default {
     name: 'FAQ',
