@@ -40,7 +40,7 @@ class ConstructDocker(View):
 
 			# 获取端口
 			port = get_docker_port()
-			port = 7681
+			# port = 7681
 			image_port = ""
 			container = ""
 			image = ""
