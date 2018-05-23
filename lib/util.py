@@ -44,6 +44,7 @@ def validate(key, fix_pwd):
 	"""
 	# t = int(time.time())
 	try:
+		token = key
 		key = base64.b64decode(key)
 		x = key.split('|')
 		if len(x) != 5:
@@ -52,7 +53,7 @@ def validate(key, fix_pwd):
 		validate_key = hashlib.md5('%s%s%s' % (x[0], x[1], fix_pwd)).hexdigest()
 		if validate_key == x[4]:
 			logging.getLogger().info('认证通过')
-			return {'code': 0, 'identifier': x[0], 'uid': x[2], 'role': x[3], "msg": "认证通过"}
+			return {'code': 0, 'identifier': x[0], 'uid': x[2], 'role': x[3], "msg": "认证通过", "token": token}
 		else:
 			logging.getLogger().warning('密码不正确')
 			return {'code': 1, 'msg': '密码不正确'}
