@@ -14,7 +14,7 @@
   }
 </style>
 <script>
-  import qustionli from './04_question_unit'
+  import qustionli from './04_question_answer_unit'
   export default {
     name: 'question_answer',
     data() {

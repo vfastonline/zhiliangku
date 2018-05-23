@@ -12,7 +12,7 @@ module.exports = {
     proxyTable: {
       '/api': {
         // 测试环境
-        target: 'https://www.zhiliangku.com', // 接口域名
+        target: 'http://www.zhiliangku.com', // 接口域名
         changeOrigin: true, // 是否跨域
         pathRewrite: {
           '/api': '' // 需要rewrite重写的,
@@ -20,7 +20,7 @@ module.exports = {
       }
     },
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: '192.168.2.35', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,

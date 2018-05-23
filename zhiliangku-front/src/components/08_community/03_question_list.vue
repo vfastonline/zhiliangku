@@ -8,7 +8,7 @@
 
 </style>
 <script>
-  import question from '../07_video_detail/04_question_unit'
+  import question from '../07_video_detail/04_question_answer_unit'
   export default {
     name: 'question_list',
     data () {
@@ -20,7 +20,7 @@
     },
     methods:{
       godetail(item){
-        window.location.href='/community/faq/detail/?id='+item.id
+        window.location.href='/community/faq/detail/?faq_id='+item.id
       }
     },
     created(){

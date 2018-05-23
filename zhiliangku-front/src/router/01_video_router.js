@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import teacher_note from '../components/07_video_detail/02_teacher_note.vue'
 import student_note from '../components/07_video_detail/09_student_notes'
 import FAQ from '../components/07_video_detail/05_FAQ.vue'
-import submit_question from '../components/07_video_detail/07_submit_question.vue'
+import QA_interaction from '../components/07_video_detail/03_question_answer'
 
 Vue.use(Router)
 export default new Router({
@@ -12,6 +12,6 @@ export default new Router({
     {path: '/teacher_note', name: 'teacher_note', component: teacher_note},
     {path: '/student_note', name: 'student_note', component: student_note},
     {path: '/FAQ', name: 'FAQ', component: FAQ},
-    {path: '/submit_question', name: 'submit_question', component: submit_question},
+    {path: '/QA_interaction', name: 'QA_interaction', component: QA_interaction},
   ]
 })

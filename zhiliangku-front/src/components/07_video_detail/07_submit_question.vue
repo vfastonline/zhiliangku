@@ -1,11 +1,11 @@
 <template>
   <div class="submit-question-container">
-    <div class="submit-question  mw hc">
+    <div v-if="false" class="submit-question  mw hc">
       <div class="font20pl3a3c50 mb16 sqc-title">提问</div>
       <div class=" submit-li">
         <div class="floatl submit-label">标题：</div>
         <div class="mb32 ml">
-          <el-form :model="title">
+          <el-form >
             <el-form-item>
               <el-input v-model="title" placeholder="请一句话简介明了的说明你的问题"></el-input>
             </el-form-item>
@@ -98,12 +98,13 @@
   import 'quill/dist/quill.core.css'
   import 'quill/dist/quill.snow.css'
   import 'quill/dist/quill.bubble.css'
-  import {Form,FormItem,Select,Option} from 'element-ui'
+  import {Form,FormItem,Select,Option,Button} from 'element-ui'
   Vue.use(Form)
   Vue.use(FormItem)
   Vue.use(Select)
   Vue.use(Option)
   Vue.use(VueQuillEditor)
+  Vue.use(Button)
   export default {
     name: 'HelloWorld',
     data() {
