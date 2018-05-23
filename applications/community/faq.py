@@ -264,7 +264,6 @@ class AddFaq(View):
 			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			title = param_dict.get('title')  # 必填，标题
 			description = param_dict.get('description')  # 必填，问题描述
-			path_id = str_to_int(param_dict.get('path_id'))  # 问题方向
 			reward = param_dict.get('reward', 0)  # 悬赏
 
 			required_dict = {"用户ID": custom_user_id, "问题标题": title, "问题描述": description}
@@ -279,7 +278,6 @@ class AddFaq(View):
 			# 提问参数全部合法
 			if required_param:
 				videos = Video.objects.filter(id=video_id)
-				paths = CoursePath.objects.filter(id=path_id)
 				customusers = CustomUser.objects.filter(id=custom_user_id)
 
 				if customusers.exists():
@@ -291,8 +289,6 @@ class AddFaq(View):
 					# 判断积分是否够
 					if customusers.filter(integral__gte=int(reward)).exists():
 						create_dict.update({"reward": reward})
-					if paths.exists():
-						create_dict.update({"path": paths.first()})
 					if videos.exists():
 						create_dict.update({"video": videos.first()})
 					faq_obj = Faq.objects.create(**create_dict)
