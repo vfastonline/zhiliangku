@@ -38,13 +38,11 @@ class ShellStorage(FileSystemStorage):
 		ext = os.path.splitext(name)[1]
 		# 文件目录
 		d = os.path.dirname(name)
-		print d
 		name = name.split(".")[0]
 		# 定义文件名，年月日时分秒随机数
 		fn = time.strftime('%Y%m%d%H%M%S')
 		fn = name + "_" + fn + '_%d' % random.randint(0, 1000)
 		# 重写合成文件名
-		name = os.path.join(d, fn + ext)
-		print name #shell/shell/test_20180523102653_351.sh
+		name = os.path.join(fn + ext)
 		# 调用父类方法
 		return super(ShellStorage, self)._save(name, content)
