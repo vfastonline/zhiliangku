@@ -10,7 +10,7 @@ function start(){
     then
         imageid=`docker ps | grep $1 | awk '{print $1}'`
     else
-        tmpid=`docker run -it --rm -d  -v /usr/local/share/xiaodu/script/:/usr/local/share/xiaodu/script/  -p $2:$3 --name $2 $4`
+        tmpid=`docker run -it --rm -d  -v /usr/local/share/xiaodu/script/:/usr/local/share/xiaodu/script/  -p $2:$3 --name $1 $4`
         imageid=${tmpid:0:12}
     fi
     echo {\"code\":0, \"imageid\":\"$imageid\"}
