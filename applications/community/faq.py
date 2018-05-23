@@ -34,6 +34,7 @@ class FaqListInfo(View):
 			# 获取查询参数
 			# 按过滤条件查询
 			video_id = str_to_int(request.GET.get('video_id', 0))  # 视频ID
+			title = request.GET.get('title', 0)  # 标题
 			status = request.GET.get('status')  # 问题状态，"0"：未解决；"1"：已解决
 			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			ask = str_to_int(request.GET.get('ask', 0))  # 我的提问
@@ -47,6 +48,8 @@ class FaqListInfo(View):
 				"status": status,
 				"video__id": video_id,
 			}
+			if title:
+				search_param.update({"title__icontains": title})
 			if ask:
 				search_param.update({"user__id": custom_user_id})
 			if participate:
