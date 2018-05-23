@@ -4,5 +4,6 @@ from applications.assessment.views import *
 
 urlpatterns = [
     url('^info/$', AssessmentPage.as_view()),
+    url('^construct$', ConstructDocker.as_view()),
     url('^result$', AssessmentResult.as_view()),
 ]

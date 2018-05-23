@@ -6,7 +6,7 @@
         class="font1_22_3"> 项目</span> </a></span>
       <!--<span class="dib nav_tag"><a href="#"> <span class="font1_22_3"> 考核</span> </a></span>-->
       <span class="dib nav_tag"><a href="#"> <span class="font1_22_3"> 就业</span> </a></span>
-      <span class="dib"><a href="#"> <span class="font1_22_3"> 社区</span> </a></span>
+      <span class="dib"><a href="/community/faq/list/"> <span class="font1_22_3"> 社区</span> </a></span>
     </div>
     <div v-if="!is_login" class="fr">
       <span @click="myDispatch('specify_display',{show_key:'log_in',title_key:'登录'})" class="font1_20_3 cp">登录</span>

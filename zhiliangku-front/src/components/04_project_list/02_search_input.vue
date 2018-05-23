@@ -5,7 +5,7 @@
                   :key="index" @click="get_data_addition(item)"
                   :class="{'font1_24_f':item.active,'selected':item.active}">{{item.name}}</span>
           </span>
-    <span class="dib search_block">
+          <span class="dib search_block">
             <input v-model="search_value" @keydown.enter="get_search_data(search_value)" class="search_input "
                    type="text" placeholder="请输入关键字">
             <img @click="get_search_data(search_value)" class="vb" src="./img/search.png" alt="">

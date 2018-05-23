@@ -1,14 +1,20 @@
 #!encoding:utf-8
 from __future__ import unicode_literals
 
+import commands
+import logging
+import traceback
+
 from colorfield.fields import ColorField
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
+from applications.assessment.models import DockerType
 from applications.custom_user.models import CustomUser
 from applications.live_streaming.models import Live
-from lib.storage import ImageStorage
-from applications.assessment.models import DockerType
+from lib.storage import *
 
 
 class Technology(models.Model):
@@ -98,12 +104,14 @@ class Video(models.Model):
 	name = models.CharField('视频/习题名称', max_length=255)
 	address = models.FileField('视频', upload_to='video/%y%m%d', null=True, blank=True)
 	subtitle = models.FileField('字幕', upload_to='video/%y%m%d', null=True, blank=True, default=' ')
-	shell = models.FileField('考核shell', upload_to='shell/%y%m%d', null=True, blank=True)
-	docker = models.ForeignKey(DockerType, verbose_name='Docker类型', null=True, blank=True)
 	sequence = models.PositiveIntegerField('显示顺序', default=1, validators=[MinValueValidator(1)], help_text="从1开始，默认：1")
 	duration = models.PositiveIntegerField('总时长(秒)', default=0, help_text="视频成功上传后，由后台补全；单位：秒")
 	desc = models.TextField('描述', default='', null=True, blank=True)
 	notes = models.TextField('讲师笔记', default='', null=True, blank=True)
+	topic = models.TextField('考核题目', default='', null=True, blank=True)
+	shell = models.FileField('考核shell', upload_to='shell', storage=ShellStorage(), null=True, blank=True)
+	docker = models.ForeignKey(DockerType, verbose_name='Docker类型', null=True, blank=True)
+	assess_time = models.PositiveIntegerField('考核时长(分)', default=5, help_text="考核时长，默认5分钟；单位：分")
 
 	def __unicode__(self):
 		return self.name
@@ -113,6 +121,19 @@ class Video(models.Model):
 		verbose_name = "视频/练习题/考核"
 		verbose_name_plural = "视频/练习题/考核"
 		ordering = ["section", 'sequence']
+
+
+@receiver(post_save, sender=Video)  # 信号的名字，发送者
+def add_video_event(sender, instance, **kwargs):  # 回调函数，收到信号后的操作
+	"""新增/编辑 考核 保存事件 """
+	try:
+		# 把本地考核shell上传到docker服务器
+		if instance.type == "3":
+			command = "scp %s root@docker:/usr/local/share/xiaodu/script/" % (instance.shell)
+			commands.getoutput(command)
+	except:
+		traceback.print_exc()
+		logging.getLogger().error(traceback.format_exc())
 
 
 class UnlockVideo(models.Model):

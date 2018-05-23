@@ -5,7 +5,7 @@
     </div>
     <anwserlist :mainData="mainData"></anwserlist>
     <richtext class="richtext incenter"></richtext>
-    <mypager v-show="showpager" ref="pager" @updata="jj()" @pagerGetData='manipulationData' :key="pagerkey" :url="url" :addition="params" :firstData="true"></mypager>
+    <!--<mypager v-show="showpager" ref="pager" @updata="jj()" @pagerGetData='manipulationData' :key="pagerkey" :url="url" :addition="params" :firstData="true"></mypager>-->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -34,7 +34,8 @@
         pagerkey: '',
         mainData: {},
         params: {},
-        url: '/community/faq/detail/info'
+        url: '/community/faq/detail/info',
+        showpager: false
       }
     },
     props: {
@@ -45,6 +46,7 @@
         console.log(123)
       },
       manipulationData(res) {
+        console.log(res.data);
         var arr = res.data.data.faq_answer_list;
         if(res.data.paginator.total_count>12){
           this.showpager=true
@@ -67,8 +69,7 @@
         this.$refs.pager.updata()
       })
       this.params={
-        'custom_user_id':localStorage.uid,
-        'faq_id':this.$fn.funcUrl('id')
+        'faq_id':this.$fn.funcUrl('faq_id')
       }
     },
     components: {

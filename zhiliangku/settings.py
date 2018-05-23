@@ -56,6 +56,7 @@ INSTALLED_APPS = [
 	'zhiliangku',
 	'applications.slideshow',
 	'applications.live_streaming',
+	'applications.assessment',
 	'applications.tracks_learning',
 	'applications.custom_user',
 	'applications.company_jobs',
@@ -65,7 +66,7 @@ INSTALLED_APPS = [
 	'applications.personal_center',
 	'applications.integral',
 	'applications.face',
-	'applications.assessment',
+
 ]
 
 SITE_ID = 1

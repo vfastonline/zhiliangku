@@ -1,15 +1,15 @@
 <template>
   <div class="mainwidth incenter aq_container">
-    <div class="aq-width incenter relative">
+    <div class="aq-width incenter r">
       <el-button @click="foucus" class="foucusButton">{{foucused}}</el-button>
       <el-button @click="dialogVisible=true" class="quizButton">我要提问</el-button>
-      <div class="question-title font20pr3a3c50">{{mainData.title}}</div>
+      <div class="question-title font_20_3 3a3c50">{{mainData.title}}</div>
       <div>
-        <div class="info relative">
+        <div class="info r">
           <img class="question-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
-          <span class="qestion-owner-name font14pl7c7e8c">{{mainData.custom_user_nickname}}</span>
-          <span class="font14pl7c7e8c">{{mainData.create_time}}</span>
-          <span class="scan font14pl7c7e8c">{{mainData.browse_amount}}次浏览</span>
+          <span class="qestion-owner-name font_14_9">{{mainData.custom_user_nickname}}</span>
+          <span class="font_14_9">{{mainData.create_time}}</span>
+          <span class="scan font_14_9">{{mainData.browse_amount}}次浏览</span>
         </div>
         <div v-html="mainData.description"></div>
       </div>
@@ -21,13 +21,17 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
+  import { Button } from 'element-ui'
+  import Vue from 'vue'
   import submitQuestion from '../07_video_detail/07_submit_question'
+  Vue.use(Button)
   export default {
     name: 'question_content',
     data() {
       return {
         havefoucesed: false,
         dialogVisible: false,
+        where: ''
       }
     },
     props: {
@@ -86,9 +90,31 @@
     padding-top: 0px;
   }
 
+  .incenter {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .aq-width {
+    width: 780px;
+    position: relative;
+  }
+
   .el-dialog__body {
     padding-top: 0px;
     padding-bottom: 0px;
+  }
+  .font_14_9 {
+    color: #7c7e8c;
+  }
+
+  .foucusButton {
+    position: absolute;
+    left: -150px;
+  }
+
+  .foucusButton {
+    position: absolute;
+    left: -150px;
   }
 
 </style>

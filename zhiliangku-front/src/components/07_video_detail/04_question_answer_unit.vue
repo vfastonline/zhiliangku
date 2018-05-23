@@ -1,21 +1,21 @@
 <template>
   <div @click="handleClick" class="mw rise qc-container  cp">
     <div class="clearfix">
-      <img class="floatl qc-user-icon" :src="mainData.custom_user_avatar" alt="">
+      <img class="fl qc-user-icon" :src="mainData.custom_user_avatar" alt="">
       <div class=" qc-text-container">
         <div class="marginbottom8 ">
-          <span class="font14pl7c7e8c qctc-tag">{{mainData.custom_user_nickname}}</span>
-          <span class="font14pl7c7e8c qctc-tag">{{mainData.create_time}}提问</span>
+          <span class="font1_14_9 qctc-tag">{{mainData.custom_user_nickname}}</span>
+          <span class="font1_14_9 qctc-tag">{{mainData.create_time}}提问</span>
         </div>
-        <div class="font20pr3a3c50 clearfix marginbottom8">
-          <div class="floatl qctc-qustion-content">{{mainData.title}}</div>
-          <div class="floatr">
-            <span class="font16pl3a3c50">{{mainData.faq_answer_count}}回答</span>
-            <span class="font16pl3a3c50">{{mainData.browse_amount}} &nbsp; 次浏览</span>
+        <div class="font1_20_3 clearfix marginbottom8">
+          <div class="fl qctc-qustion-content">{{mainData.title}}</div>
+          <div class="fr">
+            <span class="font1_16_3">{{mainData.faq_answer_count}}回答</span>
+            <span class="font1_16_3">{{mainData.browse_amount}} &nbsp; 次浏览</span>
           </div>
         </div>
         <div>
-          <div class="font14pr23b8ff">悬赏 {{mainData.reward}} 积分</div>
+          <div class="font1_14_23b8ff">悬赏 {{mainData.reward}} 积分</div>
         </div>
       </div>
     </div>
@@ -26,6 +26,10 @@
     box-sizing: border-box;
     padding: 24px 32px 38px 32px;
     background: white;
+  }
+
+  .marginbottom24 {
+    margin-bottom: 24px;
   }
 
   .qc-user-icon {
@@ -44,6 +48,13 @@
 
   .qctc-qustion-content {
     max-width: 845px;
+  }
+  .font1_14_9 {
+    color: #7c7e8c;
+  }
+
+  .font1_14_23b8ff {
+    color: #23b8ff;
   }
 
 </style>

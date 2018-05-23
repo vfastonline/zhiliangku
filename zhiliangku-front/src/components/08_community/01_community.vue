@@ -66,7 +66,6 @@
         this.changeParams(item.id);
       },
       changeParams(id) {
-        var uid = localStorage.uid;
         var func = {
           0: () => {
             this.params = {}
@@ -83,7 +82,7 @@
           },
           3: () => {
             this.params = {
-              custom: uid
+              ask: 1
             }
           },
           4: () => {
