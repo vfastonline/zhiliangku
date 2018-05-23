@@ -15,6 +15,7 @@ from applications.assessment.models import DockerType
 from applications.custom_user.models import CustomUser
 from applications.live_streaming.models import Live
 from lib.storage import *
+from zhiliangku.settings import BASE_DIR
 
 
 class Technology(models.Model):
@@ -129,8 +130,11 @@ def add_video_event(sender, instance, **kwargs):  # 回调函数，收到信号�
 	try:
 		# 把本地考核shell上传到docker服务器
 		if instance.type == "3":
-			command = "scp %s root@docker:/usr/local/share/xiaodu/script/" % (instance.shell)
-			commands.getoutput(command)
+			if instance.shell:
+				command = "scp %s root@docker:/usr/local/share/xiaodu/script/" % (
+					os.path.join(BASE_DIR + instance.shell.url))
+				commands.getoutput(command)
+
 	except:
 		traceback.print_exc()
 		logging.getLogger().error(traceback.format_exc())

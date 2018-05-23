@@ -34,6 +34,7 @@ class FaqListInfo(View):
 			# 获取查询参数
 			# 按过滤条件查询
 			video_id = str_to_int(request.GET.get('video_id', 0))  # 视频ID
+			title = request.GET.get('title', 0)  # 标题
 			status = request.GET.get('status')  # 问题状态，"0"：未解决；"1"：已解决
 			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			ask = str_to_int(request.GET.get('ask', 0))  # 我的提问
@@ -47,6 +48,8 @@ class FaqListInfo(View):
 				"status": status,
 				"video__id": video_id,
 			}
+			if title:
+				search_param.update({"title__icontains": title})
 			if ask:
 				search_param.update({"user__id": custom_user_id})
 			if participate:
@@ -58,23 +61,23 @@ class FaqListInfo(View):
 			[filter_dict.update({query_field: param}) for query_field, param in search_param.items() if param]
 			faqs = Faq.objects.filter(**filter_dict).order_by("-create_time")
 
-			if faqs:
-				# 提供分页数据
-				if not page: page = 1
-				if not per_page: page = 12
-				page_objs = Paginator(faqs, per_page)
-				total_count = page_objs.count  # 记录总数
-				num_pages = page_objs.num_pages  # 总页数
-				page_range = list(page_objs.page_range)  # 页码列表
-				paginator_dict = {
-					"total_count": total_count,
-					"num_pages": num_pages,
-					"page_range": page_range,
-					"page": page,
-					"per_page": per_page
-				}
-				result_dict["paginator"] = paginator_dict
+			# 提供分页数据
+			if not page: page = 1
+			if not per_page: page = 12
+			page_objs = Paginator(faqs, per_page)
+			total_count = page_objs.count  # 记录总数
+			num_pages = page_objs.num_pages  # 总页数
+			page_range = list(page_objs.page_range)  # 页码列表
+			paginator_dict = {
+				"total_count": total_count,
+				"num_pages": num_pages,
+				"page_range": page_range,
+				"page": page,
+				"per_page": per_page
+			}
+			result_dict["paginator"] = paginator_dict
 
+			if faqs:
 				try:
 					faqs = page_objs.page(page).object_list
 				except:
@@ -261,7 +264,6 @@ class AddFaq(View):
 			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			title = param_dict.get('title')  # 必填，标题
 			description = param_dict.get('description')  # 必填，问题描述
-			path_id = str_to_int(param_dict.get('path_id'))  # 问题方向
 			reward = param_dict.get('reward', 0)  # 悬赏
 
 			required_dict = {"用户ID": custom_user_id, "问题标题": title, "问题描述": description}
@@ -276,7 +278,6 @@ class AddFaq(View):
 			# 提问参数全部合法
 			if required_param:
 				videos = Video.objects.filter(id=video_id)
-				paths = CoursePath.objects.filter(id=path_id)
 				customusers = CustomUser.objects.filter(id=custom_user_id)
 
 				if customusers.exists():
@@ -288,8 +289,6 @@ class AddFaq(View):
 					# 判断积分是否够
 					if customusers.filter(integral__gte=int(reward)).exists():
 						create_dict.update({"reward": reward})
-					if paths.exists():
-						create_dict.update({"path": paths.first()})
 					if videos.exists():
 						create_dict.update({"video": videos.first()})
 					faq_obj = Faq.objects.create(**create_dict)

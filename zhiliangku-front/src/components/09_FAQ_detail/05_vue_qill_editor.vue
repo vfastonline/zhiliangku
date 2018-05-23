@@ -15,6 +15,7 @@
     margin-bottom: 10px;
     width: 664px;
     display: inline-block;
+    background-color: white;
   }
 
   .user_icon {

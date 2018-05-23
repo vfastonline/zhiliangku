@@ -43,6 +43,6 @@ class ShellStorage(FileSystemStorage):
 		fn = time.strftime('%Y%m%d%H%M%S')
 		fn = name + "_" + fn + '_%d' % random.randint(0, 1000)
 		# 重写合成文件名
-		name = os.path.join(d, fn + ext)
+		name = os.path.join(fn + ext)
 		# 调用父类方法
 		return super(ShellStorage, self)._save(name, content)

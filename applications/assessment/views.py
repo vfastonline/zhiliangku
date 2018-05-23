@@ -40,7 +40,7 @@ class ConstructDocker(View):
 
 			# 获取端口
 			port = get_docker_port()
-			port = 7681
+			# port = 7681
 			image_port = ""
 			container = ""
 			image = ""
@@ -115,8 +115,7 @@ class AssessmentResult(View):
 
 			# 销毁docker
 			container = "-".join([token, str(video_id)])
-			stop_command = "ssh root@docker sh /usr/local/share/xiaodu/script/docker.sh stop {container}".format(
-				container=container)
+			stop_command = "ssh root@docker sh /usr/local/share/xiaodu/script/docker.sh stop {container}".format(container=container)
 			stop_info = commands.getoutput(stop_command)
 			try:
 				if not int(stop_info):
