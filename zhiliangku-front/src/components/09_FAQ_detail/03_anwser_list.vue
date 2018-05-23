@@ -9,6 +9,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .anwser_list_container {
+    background-color: white;
   }
   .answernum{
     position: absolute;

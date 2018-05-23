@@ -3,7 +3,7 @@
     <div v-if="mainData.optimal" class="bestAnwser fontcenter">
       <span class="bestAnwserContent font_16_fff ">最佳答案</span>
     </div>
-    <div class="relative userinfo">
+    <div class="r userinfo">
       <img class="question-user-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
       <span class="font14pl7c7e8c">{{mainData.custom_user_nickname}}</span>
       <span class="font14pl7c7e8c scan">{{mainData.create_time}}</span>
@@ -12,12 +12,12 @@
     </div>
     <div class="toolbar">
       <div>
-        <div class="floatl">
+        <div class="fl">
           <i @click="support ('approve')" v-if="state" class="iconfont  icon-zan  pointer beforeApprove"></i>
           <i @click="notice" v-if="mainData.feedback=='approve'" class="iconfont  icon-zan1  pointer " :class="{'afterApprove':mainData.feedback=='approve'}"></i>
           <span class="question-yes  " :class="{'font16fbc02d':mainData.feedback=='approve'}">{{mainData.approve}}</span>
         </div>
-        <div class="floatl">
+        <div class="fl">
           <i @click="support ('oppose')" v-if="state1" class="iconfont  icon-cai  pointer beforeOppose"></i>
           <i @click="notice" v-if="mainData.feedback=='oppose'" class="iconfont  icon-buzan  pointer " :class="{'afterOppose':mainData.feedback=='oppose'}"></i>
           <span class="question-yes" :class="{'font16fbc02d':mainData.feedback=='oppose'}">{{mainData.oppose}}</span>
@@ -50,6 +50,7 @@
         showr: false,
         showTextarea:false,
         showAreadyAdopt:false,
+        showAdopt:false
       }
     },
     props: {

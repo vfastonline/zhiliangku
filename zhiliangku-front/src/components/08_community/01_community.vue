@@ -1,9 +1,9 @@
 <template>
   <div class="mw hc community">
-    <myNavBar class="navbar" @haveClick="tagChange" :mainData="navbarData"></myNavBar>
+    <myNavBar class="navbar" @haveClick="tagChange"  @searchClick="getSearch" :mainData="navbarData"></myNavBar>
     <questionList v-if="allData.length" :mainData="allData"></questionList>
     <noData v-else></noData>
-    <mypager @pagerGetData='manipulationData' :key="pagerkey" :url="url" :additionData="params"></mypager>
+    <mypager @pagerGetData='manipulationData' :url="url" :additionData="params"></mypager>
   </div>
 </template>
 <style scoped>
@@ -13,6 +13,7 @@
 
   .navbar {
     margin-bottom: 56px;
+    font-weight: bold;
   }
 
 </style>
@@ -53,7 +54,8 @@
             id: 5,
             label: '我关注的'
           },
-        ]
+        ],
+        searchTag:{},
       }
     },
     props: {},
@@ -61,9 +63,19 @@
       manipulationData(res) {
         this.$fn.addString(this.$myConst.httpUrl, res.data.data, 'custom_user_avatar')
         this.allData = res.data.data;
+        // console.log(this.allData);
       },
       tagChange(item) {
         this.changeParams(item.id);
+      },
+
+      getSearch(searchData) {
+        if(searchData) {
+          this.url="community/faq/list/info"
+          this.$set(this.params,'title',searchData)
+          // console.log(this.params)
+        }
+
       },
       changeParams(id) {
         var func = {
@@ -99,6 +111,7 @@
         func[id]();
         this.params
       },
+
     },
     created() {},
     components: {

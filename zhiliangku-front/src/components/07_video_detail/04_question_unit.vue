@@ -1,7 +1,7 @@
 <template>
   <div @click="handleClick" class="mainwidth rise qc-container marginbottom24 pointer">
     <div class="clearfix">
-      <img class="fl qc-user-icon" :src="mainData.custom_user_avatar" alt="">
+      <!--<img class="fl qc-user-icon" :src="mainData.custom_user_avatar" alt="">-->
       <div class=" qc-text-container">
         <div class="marginbottom8 ">
           <span class="font1_14_9 qctc-tag">{{mainData.custom_user_nickname}}</span>
@@ -10,26 +10,33 @@
         <div class="font1_20_3 clearfix marginbottom8">
           <div class="fl qctc-qustion-content">{{mainData.title}}</div>
           <div class="fr">
-            <span class="font1_16_3">{{mainData.faq_answer_count}}回答</span>
-            <span class="font1_16_3">{{mainData.browse_amount}} &nbsp; 次浏览</span>
+            <span class="font1_16_3 anwser">{{mainData.faq_answer_count}}回答</span>
+            <span class="font1_16_3">{{mainData.browse_amount}}次浏览</span>
           </div>
         </div>
         <div>
-          <div class="font1_14_23b8ff">悬赏 {{mainData.reward}} 积分</div>
+          <!--<div class="font1_14_23b8ff">悬赏 {{mainData.reward}} 积分</div>-->
+          <div class="font1_14_23b8ff">{{mainData.status_name}}</div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <style scoped>
+  .anwser{
+    margin-right:20px;
+  }
   .qc-container {
     box-sizing: border-box;
     padding: 24px 32px 38px 32px;
-    background: white;
+    background: #fafafa;
   }
 
   .marginbottom24 {
     margin-bottom: 24px;
+  }
+  .marginbottom8 {
+    margin-bottom: 8px;
   }
 
   .qc-user-icon {
@@ -55,6 +62,7 @@
 
   .font1_14_23b8ff {
     color: #23b8ff;
+    margin-top: 10px;
   }
 
 </style>
