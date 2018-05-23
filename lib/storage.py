@@ -44,5 +44,6 @@ class ShellStorage(FileSystemStorage):
 		fn = name + "_" + fn + '_%d' % random.randint(0, 1000)
 		# 重写合成文件名
 		name = os.path.join(d, fn + ext)
+		print name
 		# 调用父类方法
 		return super(ShellStorage, self)._save(name, content)
