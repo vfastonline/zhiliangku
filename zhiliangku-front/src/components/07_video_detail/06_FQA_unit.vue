@@ -13,6 +13,7 @@
     padding: 31px 40px 24px 40px;
     background: #fafafa;
     margin-bottom: 24px;
+    box-sizing: border-box;
   }
 
   .sc-tag {

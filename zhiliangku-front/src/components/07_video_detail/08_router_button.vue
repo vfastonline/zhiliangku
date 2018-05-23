@@ -2,18 +2,18 @@
   <div>
     <div class="mw vc-nav-bar hc ftj">
       <span class="dib ">
-        <router-link to="/teacher_note" params="" class="font16pr3a3c50 pointer vc-nav-tag">
+        <router-link :to="{name:'teacher_note'}"  class="font16pr3a3c50 cp vc-nav-tag">
           <GreyButton class="grey_button">讲师笔记</GreyButton><PrimeButton class="blue_button">讲师笔记</PrimeButton>
         </router-link>
-        <router-link to="/student_note" class="font16pr3a3c50 pointer vc-nav-tag">
+        <router-link to="/student_note" class="font16pr3a3c50 cp vc-nav-tag">
           <GreyButton class="grey_button">学习笔记</GreyButton><PrimeButton class="blue_button">学习笔记</PrimeButton>
         </router-link>
-        <router-link to="/FAQ" class="font16pr3a3c50 pointer vc-nav-tag">
+        <router-link to="/FAQ" class="font16pr3a3c50 cp vc-nav-tag">
           <GreyButton class="grey_button">FAQ</GreyButton><PrimeButton class="blue_button">FAQ</PrimeButton>
         </router-link>
       </span>
       <span class="dib">
-        <router-link to="/submit_question" class="font16pr3a3c50 pointer vc-nav-tag">
+        <router-link to="/QA_interaction" class="font16pr3a3c50 cp vc-nav-tag">
           <GreyButton class="grey_button">问答互动</GreyButton><PrimeButton class="blue_button">互动问答</PrimeButton>
         </router-link>
       </span>
@@ -32,6 +32,7 @@
       return {
         name: 'videoContent',
         button_show_switch: [true],
+        p:{a:123}
       }
     },
     props:{
