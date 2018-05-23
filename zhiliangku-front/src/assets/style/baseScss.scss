@@ -18,9 +18,11 @@
 .a {
   position: absolute;
 }
-.rose{
-  box-shadow: 5px 5px 10px  rgba(99, 117, 138, 0.30);
+
+.rose {
+  box-shadow: 5px 5px 10px rgba(99, 117, 138, 0.30);
 }
+
 .rise {
   transition: box-shadow 0.3s ease;
 }
@@ -29,15 +31,18 @@
   box-shadow: 0 0 10px 5px rgba(99, 117, 138, 0.30);
 }
 
-.visibility_h{
+.visibility_h {
   visibility: hidden;
 }
+
 .vb {
   vertical-align: baseline;
 }
-.vbt{
+
+.vbt {
   vertical-align: bottom;
 }
+
 // horizontal下的块级元素居中
 .hc {
   margin: auto;
@@ -62,19 +67,36 @@
 .ftr {
   text-align: right;
 }
-.ftj{
+
+.ftj {
   text-align: justify;
 }
+
 // 这是因为ftj在文本只有一行的时候不生效，从而加的一个hack
-.line2{
+.line2 {
   width: 100%;
   height: 0;
   display: inline-block;
   line-height: 0px;
 }
-.cp{
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+.clearfix {
+  *zoom: 1;
+}
+
+.cp {
   cursor: pointer;
 }
+
 .db {
   display: block;
 }

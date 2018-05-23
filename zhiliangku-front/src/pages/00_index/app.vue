@@ -38,7 +38,6 @@
         introduce_list: [],
         enterprise_need: [],
         project_home_lists:[],
-
       }
     },
     methods: {

@@ -5,7 +5,11 @@
     </div>
     <anwserlist :mainData="mainData"></anwserlist>
     <richtext class="richtext incenter"></richtext>
+<<<<<<< HEAD
+    <mypager v-show="showpager" ref="pager" @updata="jj()" @pagerGetData='manipulationData' :key="pagerkey" :url="url" :addition="params" :firstData="true"></mypager>
+=======
     <mypager v-show="showpager" ref="pager" @updata="jj()" @pagerGetData='manipulationData' :key="pagerkey" :url="url" :additionData="params" :firstData="true"></mypager>
+>>>>>>> af948a6c0b53649fb59e6c8e61b7d2d4a6ffd544
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -27,10 +27,7 @@
     },
     props: {},
     created() {
-      console.log(this)
       Bus.$on('noteData', (obj) => {
-        console.log(1231)
-        console.log(obj)
         this.mainData = (obj + '').replace(/src="/g, 'src="' + this.$myConst.httpUrl);
       })
       //接下来的内容我不认为是一个合理的处置

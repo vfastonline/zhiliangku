@@ -1,9 +1,8 @@
 <template>
   <section class="subject_block rose">
     <p class="subject_name  ftc font1_20_f">{{main_data.name}}</p>
-    <p class="subject_introduce font1_16_6">{{main_data.desc}}</p>
+    <p class="subject_introduce font1_16_6">{{main_data.desc?main_data.desc:'暂无信息'}}</p>
     <ul class="subject_info">
-      <li class="subject_info_li_1">{{main_data.summary.desc}}</li>
       <li class="font1_18_9 subject_info_li_1"><span>时长：</span><span class="dib subject_time_value">{{main_data.summary.total_time}}</span>
         <span>完成</span><span>{{main_data.summary.video_process}}</span>
       </li>
@@ -11,11 +10,11 @@
         <span class="dib">
           <img :src="main_data.avatar" class="user_icon vm" alt="">
           <span class="dib vbo font1_18_6">{{main_data.lecturer}}</span></span>
-          <span>
-            <a :href="link" target="_blank">
-              <BlueButton v-if="(main_data.summary.schedule!=1)&&(main_data.summary.unlock)" class="func_button">继续学习</BlueButton>
+          <span class="dib">
+            <a class="dib" :href="link" target="_blank">
+              <BlueButton v-if="(main_data.summary.schedule!=1)&&(main_data.summary.unlock)" class="func_button vbt">继续学习</BlueButton>
             </a>
-            <img v-if="!main_data.summary.unlock" src="./img/Shape.png" alt="">
+            <img class="vbt" v-if="!main_data.summary.unlock" src="./img/Shape.png" alt="">
             <img v-if="(main_data.summary.schedule===1)&&(main_data.summary.unlock)" src="./img/finish_icon.png" alt="">
           </span>
         <span class="line2"></span></li>
@@ -26,7 +25,7 @@
   .subject_introduce {
     padding: 20px 20px 0px 20px;
     margin-bottom: 10px;
-    max-height: 72px;
+    height: 72px;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 4;
@@ -73,6 +72,7 @@
 <style scoped lang="scss">
   .subject_block {
     width: 380px;
+    height: 292px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
@@ -107,6 +107,9 @@
 
   .subject_info_li_2 {
     text-align: justify;
+    line-height: 61px;
+    max-height: 61px;
+    overflow: hidden;
   }
 
   .line2 {
