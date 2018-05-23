@@ -1,17 +1,16 @@
 #!/bin/bash
-# $2=容器名称
-# $3=容器端口
-# $4=镜像端口
-# $5=镜像名称
-# $6=考核脚本名称
+# $1=容器名称
+# $2=容器端口
+# $3=镜像端口
+# $4=镜像名称
 
 function start(){
-    flag=`docker ps | grep $2 | wc -l`
+    flag=`docker ps | grep $1 | wc -l`
     if [ $flag -eq 1 ]
     then
-        imageid=`docker ps | grep $2 | awk '{print $1}'`
+        imageid=`docker ps | grep $1 | awk '{print $1}'`
     else
-        tmpid=`docker run -it --rm -d  -v /usr/local/share/xiaodu/script/$6:/usr/local/share/xiaodu/script/$6  -p $3:$4 --name $2 $5`
+        tmpid=`docker run -it --rm -d  -v /usr/local/share/xiaodu/script/:/usr/local/share/xiaodu/script/  -p $2:$3 --name $2 $4`
         imageid=${tmpid:0:12}
     fi
     echo {\"code\":0, \"imageid\":\"$imageid\"}
@@ -19,7 +18,7 @@ function start(){
 }
 
 function stop() {
-    docker kill $2 > /dev/null
+    docker kill $1 > /dev/null
     flag=`docker ps | grep $2 | wc -l`
     echo $flag
 }
@@ -27,9 +26,9 @@ function stop() {
 
 case "$1" in
     start)
-    start docker $2 $3 $4 $5 $6;;
+    start $2 $3 $4 $5;;
     stop)
-    stop docker $2;;
+    stop $2;;
     *)
     echo  $"Usage: $0 {start|stop|}"
     exit 2
