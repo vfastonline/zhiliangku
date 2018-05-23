@@ -19,7 +19,7 @@ function start(){
 
 function stop() {
     docker kill $1 > /dev/null
-    flag=`docker ps | grep $2 | wc -l`
+    flag=`docker ps | grep $1 | wc -l`
     echo $flag
 }
 

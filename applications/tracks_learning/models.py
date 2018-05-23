@@ -133,9 +133,7 @@ def add_video_event(sender, instance, **kwargs):  # 回调函数，收到信号�
 			if instance.shell:
 				command = "scp %s root@docker:/usr/local/share/xiaodu/script/" % (
 					os.path.join(BASE_DIR + instance.shell.url))
-				aa = commands.getoutput(command)
-				print command
-				print aa
+				commands.getoutput(command)
 
 	except:
 		traceback.print_exc()

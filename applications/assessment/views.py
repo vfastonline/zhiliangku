@@ -115,11 +115,8 @@ class AssessmentResult(View):
 
 			# 销毁docker
 			container = "-".join([token, str(video_id)])
-			print token, video_id, container
 			stop_command = "ssh root@docker sh /usr/local/share/xiaodu/script/docker.sh stop {container}".format(container=container)
-			print stop_command
 			stop_info = commands.getoutput(stop_command)
-			print stop_info
 			try:
 				if not int(stop_info):
 					dockerports = DockerPort.objects.filter(container=container).delete()
