@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login_block">
     <el-form
       :model="form_data"
       status-icon
@@ -9,12 +9,13 @@
         <el-input v-model="form_data.username" :placeholder="'请输入登录手机号'"></el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input @keyup.enter.native="submitForm('myform1','loginFun',form_data) " :placeholder="'请输入密码'"
+        <el-input @keyup.enter.native="submitForm('form_el','loginFun',form_data) " :placeholder="'请输入密码'"
                   type="password"
                   v-model="form_data.password"
                   auto-complete="off"></el-input>
       </el-form-item>
-      <el-button @click="submitForm('form_el','loginFun',form_data)" :class="['login-commen-container-button']">
+      <el-button @click="submitForm('form_el','loginFun',form_data)"
+                 class="login-commen-container-button">
         <span class="font1_26_f"> 登录</span>
       </el-button>
     </el-form>
@@ -72,7 +73,7 @@
     },
     methods: {
       forget_password() {
-        Bus.$emit('specify_display',{
+        Bus.$emit('specify_display', {
           show_key: 'reset_password',
           title_key: '忘记密码'
         })
@@ -96,7 +97,7 @@
             for (var k in res.data.data.user) {
               localStorage[k] = res.data.data.user[k]
             }
-            this.$fn.showNotice(this,'您已成功登录','success')
+            this.$fn.showNotice(this, '您已成功登录', 'success')
             this.$emit('log_in_success')
             Bus.$emit('refreshAvatar')
           }
@@ -109,12 +110,14 @@
   }
 </script>
 <style>
-  @import "./style/01_dialog_style.scss";
-  @import "./style/02_input_style.scss";
+  /*@import "./style/01_dialog_style.scss";*/
+  /*@import "./style/02_input_style.scss";*/
 </style>
 <style scoped>
-  .login-commen-container-button {
-    width: 400px;
-    background: #23b8ff 100%;
-  }
+  /*.login_block {*/
+    .login-commen-container-button {
+      width: 400px;
+      background: #23b8ff 100%;
+    }
+  /*}*/
 </style>

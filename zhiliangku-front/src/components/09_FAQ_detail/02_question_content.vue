@@ -6,7 +6,7 @@
       <div class="question-title font_20_3 3a3c50">{{mainData.title}}</div>
       <div>
         <div class="info r">
-          <img class="question-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
+          <!--<img class="question-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">-->
           <span class="qestion-owner-name font_14_9">{{mainData.custom_user_nickname}}</span>
           <span class="font_14_9">{{mainData.create_time}}</span>
           <span class="scan font_14_9">{{mainData.browse_amount}}次浏览</span>

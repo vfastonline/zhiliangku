@@ -5,7 +5,7 @@
     </div>
     <anwserlist :mainData="mainData"></anwserlist>
     <richtext class="richtext incenter"></richtext>
-    <!--<mypager v-show="showpager" ref="pager" @updata="jj()" @pagerGetData='manipulationData' :key="pagerkey" :url="url" :addition="params" :firstData="true"></mypager>-->
+    <mypager v-show="showpager" ref="pager" @updata="jj()" @pagerGetData='manipulationData' :key="pagerkey" :url="url" :addition="params" :firstData="true"></mypager>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -1,5 +1,5 @@
 <template>
-  <el-button ><slot></slot></el-button>
+  <el-button @click="handle_click" ><slot></slot></el-button>
 </template>
 
 <script>
@@ -9,6 +9,11 @@
   Vue.use(Button)
   export default {
     name: "grey_button",
+    methods:{
+      handle_click(e){
+        this.$emit('click',e)
+      }
+    }
   }
 </script>
 

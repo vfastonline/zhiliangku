@@ -2,7 +2,7 @@
   <div>
     <div class="main">
       <MyHeader></MyHeader>
-      <div class="top_img mw hc"></div>
+      <div class="top_img  hc"></div>
       <!--<div v-html="str"></div>-->
       <SearchInput></SearchInput>
       <section class="project_list">
@@ -10,7 +10,7 @@
             <ProjectStep  v-for="(item, index) in project_lists" v-if="item" :key="index" :main_data="item" class="margin"></ProjectStep>
         </CardContainer>
       </section>
-      <Pager class="mw hc" @pagerGetData="mainPagerData" :url="url" :addition-data="params"></Pager>
+      <Pager class="mw hc" @pagerGetData="mainPagerData" :url="url" ></Pager>
       <img class="bottom_image db" src="./img/tree_wave.png" alt="">
     </div>
     <F></F>
@@ -30,6 +30,7 @@
 
   .project_list {
     margin: 120px 0px;
+    min-height: 70vh;
   }
 
   .bottom_image {
@@ -52,7 +53,6 @@
         ProjectStep: ProjectStep,
         url:'/tracks/projects/list/info',
         project_lists: [],
-        params: {}
       }
     },
     components: {
@@ -69,10 +69,6 @@
       }
     },
     created(){
-      let custom_user_id = localStorage.getItem('uid')
-      this.params={
-        'custom_user_id':custom_user_id,
-      }
     }
   }
 </script>
