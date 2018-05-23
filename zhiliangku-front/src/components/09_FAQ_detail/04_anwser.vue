@@ -1,7 +1,7 @@
 <template>
   <div class="anwser-container incenter relative">
     <div v-if="mainData.optimal" class="bestAnwser fontcenter">
-      <span class="bestAnwserContent font16prffffff ">最佳答案</span>
+      <span class="bestAnwserContent font_16_fff ">最佳答案</span>
     </div>
     <div class="relative userinfo">
       <img class="question-user-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
