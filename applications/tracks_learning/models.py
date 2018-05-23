@@ -130,7 +130,7 @@ def add_video_event(sender, instance, **kwargs):  # 回调函数，收到信号�
 		# 把本地考核shell上传到docker服务器
 		if instance.type == "3":
 			if instance.shell:
-				command = "scp %s root@docker:/usr/local/share/xiaodu/script/" % (instance.shell.url)
+				command = "scp %s root@docker:/usr/local/share/xiaodu/script/" % (os.path.join("media", instance.shell))
 				aa = commands.getoutput(command)
 				print command
 				print aa
