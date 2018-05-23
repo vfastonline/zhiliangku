@@ -58,23 +58,23 @@ class FaqListInfo(View):
 			[filter_dict.update({query_field: param}) for query_field, param in search_param.items() if param]
 			faqs = Faq.objects.filter(**filter_dict).order_by("-create_time")
 
-			if faqs:
-				# 提供分页数据
-				if not page: page = 1
-				if not per_page: page = 12
-				page_objs = Paginator(faqs, per_page)
-				total_count = page_objs.count  # 记录总数
-				num_pages = page_objs.num_pages  # 总页数
-				page_range = list(page_objs.page_range)  # 页码列表
-				paginator_dict = {
-					"total_count": total_count,
-					"num_pages": num_pages,
-					"page_range": page_range,
-					"page": page,
-					"per_page": per_page
-				}
-				result_dict["paginator"] = paginator_dict
+			# 提供分页数据
+			if not page: page = 1
+			if not per_page: page = 12
+			page_objs = Paginator(faqs, per_page)
+			total_count = page_objs.count  # 记录总数
+			num_pages = page_objs.num_pages  # 总页数
+			page_range = list(page_objs.page_range)  # 页码列表
+			paginator_dict = {
+				"total_count": total_count,
+				"num_pages": num_pages,
+				"page_range": page_range,
+				"page": page,
+				"per_page": per_page
+			}
+			result_dict["paginator"] = paginator_dict
 
+			if faqs:
 				try:
 					faqs = page_objs.page(page).object_list
 				except:
