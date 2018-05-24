@@ -27,11 +27,9 @@
 </style>
 <script>
   import Vue from 'vue'
-  import VueVideo from 'vue-video-player'
-  import 'video.js/dist/video-js.css'
   import Crumb from '../../components/00_common/10_crumb'
   import videoList from './13_video_list'
-  Vue.use(VueVideo)
+  Vue.use(window.VueVideoPlayer)
   export default {
     name: "my_video",
     data() {

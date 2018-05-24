@@ -18,9 +18,6 @@ const createLintingRule = () => ({
     emitWarning: !config.dev.showEslintErrorsInOverlay
   }
 })
-// console.log(entryDist.Entry)
-// console.log(entryDist.Dist)
-console.log(process.env.NODE_ENV)
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: entryDist.Entry,

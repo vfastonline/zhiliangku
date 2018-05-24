@@ -13,16 +13,12 @@
 
 <script>
   import Vue from 'vue'
-  import VueQuillEditor from 'vue-quill-editor'
   import NoteLi from './10_student_notes_unit'
   import Pager from '../00_common/06_pager'
   import Bus from '../../assets/js/02_bus'
-  import 'quill/dist/quill.core.css'
-  import 'quill/dist/quill.snow.css'
-  import 'quill/dist/quill.bubble.css'
   import NoteEditor from './12_note_editor'
 
-  Vue.use(VueQuillEditor)
+  Vue.use(window.VueQuillEditor)
   export default {
     name: "student_notes",
     data() {

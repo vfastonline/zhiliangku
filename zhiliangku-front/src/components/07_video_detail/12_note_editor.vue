@@ -77,17 +77,13 @@
 
 <script>
   import Vue from 'vue'
-  import VueQuillEditor from 'vue-quill-editor'
-  import 'quill/dist/quill.core.css'
-  import 'quill/dist/quill.snow.css'
-  import 'quill/dist/quill.bubble.css'
   import {Form, FormItem, Select, Option, Button} from 'element-ui'
 
   Vue.use(Form)
   Vue.use(FormItem)
   Vue.use(Select)
   Vue.use(Option)
-  Vue.use(VueQuillEditor)
+  Vue.use(window.VueQuillEditor)
   Vue.use(Button)
   export default {
     name: 'note_editor',

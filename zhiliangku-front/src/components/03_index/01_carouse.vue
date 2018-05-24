@@ -14,11 +14,10 @@
 <script>
   import Vue from 'vue'
   import {Carousel, CarouselItem} from 'element-ui'
-  import VueLazyLoad from 'vue-lazyload'
 
   Vue.use(Carousel)
   Vue.use(CarouselItem)
-  Vue.use(VueLazyLoad)
+  Vue.use(window.VueLazyload)
   export default {
     data() {
       return {

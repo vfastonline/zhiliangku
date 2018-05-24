@@ -37,7 +37,7 @@
   import {Button} from 'element-ui'
   import Vue from 'vue'
   Vue.use(Button)
-  var Base64 = require('js-base64').Base64
+  var Base64 = window.Base64
   export default {
     name: 'login_page',
     data() {

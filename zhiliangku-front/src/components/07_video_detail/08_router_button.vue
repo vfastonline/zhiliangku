@@ -2,7 +2,7 @@
   <div>
     <div class="mw vc-nav-bar hc ftj">
       <span class="dib ">
-        <router-link :to="{name:'teacher_note'}" class="font16pr3a3c50 cp vc-nav-tag">
+        <router-link to="/teacher_note" class="font16pr3a3c50 cp vc-nav-tag">
           <GreyButton @click="router_click" class="grey_button">讲师笔记</GreyButton><PrimeButton
           class="blue_button">讲师笔记</PrimeButton>
         </router-link>

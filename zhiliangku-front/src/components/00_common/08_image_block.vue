@@ -5,9 +5,8 @@
 
 <script>
   import Vue from 'vue'
-  import VueLazyLoader from 'vue-lazyload'
 
-  Vue.use(VueLazyLoader)
+  Vue.use(window.VueLazyload)
   export default {
     name: "footer_image",
     props:{

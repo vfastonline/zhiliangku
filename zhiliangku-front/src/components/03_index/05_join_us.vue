@@ -12,9 +12,7 @@
 <script>
   import WhiteButton from '../../components/00_common/03_white_button'
   import Vue from 'vue'
-  import VueLazyLoader from 'vue-lazyload'
-
-  Vue.use(VueLazyLoader)
+  Vue.use(window.VueLazyload)
   export default {
     name: "join_us",
     components: {
