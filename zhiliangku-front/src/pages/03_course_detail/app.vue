@@ -21,7 +21,6 @@
   import F from '../../components/01_header_footer/03_footer'
   import SubjectInfo from '../../components/05_project_detail/02_subject_info'
   import CourseSection from '../../components/06_course_detail/01_course_section'
-
   export default {
     data() {
       return {

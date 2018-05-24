@@ -82,8 +82,14 @@
   }
 
   .project_introduce {
-    height: 95px;
+    height: 84px;
     color:#999;
+    margin-bottom:11px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
   }
 
   .project_button {
