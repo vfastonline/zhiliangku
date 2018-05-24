@@ -9,15 +9,19 @@
         <CardContainer v-if="project_lists.length" class="mw hc " :config="{num:3,card:ProjectStep,cardData:project_lists[0]}">
             <ProjectStep  v-for="(item, index) in project_lists" v-if="item" :key="index" :main_data="item" class="margin"></ProjectStep>
         </CardContainer>
+        <div v-else class="ftc font1_16_9">当前条件下暂无内容</div>
       </section>
       <Pager class="mw hc" @pagerGetData="mainPagerData" :url="url" ></Pager>
-      <img class="bottom_image db" src="./img/tree_wave.png" alt="">
+      <div class="bottom_image">
+      </div>
     </div>
     <F></F>
   </div>
 </template>
 <style scoped lang='scss'>
-
+  .bottom_image{
+    background: url("./img/01_city.png");
+  }
   .margin {
     margin-bottom: 40px;
   }

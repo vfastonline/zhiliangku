@@ -13,6 +13,9 @@
   </div>
 </template>
 <style>
+  .footer_img{
+    display: block;
+  }
   .top_img {
     height: 300px;
     background: url("./img/banner.png") center center;

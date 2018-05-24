@@ -104,7 +104,7 @@
           password_repeat: [{validator: validatePass2, trigger: 'blur'}],
           code: [{validator: validateCode, trigger: 'blur'}]
         },
-        code_str: '获取验证码'
+        code_str: '获取验证码',
       }
     },
     methods: {
@@ -116,7 +116,7 @@
         this.$post('/customuser/send_sms', {phone: this.form_data.phone}).then(res => {
           console.log(res)
           if (!res.data.err) {
-            this.code_str = 6;
+            this.code_str = 60;
             var interval = setInterval(() => {
               this.code_str--
               console.log(this)
@@ -143,17 +143,20 @@
       },
       log_up_fun() {
         var data = {
-          username: this.form_data.username,
+          username: this.form_data.phone,
           password: this.form_data.password,
           verify_code: this.form_data.code
         }
         this.$post('/customuser/register', data).then(res => {
-          if (!res.err) {
+          if (!res.data.err) {
             this.$fn.showNotice(this, '密码修改成功，请登录', 'success')
             Bus.$emit('specify_display',{
               show_key:'log_in',
               title_key:'登录'
             })
+          }
+          if(res.data.err*1===4){
+            Bus.$emit('specify_display',{show_key:'log_in',title_key:'登录'})
           }
         })
       }
