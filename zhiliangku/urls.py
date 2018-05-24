@@ -15,11 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from django.contrib import admin
-from zhiliangku import views
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.views.generic import TemplateView
+
 import settings
 from lib.polyv.api_callback import PolyvCallBack
+from zhiliangku import views
 
 handler500 = "zhiliangku.views.redirect_500_error"
 handler404 = "zhiliangku.views.redirect_404_error"
@@ -29,7 +31,7 @@ handler400 = "zhiliangku.views.redirect_400_error"
 urlpatterns = [
 	url(r'^admin/', admin.site.urls),
 	url(r'^$', views.index, name="home"),
-	url(r'^login/(?P<err>[0-9]+)/$', views.Login.as_view(), name="login"),
+	url(r'^login/$', TemplateView.as_view(template_name="login/index.html"), name="login"),
 	url('^slides/', include('applications.slideshow.urls')),  # 轮播
 	url('^tracks/', include('applications.tracks_learning.urls', namespace="tracks")),  # 项目-课程-视频、考核
 	url('^lives/', include('applications.live_streaming.urls')),  # 直播
