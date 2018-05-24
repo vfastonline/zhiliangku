@@ -140,6 +140,9 @@ class VideoDetailInfo(View):
 					self.course_id = video_obj.section.course.id
 					self.project_id = video_obj.section.course.project.id
 			self.result_dict["data"] = video_dict
+
+			# 面包屑
+			self.make_breadcrumbs()
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())

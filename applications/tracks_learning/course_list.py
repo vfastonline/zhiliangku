@@ -341,9 +341,6 @@ class CourseDetailInfo(View):
 			self.course_id = str_to_int(request.GET.get('course_id', 0))
 			self.custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 
-			# 面包屑
-			self.make_breadcrumbs()
-
 			detail = dict()
 			if self.course_id:
 				course_objs = Course.objects.filter(id=self.course_id)
@@ -440,6 +437,9 @@ class CourseDetailInfo(View):
 
 						detail["sections"].append(section)
 			self.result_dict["data"] = detail
+
+			# 面包屑
+			self.make_breadcrumbs()
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())

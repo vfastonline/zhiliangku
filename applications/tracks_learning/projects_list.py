@@ -64,9 +64,6 @@ class ProjectsListInfo(View):
 			page = self.request.GET.get("page", 1)  # 页码
 			per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
 
-			# 面包屑
-			self.make_breadcrumbs()
-
 			# 技术方向--所有项目--总考核
 			self.get_technology_assessment()
 
@@ -137,6 +134,9 @@ class ProjectsListInfo(View):
 				data_list.append(one_dict)
 
 			self.result_dict["data"] = data_list
+
+			# 面包屑
+			self.make_breadcrumbs()
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
@@ -198,9 +198,6 @@ class ProjectsDetailInfo(View):
 			page = self.request.GET.get("page", 1)  # 页码
 			per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
 
-			# 面包屑
-			self.make_breadcrumbs()
-
 			detail = dict()
 			if project_id:
 				filter_param["id"] = project_id
@@ -256,6 +253,9 @@ class ProjectsDetailInfo(View):
 
 						detail["courses"].append(course_dict)
 			self.result_dict["data"] = detail
+
+			# 面包屑
+			self.make_breadcrumbs()
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())

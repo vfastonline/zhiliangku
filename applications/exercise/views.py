@@ -41,9 +41,6 @@ class QuestionListInfo(View):
 			self.video_id = str_to_int(request.GET.get('video_id', 0))  # 视频ID
 			self.custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 
-			# 面包屑
-			self.make_breadcrumbs()
-
 			data_list = list()
 			questions = Question.objects.filter(video__id=self.video_id)
 			if questions.exists():
@@ -66,6 +63,9 @@ class QuestionListInfo(View):
 					data_list.append(question_dict)
 			random.shuffle(data_list)
 			self.result_dict["data"] = data_list
+
+			# 面包屑
+			self.make_breadcrumbs()
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
