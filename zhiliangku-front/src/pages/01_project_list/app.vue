@@ -24,12 +24,12 @@
 
   .top_img {
     height: 300px;
-    background: url("./img/tree_wave.png") center center;
+    background: url("./img/banner.png") center center;
     background-size: cover;
   }
 
   .project_list {
-    margin: 120px 0px;
+    /*margin: 120px 0px;*/
     min-height: 70vh;
   }
 

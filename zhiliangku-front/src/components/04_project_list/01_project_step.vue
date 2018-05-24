@@ -1,5 +1,5 @@
 <template>
-  <section class=" project_step r rose " :style="{'border':'1px solid '+colorArr[index]}">
+  <section class=" project_step r rose " >
     <div class="mock a" v-if="main_data.is_lock">
       <img class="cc" src="./img/lock_icon.png" alt="">
     </div>
@@ -13,7 +13,7 @@
       <CB class="vb" :class="main_data.technology.color">{{main_data.technology.name}}</CB>
       <span class="line2"></span>
     </div>
-    <p class="project_text font2_14_9">{{main_data.desc}}</p>
+    <p class="project_text font2_14_9">&nbsp;&nbsp;{{main_data.desc}}</p>
     <div class="ftc">
       <a :href="link" target="_blank">
         <BlueButton >查看详情</BlueButton>
@@ -33,6 +33,7 @@
     height: 312px;
     border-radius: 10px;
     overflow: hidden;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.15);
   }
 
   .project_title {
@@ -60,7 +61,7 @@
   .project_text {
     padding: 5px 20px 5px 30px;
     margin-bottom: 25px;
-    height: 108px;
+    height: 102px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
