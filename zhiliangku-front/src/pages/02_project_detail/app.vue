@@ -2,6 +2,7 @@
   <div>
     <div id="main">
       <MyHeader></MyHeader>
+      <div class="top_img  hc"></div>
       <SubjectList :project_detail_lists="project_detail_lists"></SubjectList>
       <CardContainer class="card_container mw hc" :config="{num:3,card:SubjectBlock,cardData:true}">
         <SubjectBlock v-for="(item,index) in courses" :key="index" :main_data="item" class="subject_block"></SubjectBlock>
@@ -12,6 +13,11 @@
   </div>
 </template>
 <style>
+  .top_img {
+    height: 300px;
+    background: url("./img/banner.png") center center;
+    background-size: cover;
+  }
   .card_container{
     min-height: 80vh;
   }

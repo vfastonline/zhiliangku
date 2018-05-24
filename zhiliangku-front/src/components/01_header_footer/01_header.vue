@@ -1,6 +1,6 @@
 <template>
   <header class="mw project_header hc">
-    <div class="fl">
+    <div class="fl header_font">
       <a href="/"><img class="logo dib vm" src="./img/智量酷-logo-slogan.png" alt=""></a>
       <span class="dib nav_tag"><a href="/tracks/projects/list/"><span
         class="font1_22_3"> 项目</span> </a></span>
@@ -236,6 +236,8 @@
   .project_header {
     height: 90px;
     line-height: 90px;
+    font-weight: bold;
+
   }
 
   .logo {

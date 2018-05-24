@@ -83,6 +83,7 @@
 
   .project_introduce {
     height: 95px;
+    color:#999;
   }
 
   .project_button {

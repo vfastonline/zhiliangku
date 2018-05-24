@@ -10,7 +10,7 @@
                    type="text" placeholder="请输入关键字">
             <img @click="get_search_data(search_value)" class="vb" src="./img/search.png" alt="">
           </span>
-    <span class="line2"></span>
+    <!--<span class="line2"></span>-->
   </div>
 </template>
 <style>
