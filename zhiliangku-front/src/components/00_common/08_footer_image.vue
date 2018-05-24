@@ -1,6 +1,5 @@
 <template>
-  <div class="footer_image" v-lazy:background-image="src">
-
+  <div class="footer_image"  :style="S" v-lazy:background-image="src">
   </div>
 </template>
 
@@ -11,10 +10,9 @@
   Vue.use(VueLazyLoader)
   export default {
     name: "footer_image",
-    data() {
-      return {
-        src:''
-      }
+    props:{
+      src:{},
+      S:{}
     }
   }
 </script>
@@ -22,5 +20,7 @@
 <style scoped>
   .footer_image {
     height: 440px;
+    background-size: cover;
+    background-position: center center;
   }
 </style>

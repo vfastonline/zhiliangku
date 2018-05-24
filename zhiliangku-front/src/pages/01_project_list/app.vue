@@ -12,8 +12,7 @@
         <div v-else class="ftc font1_16_9">当前条件下暂无内容</div>
       </section>
       <Pager class="mw hc" @pagerGetData="mainPagerData" :url="url" ></Pager>
-      <div class="bottom_image">
-      </div>
+      <FooterImage :src="$myConst.httpUrl+'/media/images/static/04_project_list_bottom.png'"></FooterImage>
     </div>
     <F></F>
   </div>
@@ -50,6 +49,7 @@
   import '../../components/00_common/05_card_container'
   import Pager from '../../components/00_common/06_pager'
   import SearchInput from '../../components/04_project_list/02_search_input'
+  import FooterImage from '../../components/00_common/08_footer_image'
 
   export default {
     data() {
@@ -64,7 +64,8 @@
       F: F,
       ProjectStep: ProjectStep,
       Pager: Pager,
-      SearchInput: SearchInput
+      SearchInput: SearchInput,
+      FooterImage:FooterImage
     },
     methods: {
       //获取pager分页组件返回的分页数据
