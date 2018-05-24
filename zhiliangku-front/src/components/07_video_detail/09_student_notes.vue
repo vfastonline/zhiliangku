@@ -4,6 +4,7 @@
     <div class="student_note_content">
       <NoteLi v-for="(item,index) in student_note_datas" :key="item.id"
               @delete_note="delete_note(index)"
+              :class="{'rise':!editor_switch,'hover_bgc_white':!editor_switch}"
               :noteData="item"></NoteLi>
     </div>
     <Pager @pagerGetData="mainPagerData" :url="url" :additionData="params"></Pager>
@@ -35,6 +36,7 @@
     },
     methods: {
       delete_note(index) {
+        if(this.editor_switch)return
         this.student_note_datas.splice(index, 1)
         this.init_params()
       },
@@ -72,6 +74,9 @@
   }
 </style>
 <style scoped>
+  .hover_bgc_white:hover{
+    background-color: #ffffff;
+  }
   .student_note {
     min-height: 70vh;
     margin-bottom: 30px;

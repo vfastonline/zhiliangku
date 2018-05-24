@@ -43,6 +43,7 @@ urlpatterns = [
 	url(r'^record/', include('applications.record.urls')),  # 学生观看视频记录
 	url(r'^r/', include('applications.face.urls')),
 	url(r'^assess/', include('applications.assessment.urls')),  # 考核
+	url(r'^employment/', include('applications.employment.urls')),  # 就业
 
 	url(r'^select2/', include('django_select2.urls')),
 	url(r'^upload', views.upload, name='upload'),

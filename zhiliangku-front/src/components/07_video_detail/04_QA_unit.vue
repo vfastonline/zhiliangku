@@ -1,13 +1,13 @@
 <template>
-  <div @click="handleClick" class="mw rise qc-container  cp">
+  <div @click="handleClick" class="mw  qc-container">
     <div class="clearfix">
       <!--<img class="fl qc-user-icon" :src="mainData.custom_user_avatar" alt="">-->
       <div class=" qc-text-container">
-        <div class="marginbottom8 ">
+        <div class="mt8" >
           <span class="font1_14_9 qctc-tag">{{mainData.custom_user_nickname}}</span>
           <span class="font1_14_9 qctc-tag">{{mainData.create_time}}提问</span>
         </div>
-        <div class="font1_20_3 clearfix marginbottom8">
+        <div class="font1_20_3 clearfix mt8">
           <div class="fl qctc-qustion-content">{{mainData.title}}</div>
           <div class="fr">
             <span class="font1_16_3 anwser">{{mainData.faq_answer_count}}回答</span>
@@ -29,13 +29,9 @@
   .qc-container {
     box-sizing: border-box;
     padding: 24px 32px 38px 32px;
-    background: #fafafa;
+    background: #fcfcfc;
   }
-
-  .marginbottom24 {
-    margin-bottom: 24px;
-  }
-  .marginbottom8 {
+  .mt8 {
     margin-bottom: 8px;
   }
 

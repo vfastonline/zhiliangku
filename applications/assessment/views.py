@@ -11,6 +11,8 @@ from applications.assessment.generate_docker_port import *
 from applications.tracks_learning.models import Video
 from lib.permissionMixin import class_view_decorator, user_login_required
 from lib.util import str_to_int
+from applications.tracks_learning.models import UnlockVideo
+from applications.custom_user.models import CustomUser
 
 """
 创建docker
@@ -93,6 +95,15 @@ class ConstructDocker(View):
 
 @class_view_decorator(user_login_required)
 class AssessmentResult(View):
+	"""考核-结果-页面"""
+
+	def get(self, request, *args, **kwargs):
+		template_name = "assess/result/index.html"
+		return render(request, template_name, {})
+
+
+@class_view_decorator(user_login_required)
+class AssessmentResultInfo(View):
 	"""考核-结果"""
 
 	def post(self, request, *args, **kwargs):
@@ -102,9 +113,9 @@ class AssessmentResult(View):
 			token = kwargs.get('token', "")  # 当前登录用户token
 			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			video_id = str_to_int(param_dict.get('video_id', 0))
-			container = "-".join([token, str(video_id)])
+			container = "-".join([token, str(video_id)])  # 容器的名称
 			videos = Video.objects.filter(id=video_id, type="3")
-			shell_name = ""
+			shell_name = ""  # 考题对应判题脚本
 			if videos.exists():
 				shell_name = videos.first().shell.url.split("/")[-1]
 
@@ -115,7 +126,8 @@ class AssessmentResult(View):
 
 			# 销毁docker
 			container = "-".join([token, str(video_id)])
-			stop_command = "ssh root@docker sh /usr/local/share/xiaodu/script/docker.sh stop {container}".format(container=container)
+			stop_command = "ssh root@docker sh /usr/local/share/xiaodu/script/docker.sh stop {container}".format(
+				container=container)
 			stop_info = commands.getoutput(stop_command)
 			try:
 				if not int(stop_info):
@@ -125,8 +137,15 @@ class AssessmentResult(View):
 				logging.getLogger().error(traceback.format_exc())
 
 			result_dicts = json.loads(result_info)
-			result_dict["grade"] = result_dicts.get("grade", "x")
+			grade = result_dicts.get("grade", "x")
+			result_dict["grade"] = grade
 			result_dict["msg"] = result_dicts.get("msg", "x")
+
+			# 增加学生通过考核记录
+			if grade == 100:
+				customusers = CustomUser.objects.filter(id=custom_user_id)
+				if videos.exists() and customusers.exists():
+					UnlockVideo.objects.create(video=videos.first(), custom_user=customusers.first())
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
