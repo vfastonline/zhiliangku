@@ -43,7 +43,7 @@
     },
     methods: {
       joined_switch_change(e){
-        this.joined_switch_change=e
+        this.joined_switch=e
       },
       get_introduce_list() {
         this.$get('/slides/websiteintroduce/list').then(res => {

@@ -2,7 +2,8 @@
   <div>
     <div class="main">
       <MyHeader></MyHeader>
-      <div class="top_img  hc"></div>
+      <FooterImage :S="{height:'300px'}"
+        :src="$myConst.httpUrl+'/media/image/static/project_list_01_top.png'"></FooterImage>
       <!--<div v-html="str"></div>-->
       <SearchInput></SearchInput>
       <section class="project_list">
@@ -12,7 +13,7 @@
         <div v-else class="ftc font1_16_9">当前条件下暂无内容</div>
       </section>
       <Pager class="mw hc" @pagerGetData="mainPagerData" :url="url" ></Pager>
-      <FooterImage :src="$myConst.httpUrl+'/media/images/static/04_project_list_bottom.png'"></FooterImage>
+      <FooterImage :src="$myConst.httpUrl+'/media/image/static/project_list_02_bottom.png'"></FooterImage>
     </div>
     <F></F>
   </div>
@@ -25,11 +26,6 @@
     margin-bottom: 40px;
   }
 
-  .top_img {
-    height: 300px;
-    background: url("./img/banner.png") center center;
-    background-size: cover;
-  }
 
   .project_list {
     /*margin: 120px 0px;*/
@@ -49,7 +45,7 @@
   import '../../components/00_common/05_card_container'
   import Pager from '../../components/00_common/06_pager'
   import SearchInput from '../../components/04_project_list/02_search_input'
-  import FooterImage from '../../components/00_common/08_footer_image'
+  import FooterImage from '../../components/00_common/08_image_block'
 
   export default {
     data() {
