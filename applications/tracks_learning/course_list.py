@@ -9,6 +9,7 @@ from django.views.generic import View
 from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
 from applications.tracks_learning.projects_list import project_summarize_course_progress
+from lib.permissionMixin import class_view_decorator, user_login_required
 from lib.util import *
 from lib.util import str_to_int
 
@@ -315,6 +316,7 @@ def get_filter_data(course_path_id, technology_id):
 		return result_dict
 
 
+@class_view_decorator(user_login_required)
 class CourseDetail(View):
 	"""课程详情"""
 
@@ -323,6 +325,7 @@ class CourseDetail(View):
 		return render(request, template_name, {})
 
 
+@class_view_decorator(user_login_required)
 class CourseDetailInfo(View):
 	"""课程详情"""
 
