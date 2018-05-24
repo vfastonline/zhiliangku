@@ -1,9 +1,5 @@
 #!encoding:utf-8
-import json
-import logging
-import traceback
 
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
 from django.views.generic import View
@@ -11,6 +7,7 @@ from django.views.generic import View
 from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import *
 from lib.util import str_to_int
 
 
@@ -101,11 +98,24 @@ class VideoDetail(View):
 class VideoDetailInfo(View):
 	"""视频详情信息"""
 
+	def __init__(self):
+		super(VideoDetailInfo, self).__init__()
+		self.result_dict = {
+			"err": 0,
+			"msg": "success",
+			"data": {},
+			"breadcrumbs": "",
+		}
+		self.name = ""
+		self.course_id = 0
+		self.project_id = 0
+		self.custom_user_id = 0
+
 	def get(self, request, *args, **kwargs):
-		result_dict = {"err": 0, "msg": "success", "data": {}}
 		try:
 			# 获取查询参数
 			video_id = str_to_int(request.GET.get('video_id', 0))
+			self.custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 
 			video_dict = dict()
 			if video_id:
@@ -126,14 +136,34 @@ class VideoDetailInfo(View):
 					video_dict["notes"] = video_obj.notes
 					video_dict["address"] = video_obj.address.url if video_obj.address else ""
 					video_dict["subtitle"] = video_obj.subtitle.url if video_obj.subtitle else ""
-			result_dict["data"] = video_dict
+					self.name = video_obj.name
+					self.course_id = video_obj.section.course.id
+					self.project_id = video_obj.section.course.project.id
+			self.result_dict["data"] = video_dict
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
-			result_dict["err"] = 1
-			result_dict["msg"] = traceback.format_exc()
+			self.result_dict["err"] = 1
+			self.result_dict["msg"] = traceback.format_exc()
 		finally:
-			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
+
+	def make_breadcrumbs(self):
+		"""制作面包屑"""
+		try:
+			project_detail_url = "?".join([reverse('tracks:project-detail'), "project_id=%s" % self.project_id])
+			course_detail_url = "?".join([reverse('tracks:course-detail'), "course_id=%s" % self.course_id])
+			breadcrumb_list = [
+				(u"主页", reverse('home')),
+				(u"项目", reverse('tracks:projects')),
+				(u"项目课程", project_detail_url),
+				(u"课程章节", course_detail_url),
+				(self.name, "#")
+			]
+			self.request.breadcrumbs(breadcrumb_list)
+			self.result_dict["breadcrumbs"] = make_bread_crumbs(self.request)
+		except:
+			traceback.print_exc()
 
 
 @class_view_decorator(user_login_required)

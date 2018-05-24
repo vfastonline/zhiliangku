@@ -24,7 +24,7 @@ class QuestionListInfo(View):
 
 	def __init__(self):
 		super(QuestionListInfo, self).__init__()
-		self.course_id = 0
+		self.project_id = 0
 		self.video_id = 0
 		self.custom_user_id = 0
 		self.result_dict = {
@@ -47,7 +47,7 @@ class QuestionListInfo(View):
 			data_list = list()
 			questions = Question.objects.filter(video__id=self.video_id)
 			if questions.exists():
-				self.course_id = questions.first().video.section.course.id
+				self.project_id = questions.first().video.section.course.project.id
 				for question in questions:
 					question_dict = dict()
 					question_dict["id"] = question.id
@@ -77,8 +77,7 @@ class QuestionListInfo(View):
 	def make_breadcrumbs(self):
 		"""制作面包屑"""
 		try:
-			project_detail_url_param = "course_id=%s&custom_user_id=%s" % (self.course_id, self.custom_user_id)
-			project_detail_url = "?".join([reverse('tracks:project-detail'), project_detail_url_param])
+			project_detail_url = "?".join([reverse('tracks:project-detail'), "project_id=%s" % self.project_id])
 			breadcrumbs = [
 				(u"主页", reverse('home')),
 				(u"项目", reverse('tracks:projects')),

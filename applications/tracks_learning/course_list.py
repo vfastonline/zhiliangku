@@ -330,6 +330,7 @@ class CourseDetailInfo(View):
 		super(CourseDetailInfo, self).__init__()
 		self.result_dict = {"err": 0, "msg": "success", "data": dict(), "breadcrumbs": ""}
 		self.course_id = 0
+		self.project_id = 0
 		self.custom_user_id = 0
 
 	def get(self, request, *args, **kwargs):
@@ -345,6 +346,7 @@ class CourseDetailInfo(View):
 				course_objs = Course.objects.filter(id=self.course_id)
 				if course_objs.exists():
 					course_obj = course_objs.first()
+					self.project_id = course_obj.project.id
 					detail["id"] = course_obj.id
 					detail["name"] = course_obj.name
 					detail["lecturer"] = course_obj.lecturer.nickname if course_obj.lecturer else ""
@@ -446,8 +448,7 @@ class CourseDetailInfo(View):
 	def make_breadcrumbs(self):
 		"""制作面包屑"""
 		try:
-			project_detail_url_param = "course_id=%s&custom_user_id=%s" % (self.course_id, self.custom_user_id)
-			project_detail_url = "?".join([reverse('tracks:project-detail'), project_detail_url_param])
+			project_detail_url = "?".join([reverse('tracks:project-detail'), "project_id=%s" % self.project_id])
 			self.request.breadcrumbs([
 				(u"主页", reverse('home')),
 				(u"项目", reverse('tracks:projects')),

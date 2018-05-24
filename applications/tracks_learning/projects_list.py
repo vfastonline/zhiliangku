@@ -213,6 +213,8 @@ class ProjectsDetailInfo(View):
 
 					courses = projects_obj.Courses.all().order_by("sequence")
 					# 提供分页数据
+					if not page:page = 1
+					if not per_page: per_page = 12
 					page_obj = Paginator(courses, per_page)
 					total_count = page_obj.count  # 记录总数
 					num_pages = page_obj.num_pages  # 总页数
