@@ -8,7 +8,7 @@
 
 </style>
 <script>
-  import question from '../07_video_detail/04_question_answer_unit'
+  import question from '../07_video_detail/04_QA_unit'
   export default {
     name: 'question_list',
     data () {

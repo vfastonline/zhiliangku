@@ -1,9 +1,9 @@
 <template>
-  <div class="mw hc note_container rise">
+  <div class="mw hc note_container ">
     <div class="ftr"><span class="dib font1_16_6 cp" @click="del_student_note(noteData)">删除</span></div>
     <p></p>
     <div class="ftr"><span class="dib font2_16_9" v-html="noteData.notes"></span></div>
-    <div class="ftr note_time"><span class="dib font1_16_9 cp" @click="del_student_note(noteData)">{{noteData.create_time}}</span>
+    <div class="ftr note_time"><span class="dib font1_16_9 " >{{noteData.create_time}}</span>
     </div>
   </div>
 </template>
@@ -43,10 +43,6 @@
     margin-bottom: 20px;
     background-color: #fcfcfc;
     min-height: 140px;
-  }
-
-  .note_container:hover {
-    background-color: #fff;
   }
 
   .note_time {

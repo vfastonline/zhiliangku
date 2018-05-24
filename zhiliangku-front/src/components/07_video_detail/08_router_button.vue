@@ -32,7 +32,6 @@
   import GreyButton from '../../components/00_common/02_grey_button'
   import PrimeButton from '../../components/00_common/01_prime_button'
   import Bus from '../../assets/js/02_bus'
-  //我需要开发一个按钮组件了
   export default {
     name: 'HelloWorld',
     data() {

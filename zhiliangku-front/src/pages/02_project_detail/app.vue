@@ -45,8 +45,6 @@
       pager:pager
     },
     methods: {
-      // get_project_detail_lists() {
-      // },
       mainPagerdata(res) {
         this.$fn.addString(this.$myConst.httpUrl,res.data.data.courses,'avatar')
         this.project_detail_lists = res.data.data
@@ -55,7 +53,6 @@
     },
 
     created() {
-      // this.get_project_detail_lists()
       let custom_user_id = localStorage.getItem('uid');
       let project_id= this.$fn.funcUrl("project_id")||1
       this.params={

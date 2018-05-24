@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import teacher_note from '../components/07_video_detail/02_teacher_note.vue'
 import student_note from '../components/07_video_detail/09_student_notes'
 import FAQ from '../components/07_video_detail/05_FAQ.vue'
-import QA_interaction from '../components/07_video_detail/03_question_answer'
+import QA_interaction from '../components/07_video_detail/03_QA_interaction'
 
 Vue.use(Router)
 export default new Router({

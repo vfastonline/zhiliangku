@@ -1,11 +1,15 @@
 <template>
-  <div class="submit-question-container">
-    <div v-if="false" class="submit-question  mw hc">
-      <div class="font20pl3a3c50 mb16 sqc-title">提问</div>
+  <div>
+    <div  class="submit-question  mw hc">
+      <div class="font1_20_6 mb16 sqc-title ftj">
+        <span class="dib">提问</span>
+        <span class="dib cp" @click="$emit('close')">关闭</span>
+        <span class="line2"></span>
+      </div>
       <div class=" submit-li">
         <div class="floatl submit-label">标题：</div>
         <div class="mb32 ml">
-          <el-form >
+          <el-form>
             <el-form-item>
               <el-input v-model="title" placeholder="请一句话简介明了的说明你的问题"></el-input>
             </el-form-item>
@@ -24,22 +28,8 @@
         <div class="floatl submit-label">问题描述：</div>
         <div class="ml">
           <!-- 注意此处是富文本编辑器 -->
-          <quill-editor  v-model="content" :options="options" ref="myQuillEditor">
+          <quill-editor v-model="content" :options="options" ref="myQuillEditor">
           </quill-editor>
-        </div>
-      </div>
-      <div class="relative mb16 submit-li">
-        <div class="floatl submit-label">问题方向：</div>
-        <div class="sq-button-container">
-          <el-button v-for="(item,index) in tags" :key="index" :class="{'first-button':index==0,'active-el-button':activeButtonIndex==index}" @click="selectDirection(item,index)">{{item.name}}</el-button>
-        </div>
-      </div>
-      <div class=" submit-li">
-        <div class="floatl submit-label">悬赏：</div>
-        <div class="mb32 ml">
-          <el-select v-model="reward" placeholder="活动区域">
-            <el-option v-for="(item,index) in arr" :key="index" :label="item.label" :value="item.value"></el-option>
-          </el-select>
         </div>
       </div>
       <div class="sq-submit">
@@ -52,13 +42,13 @@
 <style lang='scss'>
   .sq-button-container {
     .el-button {
-      padding:4px 8px;
+      padding: 4px 8px;
       border-radius: 100px;
       background: #6A747F;
       color: #ffffff;
     }
 
-    .el-button+.el-button {
+    .el-button + .el-button {
       margin-left: 10px
     }
 
@@ -66,27 +56,30 @@
     .el-button:hover {
       color: #fafafa;
       border-color: #c6e2ff;
-      background-color: #6A747F ;
+      background-color: #6A747F;
       opacity: 0.8;
     }
-    .active-el-button{
-      background: #23B8FF ;
+    .active-el-button {
+      background: #23B8FF;
       color: #ffffff;
     }
   }
-  .submit-li{
-    .sq-button-container{
-      .active-el-button{
-        background: #23B8FF ;
+
+  .submit-li {
+    .sq-button-container {
+      .active-el-button {
+        background: #23B8FF;
         color: #ffffff;
       }
     }
   }
-  .el-select{
-    width:100%
+
+  .el-select {
+    width: 100%
   }
-  .sq-submit{
-    .el-button{
+
+  .sq-submit {
+    .el-button {
       border-radius: 100px;
     }
   }
@@ -98,7 +91,8 @@
   import 'quill/dist/quill.core.css'
   import 'quill/dist/quill.snow.css'
   import 'quill/dist/quill.bubble.css'
-  import {Form,FormItem,Select,Option,Button} from 'element-ui'
+  import {Form, FormItem, Select, Option, Button} from 'element-ui'
+
   Vue.use(Form)
   Vue.use(FormItem)
   Vue.use(Select)
@@ -110,95 +104,51 @@
     data() {
       return {
         // 这个参数是为了防止用户点击过快，造成问题的多次提交。
-        disable:false,
-        activeButtonIndex:-1,
+        switch: true,
+        activeButtonIndex: -1,
         title: '',
         content: '',
-        direction: '',
         reward: 0,
         tags: [],
-        arr: [{
-          label: '不悬赏',
-          value: 0
-        }, {
-          label: '1积分',
-          value: 1
-        }, {
-          label: '2积分',
-          value: 2
-        }, {
-          label: '3积分',
-          value: 3
-        }, {
-          label: '4积分',
-          value: 4
-        }, {
-          label: '5积分',
-          value: 5
-        }],
         options: {
-          modules: {
-            toolbar: ['bold', 'italic', 'underline',
-              // 'image',
-              'link', {
-                'list': 'bullet'
-              }, {
-                'list': 'ordered'
-              }, 'blockquote'
-            ]
-          }
+          modules: {}
         },
       }
     },
-    props:{
+    props: {
       // where:String
     },
     methods: {
-      jj(){
+      jj() {
         console.log(11111)
       },
       submitQuestion() {
-        if(this.disable){
-          // this.$fn.showNotice(this,'数据正在传输……请稍后哦')
+        if (!this.switch) {
+          this.$fn.showNotice(this,'数据正在传输……请稍后哦')
           return
         }
-        this.disable=true;
-        var obj={
-          custom_user_id: localStorage.uid,
+        var obj = {
           title: this.title,
           description: this.content,
-          path: this.direction,
-          reward: this.reward
-        };
-        if(this.$fn.funcUrl('video_id')){
-          obj.video_id=this.$fn.funcUrl('video_id')
+          video_id:this.$fn.funcUrl('video_id')
         }
-        this.$post('/community/add/faq',obj ).then(res => {
+        this.$post('/community/add/faq', obj).then(res => {
           if (!res.data.err) {
-            this.$fn.showNotice(this,res.data.msg,'success');
-            if(this.where=='community'){
-              this.$emit('submitover');
-              return
-            }
-            this.$router.push({
-              path: '/question'
-            })
-            return
+            this.$fn.showNotice(this, res.data.msg, 'success');
+            this.$emit('submit_success');
           }
-          this.disable=false;
+          this.switch = false;
         })
       },
-      selectDirection(item,index) {
+      selectDirection(item, index) {
         this.direction = item.id;
-        this.activeButtonIndex=index;
+        this.activeButtonIndex = index;
       }
     },
     created() {
-      this.$get('/tracks/question/path/info').then(res => {
-        this.tags = res.data.data
-      })
     },
-    mounted() {}
+    mounted() {
+    }
   }
 
 </script>
@@ -206,12 +156,6 @@
 <style scoped>
   .relative {
     position: relative;
-  }
-
-  .submit-question-container {
-    background: #fafafa;
-    padding-top: 40px;
-    height: 700px;
   }
 
   .sqc-title {
