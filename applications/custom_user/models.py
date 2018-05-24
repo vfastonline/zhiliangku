@@ -34,6 +34,8 @@ class CustomUser(models.Model):
     role = models.IntegerField('角色', choices=ROLE, null=True, default=3)
     avatar = models.ImageField('头像', upload_to=upload_to, storage=ImageStorage(), blank=True, null=True, max_length=256,
                                default="custom_user_avatar/defaultUserIcon.png")
+    institutions = models.CharField('院校', max_length=255, blank=True, null=True)
+    classs = models.CharField('班级', max_length=255, blank=True, null=True)
     position = models.CharField('职位', max_length=255, blank=True, null=True)
     receiver = models.CharField('收货人', max_length=255, blank=True, null=True, default="")
     address = models.CharField('收货地址', max_length=255, blank=True, null=True, default="")
