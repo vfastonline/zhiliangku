@@ -9,6 +9,7 @@
         <SubjectBlock v-for="(item,index) in courses" :key="index" :main_data="item" class="subject_block"></SubjectBlock>
       </CardContainer>
       <pager :url="url" :additionData="params" @pagerGetData="mainPagerdata"></pager>
+      <FooterImage :src="$myConst.httpUrl+'/media/image/static/project_list_02_bottom.png'"></FooterImage>
     </div>
     <F></F>
   </div>
@@ -40,6 +41,7 @@
   import '../../components/00_common/05_card_container'
   import SubjectBlock from '../../components/05_project_detail/01_subject_block'
   import pager from '../../components/00_common/06_pager'
+  import FooterImage from '../../components/00_common/08_image_block'
   export default {
     data() {
       return {
@@ -57,7 +59,8 @@
       Crumb:Crumb,
       SubjectList: SubjectList,
       SubjectBlock:SubjectBlock,
-      pager:pager
+      pager:pager,
+      FooterImage: FooterImage
     },
     methods: {
       mainPagerdata(res) {

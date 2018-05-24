@@ -8,6 +8,7 @@
         <CourseSection v-for="(item,index) in course_detail_lists.sections" :key="index"
                        :main_data="item"></CourseSection>
       </div>
+      <FooterImage :src="$myConst.httpUrl+'/media/image/static/course_detail_01_bottom.png'"></FooterImage>
     </div>
     <F></F>
   </div>
@@ -38,6 +39,8 @@
   import Crumb from '../../components/00_common/10_crumb'
   import SubjectInfo from '../../components/05_project_detail/02_subject_info'
   import CourseSection from '../../components/06_course_detail/01_course_section'
+  import FooterImage from '../../components/00_common/08_image_block'
+
 
   export default {
     data() {
@@ -54,6 +57,7 @@
       Crumb: Crumb,
       SubjectInfo: SubjectInfo,
       CourseSection: CourseSection,
+      FooterImage: FooterImage
     },
     methods: {
       getMainData() {

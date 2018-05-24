@@ -22,6 +22,7 @@
     height: 32px;
     background-color: #494d58;
     padding-left:10px;
+    font-size:18px;
   }
 </style>
 <script>
