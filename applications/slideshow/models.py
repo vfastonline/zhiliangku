@@ -16,7 +16,7 @@ class Carousel(models.Model):
         ("3", "个人中心"),
     )
     name = models.CharField('轮播名称', max_length=50)
-    pathwel = models.ImageField('轮播图片', upload_to='carousel/%Y%m%d', storage=ImageStorage())
+    pathwel = models.ImageField('轮播图片', upload_to='carousel', storage=ImageStorage())
     category = models.CharField('类别', max_length=1, choices=CATEGORY, default="1")
     video = models.ForeignKey(Video, null=True, blank=True, on_delete=models.SET_NULL, verbose_name='宣传视频',
                               help_text="选填")  # 高薪就业班宣传视频
