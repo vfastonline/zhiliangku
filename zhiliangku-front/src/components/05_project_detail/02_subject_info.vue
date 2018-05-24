@@ -1,6 +1,5 @@
 <template>
   <section class="subject_list mw hc">
-
     <div class="project_title font1_32_f">{{project_detail_lists.name}}</div>
     <p class="project_text font1_18_9">{{project_detail_lists.desc}}</p>
     <span v-if="show_id === 1" class="dib font1_24_f tag">拆分课程</span>
@@ -9,7 +8,7 @@
 </template>
 <style scoped>
   .subject_list {
-    margin-top: 80px;
+    /*margin-top: 80px;*/
   }
 
   .project_title {
