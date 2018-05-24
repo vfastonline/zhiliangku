@@ -41,7 +41,6 @@
   import CourseSection from '../../components/06_course_detail/01_course_section'
   import FooterImage from '../../components/00_common/08_image_block'
 
-
   export default {
     data() {
       return {

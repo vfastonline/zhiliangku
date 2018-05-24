@@ -32,7 +32,7 @@ const entry = {
   },
   login:{
     path:'20_login',
-    filename:'login/2/index.html'
+    filename:'login/index.html'
   },
   test:{
     path:'21_test',

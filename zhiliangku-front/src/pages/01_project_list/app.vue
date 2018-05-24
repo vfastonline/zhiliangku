@@ -10,7 +10,7 @@
         <CardContainer v-if="project_lists.length" class="mw hc " :config="{num:3,card:ProjectStep,cardData:project_lists[0]}">
             <ProjectStep  v-for="(item, index) in project_lists" v-if="item" :key="index" :main_data="item" class="margin"></ProjectStep>
         </CardContainer>
-        <div v-else class="ftc font1_16_9">当前条件下暂无内容</div>
+        <div v-else class="ftc font1_16_9">{{no_data_str}}</div>
       </section>
       <Pager class="mw hc" @pagerGetData="mainPagerData" :url="url" ></Pager>
       <FooterImage :src="$myConst.httpUrl+'/media/image/static/project_list_02_bottom.png'"></FooterImage>
@@ -53,6 +53,7 @@
         ProjectStep: ProjectStep,
         url:'/tracks/projects/list/info',
         project_lists: [],
+        no_data_str:''
       }
     },
     components: {

@@ -5,7 +5,7 @@
     <div class="project_info">
       <h4 class="project_type font1_22_b4">精选项目{{main_data.id}}</h4>
       <h2 class="project_name font1_30_3">{{main_data.name}}</h2>
-      <p class="project_introduce">{{main_data.desc}}</p>
+      <p class="project_introduce" v-html="main_data.desc"></p>
       <!--<el-button> <span class="font1_26_ff project_button">查看详情</span></el-button>-->
       <a :href="link" target="_blank">
         <Button>查看详情</Button>
@@ -82,8 +82,14 @@
   }
 
   .project_introduce {
-    height: 95px;
+    height: 84px;
     color:#999;
+    margin-bottom:11px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
   }
 
   .project_button {
