@@ -39,7 +39,6 @@ var intercept = function (res, obj) {
       break
     case 4:
       showNotify()
-      Bus.$emit('specify_display',{show_key:'log_in',title_key:'登录'})
       break
     case 5:
       showNotify()

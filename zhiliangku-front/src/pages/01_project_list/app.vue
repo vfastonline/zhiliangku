@@ -2,31 +2,30 @@
   <div>
     <div class="main">
       <MyHeader></MyHeader>
-      <div class="top_img  hc"></div>
+      <FooterImage :S="{height:'300px'}"
+        :src="$myConst.httpUrl+'/media/image/static/project_list_01_top.png'"></FooterImage>
       <!--<div v-html="str"></div>-->
       <SearchInput></SearchInput>
       <section class="project_list">
         <CardContainer v-if="project_lists.length" class="mw hc " :config="{num:3,card:ProjectStep,cardData:project_lists[0]}">
             <ProjectStep  v-for="(item, index) in project_lists" v-if="item" :key="index" :main_data="item" class="margin"></ProjectStep>
         </CardContainer>
+        <div v-else class="ftc font1_16_9">当前条件下暂无内容</div>
       </section>
       <Pager class="mw hc" @pagerGetData="mainPagerData" :url="url" ></Pager>
-      <img class="bottom_image db" src="./img/tree_wave.png" alt="">
+      <FooterImage :src="$myConst.httpUrl+'/media/image/static/project_list_02_bottom.png'"></FooterImage>
     </div>
     <F></F>
   </div>
 </template>
 <style scoped lang='scss'>
-
+  .bottom_image{
+    background: url("./img/01_city.png");
+  }
   .margin {
     margin-bottom: 40px;
   }
 
-  .top_img {
-    height: 300px;
-    background: url("./img/banner.png") center center;
-    background-size: cover;
-  }
 
   .project_list {
     /*margin: 120px 0px;*/
@@ -46,6 +45,7 @@
   import '../../components/00_common/05_card_container'
   import Pager from '../../components/00_common/06_pager'
   import SearchInput from '../../components/04_project_list/02_search_input'
+  import FooterImage from '../../components/00_common/08_image_block'
 
   export default {
     data() {
@@ -60,7 +60,8 @@
       F: F,
       ProjectStep: ProjectStep,
       Pager: Pager,
-      SearchInput: SearchInput
+      SearchInput: SearchInput,
+      FooterImage:FooterImage
     },
     methods: {
       //获取pager分页组件返回的分页数据

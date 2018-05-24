@@ -4,6 +4,7 @@ function start(){
     rm -fr /usr/local/openresty/nginx/html/templates/*
     cp -r  /usr/local/zhiliangku/zhiliangku-front/front/*  /usr/local/openresty/nginx/html/templates/
     cp -r /usr/local/zhiliangku/templates/* /usr/local/openresty/nginx/html/templates/
+    cp -r /usr/local/zhiliangku/doc/image /usr/local/zhiliangku/media/
     mkdir -p /usr/local/openresty/nginx/html/templates/static/images
     sudo python /usr/local/zhiliangku/manage.py collectstatic
 

@@ -2,7 +2,8 @@
   <div class="addition_bar ftj mw hc">
           <span class="dib addition_tags">
             <span class="dib addition_tag font1_24_6 ftc cp" v-for="(item,index) in tags_arr"
-                  :key="index" @click="get_data_addition(item)"
+                  :key="index"
+                  @click="get_data_addition(item)"
                   :class="{'font1_24_f':item.active,'selected':item.active}">{{item.name}}</span>
           </span>
           <span class="dib search_block">
@@ -60,16 +61,19 @@
         tags_arr: [],
         search_value: '',
         technology_id:''
-        // search_data: ''
       }
     },
     methods: {
       get_data_addition(item) {
         // 这里面写入处理函数，目标为：将所有item的active属性变为false，然后将选中的item加上active属性。切记如果item中无active则要在刚刚请求到active的时候写入这个属性。
         this.handle_active(item)
-        Bus.$emit('additionEnter', {
+        var obj={
           'technology_id': item.id,
-        })
+        }
+        if(this.search_value){
+          obj.name=this.search_value
+        }
+        Bus.$emit('additionEnter', obj)
       },
       handle_active(item) {
         this.tags_arr.forEach(el => {

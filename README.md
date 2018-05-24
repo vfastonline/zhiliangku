@@ -88,6 +88,7 @@
 git clone https://github.com/vfastonline/zhiliangku.git
 cd zhiliangku 
 pip install -r requirements.txt
+cp -r doc/image media
 ```
 
 #### Scheduled task
