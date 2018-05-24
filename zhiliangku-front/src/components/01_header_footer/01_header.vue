@@ -76,7 +76,12 @@
     },
     watch: {
       is_login: function (a, b) {
-
+        if(a){
+          this.$emit('log_in',true)
+        }
+        else{
+          this.$emit('log_in',false)
+        }
       }
     },
     methods: {

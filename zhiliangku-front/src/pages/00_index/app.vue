@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="main">
-      <MyHeader></MyHeader>
+      <MyHeader @log_in="joined_switch_change"></MyHeader>
       <Carousal></Carousal>
       <IntroduceTitle :title="'智量酷是什么？'"></IntroduceTitle>
       <div class="introduce_block mw hc">
@@ -14,8 +14,8 @@
       <IntroduceTitle :title="'项目说明书'"></IntroduceTitle>
       <ProjectFace v-for="(item,index) in project_home_lists" :key="index" :main_data="item"></ProjectFace>
       <!--<ProjectFace></ProjectFace>-->
-      <!--<JoinUs></JoinUs>-->
-      <Joined></Joined>
+      <Joined v-if="joined_switch"></Joined>
+      <JoinUs v-else></JoinUs>
     </div>
     <F></F>
   </div>
@@ -38,9 +38,13 @@
         introduce_list: [],
         enterprise_need: [],
         project_home_lists:[],
+        joined_switch:false
       }
     },
     methods: {
+      joined_switch_change(e){
+        this.joined_switch_change=e
+      },
       get_introduce_list() {
         this.$get('/slides/websiteintroduce/list').then(res => {
           this.introduce_list = res.data.data;
