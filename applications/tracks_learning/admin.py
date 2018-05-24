@@ -33,6 +33,9 @@ class ProjectAdmin(admin.ModelAdmin):
 
 	technology.short_description = u"技术分类"
 
+	class Media:
+		js = tinymce_js
+
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):

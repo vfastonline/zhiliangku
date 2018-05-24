@@ -9,6 +9,7 @@ from django.views.generic import View
 from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
 from applications.tracks_learning.projects_list import project_summarize_course_progress
+from lib.permissionMixin import class_view_decorator, user_login_required
 from lib.util import *
 from lib.util import str_to_int
 
@@ -315,6 +316,7 @@ def get_filter_data(course_path_id, technology_id):
 		return result_dict
 
 
+@class_view_decorator(user_login_required)
 class CourseDetail(View):
 	"""课程详情"""
 
@@ -323,6 +325,7 @@ class CourseDetail(View):
 		return render(request, template_name, {})
 
 
+@class_view_decorator(user_login_required)
 class CourseDetailInfo(View):
 	"""课程详情"""
 
@@ -330,6 +333,7 @@ class CourseDetailInfo(View):
 		super(CourseDetailInfo, self).__init__()
 		self.result_dict = {"err": 0, "msg": "success", "data": dict(), "breadcrumbs": ""}
 		self.course_id = 0
+		self.project_id = 0
 		self.custom_user_id = 0
 
 	def get(self, request, *args, **kwargs):
@@ -337,14 +341,12 @@ class CourseDetailInfo(View):
 			self.course_id = str_to_int(request.GET.get('course_id', 0))
 			self.custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 
-			# 面包屑
-			self.make_breadcrumbs()
-
 			detail = dict()
 			if self.course_id:
 				course_objs = Course.objects.filter(id=self.course_id)
 				if course_objs.exists():
 					course_obj = course_objs.first()
+					self.project_id = course_obj.project.id
 					detail["id"] = course_obj.id
 					detail["name"] = course_obj.name
 					detail["lecturer"] = course_obj.lecturer.nickname if course_obj.lecturer else ""
@@ -435,6 +437,9 @@ class CourseDetailInfo(View):
 
 						detail["sections"].append(section)
 			self.result_dict["data"] = detail
+
+			# 面包屑
+			self.make_breadcrumbs()
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
@@ -446,8 +451,7 @@ class CourseDetailInfo(View):
 	def make_breadcrumbs(self):
 		"""制作面包屑"""
 		try:
-			project_detail_url_param = "course_id=%s&custom_user_id=%s" % (self.course_id, self.custom_user_id)
-			project_detail_url = "?".join([reverse('tracks:project-detail'), project_detail_url_param])
+			project_detail_url = "?".join([reverse('tracks:project-detail'), "project_id=%s" % self.project_id])
 			self.request.breadcrumbs([
 				(u"主页", reverse('home')),
 				(u"项目", reverse('tracks:projects')),
