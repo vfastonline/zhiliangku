@@ -105,7 +105,6 @@
             obj.pass = this.ruleForm2.pass
             obj.referrer = true
             if (this.$fn.funcUrl('next')) {
-              debugger
               obj.url = 'https://' + window.location.host + decodeURIComponent(this.$fn.funcUrl('next'))
             }
             Bus.$emit('loginPagerLogin', obj)
