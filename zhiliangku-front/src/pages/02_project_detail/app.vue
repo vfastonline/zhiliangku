@@ -4,7 +4,7 @@
       <MyHeader></MyHeader>
       <ImageBlock :src="$myConst.httpUrl+'/media/image/static/project_list_01_top.png'"
                   :style="{'height':'300px','margin-bottom':'44px'}"></ImageBlock>
-      <Crumb class="crumb mw hc font1_20_6" :main_data="breadcrumbs"></Crumb>
+      <Crumb class="crumb mw font1_20_6" :main_data="breadcrumbs"></Crumb>
       <SubjectList :project_detail_lists="project_detail_lists"></SubjectList>
       <CardContainer class="card_container mw hc" :config="{num:3,card:SubjectBlock,cardData:true}">
         <SubjectBlock v-for="(item,index) in courses" :key="index" :main_data="item"
@@ -18,10 +18,11 @@
   </div>
 </template>
 <style scoped>
-  . crumb {
-    margin-top: 50px;
-    line-height: 60px;
+  .crumb {
     height: 60px;
+    line-height: 60px;
+    margin-top: 50px;
+    color: #666;
   }
 
   .card_container {
@@ -42,7 +43,6 @@
   import '../../components/00_common/05_card_container'
   import SubjectBlock from '../../components/05_project_detail/01_subject_block'
   import pager from '../../components/00_common/06_pager'
-
   export default {
     data() {
       return {
