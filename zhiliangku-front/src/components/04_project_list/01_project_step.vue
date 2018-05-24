@@ -13,7 +13,7 @@
       <CB class="vb" :class="main_data.technology.color">{{main_data.technology.name}}</CB>
       <span class="line2"></span>
     </div>
-    <p class="project_text font2_14_9">&nbsp;&nbsp;{{main_data.desc}}</p>
+    <p class="project_text font2_14_9" v-html="main_data.desc"></p>
     <div class="ftc">
       <a :href="link" target="_blank">
         <BlueButton >查看详情</BlueButton>

@@ -39,6 +39,11 @@ module.exports = {
       "api$":process.env.NODE_ENV === 'production' ? resolve('src/assets/js/01_const.js'): resolve('src/assets/js/00_const.js')
     }
   },
+  externals: {
+    'vue': 'Vue',
+    'vue-router': 'VueRouter',
+    'axios': 'axios',
+  },
   module: {
     rules: [
       ...(config.dev.useEslint ? [createLintingRule()] : []),
