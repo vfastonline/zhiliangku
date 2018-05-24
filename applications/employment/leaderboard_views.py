@@ -1,13 +1,13 @@
 #!encoding:utf-8
+from django.db.models import Count
 from django.shortcuts import render
 from django.views.generic import View
 
-from lib.util import *
-from lib.permissionMixin import class_view_decorator, user_login_required
-from applications.tracks_learning.models import UnlockVideo
-from django.db.models import Sum, Count
-from applications.tracks_learning.models import Project
 from applications.custom_user.models import CustomUser
+from applications.tracks_learning.models import Project
+from applications.tracks_learning.models import UnlockVideo
+from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import *
 
 
 @class_view_decorator(user_login_required)
