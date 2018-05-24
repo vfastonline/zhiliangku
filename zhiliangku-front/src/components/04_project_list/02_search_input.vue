@@ -93,6 +93,7 @@
           this.tags_arr = res.data.data;
           if (res.data.data.length) {
             this.get_data_addition(res.data.data[0])
+            // console.log(res.data.data[0]);
           }
         })
       }

@@ -15,7 +15,6 @@
     margin-bottom: 30px;
   }
   .sfq-content{
-    width:780px;
     min-height: 65vh;
   }
 </style>

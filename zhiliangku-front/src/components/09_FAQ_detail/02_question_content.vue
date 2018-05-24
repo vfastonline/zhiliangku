@@ -6,17 +6,10 @@
       <div class="question-title font1_20_3 3a3c50">{{mainData.title}}</div>
       <div>
         <div class="info r">
-<<<<<<< HEAD
-          <!--<img class="question-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">-->
-          <span class="qestion-owner-name font_14_9">{{mainData.custom_user_nickname}}</span>
-          <span class="font_14_9">{{mainData.create_time}}</span>
-          <span class="scan font_14_9">{{mainData.browse_amount}}次浏览</span>
-=======
-          <img class="question-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
+          <img class="question-icon  imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
           <span class="qestion-owner-name font1_14_9">{{mainData.custom_user_nickname}}</span>
           <span class="font1_16_9 createTime">{{mainData.create_time}}</span>
           <span class="scan fr font1_14_9">{{mainData.browse_amount}}次浏览</span>
->>>>>>> af948a6c0b53649fb59e6c8e61b7d2d4a6ffd544
         </div>
         <div v-html="mainData.description"></div>
       </div>
@@ -148,6 +141,8 @@
 
   .question-icon {
     border-radius: 50%;
+    height: 60px;
+    width: 60px;
   }
 
 </style>
