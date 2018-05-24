@@ -77,7 +77,7 @@
     },
     created() {
       this.$get('/assess/construct?video_id=177').then(res=>{
-        this.src='http://118.190.209.153:7681/'
+        this.src='http://118.190.209.153:'+res.data.data.port+'/'
       })
     },
     mounted(){

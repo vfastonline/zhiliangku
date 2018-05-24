@@ -23,14 +23,16 @@
           <div v-for="(item,index) in main_list.sections" :key="index">
             <div class="section_title font1_18_f vm">
               <img class="vm" v-if="item.unlock" src="./img/unlock.png" alt="">
-              <img class="vm" v-if="!item.unlock" src="./img/onplay.png" alt=""> {{item.title}}
+              <img class="vm" v-if="!item.unlock" src="./img/onplay.png" alt="">
+              <span class="vm">{{item.title}}</span>
             </div>
             <ul class="section_list">
               <li class="font1_14_f vm" :class="{active: (element.id==video_id) }" @click = "element.unlock && go_video_detail(element)"
                   v-for="(element,index) in item.videos" :key="index">
                 <img class="vm" v-if="(element.unlock)&&(element.id==video_id)" src="./img/onplay.png" alt="">
                 <img class="vm" v-else-if="!element.unlock" src="./img/Shape.png" alt="">
-                <img class="vm" v-else-if="element.unlock" src="./img/unlock.png" alt=""> {{element.name}}
+                <img class="vm" v-else-if="element.unlock" src="./img/unlock.png" alt="">
+                <span class="vm">{{element.name}}</span>
               </li>
             </ul>
           </div>

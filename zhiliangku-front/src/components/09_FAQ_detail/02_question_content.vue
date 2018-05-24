@@ -1,15 +1,15 @@
 <template>
-  <div class="mainwidth incenter aq_container">
+  <div class="mainwidth  aq_container">
     <div class="aq-width incenter r">
       <el-button @click="foucus" class="foucusButton">{{foucused}}</el-button>
       <el-button @click="dialogVisible=true" class="quizButton">我要提问</el-button>
-      <div class="question-title font_20_3 3a3c50">{{mainData.title}}</div>
+      <div class="question-title font1_20_3 3a3c50">{{mainData.title}}</div>
       <div>
         <div class="info r">
-          <img class="question-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
-          <span class="qestion-owner-name font_14_9">{{mainData.custom_user_nickname}}</span>
-          <span class="font_14_9">{{mainData.create_time}}</span>
-          <span class="scan font_14_9">{{mainData.browse_amount}}次浏览</span>
+          <img class="question-icon  imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
+          <span class="qestion-owner-name font1_14_9">{{mainData.custom_user_nickname}}</span>
+          <span class="font1_16_9 createTime">{{mainData.create_time}}</span>
+          <span class="scan fr font1_14_9">{{mainData.browse_amount}}次浏览</span>
         </div>
         <div v-html="mainData.description"></div>
       </div>
@@ -97,15 +97,13 @@
   .aq-width {
     width: 780px;
     position: relative;
+    line-height: 42px;
   }
 
   .el-dialog__body {
     padding-top: 0px;
     padding-bottom: 0px;
   }
-  .font_14_9 {
-    color: #7c7e8c;
-  }
 
   .foucusButton {
     position: absolute;
@@ -117,20 +115,23 @@
     left: -150px;
   }
 
-</style>
+  .createTime {
+    padding-left:20px;
+  }
 
-<style scoped>
+  .qestion-owner-name {
+    padding-left:30px;
+  }
+  .info {
+   color: #7c7e8c;
+  }
+
   .aq-width {
     width: 780px;
   }
 
   .aq_container {
     background: white;
-  }
-
-  .foucusButton {
-    position: absolute;
-    left: -150px;
   }
 
   .quizButton {
@@ -140,6 +141,8 @@
 
   .question-icon {
     border-radius: 50%;
+    height: 60px;
+    width: 60px;
   }
 
 </style>

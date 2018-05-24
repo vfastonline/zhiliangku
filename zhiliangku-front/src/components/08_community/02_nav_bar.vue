@@ -2,11 +2,12 @@
   <div class="mw">
     <span   class="nomoral cp font1_16_6" :class="{'active':activeTag==index}"  v-for="(item,index) in mainData" :key="index" @click="handleClick(item,index)" >{{item.label}}</span>
     <span class="dib search_block">
-       <input v-model="search_value" @keydown.enter="get_search_data(search_value)" class="search_input "
+       <input v-model="search_value" @keydown.enter=" handleSearch(search_value)" class="search_input "
               type="text" placeholder="请输入关键字">
-            <img @click="get_search_data(search_value)" class="vb" src="./img/search.png" alt="">
+            <img @click="handleSearch(search_value)" class="vb searchBox" src="./img/search.png" alt="">
     </span>
     <el-button @click="foucus" class="foucusButton fr">我要提问</el-button>
+
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -22,7 +23,7 @@
   }
   .search_block {
     width: 300px;
-    margin-left:120px;
+    margin-left:180px;
     border-bottom: 1px solid #ccc;
   }
   .search_input {
@@ -32,12 +33,13 @@
     border-bottom: 0;
     padding-left: 20px;
     outline: none;
-    width: 200px;
+    width: 220px;
     font-size: 16px;
     line-height: 30px;
-    color: #ccc;
   }
-
+  .searchBox {
+    cursor: pointer;
+  }
   .foucusButton {
     corlor:white;
     background-color: #00bcd0;
@@ -62,6 +64,10 @@
       handleClick(item,index){
         this.activeTag=index;
         this.$emit('haveClick',item)
+      },
+      handleSearch(data){
+
+        this.$emit('searchClick',data)
       },
       foucus(){
 

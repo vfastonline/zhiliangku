@@ -1,5 +1,5 @@
 <template>
-  <section :style="S" class="hc mw">
+  <section :style="S" class="hc mw project_block rose">
     <div class="project_image_container fl ftc"><img class="project_face_image  " :src="main_data.pathwel" alt="">
     </div>
     <div class="project_info">

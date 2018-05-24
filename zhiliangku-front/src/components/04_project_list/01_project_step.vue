@@ -1,5 +1,5 @@
 <template>
-  <section class=" project_step r rose " :style="{'border':'1px solid'+colorArr[index]}">
+  <section class=" project_step r rose " :style="{'border':'1px solid '+colorArr[index]}">
     <div class="mock a" v-if="main_data.is_lock">
       <img class="cc" src="./img/lock_icon.png" alt="">
     </div>

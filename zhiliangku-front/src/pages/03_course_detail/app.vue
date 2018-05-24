@@ -11,7 +11,9 @@
   </div>
 </template>
 <style scoped lang='scss'>
-
+.course_info{
+  min-height: 70vh;
+}
 </style>
 
 <script>
