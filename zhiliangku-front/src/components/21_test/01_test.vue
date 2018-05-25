@@ -1,5 +1,5 @@
 <template>
-  <div class="mw hc">
+  <div class="mw hc test rose">
     <el-dialog title="成绩" :visible.sync="dialogVisible" width="30%">
       <span>本次得分为：{{mark.mark}}</span>
       <span slot="footer" class="dialog-footer">
@@ -8,7 +8,7 @@
       </span>
     </el-dialog>
 
-    <div class="test_container incenter">
+    <div class="test_container hc">
       <div>
         <ul class="list">
           <li>1：创建一个文件名为aaa.txt的文件，并存放在tmp目录下</li>
@@ -28,13 +28,15 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang='scss'>
+  .test{
+    margin-top: 98px;
+  }
   .submit_container {
     text-align: right;
   }
 
   .test_container {
     margin-top: 32px;
-    border: 2px solid #999;
     border-radius: 10px;
     padding: 24px
   }
