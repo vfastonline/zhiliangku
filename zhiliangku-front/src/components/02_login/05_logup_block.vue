@@ -12,7 +12,7 @@
         <div class="code_container">
           <el-input :placeholder="'请输入验证码'"
                     v-model="form_data.code"
-                    auto-complete="off">
+                    >
           </el-input>
           <el-button @click="get_code" class="get_code_button"><span>{{tmp_time}}</span></el-button>
         </div>
@@ -21,7 +21,7 @@
         <el-input :placeholder="'请设置密码'"
                   type="password"
                   v-model="form_data.password"
-                  auto-complete="off">
+                  >
 
         </el-input>
       </el-form-item>
@@ -29,7 +29,7 @@
         <el-input :placeholder="'请确密码'"
                   type="password"
                   v-model="form_data.password_repeat"
-                  auto-complete="off">
+                  >
         </el-input>
       </el-form-item>
       <el-button @click="submitForm('form_el','log_up_fun',form_data)" :class="['login-commen-container-button']">
