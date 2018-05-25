@@ -23,8 +23,8 @@ docker run -it --rm -d  -v /usr/local/share/xiaodu/script:/usr/local/share/xiaod
 容器名字：token_videoid
 """
 
-docker_sh = "/usr/local/share/xiaodu/script/docker.sh"
-kaohe_sh = "/usr/local/share/xiaodu/script/kaohe.sh"
+docker_sh = "/usr/local/share/xiaodu/script/docker.sh"  # docker启动/停止脚本
+kaohe_sh = "/usr/local/share/xiaodu/script/kaohe.sh"  # 判题脚本
 
 
 @class_view_decorator(user_login_required)
@@ -269,5 +269,3 @@ class AssessmentResultInfo(View):
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
-		finally:
-			pass

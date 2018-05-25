@@ -110,7 +110,8 @@ class VideoAdmin(admin.ModelAdmin):
 	suit_form_tabs = (('video', '视频/练习题'), ('assessment', '考核'))
 
 	class Media:
-		js = ['js/webPlugins.js'] + tinymce_js
+		# js = ['js/webPlugins.js'] + tinymce_js
+		js = tinymce_js
 
 
 @admin.register(UnlockVideo)
