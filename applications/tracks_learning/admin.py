@@ -97,6 +97,18 @@ class VideoAdmin(admin.ModelAdmin):
 	project.short_description = "项目"
 	course.short_description = "课程"
 
+	fieldsets = [
+
+		('视频/练习题', {
+			'classes': ('suit-tab', 'suit-tab-video',),
+			'fields': ['section', "type", 'name', 'address', 'subtitle', "sequence", "duration", "desc", "notes"]}),
+
+		('考核信息', {
+			'classes': ('suit-tab', 'suit-tab-assessment',),
+			'fields': ['topic', "shell", "docker", "assess_time"]}),
+	]
+	suit_form_tabs = (('video', '视频/练习题'), ('assessment', '考核'))
+
 	class Media:
 		js = ['js/webPlugins.js'] + tinymce_js
 
