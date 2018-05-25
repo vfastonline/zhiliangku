@@ -5,6 +5,10 @@
       status-icon
       :rules="rules"
       ref="form_el">
+      <form style="display:none;">
+        <input type="text">
+        <input type="password">
+      </form>
       <el-form-item prop="phone">
         <el-input v-model="form_data.phone" :placeholder="'请输入登录手机号'"></el-input>
       </el-form-item>
@@ -35,6 +39,8 @@
       <el-button @click="submitForm('form_el','log_up_fun',form_data)" :class="['login-commen-container-button']">
         <span class="font1_26_f"> 注册</span>
       </el-button>
+      <input type="text" style="display:none;">
+      <input type="password" style="display:none;">
     </el-form>
   </div>
 </template>
@@ -110,7 +116,6 @@
     },
     watch: {
       count(new_value) {
-        console.log(new_value)
         if (typeof (new_value) === 'number') {
           this.tmp_time = new_value + '秒'
         }

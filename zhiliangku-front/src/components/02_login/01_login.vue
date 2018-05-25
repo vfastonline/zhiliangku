@@ -28,7 +28,7 @@
                    :class="['marginbottom8','login-commen-container-button','font20plffffff','fontcenter','incenter','pointer']">登录</el-button>
         <div class="marginbottom24 fc">
           <span class="letterspace1 font2_14_3 pointer"
-                @click="changeModal('getPasswordActive')">忘记密码了</span>
+                @click="changeModal('getPasswordActive')">忘密码了</span>
         </div>
         <div class="clearfix">
           <div class="floatl font14pl5A646E">其他登录方式:</div>
