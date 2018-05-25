@@ -110,7 +110,9 @@ media
 # plugin
 # templates
 
+# qian duan 
 zhiliangku-front/node_modules
 zhiliangku-front/test
 zhiliangku-front/00_node_server
 !zhiliangku-front/build
+zhiliangku-front/config/index.js
