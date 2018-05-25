@@ -8,7 +8,7 @@
       <SearchInput></SearchInput>
       <section class="project_list">
         <CardContainer v-if="project_lists.length" class="mw hc " :config="{num:3,card:ProjectStep,cardData:project_lists[0]}">
-            <ProjectStep  v-for="(item, index) in project_lists" v-if="item" :key="index" :main_data="item" class="margin"></ProjectStep>
+            <ProjectStep  v-for="(item, index) in project_lists" v-if="item" :key="item.id" :top_color="color_arr[index%4]"  :main_data="item" class="margin"></ProjectStep>
         </CardContainer>
         <div v-else class="ftc font1_16_9">{{no_data_str}}</div>
       </section>
@@ -53,7 +53,8 @@
         ProjectStep: ProjectStep,
         url:'/tracks/projects/list/info',
         project_lists: [],
-        no_data_str:''
+        no_data_str:'',
+        color_arr: ['#647a90','#c25975','#59769f','#329577']
       }
     },
     components: {

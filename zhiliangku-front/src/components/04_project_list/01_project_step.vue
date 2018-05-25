@@ -1,9 +1,9 @@
 <template>
-  <section class=" project_step r rose " >
+  <section class=" project_step r rose "  >
     <div class="mock a" v-if="main_data.is_lock">
       <img class="cc" src="./img/lock_icon.png" alt="">
     </div>
-    <div class="project_title">
+    <div class="project_title" :style = "{'background-color': top_color}">
       <img class="vm" src="./img/01_book_tag.png" alt="">
       <span class="font1_18_f dib">时长：{{main_data.total_time}}</span>
       <span class="line2"></span>
@@ -67,6 +67,7 @@
     display: -webkit-box;
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
+    line-height: 22px;
   }
 </style>
 <script>
@@ -91,7 +92,8 @@ import BlueButton from '../00_common/04_blue_button'
       },
       main_data: {
         // required: true
-      }
+      },
+      top_color: {}
     },
     components: {
       CB: CB,

@@ -39,7 +39,7 @@
         let custom_user_id = localStorage.getItem("uid")
         this.$get("/tracks/video/detail/info?video_id=" + video_id).then(res => {
           this.video_detail_datas = res.data
-          console.log(this.video_detail_datas)
+          // console.log(this.video_detail_datas)
           Bus.$emit('noteData',res.data.data.notes)
         })
         this.$get("/tracks/course/detail/info?custom_user_id="+custom_user_id+"&course_id="+course_id).then(res => {
