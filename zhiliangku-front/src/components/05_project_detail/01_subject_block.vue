@@ -1,6 +1,6 @@
 <template>
   <section class="subject_block rose">
-    <p class="subject_name  ftc font1_20_f">{{main_data.name}}</p>
+    <p class="subject_name  ftc font1_20_f" :style="{'background-color':top_color}">{{main_data.name}}</p>
     <p class="subject_introduce font1_16_6">{{main_data.desc?main_data.desc:'暂无信息'}}</p>
     <ul class="subject_info">
       <li class="font1_18_9 subject_info_li_1"><span>时长：</span><span class="dib subject_time_value">{{main_data.summary.total_time}}</span>
@@ -31,6 +31,7 @@
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
+    line-height: 24px;
   }
 
   .func_button {
@@ -49,7 +50,8 @@
       }
     },
     props: {
-      main_data: {}
+      main_data: {},
+      top_color:{}
     },
     components: {
       BlueButton: BlueButton

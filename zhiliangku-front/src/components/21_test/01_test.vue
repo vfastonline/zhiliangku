@@ -59,7 +59,7 @@
       return {
         mark: {mark: ''},
         dialogVisible: false,
-        src:''
+        src: ''
       }
     },
     props: {},
@@ -68,7 +68,7 @@
         console.log(111)
       },
       submit() {
-        this.$post('/assess/result', {video_id:177}).then(res => {
+        this.$post('/assess/result', {video_id: 177}).then(res => {
           console.log(res);
           this.mark.mark = res.data.grade;
           this.dialogVisible = true;
@@ -76,11 +76,12 @@
       }
     },
     created() {
-      this.$get('/assess/construct?video_id=177').then(res=>{
-        this.src='http://118.190.209.153:'+res.data.data.port+'/'
+      this.$get('/assess/construct?video_id=177').then(res => {
+        let data = res.data.data
+        this.src = 'http://' + data.ip + ':' + data.port + '/'
       })
     },
-    mounted(){
+    mounted() {
 
     },
     components: {}

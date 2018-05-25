@@ -7,7 +7,7 @@
       <Crumb class="crumb mw font1_20_6" :main_data="breadcrumbs"></Crumb>
       <SubjectList :project_detail_lists="project_detail_lists"></SubjectList>
       <CardContainer class="card_container mw hc" :config="{num:3,card:SubjectBlock,cardData:true}">
-        <SubjectBlock v-for="(item,index) in courses" :key="index" :main_data="item"
+        <SubjectBlock v-for="(item,index) in courses" :key="item.id" :top_color="color_arr[(index%5)]" :main_data="item"
                       class="subject_block">
         </SubjectBlock>
       </CardContainer>
@@ -52,6 +52,7 @@
         courses: [],
         pramas: {},
         breadcrumbs: '',
+        color_arr:['#647a90','#c25957','#59769f','#329577','#6d7680']
       }
     },
     components: {

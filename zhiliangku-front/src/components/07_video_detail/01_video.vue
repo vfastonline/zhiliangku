@@ -2,41 +2,35 @@
   <section class="mw hc video_container">
     <div class="video_title ftj">
       <Crumb class="dib crumb" :main_data="main_data.breadcrumbs" :type="'white'"></Crumb>
-      <!--<span class="cp dib font1_18_f pointer ">-->
-        <!--<svg class="icon" aria-hidden="true">-->
-          <!--<use xlink:href="#icon-hanbaobao"></use>-->
-        <!--</svg>-->
-        <!--<span>列表</span>-->
-      <!--</span>-->
-      <!--<span class="line2"></span>-->
     </div>
     <div class="video_content r">
-      <video-player id="my-video" :options="playerOptions"></video-player>
+      <video-player v-if="show_video" id="my-video" :options="playerOptions"></video-player>
       <video-list v-show="list_switch" :main_list="main_list"></video-list>
     </div>
   </section>
 </template>
 <style scoped>
-  .crumb{
+  .crumb {
     line-height: 32px;
     height: 32px;
     background-color: #494d58;
-    padding-left:10px;
-    font-size:18px;
+    padding-left: 10px;
+    font-size: 18px;
   }
 </style>
 <script>
   import Vue from 'vue'
   import Crumb from '../../components/00_common/10_crumb'
   import videoList from './13_video_list'
+
   Vue.use(window.VueVideoPlayer)
   export default {
     name: "my_video",
     data() {
       return {
         list_switch: true,
+        show_video:false,
         playerOptions: {
-          // video js options
           muted: true,
           height: '525px',
           width: '850px',
@@ -44,10 +38,10 @@
           playbackRates: [1.0, 1.25, 1.5, 1.75, 2.0],
           sources: [{
             type: "video/mp4",
-            src: "/media/video/180521/fullsizeoutput_89.mov"
+            src: ""
           }],
           // fluid: true,
-          poster: ""// 海豹图片地址
+          poster: "" // 海豹图片地址
         },
         video_id: '',
       }
@@ -56,11 +50,26 @@
       Crumb: Crumb,
       videoList: videoList
     },
+    watch: {
+      main_data: {
+        handler: function () {
+          this.change_video_src()
+        },
+        deep: true
+      }
+    },
     props: {
       main_data: {},
       main_list: {},
     },
     methods: {
+      change_video_src() {
+        let data = this.main_data.data;
+        if (data.address) {
+          this.playerOptions.sources[0].src = this.$myConst.httpUrl + data.address
+          this.show_video=true
+        }
+      }
     },
     created() {
     }

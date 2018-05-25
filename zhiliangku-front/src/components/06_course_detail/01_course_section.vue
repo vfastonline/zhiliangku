@@ -13,7 +13,8 @@
       </span>
     </div>
     <ul>
-      <li class="section_li" @click="item.unlock&&go_video_detail(item)" v-for="(item, index) in main_data.videos" :key="index">
+      <li class="section_li" @click="item.unlock&&go_video_detail(item)" v-for="(item, index) in main_data.videos"
+          :key="index">
         <span class="fl">
           <img v-if="item.unlock" class="vm first_icon " src="./img/player.png" alt="">
           <img v-if="!item.unlock" class="vm first_icon " src="./img/lock.png" alt="">
@@ -33,7 +34,7 @@
 <script>
   export default {
     name: "course_section",
-    data(){
+    data() {
       return {
         total_time: ''
       }
@@ -45,9 +46,9 @@
       videos: []
     },
     methods: {
-      go_video_detail(item){
+      go_video_detail(item) {
         let course_id = this.$fn.funcUrl("course_id")
-        window.open("/tracks/video/detail/?course_id=" +course_id + "&video_id="+item.id)
+        window.location.href = "/tracks/video/detail/?course_id=" + course_id + "&video_id=" + item.id
       }
     },
     created() {
@@ -62,10 +63,11 @@
   .course_section_container {
     margin-left: 110px;
     width: 990px;
-    margin-bottom:20px;
+    margin-bottom: 20px;
   }
+
   .course_section {
-    font-weight:700;
+    font-weight: 700;
   }
 
   .first_icon {
@@ -83,7 +85,7 @@
     /*margin-bottom: 20px;*/
     height: 100%;
     width: 950px;
-    background-color:#eee;
+    background-color: #eee;
   }
 
   .lesson_info {
