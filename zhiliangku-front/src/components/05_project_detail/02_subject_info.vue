@@ -1,7 +1,7 @@
 <template>
   <section class="subject_list mw hc">
     <div class="project_title font1_32_f">{{project_detail_lists.name}}</div>
-    <p class="project_text font1_18_9" v-html="project_detail_lists.desc"></p>
+    <p class="project_text font1_18_9" v-html="project_detail_lists.desc || '暂无消息'"></p>
     <span v-if="show_id === 1" class="dib font1_24_f tag">拆分课程</span>
     <span v-if="show_id === 2" class="dib font1_24_f tag course">课程详情</span>
   </section>

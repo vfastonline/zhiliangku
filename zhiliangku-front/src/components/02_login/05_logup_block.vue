@@ -14,7 +14,7 @@
                     v-model="form_data.code"
                     auto-complete="off">
           </el-input>
-          <el-button @click="get_code" class="get_code_button"><span>{{code_str}}</span></el-button>
+          <el-button @click="get_code" class="get_code_button"><span>{{tmp_time}}</span></el-button>
         </div>
       </el-form-item>
       <el-form-item prop="password">
@@ -104,24 +104,35 @@
           password_repeat: [{validator: validatePass2, trigger: 'blur'}],
           code: [{validator: validateCode, trigger: 'blur'}]
         },
-        code_str: '获取验证码',
+        count: '',
+        tmp_time: '获取验证码',
+      }
+    },
+    watch: {
+      count(new_value) {
+        console.log(new_value)
+        if (typeof (new_value) === 'number') {
+          this.tmp_time = new_value + '秒'
+        }
+        else {
+          this.tmp_time = '获取验证码'
+        }
       }
     },
     methods: {
       get_code() {
-        if(typeof (this.code_str)==='number'){
-          this.$fn.showNotice(this,'请于'+this.code_str+'s后重试','info')
+        if (typeof (this.count) === 'number') {
+          this.$fn.showNotice(this, '请于' + this.count + this.tmp_time + '后重试', 'info')
           return
         }
         this.$post('/customuser/send_sms', {phone: this.form_data.phone}).then(res => {
-          console.log(res)
           if (!res.data.err) {
-            this.code_str = 60;
+            this.count = 60;
             var interval = setInterval(() => {
-              this.code_str--
+              this.count--
               console.log(this)
-              if (this.code_str === 0) {
-                this.code_str = '获取验证码'
+              if (this.count === 0) {
+                this.count = ''
                 clearInterval(interval)
               }
             }, 1000)
@@ -150,13 +161,13 @@
         this.$post('/customuser/register', data).then(res => {
           if (!res.data.err) {
             this.$fn.showNotice(this, '密码修改成功，请登录', 'success')
-            Bus.$emit('specify_display',{
-              show_key:'log_in',
-              title_key:'登录'
+            Bus.$emit('specify_display', {
+              show_key: 'log_in',
+              title_key: '登录'
             })
           }
-          if(res.data.err*1===4){
-            Bus.$emit('specify_display',{show_key:'log_in',title_key:'登录'})
+          if (res.data.err * 1 === 4) {
+            Bus.$emit('specify_display', {show_key: 'log_in', title_key: '登录'})
           }
         })
       }
