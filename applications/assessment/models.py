@@ -34,5 +34,5 @@ class DockerPort(models.Model):
 
 	class Meta:
 		db_table = 'DockerPort'
-		verbose_name = "Docker端口"
-		verbose_name_plural = "Docker端口"
+		verbose_name = "Docker已分配端口"
+		verbose_name_plural = "Docker已分配端口"

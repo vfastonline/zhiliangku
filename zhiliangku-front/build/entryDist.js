@@ -38,6 +38,10 @@ const entry = {
     path:'21_test',
     filename:'assess/info/index.html'
   },
+  assess_result:{
+    path:'22_assess_result',
+    filename:'assess/result/info'
+  }
 }
 var entryObj = {}
 var distArr = []
