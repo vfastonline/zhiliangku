@@ -1,5 +1,9 @@
 <template>
   <div>
+    <form style="display:none;">
+      <input type="text">
+      <input type="password">
+    </form>
     <el-form
       :model="form_data"
       status-icon
@@ -35,6 +39,8 @@
       <el-button @click="submitForm('form_el','reset_fun',form_data)" :class="['login-commen-container-button']">
         <span class="font1_26_f"> 提交</span>
       </el-button>
+      <input type="text" style="display:none;">
+      <input type="password" style="display:none;">
     </el-form>
   </div>
 </template>
@@ -109,8 +115,8 @@
     },
     methods: {
       get_code() {
-        if(typeof (this.code_str)==='number'){
-          this.$fn.showNotice(this,'请于'+this.code_str+'s后重试','info')
+        if (typeof (this.code_str) === 'number') {
+          this.$fn.showNotice(this, '请于' + this.code_str + 's后重试', 'info')
           return
         }
         this.$post('/customuser/send_sms', {phone: this.form_data.phone}).then(res => {
@@ -155,9 +161,9 @@
           // 此处后端应该加上err
           if (!res.err) {
             this.$fn.showNotice(this, '密码修改成功，请登录', 'success')
-            Bus.$emit('specify_display',{
-              show_key:'log_in',
-              title_key:'登录'
+            Bus.$emit('specify_display', {
+              show_key: 'log_in',
+              title_key: '登录'
             })
           }
         })
