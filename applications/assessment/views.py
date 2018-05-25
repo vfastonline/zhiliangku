@@ -157,8 +157,8 @@ class ConstructDocker(View):
 		:return:
 		"""
 		try:
-			self.port = random.randint(7000, 10000)
-			dockerports = DockerPort.objects.filter(port=str(self.port))
+			self.port = str(random.randint(7000, 10000))
+			dockerports = DockerPort.objects.filter(port=self.port)
 			if dockerports.exists():
 				self.get_docker_port()
 		except:
