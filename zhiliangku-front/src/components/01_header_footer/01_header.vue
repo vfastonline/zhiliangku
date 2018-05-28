@@ -33,8 +33,6 @@
     name: "projectHeader",
     data() {
       return {
-        loginshow: false,
-        logupshow: false,
         show: false,
         showuser: false,
         msg: "Welcome to Your Vue.js App",
@@ -216,6 +214,7 @@
       })
       Bus.$on('logout', this.logoutFunc)
       Bus.$on('refreshAvatar', this.getUserInfo)
+
 
     },
     mounted() {
