@@ -32,45 +32,50 @@
       <ul class="choiceQuestion-options">
         <li v-for="(item ,index ) in mainData.answers" :key="index"
             class="choiceQuestion-option  "
-            @click="verifyAnswer(mainData,item,index)"
-            >
-          <div class="cp">
-            <div class="fl option_name font1_22_6">
-              <img class="option_pre_icon" src="./img/right.png" alt="">
-              <img class="option_pre_icon" src="./img/wrong.png" alt="">
-              <span class="option_pre_icon dib" ></span>
-              {{item.option_name}}.</div>
-            <div class="choiceQuestion-content font1_22_9" v-html="item.content"></div>
-          </div>
+            @click="verifyAnswer(mainData,item,index)">
+            <span class="option_name dib font1_22_6 ftj">
+              <img class="option_pre_icon vm" src="./img/right.png" alt="">
+              <span class="dib vm">{{item.option_name}}.</span>
+              <span class="line2"></span>
+            </span>
+            <span class="choiceQuestion-content font1_22_9 dib" v-html="item.content">
+            </span>
         </li>
       </ul>
       <!--<div class="choiceQuestion-button">-->
-        <!--<el-button @click="emit('aheadQuestion')" v-if="buttonInfo.index+1>1">上一题</el-button>-->
-        <!--<el-button @click="emit('nextQuestion')" v-if="buttonInfo.index+1<buttonInfo.length">下一题</el-button>-->
-        <!--<el-button @click="emit('submitPaper')" v-if="buttonInfo.index+1==buttonInfo.length">完成</el-button>-->
+      <!--<el-button @click="emit('aheadQuestion')" v-if="buttonInfo.index+1>1">上一题</el-button>-->
+      <!--<el-button @click="emit('nextQuestion')" v-if="buttonInfo.index+1<buttonInfo.length">下一题</el-button>-->
+      <!--<el-button @click="emit('submitPaper')" v-if="buttonInfo.index+1==buttonInfo.length">完成</el-button>-->
       <!--</div>-->
       <!--<div class="choiceQuestion-answer">-->
-        <!--<div class="cqa-title ftc">-->
-          <!--<div class="cqat-bar inmiddle zindex1"></div>-->
-          <!--<span class="cqat-title font16pr3a3c50 zindex10 relative">习题详解</span>-->
-        <!--</div>-->
+      <!--<div class="cqa-title ftc">-->
+      <!--<div class="cqat-bar inmiddle zindex1"></div>-->
+      <!--<span class="cqat-title font16pr3a3c50 zindex10 relative">习题详解</span>-->
+      <!--</div>-->
       <!--</div>-->
     </div>
   </div>
 </template>
 <style lang='scss'>
-  .option_name{
-    width: 194px;
-    padding-left: 40px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+  .option_name {
+    width: 70px;
+    flex-shrink: 0;
+    height: 48px;
+    line-height: 48px;
+    margin-left: 39px;
+    margin-right: 86px;
   }
-  .option_pre_icon{
+  .choiceQuestion-option {
+    display: flex;
+    justify-content: space-between;
+    line-height: 32px;
+    margin:0 0 48px
+  }
+  .option_pre_icon {
     height: 32px;
     width: 32px;
-    margin-right: 30px;
   }
+
   .score {
     font-size: 22px;
     margin: 10px;
@@ -120,15 +125,33 @@
     height: 24px;
     width: 24px;
   }
+  .choiceQuestion-title {
+    padding: 8px 0px;
+    margin-bottom: 28px;
+  }
 
+
+  .right-option div {
+    color: white;
+  }
+
+  .wrong-option div {
+    color: white;
+  }
+
+  .choiceQuestion-content {
+  }
+
+  .choiceQuestion-options {
+    margin-bottom: 56px;
+  }
 </style>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
   import Vue from 'vue'
   import Bus from '../../assets/js/02_bus'
   import func from '../../assets/js/01_other/01_dispatch'
   import {Button} from 'element-ui'
+
   Vue.use(Button)
   Vue.prototype.$func = func;
   export default {
@@ -174,91 +197,13 @@
         this.buttonInfo = buttonInfo;
       })
       Bus.$on('haveScoreReady', obj => {
-        obj.score=Math.ceil(obj.score*100);
+        obj.score = Math.ceil(obj.score * 100);
         this.score = obj;
         this.show = false;
       })
     },
-    mounted() {}
+    mounted() {
+    }
   }
 
 </script>
-<style scoped>
-  .choiceQuestion-title {
-    padding: 8px 0px;
-    margin-bottom: 40px;
-  }
-
-  .choiceQuestion-option {
-    /*padding: 33px 40px;*/
-  }
-
-  .choiceQuestion-button {
-    text-align: right;
-  }
-
-  .other-option {
-    background: white;
-  }
-
-  .other-option:hover {
-    background: #fafafa;
-  }
-
-  .choiceQuestion-resault {
-    height: 500px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .right-option {
-    color: white;
-    background: #66bb6a;
-  }
-
-  .wrong-option {
-    color: white;
-    background: #ffc107;
-  }
-
-  .right-option div {
-    color: white;
-  }
-
-  .wrong-option div {
-    color: white;
-  }
-
-  .choiceQuestionTags {
-    width: 75px;
-  }
-
-  .choiceQuestion-content {
-    margin-left: 160px;
-  }
-
-  .choiceQuestion-options {
-    margin-bottom: 56px;
-  }
-
-  .cqa-title {
-    height: 22px;
-    position: relative;
-    margin-bottom: 16px;
-  }
-
-  .cqat-bar {
-    height: 2px;
-    background: #cfd8dc;
-    width: 100%;
-  }
-
-  .cqat-title {
-    padding: 0 6px;
-    background: #fafafa;
-  }
-
-  .answerContent {}
-
-</style>
