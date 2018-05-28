@@ -314,21 +314,22 @@ def project_summarize_course_progress(custom_user_id, course, previous_course, c
 					if unlockvideos.exists():
 						result_dict["unlock"] = True
 						break
+			print result_dict["unlock"], course, previous_course
 			# 上一个课程所有章节中都没有考核
 			if not previous_course_has_assessment:
 				# 查找previous_course课程的上一个课程
 				previous_index = courses.index(previous_course) - 1
+				print "===================", course, previous_index
 				if previous_index >= 0:
 					previous_course = courses[previous_index]
 					project_summarize_course_progress(custom_user_id, course, previous_course, courses)
 				else:
 					# 项目下已经没有上一个课程
 					result_dict["unlock"] = True
-			print result_dict["unlock"], course, previous_course
 
 		# 课程时长
 		sections = course.Section.all()
-		duration_sum = Video.objects.filter(section__in=sections).aggregate(Sum('duration')).get("duration__sum", 0)
+		duration_sum = str_to_int(Video.objects.filter(section__in=sections).aggregate(Sum('duration')).get("duration__sum", 0))
 		m, s = divmod(duration_sum, 60)
 		h, m = divmod(m, 60)
 		total_time_str = "%02d:%02d:%02d" % (h, m, s)
