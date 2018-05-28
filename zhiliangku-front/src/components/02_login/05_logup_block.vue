@@ -1,10 +1,6 @@
 <template>
   <div>
-    <el-form
-      :model="form_data"
-      status-icon
-      :rules="rules"
-      ref="form_el">
+    <el-form :model="form_data" status-icon :rules="rules" ref="form_el" class="form_wrap">
       <form style="display:none;">
         <input type="text">
         <input type="password">
@@ -14,26 +10,18 @@
       </el-form-item>
       <el-form-item prop="code">
         <div class="code_container">
-          <el-input :placeholder="'请输入验证码'"
-                    v-model="form_data.code"
-                    >
+          <el-input :placeholder="'请输入验证码'" v-model="form_data.code">
           </el-input>
           <el-button @click="get_code" class="get_code_button"><span>{{tmp_time}}</span></el-button>
         </div>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input :placeholder="'请设置密码'"
-                  type="password"
-                  v-model="form_data.password"
-                  >
+        <el-input :placeholder="'请设置密码'" type="password" v-model="form_data.password">
 
         </el-input>
       </el-form-item>
       <el-form-item prop="password_repeat">
-        <el-input :placeholder="'请确密码'"
-                  type="password"
-                  v-model="form_data.password_repeat"
-                  >
+        <el-input :placeholder="'请确密码'" type="password" v-model="form_data.password_repeat">
         </el-input>
       </el-form-item>
       <el-button @click="submitForm('form_el','log_up_fun',form_data)" :class="['login-commen-container-button']">
@@ -49,7 +37,12 @@
   import Vue from 'vue'
   import BlockTitle from './03_title'
   import Bus from '../../assets/js/02_bus'
-  import {Dialog, Form, FormItem, Input} from 'element-ui'
+  import {
+    Dialog,
+    Form,
+    FormItem,
+    Input
+  } from 'element-ui'
 
   Vue.use(Dialog)
   Vue.use(FormItem)
@@ -105,10 +98,22 @@
           code: ''
         },
         rules: {
-          phone: [{validator: check_phone_number, trigger: 'blur'}],
-          password: [{validator: validatePass, trigger: 'blur'}],
-          password_repeat: [{validator: validatePass2, trigger: 'blur'}],
-          code: [{validator: validateCode, trigger: 'blur'}]
+          phone: [{
+            validator: check_phone_number,
+            trigger: 'blur'
+          }],
+          password: [{
+            validator: validatePass,
+            trigger: 'blur'
+          }],
+          password_repeat: [{
+            validator: validatePass2,
+            trigger: 'blur'
+          }],
+          code: [{
+            validator: validateCode,
+            trigger: 'blur'
+          }]
         },
         count: '',
         tmp_time: '获取验证码',
@@ -118,8 +123,7 @@
       count(new_value) {
         if (typeof (new_value) === 'number') {
           this.tmp_time = new_value + '秒'
-        }
-        else {
+        } else {
           this.tmp_time = '获取验证码'
         }
       }
@@ -130,12 +134,14 @@
           this.$fn.showNotice(this, '请于' + this.count + this.tmp_time + '后重试', 'info')
           return
         }
-        this.$post('/customuser/send_sms', {phone: this.form_data.phone}).then(res => {
+        this.$post('/customuser/send_sms', {
+          phone: this.form_data.phone
+        }).then(res => {
           if (!res.data.err) {
             this.count = 60;
             var interval = setInterval(() => {
               this.count--
-              console.log(this)
+                console.log(this)
               if (this.count === 0) {
                 this.count = ''
                 clearInterval(interval)
@@ -172,7 +178,10 @@
             })
           }
           if (res.data.err * 1 === 4) {
-            Bus.$emit('specify_display', {show_key: 'log_in', title_key: '登录'})
+            Bus.$emit('specify_display', {
+              show_key: 'log_in',
+              title_key: '登录'
+            })
           }
         })
       }
@@ -181,6 +190,7 @@
       BlockTitle: BlockTitle
     }
   }
+
 </script>
 <style>
   @import "./style/01_dialog_style.scss";
@@ -194,11 +204,17 @@
     margin-left: 20px;
     width: 130px;
   }
+
+  .form_wrap>.el-button:hover {
+    color: #FFF;
+    border-color: #c6e2ff;
+    background-color:#23b8ff;
+  }
+
 </style>
 <style scoped>
   .login-commen-container-button {
     width: 400px;
     background: #23b8ff 100%;
   }
-
 </style>
