@@ -182,7 +182,7 @@
     display: flex;
   }
 
-  .get_code_button {
+   .code_container>.get_code_button {
     margin-left: 20px;
     width: 130px;
   }
@@ -192,6 +192,7 @@
     border-color: #c6e2ff;
     background-color:#23b8ff;
   }
+
 </style>
 <style scoped>
   .login-commen-container-button {
