@@ -322,7 +322,7 @@ def project_summarize_course_progress(custom_user_id, course, previous_course, c
 				print "===================", course, previous_index
 				if previous_index >= 0:
 					previous_course = courses[previous_index]
-					project_summarize_course_progress(custom_user_id, course, previous_course, courses)
+					return project_summarize_course_progress(custom_user_id, course, previous_course, courses)
 				else:
 					# 项目下已经没有上一个课程
 					result_dict["unlock"] = True
