@@ -63,11 +63,9 @@
           'video_id': video_id
         }
         this.$post("/assess/result/info", obj).then(res => {
-          // console.log("res.data")
-          //请求数据 接口报错了。
           if (!res.err) {
             this.main_data = res.data.data
-            console.log(res.data);
+            // console.log(res.data);
           }
 
         })
