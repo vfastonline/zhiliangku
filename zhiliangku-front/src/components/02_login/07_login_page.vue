@@ -1,6 +1,6 @@
 <template>
   <div class="loginpage-continer hc">
-    <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px">
+    <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="form_wrap">
       <el-form-item label="账号：" prop="account">
         <el-input type="text" placeholder="请输入登录邮箱/手机号" v-model="ruleForm2.account" auto-complete="off"></el-input>
       </el-form-item>
@@ -17,6 +17,13 @@
     </div>
   </div>
 </template>
+<style>
+  .form_wrap>.el-button:hover {
+    color: #FFF;
+    border-color: #c6e2ff;
+    background-color:#23b8ff;
+  }
+</style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .loginpage-continer {
@@ -99,9 +106,10 @@
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
+          debugger
           if (valid) {
             var obj = {}
-            obj.age = this.ruleForm2.account
+            obj.account = this.ruleForm2.account
             obj.pass = this.ruleForm2.pass
             obj.referrer = true
             if (this.$fn.funcUrl('next')) {

@@ -53,7 +53,7 @@
         ProjectStep: ProjectStep,
         url:'/tracks/projects/list/info',
         project_lists: [],
-        no_data_str:'',
+        no_data_str:'暂无相关信息，请重新输入关键字查询',
         color_arr: ['#647a90','#c25975','#59769f','#329577']
       }
     },

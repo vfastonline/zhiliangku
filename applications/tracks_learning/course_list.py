@@ -379,18 +379,18 @@ class CourseDetailInfo(View):
 							"desc": one_section.desc,
 							"unlock": False
 						}
-						videos = one_section.Videos.all().order_by("sequence")
+						videos = one_section.Videos.all().order_by("sequence")  # 章节下所有课程列表
 
 						video_list = list()
 						if videos.exists():
-							# 查找考核视频，判断用户手通过考核
+							# 查找考核视频，判断用户是否通过考核
 							unlock = False
 							assessment_video = None
 							if not previous_videos:  # 没有上一个章节， 查找：上一个课程->最后章节->考核
 								if previous_course:
-									assessment_video = previous_course.Section.last().Videos.filter(type="2")
+									assessment_video = previous_course.Section.last().Videos.filter(type="3")
 							else:
-								assessment_video = previous_videos.filter(type="2")
+								assessment_video = previous_videos.filter(type="3")
 
 							if assessment_video:
 								unlock_filter = {
@@ -417,7 +417,10 @@ class CourseDetailInfo(View):
 								video_dict["address"] = video.address.url if video.address else ""
 								video_dict["subtitle"] = video.subtitle.url if video.subtitle else ""
 								video_dict["unlock"] = unlock
-								m, s = divmod(video.duration, 60)
+								if video.type in ["1", "2"]:
+									m, s = divmod(video.duration, 60)
+								else:
+									m, s = divmod(video.assess_time * 60, 60)
 								h, m = divmod(m, 60)
 								video_dict["duration"] = "%02d:%02d:%02d" % (h, m, s)
 
@@ -427,9 +430,19 @@ class CourseDetailInfo(View):
 									"course": course_obj,
 									"status": 1
 								}
-								watchrecords = WatchRecord.objects.filter(**watchrecord_param)
-								if watchrecords.exists():
-									video_dict["is_complete"] = 1
+								if video.type == "1":
+									watchrecords = WatchRecord.objects.filter(**watchrecord_param)
+									if watchrecords.exists():
+										video_dict["is_complete"] = 1
+
+								param = {
+									"custom_user__id": self.custom_user_id,
+									"video": video,
+								}
+								if video.type == "3":
+									unlockvideos = UnlockVideo.objects.filter(**param)
+									if unlockvideos.exists():
+										video_dict["is_complete"] = 1
 
 								video_list.append(video_dict)
 						if video_list:

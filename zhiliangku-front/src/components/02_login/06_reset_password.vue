@@ -8,7 +8,7 @@
       :model="form_data"
       status-icon
       :rules="rules"
-      ref="form_el">
+      ref="form_el" class="form_wrap">
       <el-form-item prop="phone">
         <el-input v-model="form_data.phone" :placeholder="'请输入登录手机号'"></el-input>
       </el-form-item>
@@ -182,10 +182,17 @@
     display: flex;
   }
 
-  .get_code_button {
+   .code_container>.get_code_button {
     margin-left: 20px;
     width: 130px;
   }
+
+  .form_wrap>.el-button:hover {
+    color: #FFF;
+    border-color: #c6e2ff;
+    background-color:#23b8ff;
+  }
+
 </style>
 <style scoped>
   .login-commen-container-button {

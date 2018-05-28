@@ -4,7 +4,7 @@
       :model="form_data"
       status-icon
       :rules="rules"
-      ref="form_el">
+      ref="form_el" class="form_wrap">
       <el-form-item prop="username">
         <el-input v-model="form_data.username" :placeholder="'请输入登录手机号'"></el-input>
       </el-form-item>
@@ -106,12 +106,21 @@
     },
     components: {
       BlockTitle: BlockTitle
+    },
+    created(){
+      
     }
   }
 </script>
 <style>
   /*@import "./style/01_dialog_style.scss";*/
   /*@import "./style/02_input_style.scss";*/
+  
+  .form_wrap>.el-button:hover {
+    color: #FFF;
+    border-color: #c6e2ff;
+    background-color:#23b8ff;
+  }
 </style>
 <style scoped>
   /*.login_block {*/
