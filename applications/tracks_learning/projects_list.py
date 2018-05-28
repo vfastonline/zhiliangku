@@ -296,10 +296,10 @@ def project_summarize_course_progress(custom_user_id, course, previous_course):
 	}
 	try:
 		# 判断是否解锁
-		if not previous_course:
+		if not previous_course:  # 没有上一个课程
 			result_dict["unlock"] = True
 		else:
-			assessment_video = previous_course.Section.last().Videos.filter(type="2")  # 上一个课程->最后章节->考核
+			assessment_video = previous_course.Section.last().Videos.filter(type="3")  # 上一个课程->最后章节->考核
 			if assessment_video.exists():
 				filter_param = {
 					"custom_user__id": custom_user_id,
