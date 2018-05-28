@@ -22,7 +22,7 @@
 </template>
 <script>
   import Scrollbar from 'smooth-scrollbar'
-
+  import func from '../../assets/js/01_other/01_dispatch.js'
   export default {
     data() {
       return {
@@ -37,7 +37,11 @@
         this.video_id = this.$fn.funcUrl("video_id")
       },
       go_video_detail(item) {
-        location.href="/tracks/video/detail/?course_id=" + this.course_id +"&video_id="+ item.id
+        if(item.type !='1'){
+          func.goCourse(item.type,this.course_id,item.id);                    
+        }else{
+          location.href="/tracks/video/detail/?course_id=" + this.course_id +"&video_id="+ item.id          
+        }
       }
     },
     created(){
