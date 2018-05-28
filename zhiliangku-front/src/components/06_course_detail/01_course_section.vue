@@ -32,6 +32,7 @@
 </template>
 
 <script>
+  import func from '../../assets/js/01_other/01_dispatch.js'
   export default {
     name: "course_section",
     data() {
@@ -48,7 +49,7 @@
     methods: {
       go_video_detail(item) {
         let course_id = this.$fn.funcUrl("course_id")
-        window.location.href = "/tracks/video/detail/?course_id=" + course_id + "&video_id=" + item.id
+        func.goCourse(item.type,course_id,item.id);
       }
     },
     created() {
