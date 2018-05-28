@@ -30,36 +30,31 @@
     <div v-if="show">
       <div class="choiceQuestion-title font1_24_3">{{mainData.title}}</div>
       <ul class="choiceQuestion-options">
-        <li v-for="(item ,index ) in mainData.answers" :key="index" class="choiceQuestion-option  "
+        <li v-for="(item ,index ) in mainData.answers" :key="index"
+            class="choiceQuestion-option  "
             @click="verifyAnswer(mainData,item,index)"
-            :class="item.className">
+            >
           <div class="cp">
             <div class="fl option_name font1_22_6">
-              <img class="option_pre_icon" src="./img/right.svg" alt="">
-              <img class="option_pre_icon" src="./img/wrong.svg" alt="">
+              <img class="option_pre_icon" src="./img/right.png" alt="">
+              <img class="option_pre_icon" src="./img/wrong.png" alt="">
               <span class="option_pre_icon dib" ></span>
               {{item.option_name}}.</div>
             <div class="choiceQuestion-content font1_22_9" v-html="item.content"></div>
           </div>
         </li>
       </ul>
-      <div class="choiceQuestion-button">
-        <el-button @click="emit('aheadQuestion')" v-if="buttonInfo.index+1>1">上一题</el-button>
-        <el-button @click="emit('nextQuestion')" v-if="buttonInfo.index+1<buttonInfo.length">下一题</el-button>
-        <el-button @click="emit('submitPaper')" v-if="buttonInfo.index+1==buttonInfo.length">完成</el-button>
-      </div>
-      <!-- <div class="hc mw choiceQuestion-resault">
-
-      </div> -->
-      <div class="choiceQuestion-answer">
-        <div class="cqa-title ftc">
-          <div class="cqat-bar inmiddle zindex1"></div>
-          <span class="cqat-title font16pr3a3c50 zindex10 relative">习题详解</span>
-        </div>
-        <!-- <div class="answerContent font16pr3a3c50">
-          不会代码的ui不是好导演
-        </div> -->
-      </div>
+      <!--<div class="choiceQuestion-button">-->
+        <!--<el-button @click="emit('aheadQuestion')" v-if="buttonInfo.index+1>1">上一题</el-button>-->
+        <!--<el-button @click="emit('nextQuestion')" v-if="buttonInfo.index+1<buttonInfo.length">下一题</el-button>-->
+        <!--<el-button @click="emit('submitPaper')" v-if="buttonInfo.index+1==buttonInfo.length">完成</el-button>-->
+      <!--</div>-->
+      <!--<div class="choiceQuestion-answer">-->
+        <!--<div class="cqa-title ftc">-->
+          <!--<div class="cqat-bar inmiddle zindex1"></div>-->
+          <!--<span class="cqat-title font16pr3a3c50 zindex10 relative">习题详解</span>-->
+        <!--</div>-->
+      <!--</div>-->
     </div>
   </div>
 </template>
@@ -195,7 +190,7 @@
   }
 
   .choiceQuestion-option {
-    padding: 33px 40px;
+    /*padding: 33px 40px;*/
   }
 
   .choiceQuestion-button {

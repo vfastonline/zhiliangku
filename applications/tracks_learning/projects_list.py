@@ -21,7 +21,6 @@ class TechnologyListInfo(View):
 				one_dict = dict()
 				one_dict["id"] = technology.id
 				one_dict["name"] = technology.name
-				one_dict["color"] = technology.color
 				one_dict["desc"] = technology.desc
 				data_list.append(one_dict)
 			result_dict["data"] = data_list
@@ -108,11 +107,10 @@ class ProjectsListInfo(View):
 					"id": one.id,
 					"name": one.name,
 					"desc": one.desc,
-					"color": one.color,
 					"is_lock": one.is_lock,
 					"home_show": one.home_show,
 					"pathwel": one.pathwel.url if one.pathwel else "",
-					"technology": {"name": one.technology.name, "color": one.technology.color},
+					"technology": {"name": one.technology.name},
 					"video": {
 						"id": one.video.id if one.video else "",
 						"docker": one.video.docker if one.video else "",
@@ -207,7 +205,6 @@ class ProjectsDetailInfo(View):
 					detail["id"] = projects_obj.id
 					detail["name"] = projects_obj.name
 					detail["desc"] = projects_obj.desc
-					detail["color"] = projects_obj.color
 
 					courses = projects_obj.Courses.all().order_by("sequence")
 					# 提供分页数据
@@ -299,10 +296,10 @@ def project_summarize_course_progress(custom_user_id, course, previous_course):
 	}
 	try:
 		# 判断是否解锁
-		if not previous_course:
+		if not previous_course:  # 没有上一个课程
 			result_dict["unlock"] = True
 		else:
-			assessment_video = previous_course.Section.last().Videos.filter(type="2")  # 上一个课程->最后章节->考核
+			assessment_video = previous_course.Section.last().Videos.filter(type="3")  # 上一个课程->最后章节->考核
 			if assessment_video.exists():
 				filter_param = {
 					"custom_user__id": custom_user_id,

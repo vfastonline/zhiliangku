@@ -21,7 +21,6 @@ from zhiliangku.settings import BASE_DIR
 class Technology(models.Model):
 	"""技术方向"""
 	name = models.CharField('名称', max_length=50)
-	color = ColorField('颜色', max_length=50, default='#FFFFFF')
 	desc = models.TextField('简介', default='', blank=True, null=True)
 	video = models.ForeignKey("Video", verbose_name='总考核', related_name='Technology', blank=True, null=True,
 	                          limit_choices_to={'type': 3}, help_text=u"针对本技术方向下所有项目的总考核")
@@ -40,7 +39,6 @@ class Project(models.Model):
 	name = models.CharField('名称', max_length=50)
 	desc = models.TextField('简介', max_length=1000, blank=True, null=True, default='')
 	technology = models.ForeignKey(Technology, verbose_name="技术分类", blank=True, null=True)
-	color = ColorField('颜色', max_length=50, default="#00CCFF")
 	is_lock = models.BooleanField("锁定", default=True)
 	home_show = models.BooleanField("首页展示", default=False)
 	pathwel = models.ImageField('介绍图片', upload_to='project/%Y%m%d', storage=ImageStorage(), null=True, blank=True)
