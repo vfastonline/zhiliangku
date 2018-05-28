@@ -1,5 +1,7 @@
 <template>
-  <el-button><slot></slot></el-button>
+  <el-button >
+    <slot></slot>
+  </el-button>
 </template>
 
 <script>
@@ -9,6 +11,7 @@
   Vue.use(Button)
   export default {
     name: "grey_button",
+    props: {s: {}}
   }
 </script>
 
@@ -39,7 +42,7 @@
   }
 
   .el-button + .el-button {
-    margin-left: 10px
+    margin-left: 0px
   }
 
   .el-button:focus, .el-button:hover {
