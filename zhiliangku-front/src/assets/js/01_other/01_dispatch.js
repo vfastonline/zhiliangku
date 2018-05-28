@@ -3,15 +3,16 @@ module.exports = (function () {
   func.goCourse = function (type, courseId, videoId) {
     switch (type * 1) {
       case 1:
+       window.open('/tracks/video/detail/?course_id=' + courseId + '&video_id=' + videoId )
+        break;
       case 2:
-        window.open('/tracks/video/detail/?course_id=' + courseId + '&video_id=' + videoId +'#/note')
+        window.open('/exercise/list/?video_id=' + videoId)
         break;
+       
       case 3:
-        window.open('/tracks/live/detail/?course_id=' + courseId + '&video_id=' + videoId)
+        window.open('/assess/info/?video_id=' + videoId)
         break;
-      case 4:
-        window.open('/exercise/list/?course_id=' + courseId + '&video_id=' + videoId)
-        break;
+
       default:
         break;
     }
