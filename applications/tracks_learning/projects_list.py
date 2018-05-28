@@ -382,5 +382,5 @@ def project_summarize_course_progress(custom_user_id, course, previous_course, c
 	except:
 		traceback.print_exc()
 		logging.getLogger().error(traceback.format_exc())
-	finally:
 		return result_dict
+	return result_dict
