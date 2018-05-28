@@ -51,8 +51,10 @@
         this.$get('/exercise/list/info?video_id=' + this.$fn.funcUrl('video_id')).then(res => {
           res.data.data.forEach((element, index) => {
             element.correct_response = ''
-            element.index = index;
+            element.index = index
+            //下行代码是什么意思
             element.selectedIndex = -1
+            //下行代码又是什么意思
             element.s_state=0
             element.answers.forEach(item => {
               item.s_state=0

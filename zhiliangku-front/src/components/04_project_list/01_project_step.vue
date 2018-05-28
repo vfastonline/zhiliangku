@@ -1,33 +1,39 @@
 <template>
-  <section class=" project_step r rose "  >
+  <section class=" project_step r rose ">
     <div class="mock a" v-if="main_data.is_lock">
       <img class="cc" src="./img/lock_icon.png" alt="">
     </div>
-    <div class="project_title" :style = "{'background-color': top_color}">
+    <div class="project_title" :style="{'background-color': top_color}">
       <img class="vm" src="./img/01_book_tag.png" alt="">
       <span class="font1_18_f dib">时长：{{main_data.total_time}}</span>
       <span class="line2"></span>
     </div>
     <div class="project_info ftj">
       <span class="font1_22_3 dib vbt project_name">{{main_data.name}}</span>
-      <CB class="vb" :class="main_data.technology.color">{{main_data.technology.name}}</CB>
+      <span :style="{'background-color': top_color}" class="tech_tag vb dib font1_18_f" :class="main_data.technology.color">{{main_data.technology.name}}</span>
       <span class="line2"></span>
     </div>
     <p class="project_text font2_14_9" v-html="main_data.desc"></p>
     <div class="ftc">
       <a :href="link" target="_blank">
-        <BlueButton >查看详情</BlueButton>
+        <BlueButton>查看详情</BlueButton>
       </a>
     </div>
   </section>
 </template>
 
 <style scoped>
-  .mock{
+  .tech_tag{
+    padding: 0 20px;
+    border-radius: 10px;
+    line-height: 28px;
+  }
+  .mock {
     height: 312px;
     width: 370px;
-    background-color: rgba(153,153,153,.5);
+    background-color: rgba(153, 153, 153, .5);
   }
+
   .project_step {
     width: 370px;
     height: 312px;
@@ -58,9 +64,9 @@
   .project_name {
     line-height: 36px;
   }
+
   .project_text {
-    padding: 5px 20px 5px 30px;
-    margin-bottom: 25px;
+    margin: 5px 20px 30px 30px;
     height: 102px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -72,13 +78,14 @@
 </style>
 <script>
   import CB from '../00_common/07_dark_blue_button'
-import BlueButton from '../00_common/04_blue_button'
+  import BlueButton from '../00_common/04_blue_button'
+
   export default {
     name: "project_item",
     data() {
       return {
         colorArr: ['#324e5c', '#c25a75'],
-        link:''
+        link: ''
       }
     },
     props: {
@@ -97,14 +104,14 @@ import BlueButton from '../00_common/04_blue_button'
     },
     components: {
       CB: CB,
-      BlueButton:BlueButton
+      BlueButton: BlueButton
     },
     methods: {
-      organize_link(){
-         this.link="/tracks/projects/detail/?project_id="+this.main_data.id
+      organize_link() {
+        this.link = "/tracks/projects/detail/?project_id=" + this.main_data.id
       }
     },
-    created(){
+    created() {
       this.organize_link()
     }
   }
