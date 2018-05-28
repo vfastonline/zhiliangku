@@ -63,6 +63,9 @@
     },
     created() {
       Bus.$on('specify_display', this.specify_display)
+      Bus.$on('loginPagerLogin',res=>{
+        debugger
+      })
     }
   }
 </script>

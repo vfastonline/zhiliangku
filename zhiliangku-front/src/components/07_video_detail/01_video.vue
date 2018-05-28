@@ -105,6 +105,7 @@
     height: 100%;
     overflow: hidden;
     background-color: #3c4451;
+    box-sizing:border-box;
   }
 
   .content_list {
