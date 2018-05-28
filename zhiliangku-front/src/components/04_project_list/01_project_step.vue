@@ -67,7 +67,7 @@
 
   .project_text {
     margin: 5px 20px 30px 30px;
-    height: 102px;
+    height: 110px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
