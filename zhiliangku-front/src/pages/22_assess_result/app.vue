@@ -3,13 +3,13 @@
     <div id="main">
       <MyHeader></MyHeader>
       <div class="main_box mw hc">
-        <Success :status=a></Success>
+        <component :is="isComponent"></component>
       </div>
-      <Message></Message>
-      <div class="bottom_button mw hc ftc">
-        <Button class="hc ftc">查看详情</Button>
-        <Button class="hc ftc">重新答题</Button>
-        <Button class="hc ftc">重新学习</Button>
+      <Message v-if="a===0"></Message>
+      <div class="bottom_box mw hc ftc">
+        <Button v-if="a===1" class="bottom_button hc ftc">查看详情</Button>
+        <Button v-if="a===0" class="bottom_button hc ftc">重新答题</Button>
+        <Button v-if="a===0" class="bottom_button hc ftc">重新学习</Button>
       </div>
       <ImageBlock :src="$myConst.httpUrl+'/media/image/static/project_list_02_bottom.png'"></ImageBlock>
     </div>
@@ -21,8 +21,13 @@
     /*min-height:70vh;*/
   }
 
-  .bottom_button {
+  .bottom_box {
     margin-top: 30px;
+  }
+
+  .bottom_button {
+    width: 200px;
+    height: 60px;
   }
 </style>
 
@@ -30,6 +35,7 @@
   import MyHeader from '../../components/01_header_footer/01_header'
   import F from '../../components/01_header_footer/03_footer'
   import Success from '../../components/22_assess_result/02_success'
+  import Failure from '../../components/22_assess_result/01_failure'
   import Button from '../../components/00_common/04_blue_button'
   import ImageBlock from '../../components/00_common/08_image_block'
   import Message from '../../components/22_assess_result/03_message'
@@ -39,7 +45,7 @@
     data() {
       return {
         status_arr: ['success', 'failure'],
-        a: 0,//临时数据
+        a: 1,//临时数据
         main_data: {}
       }
     },
@@ -47,6 +53,7 @@
       MyHeader: MyHeader,
       F: F,
       Success: Success,
+      Failure: Failure,
       Button: Button,
       ImageBlock: ImageBlock,
       Message: Message
@@ -65,10 +72,16 @@
           }
 
         })
-      }
+      },
+
     },
     created() {
       this.getResult()
+    },
+    computed: {
+      isComponent() {
+        return  (this.a===1) ? Success : Failure
+      }
     }
 
   }

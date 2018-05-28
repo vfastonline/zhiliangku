@@ -201,40 +201,42 @@ class AssessmentResultInfo(View):
 		}
 
 	def post(self, request, *args, **kwargs):
-		result_dict = {"err": 0, "msg": "success", "grade": "0"}
 		try:
 			param_dict = json.loads(request.body)
 			self.token = kwargs.get('token', "")  # 当前登录用户token
 			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			self.video_id = str_to_int(param_dict.get('video_id', 0))
-			self.container = "-".join([self.token, str(self.video_id)])  # 容器的名称
 
 			videos = Video.objects.filter(id=self.video_id, type="3")
 			if videos.exists():
+				self.container = "-".join([self.token, str(self.video_id)])  # 容器的名称
 				self.shell_name = videos.first().shell.url.split("/")[-1]
 
-			# 通过shell判题
-			param = {"kaohe_sh": kaohe_sh, "container": self.container, "shell_name": self.shell_name}
-			command = "ssh root@docker sh {kaohe_sh} {container} {shell_name}".format(**param)
-			result_info = commands.getoutput(command)
-			print type(result_info), result_info
-
 			is_pass = 0
-			try:
-				command_result_dicts = json.loads(result_info)
-				is_pass = str_to_int(command_result_dicts.get("pass", 0))
-				right = command_result_dicts.get("right", 0)
-				wrong = command_result_dicts.get("wrong", 0)
-				msg = command_result_dicts.get("msg", "")
-				result_dict["data"]["is_pass"] = is_pass
-				result_dict["data"]["right"] = right
-				result_dict["data"]["wrong"] = wrong
-				result_dict["data"]["msg"] = msg
-			except:
-				traceback.print_exc()
-				logging.getLogger().error(traceback.format_exc())
-				result_dict["err"] = 1
-				result_dict["msg"] = traceback.format_exc()
+			if self.container and self.shell_name:
+				# 通过shell判题
+				param = {"kaohe_sh": kaohe_sh, "container": self.container, "shell_name": self.shell_name}
+				command = "ssh root@docker sh {kaohe_sh} {container} {shell_name}".format(**param)
+				result_info = commands.getoutput(command)
+				print type(result_info), result_info
+
+				try:
+					command_result_dicts = json.loads(result_info)
+					is_pass = str_to_int(command_result_dicts.get("pass", 0))
+					right = command_result_dicts.get("right", 0)
+					wrong = command_result_dicts.get("wrong", 0)
+					msg = command_result_dicts.get("msg", "")
+					self.result_dict["data"]["is_pass"] = is_pass
+					self.result_dict["data"]["right"] = right
+					self.result_dict["data"]["wrong"] = wrong
+					self.result_dict["data"]["msg"] = msg
+				except:
+					traceback.print_exc()
+					logging.getLogger().error(traceback.format_exc())
+					self.result_dict["err"] = 1
+					self.result_dict["msg"] = traceback.format_exc()
+			else:
+				self.result_dict["msg"] = u"未找到正确考核信息"
 
 			# 增加学生通过考核记录
 			if is_pass:
@@ -247,10 +249,10 @@ class AssessmentResultInfo(View):
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
-			result_dict["err"] = 1
-			result_dict["msg"] = traceback.format_exc()
+			self.result_dict["err"] = 1
+			self.result_dict["msg"] = traceback.format_exc()
 		finally:
-			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
 
 	def destroy(self):
 		"""销毁docker
