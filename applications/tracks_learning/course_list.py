@@ -427,9 +427,19 @@ class CourseDetailInfo(View):
 									"course": course_obj,
 									"status": 1
 								}
-								watchrecords = WatchRecord.objects.filter(**watchrecord_param)
-								if watchrecords.exists():
-									video_dict["is_complete"] = 1
+								if video.type == "1":
+									watchrecords = WatchRecord.objects.filter(**watchrecord_param)
+									if watchrecords.exists():
+										video_dict["is_complete"] = 1
+
+								param = {
+									"custom_user__id": self.custom_user_id,
+									"video": video,
+								}
+								if video.type == "3":
+									unlockvideos = UnlockVideo.objects.filter(**param)
+									if unlockvideos.exists():
+										video_dict["is_complete"] = 1
 
 								video_list.append(video_dict)
 						if video_list:
