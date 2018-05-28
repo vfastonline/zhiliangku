@@ -201,7 +201,6 @@ class AssessmentResultInfo(View):
 		}
 
 	def post(self, request, *args, **kwargs):
-		result_dict = {"err": 0, "msg": "success", "grade": "0"}
 		try:
 			param_dict = json.loads(request.body)
 			self.token = kwargs.get('token', "")  # 当前登录用户token
@@ -226,15 +225,15 @@ class AssessmentResultInfo(View):
 				right = command_result_dicts.get("right", 0)
 				wrong = command_result_dicts.get("wrong", 0)
 				msg = command_result_dicts.get("msg", "")
-				result_dict["data"]["is_pass"] = is_pass
-				result_dict["data"]["right"] = right
-				result_dict["data"]["wrong"] = wrong
-				result_dict["data"]["msg"] = msg
+				self.result_dict["data"]["is_pass"] = is_pass
+				self.result_dict["data"]["right"] = right
+				self.result_dict["data"]["wrong"] = wrong
+				self.result_dict["data"]["msg"] = msg
 			except:
 				traceback.print_exc()
 				logging.getLogger().error(traceback.format_exc())
-				result_dict["err"] = 1
-				result_dict["msg"] = traceback.format_exc()
+				self.result_dict["err"] = 1
+				self.result_dict["msg"] = traceback.format_exc()
 
 			# 增加学生通过考核记录
 			if is_pass:
@@ -247,10 +246,10 @@ class AssessmentResultInfo(View):
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
-			result_dict["err"] = 1
-			result_dict["msg"] = traceback.format_exc()
+			self.result_dict["err"] = 1
+			self.result_dict["msg"] = traceback.format_exc()
 		finally:
-			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
 
 	def destroy(self):
 		"""销毁docker
