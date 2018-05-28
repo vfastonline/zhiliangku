@@ -90,12 +90,10 @@
   .blue_button {
     display: none !important;
   }
-
   .write_note, .submit_question {
     padding: 0 10px;
     margin-right: 40px;
   }
-
   .router-link-active {
     color: #23B8FF;
     .grey_button {
@@ -105,12 +103,10 @@
       display: inline-block !important;
     }
   }
-
   .vc-nav-bar {
     background: white;
     padding: 40px 0 40px;
   }
-
   .vc-nav-tag {
     margin: 0 20px;
   }
