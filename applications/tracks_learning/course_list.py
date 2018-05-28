@@ -420,7 +420,7 @@ class CourseDetailInfo(View):
 								if video.type in ["1", "2"]:
 									m, s = divmod(video.duration, 60)
 								else:
-									m, s = divmod(video.assess_time*60, 60)
+									m, s = divmod(video.assess_time * 60, 60)
 								h, m = divmod(m, 60)
 								video_dict["duration"] = "%02d:%02d:%02d" % (h, m, s)
 

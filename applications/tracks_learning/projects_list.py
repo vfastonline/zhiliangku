@@ -230,7 +230,6 @@ class ProjectsDetailInfo(View):
 
 					# 项目下所有课程
 					detail["courses"] = list()
-					previous_course = None
 					for course in course_objs:
 						course_dict = {
 							"id": course.id,
@@ -242,13 +241,9 @@ class ProjectsDetailInfo(View):
 							"summary": {}
 						}
 						# 获取课程所有视频总时长
-						summarize_dict = project_summarize_course_progress(custom_user_id, course, previous_course,
-						                                                   list(courses))
+						summarize_param = [custom_user_id, course, list(courses)]
+						summarize_dict = project_summarize_course_progress(*summarize_param)
 						course_dict["summary"] = summarize_dict
-						previous_course = course
-
-						# 汇总当前用户完成百分比
-
 						detail["courses"].append(course_dict)
 			self.result_dict["data"] = detail
 
@@ -275,14 +270,13 @@ class ProjectsDetailInfo(View):
 			traceback.print_exc()
 
 
-def project_summarize_course_progress(custom_user_id, course, previous_course, courses=[]):
+def project_summarize_course_progress(custom_user_id, course, courses=list(), previous_num=1):
 	"""汇总项目下每个课程完成进度
 	:param custom_user_id:用户ID
-	:param course:课程
-	:param previous_course:上一个课程
+	:param course:当前要汇总的课程
+	:param courses:项目下所有课程列表
 	:return:课程学习进度
 	"""
-	# print previous_course, course
 	result_dict = {
 		"total_time": "",  # 课程总时长，秒
 		"remaining_time": "",  # 用户剩余学习时长，秒
@@ -296,6 +290,13 @@ def project_summarize_course_progress(custom_user_id, course, previous_course, c
 		"unlock": False,  # 解锁
 	}
 	try:
+		# 获取当前课程上一个课程
+		previous_index = courses.index(course) - previous_num
+		if previous_index >= 0:
+			previous_course = courses[previous_index]
+		else:
+			previous_course = None
+
 		# 判断是否解锁
 		if not previous_course:  # 没有上一个课程
 			result_dict["unlock"] = True
@@ -314,16 +315,11 @@ def project_summarize_course_progress(custom_user_id, course, previous_course, c
 					if unlockvideos.exists():
 						result_dict["unlock"] = True
 						break
+
 			# 上一个课程所有章节中都没有考核
 			if not previous_course_has_assessment:
 				# 查找previous_course课程的上一个课程
-				previous_index = courses.index(previous_course) - 1
-				if previous_index >= 0:
-					previous_course = courses[previous_index]
-					return project_summarize_course_progress(custom_user_id, course, previous_course, courses)
-				else:
-					# 项目下已经没有上一个课程
-					result_dict["unlock"] = True
+				return project_summarize_course_progress(custom_user_id, course, courses, previous_num + 1)
 
 		# 课程时长
 		sections = course.Section.all()
