@@ -314,7 +314,7 @@ def project_summarize_course_progress(custom_user_id, course, previous_course, c
 					if unlockvideos.exists():
 						result_dict["unlock"] = True
 						break
-			print result_dict["unlock"], course, previous_course
+			print result_dict["unlock"], course, previous_course, previous_course_has_assessment
 			# 上一个课程所有章节中都没有考核
 			if not previous_course_has_assessment:
 				# 查找previous_course课程的上一个课程
