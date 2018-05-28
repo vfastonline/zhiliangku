@@ -101,7 +101,6 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             var obj = {}
-
             obj.age = this.ruleForm2.account
             obj.pass = this.ruleForm2.pass
             obj.referrer = true
