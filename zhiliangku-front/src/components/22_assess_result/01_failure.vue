@@ -8,7 +8,7 @@
       <img :src="$myConst.httpUrl+'/media/image/static/assess_result_01_sad.png'" alt="">
     </div>
     <div class="success_bottom ftc">
-      <p class="font1_18_6">本次考核结果：</p>
+      <p class="font1_18_6">本次考核结果：答对 {{main_data.right||0}} 题，答错 {{main_data.wrong||0}} 题</p>
     </div>
   </div>
 </template>
@@ -18,7 +18,7 @@
       return {}
     },
     props: {
-      status: ''
+      main_data: ''
     }
   }
 </script>

@@ -5,12 +5,12 @@
       <div class="list" v-html="content.topic">
       </div>
       <div>
-        <iframe :src="src" onload="" frameborder="0" width="1088px" height="400" scrolling='no'
+        <iframe :src="src" onload="" frameborder="0" width="1000px" height="400" scrolling='no'
                 hspace="0"
                 vspace="0"></iframe>
       </div>
       <div class="submit_container">
-        <el-button type="primary" @click="submit()" size="medium">提交答案</el-button>
+        <el-button class="submit_buttton" type="primary" @click="submit()" size="medium">提交答案</el-button>
       </div>
     </div>
   </div>
@@ -19,9 +19,9 @@
 <style lang="scss">
   .list {
     p {
-      line-height: 48px;
-      height: 48px;
-      font-size: 32px;
+      line-height: 30px;
+      height: 30px;
+      font-size: 20px;
     }
     margin-bottom: 32px;
   }
@@ -46,10 +46,15 @@
     text-align: right;
   }
 
+  .submit_buttton {
+    margin:25px 100px 80px 0; 
+  }
+
   .test_container {
-    margin-top: 32px;
-    border-radius: 10px;
-    padding: 24px
+    padding-left:100px;
+    line-height:30px;
+    font-size:20px;
+    color:#666;
   }
 
 
@@ -66,22 +71,26 @@
         src: '',
         content: {
           topic: ''
-        }
+        },
+        vid: ''
       }
     },
     props: {},
     methods: {
       get_data() {
-        let vid = this.$fn.funcUrl('video_id')
-        if (!vid) {
+        this.vid = this.$fn.funcUrl('video_id')
+        if (!this.vid) {
           this.$fn.showNotice(this, '地址栏video_id错误')
           return
         }
-        this.$get('/assess/construct?video_id=' + vid).then(res => {
+        this.$get('/assess/construct?video_id=' + this.vid).then(res => {
           let data = res.data.data
           this.content = data
           this.src = 'http://' + data.docker
         })
+      },
+      submit() {
+        window.open("/assess/result/info/?video_id=" + this.vid)
       }
     },
     created() {

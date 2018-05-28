@@ -3,12 +3,7 @@
     <div class="message_top ftc font1_28_f">
       <p>错误提示</p>
     </div>
-    <div class="message_content font1_22_9">
-      <p>错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示</p>
-      <p>错误提示</p>
-      <p>错误提示 错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示错误提示</p>
-
-    </div>
+    <div class="message_content font1_22_9">{{main_message.msg||"暂无消息"}}</div>
   </div>
 </template>
 <style>
@@ -23,13 +18,29 @@
     height: 60px;
     line-height: 60px;
     background-color: #324e5c;
+    border-radius:10px;
   }
 
-  .message_content p {
-    line-height: 30px;
+  .message_content {
+      line-height: 30px;
     padding: 20px 60px 0 60px;
+  }
+  .message_content:p {
+      margin-bottom:30px;
+  }
+ 
+  .message_content:last-child {
+    margin-bottom:0;
   }
 </style>
 <script>
-
+  export default {
+    data() {
+      return {
+      }
+    },
+    props: {
+        main_message: {}        
+    }
+  }
 </script>
