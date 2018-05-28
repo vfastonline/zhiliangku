@@ -417,7 +417,10 @@ class CourseDetailInfo(View):
 								video_dict["address"] = video.address.url if video.address else ""
 								video_dict["subtitle"] = video.subtitle.url if video.subtitle else ""
 								video_dict["unlock"] = unlock
-								m, s = divmod(video.duration, 60)
+								if video.type in ["1", "2"]:
+									m, s = divmod(video.duration, 60)
+								else:
+									m, s = divmod(video.assess_time, 60)
 								h, m = divmod(m, 60)
 								video_dict["duration"] = "%02d:%02d:%02d" % (h, m, s)
 
