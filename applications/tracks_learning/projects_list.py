@@ -242,7 +242,8 @@ class ProjectsDetailInfo(View):
 							"summary": {}
 						}
 						# 获取课程所有视频总时长
-						summarize_dict = project_summarize_course_progress(custom_user_id, course, previous_course)
+						summarize_dict = project_summarize_course_progress(custom_user_id, course, previous_course,
+						                                                   list(courses))
 						course_dict["summary"] = summarize_dict
 						previous_course = course
 
@@ -274,7 +275,7 @@ class ProjectsDetailInfo(View):
 			traceback.print_exc()
 
 
-def project_summarize_course_progress(custom_user_id, course, previous_course):
+def project_summarize_course_progress(custom_user_id, course, previous_course, courses=[]):
 	"""汇总项目下每个课程完成进度
 	:param custom_user_id:用户ID
 	:param course:课程
@@ -299,17 +300,31 @@ def project_summarize_course_progress(custom_user_id, course, previous_course):
 		if not previous_course:  # 没有上一个课程
 			result_dict["unlock"] = True
 		else:
-			assessment_video = previous_course.Section.last().Videos.filter(type="3")  # 上一个课程->最后章节->考核
-			if assessment_video.exists():
-				filter_param = {
-					"custom_user__id": custom_user_id,
-					"video": assessment_video.first()
-				}
-				unlockvideos = UnlockVideo.objects.filter(**filter_param)
-				if unlockvideos.exists():
+			sections = previous_course.Section.order_by("-sequence")  # 章节倒序
+			previous_course_has_assessment = False  # 上一个课程的章节中有考核
+			for one_section in sections:
+				assessment_video = one_section.Videos.filter(type="3")  # 上一个课程->章节->考核
+				if assessment_video.exists():
+					previous_course_has_assessment = True
+					filter_param = {
+						"custom_user__id": custom_user_id,
+						"video": assessment_video.first()
+					}
+					unlockvideos = UnlockVideo.objects.filter(**filter_param)
+					if unlockvideos.exists():
+						result_dict["unlock"] = True
+						break
+			# 上一个课程所有章节中都没有考核
+			if not previous_course_has_assessment:
+				# 查找previous_course课程的上一个课程
+				previous_index = courses.index(previous_course) - 1
+				if previous_index >= 0:
+					previous_course = courses[previous_index]
+					project_summarize_course_progress(custom_user_id, course, previous_course, courses)
+				else:
+					# 项目下已经没有上一个课程
 					result_dict["unlock"] = True
-			else:
-				result_dict["unlock"] = True
+
 		# 课程时长
 		sections = course.Section.all()
 		duration_sum = Video.objects.filter(section__in=sections).aggregate(Sum('duration')).get("duration__sum")
