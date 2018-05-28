@@ -21,7 +21,6 @@ from zhiliangku.settings import BASE_DIR
 class Technology(models.Model):
 	"""技术方向"""
 	name = models.CharField('名称', max_length=50)
-	color = ColorField('颜色', max_length=50, default='#FFFFFF')
 	desc = models.TextField('简介', default='', blank=True, null=True)
 	video = models.ForeignKey("Video", verbose_name='总考核', related_name='Technology', blank=True, null=True,
 	                          limit_choices_to={'type': 3}, help_text=u"针对本技术方向下所有项目的总考核")

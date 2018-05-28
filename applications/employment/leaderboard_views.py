@@ -128,7 +128,6 @@ class LeaderboardListInfo(View):
 			for one_project in projects:
 				technology = {
 					"name": one_project.technology.name,
-					"color": one_project.technology.color
 				}
 				technologys.append(technology)
 		except:

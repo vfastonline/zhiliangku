@@ -21,7 +21,6 @@ class TechnologyListInfo(View):
 				one_dict = dict()
 				one_dict["id"] = technology.id
 				one_dict["name"] = technology.name
-				one_dict["color"] = technology.color
 				one_dict["desc"] = technology.desc
 				data_list.append(one_dict)
 			result_dict["data"] = data_list
@@ -111,7 +110,7 @@ class ProjectsListInfo(View):
 					"is_lock": one.is_lock,
 					"home_show": one.home_show,
 					"pathwel": one.pathwel.url if one.pathwel else "",
-					"technology": {"name": one.technology.name, "color": one.technology.color},
+					"technology": {"name": one.technology.name},
 					"video": {
 						"id": one.video.id if one.video else "",
 						"docker": one.video.docker if one.video else "",
