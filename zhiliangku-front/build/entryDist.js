@@ -40,7 +40,7 @@ const entry = {
   },
   assess_result:{
     path:'22_assess_result',
-    filename:'assess/result/info'
+    filename:'assess/result/info/index.html'
   }
 }
 var entryObj = {}
