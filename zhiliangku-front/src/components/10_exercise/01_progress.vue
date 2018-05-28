@@ -3,10 +3,11 @@
     <div class="mw progress-bar">
       <!-- 已知此进度条的宽度为总宽度减去32并且除以（length-1） -->
       <div class="progress-background-bar " :style="{'width':barWidth+'px'}"></div>
-      <span v-for="(item,index) in mainData" :key="index" @click="mainfun(index)" class="progress-dot cp "
-            :class="item.className">
-        <img v-if="item.className=='right-selected'" src="./img/right.svg" alt="">
-        <img v-if="item.className=='wrong-selected'" src="./img/wrong.svg" alt="">
+      <span v-for="(item,index) in mainData"
+            :key="index" @click="main_func(index)" class="progress-dot cp "
+            >
+        <img  src="./img/right.png" alt="">
+        <img  src="./img/wrong.png" alt="">
       </span>
     </div>
   </div>
@@ -22,28 +23,22 @@
         barWidth: 0,
         //这里相当于是点击的最大index的一个记录
         barWidthIndex: -1,
+        // 这是决定按钮排布显隐的信息
         buttonInfo: {},
+        //  用途为上一题或者下一题的时候有一个参照能够准确找到题目
         activeIndex: ''
       }
     },
     methods: {
-      mainfun(index) {
-        var item = this.mainData[index];
+      rate_of_progress(index){
         if (index > this.barWidthIndex) {
           this.barWidthIndex = index;
           this.barWidth = 1168 * index / (this.mainData.length - 1);
         }
-        var mainData = this.mainData;
-        mainData.forEach((element, elindex) => {
-          if (element.className == 'max-index-selected') {
-            element.className = 'unselected'
-          }
-        })
-        if (item.className == 'unselected') {
-          item.className = "max-index-selected"
-
-        }
-        //   记录当前激活的题目
+      },
+      main_func(index) {
+        this.rate_of_progress(index)
+        let item = this.mainData[index];
         this.activeIndex = index;
         //   将控制按钮显示和隐藏的信息传递过去
         this.buttonInfo = {
@@ -52,55 +47,28 @@
         }
         Bus.$emit('changeQuestion', item, this.buttonInfo);
       },
-      handleClassName(obj) {
-        if (obj.right_answer_name != obj.selectedOptionName) {
-          obj.answers[obj.selectedIndex].className = 'wrong-option';
-          obj.className = "wrong-selected"
-          obj.answers.forEach(element => {
-            if (element.option_name == obj.right_answer_name) {
-              element.className = 'right-option'
-            }
-          })
-        }
-        if (obj.right_answer_name == obj.selectedOptionName) {
-          obj.answers[obj.selectedIndex].className = 'right-option'
-          obj.className = 'right-selected'
-        }
-      },
       get_data(){
         this.$get('/exercise/list/info?video_id=' + this.$fn.funcUrl('video_id')).then(res => {
           res.data.data.forEach((element, index) => {
-            element.right_answer_name = ''
+            element.correct_response = ''
             element.index = index;
             element.selectedIndex = -1
-            element.className = 'unselected'
+            element.s_state=0
             element.answers.forEach(item => {
-              item.className = 'other-option'
+              item.s_state=0
             })
           })
           this.mainData = res.data.data
-          this.mainfun(0, this.mainData[0])
+          this.main_func(0)
         })
-      }
-    },
-    created() {
-      Bus.$on('verifyAnswer', res => {
-        this.mainData[res.index].right_answer_name = res.right_answer_option_name;
-        this.handleClassName(this.mainData[res.index])
-      })
-      Bus.$on('aheadQuestion', res => {
-        this.mainfun((this.activeIndex - 1))
-      })
-      Bus.$on('nextQuestion', () => {
-        this.mainfun((this.activeIndex + 1))
-      })
-      Bus.$on('submitPaper', () => {
+      },
+      count_score(){
         // 这是计算得分的模块
         var r = 0,w=0,s=0,value=0;
         for (var i = 0; i < this.mainData.length; i++) {
           var obj = this.mainData[i];
           if (obj.selectedOptionName) {
-            if (obj.selectedOptionName == obj.right_answer_name) {
+            if (obj.selectedOptionName == obj.correct_response) {
               r++
             }else{w++}
           }else{
@@ -112,8 +80,27 @@
         }
         var obj1={'r':r,'w':w,'s':s,'score':value};
         Bus.$emit('haveScoreReady',obj1);
-      })
+      }
+    },
+    created() {
+      //获得数据
       this.get_data()
+      Bus.$on('verifyAnswer', res => {
+        //这行代码谜一样
+        this.mainData[res.index].correct_response = res.right_answer_option_name;
+      })
+      // 上一题
+      Bus.$on('aheadQuestion', res => {
+        this.main_func((this.activeIndex - 1))
+      })
+      // 下一题
+      Bus.$on('nextQuestion', () => {
+        this.main_func((this.activeIndex + 1))
+      })
+      // 显示得分
+      Bus.$on('submitPaper', () => {
+        this.count_score()
+      })
     },
     mounted() {}
   }
