@@ -379,7 +379,7 @@ class CourseDetailInfo(View):
 							"desc": one_section.desc,
 							"unlock": False
 						}
-						videos = one_section.Videos.all().order_by("sequence")
+						videos = one_section.Videos.all().order_by("sequence")  # 章节下所有课程列表
 
 						video_list = list()
 						if videos.exists():

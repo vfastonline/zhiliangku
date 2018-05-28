@@ -324,6 +324,8 @@ def project_summarize_course_progress(custom_user_id, course, previous_course, c
 				else:
 					# 项目下已经没有上一个课程
 					result_dict["unlock"] = True
+			if course.name == u"Linux管理":
+				print result_dict["unlock"], course, previous_course
 
 		# 课程时长
 		sections = course.Section.all()
