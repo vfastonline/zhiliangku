@@ -40,7 +40,6 @@ class Project(models.Model):
 	name = models.CharField('名称', max_length=50)
 	desc = models.TextField('简介', max_length=1000, blank=True, null=True, default='')
 	technology = models.ForeignKey(Technology, verbose_name="技术分类", blank=True, null=True)
-	color = ColorField('颜色', max_length=50, default="#00CCFF")
 	is_lock = models.BooleanField("锁定", default=True)
 	home_show = models.BooleanField("首页展示", default=False)
 	pathwel = models.ImageField('介绍图片', upload_to='project/%Y%m%d', storage=ImageStorage(), null=True, blank=True)
