@@ -66,7 +66,6 @@
           // console.log("res.data")
           //请求数据 接口报错了。
           if (!res.err) {
-            res.data.data.is_pass=1
             this.main_data = res.data.data
             console.log(res.data);
           }
