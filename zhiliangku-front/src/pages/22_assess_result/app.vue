@@ -3,13 +3,13 @@
     <div id="main">
       <MyHeader></MyHeader>
       <div class="main_box mw hc">
-        <component :is="isComponent"></component>
+        <component :is="isComponent" :main_data="main_data"></component>
       </div>
-      <Message v-if="a===0"></Message>
+      <Message v-if="main_data.is_pass===0" :main_message="main_data"></Message>
       <div class="bottom_box mw hc ftc">
-        <Button v-if="a===1" class="bottom_button hc ftc">查看详情</Button>
-        <Button v-if="a===0" class="bottom_button hc ftc">重新答题</Button>
-        <Button v-if="a===0" class="bottom_button hc ftc">重新学习</Button>
+        <Button v-if="main_data.is_pass===1" class="bottom_button hc ftc">查看详情</Button>
+        <Button v-if="main_data.is_pass===0" class="bottom_button hc ftc">重新答题</Button>
+        <Button v-if="main_data.is_pass===0" class="bottom_button hc ftc">重新学习</Button>
       </div>
       <ImageBlock :src="$myConst.httpUrl+'/media/image/static/project_list_02_bottom.png'"></ImageBlock>
     </div>
@@ -44,8 +44,6 @@
   export default {
     data() {
       return {
-        status_arr: ['success', 'failure'],
-        a: 1,//临时数据
         main_data: {}
       }
     },
@@ -68,7 +66,9 @@
           // console.log("res.data")
           //请求数据 接口报错了。
           if (!res.err) {
-            this.main_data = res.data
+            res.data.data.is_pass=1
+            this.main_data = res.data.data
+            console.log(res.data);
           }
 
         })
@@ -80,7 +80,7 @@
     },
     computed: {
       isComponent() {
-        return  (this.a===1) ? Success : Failure
+        return  (this.main_data.is_pass===1) ? Success : Failure
       }
     }
 
