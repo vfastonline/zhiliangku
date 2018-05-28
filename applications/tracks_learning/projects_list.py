@@ -324,12 +324,11 @@ def project_summarize_course_progress(custom_user_id, course, previous_course, c
 				else:
 					# 项目下已经没有上一个课程
 					result_dict["unlock"] = True
-			if course.name == u"Linux管理":
-				print result_dict["unlock"], course, previous_course
+			print result_dict["unlock"], course, previous_course
 
 		# 课程时长
 		sections = course.Section.all()
-		duration_sum = Video.objects.filter(section__in=sections).aggregate(Sum('duration')).get("duration__sum")
+		duration_sum = Video.objects.filter(section__in=sections).aggregate(Sum('duration')).get("duration__sum", 0)
 		m, s = divmod(duration_sum, 60)
 		h, m = divmod(m, 60)
 		total_time_str = "%02d:%02d:%02d" % (h, m, s)
