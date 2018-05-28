@@ -10,14 +10,14 @@ from zhiliangku.settings import tinymce_js
 
 @admin.register(Technology)
 class TechnologyAdmin(admin.ModelAdmin):
-	list_display = ('id', "name", "color", "desc", "video")
+	list_display = ('id', "name", "desc", "video")
 	search_fields = ('name',)
 	form = TechnologyForm
 
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-	list_display = ('id', "name", "technology", "color", "desc", "is_lock", "home_show", "pathwel", "video")
+	list_display = ('id', "name", "technology", "desc", "is_lock", "home_show", "pathwel", "video")
 	search_fields = ('name',)
 
 	def technology(self, obj):
