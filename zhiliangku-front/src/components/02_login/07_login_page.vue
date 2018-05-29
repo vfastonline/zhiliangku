@@ -106,9 +106,10 @@
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
+          debugger
           if (valid) {
             var obj = {}
-            obj.age = this.ruleForm2.account
+            obj.account = this.ruleForm2.account
             obj.pass = this.ruleForm2.pass
             obj.referrer = true
             if (this.$fn.funcUrl('next')) {

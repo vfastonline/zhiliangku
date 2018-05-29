@@ -60,10 +60,9 @@
     },
     methods: {
       getMainData() {
-        let custom_user_id = localStorage.getItem('uid')
         let course_id = this.$fn.funcUrl("course_id") || 1
         let totalTime = 0
-        this.$get("/tracks/course/detail/info?custom_user_id=" + custom_user_id + "&course_id=" + course_id).then(res => {
+        this.$get("/tracks/course/detail/info?course_id=" + course_id).then(res => {
           this.breadcrumbs = res.data.breadcrumbs;
           res.data.data.sections.forEach(el => {
             if (el.videos) {

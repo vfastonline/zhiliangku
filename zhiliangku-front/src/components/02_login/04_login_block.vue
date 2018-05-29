@@ -106,6 +106,9 @@
     },
     components: {
       BlockTitle: BlockTitle
+    },
+    created(){
+      
     }
   }
 </script>
