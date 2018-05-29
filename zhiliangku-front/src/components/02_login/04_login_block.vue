@@ -102,31 +102,32 @@
             Bus.$emit('refreshAvatar')
           }
         })
-      },
+      }
     },
     components: {
       BlockTitle: BlockTitle
     },
-    created(){
-      
+    created() {
+      Bus.$on('loginPagerLogin', this.loginFun)
     }
   }
 </script>
 <style>
   /*@import "./style/01_dialog_style.scss";*/
   /*@import "./style/02_input_style.scss";*/
-  
-  .form_wrap>.el-button:hover {
+
+  .form_wrap > .el-button:hover {
     color: #FFF;
     border-color: #c6e2ff;
-    background-color:#23b8ff;
+    background-color: #23b8ff;
   }
 </style>
 <style scoped>
   /*.login_block {*/
-    .login-commen-container-button {
-      width: 400px;
-      background: #23b8ff 100%;
-    }
+  .login-commen-container-button {
+    width: 400px;
+    background: #23b8ff 100%;
+  }
+
   /*}*/
 </style>

@@ -8,8 +8,9 @@
         :key="index"
         @click="main_func(index)"
         class="progress-dot cp ">
-        <img class="v_icon" src="./img/right.png" alt="">
-        <!--<img class="v_icon" src="./img/wrong.png" alt="">-->
+        <img v-if="item.state===2" class="v_icon" src="./img/right.png" alt="">
+        <img v-if="item.state===1" class="v_icon" src="./img/default.png" alt="">
+        <img v-if="item.state===0" class="v_icon" src="./img/wrong.png" alt="">
       </span>
     </div>
   </div>
@@ -115,14 +116,14 @@
       get_data() {
         this.$get('/exercise/list/info?video_id=' + this.$fn.funcUrl('video_id')).then(res => {
           res.data.data.forEach((element, index) => {
-            element.correct_response = ''
             element.index = index
-            //下行代码是什么意思
-            element.selectedIndex = -1
-            //下行代码又是什么意思
-            element.s_state = 0
+            //下行代码是状态码0:错误，1：初始，3：正确。
+            element.state = 1
             element.answers.forEach(item => {
-              item.s_state = 0
+              // 下行代码是每个选项的状态码，内容同上
+              item.r_state = 1
+              // 选项是否被选中了的状态码0：没有被选中，1：初始状态，2：选中状态
+              item.s_state = 1
             })
           })
           this.mainData = res.data.data
@@ -132,18 +133,20 @@
       count_score() {
         // 这是计算得分的模块
         var r = 0, w = 0, s = 0, value = 0;
-        for (var i = 0; i < this.mainData.length; i++) {
-          var obj = this.mainData[i];
-          if (obj.selectedOptionName) {
-            if (obj.selectedOptionName == obj.correct_response) {
-              r++
-            } else {
+        this.mainData.forEach(el => {
+          switch (el.state) {
+            case 0:
               w++
-            }
-          } else {
-            s++
+              break
+            case 1:
+              s++
+              break
+            case 2:
+              r++
+              break
+            default:break
           }
-        }
+        })
         if (this.mainData.length) {
           value = r / this.mainData.length;
         }
@@ -154,10 +157,6 @@
     created() {
       //获得数据
       this.get_data()
-      Bus.$on('verifyAnswer', res => {
-        //这行代码谜一样
-        this.mainData[res.index].correct_response = res.right_answer_option_name;
-      })
       // 上一题
       Bus.$on('aheadQuestion', res => {
         this.main_func((this.activeIndex - 1))
