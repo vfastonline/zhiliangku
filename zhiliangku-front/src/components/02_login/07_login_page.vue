@@ -13,7 +13,7 @@
       <el-button type="primary" @click="submitForm('ruleForm2')">登录</el-button>
     </div>
     <div class="ftc loginpage-forget">
-      <span class="font14pr23b8ff pointer " @click="forgetPassword">忘记密码？</span>
+      <span class="font2_14_6 cp " @click="forgetPassword">忘记密码？</span>
     </div>
   </div>
 </template>
@@ -102,7 +102,10 @@
     },
     methods: {
       forgetPassword() {
-        Bus.$emit('forgetPassword', this.ruleForm2.account)
+        Bus.$emit('specify_display',{
+          show_key: 'reset_password',
+          title_key: '忘记密码'
+        })
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
