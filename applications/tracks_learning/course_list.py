@@ -365,7 +365,12 @@ class CourseDetailInfo(View):
 					if previous_courses.exists():
 						previous_course = previous_courses.first()
 
-					summarize_dict = project_summarize_course_progress(self.custom_user_id, course_obj, previous_course)
+					# 查询项目下所有课程
+					courses = list()
+					projects = Project.objects.filter(id=self.project_id)
+					if projects.exists():
+						courses = projects.first().Courses.all().order_by("sequence")
+					summarize_dict = project_summarize_course_progress(self.custom_user_id, course_obj, courses)
 					detail["summary"] = summarize_dict
 
 					# 查询课程下所有章节信息
