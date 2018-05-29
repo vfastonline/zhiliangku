@@ -23,7 +23,7 @@
   // 5.initParam作用是:固定参数
   // 6.现在支持两种方式来传递消息，bus和父子组件
   import Bus from '../../assets/js/02_bus'
-  //接下来要实现的是关联url这一增加功能
+  //接下来要实现的是关联url这一增加功能,而且这一功能可以通过传递参数确定是否开启与关闭
   import Vue from 'vue'
   import {Pagination} from 'element-ui'
 

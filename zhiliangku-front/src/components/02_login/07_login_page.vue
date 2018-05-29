@@ -121,7 +121,6 @@
         })
       },
       loginFun(res) {
-        debugger
         this.$post('/customuser/login', res).then(res => {
           if (!res.data.err) {
             if (res.data.msg === 'success') this.centerDialogVisible = false
@@ -136,7 +135,7 @@
       },
       page_from(){
         if (this.$fn.funcUrl('next')) {
-          let url = 'http://' + window.location.host + Base64.decode(this.$fn.funcUrl('next'))
+          let url = 'http://' + window.location.host + decodeURIComponent(this.$fn.funcUrl('next'))
           window.location.href=url
         }
       },
@@ -147,7 +146,7 @@
     created() {
       var str
       if (this.$fn.funcUrl('next')) {
-        str = 'https://' + window.location.host + decodeURIComponent(this.$fn.funcUrl('next'))
+        str = 'http://' + window.location.host + decodeURIComponent(this.$fn.funcUrl('next'))
       }
       this.wxBase64Url =
         'https://open.weixin.qq.com/connect/qrconnect?appid=wx7c9efe7b17c8aef2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2flogin&response_type=code&scope=snsapi_login&state=' +
