@@ -44,7 +44,7 @@ const entry = {
   },
   assess_result:{
     path:'22_assess_result',
-    filename:'assess/result/info/index.html'
+    filename:'assess/result/index.html'
   },
   exercise:{
     path:'08_exercise',

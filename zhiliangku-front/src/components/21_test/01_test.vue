@@ -47,7 +47,7 @@
   }
 
   .submit_buttton {
-    margin:25px 100px 80px 0; 
+    margin:25px 100px 80px 0;
   }
 
   .test_container {
@@ -90,7 +90,7 @@
         })
       },
       submit() {
-        window.open("/assess/result/info/?video_id=" + this.vid)
+        window.open("/assess/result/?video_id=" + this.vid)
       }
     },
     created() {
