@@ -1,6 +1,5 @@
 <template>
-  <div class="aq-width incenter anwser_list_container relative">
-    <div class="answernum">{{dataLength()}}个回答</div>
+  <div class="mw incenter anwser_list_container relative">
     <div class="anwser_list" >
       <anwser v-for="(item,index) in mainData.faq_answer_list" :key="index" :questionId="mainData.id" :mainData="item"></anwser>
     </div>
@@ -9,15 +8,16 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .anwser_list_container {
-    background-color: white;
+  //   background-color: white;
   }
   .answernum{
     position: absolute;
-    top:-30px;
+    top:-90px;
     left: 0;
   }
   .anwser_list{
-    margin-top: 94px;
+    // margin-top: 94px;
+    margin-bottom:20px;
   }
 </style>
 <script>
@@ -31,10 +31,7 @@
       mainData:Object
     },
     methods: {
-      dataLength(){
-        if(!this.mainData||!this.mainData.faq_answer_list){return 0}
-        return this.mainData.faq_answer_list.length;
-      }
+    
     },
     created() {
     },

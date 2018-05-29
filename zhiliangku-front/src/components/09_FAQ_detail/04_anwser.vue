@@ -1,41 +1,49 @@
 <template>
-  <div class="anwser-container incenter relative">
+  <div class="anwser-container incenter r">
     <div v-if="mainData.optimal" class="bestAnwser fontcenter">
       <span class="bestAnwserContent font1_16_fff ftc">最佳答案</span>
     </div>
-    <div class="r userinfo">
-      <img class="question-user-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
-      <span class="font14pl7c7e8c">{{mainData.custom_user_nickname}}</span>
-      <span class="font14pl7c7e8c scan">{{mainData.create_time}}</span>
+    <div class="anwser_info_left fl hc">
+       <img class="question-user-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">      
     </div>
-    <div class="answerContent" v-html="mainData.answer">
-    </div>
-    <div class="toolbar">
-      <div>
-        <div class="fl">
-          <i @click="support ('approve')" v-if="state" class="iconfont  icon-zan  pointer beforeApprove"></i>
-          <i @click="notice" v-if="mainData.feedback=='approve'" class="iconfont  icon-zan1  pointer " :class="{'afterApprove':mainData.feedback=='approve'}"></i>
-          <span class="question-yes  " :class="{'font16fbc02d':mainData.feedback=='approve'}">{{mainData.approve}}</span>
+    <div class="anwser_info_right">
+        <div class="r userinfo">
+          <span class="font14pl7c7e8c">{{mainData.custom_user_nickname}}</span>
+          <span class="font14pl7c7e8c scan">{{mainData.create_time}}</span>
         </div>
-        <div class="fl">
-          <i @click="support ('oppose')" v-if="state1" class="iconfont  icon-cai  pointer beforeOppose"></i>
-          <i @click="notice" v-if="mainData.feedback=='oppose'" class="iconfont  icon-buzan  pointer " :class="{'afterOppose':mainData.feedback=='oppose'}"></i>
-          <span class="question-yes" :class="{'font16fbc02d':mainData.feedback=='oppose'}">{{mainData.oppose}}</span>
+        <div class="answerContent" v-html="mainData.answer">
         </div>
-      </div>
-      <div>
-        <span @click="adoptAnwser" v-if="showAdopt" class="adopt pointer">采纳该答案</span>
-        <span  v-if="showAreadyAdopt" class="adopt">您已采纳该答案</span>
-        <span @click="showTextarea=!showTextarea"  class="pointer reply">回复</span>
-        <span class="pointer" @click="showReply()">
-          <span>展开回复</span>
-          <i class="iconfont icon-zhankai" :class="{'spread':showr}"></i>
-        </span>
-      </div>
+        <div class="toolbar">
+          <div>
+            <div class="fl">
+              <i @click="support ('approve')" v-if="state" class="iconfont  icon-zan  cp beforeApprove"></i>
+              <i @click="notice" v-if="mainData.feedback=='approve'" class="iconfont  icon-zan1  cp " :class="{'afterApprove':mainData.feedback=='approve'}"></i>
+              <span class="question-yes  " :class="{'font16fbc02d':mainData.feedback=='approve'}">{{mainData.approve}}</span>
+            </div>
+            <div class="fl">
+              <i @click="support ('oppose')" v-if="state1" class="iconfont  icon-cai  cp beforeOppose"></i>
+              <i @click="notice" v-if="mainData.feedback=='oppose'" class="iconfont  icon-buzan  cp " :class="{'afterOppose':mainData.feedback=='oppose'}"></i>
+              <span class="question-yes" :class="{'font16fbc02d':mainData.feedback=='oppose'}">{{mainData.oppose}}</span>
+            </div>
+          </div>
+          <div>
+            <span @click="adoptAnwser" v-if="showAdopt" class="adopt cp">采纳该答案</span>
+            <span  v-if="showAreadyAdopt" class="adopt">您已采纳该答案</span>
+            <span @click="showTextarea=!showTextarea"  class="cp reply">回复</span>
+            <span class="cp" @click="showReply()">
+              <span>展开回复</span>
+              <i class="iconfont icon-zhankai" :class="{'spread':showr}"></i>
+            </span>
+          </div>
 
+        </div>
     </div>
     <reply v-show="showr" v-for="(item,index) in mainData.answer_reply_list" :key="index" :mainData="item"></reply>
     <replyMsg v-show="showTextarea"  :mainData="mainData"></replyMsg>
+    <fixedButton class="fixedButton" @click.native="showTextarea=!showTextarea" text="我要评论">
+        <!-- <img src="" alt="" style="background-color:red"> -->
+        <span>？</span>
+    </fixedButton>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -43,6 +51,7 @@
   import Bus from '../../assets/js/02_bus'
   import reply from './06_reply'
   import replyMsg from './07_reply_msg'
+  import fixedButton from '../08_community/05_fixed_button.vue'
   export default {
     name: 'HelloWorld',
     data() {
@@ -126,12 +135,12 @@
     },
     components: {
       reply: reply,
-      replyMsg: replyMsg
+      replyMsg: replyMsg,
+      fixedButton: fixedButton
     }
   }
 
 </script>
-
 <style scoped>
   .bestAnwser {
     width: 88px;
@@ -195,15 +204,24 @@
   }
 
   .anwser-container {
-    padding: 32px;
     margin: 32PX 0;
     background: white;
+    border-radius:10px;
+  }
+  .anwser_info_left {
+    padding-top:30px;
+    width:120px;
+  }
+
+  .anwser_info_right {
+    margin-left:120px;
+    padding:65px 32px 32px 0;
   }
 
   .question-user-icon {
-    width: 48px;
-    height: 48px;
-    margin-right: 32px;
+    width: 60px;
+    height: 60px;
+    margin-left: 30px;
     border-radius: 50%;
   }
 
@@ -218,5 +236,11 @@
   }
 
   .msg-moudel {}
+
+  .fixedButton {
+    position:absolute;
+    right: -90px;
+    top:0;
+  }
 
 </style>

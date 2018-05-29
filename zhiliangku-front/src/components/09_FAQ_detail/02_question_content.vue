@@ -1,17 +1,27 @@
 <template>
   <div class="mainwidth  aq_container">
-    <div class="aq-width incenter r">
-      <el-button @click="foucus" class="foucusButton">{{foucused}}</el-button>
-      <el-button @click="dialogVisible=true" class="quizButton">我要提问</el-button>
-      <div class="question-title font1_20_3 3a3c50">{{mainData.title}}</div>
+    <div class="mw aq-width incenter r">
+      <!--<el-button @click="foucus" class="foucusButton">{{foucused}}</el-button> -->
+      <!--<el-button @click="dialogVisible=true" class="quizButton">我要提问</el-button> -->
+      <fixedButton class="fixedButton" @click.native="dialogVisible=true" text="我要回答">
+        <!-- <img src="" alt="" style="background-color:red"> -->
+        <span>？</span>
+      </fixedButton>
       <div>
         <div class="info r">
-          <img class="question-icon  imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
-          <span class="qestion-owner-name font1_14_9">{{mainData.custom_user_nickname}}</span>
-          <span class="font1_16_9 createTime">{{mainData.create_time}}</span>
-          <span class="scan fr font1_14_9">{{mainData.browse_amount}}次浏览</span>
+          <div class="info_left fl hc">
+          <span style="background-color:red width:100px;height:100px"></span>
+            <img class="question-icon" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">          
+          </div>
+          <div class="info_right">
+            <span class="qestion-owner-name font1_14_9">{{mainData.custom_user_nickname}}</span>
+            <span class="font1_16_9 createTime">{{mainData.create_time}}提问</span>          
+            <div class="question-title font1_20_3 3a3c50">{{mainData.title}}</div>          
+            <span class="info_right_one scan fr font1_14_9">{{mainData.browse_amount}}次浏览</span>
+            <span class="info_right_two scan fr font1_14_9">{{dataLength()}}次回答</span> 
+            <div class="font1_14_23b8ff">{{mainData.status_name|| "未解决"}}</div>
+          </div>
         </div>
-        <div v-html="mainData.description"></div>
       </div>
     </div>
     <el-dialog :visible.sync="dialogVisible">
@@ -24,6 +34,7 @@
   import { Button } from 'element-ui'
   import Vue from 'vue'
   import submitQuestion from '../07_video_detail/07_submit_question'
+  import fixedButton from '../08_community/05_fixed_button.vue'
   Vue.use(Button)
   export default {
     name: 'question_content',
@@ -53,6 +64,10 @@
       }
     },
     methods: {
+      dataLength(){
+        if(!this.mainData||!this.mainData.faq_answer_list){return 0}
+        return this.mainData.faq_answer_list.length;
+      },
       over() {
         this.dialogVisible = false;
         window.location.href = '/community/faq/list/'
@@ -79,6 +94,7 @@
     },
     components: {
       submitQuestion: submitQuestion,
+      fixedButton: fixedButton
     }
   }
 
@@ -95,8 +111,6 @@
     margin-right: auto;
   }
   .aq-width {
-    width: 780px;
-    position: relative;
     line-height: 42px;
   }
 
@@ -115,23 +129,31 @@
     left: -150px;
   }
 
-  .createTime {
-    padding-left:20px;
-  }
-
-  .qestion-owner-name {
-    padding-left:30px;
-  }
   .info {
    color: #7c7e8c;
   }
 
-  .aq-width {
-    width: 780px;
+  .info_left {
+    padding-left:30px;
+  }
+  .info_right {
+    margin-left:120px;
+  }
+
+  .info_right_one {
+    padding-right: 40px;
+  }
+  
+  .info_right_two {
+    padding-right: 15px;
+  }
+
+  .createTime {
+    padding-left:20px;
   }
 
   .aq_container {
-    background: white;
+    background: #fafafa;
   }
 
   .quizButton {
@@ -141,8 +163,17 @@
 
   .question-icon {
     border-radius: 50%;
-    height: 60px;
-    width: 60px;
+    height: 80px;
+    width: 80px;
+    margin-left: 10px;
   }
 
+  .fixedButton {
+    position: absolute;
+    top:center;
+    right:-90px;
+  }
+  .font1_14_23b8ff {
+    color: #23b8ff;
+  }
 </style>

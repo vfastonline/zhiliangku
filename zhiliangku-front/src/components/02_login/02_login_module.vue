@@ -63,8 +63,8 @@
     },
     created() {
       Bus.$on('specify_display', this.specify_display)
-      Bus.$on('loginPagerLogin',res=>{
-        debugger
+      Bus.$on('loginPagerLogin',function(obj){
+         
       })
     }
   }

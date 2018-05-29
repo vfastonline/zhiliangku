@@ -30,6 +30,8 @@
     box-sizing: border-box;
     padding: 24px 32px 38px 32px;
     background: #fcfcfc;
+    margin-bottom: 20px;
+    border-radius: 10px 
   }
   .mt8 {
     margin-bottom: 8px;

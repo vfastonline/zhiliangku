@@ -12,6 +12,7 @@
     height: 330px;
     margin-top: 40px;
     box-shadow: 0 0 18px rgba(0, 0, 0, 0.15);
+    border-radius:10px 10px 0 0;
   }
   
   .message_top {
@@ -19,7 +20,7 @@
     height: 60px;
     line-height: 60px;
     background-color: #324e5c;
-    border-radius: 10px;
+    border-radius: 10px 10px 0 0;
   }
   
   .message_content {

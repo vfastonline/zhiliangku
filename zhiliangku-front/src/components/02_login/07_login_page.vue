@@ -106,7 +106,7 @@
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
-          debugger
+          // debugger
           if (valid) {
             var obj = {}
             obj.account = this.ruleForm2.account
