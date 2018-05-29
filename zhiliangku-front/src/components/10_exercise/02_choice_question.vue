@@ -32,45 +32,84 @@
       <ul class="choiceQuestion-options">
         <li v-for="(item ,index ) in mainData.answers" :key="index"
             class="choiceQuestion-option  "
-            @click="verifyAnswer(mainData,item,index)"
-            >
-          <div class="cp">
-            <div class="fl option_name font1_22_6">
-              <img class="option_pre_icon" src="./img/right.png" alt="">
-              <img class="option_pre_icon" src="./img/wrong.png" alt="">
-              <span class="option_pre_icon dib" ></span>
-              {{item.option_name}}.</div>
-            <div class="choiceQuestion-content font1_22_9" v-html="item.content"></div>
-          </div>
+            :class="{'cp':item.s_state===1,
+            'unselected-option':item.s_state===0,
+            'default-option':item.s_state===1,
+            'selected-option':item.s_state===2}"
+            @click="verifyAnswer(mainData,item)">
+            <span class="option_name dib font1_22_6 ftj">
+              <img v-if="item.r_state===2" class="option_pre_icon vm" src="./img/right.png" alt="">
+              <img v-if="item.r_state===0" class="option_pre_icon vm" src="./img/wrong.png" alt="">
+              <i v-if="item.r_state===1" class="option_pre_icon vm dib"></i>
+              <span class="dib vm">{{item.option_name}}.</span>
+              <span class="line2"></span>
+            </span>
+          <span class="choiceQuestion-content font1_22_9 dib" v-html="item.content">
+            </span>
         </li>
       </ul>
-      <!--<div class="choiceQuestion-button">-->
-        <!--<el-button @click="emit('aheadQuestion')" v-if="buttonInfo.index+1>1">上一题</el-button>-->
-        <!--<el-button @click="emit('nextQuestion')" v-if="buttonInfo.index+1<buttonInfo.length">下一题</el-button>-->
-        <!--<el-button @click="emit('submitPaper')" v-if="buttonInfo.index+1==buttonInfo.length">完成</el-button>-->
-      <!--</div>-->
-      <!--<div class="choiceQuestion-answer">-->
-        <!--<div class="cqa-title ftc">-->
-          <!--<div class="cqat-bar inmiddle zindex1"></div>-->
-          <!--<span class="cqat-title font16pr3a3c50 zindex10 relative">习题详解</span>-->
-        <!--</div>-->
-      <!--</div>-->
+      <div class="choiceQuestion-button">
+        <el-button @click="emit('aheadQuestion')" v-if="buttonInfo.index+1>1">上一题</el-button>
+        <el-button @click="emit('nextQuestion')" v-if="buttonInfo.index+1<buttonInfo.length">下一题</el-button>
+        <el-button @click="emit('submitPaper')" v-if="buttonInfo.index+1==buttonInfo.length">完成</el-button>
+      </div>
+      <div class="choiceQuestion-answer">
+        <div class="cqa-title ftc">
+          <div class="cqat-bar inmiddle zindex1"></div>
+          <span class="cqat-title font16pr3a3c50 zindex10 relative">习题详解</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <style lang='scss'>
-  .option_name{
-    width: 194px;
-    padding-left: 40px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+  @import "../../assets/style/baseConstScss";
+
+  .choiceQuestion-option {
+    display: flex;
+    justify-content: space-between;
+    line-height: 32px;
+    margin: 0 0 48px
   }
-  .option_pre_icon{
+
+  .default-option:hover {
+    span {
+      color: $cb4;
+    }
+  }
+
+  .selected-option {
+    span {
+      color: $c3;
+    }
+  }
+
+  .selected-option:hover {
+    span {
+      color: $c3;
+    }
+  }
+
+  .choiceQuestion-content {
+    width: 1005px;
+    line-height: 32px;
+    padding-top: 3px;
+  }
+
+  .option_name {
+    width: 70px;
+    flex-shrink: 0;
+    height: 32px;
+    line-height: 32px;
+    margin-left: 39px;
+    margin-right: 86px;
+  }
+
+  .option_pre_icon {
     height: 32px;
     width: 32px;
-    margin-right: 30px;
   }
+
   .score {
     font-size: 22px;
     margin: 10px;
@@ -121,14 +160,29 @@
     width: 24px;
   }
 
-</style>
+  .choiceQuestion-title {
+    padding: 8px 0px;
+    margin-bottom: 28px;
+  }
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+  .right-option div {
+    color: white;
+  }
+
+  .wrong-option div {
+    color: white;
+  }
+
+  .choiceQuestion-options {
+    margin-bottom: 56px;
+  }
+</style>
 <script>
   import Vue from 'vue'
   import Bus from '../../assets/js/02_bus'
   import func from '../../assets/js/01_other/01_dispatch'
   import {Button} from 'element-ui'
+
   Vue.use(Button)
   Vue.prototype.$func = func;
   export default {
@@ -156,15 +210,37 @@
       emit(event) {
         Bus.$emit(event)
       },
-      verifyAnswer(maindata, item, index) {
-        if (maindata.selectedIndex != -1) {
-          return
-        }
-        maindata.selectedOptionName = item.option_name;
-        maindata.selectedIndex = index;
+      verifyAnswer(maindata, item) {
+        // 杜绝重复答题
+        let selected = maindata.answers.some(el => {
+          if (el.s_state > 1) {
+            return true
+          }
+        })
+        if (selected) return
+        // 添加选中以及未选中状态
+        maindata.answers.forEach(el => {
+          if (el === item) {
+            el.s_state++
+          } else {
+            el.s_state--
+          }
+        })
         this.$get('/exercise/right/answer/info?question_id=' + maindata.id).then(res => {
-          res.data.data.index = this.mainData.index;
-          Bus.$emit('verifyAnswer', res.data.data)
+          let data = res.data.data
+          if (item.option_name === data.right_answer_name) {
+            maindata.state++
+            item.r_state++
+          } else {
+            maindata.state--
+            item.r_state--
+          }
+          maindata.answers.forEach(el => {
+            if (el.r_state === 2) return
+            if (el.option_name === data.right_answer_name) {
+              el.r_state++
+            }
+          })
         })
       }
     },
@@ -174,91 +250,14 @@
         this.buttonInfo = buttonInfo;
       })
       Bus.$on('haveScoreReady', obj => {
-        obj.score=Math.ceil(obj.score*100);
+        obj.score = Math.ceil(obj.score * 100);
         this.score = obj;
         this.show = false;
       })
+      console.log(this)
     },
-    mounted() {}
+    mounted() {
+    }
   }
 
 </script>
-<style scoped>
-  .choiceQuestion-title {
-    padding: 8px 0px;
-    margin-bottom: 40px;
-  }
-
-  .choiceQuestion-option {
-    /*padding: 33px 40px;*/
-  }
-
-  .choiceQuestion-button {
-    text-align: right;
-  }
-
-  .other-option {
-    background: white;
-  }
-
-  .other-option:hover {
-    background: #fafafa;
-  }
-
-  .choiceQuestion-resault {
-    height: 500px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .right-option {
-    color: white;
-    background: #66bb6a;
-  }
-
-  .wrong-option {
-    color: white;
-    background: #ffc107;
-  }
-
-  .right-option div {
-    color: white;
-  }
-
-  .wrong-option div {
-    color: white;
-  }
-
-  .choiceQuestionTags {
-    width: 75px;
-  }
-
-  .choiceQuestion-content {
-    margin-left: 160px;
-  }
-
-  .choiceQuestion-options {
-    margin-bottom: 56px;
-  }
-
-  .cqa-title {
-    height: 22px;
-    position: relative;
-    margin-bottom: 16px;
-  }
-
-  .cqat-bar {
-    height: 2px;
-    background: #cfd8dc;
-    width: 100%;
-  }
-
-  .cqat-title {
-    padding: 0 6px;
-    background: #fafafa;
-  }
-
-  .answerContent {}
-
-</style>

@@ -275,11 +275,12 @@ def project_summarize_course_progress(custom_user_id, course, courses=list(), pr
 	:param custom_user_id:用户ID
 	:param course:当前要汇总的课程
 	:param courses:项目下所有课程列表
+	:param previous_num:前几个课程
 	:return:课程学习进度
 	"""
 	result_dict = {
-		"total_time": "",  # 课程总时长，秒
-		"remaining_time": "",  # 用户剩余学习时长，秒
+		"total_time": "",  # 课程总时长，时分秒
+		"remaining_time": "",  # 用户剩余学习时长，时分秒
 		"schedule": 0,  # 课程学习进度， 完成学习：1；未开始：0；正在学习 0< schedule <1
 		"is_study": 0,  # 是否有课程学习记录
 		"learn_video_name": "",  # 最近一次学习视频名称
@@ -287,22 +288,21 @@ def project_summarize_course_progress(custom_user_id, course, courses=list(), pr
 		"learn_video_type": "",  # 最近一次学习视频类型
 		"video_address": "",  # 最近一次学习视频地址
 		"video_process": 0,  # 最近一次学习视频观看进度
-		"unlock": False,  # 解锁
+		"unlock": False,  # 课程是否解锁
 	}
 	try:
 		# 获取当前课程上一个课程
+		previous_course = None
 		previous_index = courses.index(course) - previous_num
 		if previous_index >= 0:
 			previous_course = courses[previous_index]
-		else:
-			previous_course = None
 
 		# 判断是否解锁
-		if not previous_course:  # 没有上一个课程
+		if not previous_course:  # 没有上一个课程，本课程解锁
 			result_dict["unlock"] = True
 		else:
-			sections = previous_course.Section.order_by("-sequence")  # 章节倒序
 			previous_course_has_assessment = False  # 上一个课程的章节中有考核
+			sections = previous_course.Section.order_by("-sequence")  # 章节倒序
 			for one_section in sections:
 				assessment_video = one_section.Videos.filter(type="3")  # 上一个课程->章节->考核
 				if assessment_video.exists():
@@ -318,61 +318,55 @@ def project_summarize_course_progress(custom_user_id, course, courses=list(), pr
 
 			# 上一个课程所有章节中都没有考核
 			if not previous_course_has_assessment:
-				# 查找previous_course课程的上一个课程
+				# 迭代查找上一个课程是否有通过考核
 				return project_summarize_course_progress(custom_user_id, course, courses, previous_num + 1)
 
-		# 课程时长
+		# 聚合查询课程总时长
 		sections = course.Section.all()
-		duration_sum = str_to_int(
-			Video.objects.filter(section__in=sections).aggregate(Sum('duration')).get("duration__sum", 0))
-		m, s = divmod(duration_sum, 60)
+		duration_sum = Video.objects.filter(section__in=sections).aggregate(Sum('duration')).get("duration__sum", 0)
+		m, s = divmod(str_to_int(duration_sum), 60)
 		h, m = divmod(m, 60)
-		total_time_str = "%02d:%02d:%02d" % (h, m, s)
-		result_dict["total_time"] = total_time_str
+		result_dict["total_time"] = "%02d:%02d:%02d" % (h, m, s)
 
 		if custom_user_id:
 
-			# 用户已经看了多长时间
+			# 用户观看课程记录
 			watchrecords = WatchRecord.objects.filter(user_id=custom_user_id, course=course).order_by("-create_time")
+
+			# 观看记录总秒数
 			watch_total_time_sum = watchrecords.values("video_process").aggregate(Sum('video_process')).get(
 				"video_process__sum")  # 秒
 
 			# 计算剩余时长
 			if duration_sum and watch_total_time_sum:
-				one_watchrecord = watchrecords.first()
-				last_time_learn = one_watchrecord.video.name  # 上次学到
-				last_time_learn_id = one_watchrecord.video.id  # 上次学到视频ID
-				address = one_watchrecord.video.address  # 上次学到视频地址
-				last_time_learn_type = one_watchrecord.video.type  # 上次学到视频类型
+				watchrecord = watchrecords.first()
 				remaining_time = duration_sum - watch_total_time_sum
 				schedule = float("%.2f" % (float(watch_total_time_sum) / float(duration_sum)))
 				result_dict["is_study"] = 1
-				result_dict["learn_video_name"] = last_time_learn  # 视频名称
-				result_dict["learn_video_id"] = last_time_learn_id  # 视频ID
-				result_dict["learn_video_type"] = last_time_learn_type  # 视频类型
-				result_dict["address"] = address.url if address else ""  # 视频地址
-				result_dict["video_process"] = one_watchrecord.video_process
+				result_dict["learn_video_name"] = watchrecord.video.name  # 视频名称
+				result_dict["learn_video_id"] = watchrecord.video.id  # 视频ID
+				result_dict["learn_video_type"] = watchrecord.video.type  # 视频类型
+				result_dict["address"] = watchrecord.video.address.url if watchrecord.video.address else ""  # 视频地址
+				result_dict["video_process"] = watchrecord.video_process
 
 			else:
 				remaining_time = duration_sum
 				schedule = 0
 
 				# 默认最近最近学习第一章第一个视频
-				course_sections = course.Section.order_by("sequence")
+				course_sections = sections.order_by("sequence")
 				if course_sections:
-					last_time_learn_objs = course_sections.first().Videos.order_by("sequence")
-					if last_time_learn_objs:
-						last_time_learn_obj = last_time_learn_objs.first()
-						result_dict["learn_video_name"] = last_time_learn_obj.name  # 上次学到
-						result_dict["learn_video_id"] = last_time_learn_obj.id  # 上次学到视频ID
-						result_dict["learn_video_type"] = last_time_learn_obj.type  # 上次学到视频类型
-						result_dict[
-							"video_address"] = last_time_learn_obj.address.url if last_time_learn_obj.address else ""
+					video_objs = course_sections.first().Videos.order_by("sequence")
+					if video_objs:
+						video_obj = video_objs.first()
+						result_dict["learn_video_name"] = video_obj.name  # 上次学到
+						result_dict["learn_video_id"] = video_obj.id  # 上次学到视频ID
+						result_dict["learn_video_type"] = video_obj.type  # 上次学到视频类型
+						result_dict["video_address"] = video_obj.address.url if video_obj.address else ""
 
 			m, s = divmod(remaining_time, 60)
 			h, m = divmod(m, 60)
-			remaining_time_str = "%02d:%02d:%02d" % (h, m, s)
-			result_dict["remaining_time"] = remaining_time_str
+			result_dict["remaining_time"] = "%02d:%02d:%02d" % (h, m, s)
 			result_dict["schedule"] = schedule
 	except:
 		traceback.print_exc()

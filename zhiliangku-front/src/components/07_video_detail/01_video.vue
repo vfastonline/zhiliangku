@@ -31,16 +31,16 @@
         list_switch: true,
         show_video:false,
         playerOptions: {
-          muted: true,
           height: '525px',
           width: '850px',
+          autoplay: false,
+          muted: false,
           language: 'en',
           playbackRates: [1.0, 1.25, 1.5, 1.75, 2.0],
           sources: [{
             type: "video/mp4",
             src: ""
           }],
-          // fluid: true,
           poster: "" // 海豹图片地址
         },
         video_id: '',

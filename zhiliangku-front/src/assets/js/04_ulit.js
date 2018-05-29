@@ -172,9 +172,7 @@ module.exports = (function () {
       }
       delete obj[name]
       var url = baseUrl + window.JSON.stringify(obj)
-        .replace(/[\"\{\}]/g, '')
-        .replace(/\:/g, '=')
-        .replace(/\,/g, '&')
+        .replace(/[\"\{\}]/g, '').replace(/\:/g, '=').replace(/\,/g, '&')
       return url
     }
   }
@@ -249,7 +247,7 @@ module.exports = (function () {
           .replace(/\:/g, '=')
           .replace(/\,/g, '&')
     }
-    // return url;
+    return url;
   }
   return fn
 })()

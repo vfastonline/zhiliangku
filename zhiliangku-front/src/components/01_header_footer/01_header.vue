@@ -28,7 +28,7 @@
   import Bus from '../../assets/js/02_bus'
   import LoginNew from '../02_login/02_login_module'
   import userMune from './04_user_menu'
-  let Base64 = require('js-base64').Base64;
+  var Base64 = require('js-base64').Base64
   export default {
     name: "projectHeader",
     data() {
@@ -147,17 +147,7 @@
         this.getUserInfo();
         // 决定用户信息模块的显示与隐藏
         this.is_login = true;
-        // 请问这里如何做呢？
-        // 现在是不管用户在什么模块登录都会刷新。
-        // 不等于首页的页面均需要重载
-        if (location.pathname != '/') {
-          //这里的逻辑应该是删除掉user_info的字段
-          // debugger
-          if (this.$fn.funcUrl('next') || this.$fn.funcUrl('user_info')) {
-            window.location.href = this.$fn.funcUrlDelArr(['user_info', 'next'])
-          }
-        }
-        // console.log(this.userinfo)
+
       },
       logoutFunc() {
         this.is_login = false;
@@ -172,8 +162,6 @@
       }
     },
     created() {
-      // window.location.search='?'+Base64.encode('uid=46&nickname=猛熊爱吃蜜&role=0&avatar=/media/custom_user_avatar/46/20171225094221_weixin.jpg&position=');
-      // window.location.search='?user_info=P3VpZD00NiZuaWNrbmFtZT3njJvnhorniLHlkIPonJwmcm9sZT3lrabnlJ8mYXZhdGFyPS9tZWRpYS9jdXN0b21fdXNlcl9hdmF0YXIvNDYvMjAxNzEyMjUwOTQyMjFfd2VpeGluLmpwZyZwb3NpdGlvbj0='
       //获取包含用户信息的base64加密字符串
       var userstr = this.$fn.getSearchKey('user_info');
       // 解密
@@ -213,7 +201,7 @@
         this.videoTitle = res;
       })
       Bus.$on('logout', this.logoutFunc)
-      Bus.$on('refreshAvatar', this.getUserInfo)
+      Bus.$on('refreshAvatar', this.loginfun)
 
 
     },

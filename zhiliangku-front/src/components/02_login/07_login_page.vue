@@ -13,7 +13,7 @@
       <el-button type="primary" @click="submitForm('ruleForm2')">登录</el-button>
     </div>
     <div class="ftc loginpage-forget">
-      <span class="font14pr23b8ff pointer " @click="forgetPassword">忘记密码？</span>
+      <span class="font2_14_6 cp " @click="forgetPassword">忘记密码？</span>
     </div>
   </div>
 </template>
@@ -102,35 +102,51 @@
     },
     methods: {
       forgetPassword() {
-        Bus.$emit('forgetPassword', this.ruleForm2.account)
+        Bus.$emit('specify_display',{
+          show_key: 'reset_password',
+          title_key: '忘记密码'
+        })
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
-          // debugger
           if (valid) {
             var obj = {}
-            obj.account = this.ruleForm2.account
-            obj.pass = this.ruleForm2.pass
-            obj.referrer = true
-            if (this.$fn.funcUrl('next')) {
-              obj.url = 'https://' + window.location.host + decodeURIComponent(this.$fn.funcUrl('next'))
-            }
-            Bus.$emit('loginPagerLogin', obj)
+            obj.username = this.ruleForm2.account
+            obj.password = this.ruleForm2.pass
+          this.loginFun(obj)
           } else {
             console.log('error submit!!')
             return false
           }
         })
       },
+      loginFun(res) {
+        this.$post('/customuser/login', res).then(res => {
+          if (!res.data.err) {
+            if (res.data.msg === 'success') this.centerDialogVisible = false
+            for (var k in res.data.data.user) {
+              localStorage[k] = res.data.data.user[k]
+            }
+            this.$fn.showNotice(this, '您已成功登录', 'success')
+            Bus.$emit('refreshAvatar')
+            this.page_from()
+          }
+        })
+      },
+      page_from(){
+        if (this.$fn.funcUrl('next')) {
+          let url = 'http://' + window.location.host + decodeURIComponent(this.$fn.funcUrl('next'))
+          window.location.href=url
+        }
+      },
       resetForm(formName) {
         this.$refs[formName].resetFields()
       }
     },
     created() {
-      // document.referrer
       var str
       if (this.$fn.funcUrl('next')) {
-        str = 'https://' + window.location.host + decodeURIComponent(this.$fn.funcUrl('next'))
+        str = 'http://' + window.location.host + decodeURIComponent(this.$fn.funcUrl('next'))
       }
       this.wxBase64Url =
         'https://open.weixin.qq.com/connect/qrconnect?appid=wx7c9efe7b17c8aef2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2flogin&response_type=code&scope=snsapi_login&state=' +

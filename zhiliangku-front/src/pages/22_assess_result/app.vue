@@ -7,8 +7,8 @@
       </div>
       <Message v-if="main_data.is_pass===0" :main_message="main_data"></Message>
       <div class="bottom_box mw hc ftc">
-        <Button v-if="main_data.is_pass===1" class="bottom_button hc ftc">查看详情</Button>
-        <Button v-if="main_data.is_pass===0" class="bottom_button hc ftc">重新答题</Button>
+        <Button v-if="main_data.is_pass===1" class="bottom_button hc ftc">下一课程</Button>
+        <Button v-if="main_data.is_pass===0" @click.native="re_write" class="bottom_button hc ftc">重新答题</Button>
         <Button v-if="main_data.is_pass===0" class="bottom_button hc ftc">重新学习</Button>
       </div>
       <ImageBlock :src="$myConst.httpUrl+'/media/image/static/project_list_02_bottom.png'"></ImageBlock>
@@ -57,6 +57,9 @@
       Message: Message
     },
     methods: {
+      re_write(){
+        window.location.href='/assess/info/?video_id='+this.$fn.funcUrl('video_id')
+      },
       getResult() {
         let video_id = this.$fn.funcUrl("video_id");
         let obj = {
@@ -65,7 +68,6 @@
         this.$post("/assess/result/info", obj).then(res => {
           if (!res.err) {
             this.main_data = res.data.data
-            // console.log(res.data);
           }
 
         })
