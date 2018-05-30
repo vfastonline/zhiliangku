@@ -178,6 +178,22 @@ class AssessmentResult(View):
 		return render(request, template_name, {})
 
 
+"""
+判题shell返回json结果
+{
+	"is_pass": 1,
+	"right": 5,
+	"wrong": 0,
+	"msg": "错误提示信息"
+}
+is_pass：   1：通过考核     0：未通过考核
+total：题目总数，数字
+right：答对题目数，数字
+wrong：答错题目数，数字
+msg：哪些题目答错信息提示
+"""
+
+
 @class_view_decorator(user_login_required)
 class AssessmentResultInfo(View):
 	"""考核-结果"""
@@ -222,11 +238,13 @@ class AssessmentResultInfo(View):
 
 				try:
 					command_result_dicts = json.loads(result_info)
-					is_pass = str_to_int(command_result_dicts.get("pass", 0))
+					is_pass = str_to_int(command_result_dicts.get("is_pass", 0))
+					total = str_to_int(command_result_dicts.get("total", 0))
 					right = command_result_dicts.get("right", 0)
 					wrong = command_result_dicts.get("wrong", 0)
 					msg = command_result_dicts.get("msg", "")
 					self.result_dict["data"]["is_pass"] = is_pass
+					self.result_dict["data"]["total"] = total
 					self.result_dict["data"]["right"] = right
 					self.result_dict["data"]["wrong"] = wrong
 					self.result_dict["data"]["msg"] = msg
