@@ -261,10 +261,10 @@ class AssessmentResultInfo(View):
 			if is_pass:
 				customusers = CustomUser.objects.filter(id=custom_user_id)
 				if videos.exists() and customusers.exists():
-					new_obj = UnlockVideo.objects.create(video=videos.first(), custom_user=customusers.first())
-					if new_obj:
-						# 销毁docker
-						self.destroy()
+					UnlockVideo.objects.create(video=videos.first(), custom_user=customusers.first())
+					
+			# 销毁docker
+			self.destroy()
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
