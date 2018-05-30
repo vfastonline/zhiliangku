@@ -9,8 +9,7 @@
       </fixedButton>
       <div>
         <div class="info r">
-          <div class="info_left fl hc">
-          <span style="background-color:red width:100px;height:100px"></span>
+          <div class="info_left fl ftc">
             <img class="question-icon" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">          
           </div>
           <div class="info_right">
@@ -134,7 +133,8 @@
   }
 
   .info_left {
-    padding-left:30px;
+    width: 120px;
+    padding-top:22px;
   }
   .info_right {
     margin-left:120px;
@@ -165,7 +165,6 @@
     border-radius: 50%;
     height: 80px;
     width: 80px;
-    margin-left: 10px;
   }
 
   .fixedButton {
