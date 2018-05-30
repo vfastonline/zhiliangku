@@ -52,8 +52,15 @@
 
 </style>
 <script>
+  import Vue from 'vue'
+  import {Select, DatePicker, Option} from 'element-ui'
   import Bus from '../../assets/js/02_bus'
   import rcb from './resumeContentButton'
+
+  Vue.use(Select)
+  Vue.use(DatePicker)
+  Vue.use(Option)
+  
   export default {
     name: 'HelloWorld',
     data() {
