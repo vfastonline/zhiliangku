@@ -6,16 +6,13 @@
               type="text" placeholder="请输入关键字">
             <img @click="handleSearch(search_value)" class="vb searchBox" src="./img/search.png" alt="">
     </span>
-    <el-button @click="foucus" class="foucusButton fr">我要提问</el-button>
-
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .nomoral{
     background: none;
-    color: #3a3c50;
-    padding:4px 16px;
+    padding:7px 30px;
   }
   .active{
     color: #ffffff;
@@ -46,9 +43,6 @@
   }
 </style>
 <script>
-  import { Button } from 'element-ui'
-  import Vue from 'vue'
-  Vue.use(Button)
   export default {
     name: 'nav_bar',
     data () {

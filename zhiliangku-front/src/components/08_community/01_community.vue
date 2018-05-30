@@ -4,6 +4,10 @@
     <questionList v-if="allData.length" :mainData="allData"></questionList>
     <noData v-else></noData>
     <mypager @pagerGetData='manipulationData' :url="url" :additionData="params"></mypager>
+    <fixedButton class="fixedButton" text="我要提问">
+        <!-- <img src="" alt="" style="background-color:red"> -->
+        <span>？</span>
+    </fixedButton>
   </div>
 </template>
 <style scoped>
@@ -15,6 +19,11 @@
     margin-bottom: 56px;
     font-weight: bold;
   }
+  .fixedButton {
+    position:fixed;
+    right:31px;
+    top:238px;
+  }
 
 </style>
 <script>
@@ -22,6 +31,7 @@
   import questionList from './03_question_list'
   import mypager from '../00_common/06_pager'
   import noData from './04_have_no_data'
+  import fixedButton from './05_fixed_button'
   export default {
     name: 'community',
     data() {
@@ -118,7 +128,8 @@
       myNavBar: myNavBar,
       questionList: questionList,
       mypager: mypager,
-      noData: noData
+      noData: noData,
+      fixedButton:fixedButton
     }
   }
 

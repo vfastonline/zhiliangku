@@ -33,6 +33,7 @@
     background: white;
     padding: 32px;
     box-sizing: border-box;
+    border-radius: 10px;
   }
 
 </style>
@@ -79,7 +80,7 @@
       },
       organizeData() {
         var obj = {};
-        obj.faq_id = this.$fn.funcUrl('id');
+        obj.faq_id = this.$fn.funcUrl('faq_id');
         if(!localStorage.uid){alert('uid异常')}
         obj.custom_user_id = localStorage.uid;
         obj.answer = this.content;

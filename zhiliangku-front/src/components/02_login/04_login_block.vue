@@ -93,7 +93,7 @@
       loginFun() {
         this.$post('/customuser/login', this.form_data).then(res => {
           if (!res.data.err) {
-            if (res.data.msg === 'success') this.centerDialogVisible = false
+            if (res.data.msg === 'success') this.centerDialogVisible = false // 察觉暂无用
             for (var k in res.data.data.user) {
               localStorage[k] = res.data.data.user[k]
             }

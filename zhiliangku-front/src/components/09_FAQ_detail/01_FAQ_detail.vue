@@ -12,11 +12,13 @@
 <style scoped>
   .incenter {
     background-color: #fafafa;
+    padding-bottom:50px;
   }
   .question-container {
-    background-color: white;
-    padding-top: 44px;
+    background-color: #fafafa;
+    padding-top: 100px;
     padding-bottom: 24px;
+    height: 130px;
   }
 
   .richtext {
@@ -28,6 +30,7 @@
   import question from './02_question_content'
   import anwserlist from './03_anwser_list'
   import richtext from './05_vue_qill_editor'
+  
   import Bus from '../../assets/js/02_bus'
   import mypager from '../00_common/06_pager'
   export default {
@@ -79,7 +82,7 @@
       question: question,
       anwserlist: anwserlist,
       richtext: richtext,
-      mypager: mypager
+      mypager: mypager,
     }
   }
 

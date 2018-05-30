@@ -4,7 +4,7 @@
     <p class="subject_introduce font1_16_6">{{main_data.desc?main_data.desc:'暂无信息'}}</p>
     <ul class="subject_info">
       <li class="font1_18_9 subject_info_li_1"><span>时长：</span><span class="dib subject_time_value">{{main_data.summary.total_time}}</span>
-        <span>完成：</span><span>{{main_data.summary.video_process*100}}%</span>
+        <span>&nbsp;完成：</span><span>{{main_data.summary.video_process*100}}%</span>
       </li>
       <li class="subject_info_li_2">
         <span class="dib">
