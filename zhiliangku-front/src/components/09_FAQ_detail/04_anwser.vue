@@ -3,7 +3,7 @@
     <div v-if="mainData.optimal" class="bestAnwser fontcenter">
       <span class="bestAnwserContent font1_16_fff ftc">最佳答案</span>
     </div>
-    <div class="anwser_info_left fl hc">
+    <div class="anwser_info_left fl ftc">
        <img class="question-user-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">      
     </div>
     <div class="anwser_info_right">
@@ -209,7 +209,7 @@
     border-radius:10px;
   }
   .anwser_info_left {
-    padding-top:30px;
+    padding-top:43px;
     width:120px;
   }
 
@@ -221,7 +221,6 @@
   .question-user-icon {
     width: 60px;
     height: 60px;
-    margin-left: 30px;
     border-radius: 50%;
   }
 
