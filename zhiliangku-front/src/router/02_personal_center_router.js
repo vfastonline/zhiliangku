@@ -29,10 +29,10 @@ export default new Router({
       path: '/occupational',
       component: occupational,
       children: [
-        {path: '', redirect: 'matchingRate'},
-        {path: 'matchingRate', component: matchingrate},
-        {path: 'comprehensiveEvalution', component: comprehensiveevalution},
-        {path: 'focusOnMe', component: focusonme},
+        {path: '', redirect: '/matchingRate'},
+        {path: '/matchingRate', component: matchingrate},
+          {path: 'comprehensiveEvalution', component: comprehensiveevalution},
+          {path: 'focusOnMe', component: focusonme},
       ]
     },
     {

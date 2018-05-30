@@ -4,11 +4,11 @@
       <span>
         <img class="imgmiddle imgr" src="./img/简历_钱币.svg" alt="">求职意向</span>
     </resumetitle>
-    <div v-for="(item,index) in mainData" :key="index" class="resumewidth incenter rc2-container2 ">
-      <span class="floatl rc2-c2-tag">{{item.position?item.position:'暂无'}}</span>
-      <span class="floatl rc2-c2-tag">期望城市：{{item.city}}</span>
-      <span class="floatl rc2-c2-tag">期望行业：{{item.industry}}</span>
-      <span class="floatl rc2-c2-tag">{{item.expect_salary}}</span>
+    <div v-for="(item,index) in mainData" :key="index" class="resumewidth hc rc2-container2 ">
+      <span class="fl rc2-c2-tag">{{item.position?item.position:'暂无'}}</span>
+      <span class="fl rc2-c2-tag">期望城市：{{item.city}}</span>
+      <span class="fl rc2-c2-tag">期望行业：{{item.industry}}</span>
+      <span class="fl rc2-c2-tag">{{item.expect_salary}}</span>
       <span class="pointer" @click="editorInfo(index)">
         <img class="imgmiddle imgr" src="./img/简历_铅笔.svg" alt="">
         <span>编辑</span>

@@ -1,5 +1,5 @@
 <template>
-  <div class="resume-part-title resumewidth incenter">
+  <div class="resume-part-title resumewidth hc">
     <slot></slot>
     <span class="pointer" @click="handleClick">
       <img class="imgmiddle imgr" src="./img/简历_加号.svg" alt="">

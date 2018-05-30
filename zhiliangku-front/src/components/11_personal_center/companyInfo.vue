@@ -70,7 +70,7 @@
 <script>
   import Vue from 'vue'
 
-  Vue.use(window.VueLazyLoad, {})
+  Vue.use(window.VueLazyload, {})
   export default {
     name: 'HelloWorld',
     data() {

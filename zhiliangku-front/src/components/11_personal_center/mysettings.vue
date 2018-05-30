@@ -1,6 +1,6 @@
 <template>
-  <div class="mainwidth incenter personnal-center-main clearfix">
-    <ul class="floatl personal-center-left">
+  <div class="mw hc personnal-center-main clearfix">
+    <ul class="fl personal-center-left">
       <li><router-link to='/mySettings/baseInfo'><span class="font14pr3a3c50">基本信息</span><span class="pcl-triangle"></span></router-link></li>
       <li><router-link to='/mySettings/bindAccount'><span class="font14pr3a3c50">账号绑定</span><span class="pcl-triangle"></span></router-link></li>
       <li><router-link to='/mySettings/password'><span class="font14pr3a3c50">密码设置</span><span class="pcl-triangle"></span></router-link> </li>

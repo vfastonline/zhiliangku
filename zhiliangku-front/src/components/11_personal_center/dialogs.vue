@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-dialog :width="'650px'" :title="dialogTitle" :visible.sync="show">
-      <div v-if="dialogType=='email'" class="email-container incenter">
-        <div><img class="incenter block" src="./img/绿对勾.svg" alt=""></div>
+      <div v-if="dialogType=='email'" class="email-container hc">
+        <div><img class="hc block" src="./img/绿对勾.svg" alt=""></div>
         <div class="fontcenter">已向
         <span class="font16pr23b8ff">{{str}}</span>发送邮件</div>
         <div class="fontcenter"><span class="font16pl3a3c50"> 请登录邮箱点击确认链接完成验证</span></div>
@@ -11,8 +11,8 @@
           <el-button @click="close()">以后再说</el-button>
         </div>
       </div>
-      <div v-if="dialogType=='phone'" class="email-container incenter">
-        <div><img class="incenter block" src="./img/绿对勾.svg" alt=""></div>
+      <div v-if="dialogType=='phone'" class="email-container hc">
+        <div><img class="hc block" src="./img/绿对勾.svg" alt=""></div>
         <div class="fontcenter"><span>成功将手机号修改为{{str}}</span></div>
         <div class="fontcenter">
           <el-button @click="close()">完成</el-button>

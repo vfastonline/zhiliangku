@@ -1,19 +1,19 @@
 <template>
-  <div class="settings-container incenter">
-    <div class="setting-item relative">
+  <div class="settings-container hc">
+    <div class="setting-item r">
       <div class="tag font14pl3a3c50">昵称：</div>
       <div class="set-content">
         <el-input :maxlength="20" v-model="value0"></el-input>
       </div>
     </div>
-    <div class="setting-item relative">
+    <div class="setting-item r">
       <div class="tag font14pl3a3c50">性别：</div>
       <div class="set-content">
         <el-radio v-model="value1" label="男">男</el-radio>
         <el-radio v-model="value1" label="女">女</el-radio>
       </div>
     </div>
-    <div class="setting-item relative">
+    <div class="setting-item r">
       <div class="tag font14pl3a3c50">个性签名：</div>
       <div class="set-content">
         <el-input type='textarea' :maxlength="120" v-model="value2"></el-input>

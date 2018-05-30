@@ -1,6 +1,6 @@
 <template>
   <div class="personal-info-outer zindex1" :style="{'background-image':'url(' +imgData.pathwel +')'}">
-    <div class="mainwidth incenter">
+    <div class="mw hc">
       <div class="pio-detail">
         <div class="pio-user-left">
           <el-upload class="avatar-uploader"  :action="ognizeUrl()" :show-file-list="false" :on-success="handleAvatarSuccess"
@@ -16,11 +16,13 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 <script>
+  import Vue from 'vue'
+  import {Upload} from 'element-ui'
   import Bus from '../../assets/js/02_bus'
+  Vue.use(Upload)
   export default {
     name: 'HelloWorld',
     data() {

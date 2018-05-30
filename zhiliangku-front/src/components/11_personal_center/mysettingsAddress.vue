@@ -1,18 +1,18 @@
 <template>
-  <div class="settings-container incenter">
-    <div class="setting-item relative">
+  <div class="settings-container hc">
+    <div class="setting-item r">
       <div class="tag font14pl3a3c50">收货地址：</div>
       <div class="set-content">
         <el-input v-model="value0"></el-input>
       </div>
     </div>
-    <div class="setting-item relative">
+    <div class="setting-item r">
       <div class="tag font14pl3a3c50">收货人：</div>
       <div class="set-content">
         <el-input v-model="value1"></el-input>
       </div>
     </div>
-    <div class="setting-item relative">
+    <div class="setting-item r">
       <div class="tag font14pl3a3c50">联系电话：</div>
       <div class="set-content">
         <el-input v-model="value2"></el-input>

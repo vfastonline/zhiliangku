@@ -4,7 +4,7 @@
       <span>
         <img class="imgmiddle imgr" src="./img/简历_学士帽.svg" alt="">教育经历</span>
     </resumetitle>
-    <div v-for="(item,index) in mainData" :key="index" class="resumewidth incenter">
+    <div v-for="(item,index) in mainData" :key="index" class="resumewidth hc">
       <timerbox :config="{title:'school'}" :first="!index" :mainData="item">
         <educationExp @editor="editorInfo(index)" :mainData="item"></educationExp>
       </timerbox>

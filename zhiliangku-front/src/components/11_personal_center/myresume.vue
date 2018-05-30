@@ -1,6 +1,6 @@
 <template>
-  <div class="mainwidth incenter personnal-center-main clearfix">
-    <ul class="floatl personal-center-left">
+  <div class="mw hc personnal-center-main clearfix">
+    <ul class="fl personal-center-left">
       <li v-for="(item,index) in anchorarr" :key="index">
         <a :class="{'colorBlue':activeIndex==index}" href="javascript:void(0)" @click="goAnchor('#anchor'+index,index)">
           <span class="font14pr3a3c50">{{item}}</span>

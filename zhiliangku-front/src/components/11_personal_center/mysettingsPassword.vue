@@ -1,18 +1,18 @@
 <template>
-  <div class="settings-container incenter">
-    <div class="setting-item relative">
+  <div class="settings-container hc">
+    <div class="setting-item r">
       <div class="tag font14pl3a3c50">旧密码：</div>
       <div class="set-content">
         <el-input v-model="value0"></el-input>
       </div>
     </div>
-    <div class="setting-item relative">
+    <div class="setting-item r">
       <div class="tag font14pl3a3c50">新密码：</div>
       <div class="set-content">
         <el-input v-model="value1"></el-input>
       </div>
     </div>
-    <!-- <div class="setting-item relative">
+    <!-- <div class="setting-item r">
       <div class="tag font14pl3a3c50">再次确认：</div>
       <div class="set-content">
         <el-input v-model="value2"></el-input>

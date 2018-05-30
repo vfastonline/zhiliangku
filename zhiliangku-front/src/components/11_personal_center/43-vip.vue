@@ -1,5 +1,5 @@
 <template>
-  <div class="mainwidth incenter personnal-center-main clearfix">
+  <div class="mw hc personnal-center-main clearfix">
     <div class="fontcenter  vip-state"><span>会员状态： </span> 你从<span>2018</span>年<span>10</span>月<span>4</span>日加入智量酷黄金会员</div>
     <div class="split-line"></div>
     <div class="tags-container">
@@ -50,7 +50,7 @@ export default {
 
   },
   components:{
-    
+
   }
 }
 </script>

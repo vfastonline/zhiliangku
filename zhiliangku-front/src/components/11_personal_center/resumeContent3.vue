@@ -4,7 +4,7 @@
       <span>
         <img class="imgmiddle imgr" src="./img/简历_公文包.svg" alt="">工作经历</span>
     </resumetitle>
-    <div class="resumewidth incenter">
+    <div class="resumewidth hc">
       <timerbox :config="{title:'company'}" v-if="mainData.length" v-for="(item,index) in mainData" :key="index" :mainData="item"
         :first="!index">
         <experience v-if="mainData.length" :mainData="item" @editor="editorInfo(index)"></experience>

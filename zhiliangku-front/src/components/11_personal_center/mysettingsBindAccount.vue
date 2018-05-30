@@ -1,6 +1,6 @@
 <template>
-  <div class="settings-container incenter">
-    <div class="setting-item relative">
+  <div class="settings-container hc">
+    <div class="setting-item r">
       <div class="tag font14pl3a3c50">邮箱：</div>
       <div class="set-content">
         <div class="sc-info-li">
@@ -10,7 +10,7 @@
          class="bind-button font14pr424242 pointer">{{mainData.emil?'更改':'绑定'}}</span>
       </div>
     </div>
-    <div class="setting-item relative">
+    <div class="setting-item r">
       <div class="tag font14pl3a3c50">手机号：</div>
       <div class="set-content">
         <div class="sc-info-li">
@@ -20,7 +20,7 @@
          class="bind-button font14pr424242 pointer">{{mainData.phone?'更改':'绑定'}}</span>
       </div>
     </div>
-    <div class="setting-item relative">
+    <div class="setting-item r">
       <div class="tag font14pl3a3c50">微信：</div>
       <div class="set-content">
         <div class="sc-info-li">

@@ -1,11 +1,11 @@
 <template>
   <div id="anchor0">
-    <div class="rc-pi resumewidth incenter">
+    <div class="rc-pi resumewidth hc">
       <div class="rc-pi-container1">
         <div class="rc-pi-content ">
-          <el-upload class="rc-pic-img floatl round" :action="orgnizeUrl()" :show-file-list="false" :on-success="handleAvatarSuccess"
+          <el-upload class="rc-pic-img fl round" :action="orgnizeUrl()" :show-file-list="false" :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
-            <img class="rc-pic-img floatl round" v-if="imgsrc" :src="imgsrc" alt="">
+            <img class="rc-pic-img fl round" v-if="imgsrc" :src="imgsrc" alt="">
           </el-upload>
           <div class="rc-pic-word">
             <div @click="ifshowEditor" class="pointer rc-pic-editor">

@@ -3,7 +3,7 @@
     <resumetitle :tag="{label:'编辑',eventName:'editor'}" @editor="showeditor=!showeditor" :mainData="titleData">
         <span><img   class="imgmiddle imgr" src="./img/简历_小人.svg" alt="">我的优势</span>
     </resumetitle>
-    <div  class="resumewidth incenter ">
+    <div  class="resumewidth hc ">
       <p v-html="mainData.advantage">
       </p>
     </div>

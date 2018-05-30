@@ -4,10 +4,10 @@
       <span>
         <img class="imgmiddle imgr" src="./img/简历_项目.svg" alt="">项目经验</span>
     </resumetitle>
-    <div class="resumewidth incenter">
+    <div class="resumewidth hc">
       <p v-if="!mainData.length">你可以描述一下之前工作中所参与的项目，一段精彩的项目经历可以最直观的突出你的优势</p>
     </div>
-    <div v-for="(item,index) in mainData" :key="index" class="resumewidth incenter">
+    <div v-for="(item,index) in mainData" :key="index" class="resumewidth hc">
       <timerbox :config="{title:'name',linkTitle:true}"
       :first="!index" :mainData="item">
       <projectExp @editor="editorInfo(index)" :mainData="item">

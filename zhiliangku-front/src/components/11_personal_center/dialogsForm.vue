@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-dialog :width="'650px'" :title="dialogTitle" :visible.sync="show">
-      <div v-if="dialogContent=='email'" class="dialog-li incenter emial-container relative">
-        <div class="input-li relative">
+      <div v-if="dialogContent=='email'" class="dialog-li hc emial-container r">
+        <div class="input-li r">
           <div class="tags">邮箱地址：</div>
           <el-form :model="emailform" ref="email" :rules="emailRule">
             <el-form-item prop="email">
@@ -11,8 +11,8 @@
           </el-form>
         </div>
       </div>
-      <div v-if="dialogContent=='phone'" class="dialog-li incenter emial-container relative">
-        <div class="input-li relative">
+      <div v-if="dialogContent=='phone'" class="dialog-li hc emial-container r">
+        <div class="input-li r">
           <div class="tags">手机号：</div>
           <el-form :model="phoneform" ref="phone" :rules="phoneRule">
             <el-form-item prop="phone">
@@ -21,8 +21,8 @@
           </el-form>
         </div>
       </div>
-      <div v-if="needpassword" class="dialog-li incenter emial-container relative">
-        <div class="input-li relative">
+      <div v-if="needpassword" class="dialog-li hc emial-container r">
+        <div class="input-li r">
           <div class="tags">密码：</div>
           <el-form :model="passwordform" ref="password" :rules="passwordRule">
             <el-form-item prop="password">
@@ -31,8 +31,8 @@
           </el-form>
         </div>
       </div>
-      <div v-if="needpassword" class="dialog-li incenter emial-container relative">
-        <div class="input-li relative">
+      <div v-if="needpassword" class="dialog-li hc emial-container r">
+        <div class="input-li r">
           <div class="tags">重复密码：</div>
           <el-form :model="passwordcheckform" ref="passwordcheck" :rules="passwordcheckRule">
             <el-form-item prop="passwordcheck">
@@ -41,8 +41,8 @@
           </el-form>
         </div>
       </div>
-      <div v-if="dialogContent=='phone'" class="dialog-li incenter emial-container relative">
-        <div class="input-li relative">
+      <div v-if="dialogContent=='phone'" class="dialog-li hc emial-container r">
+        <div class="input-li r">
           <div class="tags">短信验证码：</div>
           <el-form class="" :model="codeform" ref="code" :rules="codeRule">
             <el-form-item prop="code">

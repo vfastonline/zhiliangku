@@ -1,12 +1,7 @@
 <template>
-  <div class="mainRouter-container  relative">
-    <div class="mainwidth incenter  mynav ">
-      <div class="persona-center-navbar rised">
-        <!-- <router-link :to="{path:'/occupational'}" class="font16pr3a3c50 pointer vc-nav-tag">职业信息</router-link>
-        <router-link :to="{path:'/myCourse'}" class="font16pr3a3c50 pointer vc-nav-tag">我的课程</router-link>
-        <router-link :to="{path:'/myResume'}" class="font16pr3a3c50 pointer vc-nav-tag">我的简历</router-link>
-        <router-link :to="{path:'/mySettings'}" class="font16pr3a3c50 pointer vc-nav-tag">个人设置</router-link>
-        <router-link :to="{path:'/myVIP'}" class="font16pr3a3c50 pointer vc-nav-tag">我的VIP</router-link> -->
+  <div class="mainRouter-container  r">
+    <div class="mw hc  mynav ">
+      <div class="persona-center-navbar rose">
         <router-link v-for="(item,index) in routerInfo" :key="index" :to="item.to " >{{item.name}}</router-link>
       </div>
     </div>
@@ -42,6 +37,7 @@
 
 </style>
 <script>
+
   export default {
     data() {
       return {
@@ -50,12 +46,10 @@
     },
     props: {routerInfo:Array,refresh:Boolean},
     methods: {
-      jj() {
-        console.log(111)
-      }
     },
     components: {},
-    created() {}
+    created() {
+    }
   }
 
 </script>

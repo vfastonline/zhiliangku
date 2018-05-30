@@ -42,7 +42,6 @@
             to: {path: '/myVIP'},
             name: '我的VIP'
           }
-
         ]
       }
     },
