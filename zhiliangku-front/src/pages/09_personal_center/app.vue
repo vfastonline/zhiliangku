@@ -13,11 +13,10 @@
 </style>
 
 <script>
-  import Bus from '../../assets/js/02_bus'
   import MyHeader from '../../components/01_header_footer/01_header'
   import F from '../../components/01_header_footer/03_footer'
-  import mainRouter from '../../components/personalCenter/mainRouter.vue'
-  import personalInfo from '../../components/personalCenter/personalInfo.vue'
+  import mainRouter from '../../components/11_personal_center/mainRouter.vue'
+  import personalInfo from '../../components/11_personal_center/personalInfo.vue'
 
   export default {
     name: 'personal_center',
