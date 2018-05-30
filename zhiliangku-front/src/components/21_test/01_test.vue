@@ -90,7 +90,7 @@
         })
       },
       submit() {
-        window.open("/assess/result/?video_id=" + this.vid)
+        location.href="/assess/result/?video_id=" + this.vid
       }
     },
     created() {
