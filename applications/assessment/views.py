@@ -182,6 +182,7 @@ class AssessmentResult(View):
 判题shell返回json结果
 {
 	"is_pass": 1,
+	"total": 5,
 	"right": 5,
 	"wrong": 0,
 	"msg": "错误提示信息"
