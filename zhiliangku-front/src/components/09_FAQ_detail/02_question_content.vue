@@ -13,12 +13,17 @@
             <img class="question-icon" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">          
           </div>
           <div class="info_right">
-            <span class="qestion-owner-name font1_14_9">{{mainData.custom_user_nickname}}</span>
+            <span class="qestion-owner-name font1_16_9">{{mainData.custom_user_nickname}}</span>
             <span class="font1_16_9 createTime">{{mainData.create_time}}提问</span>          
-            <div class="question-title font1_20_3 3a3c50">{{mainData.title}}</div>          
-            <span class="info_right_one scan fr font1_14_9">{{mainData.browse_amount}}次浏览</span>
-            <span class="info_right_two scan fr font1_14_9">{{dataLength()}}次回答</span> 
-            <div class="font1_14_23b8ff">{{mainData.status_name|| "未解决"}}</div>
+            <div class="clearfix">
+              <div class="question-title font1_18_6 fl">{{mainData.title}}</div>  
+              <div class="fr">
+                <span class="info_right_one scan fr font1_14_6">{{mainData.browse_amount}}次浏览</span>
+                <span class="info_right_two scan fr font1_14_6">{{dataLength()}}次回答</span>
+              </div>         
+            </div>
+
+            <div class="font1_14_b4 info_status">{{mainData.status_name|| "未解决"}}</div>
           </div>
         </div>
       </div>
@@ -172,7 +177,7 @@
     top:center;
     right:-90px;
   }
-  .font1_14_23b8ff {
-    color: #23b8ff;
+  .info_status {
+    margin-top:-17px;
   }
 </style>
