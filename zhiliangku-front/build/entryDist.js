@@ -49,6 +49,14 @@ const entry = {
   exercise:{
     path:'08_exercise',
     filename: 'exercise/list/index.html',
+  },
+  personal_center:{
+    path:'09_personal_center',
+    filename:'personal_center/page/index.html'
+  },
+  error_404:{
+    path:'23_404',
+    filename:'404.html'
   }
 }
 var entryObj = {}
