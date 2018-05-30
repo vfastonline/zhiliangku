@@ -8,7 +8,7 @@
       <img :src="$myConst.httpUrl+'/media/image/static/assess_result_01_sad.png'" alt="">
     </div>
     <div class="success_bottom ftc">
-      <p class="font1_18_6">本次考核结果：答对 {{main_data.right||0}} 题，答错 {{main_data.wrong||0}} 题</p>
+      <p class="font1_18_6">本次考核结果：答对 {{main_data.right||0}} 个，答错 {{main_data.wrong || 0}} 个</p>
     </div>
   </div>
 </template>
@@ -31,7 +31,6 @@
     hieght: 26px;
     line-height: 26px;
   }
-
 
   .failure_emoticon {
     padding: 20px 0 30px;

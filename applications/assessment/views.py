@@ -224,7 +224,7 @@ class AssessmentResultInfo(View):
 	def post(self, request, *args, **kwargs):
 		try:
 			param_dict = json.loads(request.body)
-			self.token = kwargs.get('token', "")  # 当前登录用户token
+			self.token = re.sub('=', '', kwargs.get('token', ""))  # 当前登录用户token
 			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			self.video_id = str_to_int(param_dict.get('video_id', 0))
 
