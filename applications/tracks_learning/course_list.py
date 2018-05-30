@@ -325,6 +325,46 @@ class CourseDetail(View):
 		return render(request, template_name, {})
 
 
+def section_is_unlock(custom_user_id, section, sections=list(), previous_num=1):
+	"""章节是否解锁
+	:param custom_user_id: 当前登录用户
+	:param section: 当前章节
+	:param sections: 课程下所有章节
+	:param previous_num: 上N个章节
+	:return:
+	"""
+	is_unlock = False
+	try:
+		previous_section = None
+		previous_index = sections.index(section) - previous_num
+		if previous_index >= 0:
+			previous_section = sections[previous_index]
+
+		if not previous_section:  # 没有上一章节
+			is_unlock = True
+		else:
+			previous_section_has_assessment = False  # 上一个章节中有考核
+			assessment_video = previous_section.Videos.filter(type="3")  # 上一个课程->章节->考核
+			if assessment_video.exists():
+				previous_section_has_assessment = True
+				filter_param = {
+					"custom_user__id": custom_user_id,
+					"video": assessment_video.first()
+				}
+				unlockvideos = UnlockVideo.objects.filter(**filter_param)
+				if unlockvideos.exists():
+					is_unlock = True
+
+			# 上一个章节中都没有考核
+			if not previous_section_has_assessment:
+				# 迭代查找上一个课程是否有通过考核
+				return section_is_unlock(custom_user_id, section, sections, previous_num + 1)
+	except:
+		traceback.print_exc()
+		return is_unlock
+	return is_unlock
+
+
 @class_view_decorator(user_login_required)
 class CourseDetailInfo(View):
 	"""课程详情"""
@@ -335,6 +375,7 @@ class CourseDetailInfo(View):
 		self.course_id = 0
 		self.project_id = 0
 		self.custom_user_id = 0
+		self.previous_course = None
 
 	def get(self, request, *args, **kwargs):
 		try:
@@ -345,72 +386,35 @@ class CourseDetailInfo(View):
 			if self.course_id:
 				course_objs = Course.objects.filter(id=self.course_id)
 				if course_objs.exists():
-					course_obj = course_objs.first()
-					self.project_id = course_obj.project.id
-					detail["id"] = course_obj.id
-					detail["name"] = course_obj.name
-					detail["lecturer"] = course_obj.lecturer.nickname if course_obj.lecturer else ""
-					detail["avatar"] = course_obj.lecturer.avatar.url if course_obj.lecturer else ""
-					detail["position"] = course_obj.lecturer.position if course_obj.lecturer else ""
-					detail["desc"] = course_obj.desc
+					course = course_objs.first()
+					self.project_id = course.project.id
+					detail["id"] = course.id
+					detail["name"] = course.name
+					detail["lecturer"] = course.lecturer.nickname if course.lecturer else ""
+					detail["avatar"] = course.lecturer.avatar.url if course.lecturer else ""
+					detail["position"] = course.lecturer.position if course.lecturer else ""
+					detail["desc"] = course.desc
 					detail["summary"] = {}
 
-					# 汇总数据学习进度
-					previous_course = None
-					filter_param = {
-						"project": course_obj.project,
-						"sequence": course_obj.sequence - 1,
-					}
-					previous_courses = Course.objects.filter(**filter_param)
-					if previous_courses.exists():
-						previous_course = previous_courses.first()
-
-					# 查询项目下所有课程
-					courses = list()
-					projects = Project.objects.filter(id=self.project_id)
-					if projects.exists():
-						courses = projects.first().Courses.all().order_by("sequence")
-					summarize_dict = project_summarize_course_progress(self.custom_user_id, course_obj, courses)
+					# 汇总课程学习进度
+					courses = course.project.Courses.all().order_by("sequence")  # 项目下所有课程
+					summarize_dict = project_summarize_course_progress(self.custom_user_id, course, list(courses))
 					detail["summary"] = summarize_dict
 
 					# 查询课程下所有章节信息
 					detail["sections"] = list()
-					previous_videos = None
-					for one_section in course_obj.Section.all().order_by("sequence"):
+					sections = course.Section.all().order_by("sequence")
+					for one_section in sections:
 						section = {
 							"id": one_section.id,
 							"title": one_section.title,
-							"sequence": one_section.sequence,
-							"desc": one_section.desc,
-							"unlock": False
 						}
 						videos = one_section.Videos.all().order_by("sequence")  # 章节下所有课程列表
 
 						video_list = list()
 						if videos.exists():
-							# 查找考核视频，判断用户是否通过考核
-							unlock = False
-							assessment_video = None
-							if not previous_videos:  # 没有上一个章节， 查找：上一个课程->最后章节->考核
-								if previous_course:
-									assessment_video = previous_course.Section.last().Videos.filter(type="3")
-							else:
-								assessment_video = previous_videos.filter(type="3")
-
-							if assessment_video:
-								unlock_filter = {
-									"custom_user__id": self.custom_user_id,
-									"video": assessment_video.first()
-								}
-								unlockvideos = UnlockVideo.objects.filter(**unlock_filter)
-								if unlockvideos.exists():
-									unlock = True
-							else:
-								unlock = True
-							section["unlock"] = unlock
-
-							# 当前视频集设为上一章节视频集，用来校验是否解锁下一节视频
-							previous_videos = videos
+							# 通过章节中的考核判断视频是否解锁
+							unlock = section_is_unlock(self.custom_user_id, one_section, list(sections))
 
 							for video in videos:
 								video_dict = dict()
@@ -432,7 +436,7 @@ class CourseDetailInfo(View):
 								watchrecord_param = {
 									"user__id": self.custom_user_id,
 									"video": video,
-									"course": course_obj,
+									"course": course,
 									"status": 1
 								}
 								if video.type == "1":
@@ -465,6 +469,16 @@ class CourseDetailInfo(View):
 			self.result_dict["msg"] = traceback.format_exc()
 		finally:
 			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
+
+	def get_previous_course(self, course, courses, previous_num):
+		"""获取上一个课程"""
+		try:
+			self.previous_course = None
+			previous_index = courses.index(course) - previous_num
+			if previous_index >= 0:
+				self.previous_course = courses[previous_index]
+		except:
+			traceback.print_exc()
 
 	def make_breadcrumbs(self):
 		"""制作面包屑"""
