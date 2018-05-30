@@ -145,8 +145,7 @@ class Recommend(View):
                     data_dict = dict()
                     data_dict["name"] = one.name
                     data_dict["lecturer"] = one.lecturer.nickname
-                    data_dict["course_img"] = one.course_img.url
-                    data_dict["description"] = one.description
+                    data_dict["description"] = one.desc
                     data_list.append(data_dict)
             result_dict["data"] = data_list
 

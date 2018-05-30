@@ -38,7 +38,7 @@ module.exports = {
   },
   externals: {
     // 'vue': 'Vue',这行先注释掉 以后再释放出来
-    'vue-router': 'VueRouter',
+    // 'vue-router': 'VueRouter',
     'axios': 'axios',
   },
   module: {

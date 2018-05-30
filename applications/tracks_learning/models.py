@@ -5,7 +5,6 @@ import commands
 import logging
 import traceback
 
-from colorfield.fields import ColorField
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models.signals import post_save
@@ -39,6 +38,7 @@ class Project(models.Model):
 	name = models.CharField('名称', max_length=50)
 	desc = models.TextField('简介', max_length=1000, blank=True, null=True, default='')
 	technology = models.ForeignKey(Technology, verbose_name="技术分类", blank=True, null=True)
+	sequence = models.PositiveIntegerField('顺序', default=1, validators=[MinValueValidator(1)], help_text="技术分类下显示顺序")
 	is_lock = models.BooleanField("锁定", default=True)
 	home_show = models.BooleanField("首页展示", default=False)
 	pathwel = models.ImageField('介绍图片', upload_to='project/%Y%m%d', storage=ImageStorage(), null=True, blank=True)
@@ -52,6 +52,7 @@ class Project(models.Model):
 		db_table = 'Project'
 		verbose_name = "项目"
 		verbose_name_plural = "项目"
+		ordering = ['technology', "sequence"]
 
 
 class Course(models.Model):
