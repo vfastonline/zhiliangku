@@ -3,6 +3,7 @@ import commands
 import json
 import logging
 import random
+import re
 import traceback
 
 import datetime
@@ -63,7 +64,7 @@ class ConstructDocker(View):
 
 	def get(self, request, *args, **kwargs):
 		try:
-			self.token = kwargs.get('token', "")  # 登录用户 token
+			self.token = re.sub('=', '', kwargs.get('token', ""))  # 登录用户 token
 			self.video_id = str_to_int(request.GET.get('video_id', 0))  # 考核类型 视频ID
 
 			# 获取未占用容器端口
@@ -122,6 +123,9 @@ class ConstructDocker(View):
 				except:
 					traceback.print_exc()
 					logging.getLogger().error(traceback.format_exc())
+					self.result_dict["err"] = 1
+					self.result_dict["msg"] = traceback.format_exc()
+					return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
 			start_info = commands.getoutput(start_command)
 			print start_command
 			print start_info
@@ -262,7 +266,7 @@ class AssessmentResultInfo(View):
 				customusers = CustomUser.objects.filter(id=custom_user_id)
 				if videos.exists() and customusers.exists():
 					UnlockVideo.objects.create(video=videos.first(), custom_user=customusers.first())
-					
+
 			# 销毁docker
 			self.destroy()
 		except:
