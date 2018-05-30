@@ -2,18 +2,18 @@ const prePath = './src/pages/'
 const jsPath = '/main.js'
 const htmlPath = '/index.html'
 const entry = {
-  // index: {
-  //   path: '00_index',
-  //   filename: 'index.html'
-  // },
-  // project_list: {
-  //   path: '01_project_list',
-  //   filename: 'tracks/projects/list/index.html'
-  // },
-  // project_detail: {
-  //   path: '02_project_detail',
-  //   filename: 'tracks/projects/detail/index.html'
-  // },
+  index: {
+    path: '00_index',
+    filename: 'index.html'
+  },
+  project_list: {
+    path: '01_project_list',
+    filename: 'tracks/projects/list/index.html'
+  },
+  project_detail: {
+    path: '02_project_detail',
+    filename: 'tracks/projects/detail/index.html'
+  },
   course_detail:{
     path:'03_course_detail',
     filename:'tracks/course/detail/index.html'
@@ -38,18 +38,18 @@ const entry = {
     path:'20_login',
     filename:'login/index.html'
   },
-  // test:{
-  //   path:'21_test',
-  //   filename:'assess/info/index.html'
-  // },
-  // assess_result:{
-  //   path:'22_assess_result',
-  //   filename:'assess/result/index.html'
-  // },
-  // exercise:{
-  //   path:'08_exercise',
-  //   filename: 'exercise/list/index.html',
-  // }
+  test:{
+    path:'21_test',
+    filename:'assess/info/index.html'
+  },
+  assess_result:{
+    path:'22_assess_result',
+    filename:'assess/result/index.html'
+  },
+  exercise:{
+    path:'08_exercise',
+    filename: 'exercise/list/index.html',
+  }
 }
 var entryObj = {}
 var distArr = []

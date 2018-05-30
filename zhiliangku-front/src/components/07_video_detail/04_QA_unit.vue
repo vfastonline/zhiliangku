@@ -12,7 +12,7 @@
         <div class="font1_20_3 clearfix mt8">
           <div class="fl qctc-qustion-content">{{mainData.title}}</div>
           <div class="fr">
-            <span class="font1_16_3 clearfix anwser">{{mainData.faq_answer_count}}回答</span>
+            <span class="font1_16_3 anwser">{{mainData.faq_answer_count}}回答</span>
             <span class="font1_16_3">{{mainData.browse_amount}}次浏览</span>
           </div>
         </div>
