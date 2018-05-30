@@ -1,17 +1,18 @@
 <template>
   <div class="anwser-container incenter r">
-    <div v-if="mainData.optimal" class="bestAnwser fontcenter">
+    <!--<div v-if="mainData.optimal" class="bestAnwser fontcenter">
       <span class="bestAnwserContent font1_16_fff ftc">最佳答案</span>
-    </div>
+    </div>-->
     <div class="anwser_info_left fl ftc">
        <img class="question-user-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">      
     </div>
     <div class="anwser_info_right">
         <div class="r userinfo">
-          <span class="font14pl7c7e8c">{{mainData.custom_user_nickname}}</span>
-          <span class="font14pl7c7e8c scan">{{mainData.create_time}}</span>
+          <span class="font1_16_9">{{mainData.custom_user_nickname}}</span>
+          <span class="font1_16_9 createTime">{{mainData.create_time}}</span>
         </div>
-        <div class="answerContent" v-html="mainData.answer">
+        <div class="answerType font1_18_b4">答主</div>
+        <div class="answerContent font1_18_9" v-html="mainData.answer">
         </div>
         <div class="toolbar">
           <div>
@@ -168,6 +169,9 @@
   }
   .userinfo {
     margin-bottom: 10px;
+  }
+  .createTime {
+    padding-left:52px;
   }
 
   .icon-zhankai {
