@@ -42,7 +42,6 @@ class PersonalCenterBasicInfo(View):
 				data_dict["signature"] = customuser.signature if customuser.signature else ""
 				data_dict["sex"] = customuser.get_sex_display()
 				data_dict["institutions"] = customuser.institutions
-				data_dict["contact_number"] = customuser.contact_number
 				# video_process = str_to_int(WatchRecord.objects.filter(user__id=custom_user_id).aggregate(Sum('video_process')).get("video_process__sum"))
 				# duration = str_to_int(WatchRecord.objects.filter(user__id=custom_user_id, status=1).aggregate(Sum('duration')).get("duration__sum"))
 				# learn_time = video_process + duration
@@ -50,6 +49,7 @@ class PersonalCenterBasicInfo(View):
 				# h, m = divmod(m, 60)
 				# data_dict["learn_time"] = "%02d:%02d:%02d" % (h, m, s)
 				# data_dict["integral"] = customuser.integral
+				data_dict["contact_number"] = customuser.contact_number
 			result_dict["data"] = data_dict
 		except:
 			traceback.print_exc()
