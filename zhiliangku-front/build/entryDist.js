@@ -6,14 +6,14 @@ const entry = {
   //   path: '00_index',
   //   filename: 'index.html'
   // },
-  // project_list: {
-  //   path: '01_project_list',
-  //   filename: 'tracks/projects/list/index.html'
-  // },
-  // project_detail: {
-  //   path: '02_project_detail',
-  //   filename: 'tracks/projects/detail/index.html'
-  // },
+  project_list: {
+    path: '01_project_list',
+    filename: 'tracks/projects/list/index.html'
+  },
+  project_detail: {
+    path: '02_project_detail',
+    filename: 'tracks/projects/detail/index.html'
+  },
   // course_detail:{
   //   path:'03_course_detail',
   //   filename:'tracks/course/detail/index.html'
@@ -34,10 +34,6 @@ const entry = {
   //   path:'20_login',
   //   filename:'login/index.html'
   // },
-  // login:{
-  //   path:'20_login',
-  //   filename:'login/index.html'
-  // },
   // test:{
   //   path:'21_test',
   //   filename:'assess/info/index.html'
@@ -50,10 +46,10 @@ const entry = {
   //   path:'08_exercise',
   //   filename: 'exercise/list/index.html',
   // },
-  personal_center:{
-    path:'09_personal_center',
-    filename:'personal_center/page/index.html'
-  },
+  // personal_center:{
+  //   path:'09_personal_center',
+  //   filename:'personal_center/page/index.html'
+  // },
   leader_board:{
     path:'10_leader_board',
     filename:'employment/leaderboard/list/index.html'
