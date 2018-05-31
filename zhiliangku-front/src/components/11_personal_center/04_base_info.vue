@@ -22,10 +22,41 @@
     <rcb @submit="submit" :layer="['submit'] "></rcb>
   </div>
 </template>
+<style lang="scss">
+  @import "../../assets/style/baseConstScss";
+
+  .settings-container {
+    .el-radio__inner {
+      height: 24px;
+      width: 24px;
+      border-color: $c6;
+    }
+
+    .el-radio__inner::after {
+      cursor: pointer;
+      background-color: $cf;
+    }
+
+    .el-radio__inner::after {
+      width: 12px;
+      height: 12px;
+      background-color: $cb4;
+    }
+
+    .el-radio__input.is-checked .el-radio__inner {
+      border-color: $c6;
+      background: white;
+    }
+  }
+</style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
   import Bus from '../../assets/js/02_bus'
   import rcb from './resumeContentButton'
+  import {Radio} from 'element-ui'
+  import Vue from 'vue'
+
+  Vue.use(Radio)
   export default {
     name: 'HelloWorld',
     data() {

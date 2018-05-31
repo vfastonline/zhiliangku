@@ -3,7 +3,7 @@
     <div id="main">
       <MyHeader></MyHeader>
       <personalInfo></personalInfo>
-      <mainRouter :routerInfo="routerData"></mainRouter>
+      <layout></layout>
     </div>
     <F></F>
   </div>
@@ -15,41 +15,18 @@
 <script>
   import MyHeader from '../../components/01_header_footer/01_header'
   import F from '../../components/01_header_footer/03_footer'
-  import mainRouter from '../../components/11_personal_center/mainRouter.vue'
-  import personalInfo from '../../components/11_personal_center/personalInfo.vue'
-
+  import personalInfo from '../../components/11_personal_center/01_user_info.vue'
+  import layout from '../../components/11_personal_center/03_layout'
   export default {
     name: 'personal_center',
     data() {
-      return {
-        routerData: [{
-          to: {path: '/occupational'},
-          name: '职业信息'
-        },
-          {
-            to: {path: '/myCourse'},
-            name: '我的课程'
-          },
-          {
-            to: {path: '/myResume'},
-            name: '我的简历'
-          },
-          {
-            to: {path: '/mySettings'},
-            name: '个人设置'
-          },
-          {
-            to: {path: '/myVIP'},
-            name: '我的VIP'
-          }
-        ]
-      }
+      return {}
     },
     components: {
       MyHeader: MyHeader,
       F: F,
-      mainRouter: mainRouter,
-      personalInfo: personalInfo
+      personalInfo: personalInfo,
+      layout:layout
     }
   }
 </script>

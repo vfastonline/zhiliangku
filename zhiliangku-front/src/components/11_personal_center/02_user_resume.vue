@@ -1,15 +1,7 @@
 <template>
   <div class="mw hc personnal-center-main clearfix">
     <ul class="fl personal-center-left">
-      <li v-for="(item,index) in anchorarr" :key="index">
-        <a :class="{'colorBlue':activeIndex==index}" href="javascript:void(0)" @click="goAnchor('#anchor'+index,index)">
-          <span class="font14pr3a3c50">{{item}}</span>
-          <span class="pcl-triangle"></span>
-        </a>
-      </li>
-      <li>
-        <el-button @click="sendResume">投递简历</el-button>
-      </li>
+
     </ul>
     <div class="personal-center-right">
       <rc0 :mainData="mainData.resume" :applyData="mainData.careerobjectives"></rc0>
@@ -32,6 +24,9 @@
   import timer from './timerbox'
   import experience from './personalExperience'
   import myform from './myform'
+  import {Button} from 'element-ui'
+  import Vue from 'vue'
+  Vue.use(Button)
   export default {
     data() {
       return {
@@ -102,16 +97,20 @@
       myform: myform,
     }
   }
-
 </script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss'>
-  .personal-c\enter-left {
-    width: 210px;
+  .personnal-center-main{
+    display: flex;
+    justify-content: space-between;
+    margin-top:96px
   }
-
+  .personal-center-left {
+    width: 292px;
+  }
+  .personal-center-right{
+    width:900px;
+  }
   .personal-center-left li {
-    text-align: right;
     margin-bottom: 64px;
   }
 
