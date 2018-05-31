@@ -4,8 +4,10 @@
       <MyHeader></MyHeader>
       <SearchBar class="topBar"></SearchBar>
       <section class="project_list">
-        <CardContainer v-if="main_data.length" class="mw hc " :config="{num:3,card:Finish_project_list,cardData:main_data[0]}">
-          <Finish_project_list v-for="(item,index) in main_data" :key="item.id" :main_data="item" :top_color="color_arr[index%6]" class="margin"></Finish_project_list>
+        <CardContainer v-if="main_data.length" class="mw hc "
+                       :config="{num:3,card:Finish_project_list,cardData:main_data[0]}">
+          <Finish_project_list v-for="(item,index) in main_data" :key="item.id" :main_data="item"
+                               :top_color="color_arr[index%6]" class="margin"></Finish_project_list>
         </CardContainer>
 
         <!--<CardContainer v-if="project_lists.length" class="mw hc " :config="{num:3,card:ProjectStep,cardData:project_lists[0]}">-->
@@ -16,7 +18,7 @@
       <div class="throwBox  ftc">
         <BlueButton><span class="throwButton">投递简历</span></BlueButton>
       </div>
-      <Pager class="mw hc" @pagerGetData="mainPagerData" :url="url" :firstData="true" ></Pager>
+      <Pager class="mw hc" @pagerGetData="mainPagerData" :url="url" :firstData="true"></Pager>
     </div>
     <F></F>
   </div>
@@ -25,16 +27,19 @@
   .margin {
     margin-bottom: 30px;
   }
+
   .topBar {
-    margin-top:20px;
-    margin-bottom:40px;
+    margin-top: 20px;
+    margin-bottom: 40px;
   }
+
   .throwBox {
-    margin:20px 0 82px 0;
+    margin: 20px 0 82px 0;
   }
+
   .throwButton {
-    padding-left:37px;
-    padding-right:37px;
+    padding-left: 37px;
+    padding-right: 37px;
   }
 
 </style>
@@ -52,9 +57,9 @@
     data() {
       return {
         Finish_project_list: Finish_project_list,
-        url:'/employment/finishprojectlistinfo/list/info',
+        url: '/employment/finishprojectlistinfo/list/info',
         main_data: '',
-        color_arr: ['#324e5c','#c25975','59769f','8ea55e','8d6e6e','7b558e']
+        color_arr: ['#324e5c', '#c25975', '59769f', '8ea55e', '8d6e6e', '7b558e']
       }
     },
     components: {
@@ -67,10 +72,10 @@
     },
     methods: {
       mainPagerData(res) {
-       if(!res.err){
-         console.log(res.data)
-         this.main_data=res.data.data
-       }
+        if (!res.err) {
+          console.log(res.data)
+          this.main_data = res.data.data
+        }
       }
 
     }

@@ -1,9 +1,9 @@
 <template>
   <section class=" project_step r rose ">
     <!--<div class="mock a" v-if="main_data.is_lock">-->
-      <!--&lt;!&ndash;<img class="cc" src="./img/lock_icon.png" alt="">&ndash;&gt;-->
+    <!--&lt;!&ndash;<img class="cc" src="./img/lock_icon.png" alt="">&ndash;&gt;-->
     <!--</div>-->
-    <div class="project_title" >
+    <div class="project_title">
       <span class="font1_28_f dib">{{main_data.name}} </span>
       <span class="line2"></span>
     </div>
@@ -11,11 +11,11 @@
       <div class="dib project_time ftc">
         <img class="vm" src="./img/item.png" alt="">
       </div>
-      <span class="font1_18_f dib vbt project_createt_ime" >{{main_data.update_time}} </span>
+      <span class="font1_18_f dib vbt project_createt_ime">{{main_data.update_time}} </span>
       <!--<span  class="tech_tag vb dib font1_18_f" ></span>-->
       <span class="line2"></span>
     </div>
-    <p class="project_text font2_16_9" v-html="main_data.desc" ></p>
+    <p class="project_text font2_16_9" v-html="main_data.desc"></p>
   </section>
 </template>
 <script>
@@ -69,8 +69,8 @@
 
   .project_title {
     text-align: justify;
-    padding-left:20px;
-    font-weight:bold;
+    padding-left: 20px;
+    font-weight: bold;
     background: #647a90;
     height: 80px;
     line-height: 80px;
@@ -84,10 +84,11 @@
   .project_info {
     line-height: 50px;
     height: 50px;
-    background-color: rgba(0,0,0,0.5)
+    background-color: rgba(0, 0, 0, 0.5)
   }
+
   .project_time {
-    height:50px;
+    height: 50px;
     line-height: 50px;
     width: 70px;
   }

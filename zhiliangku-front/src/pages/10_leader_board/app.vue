@@ -17,6 +17,7 @@
   import ImageBlock from '../../components/00_common/08_image_block'
   import F from '../../components/01_header_footer/03_footer'
   import LeaderboardResult from '../../components/12_leader_board/01_leaderboard_result'
+
   export default {
     data() {
       return {}
