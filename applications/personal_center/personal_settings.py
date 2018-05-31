@@ -14,7 +14,7 @@ from lib.util import *
 
 @class_view_decorator(user_login_required)
 class UpdateBasicInfo(View):
-	"""基本信息修改"""
+	"""基本信息--修改"""
 
 	def post(self, request, *args, **kwargs):
 		result_dict = {
@@ -29,6 +29,7 @@ class UpdateBasicInfo(View):
 			sex = param_dict.get('sex', "")  # 必填，性别
 			signature = param_dict.get('signature', "")  # 个性签名
 			contact_number = param_dict.get('contact_number', "")  # 联系电话
+			institutions = param_dict.get('institutions', "")  # 所在院校
 
 			customusers = CustomUser.objects.filter(id=custom_user_id)
 			data_dict = dict()
@@ -39,6 +40,7 @@ class UpdateBasicInfo(View):
 					"signature": signature,
 					"sex": sex,
 					"contact_number": contact_number,
+					"institutions": institutions,
 				}
 				for key, val in param.items():
 					if val:
@@ -51,6 +53,7 @@ class UpdateBasicInfo(View):
 				data_dict["signature"] = customuser.signature if customuser.signature else ""
 				data_dict["sex"] = customuser.get_sex_display()
 				data_dict["contact_number"] = customuser.contact_number
+				data_dict["institutions"] = customuser.institutions
 			else:
 				result_dict["msg"] = "找不到对应用户"
 			result_dict["data"] = data_dict
