@@ -116,3 +116,4 @@ zhiliangku-front/test
 zhiliangku-front/00_node_server
 !zhiliangku-front/build
 zhiliangku-front/config/index.js
+zhiliangku-front/build/entryDist.js

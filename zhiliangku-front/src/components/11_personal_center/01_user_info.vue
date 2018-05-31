@@ -1,19 +1,16 @@
 <template>
   <div class="personal-info-outer zindex1" :style="{'background-image':'url(' +imgData.pathwel +')'}">
-    <div class="mw hc">
-      <div class="pio-detail">
-        <div class="pio-user-left">
-          <el-upload class="avatar-uploader"  :action="ognizeUrl()" :show-file-list="false" :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload">
-            <img class="pio-user-img" v-if="imgsrc" :src=" imgsrc" alt="" />
-          </el-upload>
-        </div>
-        <div class="pio-user-right">
-          <div class="pio-username font20plffffff">{{nickname}}</div>
-          <div class="pio-studytime font14prffffff">
-            学习时长：{{mainData.learn_time}} | 积分：{{mainData.integral}}分</div>
-          <div class="pio-words font14prffffff">{{mainData.signature}}</div>
-        </div>
+    <div class="pio-detail mw hc">
+      <div class="pio-user-left">
+        <el-upload class="avatar-uploader" :action="ognizeUrl()" :show-file-list="false"
+                   :on-success="handleAvatarSuccess"
+                   :before-upload="beforeAvatarUpload">
+          <img class="pio-user-img" v-if="imgsrc" :src=" imgsrc" alt=""/>
+        </el-upload>
+      </div>
+      <div class="pio-user-right">
+        <div class="pio-username font1_20_f">{{nickname}}</div>
+        <div class="pio-words font1_20_f">{{mainData.signature}}</div>
       </div>
     </div>
   </div>
@@ -22,6 +19,7 @@
   import Vue from 'vue'
   import {Upload} from 'element-ui'
   import Bus from '../../assets/js/02_bus'
+
   Vue.use(Upload)
   export default {
     name: 'HelloWorld',
@@ -33,12 +31,12 @@
         imgData: {
           pathwel: ''
         },
-        actionUrl:''
+        actionUrl: ''
       }
     },
     methods: {
       handleAvatarSuccess(res, file) {
-        localStorage.avatar=res.avatar;
+        localStorage.avatar = res.avatar;
         Bus.$emit('refreshAvatar')
         this.imgsrc = URL.createObjectURL(file.raw);
       },
@@ -53,9 +51,9 @@
         }
         return isJPG && isLt2M;
       },
-      ognizeUrl(){
-       var str= this.$myConst.httpUrl+ '/customuser/change/avatar?custom_user_id='+localStorage.uid+'&avatar_type=custom_user_avatar';
-       return str
+      ognizeUrl() {
+        var str = this.$myConst.httpUrl + '/customuser/change/avatar?custom_user_id=' + localStorage.uid + '&avatar_type=custom_user_avatar';
+        return str
       },
       getData() {
         this.$get('/personal_center/basic/info?custom_user_id=' + localStorage.uid).then(res => {
@@ -79,7 +77,6 @@
       }
     },
     created() {
-
       this.getData();
       this.getimage();
       Bus.$on('refreshPersonalData', () => {
@@ -90,9 +87,7 @@
       })
     }
   }
-
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss'>
   .pio-user-left {
@@ -106,38 +101,42 @@
 <style scoped>
   .personal-info-outer {
     width: 100%;
-    height: 400px;
+    height: 300px;
     background: rgba(35, 184, 255, 0.60);
     box-sizing: border-box;
-    padding-top: 143px;
     background-repeat: no-repeat;
     background-size: cover;
   }
 
   .pio-detail {
-    width: 100%;
-    height: 196px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 100%;
   }
 
   .pio-detail .pio-user-left {
-    width: 196px;
-    height: 196px;
+    width: 120px;
+    height: 120px;
     margin-left: 12px;
     float: left;
   }
 
   .pio-detail .pio-user-left .pio-user-img {
     border-radius: 50%;
-    width: 196px;
-    height: 196px;
+    width: 120px;
+    height: 120px;
   }
 
   .pio-detail .pio-user-right {
-    margin-left: 276px;
+    margin-left: 20px;
     box-sizing: border-box;
-    max-width:400px;
-    padding-top: 25px;
+    max-width: 400px;
     position: relative;
+  }
+
+  .pio-user-right {
+    padding-top: 50px;
   }
 
   .pio-detail .pio-user-right .pio-username {
@@ -155,11 +154,12 @@
   .pio-detail .pio-user-right .pio-words {
     height: 20px;
     line-height: 20px;
-    margin-top: 51px;
+    margin-top: 23px;
     opacity: 0.5;
   }
-  .pio-words{
-    width:600px;
+
+  .pio-words {
+    width: 600px;
   }
 
   .pio-detail .pio-user-right .pio-exit {
