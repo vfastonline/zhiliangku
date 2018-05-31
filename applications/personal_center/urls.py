@@ -11,7 +11,7 @@ urlpatterns = [
     url('^page/$', views.PersonalCenter.as_view()),
     url('^basic/info$', views.PersonalCenterBasicInfo.as_view()),
 
-    # 个人设置
+    # 基本信息
     url('^personal_settings/update/basicinfo$', personal_settings.UpdateBasicInfo.as_view()),
     url('^personal_settings/useraccount$', personal_settings.GetUserAccount.as_view()),
     url('^personal_settings/accountbind/email$', personal_settings.AccountBindEmail.as_view()),
