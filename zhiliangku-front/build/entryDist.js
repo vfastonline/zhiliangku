@@ -6,6 +6,7 @@ const entry = {
   //   path: '00_index',
   //   filename: 'index.html'
   // },
+<<<<<<< HEAD
   project_list: {
     path: '01_project_list',
     filename: 'tracks/projects/list/index.html'
@@ -13,6 +14,11 @@ const entry = {
   // project_detail: {
   //   path: '02_project_detail',
   //   filename: 'tracks/projects/detail/index.html'
+=======
+  // project_list: {
+  //   path: '01_project_list',
+  //   filename: 'tracks/projects/list/index.html'
+>>>>>>> 4d04f3bc1e62b75934d47f1c0d1bcf2f08678965
   // },
   // course_detail:{
   //   path:'03_course_detail',
@@ -50,14 +56,14 @@ const entry = {
     path:'09_personal_center',
     filename:'personal_center/page/index.html'
   },
-  leader_board:{
-    path:'10_leader_board',
-    filename:'employment/leaderboard/list/index.html'
-  },
-  finish_project_list:{
-    path:'11_finish_project_list',
-    filename:'employment/finishprojectlistinfo/list/index.html'
-  }
+  // leader_board:{
+  //   path:'10_leader_board',
+  //   filename:'employment/leaderboard/list/index.html'
+  // },
+  // finish_project_list:{
+  //   path:'11_finish_project_list',
+  //   filename:'employment/finishprojectlistinfo/list/index.html'
+  // },
   // error_404:{
   //   path:'23_404',
   //   filename:'404.html'

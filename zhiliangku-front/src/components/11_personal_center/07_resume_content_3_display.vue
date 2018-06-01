@@ -2,7 +2,7 @@
   <div id="anchor3" class=" resume-model">
     <resumetitle @add="add()">
       <span>
-        <img class="imgmiddle imgr" src="./img/简历_公文包.svg" alt="">工作经历</span>
+        <img class="imgmiddle imgr" src="./img/01_briefcase.svg" alt="">工作经历</span>
     </resumetitle>
     <div class="resumewidth hc">
       <timerbox :config="{title:'company'}" v-if="mainData.length" v-for="(item,index) in mainData" :key="index" :mainData="item"

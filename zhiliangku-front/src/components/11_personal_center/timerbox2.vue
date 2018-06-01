@@ -3,7 +3,7 @@
     <div class="timerbox-container timerbox-line">
       <div class="tbc-dote"></div>
       <div v-if="!first" class="vertical-line tbc-line-up"></div>
-      <div class="vertical-line tbc-line-down"></div>
+      <!--<div class="vertical-line tbc-line-down"></div>-->
       <div class="tbc-time-tag font1_16_3">{{mainData.end_time}}</div>
       <div class="tbc-title">
         <span v-if="!config.linkTitle" class="font1_20_3 weight">{{mainData[config['title']]}}</span>
@@ -116,7 +116,6 @@
   }
 
   .tbc-content {
-    border-left: 2px solid #999;
     /* background: salmon; */
     padding-bottom: 46px;
   }
