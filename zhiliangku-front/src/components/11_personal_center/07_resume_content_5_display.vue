@@ -2,7 +2,7 @@
   <div id="anchor5" class="  resume-model">
     <resumetitle @add="add()">
       <tag_0>
-        <img class="vs imgr" src="./img/简历_项目.svg" alt="">
+        <img class="vs " src="./img/简历_项目.svg" alt="">
         <span>项目经验</span>
       </tag_0>
     </resumetitle>
@@ -25,7 +25,7 @@
 </style>
 <script>
   import resumetitle from './resumePartTitle'
-  import timerbox from './timerbox'
+  import timerbox from './timerbox2'
   import editor from './07_resume_content_5_modify'
   import projectExp from './projectExperience'
   import tag_0 from './08_tag_0'

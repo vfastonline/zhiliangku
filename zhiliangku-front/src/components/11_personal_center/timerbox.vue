@@ -10,7 +10,13 @@
         <a v-if="config.linkTitle" :href="mainData.url">
           <span class="font1_16_6">{{mainData[config['title']]}}</span>
         </a>
-        <span class="font1_16_6" >{{mainData.start_time}} 至 {{mainData.end_time}}</span>
+        <span class="font1_16_6 tbc_title_time" >{{mainData.start_time}} 至 {{mainData.end_time}}</span>
+      </div>
+      <div class="cp rc-pic-editor"  @click="handleClick">
+        <tag_0>
+          <img class="vs icon_01" src="./img/编辑icon.png" alt="">
+          <span class="font1_22_9">编辑</span>
+        </tag_0>
       </div>
     </div>
     <div class="tbc-content timerbox-container">
@@ -20,6 +26,7 @@
 </template>
 
 <script>
+  import tag_0 from './08_tag_0'
   export default {
     name: 'HelloWorld',
     data() {
@@ -34,6 +41,9 @@
       mainData: Object,
       config: Object
     },
+    components: {
+      tag_0: tag_0
+    },
     methods: {
       getDate(data, str) {
         if (!data) {
@@ -47,6 +57,9 @@
           return time.getFullYear() + '年' + time.getMonth().length > 1 ? time.getMonth() : ('0' + time.getMonth()) +
             '月'
         }
+      },
+      handleClick(){
+        this.$emit('editor')
       }
     },
     created() {
@@ -127,6 +140,16 @@
     border-left: 2px solid #999;
     /* background: salmon; */
     padding-bottom: 46px;
+  }
+
+  .tbc_title_time{
+    margin-right:120px;
+  }
+  .rc-pic-editor {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding-right: 18px;
   }
   .weight {
     font-weight:bold;

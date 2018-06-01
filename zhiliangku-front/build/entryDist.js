@@ -6,19 +6,9 @@ const entry = {
   //   path: '00_index',
   //   filename: 'index.html'
   // },
-<<<<<<< HEAD
-  project_list: {
-    path: '01_project_list',
-    filename: 'tracks/projects/list/index.html'
-  },
   // project_detail: {
   //   path: '02_project_detail',
   //   filename: 'tracks/projects/detail/index.html'
-=======
-  // project_list: {
-  //   path: '01_project_list',
-  //   filename: 'tracks/projects/list/index.html'
->>>>>>> 4d04f3bc1e62b75934d47f1c0d1bcf2f08678965
   // },
   // course_detail:{
   //   path:'03_course_detail',

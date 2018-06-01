@@ -7,9 +7,9 @@
       </tag_0>
     </resumetitle>
     <div class="resumewidth hc">
-      <timerbox :config="{title:'company'}" v-if="mainData.length" v-for="(item,index) in mainData" :key="index" :mainData="item"
+      <timerbox @editor="editorInfo(index)" :config="{title:'company'}" v-if="mainData.length" v-for="(item,index) in mainData" :key="index" :mainData="item"
         :first="!index">
-        <experience v-if="mainData.length" :mainData="item" @editor="editorInfo(index)"></experience>
+        <experience v-if="mainData.length" :mainData="item"></experience>
       </timerbox>
     </div>
     <editor :key="editorKey" :url="editorUrl" :editorIndex="editorIndex"  :mainData="mainData" @close="close()" v-if="showeditor"></editor>
@@ -56,6 +56,7 @@
         }
         this.editorIndex = index;
         this.editorKey=new Date()+''
+        console.log(index)
       }
     },
     components: {

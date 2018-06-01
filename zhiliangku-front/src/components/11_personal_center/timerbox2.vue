@@ -3,14 +3,20 @@
     <div class="timerbox-container timerbox-line">
       <div class="tbc-dote"></div>
       <div v-if="!first" class="vertical-line tbc-line-up"></div>
-      <!--<div class="vertical-line tbc-line-down"></div>-->
       <div class="tbc-time-tag font1_16_3">{{mainData.end_time}}</div>
       <div class="tbc-title">
         <span v-if="!config.linkTitle" class="font1_20_3 weight">{{mainData[config['title']]}}</span>
         <a v-if="config.linkTitle" :href="mainData.url">
           <span class="font1_16_6">{{mainData[config['title']]}}</span>
         </a>
-        <span class="font1_16_6" >{{mainData.start_time}} 至 {{mainData.end_time}}</span>
+        <span class="font1_16_6 tbc_title_time" >{{mainData.start_time}} 至 {{mainData.end_time}}</span>
+      </div>
+
+      <div @click="handleClick" class="cp rc-pic-editor">
+        <tag_0>
+          <img class="vs icon_01" src="./img/编辑icon.png" alt="">
+          <span class="font1_22_9">编辑</span>
+        </tag_0>
       </div>
     </div>
     <div class="tbc-content timerbox-container">
@@ -20,6 +26,7 @@
 </template>
 
 <script>
+  import tag_0 from './08_tag_0'
   export default {
     name: 'HelloWorld',
     data() {
@@ -34,6 +41,9 @@
       mainData: Object,
       config: Object
     },
+    components: {
+      tag_0: tag_0
+    },
     methods: {
       getDate(data, str) {
         if (!data) {
@@ -47,6 +57,9 @@
           return time.getFullYear() + '年' + time.getMonth().length > 1 ? time.getMonth() : ('0' + time.getMonth()) +
             '月'
         }
+      },
+      handleClick(){
+        this.$emit('editor')
       }
     },
     created() {
@@ -118,6 +131,16 @@
   .tbc-content {
     /* background: salmon; */
     padding-bottom: 46px;
+  }
+
+  .tbc_title_time{
+    margin-right:120px;
+  }
+  .rc-pic-editor {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding-right: 18px;
   }
   .weight {
     font-weight:bold;

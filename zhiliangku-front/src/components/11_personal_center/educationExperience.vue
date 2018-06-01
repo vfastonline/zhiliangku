@@ -1,6 +1,6 @@
 <template>
   <div class="experience-container">
-      <div @click="handleClick" class="editor pointer"><img src="./img/简历_铅笔.svg" alt=""><span>编辑</span></div>
+
       <div class="marginbottom16"><span>{{mainData.discipline}}</span> | <span>{{mainData.education}}</span></div>
       <p v-if="mainData.experience" v-html="mainData.experience"></p>
 
