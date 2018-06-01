@@ -3,7 +3,7 @@
     <resumetitle @add="add()">
       <tag_0>
         <img class="vs imgr" src="./img/简历_学士帽.svg" alt="">
-        <span>教育经历</span>
+        <span class="font1_22_6">教育经历</span>
       </tag_0>
     </resumetitle>
     <div v-for="(item,index) in mainData" :key="index" class="resumewidth hc">
@@ -11,7 +11,8 @@
         <educationExp :mainData="item"></educationExp>
       </timerbox>
     </div>
-    <editor :key="editorKey" :url="editorUrl" :editorIndex="editorIndex"  :mainData="mainData" @close="close()" v-if="showeditor"></editor>
+    <editor :key="editorKey" :url="editorUrl" :editorIndex="editorIndex" :mainData="mainData" @close="close()"
+            v-if="showeditor"></editor>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -25,6 +26,7 @@
   import editor from './07_resume_content_4_modify'
   import educationExp from './educationExperience'
   import tag_0 from './08_tag_0'
+
   export default {
     name: 'HelloWorld',
     data() {
