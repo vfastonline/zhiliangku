@@ -13,7 +13,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
 import resumetitle from './resumePartTitle'
-import editor from './resumeContent1.0'
+import editor from './07_resume_content_1_modify'
   export default {
     name: 'HelloWorld',
     data() {

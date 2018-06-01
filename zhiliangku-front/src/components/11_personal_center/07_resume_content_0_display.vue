@@ -43,7 +43,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
   import funcs from '../../assets/js/01_other/01_dispatch.js'
-  import editor from './resumeContent0.0'
+  import editor from './07_resume_content_0_modify'
   export default {
     name: 'HelloWorld',
     data() {

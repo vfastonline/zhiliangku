@@ -1,11 +1,14 @@
 <template>
   <div class="personal-info-outer zindex1" :style="{'background-image':'url(' +imgData.pathwel +')'}">
     <div class="pio-detail mw hc">
-      <div class="pio-user-left">
+      <div class="pio-user-left r">
         <el-upload class="avatar-uploader" :action="ognizeUrl()" :show-file-list="false"
                    :on-success="handleAvatarSuccess"
                    :before-upload="beforeAvatarUpload">
           <img class="pio-user-img" v-if="imgsrc" :src=" imgsrc" alt=""/>
+          <div class="camera ftc a cp">
+            <img class="camera_icon" src="./img/01_camera_icon.png" alt="">
+          </div>
         </el-upload>
       </div>
       <div class="pio-user-right">
@@ -56,7 +59,7 @@
         return str
       },
       getData() {
-        this.$get('/personal_center/basic/info?custom_user_id=' + localStorage.uid).then(res => {
+        this.$get('/personal_center/basic/info' ).then(res => {
           this.mainData = res.data.data;
           for (var k in res.data.data) {
             localStorage[k] = res.data.data[k]
@@ -91,14 +94,26 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss'>
   .pio-user-left {
-    .el-upload {
-      border-radius: 100px;
-    }
+    border-radius: 100px;
+    overflow: hidden;
   }
 
 </style>
 
 <style scoped>
+  .camera{
+    height: 0px;
+    transition: height 0.6s;
+    background-color: rgba(0,0,0,.5);
+    bottom: 0px;
+    width: 120px;
+  }
+  .camera_icon{
+    margin-top:7px;
+  }
+  .pio-user-left:hover .camera{
+    height: 37px;
+  }
   .personal-info-outer {
     width: 100%;
     height: 300px;
