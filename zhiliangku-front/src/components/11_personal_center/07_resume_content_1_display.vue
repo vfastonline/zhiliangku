@@ -1,7 +1,10 @@
 <template>
   <div id="anchor1" class=" resume-model">
     <resumetitle :tag="{label:'编辑',eventName:'editor'}" @editor="showeditor=!showeditor" :mainData="titleData">
-        <span><img   class="imgmiddle imgr" src="./img/简历_小人.svg" alt="">我的优势</span>
+      <tag_0>
+        <img class="vs" src="./img/简历_小人.svg" alt="">
+        <span class="font1_22_6">我的优势</span>
+      </tag_0>
     </resumetitle>
     <div  class="resumewidth hc ">
       <p v-html="mainData.advantage">
@@ -14,6 +17,7 @@
 <script>
 import resumetitle from './resumePartTitle'
 import editor from './07_resume_content_1_modify'
+import tag_0 from  './08_tag_0'
   export default {
     name: 'HelloWorld',
     data() {
@@ -27,7 +31,8 @@ import editor from './07_resume_content_1_modify'
     },
     components:{
       resumetitle:resumetitle,
-      editor:editor
+      editor:editor,
+      tag_0:tag_0
     }
 
   }
