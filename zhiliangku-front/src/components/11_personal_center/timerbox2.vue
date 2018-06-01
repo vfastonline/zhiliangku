@@ -3,7 +3,7 @@
     <div class="timerbox-container timerbox-line">
       <div class="tbc-dote"></div>
       <div v-if="!first" class="vertical-line tbc-line-up"></div>
-      <div class="vertical-line tbc-line-down"></div>
+      <!--<div class="vertical-line tbc-line-down"></div>-->
       <div class="tbc-time-tag font1_16_3">{{mainData.end_time}}</div>
       <div class="tbc-title">
         <span v-if="!config.linkTitle" class="font1_20_3 weight">{{mainData[config['title']]}}</span>
@@ -50,15 +50,7 @@
       }
     },
     created() {
-      // var defaultConfig={time1:'month',time2:'month'};
-      // for( var k in this.config){
-      //   defaultConfig[k]=this.config[k]
-      // }
-      // this.config=defaultConfig;
-      // if (this.mainData) {
-      //   this.start_time2= this.getDate(this.mainData.start_time,this.config.time2)
-      //   this.end_time2=this.getDate(this.mainData.end_time,this.config.time2)
-      // }
+
     }
   }
 
@@ -124,7 +116,6 @@
   }
 
   .tbc-content {
-    border-left: 2px solid #999;
     /* background: salmon; */
     padding-bottom: 46px;
   }

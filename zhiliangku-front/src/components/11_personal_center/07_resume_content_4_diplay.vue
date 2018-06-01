@@ -21,7 +21,7 @@
 </style>
 <script>
   import resumetitle from './resumePartTitle'
-  import timerbox from './timerbox'
+  import timerbox from './timerbox2'
   import editor from './07_resume_content_4_modify'
   import educationExp from './educationExperience'
   import tag_0 from  './08_tag_0'

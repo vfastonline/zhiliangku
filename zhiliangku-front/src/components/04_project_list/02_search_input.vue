@@ -1,9 +1,5 @@
 <template>
-<<<<<<< HEAD
-  <div class="addition_bar  mw hc">
-=======
   <div class="addition_bar mw hc">
->>>>>>> 90898ba6dbf27c42120270c45904c35f1edd6fd1
           <span class="dib addition_tags">
             <span class="dib addition_tag font1_24_6 ftc cp" v-for="(item,index) in tags_arr"
                   :key="index"
