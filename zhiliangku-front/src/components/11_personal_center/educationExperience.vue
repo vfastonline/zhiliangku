@@ -1,5 +1,5 @@
 <template>
-  <div class="experience-container">
+  <div class="experience-container font1_16_6">
 
       <div class="marginbottom16"><span>{{mainData.discipline}}</span> | <span>{{mainData.education}}</span></div>
       <p v-if="mainData.experience" v-html="mainData.experience"></p>
