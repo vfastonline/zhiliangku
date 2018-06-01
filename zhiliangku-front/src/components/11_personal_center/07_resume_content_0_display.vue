@@ -10,32 +10,42 @@
           </el-upload>
           <div class="rc-pic-word">
             <div class="rc-pic-word-0">
-              <span class="font20pl3a3c50">{{mainData.name}}</span>
+              <span class="font1_20_6">{{mainData.name}}</span>
               <img class="resume-sex-icon" v-if="mainData.sex=='女'" src="./img/简历_性别女.svg" alt="">
               <img class="resume-sex-icon" v-if="mainData.sex=='男'" src="./img/简历_性别男.svg" alt="">
-              <span>{{age()}}岁</span>
+              <span class="font1_20_9">{{age()}}岁</span>
             </div>
             <div class="rc-pic-word-1">
-              <span class="font14pl3a3c50">{{mainData.status}}</span>
-              <span class="font14pl3a3c50">{{mainData.position}}</span>
-              <span class="font14pl3a3c50">{{mainData.company}}</span>
+              <span class="font1_20_9">{{mainData.status}}</span>
+              <span class="font1_20_9">{{mainData.position}}</span>
+              <span class="font1_20_9">{{mainData.company}}</span>
             </div>
           </div>
           <div @click="ifshowEditor" class="cp rc-pic-editor">
-            <img class="vm imgr" src="./img/简历_铅笔.svg" alt="">
-            <span class="dib vm">编辑</span>
+            <tag_0>
+              <img class="vs icon_01" src="./img/编辑icon.png" alt="">
+              <span class="font1_22_9">编辑</span>
+            </tag_0>
           </div>
         </div>
       </div>
       <div class="rc-pi-container2">
-        <span>
-          <img class="vm imgr" src="./img/简历_公文包.svg" alt="">{{mainData.years_of_service}}</span>
-        <span>
-          <img class="vm imgr" src="./img/简历_学士帽.svg" alt="">{{mainData.education}}</span>
-        <span>
-          <img class="vm imgr" src="./img/简历_小人.svg" alt="">{{mainData.status}}</span>
-        <span>
-          <img class="vm imgr" src="./img/简历_钱币.svg" alt="">{{mainData.expect_salary}}</span>
+        <tag_0>
+          <img class="vs icon_01" src="./img/01_briefcase.svg" alt="">
+          <span class="font1_22_6">{{mainData.years_of_service||'尚未填写'}}</span>
+        </tag_0>
+        <tag_0>
+          <img class="vs icon_01" src="./img/简历_学士帽.svg" alt="">
+          <span class="font1_22_6">{{mainData.education||'尚未填写'}}</span>
+        </tag_0>
+        <tag_0>
+          <img class="vs icon_01" src="./img/简历_小人.svg" alt="">
+          <span class="font1_22_6">{{mainData.status||'尚未填写'}}</span>
+        </tag_0>
+        <tag_0>
+          <img class="vs icon_01" src="./img/简历_钱币.svg" alt="">
+          <span class="font1_22_6">{{mainData.expect_salary||'尚未填写'}}</span>
+        </tag_0>
       </div>
     </div>
     <editor :mainData="mainData" :applyData="applyData" @close="editor" v-if="showeditor"></editor>
@@ -47,6 +57,7 @@
 <script>
   import funcs from '../../assets/js/01_other/01_dispatch.js'
   import editor from './07_resume_content_0_modify'
+  import tag_0 from './08_tag_0'
 
   export default {
     name: 'HelloWorld',
@@ -108,7 +119,8 @@
       }
     },
     components: {
-      editor: editor
+      editor: editor,
+      tag_0: tag_0
     },
     props: {
       mainData: Object,
@@ -121,9 +133,10 @@
 
 </script>
 <style scoped>
-  .imgr{
+  .imgr {
     margin-right: 4px;
   }
+
   .rc-pi {
     padding-bottom: 24px;
     margin-bottom: 48px;

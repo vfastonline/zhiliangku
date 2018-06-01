@@ -6,10 +6,10 @@ const entry = {
   //   path: '00_index',
   //   filename: 'index.html'
   // },
-  project_list: {
-    path: '01_project_list',
-    filename: 'tracks/projects/list/index.html'
-  },
+  // project_list: {
+  //   path: '01_project_list',
+  //   filename: 'tracks/projects/list/index.html'
+  // },
   // project_detail: {
   //   path: '02_project_detail',
   //   filename: 'tracks/projects/detail/index.html'
@@ -29,10 +29,6 @@ const entry = {
   // faq_detail:{
   //   path:'06_FAQ_detail',
   //   filename:'community/faq/detail/index.html'
-  // },
-  // login:{
-  //   path:'20_login',
-  //   filename:'login/index.html'
   // },
   // login:{
   //   path:'20_login',
@@ -61,7 +57,7 @@ const entry = {
   // finish_project_list:{
   //   path:'11_finish_project_list',
   //   filename:'employment/finishprojectlistinfo/list/index.html'
-  // }
+  // },
   // error_404:{
   //   path:'23_404',
   //   filename:'404.html'

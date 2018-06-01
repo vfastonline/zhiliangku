@@ -1,5 +1,5 @@
 <template>
-  <div class="addition_bar ftj mw hc">
+  <div class="addition_bar  mw hc">
           <span class="dib addition_tags">
             <span class="dib addition_tag font1_24_6 ftc cp" v-for="(item,index) in tags_arr"
                   :key="index"
