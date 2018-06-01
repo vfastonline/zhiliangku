@@ -10,10 +10,6 @@ const entry = {
   //   path: '01_project_list',
   //   filename: 'tracks/projects/list/index.html'
   // },
-  // project_detail: {
-  //   path: '02_project_detail',
-  //   filename: 'tracks/projects/detail/index.html'
-  // },
   // course_detail:{
   //   path:'03_course_detail',
   //   filename:'tracks/course/detail/index.html'
@@ -82,7 +78,7 @@ Object.keys(entry).forEach(el => {
       collapseWhitespace: true,
       removeAttributeQuotes: true
     }
-    pageConf.dist.chunksSortMode='dependency'
+    pageConf.dist.chunksSortMode = 'dependency'
   }
   distArr.push(pageConf.dist)
 })
