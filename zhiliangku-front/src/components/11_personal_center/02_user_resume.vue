@@ -1,8 +1,5 @@
 <template>
-  <div class="mw hc personnal-center-main clearfix">
-    <ul class="fl personal-center-left">
-
-    </ul>
+  <div class=" hc personnal-center-main clearfix">
     <div class="personal-center-right">
       <rc0 :mainData="mainData.resume" :applyData="mainData.careerobjectives"></rc0>
       <rc1 :mainData="mainData.resume"></rc1>
@@ -15,12 +12,12 @@
 </template>
 <script>
   import Bus from '../../assets/js/02_bus'
-  import rc0 from './resumeContent0'
-  import rc1 from './resumeContent1'
-  import rc2 from './resumeContent2'
-  import rc3 from './resumeContent3'
-  import rc4 from './resumeContent4'
-  import rc5 from './resumeContent5'
+  import rc0 from './07_resume_content_0_display'
+  import rc1 from './07_resume_content_1_display'
+  import rc2 from './07_resume_content_2_display'
+  import rc3 from './07_resume_content_3_display'
+  import rc4 from './07_resume_content_4_diplay'
+  import rc5 from './07_resume_content_5_display'
   import timer from './timerbox'
   import experience from './personalExperience'
   import myform from './myform'
@@ -54,24 +51,6 @@
       }
     },
     methods: {
-      sendResume() {
-        this.$notify({
-          type: 'info',
-          message: '简历已投递，请留意邮箱消息',
-          offset: 100,
-          duration: 3000,
-          position: 'bottom-right'
-        });
-      },
-      goAnchor(selector, index) {
-        this.activeIndex = index;
-        var anchor = document.querySelector(selector);
-        window.scrollTo(0, anchor.offsetTop + 470)
-        //这里可以计算两者的差值并计算传参
-      },
-      inputfunc(evt) {
-        console.log(evt)
-      },
       getData() {
         this.$get('/personal_center/resume/detail/info?custom_user_id=' + localStorage.uid).then(res => {
           this.mainData = res.data.data;
@@ -124,8 +103,8 @@
 
 </style>
 <style lang="scss">
-  @import "./style/02_personal_center.scss";
-  @import "./style/03_resume.scss";
+  /*@import "./style/02_personal_center.scss";*/
+  /*@import "./style/03_resume.scss";*/
 
 </style>
 <style scoped>
