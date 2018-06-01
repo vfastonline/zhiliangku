@@ -36,7 +36,6 @@ class LeaderboardListInfo(View):
 		}
 
 	def get(self, request, *args, **kwargs):
-		customusers_id_dict = dict()
 		customusers_id_list = list()
 		try:
 			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
@@ -47,7 +46,6 @@ class LeaderboardListInfo(View):
 			if nickname:
 				icontains_filter = {"nickname__icontains": nickname}
 				customusers_id_list = CustomUser.objects.filter(**icontains_filter).values_list("id", flat=True)
-				customusers_id_dict = {}.fromkeys(customusers_id_list)
 
 			# 所有项目的考核视频ID列表
 			self.project_video_id_list = Project.objects.all().values_list("video", flat=True)
@@ -59,15 +57,15 @@ class LeaderboardListInfo(View):
 				.order_by("-num")
 
 			# 用昵称模糊查询后的用户通过项目考核数据
-			nickname_unlockvideos = None
-			if customusers_id_dict:
+			nickname_unlockvideos = []
+			if customusers_id_list:
 				nickname_unlockvideos = unlockvideos.filter(custom_user__id__in=customusers_id_list)
 
 			# 提供分页数据
 			if not page: page = 1
 			if not per_page: page = 12
 			page_obj = Paginator(unlockvideos, per_page)
-			if nickname_unlockvideos:  # 模糊查询昵称，后重新分页
+			if nickname:  # 模糊查询昵称，后重新分页
 				page_obj = Paginator(nickname_unlockvideos, per_page)
 			total_count = page_obj.count  # 记录总数
 			num_pages = page_obj.num_pages  # 总页数
