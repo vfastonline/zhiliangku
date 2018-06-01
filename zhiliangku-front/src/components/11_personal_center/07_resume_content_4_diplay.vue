@@ -1,17 +1,13 @@
 <template>
-  <div id="anchor5" class="  resume-model">
+  <div id="anchor4" class=" resume-model">
     <resumetitle @add="add()">
       <span>
-        <img class="imgmiddle imgr" src="./img/简历_项目.svg" alt="">项目经验</span>
+        <img class="imgmiddle imgr" src="./img/简历_学士帽.svg" alt="">教育经历</span>
     </resumetitle>
-    <div class="resumewidth hc">
-      <p v-if="!mainData.length">你可以描述一下之前工作中所参与的项目，一段精彩的项目经历可以最直观的突出你的优势</p>
-    </div>
     <div v-for="(item,index) in mainData" :key="index" class="resumewidth hc">
-      <timerbox :config="{title:'name',linkTitle:true}"
-      :first="!index" :mainData="item">
-      <projectExp @editor="editorInfo(index)" :mainData="item">
-        </projectExp></timerbox>
+      <timerbox :config="{title:'school'}" :first="!index" :mainData="item">
+        <educationExp @editor="editorInfo(index)" :mainData="item"></educationExp>
+      </timerbox>
     </div>
     <editor :key="editorKey" :url="editorUrl" :editorIndex="editorIndex"  :mainData="mainData" @close="close()" v-if="showeditor"></editor>
   </div>
@@ -24,8 +20,8 @@
 <script>
   import resumetitle from './resumePartTitle'
   import timerbox from './timerbox'
-  import editor from './resumeContent5.0'
-  import projectExp from './projectExperience'
+  import editor from './07_resume_content_4_modify'
+  import educationExp from './educationExperience'
   export default {
     name: 'HelloWorld',
     data() {
@@ -39,7 +35,7 @@
     props: {
       mainData: Array
     },
-       methods: {
+    methods: {
       close() {
         this.$fn.changeShow(this.getSelf(), 'showeditor');
         this.editorIndex = -1;
@@ -55,18 +51,17 @@
           this.$fn.changeShow(this.getSelf(), 'showeditor');
         }
         this.editorIndex = index;
-        this.editorKey = new Date() + '';
-
+        this.editorKey = new Date() + ''
       }
-    },
-    created(){
-      console.log(this.mainData)
     },
     components: {
       resumetitle: resumetitle,
       timerbox: timerbox,
       editor: editor,
-      projectExp:projectExp
+      educationExp: educationExp
+    },
+    created() {
+      console.log(this.mainData)
     }
   }
 

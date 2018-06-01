@@ -20,7 +20,7 @@
           {label:'基本信息',path:'/base_info'},
           {label:'学习进度',path:'/learning_progress'},
           {label:'我的勋章',path:'/medal'},
-          {label:'综合素养',path:'/resume'}
+          {label:'我的简历',path:'/resume'}
         ]
       }
     }

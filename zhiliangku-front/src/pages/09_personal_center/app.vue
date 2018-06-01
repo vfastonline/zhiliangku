@@ -9,7 +9,9 @@
   </div>
 </template>
 <style scoped lang='scss'>
-
+#main{
+  background-color: #f8fafc;
+}
 </style>
 
 <script>

@@ -6,10 +6,10 @@ const entry = {
   //   path: '00_index',
   //   filename: 'index.html'
   // },
-  // project_list: {
-  //   path: '01_project_list',
-  //   filename: 'tracks/projects/list/index.html'
-  // },
+  project_list: {
+    path: '01_project_list',
+    filename: 'tracks/projects/list/index.html'
+  },
   // project_detail: {
   //   path: '02_project_detail',
   //   filename: 'tracks/projects/detail/index.html'

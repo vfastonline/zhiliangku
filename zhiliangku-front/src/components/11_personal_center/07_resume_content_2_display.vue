@@ -19,7 +19,7 @@
 </template>
 <script>
   import resumetitle from './resumePartTitle'
-  import editor from './resumeContent2.0.vue'
+  import editor from './07_resume_content_2_modify.vue'
   export default {
     name: 'HelloWorld',
     data() {
