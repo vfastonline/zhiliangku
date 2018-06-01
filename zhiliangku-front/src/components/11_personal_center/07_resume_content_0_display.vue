@@ -2,14 +2,13 @@
   <div id="anchor0">
     <div class="rc-pi resumewidth hc">
       <div class="rc-pi-container1">
-        <div class="rc-pi-content ">
-          <el-upload class="rc-pic-img fl round" :action="orgnizeUrl()" :show-file-list="false" :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload">
+        <div class="rc-pi-content clearfix r">
+          <el-upload class="rc-pic-img fl round" :action="orgnizeUrl()" :show-file-list="false"
+                     :on-success="handleAvatarSuccess"
+                     :before-upload="beforeAvatarUpload">
             <img class="rc-pic-img fl round" v-if="imgsrc" :src="imgsrc" alt="">
           </el-upload>
           <div class="rc-pic-word">
-            <div @click="ifshowEditor" class="pointer rc-pic-editor">
-              <img class="imgmiddle imgr" src="./img/简历_铅笔.svg" alt="">编辑</div>
             <div class="rc-pic-word-0">
               <span class="font20pl3a3c50">{{mainData.name}}</span>
               <img class="resume-sex-icon" v-if="mainData.sex=='女'" src="./img/简历_性别女.svg" alt="">
@@ -22,17 +21,21 @@
               <span class="font14pl3a3c50">{{mainData.company}}</span>
             </div>
           </div>
+          <div @click="ifshowEditor" class="cp rc-pic-editor">
+            <img class="vm imgr" src="./img/简历_铅笔.svg" alt="">
+            <span class="dib vm">编辑</span>
+          </div>
         </div>
       </div>
       <div class="rc-pi-container2">
         <span>
-          <img class="imgmiddle imgr" src="./img/简历_公文包.svg" alt="">{{mainData.years_of_service}}</span>
+          <img class="vm imgr" src="./img/简历_公文包.svg" alt="">{{mainData.years_of_service}}</span>
         <span>
-          <img class="imgmiddle imgr" src="./img/简历_学士帽.svg" alt="">{{mainData.education}}</span>
+          <img class="vm imgr" src="./img/简历_学士帽.svg" alt="">{{mainData.education}}</span>
         <span>
-          <img class="imgmiddle imgr" src="./img/简历_小人.svg" alt="">{{mainData.status}}</span>
+          <img class="vm imgr" src="./img/简历_小人.svg" alt="">{{mainData.status}}</span>
         <span>
-          <img class="imgmiddle imgr" src="./img/简历_钱币.svg" alt="">{{mainData.expect_salary}}</span>
+          <img class="vm imgr" src="./img/简历_钱币.svg" alt="">{{mainData.expect_salary}}</span>
       </div>
     </div>
     <editor :mainData="mainData" :applyData="applyData" @close="editor" v-if="showeditor"></editor>
@@ -44,6 +47,7 @@
 <script>
   import funcs from '../../assets/js/01_other/01_dispatch.js'
   import editor from './07_resume_content_0_modify'
+
   export default {
     name: 'HelloWorld',
     data() {
@@ -57,18 +61,18 @@
       mainData: function (value) {
         this.imgsrc = this.$myConst.httpUrl + this.mainData.avatar;
       },
-      showeditor:function(){
+      showeditor: function () {
 
       }
     },
     methods: {
-      ifshowEditor(){
+      ifshowEditor() {
 
         if (!this.applyData.length) {
           funcs.showNotice(this, '尚未添加求职意向，请先完善求职意向信息,然后操作此项', 'info')
           return
         }
-      this.showeditor = !this.showeditor;
+        this.showeditor = !this.showeditor;
       },
       editor() {
         this.showeditor = !this.showeditor;
@@ -117,19 +121,20 @@
 
 </script>
 <style scoped>
+  .imgr{
+    margin-right: 4px;
+  }
   .rc-pi {
     padding-bottom: 24px;
     margin-bottom: 48px;
   }
 
   .rc-pi-container1 {
-    height: 100px;
-    padding: 15px 0;
+    padding: 10px 0;
     border-bottom: 2px solid #eef0f2;
   }
 
   .rc-pi-content {
-    height: 70px;
   }
 
   .resume-sex-icon {
@@ -148,25 +153,28 @@
   }
 
   .rc-pic-img {
-    height: 100px;
-    width: 100px;
+    height: 124px;
+    width: 124px;
+    border-radius: 50%;
   }
 
   .rc-pic-word {
-    margin-left: 150px;
-    padding-top: 21px;
+    margin-left: 154px;
+    padding-top: 30px;
   }
 
   .rc-pic-word-0 {
-    margin-bottom: 12px;
+    margin-bottom: 22px;
   }
 
-  .rc-pic-word-1 {}
+  .rc-pic-word-1 {
+  }
 
   .rc-pic-editor {
     position: absolute;
     right: 0;
-    top: 0;
+    bottom: 0;
+    padding-right: 18px;
   }
 
 </style>
