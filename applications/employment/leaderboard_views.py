@@ -37,6 +37,7 @@ class LeaderboardListInfo(View):
 
 	def get(self, request, *args, **kwargs):
 		customusers_id_dict = dict()
+		customusers_id_list = list()
 		try:
 			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			nickname = request.GET.get("nickname", 12)  # 昵称
@@ -44,8 +45,8 @@ class LeaderboardListInfo(View):
 			per_page = request.GET.get("per_page", 12)  # 每页显示条目数
 
 			if nickname:
-				customusers_id_list = CustomUser.objects.filter(nickname__icontains=nickname).values_list("id",
-																										  flat=True)
+				icontains_filter = {"nickname__icontains": nickname}
+				customusers_id_list = CustomUser.objects.filter(**icontains_filter).values_list("id", flat=True)
 				customusers_id_dict = {}.fromkeys(customusers_id_list)
 
 			# 所有项目的考核视频ID列表
@@ -57,10 +58,17 @@ class LeaderboardListInfo(View):
 				.annotate(num=Count('custom_user')) \
 				.order_by("-num")
 
+			# 用昵称模糊查询后的用户通过项目考核数据
+			nickname_unlockvideos = None
+			if customusers_id_dict:
+				nickname_unlockvideos = unlockvideos.filter(custom_user__id__in=customusers_id_list)
+
 			# 提供分页数据
 			if not page: page = 1
 			if not per_page: page = 12
 			page_obj = Paginator(unlockvideos, per_page)
+			if nickname_unlockvideos:  # 模糊查询昵称，后重新分页
+				page_obj = Paginator(nickname_unlockvideos, per_page)
 			total_count = page_obj.count  # 记录总数
 			num_pages = page_obj.num_pages  # 总页数
 			page_range = list(page_obj.page_range)  # 页码列表
@@ -95,8 +103,6 @@ class LeaderboardListInfo(View):
 			# 每个用户排名
 			for one in unlockvideo_list:
 				user_id = one.get("custom_user")
-				if customusers_id_dict and not customusers_id_dict.has_key(user_id):
-					continue
 				rank = list(unlockvideos).index(one) + 1
 				one_user_dict = dict.fromkeys(self.user_info_list, "")  # 用户信息默认字典
 				one_user_dict.update({"rank": rank})
