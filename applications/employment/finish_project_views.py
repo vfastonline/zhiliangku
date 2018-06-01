@@ -33,6 +33,7 @@ class FinishProjectListInfo(View):
 	def get(self, request, *args, **kwargs):
 		try:
 			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+			name = request.GET.get("name", "")  # 项目名称
 			page = request.GET.get("page", 1)  # 页码
 			per_page = request.GET.get("per_page", 12)  # 每页显示条目数
 
@@ -40,8 +41,17 @@ class FinishProjectListInfo(View):
 			unlockvideos = UnlockVideo.objects.filter(custom_user__id=custom_user_id)
 			video_id_list = unlockvideos.values_list("video", flat=True)
 
+			param = {
+				"video__id__in": video_id_list,
+				"name__icontains": name,
+			}
+			filter_param = dict()
+			for key, val in param.items():
+				if val:
+					filter_param.update({key: val})
+
 			# 用户完成的所有项目考核
-			projects = Project.objects.filter(video__id__in=video_id_list)
+			projects = Project.objects.filter(**filter_param)
 
 			# 提供分页数据
 			if not page: page = 1
