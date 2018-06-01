@@ -1,8 +1,10 @@
 <template>
   <div id="anchor5" class="  resume-model">
     <resumetitle @add="add()">
-      <span>
-        <img class="imgmiddle imgr" src="./img/简历_项目.svg" alt="">项目经验</span>
+      <tag_0>
+        <img class="vs imgr" src="./img/简历_项目.svg" alt="">
+        <span>项目经验</span>
+      </tag_0>
     </resumetitle>
     <div class="resumewidth hc">
       <p v-if="!mainData.length">你可以描述一下之前工作中所参与的项目，一段精彩的项目经历可以最直观的突出你的优势</p>
@@ -26,6 +28,7 @@
   import timerbox from './timerbox'
   import editor from './07_resume_content_5_modify'
   import projectExp from './projectExperience'
+  import tag_0 from './08_tag_0'
   export default {
     name: 'HelloWorld',
     data() {
@@ -66,7 +69,8 @@
       resumetitle: resumetitle,
       timerbox: timerbox,
       editor: editor,
-      projectExp:projectExp
+      projectExp:projectExp,
+      tag_0:tag_0
     }
   }
 

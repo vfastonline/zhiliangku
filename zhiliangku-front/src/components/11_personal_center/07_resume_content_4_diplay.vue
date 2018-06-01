@@ -1,8 +1,10 @@
 <template>
   <div id="anchor4" class=" resume-model">
     <resumetitle @add="add()">
-      <span>
-        <img class="imgmiddle imgr" src="./img/简历_学士帽.svg" alt="">教育经历</span>
+      <tag_0>
+        <img class="vs" src="./img/简历_学士帽.svg" alt="">
+        <span>教育经历</span>
+      </tag_0>
     </resumetitle>
     <div v-for="(item,index) in mainData" :key="index" class="resumewidth hc">
       <timerbox :config="{title:'school'}" :first="!index" :mainData="item">
@@ -22,6 +24,7 @@
   import timerbox from './timerbox2'
   import editor from './07_resume_content_4_modify'
   import educationExp from './educationExperience'
+  import tag_0 from  './08_tag_0'
   export default {
     name: 'HelloWorld',
     data() {
@@ -58,7 +61,8 @@
       resumetitle: resumetitle,
       timerbox: timerbox,
       editor: editor,
-      educationExp: educationExp
+      educationExp: educationExp,
+      tag_0:tag_0
     },
     created() {
       console.log(this.mainData)
