@@ -3,7 +3,7 @@
     <resumetitle @add="add()">
       <tag_0>
         <img class="vs" src="./img/简历_学士帽.svg" alt="">
-        <span>教育经历</span>
+        <span class="font1_22_6">教育经历</span>
       </tag_0>
     </resumetitle>
     <div v-for="(item,index) in mainData" :key="index" class="resumewidth hc">

@@ -2,8 +2,8 @@
   <div id="anchor5" class="  resume-model">
     <resumetitle @add="add()">
       <tag_0>
-        <img class="vs imgr" src="./img/简历_项目.svg" alt="">
-        <span>项目经验</span>
+        <img class="vs " src="./img/简历_项目.svg" alt="">
+        <span class="font1_22_6">项目经验</span>
       </tag_0>
     </resumetitle>
     <div class="resumewidth hc">
