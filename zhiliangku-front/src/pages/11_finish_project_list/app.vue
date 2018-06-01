@@ -18,12 +18,15 @@
       <div class="throwBox  ftc">
         <BlueButton><span class="throwButton">投递简历</span></BlueButton>
       </div>
-      <Pager class="mw hc" @pagerGetData="mainPagerData" :url="url" :firstData="true"></Pager>
+      <Pager class="mw hc" @pagerGetData="mainPagerData" :url="url" :firstData="true"  :style="{'margin-bottom': '80px'}"></Pager>
     </div>
     <F></F>
   </div>
 </template>
 <style scoped lang='scss'>
+  .project_list {
+    min-height:75vh;
+  }
   .margin {
     margin-bottom: 30px;
   }

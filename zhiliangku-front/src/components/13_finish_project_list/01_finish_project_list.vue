@@ -3,17 +3,19 @@
     <!--<div class="mock a" v-if="main_data.is_lock">-->
     <!--&lt;!&ndash;<img class="cc" src="./img/lock_icon.png" alt="">&ndash;&gt;-->
     <!--</div>-->
-    <div class="project_title">
-      <span class="font1_28_f dib">{{main_data.name}} </span>
-      <span class="line2"></span>
-    </div>
-    <div class="project_info">
-      <div class="dib project_time ftc">
-        <img class="vm" src="./img/item.png" alt="">
+    <div class="project_top" :style="{backgroundColor: top_color}">
+      <div class="project_title">
+        <span class="font1_28_f dib">{{main_data.name}} </span>
+        <span class="line2"></span>
       </div>
-      <span class="font1_18_f dib vbt project_createt_ime">{{main_data.update_time}} </span>
-      <!--<span  class="tech_tag vb dib font1_18_f" ></span>-->
-      <span class="line2"></span>
+      <div class="project_info">
+        <div class="dib project_time ftc">
+          <img class="vm" src="./img/item.png" alt="">
+        </div>
+        <span class="font1_18_f dib vbt project_createt_ime">{{main_data.update_time}} </span>
+        <!--<span  class="tech_tag vb dib font1_18_f" ></span>-->
+        <span class="line2"></span>
+      </div>
     </div>
     <p class="project_text font2_16_9" v-html="main_data.desc"></p>
   </section>
@@ -26,7 +28,6 @@
     name: "project_item",
     data() {
       return {
-        colorArr: ['#324e5c', '#c25a75'],
         link: ''
       }
     },
@@ -68,10 +69,8 @@
   }
 
   .project_title {
-    text-align: justify;
     padding-left: 20px;
     font-weight: bold;
-    background: #647a90;
     height: 80px;
     line-height: 80px;
   }
@@ -84,7 +83,7 @@
   .project_info {
     line-height: 50px;
     height: 50px;
-    background-color: rgba(0, 0, 0, 0.5)
+    background-color: rgba(255, 255, 255, 0.3)
   }
 
   .project_time {
@@ -94,14 +93,14 @@
   }
 
   .project_text {
-    margin: 12px 60px 36px 60px;
-    height: 96px;
+    margin: 16px 60px 36px 60px;
+    height: 104px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
-    line-height: 24px;
+    line-height: 26px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;

@@ -1,5 +1,5 @@
 <template>
-  <div class="clearfix main_info mw hc">
+  <div class="clearfix info_content mw hc">
     <div class="info_left fl ftc">
       <div class="icon_box dib">
         <img class="info_icon" :src="$myConst.httpUrl + main_data.avatar" alt="">
@@ -39,11 +39,6 @@
   }
 </script>
 <style scoped lang="scss">
-  .main_info {
-    /*border-radius:10px;*/
-    /*margin-bottom:30px;*/
-  }
-
   .info_left {
     width: 160px;
     padding-top: 30px;

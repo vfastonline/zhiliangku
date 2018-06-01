@@ -4,17 +4,18 @@
       <span class="dib tabText font1_40_f">大牛排行榜</span>
       <span class="dib search_block fr vm">
         <input v-model="search_value" @keydown.enter=" handleSearch(search_value)" class="search_input "
-               type="text" placeholder="请输入关键字">
-        <img @click="handleSearch(search_value)" class="searchBox vm" src="./img/search.png" alt="">
+               type="text" placeholder="请输入关键词">
+        <img @click="handleSearch(search_value)" class="searchBox vm cp" src="./img/search.png" alt="">
       </span>
     </div>
-    <SelfResultInfo :main_data="main_data" class="result_self"></SelfResultInfo>
+    <SelfResultInfo v-if="main_data" :main_data="main_data" class="result_self"></SelfResultInfo>
+    <div v-else class="ftc font1_16_9">暂无信息</div>
   </div>
 
 </template>
 <script>
   import SelfResultInfo from './02_leaderboard_result_info'
-
+  import Bus from '../../assets/js/02_bus'
   export default {
     data() {
       return {
@@ -26,6 +27,13 @@
     },
     props: {
       main_data: ''
+    },
+    methods: {
+      handleSearch(data) {
+        if(data){
+          Bus.$emit('additionEnter',{nickname: data})
+        }
+      }
     }
   }
 </script>

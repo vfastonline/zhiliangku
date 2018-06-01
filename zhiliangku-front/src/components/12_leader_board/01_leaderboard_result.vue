@@ -1,11 +1,18 @@
 <template>
   <div class="result">
     <searchBar :main_data="custom_user"></searchBar>
-    <resultInfo v-for="item in main_data" :key="item.id" :main_data="item" class="result_other"></resultInfo>
+    <div class="main_info mw hc">
+      <resultInfo v-if="main_data.length" v-for="item in main_data" :key="item.id" :main_data="item"
+                  class="result_other"></resultInfo>
+      <div v-if="!main_data.length"  class="ftc font1_16_9">暂无信息</div>
+    </div>
     <pager :url="url" :first-data="true" @pagerGetData="mainPagerdata" :style="{'margin': '50px 0 158px 0'}"></pager>
   </div>
 </template>
 <style scoped lang='scss'>
+  .main_info {
+    min-height:75vh;
+  }
   .result_other {
     background-color: #fff;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
@@ -39,7 +46,6 @@
     methods: {
       mainPagerdata(res) {
         if (!res.err) {
-          console.log(res.data)
           this.main_data = res.data.data
           this.custom_user = res.data.custom_user
         }

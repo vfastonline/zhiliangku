@@ -26,7 +26,7 @@ class LeaderboardListInfo(View):
 	def __init__(self):
 		super(LeaderboardListInfo, self).__init__()
 		# 用户ID，昵称，头像，所属院校，所属班级
-		self.user_info_list = ["id", "nickname", "avatar", "institutions", "classs"]
+		self.user_info_list = ["id", "nickname", "avatar", "institutions"]
 		self.result_dict = {
 			"err": 0,
 			"msg": "success",

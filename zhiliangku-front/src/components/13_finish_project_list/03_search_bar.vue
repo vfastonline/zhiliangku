@@ -3,16 +3,24 @@
     <span class="dib tabText font1_34_f">完成项目</span>
     <span class="dib search_block fr vm">
         <input v-model="search_value" @keydown.enter=" handleSearch(search_value)" class="search_input "
-               type="text" placeholder="请输入关键字">
-        <img @click="handleSearch(search_value)" class="vm searchBox" src="./img/search.png" alt="">
+               type="text" placeholder="请输入关键词">
+        <img @click="handleSearch(search_value)" class="vm cp searchBox" src="./img/search.png" alt="">
       </span>
   </div>
 </template>
 <script>
+  import Bus from '../../assets/js/02_bus'
   export default {
     data() {
       return {
         search_value: ''
+      }
+    },
+    methods: {
+      handleSearch(data) {
+        if(data) {
+          Bus.$emit("additionEnter",{name: data})
+        }
       }
     }
   }

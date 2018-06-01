@@ -63,7 +63,7 @@
     },
     methods: {
       ifshowEditor(){
-        debugger
+
         if (!this.applyData.length) {
           funcs.showNotice(this, '尚未添加求职意向，请先完善求职意向信息,然后操作此项', 'info')
           return

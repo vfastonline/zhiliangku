@@ -46,17 +46,17 @@ const entry = {
   //   path:'08_exercise',
   //   filename: 'exercise/list/index.html',
   // },
-  // personal_center:{
-  //   path:'09_personal_center',
-  //   filename:'personal_center/page/index.html'
-  // },
-  leader_board: {
-    path: '10_leader_board',
-    filename: 'employment/leaderboard/list/index.html'
+  personal_center:{
+    path:'09_personal_center',
+    filename:'personal_center/page/index.html'
   },
-  finish_project_list: {
-    path: '11_finish_project_list',
-    filename: 'employment/finishprojectlistinfo/list/index.html'
+  leader_board:{
+    path:'10_leader_board',
+    filename:'employment/leaderboard/list/index.html'
+  },
+  finish_project_list:{
+    path:'11_finish_project_list',
+    filename:'employment/finishprojectlistinfo/list/index.html'
   }
   // error_404:{
   //   path:'23_404',
