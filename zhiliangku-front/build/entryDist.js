@@ -10,17 +10,10 @@ const entry = {
     path: '01_project_list',
     filename: 'tracks/projects/list/index.html'
   },
-<<<<<<< HEAD
-  project_detail: {
-    path: '02_project_detail',
-    filename: 'tracks/projects/detail/index.html'
-  },
-=======
   // project_detail: {
   //   path: '02_project_detail',
   //   filename: 'tracks/projects/detail/index.html'
   // },
->>>>>>> 9a51c6b1ed6e172aaec3cab3cd5f1e3885506b4f
   // course_detail:{
   //   path:'03_course_detail',
   //   filename:'tracks/course/detail/index.html'

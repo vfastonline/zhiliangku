@@ -50,15 +50,7 @@
       }
     },
     created() {
-      // var defaultConfig={time1:'month',time2:'month'};
-      // for( var k in this.config){
-      //   defaultConfig[k]=this.config[k]
-      // }
-      // this.config=defaultConfig;
-      // if (this.mainData) {
-      //   this.start_time2= this.getDate(this.mainData.start_time,this.config.time2)
-      //   this.end_time2=this.getDate(this.mainData.end_time,this.config.time2)
-      // }
+
     }
   }
 
