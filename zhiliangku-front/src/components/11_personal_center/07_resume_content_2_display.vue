@@ -1,8 +1,12 @@
 <template>
   <div id="anchor2" class=" resume-model">
     <resumetitle @add="add()" :mainData="titleData">
+      <tag_0>
+        <img class="vs " src="./img/简历_钱币.svg" alt="">
+        <span class="font1_22_6">求职意向</span>
+      </tag_0>
       <span>
-        <img class="imgmiddle imgr" src="./img/简历_钱币.svg" alt="">求职意向</span>
+        </span>
     </resumetitle>
     <div v-for="(item,index) in mainData" :key="index" class="resumewidth hc rc2-container2 ">
       <span class="fl rc2-c2-tag">{{item.position?item.position:'暂无'}}</span>
@@ -20,6 +24,7 @@
 <script>
   import resumetitle from './resumePartTitle'
   import editor from './07_resume_content_2_modify.vue'
+  import tag_0 from './08_tag_0'
   export default {
     name: 'HelloWorld',
     data() {
@@ -58,7 +63,8 @@
     },
     components: {
       resumetitle: resumetitle,
-      editor: editor
+      editor: editor,
+      tag_0:tag_0
     }
   }
 
