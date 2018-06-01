@@ -19,7 +19,7 @@ class LeaderboardList(View):
 		return render(request, template_name, {})
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class LeaderboardListInfo(View):
 	"""排行榜-信息"""
 
@@ -36,12 +36,20 @@ class LeaderboardListInfo(View):
 		}
 
 	def get(self, request, *args, **kwargs):
+		customusers_id_dict = dict()
 		try:
 			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+			nickname = request.GET.get("nickname", 12)  # 昵称
 			page = request.GET.get("page", 1)  # 页码
 			per_page = request.GET.get("per_page", 12)  # 每页显示条目数
 
-			self.project_video_id_list = Project.objects.all().values_list("video", flat=True)  # 所有项目的考核视频ID列表
+			if nickname:
+				customusers_id_list = CustomUser.objects.filter(nickname__icontains=nickname).values_list("id",
+																										  flat=True)
+				customusers_id_dict = {}.fromkeys(customusers_id_list)
+
+			# 所有项目的考核视频ID列表
+			self.project_video_id_list = Project.objects.all().values_list("video", flat=True)
 
 			# 完成项目考核用户排名
 			unlockvideos = UnlockVideo.objects.filter(video__id__in=self.project_video_id_list) \
@@ -86,10 +94,12 @@ class LeaderboardListInfo(View):
 
 			# 每个用户排名
 			for one in unlockvideo_list:
-				rank = list(unlockvideos).index(one) + 1
-				one_user_dict = dict.fromkeys(self.user_info_list, "")
-				one_user_dict.update({"rank": rank})
 				user_id = one.get("custom_user")
+				if customusers_id_dict and not customusers_id_dict.has_key(user_id):
+					continue
+				rank = list(unlockvideos).index(one) + 1
+				one_user_dict = dict.fromkeys(self.user_info_list, "")  # 用户信息默认字典
+				one_user_dict.update({"rank": rank})
 				customusers = CustomUser.objects.filter(id=user_id).values(*self.user_info_list)
 				if customusers.exists():
 					customuser_dict = customusers.first()
@@ -124,10 +134,8 @@ class LeaderboardListInfo(View):
 
 			}
 			unlockvideos = UnlockVideo.objects.filter(**filter_dict).values_list("video", flat=True)
-			projects = Project.objects.filter(video__id__in=unlockvideos)
-
-			for one_project in projects:
-				technologys.append(one_project.technology.name)
+			technologys = Project.objects.filter(video__id__in=unlockvideos).values_list("technology__name", flat=True)
+			technologys = list(set(technologys))
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
