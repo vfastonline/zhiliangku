@@ -19,7 +19,7 @@ class LeaderboardList(View):
 		return render(request, template_name, {})
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class LeaderboardListInfo(View):
 	"""排行榜-信息"""
 
@@ -40,7 +40,7 @@ class LeaderboardListInfo(View):
 		customusers_id_list = list()
 		try:
 			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
-			nickname = request.GET.get("nickname", 12)  # 昵称
+			nickname = request.GET.get("nickname", "")  # 昵称
 			page = request.GET.get("page", 1)  # 页码
 			per_page = request.GET.get("per_page", 12)  # 每页显示条目数
 
