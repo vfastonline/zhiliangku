@@ -1,13 +1,13 @@
 <template>
-  <div id="anchor5" class="  resume-model">
-    <resumetitle @add="add()">
+  <div id="anchor5"  class="  resume-model">
+    <resumetitle @add="add()" :tag="{label:'添加'}">
       <tag_0>
         <img class="vs " src="./img/简历_项目.svg" alt="">
-        <span>项目经验</span>
+        <span class="font1_22_3">项目经验</span>
       </tag_0>
     </resumetitle>
     <div class="resumewidth hc">
-      <p v-if="!mainData.length">你可以描述一下之前工作中所参与的项目，一段精彩的项目经历可以最直观的突出你的优势</p>
+      <p v-if="!mainData.length" class="font1_18_6">你可以描述一下之前工作中所参与的项目，一段精彩的项目经历可以最直观的突出你的优势</p>
     </div>
     <div v-for="(item,index) in mainData" :key="index" class="resumewidth hc">
       <timerbox :config="{title:'name',linkTitle:true}"
@@ -22,7 +22,10 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  .resume-model {
+    min-height:176px;
+    padding-bottom:70px;
+  }
 
 </style>
 <script>

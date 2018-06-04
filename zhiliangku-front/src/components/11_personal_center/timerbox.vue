@@ -4,16 +4,16 @@
       <div class="tbc-dote"></div>
       <div v-if="!first" class="vertical-line tbc-line-up"></div>
       <div class="vertical-line tbc-line-down"></div>
-      <div class="tbc-time-tag font1_16_3">{{mainData.end_time}}</div>
+      <div class="tbc-time-tag font1_18_3">{{mainData.end_time}}</div>
       <div class="tbc-title">
-        <span v-if="!config.linkTitle" class="font1_20_3 weight">{{mainData[config['title']]}}</span>
+        <span v-if="!config.linkTitle" class="font1_22_3 weight">{{mainData[config['title']]}}</span>
         <a v-if="config.linkTitle" :href="mainData.url">
-          <span class="font1_16_6">{{mainData[config['title']]}}</span>
+          <span class="font1_18_6">{{mainData[config['title']]}}</span>
         </a>
-        <span class="font1_16_6 tbc_title_time" >{{mainData.start_time}} 至 {{mainData.end_time}}</span>
+        <span class="font1_18_6 tbc_title_time" >{{mainData.start_time}} 至 {{mainData.end_time}}</span>
       </div>
       <div class="cp rc-pic-editor"  @click="handleClick">
-        <tag_0>
+        <tag_0 class="tag_edit">
           <img class="vs icon_01" src="./img/编辑icon.png" alt="">
           <span class="font1_22_9">编辑</span>
         </tag_0>
@@ -82,7 +82,7 @@
     padding-left: 35px;
     margin-left: 96px;
     position: relative;
-    line-height: 40px;
+    line-height: 38px;
   }
 
   .timerbox-line {

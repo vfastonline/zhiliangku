@@ -3,19 +3,19 @@
     <resumetitle @add="add()" :mainData="titleData">
       <tag_0>
         <img class="vs " src="./img/简历_钱币.svg" alt="">
-        <span class="font1_22_6">求职意向</span>
+        <span class="font1_22_6 weight">求职意向</span>
       </tag_0>
       <span>
         </span>
     </resumetitle>
     <div v-for="(item,index) in mainData" :key="index" class="resumewidth hc rc2-container2 ">
-      <span class="fl rc2-c2-tag">{{item.position?item.position:'暂无'}}</span>
-      <span class="fl rc2-c2-tag">期望城市：{{item.city}}</span>
-      <span class="fl rc2-c2-tag">期望行业：{{item.industry}}</span>
-      <span class="fl rc2-c2-tag">{{item.expect_salary}}</span>
-      <span class="pointer" @click="editorInfo(index)">
-        <img class="imgmiddle imgr" src="./img/简历_铅笔.svg" alt="">
-        <span>编辑</span>
+      <span class="fl font1_18_6 rc2-c2-tag">{{item.position?item.position:'暂无'}}</span>
+      <span class="fl font1_18_6 rc2-c2-tag">期望城市：{{item.city}}</span>
+      <span class="fl font1_18_6 rc2-c2-tag">期望行业：{{item.industry}}</span>
+      <span class="fl font1_18_6 rc2-c2-tag">{{item.expect_salary}}</span>
+      <span class="pointer edit" @click="editorInfo(index)">
+        <img class="imgmiddle imgr" src="./img/编辑icon.png" alt="">
+        <span class="font1_20_9">编辑</span>
       </span>
     </div>
     <editor :key="editorKey" :url="editorUrl" :editorIndex="editorIndex" :mainData="mainData" @close="close()" v-if="showeditor"></editor>
@@ -75,15 +75,25 @@
     border-bottom: 2px solid #eef0f2;
   }
 
+  .resume-model {
+    min-height: 60px;
+    padding-bottom:70px;
+  }
+
   .rc2-container2 {
     display: flex;
     justify-content: space-between;
-    margin-top: 15px;
+    margin-top: 12px;
     padding-right: 15px;
   }
 
   .rc2-container2 {
     margin-bottom: 12px;
+  }
+
+  .edit img {
+    margin-right:5px;
+    vertical-align: top;
   }
 
 </style>

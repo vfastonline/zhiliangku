@@ -3,7 +3,7 @@
     <resumetitle :tag="{label:'编辑',eventName:'editor'}" @editor="showeditor=!showeditor" :mainData="titleData">
       <tag_0>
         <img class="vs" src="./img/简历_小人.svg" alt="">
-        <span class="font1_22_6">我的优势</span>
+        <span class="font1_22_6 weight">我的优势</span>
       </tag_0>
     </resumetitle>
     <div  class="resumewidth hc ">
@@ -38,6 +38,15 @@ import tag_0 from  './08_tag_0'
   }
 </script>
 <style scoped>
+  .resumewidth {
+    min-height: 90px;
+
+  }
+  .resumewidth p {
+    font: 18px/1.5 "Microsoft YaHei";
+    color:#666;
+    margin-bottom:60px;
+  }
   .rc-ma-container1 {
     padding-bottom: 15px;
     border-bottom: 2px solid #eef0f2;

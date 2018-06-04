@@ -10,21 +10,21 @@
           </el-upload>
           <div class="rc-pic-word">
             <div class="rc-pic-word-0">
-              <span class="font1_20_6">{{mainData.name}}</span>
+              <span class="font1_18_3 weight">{{mainData.name}}</span>
               <img class="resume-sex-icon" v-if="mainData.sex=='女'" src="./img/简历_性别女.svg" alt="">
               <img class="resume-sex-icon" v-if="mainData.sex=='男'" src="./img/简历_性别男.svg" alt="">
-              <span class="font1_20_9">{{age()}}岁</span>
+              <span class="font1_18_6">{{age()}}岁</span>
             </div>
             <div class="rc-pic-word-1">
-              <span class="font1_20_9">{{mainData.status}}</span>
-              <span class="font1_20_9">{{mainData.position}}</span>
-              <span class="font1_20_9">{{mainData.company}}</span>
+              <span class="font1_18_6">{{mainData.status}}</span>
+              <span class="font1_18_6">{{mainData.position}}</span>
+              <span class="font1_18_6">{{mainData.company}}</span>
             </div>
           </div>
           <div @click="ifshowEditor" class="cp rc-pic-editor">
-            <tag_0>
+            <tag_0 class="tag_edit">
               <img class="vs icon_01" src="./img/编辑icon.png" alt="">
-              <span class="font1_22_9">编辑</span>
+              <span class="font1_20_9">编辑</span>
             </tag_0>
           </div>
         </div>
@@ -32,19 +32,19 @@
       <div class="rc-pi-container2">
         <tag_0>
           <img class="vs icon_01" src="./img/01_briefcase.svg" alt="">
-          <span class="font1_22_6">{{mainData.years_of_service||'尚未填写'}}</span>
+          <span class="font1_20_6">{{mainData.years_of_service||'尚未填写'}}</span>
         </tag_0>
         <tag_0>
           <img class="vs icon_01" src="./img/简历_学士帽.svg" alt="">
-          <span class="font1_22_6">{{mainData.education||'尚未填写'}}</span>
+          <span class="font1_20_6">{{mainData.education||'尚未填写'}}</span>
         </tag_0>
         <tag_0>
           <img class="vs icon_01" src="./img/简历_小人.svg" alt="">
-          <span class="font1_22_6">{{mainData.status||'尚未填写'}}</span>
+          <span class="font1_20_6">{{mainData.status||'尚未填写'}}</span>
         </tag_0>
         <tag_0>
           <img class="vs icon_01" src="./img/简历_钱币.svg" alt="">
-          <span class="font1_22_6">{{mainData.expect_salary||'尚未填写'}}</span>
+          <span class="font1_20_6">{{mainData.expect_salary||'尚未填写'}}</span>
         </tag_0>
       </div>
     </div>
@@ -144,7 +144,7 @@
 
   .rc-pi-container1 {
     padding: 10px 0;
-    border-bottom: 2px solid #eef0f2;
+    border-bottom: 1px solid #e1e1e1;
   }
 
   .rc-pi-content {
@@ -155,7 +155,7 @@
   }
 
   .rc-pi-container2 {
-    padding-top: 18px;
+    padding-top: 16px;
     padding-right: 15px;
     display: flex;
     justify-content: space-between;
@@ -166,14 +166,14 @@
   }
 
   .rc-pic-img {
-    height: 124px;
-    width: 124px;
+    height: 120px;
+    width: 120px;
     border-radius: 50%;
   }
 
   .rc-pic-word {
-    margin-left: 154px;
-    padding-top: 30px;
+    margin-left: 150px;
+    padding-top: 28px;
   }
 
   .rc-pic-word-0 {

@@ -3,7 +3,7 @@
     <resumetitle @add="add()">
       <tag_0>
         <img class="vs " src="./img/01_briefcase.svg" alt="">
-        <span class="font1_22_6">工作经历</span>
+        <span class="font1_22_6 weight">工作经历</span>
       </tag_0>
     </resumetitle>
     <div class="resumewidth hc">
@@ -17,7 +17,10 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  .resume-model {
+    min-height:170px;
+    padding-bottom:70px;
+  }
 
 </style>
 <script>
