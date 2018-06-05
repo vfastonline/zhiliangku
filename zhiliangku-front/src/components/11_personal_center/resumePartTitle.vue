@@ -1,9 +1,9 @@
 <template>
-  <div class="resume-part-title  resumewidth hc">
+  <div class="resume-part-title hc">
     <slot></slot>
-    <tag_0 class="cp" @click="handleClick">
+    <tag_0 class="cp tag_edit" @click="handleClick">
       <img class="vs " src="./img/添加icon.png" alt="">
-      <span class="font1_18_9">{{taglist.label}}</span>
+      <span class="font1_20_9">{{taglist.label}}</span>
     </tag_0>
   </div>
 </template>
@@ -15,8 +15,8 @@
     padding-top: 15px;
     padding-bottom: 10px;
     padding-right: 15px;
-    border-bottom: 2px solid #eef0f2;
-    margin-bottom: 26px;
+    border-bottom: 1px solid #e1e1e1;
+    margin-bottom: 30px;
   }
 
 </style>

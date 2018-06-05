@@ -5,8 +5,8 @@
       <rc1 :mainData="mainData.resume"></rc1>
       <rc2 :mainData="mainData.careerobjectives"></rc2>
       <rc3 :mainData="mainData.workexperiences"></rc3>
-      <rc4 :mainData="mainData.educationexperiences"></rc4>
       <rc5 :mainData="mainData.projectexperiences"></rc5>
+      <rc4 :mainData="mainData.educationexperiences"></rc4>
     </div>
   </div>
 </template>
@@ -84,7 +84,6 @@
   .personnal-center-main{
     display: flex;
     justify-content: space-between;
-    margin-top:96px
   }
   .personal-center-left {
     width: 292px;

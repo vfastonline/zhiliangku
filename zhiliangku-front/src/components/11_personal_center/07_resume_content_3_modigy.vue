@@ -34,7 +34,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-
 </style>
 <script>
   import Bus from '../../assets/js/02_bus'

@@ -3,7 +3,7 @@
     <resumetitle @add="add()" :mainData="titleData">
       <tag_0>
         <img class="vs " src="./img/简历_钱币.svg" alt="">
-        <span class="font1_22_6">求职意向</span>
+        <span class="font1_22_6 weight">求职意向</span>
       </tag_0>
       <span>
         </span>
@@ -77,6 +77,11 @@
     border-bottom: 2px solid #eef0f2;
   }
 
+  .resume-model {
+    min-height: 60px;
+    padding-bottom:70px;
+  }
+
   .rc2-container2 {
     display: flex;
     justify-content: space-between;
@@ -87,6 +92,11 @@
 
   .rc2-container2 {
     margin-bottom: 12px;
+  }
+
+  .edit img {
+    margin-right:5px;
+    vertical-align: top;
   }
 
 </style>

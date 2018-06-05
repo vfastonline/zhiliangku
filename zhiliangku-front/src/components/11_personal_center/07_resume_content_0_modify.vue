@@ -60,7 +60,7 @@
   Vue.use(Select)
   Vue.use(DatePicker)
   Vue.use(Option)
-  
+
   export default {
     name: 'HelloWorld',
     data() {
