@@ -5,7 +5,7 @@
       <div class="bottom_bg"></div>
     </div>
     <div class="block_info r">
-      <div class="project_name font1_34_3">项目名称: {{main_data.name}}</div>
+      <div class="project_name font1_34_3">{{main_data.name}}</div>
       <div class="progress font1_18_b4">已完成：{{parseInt(main_data.schedule *100) }} %</div>
       <BlueButton class="continue_button a"><span class="continue_learn font1_24_f" >继续学习</span></BlueButton>
     </div>

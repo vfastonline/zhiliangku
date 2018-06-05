@@ -1,6 +1,6 @@
 <template>
   <div>
-    <unit v-for="(item,index) in main_data" :key="index" :main_data="item[main_data.timeKey]"></unit>
+    <unit v-for="(item,index) in main_data" :key="index" :main_data="item[item.timeKey]"></unit>
   </div>
 </template>
 
@@ -21,7 +21,7 @@
           res.data.data.forEach( el=>{
             //组装 时间 这个key
             var arr = Object.keys(el)
-            res.data.data.timeKey=arr[0]
+            el.timeKey=arr[0]
           })
           this.main_data = res.data.data
 
