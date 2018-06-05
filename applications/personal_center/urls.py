@@ -5,11 +5,15 @@ from applications.personal_center import job_information
 from applications.personal_center import my_courses
 from applications.personal_center import my_resume
 from applications.personal_center import personal_settings
+from applications.personal_center import progress
 from applications.personal_center import views
 
 urlpatterns = [
 	url('^page/$', views.PersonalCenter.as_view()),
 	url('^basic/info$', views.PersonalCenterBasicInfo.as_view()),
+
+	# 学习进度
+	url('^learning/progress$', progress.GetLearningProgressInfo.as_view()),
 
 	# 基本信息
 	url('^personal_settings/update/basicinfo$', personal_settings.UpdateBasicInfo.as_view()),
