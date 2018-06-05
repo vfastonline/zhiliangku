@@ -8,7 +8,6 @@
       <span>
         </span>
     </resumetitle>
-    <<<<<<< HEAD
     <div v-for="(item,index) in mainData" :key="index" class="resumewidth hc rc2-container2 ">
       <span class="fl font1_18_6 rc2-c2-tag">{{item.position?item.position:'暂无'}}</span>
       <span class="fl font1_18_6 rc2-c2-tag">期望城市：{{item.city}}</span>

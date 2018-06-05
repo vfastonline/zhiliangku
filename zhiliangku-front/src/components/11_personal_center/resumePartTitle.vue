@@ -2,7 +2,8 @@
   <div class="resume-part-title hc">
     <slot></slot>
     <tag_0 class="cp tag_edit" @click="handleClick">
-      <img class="vs " src="./img/添加icon.png" alt="">
+      <img v-if="taglist.label == '添加'" class="vs " src="./img/添加icon.png" alt="">
+      <img v-if="taglist.label == '编辑'" class="vs " src="./img/编辑icon.png" alt="">
       <span class="font1_20_9">{{taglist.label}}</span>
     </tag_0>
   </div>
@@ -37,7 +38,7 @@
         this.$emit(this.taglist.eventName)
       }
     },
-    mounted() {
+    created() {
       if (!this.tag) {
         this.taglist.label = '添加';
         this.taglist.eventName = 'add'

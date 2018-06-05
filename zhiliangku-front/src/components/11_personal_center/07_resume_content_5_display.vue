@@ -1,6 +1,6 @@
 <template>
   <div id="anchor5"  class="  resume-model">
-    <resumetitle @add="add()" :tag="{label:'添加'}">
+    <resumetitle @add="add()" >
       <tag_0>
         <img class="vs " src="./img/简历_项目.svg" alt="">
         <span class="font1_22_3">项目经验</span>
