@@ -3,7 +3,7 @@
     <resumetitle @add="add()" :mainData="titleData">
       <tag_0>
         <img class="vs " src="./img/简历_钱币.svg" alt="">
-        <span class="font1_22_6 weight">求职意向</span>
+        <span class="font1_22_6">求职意向</span>
       </tag_0>
       <span>
         </span>
@@ -13,7 +13,7 @@
       <span class="fl font1_18_6 rc2-c2-tag">期望城市：{{item.city}}</span>
       <span class="fl font1_18_6 rc2-c2-tag">期望行业：{{item.industry}}</span>
       <span class="fl font1_18_6 rc2-c2-tag">{{item.expect_salary}}</span>
-      <span class="pointer edit" @click="editorInfo(index)">
+      <span class="pointer edit cp" @click="editorInfo(index)">
         <img class="imgmiddle imgr" src="./img/编辑icon.png" alt="">
         <span class="font1_20_9">编辑</span>
       </span>
@@ -93,7 +93,7 @@
 
   .edit img {
     margin-right:5px;
-    vertical-align: top;
+    vertical-align: sub;
   }
 
 </style>

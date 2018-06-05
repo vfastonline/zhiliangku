@@ -7,26 +7,50 @@
   margin-bottom:32px;
 }
 .myform-body {
-  width: 566px;
+  width: 740px;
   margin: auto;
 }
 
 .item {
   position: relative;
-  margin-left: 94px;
-  margin-bottom: 15px;
+  margin-left: 140px;
+  margin-bottom: 40px;
+}
+.item:last-child {
+  margin-bottom: 50px;
 }
 
 .tags {
   position: absolute;
-  width: 80px;
+  width: 110px;
   text-align: right;
-  left: -114px;
+  left: -131px;
   top: 50%;
-  transform: translate(0, -50%)
+  transform: translate(0, -50%);
+  font: 22px/1.5 "Microsoft YaHei";
+  color: #666;
 }
+
 .word-indecator{
   position: absolute;
   bottom:12px;
   right:20px;
+}
+.el-select, .el-date-editor.el-input {
+  width: 100%;
+}
+.button-container {
+  padding:0 38px;
+
+}
+.button-container>button {
+  width: 200px;
+  height: 60px;
+  border-radius:10px;
+  margin-left:20px;
+}
+.item .el-input__inner {
+  font: 22px/1.5 "Microsoft YaHei";
+  color: #999;
+  height:48px;
 }

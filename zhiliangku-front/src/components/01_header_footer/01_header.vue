@@ -223,8 +223,6 @@
   .project_header {
     height: 90px;
     line-height: 90px;
-    font-weight: bold;
-
   }
 
   .logo {

@@ -18,18 +18,18 @@ const entry = {
     path:'04_video_detail',
     filename:'tracks/video/detail/index.html'
   },
-  // community:{
-  //   path:'05_community',
-  //   filename:'community/faq/list/index.html'
-  // },
+  community:{
+    path:'05_community',
+    filename:'community/faq/list/index.html'
+  },
   // faq_detail:{
   //   path:'06_FAQ_detail',
   //   filename:'community/faq/detail/index.html'
   // },
-  // login:{
-  //   path:'20_login',
-  //   filename:'login/index.html'
-  // },
+  login:{
+    path:'20_login',
+    filename:'login/index.html'
+  },
   // test:{
   //   path:'21_test',
   //   filename:'assess/info/index.html'

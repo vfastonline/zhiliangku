@@ -6,7 +6,7 @@
       <div class="vertical-line tbc-line-down"></div>
       <div class="tbc-time-tag font1_18_3">{{mainData.end_time}}</div>
       <div class="tbc-title">
-        <span v-if="!config.linkTitle" class="font1_22_3 weight">{{mainData[config['title']]}}</span>
+        <span v-if="!config.linkTitle" class="font1_22_3">{{mainData[config['title']]}}</span>
         <a v-if="config.linkTitle" :href="mainData.url">
           <span class="font1_18_6">{{mainData[config['title']]}}</span>
         </a>

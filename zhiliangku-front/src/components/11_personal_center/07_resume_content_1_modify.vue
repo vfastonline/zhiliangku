@@ -1,6 +1,6 @@
 <template>
   <div class="myform">
-    <div class="myform-title font20pl3a3c50">编辑我的优势</div>
+    <div class="myform-title font1_30_6">编辑我的优势</div>
     <div class="myform-body">
       <div class="item  the-input">
         <span class="tags">优势描述</span>
