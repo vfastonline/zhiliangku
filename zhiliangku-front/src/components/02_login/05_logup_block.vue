@@ -24,7 +24,7 @@
         <el-input :placeholder="'请确密码'" type="password" v-model="form_data.password_repeat">
         </el-input>
       </el-form-item>
-      <el-button @click="submitForm('form_el','log_up_fun',form_data)" :class="['login-commen-container-button']">
+      <el-button @click="submitForm('form_el','log_up_fun',form_data)" class="login-commen-container-button">
         <span class="font1_26_f"> 注册</span>
       </el-button>
       <input type="text" style="display:none;">
@@ -213,8 +213,13 @@
 
 </style>
 <style scoped>
-  .login-commen-container-button {
+  .form_wrap .login-commen-container-button {
     width: 400px;
     background: #23b8ff 100%;
+    display: inline-block;
+    text-align: center;
+    border-radius:4px;
+    height: 40px;
+    line-height: 40px;
   }
 </style>

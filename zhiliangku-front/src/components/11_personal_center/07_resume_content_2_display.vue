@@ -3,16 +3,17 @@
     <resumetitle @add="add()" :mainData="titleData">
       <tag_0>
         <img class="vs " src="./img/简历_钱币.svg" alt="">
-        <span class="font1_22_6 weight">求职意向</span>
+        <span class="font1_22_6">求职意向</span>
       </tag_0>
       <span>
         </span>
     </resumetitle>
-    <div v-for="(item,index) in mainData" :key="index" class=" hc rc2-container2 ">
-      <span class="font1_20_9 ">期望职位：{{item.position||'尚未填写'}}</span>
-      <span class="font1_20_9 ">期望城市：{{item.city||'尚未填写'}}</span>
-      <span class="font1_20_9 ">期望行业：{{item.industry||'尚未填写'}}</span>
-      <span class="font1_20_6 ">期望薪资：{{item.expect_salary||'尚未填写'}}</span>
+    <<<<<<< HEAD
+    <div v-for="(item,index) in mainData" :key="index" class="resumewidth hc rc2-container2 ">
+      <span class="fl font1_18_6 rc2-c2-tag">{{item.position?item.position:'暂无'}}</span>
+      <span class="fl font1_18_6 rc2-c2-tag">期望城市：{{item.city}}</span>
+      <span class="fl font1_18_6 rc2-c2-tag">期望行业：{{item.industry}}</span>
+      <span class="fl font1_18_6 rc2-c2-tag">{{item.expect_salary}}</span>
       <tag_0 class="cp" @click="editorInfo(index)">
         <img class="vs " src="./img/编辑icon.png" alt="">
         <span class="font1_22_9">编辑</span>
@@ -79,7 +80,7 @@
 
   .resume-model {
     min-height: 60px;
-    padding-bottom:70px;
+    padding-bottom: 70px;
   }
 
   .rc2-container2 {
@@ -95,8 +96,8 @@
   }
 
   .edit img {
-    margin-right:5px;
-    vertical-align: top;
+    margin-right: 5px;
+    vertical-align: sub;
   }
 
 </style>

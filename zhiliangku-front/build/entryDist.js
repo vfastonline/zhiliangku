@@ -22,10 +22,10 @@ const entry = {
   //   path:'06_FAQ_detail',
   //   filename:'community/faq/detail/index.html'
   // },
-  // login:{
-  //   path:'20_login',
-  //   filename:'login/index.html'
-  // },
+  login:{
+    path:'20_login',
+    filename:'login/index.html'
+  },
   // test:{
   //   path:'21_test',
   //   filename:'assess/info/index.html'

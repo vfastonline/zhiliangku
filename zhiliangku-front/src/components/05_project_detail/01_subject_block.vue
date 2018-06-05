@@ -1,3 +1,4 @@
+
 <template>
   <section class="subject_block rose">
     <p class="subject_name  ftc font1_20_f" :style="{'background-color':top_color}">{{main_data.name}}</p>

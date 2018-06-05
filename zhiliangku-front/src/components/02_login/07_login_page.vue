@@ -37,6 +37,15 @@
   .loginpage-forget {
     margin-bottom: 16px;
   }
+  .form_wrap .loginpage-button {
+    width: 400px;
+    background: #23b8ff 100%;
+    display: inline-block;
+    text-align: center;
+    border-radius:4px;
+    height: 40px;
+    line-height: 40px;
+  }
 
 </style>
 <script>
