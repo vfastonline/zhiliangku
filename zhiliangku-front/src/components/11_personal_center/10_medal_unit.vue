@@ -22,7 +22,7 @@
   }
 
   .medal_container {
-    width: 122px;
+    width: 230px;
     height: 240px;
     margin-bottom: 72px;
   }
