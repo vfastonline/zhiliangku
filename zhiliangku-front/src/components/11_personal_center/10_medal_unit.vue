@@ -16,9 +16,10 @@
 
 <style scoped>
   .medal_img {
+    display: block;
     height: 138px;
     width: 118px;
-    margin-bottom: 40px;
+    margin:0 auto 40px auto;
   }
 
   .medal_container {

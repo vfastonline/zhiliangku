@@ -1,5 +1,5 @@
 <template>
-  <div class="myform">
+  <div class="myform rose"  >
     <div class="myform-title font1_30_6">编辑个人信息</div>
     <div class="myform-body">
       <div class="item  the-input">

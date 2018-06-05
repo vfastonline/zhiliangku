@@ -1,11 +1,14 @@
 // form 部分的样式
 .myform {
-  // background: white;
+  background: white;
   padding: 24px 42px 22px;
+  border-radius: 10px;
 }
-.myform-title{
-  margin-bottom:32px;
+
+.myform-title {
+  margin-bottom: 32px;
 }
+
 .myform-body {
   width: 740px;
   margin: auto;
@@ -16,6 +19,7 @@
   margin-left: 140px;
   margin-bottom: 40px;
 }
+
 .item:last-child {
   margin-bottom: 50px;
 }
@@ -31,26 +35,30 @@
   color: #666;
 }
 
-.word-indecator{
+.word-indecator {
   position: absolute;
-  bottom:12px;
-  right:20px;
+  bottom: 12px;
+  right: 20px;
 }
+
 .el-select, .el-date-editor.el-input {
   width: 100%;
 }
+
 .button-container {
-  padding:0 38px;
+  padding: 0 38px;
 
 }
-.button-container>button {
+
+.button-container > button {
   width: 200px;
   height: 60px;
-  border-radius:10px;
-  margin-left:20px;
+  border-radius: 10px;
+  margin-left: 20px;
 }
+
 .item .el-input__inner {
   font: 22px/1.5 "Microsoft YaHei";
   color: #999;
-  height:48px;
+  height: 48px;
 }
