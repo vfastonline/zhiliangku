@@ -18,8 +18,8 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .resume-model {
-    min-height:170px;
-    padding-bottom:70px;
+    /*min-height:170px;*/
+    /*padding-bottom:70px;*/
   }
 
 </style>

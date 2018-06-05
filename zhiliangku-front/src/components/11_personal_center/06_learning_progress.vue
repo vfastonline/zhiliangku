@@ -1,6 +1,6 @@
 <template>
   <div>
-    <unit></unit>
+    <unit v-for="(item,index) in main_data" :key="index" :main_data="item[item.timeKey]"></unit>
   </div>
 </template>
 <script>
@@ -8,8 +8,24 @@
 
   export default {
     name: "learning_progress",
+    data() {
+      return {
+        main_data: '',
+      }
+    },
     created(){
-      console.log(this)
+      this.$get("/personal_center/learning/progress").then(res=> {
+        console.log( res.data.data)
+        if(!res.err){
+          res.data.data.forEach( el=>{
+            //组装 时间 这个key
+            var arr = Object.keys(el)
+            el.timeKey=arr[0]
+          })
+          this.main_data = res.data.data
+
+        }
+      })
     },
     components: {
       unit: unit
