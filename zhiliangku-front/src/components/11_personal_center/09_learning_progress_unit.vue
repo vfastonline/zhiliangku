@@ -1,0 +1,62 @@
+<template>
+  <div class="unit_container">
+    <div class="img_container">
+      <img class="project_img" src="./img/99_learning_progress.png" alt="">
+      <div class="bottom_bg"></div>
+    </div>
+    <div class="block_info r">
+      <div class="project_name font1_34_3">项目名称:云计算</div>
+      <div class="progress font1_18_b4">已完成：60%</div>
+      <BlueButton class="continue_button a"><span class="continue_learn font1_24_f" >继续学习</span></BlueButton>
+    </div>
+  </div>
+</template>
+
+<script>
+  import BlueButton from '../00_common/04_blue_button'
+  export default {
+    name: "learning_progress_unit",
+    components:{
+      BlueButton:BlueButton
+    }
+  }
+</script>
+
+<style scoped>
+  .continue_button{
+    bottom: 0;
+    left: 0;
+  }
+  .continue_learn{
+    padding: 5px 17px;
+  }
+  .block_info{
+    margin-left: 60px;
+    flex: 0 0 auto;
+    max-width: 340px;
+  }
+  .img_container {
+    flex: 0 0 auto;
+    width: 300px;
+  }
+  .project_img{
+    height: 172px;
+    width: 252px;
+    margin: auto;
+    display: block;
+  }
+  .bottom_bg{
+    display: block;
+    height: 10px;
+    background-color: #edeef3;
+    border-radius: 0 0 20px 20px;
+  }
+  .unit_container {
+    display: flex;
+    justify-content: left;
+    width: 800px;
+    height: 222px;
+    padding: 20px 50px;
+    box-sizing: border-box;
+  }
+</style>
