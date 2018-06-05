@@ -4,15 +4,15 @@
     <div class="myform-body">
       <div class="item  the-input">
         <span class="tags">期望职位：</span>
-        <el-input v-model="value0"></el-input>
+        <el-input maxlength="12" v-model="value0"></el-input>
       </div>
       <div class="item  the-input">
         <span class="tags">工作方式：</span>
-        <el-input v-model="value1"></el-input>
+        <el-input maxlength="10" v-model="value1"></el-input>
       </div>
       <div class="item  the-input">
         <span class="tags">城市：</span>
-        <el-input v-model="value2"></el-input>
+        <el-input maxlength="7" v-model="value2"></el-input>
       </div>
       <div class="item  the-input">
         <span class="tags">薪资：</span>
@@ -36,6 +36,7 @@
 <script>
   import Bus from '../../assets/js/02_bus'
   import rcb from './resumeContentButton'
+
   export default {
     name: 'HelloWorld',
     data() {
@@ -61,24 +62,24 @@
       close() {
         this.$emit('close')
       },
-      last(res){
-         if (!res.data.err) {
-            Bus.$emit('refreshResume', res.data.data)
-          }
-          this.close()
+      last(res) {
+        if (!res.data.err) {
+          Bus.$emit('refreshResume', res.data.data)
+        }
+        this.close()
       },
       deleteInfo() {
-        this.$post('/personal_center/resume/delete',{
+        this.$post('/personal_center/resume/delete', {
           custom_user_id: localStorage.uid,
-           resume_type: 'careerobjective',
-           pk_id:this.mainData[this.editorIndex].id
-        }).then(res=>{
+          resume_type: 'careerobjective',
+          pk_id: this.mainData[this.editorIndex].id
+        }).then(res => {
           this.last(res)
         })
       },
       submit() {
-        var obj=this.mainData[this.editorIndex];
-        var data={
+        var obj = this.mainData[this.editorIndex];
+        var data = {
           custom_user_id: localStorage.uid,
           resume_type: 'careerobjective',
           resume_info_dict: {
@@ -86,21 +87,23 @@
             expect_salary: this.value3,
             city: this.value2,
             industry: this.value4,
-            way:this.value1
+            way: this.value1
           }
         };
-        if(obj){data.pk_id=obj.id}
-        this.$post(this.url,data ).then(res => {
+        if (obj) {
+          data.pk_id = obj.id
+        }
+        this.$post(this.url, data).then(res => {
           console.log(res)
-         this.last(res)
+          this.last(res)
         })
       },
     },
     created() {
       console.log(this.editorIndex)
       if (this.editorIndex != -1) {
-        this.initForm(this, this.mainData[this.editorIndex], ['position', 'expect_salary', 'city', 'industy','way'], [
-          'value0', 'value3', 'value2', 'value4','value1'
+        this.initForm(this, this.mainData[this.editorIndex], ['position', 'expect_salary', 'city', 'industy', 'way'], [
+          'value0', 'value3', 'value2', 'value4', 'value1'
         ])
       }
 

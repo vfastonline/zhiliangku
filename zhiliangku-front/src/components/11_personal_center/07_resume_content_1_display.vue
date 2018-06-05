@@ -6,7 +6,7 @@
         <span class="font1_22_6">我的优势</span>
       </tag_0>
     </resumetitle>
-    <div  class="resumewidth hc ">
+    <div  class="font1_18_9 hc ">
       <p v-html="mainData.advantage">
       </p>
     </div>

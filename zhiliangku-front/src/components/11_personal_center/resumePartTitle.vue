@@ -16,7 +16,7 @@
     padding-bottom: 10px;
     padding-right: 15px;
     border-bottom: 2px solid #eef0f2;
-    margin-bottom: 12px;
+    margin-bottom: 26px;
   }
 
 </style>
