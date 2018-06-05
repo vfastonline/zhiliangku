@@ -1,5 +1,5 @@
 <template>
-  <div class="experience-container">
+  <div class="experience-container font1_18_6">
       <div class="marginbottom16"><span>{{mainData.role}}</span></div>
       <p v-if="mainData.description" v-html="'项目描述：'+ mainData.description"></p>
       <p v-if="mainData.description" v-html="'项目业绩：'+mainData.performance"></p>
