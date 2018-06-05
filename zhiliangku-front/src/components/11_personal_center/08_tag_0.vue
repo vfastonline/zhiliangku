@@ -11,7 +11,7 @@
 </script>
 
 <style lang="scss">
-  /*默认icon右侧10px间距 组件加“tag_edit”类名后右侧变为20px间距*/
+  /*默认icon右侧15px间距 组件加“tag_edit”类名后右侧变为5px间距*/
   .tag_0 {
     img:nth-child(1) {
       margin-right: 15px;
