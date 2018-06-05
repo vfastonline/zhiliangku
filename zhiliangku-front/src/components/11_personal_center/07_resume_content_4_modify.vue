@@ -25,7 +25,7 @@
         </el-date-picker>
       </div>
       <div class="myform-body">
-        <div class="item  the-input">
+        <div class="item  the-input define">
           <span class="tags">在校经历：</span>
           <el-input v-model="value5"  type="textarea"></el-input>
           <div class="word-indecator font14pl5A646E">{{wordnum}}/{{maxwordnum}}</div>
