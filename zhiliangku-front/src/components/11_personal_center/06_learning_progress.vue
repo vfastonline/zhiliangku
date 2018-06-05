@@ -3,7 +3,6 @@
     <unit v-for="(item,index) in main_data" :key="index" :main_data="item[item.timeKey]"></unit>
   </div>
 </template>
-
 <script>
   import unit from './09_learning_progress_unit'
 
