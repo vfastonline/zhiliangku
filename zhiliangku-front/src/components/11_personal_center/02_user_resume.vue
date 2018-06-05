@@ -78,6 +78,9 @@
   }
 </script>
 <style lang='scss'>
+  .resume-model{
+    margin-bottom: 85px;
+  }
   .personnal-center-main{
     display: flex;
     justify-content: space-between;

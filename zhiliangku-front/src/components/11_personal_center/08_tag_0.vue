@@ -1,5 +1,5 @@
 <template>
-    <span class="dib tag_0">
+    <span @click="$emit('click')" class="dib tag_0">
       <slot></slot>
     </span>
 </template>

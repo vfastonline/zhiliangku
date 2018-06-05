@@ -6,22 +6,18 @@ const entry = {
   //   path: '00_index',
   //   filename: 'index.html'
   // },
-  project_detail: {
-    path: '02_project_detail',
-    filename: 'tracks/projects/detail/index.html'
+  project_list: {
+    path: '01_project_list',
+    filename: 'tracks/projects/list/index.html'
   },
-  course_detail:{
-    path:'03_course_detail',
-    filename:'tracks/course/detail/index.html'
-  },
-  video_detail:{
-    path:'04_video_detail',
-    filename:'tracks/video/detail/index.html'
-  },
-  community:{
-    path:'05_community',
-    filename:'community/faq/list/index.html'
-  },
+  // video_detail:{
+  //   path:'04_video_detail',
+  //   filename:'tracks/video/detail/index.html'
+  // },
+  // community:{
+  //   path:'05_community',
+  //   filename:'community/faq/list/index.html'
+  // },
   // faq_detail:{
   //   path:'06_FAQ_detail',
   //   filename:'community/faq/detail/index.html'

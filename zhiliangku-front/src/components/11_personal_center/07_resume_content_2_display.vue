@@ -8,23 +8,26 @@
       <span>
         </span>
     </resumetitle>
+    <<<<<<< HEAD
     <div v-for="(item,index) in mainData" :key="index" class="resumewidth hc rc2-container2 ">
       <span class="fl font1_18_6 rc2-c2-tag">{{item.position?item.position:'暂无'}}</span>
       <span class="fl font1_18_6 rc2-c2-tag">期望城市：{{item.city}}</span>
       <span class="fl font1_18_6 rc2-c2-tag">期望行业：{{item.industry}}</span>
       <span class="fl font1_18_6 rc2-c2-tag">{{item.expect_salary}}</span>
-      <span class="pointer edit cp" @click="editorInfo(index)">
-        <img class="imgmiddle imgr" src="./img/编辑icon.png" alt="">
-        <span class="font1_20_9">编辑</span>
-      </span>
+      <tag_0 class="cp" @click="editorInfo(index)">
+        <img class="vs " src="./img/编辑icon.png" alt="">
+        <span class="font1_22_9">编辑</span>
+      </tag_0>
     </div>
-    <editor :key="editorKey" :url="editorUrl" :editorIndex="editorIndex" :mainData="mainData" @close="close()" v-if="showeditor"></editor>
+    <editor :key="editorKey" :url="editorUrl" :editorIndex="editorIndex" :mainData="mainData" @close="close()"
+            v-if="showeditor"></editor>
   </div>
 </template>
 <script>
   import resumetitle from './resumePartTitle'
   import editor from './07_resume_content_2_modify.vue'
   import tag_0 from './08_tag_0'
+
   export default {
     name: 'HelloWorld',
     data() {
@@ -35,14 +38,14 @@
         showeditor: false,
         editorUrl: '',
         editorIndex: '-1',
-        editorKey:'a'
+        editorKey: 'a'
       }
     },
     props: {
       mainData: Array
     },
     methods: {
-       close(){
+      close() {
         this.$fn.changeShow(this.getSelf(), 'showeditor');
         this.editorIndex = -1;
       },
@@ -54,17 +57,17 @@
       editorInfo(index) {
 
         this.editorUrl = "/personal_center/resume/update";
-        if (this.editorIndex == index||this.editorIndex == -1) {
+        if (this.editorIndex == index || this.editorIndex == -1) {
           this.$fn.changeShow(this.getSelf(), 'showeditor');
         }
         this.editorIndex = index;
-        this.editorKey=new Date()+''
+        this.editorKey = new Date() + ''
       }
     },
     components: {
       resumetitle: resumetitle,
       editor: editor,
-      tag_0:tag_0
+      tag_0: tag_0
     }
   }
 
@@ -77,13 +80,14 @@
 
   .resume-model {
     min-height: 60px;
-    padding-bottom:70px;
+    padding-bottom: 70px;
   }
 
   .rc2-container2 {
     display: flex;
     justify-content: space-between;
-    margin-top: 12px;
+    align-items: flex-end;
+    margin-top: 15px;
     padding-right: 15px;
   }
 
@@ -92,7 +96,7 @@
   }
 
   .edit img {
-    margin-right:5px;
+    margin-right: 5px;
     vertical-align: sub;
   }
 
