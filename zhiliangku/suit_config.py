@@ -65,6 +65,9 @@ SUIT_CONFIG = {
 		{'app': 'community', 'icon': 'icon-comment',
 		 'models': ('Faq', 'FaqAnswer', "FaqAnswerReply", "FaqAnswerFeedback")},
 
+		# 勋章
+		{'label': '勋章', 'app': 'medal', 'icon': 'icon-list-alt', 'models': ('Medal', 'CustomUserMedal')},
+
 		# # 观看进度
 		# {'app': 'record', 'icon': 'icon-list-alt', 'models': ('WatchRecord',)},
 

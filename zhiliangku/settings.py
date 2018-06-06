@@ -67,6 +67,7 @@ INSTALLED_APPS = [
 	'applications.integral',
 	'applications.face',
 	'applications.employment',  # 就业
+	'applications.medal',  # 勋章
 
 ]
 
