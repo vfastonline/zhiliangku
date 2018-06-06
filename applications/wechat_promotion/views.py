@@ -29,7 +29,7 @@ class WechatThumbsUp(View):
 	"""微信推广-点赞"""
 
 	def get(self, request, *args, **kwargs):
-		result_dict = {"err": 0, "msg": "success", "data": []}
+		result_dict = {"err": 0, "msg": "success"}
 		try:
 			wechatbrowses = WechatBrowse.objects.filter()
 			if wechatbrowses.exists():
