@@ -58,6 +58,7 @@ urlpatterns = [
 	url(r'^wechat/images/(?P<path>.*)$', new_static.serve, {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/images"}),
 	url(r'^wechat/javascripts/(?P<path>.*)$', new_static.serve, {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/javascripts"}),
 	url(r'^wechat/stylesheets/(?P<path>.*)$', new_static.serve, {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/stylesheets"}),
+	url(r'^images/(?P<path>.*)$', new_static.serve, {'document_root': "/usr/local/openresty/nginx/html/templates/images"}),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
