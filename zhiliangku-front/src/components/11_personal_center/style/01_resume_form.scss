@@ -62,3 +62,22 @@
   color: #999;
   height: 48px;
 }
+.advantage .el-textarea__inner {
+  font: 20px/1.5 "Microsoft YaHei";
+  color: #999;
+  width: 600px;
+  height: 300px;
+  padding: 30px;
+}
+
+.advantage .tags_advantage, .define .tags{
+  top: 10%;
+}
+
+.define .el-textarea__inner {
+  font: 20px/1.5 "Microsoft YaHei";
+  color: #999;
+  width: 600px;
+  height: 210px;
+  padding: 30px;
+}

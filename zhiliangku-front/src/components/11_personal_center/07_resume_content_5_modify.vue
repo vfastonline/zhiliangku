@@ -24,12 +24,12 @@
         <el-date-picker format="yyyy 年 MM 月 " value-format="yyyy-MM" v-model="value4" type="month" placeholder="选择月">
         </el-date-picker>
       </div>
-      <div class="item  the-input">
+      <div class="item  the-input define">
         <span class="tags">项目描述：</span>
         <el-input v-model="value5" @input="wordnum0=value5.length" :maxlength="maxwordnum0" type="textarea"></el-input>
         <div class="word-indecator font14pl5A646E">{{wordnum0}}/{{maxwordnum0}}</div>
       </div>
-      <div class="item  the-input">
+      <div class="item  the-input define">
         <span class="tags">项目业绩：</span>
         <el-input v-model="value6" @input="wordnum1=value6.length" :maxlength="maxwordnum1"  type="textarea"></el-input>
         <div class="word-indecator font14pl5A646E">{{wordnum1}}/{{maxwordnum1}}</div>

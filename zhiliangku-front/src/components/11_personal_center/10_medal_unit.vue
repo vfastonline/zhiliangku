@@ -1,5 +1,5 @@
 <template>
-  <div class="medal_container">
+  <div class="medal_container ftc">
     <img class="medal_img" src="./img/98_medal.png" alt="">
     <div>
       <div class="font1_28_9 ftc">运维监控</div>

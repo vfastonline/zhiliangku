@@ -2,9 +2,10 @@
   <div class="myform">
     <div class="myform-title font1_30_6">编辑我的优势</div>
     <div class="myform-body">
-      <div class="item  the-input">
-        <span class="tags">优势描述</span>
-        <el-input v-model="value0" @input="word('value0')" :maxlength="maxwordnum" type="textarea"></el-input>
+      <div class="item  the-input advantage">
+        <span class="tags tags_advantage">优势描述</span>
+        <el-input v-model="value0" @input="word('value0')" :maxlength="maxwordnum"
+                  type="textarea"></el-input>
         <div class="word-indecator font14pl5A646E">{{wordnum}}/{{maxwordnum}}</div>
       </div>
     </div>
@@ -73,5 +74,4 @@
 </script>
 <style lang="scss">
   @import "./style/01_resume_form.scss";
-
 </style>
