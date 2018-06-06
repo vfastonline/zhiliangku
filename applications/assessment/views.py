@@ -12,6 +12,8 @@ from django.shortcuts import render
 from django.views.generic import View
 
 from applications.assessment.models import DockerPort
+from applications.tracks_learning.models import Project, Technology
+from applications.medal.models import *
 from applications.custom_user.models import CustomUser
 from applications.tracks_learning.models import UnlockVideo
 from applications.tracks_learning.models import Video
@@ -218,6 +220,7 @@ class AssessmentResultInfo(View):
 				"right": 0,  # 答对个数
 				"wrong": 0,  # 答错个数
 				"msg": "",  # 错误提示
+				"medal": "",  # 勋章图片地址
 			},
 		}
 
@@ -263,9 +266,24 @@ class AssessmentResultInfo(View):
 
 			# 增加学生通过考核记录
 			if is_pass:
+				medal_pathwel = ""
 				customusers = CustomUser.objects.filter(id=custom_user_id)
 				if videos.exists() and customusers.exists():
-					UnlockVideo.objects.create(video=videos.first(), custom_user=customusers.first())
+					new_obj = UnlockVideo.objects.create(video=videos.first(), custom_user=customusers.first())
+					if new_obj:
+						# 判断考核类型，颁发勋章 *初次完成考核 *完成项目考核 *完成技术类别下总项目考核
+						unlockvideos = UnlockVideo.objects.filter(custom_user=customusers.first())
+						if unlockvideos.count() == 1:  # 初次
+							add_param = ["first_complete_assess", customusers.first()]
+							medal_pathwel = CustomUserMedal.add_customuser_medal(*add_param)
+						elif Project.objects.filter(video=videos.first()).exists():  # 项目考核
+							add_param = ["complete_project_assess", customusers.first()]
+							medal_pathwel = CustomUserMedal.add_customuser_medal(*add_param)
+
+						elif Technology.objects.filter(video=videos.first()).exists():  # 项目总考核
+							add_param = ["complete_overall_project_assess", customusers.first()]
+							medal_pathwel = CustomUserMedal.add_customuser_medal(*add_param)
+				self.result_dict["data"]["medal"] = medal_pathwel
 
 			# 销毁docker
 			self.destroy()

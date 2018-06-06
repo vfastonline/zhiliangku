@@ -11,8 +11,14 @@
         <educationExp :mainData="item"></educationExp>
       </timerbox>
     </div>
-    <editor :key="editorKey" :url="editorUrl" :editorIndex="editorIndex" :mainData="mainData" @close="close()"
-            v-if="showeditor"></editor>
+    <el-dialog
+      title="提示"
+      :width="'970px'"
+      :visible.sync="showeditor">
+      <editor :key="editorKey" :url="editorUrl" :editorIndex="editorIndex" :mainData="mainData" @close="close()"
+              v-if="showeditor"></editor>
+    </el-dialog>
+
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -65,6 +65,12 @@ SUIT_CONFIG = {
 		{'app': 'community', 'icon': 'icon-comment',
 		 'models': ('Faq', 'FaqAnswer', "FaqAnswerReply", "FaqAnswerFeedback")},
 
+		# 勋章
+		{'label': '勋章', 'app': 'medal', 'icon': 'icon-list-alt', 'models': ('Medal', 'CustomUserMedal')},
+
+		# 微信推广
+		{'label': '微信推广', 'app': 'wechat_promotion', 'icon': 'icon-list-alt'},
+
 		# # 观看进度
 		# {'app': 'record', 'icon': 'icon-list-alt', 'models': ('WatchRecord',)},
 

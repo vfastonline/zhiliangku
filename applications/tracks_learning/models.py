@@ -22,7 +22,7 @@ class Technology(models.Model):
 	name = models.CharField('名称', max_length=50)
 	desc = models.TextField('简介', default='', blank=True, null=True)
 	video = models.ForeignKey("Video", verbose_name='总考核', related_name='Technology', blank=True, null=True,
-	                          limit_choices_to={'type': 3}, help_text=u"针对本技术方向下所有项目的总考核")
+							  limit_choices_to={'type': 3}, help_text=u"针对本技术方向下所有项目的总考核")
 
 	def __unicode__(self):
 		return self.name
@@ -43,7 +43,7 @@ class Project(models.Model):
 	home_show = models.BooleanField("首页展示", default=False)
 	pathwel = models.ImageField('介绍图片', upload_to='project/%Y%m%d', storage=ImageStorage(), null=True, blank=True)
 	video = models.ForeignKey("Video", verbose_name='项目考核', related_name='Project', blank=True, null=True,
-	                          limit_choices_to={'type': 3}, help_text=u"针对本项目下所有课程的考核")
+							  limit_choices_to={'type': 3}, help_text=u"针对本项目下所有课程的考核")
 
 	def __unicode__(self):
 		return self.name
@@ -61,7 +61,7 @@ class Course(models.Model):
 	project = models.ForeignKey(Project, verbose_name='归属项目', related_name='Courses', blank=True, null=True)
 	name = models.CharField('名称', max_length=50)
 	lecturer = models.ForeignKey(CustomUser, verbose_name='讲师', related_name='Course_custom_user',
-	                             limit_choices_to={'role': 1}, blank=True, null=True)
+								 limit_choices_to={'role': 1}, blank=True, null=True)
 	desc = models.TextField('描述', default="", null=True, blank=True)
 	sequence = models.PositiveIntegerField('顺序', default=1, validators=[MinValueValidator(1)], help_text="默认顺序为1")
 	update_time = models.DateTimeField("更新时间", auto_now=True)
@@ -143,7 +143,7 @@ class UnlockVideo(models.Model):
 	"""学生通过考核记录"""
 	video = models.ForeignKey(Video, verbose_name="考核", related_name='UnlockVideos', limit_choices_to={'type': 3})
 	custom_user = models.ForeignKey(CustomUser, verbose_name='学生', related_name='UnlockVideoCustomUser',
-	                                limit_choices_to={'role': 0}, blank=True, null=True)
+									limit_choices_to={'role': 0}, blank=True, null=True)
 	update_time = models.DateTimeField("更新时间", auto_now=True)
 
 	def __unicode__(self):

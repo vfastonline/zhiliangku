@@ -5,7 +5,7 @@
     </div>
     <!-- 区别成功失败的页面样式-->
     <div class="ftc success_emoticon">
-      <img :src="$myConst.httpUrl+'/media/image/static/assess_result_01_happy.png'" alt="">
+      <img :src="$myConst.httpUrl+main_data.medal" alt="">
     </div>
     <div class="ftc">
       <p class="font1_18_6">本次考核结果：答对 {{main_data.right||0}} 个，答错 {{main_data.wrong||0}} 个</p>

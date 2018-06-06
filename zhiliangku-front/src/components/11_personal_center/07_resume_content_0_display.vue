@@ -48,7 +48,12 @@
         </tag_0>
       </div>
     </div>
-    <editor :mainData="mainData" :applyData="applyData" @close="editor" v-if="showeditor"></editor>
+    <el-dialog
+      title="提示"
+      :width="'970px'"
+      :visible.sync="showeditor">
+      <editor :mainData="mainData" :applyData="applyData" @close="editor"></editor>
+    </el-dialog>
   </div>
 </template>
 <style>
@@ -58,6 +63,10 @@
   import funcs from '../../assets/js/01_other/01_dispatch.js'
   import editor from './07_resume_content_0_modify'
   import tag_0 from './08_tag_0'
+  import {Dialog} from 'element-ui'
+  import Vue from 'vue'
+
+  Vue.use(Dialog)
 
   export default {
     name: 'HelloWorld',
@@ -133,9 +142,6 @@
 
 </script>
 <style scoped>
-  .imgr {
-    margin-right: 4px;
-  }
 
   .rc-pi {
     padding-bottom: 24px;
