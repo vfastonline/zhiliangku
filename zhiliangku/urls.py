@@ -52,7 +52,11 @@ urlpatterns = [
 
 	url(r'^select2/', include('django_select2.urls')),
 	url(r'^upload', views.upload, name='upload'),
-	url(r'^wechat/(?P<path>.*)$', 'django.views.static.serve', {'document_root': "/usr/local/openresty/nginx/html/templates/wechat"}),
+	url(r'^wechat/promotion/audios/(?P<path>.*)$', 'django.views.static.serve', {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/audios"}),
+	url(r'^wechat/promotion/fonts/(?P<path>.*)$', 'django.views.static.serve', {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/fonts"}),
+	url(r'^wechat/promotion/images/(?P<path>.*)$', 'django.views.static.serve', {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/images"}),
+	url(r'^wechat/promotion/javascripts/(?P<path>.*)$', 'django.views.static.serve', {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/javascripts"}),
+	url(r'^wechat/promotion/stylesheets/(?P<path>.*)$', 'django.views.static.serve', {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/stylesheets"}),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
