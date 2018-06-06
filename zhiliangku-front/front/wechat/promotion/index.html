@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>智量酷</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <!-- Add your keywords and description here for SEO. -->
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Uncomment this if you need apple touch icon. -->
+    <!--
+    <link rel="apple-touch-icon" href="touch-icon-iphone.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
+    -->
+
+    <!-- Don't delete this. It's needed for development workflow. -->
+    <link rel="stylesheet" href="stylesheets/bundle.min.css">
+    <script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if (clientWidth >= 640) {
+                        docEl.style.fontSize = '100px';
+                    } else {
+                        docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
+                    }
+                };
+
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+</head>
+
+<body>
+    <div class="loading-overlay">
+        <img src="images/loading.svg">
+    </div>
+
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+
+            <div class="swiper-slide slide-7">
+                <div class="the_button">为他打call</div>
+            </div>
+            <div class="swiper-slide slide-1">
+            </div>
+            <div class="swiper-slide slide-2">
+            </div>
+            <div class="swiper-slide slide-3">
+            </div>
+            <div class="swiper-slide slide-4">
+            </div>
+            <div class="swiper-slide slide-5">
+            </div>
+            <div class="swiper-slide slide-6">
+            </div>
+        </div>
+    </div>
+
+    <button class="up-arrow">
+        <i class="icon-angle-double-up"></i>
+    </button>
+
+    <button class="btn-music">
+        <i class="icon-note"></i>
+    </button>
+
+    <audio loop>
+        <source src="audios/background.mp3" type="audio/mpeg">
+    </audio>
+    <script>
+        $(document).ready(function () {
+            var a = true
+            var button = document.querySelector('.the_button')
+            button.addEventListener('touchstart', function (e) {
+                if (!a) return
+                $(e.target).addClass('the_button_active')
+            })
+            button.addEventListener('touchend', (function (e) {
+                if (!a) return
+                $(button).removeClass('the_button_active')
+                $.get('http://www.zhiliangku.com/wechat/thumbsup', function (e) {
+                    if (e.err) return
+                    a = false
+                })
+            }));
+        })
+    </script>
+    <!-- Don't delete this. It's needed for development workflow. -->
+    <script src="javascripts/bundle.min.js"></script>
+</body>
+
+</html>
