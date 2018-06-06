@@ -6,7 +6,7 @@ from applications.medal.model_form import *
 
 @admin.register(Medal)
 class MedalAdmin(admin.ModelAdmin):
-	list_display = ('id', 'name', "pathwel")
+	list_display = ('id', 'name', "pathwel", "only")
 	search_fields = ('name',)
 	form = CustomUserMedalForm
 

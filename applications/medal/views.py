@@ -39,3 +39,8 @@ class GetCustomUserMedal(View):
 			self.result_dict["msg"] = traceback.format_exc()
 		finally:
 			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
+
+
+# 增加用户获得勋章
+def add_custom_user_medal():
+	pass

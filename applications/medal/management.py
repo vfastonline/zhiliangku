@@ -16,10 +16,11 @@ def init_db_info(sender, **kwargs):
 	:return:
 	"""
 	try:
+		# only，系统识别名称
 		init_info = [
-			{"name": "初次完成考核", "pathwel": "/medal/1.jpg"},
-			{"name": "完成项目考核", "pathwel": "/medal/2.jpg"},
-			{"name": "完成总项目考核", "pathwel": "/medal/3.jpg"},
+			{"name": "初次完成考核", "pathwel": "/medal/1.jpg", "only": "first_complete_assess"},
+			{"name": "完成项目考核", "pathwel": "/medal/2.jpg", "only": "complete_project_assess"},
+			{"name": "完成总项目考核", "pathwel": "/medal/3.jpg", "only": "complete_overall_project_assess"},
 		]
 		[Medal.objects.get_or_create(**info_dict) for info_dict in init_info]
 	except:
