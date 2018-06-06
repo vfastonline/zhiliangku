@@ -1,34 +1,114 @@
 <template>
   <div>
-    <unit v-for="(item,index) in main_data" :key="index" :main_data="item[item.timeKey]"></unit>
+    <ProgressContainer v-for="(item,index) in main_data" :key="index" :main_data="item">
+      <unit :main_data="item"></unit>
+    </ProgressContainer>
   </div>
 </template>
 <script>
   import unit from './09_learning_progress_unit'
+  import ProgressContainer from './11_progress_block_container'
 
   export default {
     name: "learning_progress",
     data() {
       return {
         main_data: '',
+        translation_data: []
       }
     },
-    created(){
-      this.$get("/personal_center/learning/progress").then(res=> {
-        console.log( res.data.data)
-        if(!res.err){
-          res.data.data.forEach( el=>{
-            //组装 时间 这个key
-            var arr = Object.keys(el)
-            el.timeKey=arr[0]
-          })
-          this.main_data = res.data.data
-
+    methods: {
+      change_timer_length(s) {
+        return s > 9 ? (s + '') : ('0' + s)
+      },
+      data_add_month_day(data) {
+        data.forEach(el => {
+          let time = new Date(el.time)
+          el.month_day = this.change_timer_length(time.getMonth()+1) + '-' + this.change_timer_length(time.getDate())
+        })
+      },
+      init_data(data) {
+        let arr = []
+        var b = [{
+          "2018-04-13 12:32:56": {
+            "learn_video_name": "Python3入门",
+            "learn_video_type": "3",
+            "pathwel": "/media/project/20180523/20180523141015_456.png",
+            "name": "云计算",
+            "schedule": 0.006666666666666667,
+            "learn_video_id": 159,
+            "video_process": 0
+          }
+        }, {
+          "2018-02-13 12:32:53": {
+            "learn_video_name": "Python3入门",
+            "learn_video_type": "3",
+            "pathwel": "/media/project/20180523/20180523141015_456.png",
+            "name": "云计算",
+            "schedule": 0.006666666666666667,
+            "learn_video_id": 159,
+            "video_process": 0
+          }
+        }, {
+          "2016-03-13 12:32:56": {
+            "learn_video_name": "Python3入门",
+            "learn_video_type": "3",
+            "pathwel": "/media/project/20180523/20180523141015_456.png",
+            "name": "云计算",
+            "schedule": 0.006666666666666667,
+            "learn_video_id": 159,
+            "video_process": 0
+          }
+        }]
+        data = [...data, ...b]
+        data.forEach(el => {
+          let key = Object.keys(el)[0]
+          el[key].time = key
+          this.$fn.addString(this.$myConst.httpUrl, el[key], 'pathwel')
+          arr.push(el[key])
+        })
+        this.main_data = arr
+      },
+      modify_data(arr) {
+        let obj_arr = {}
+        arr.forEach((el) => {
+          el.year = new Date(el.time).getFullYear()
+          obj_arr[el.year] = obj_arr[el.year] || []
+          obj_arr[el.year].push(el)
+        })
+        let new_arr = []
+        Object.keys(obj_arr).forEach(el => {
+          let year_data = obj_arr[el]
+          this.sort_data(year_data)
+          year_data[0].year_tag = true
+          new_arr = [...new_arr, ...year_data]
+        })
+        this.main_data = new_arr
+      },
+      sort_data(arr) {
+        arr.sort(function (a, b) {
+          return new Date(b.time).getTime()-new Date(a.time).getTime()
+        })
+        return arr
+      },
+      handle_data(data) {
+        this.init_data(data)
+        this.modify_data(this.main_data)
+        this.main_data = this.sort_data(this.main_data)
+        this.data_add_month_day(this.main_data)
+        console.table(this.main_data)
+      }
+    },
+    created() {
+      this.$get("/personal_center/learning/progress").then(res => {
+        if (!res.err) {
+          this.handle_data(res.data.data)
         }
       })
     },
     components: {
-      unit: unit
+      unit: unit,
+      ProgressContainer: ProgressContainer
     }
   }
 </script>
