@@ -12,17 +12,17 @@
 </template>
 <style scoped>
   .community {
-    padding-top: 52px;
+    padding-top: 70px;
   }
 
   .navbar {
-    margin-bottom: 56px;
+    margin-bottom: 30px;
     font-weight: bold;
   }
   .fixedButton {
     position:fixed;
-    right:31px;
-    top:238px;
+    right:50px;
+    top:390px;
   }
 
 </style>

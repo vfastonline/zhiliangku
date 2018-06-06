@@ -8,19 +8,19 @@
         <span>？</span>
       </fixedButton>
       <div>
-        <div class="info r">
+        <div class="info r clearfix">
           <div class="info_left fl ftc">
-            <img class="question-icon" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">          
+            <img class="question-icon" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
           </div>
           <div class="info_right">
             <span class="qestion-owner-name font1_16_9">{{mainData.custom_user_nickname}}</span>
-            <span class="font1_16_9 createTime">{{mainData.create_time}}提问</span>          
+            <span class="font1_16_9 createTime">{{mainData.create_time}}提问</span>
             <div class="clearfix">
-              <div class="question-title font1_18_6 fl">{{mainData.title}}</div>  
+              <div class="question-title font1_18_6 fl">{{mainData.title}}</div>
               <div class="fr">
                 <span class="info_right_one scan fr font1_14_6">{{mainData.browse_amount}}次浏览</span>
                 <span class="info_right_two scan fr font1_14_6">{{dataLength()}}次回答</span>
-              </div>         
+              </div>
             </div>
 
             <div class="font1_14_b4 info_status">{{mainData.status_name|| "未解决"}}</div>
@@ -139,6 +139,7 @@
 
   .info_left {
     width: 120px;
+    height:80px;
     padding-top:22px;
   }
   .info_right {
@@ -148,7 +149,7 @@
   .info_right_one {
     padding-right: 40px;
   }
-  
+
   .info_right_two {
     padding-right: 15px;
   }

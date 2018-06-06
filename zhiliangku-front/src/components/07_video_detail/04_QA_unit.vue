@@ -2,7 +2,7 @@
   <div @click="handleClick" class="mw  qc-container">
     <div class="clearfix">
       <div class="icon_box ftc fl vm ">
-      <img class="qc-user-icon" :src="mainData.custom_user_avatar" alt="">        
+      <img class="qc-user-icon" :src="mainData.custom_user_avatar" alt="">
       </div>
       <div class=" qc-text-container">
         <div class="mt8" >
@@ -12,8 +12,8 @@
         <div class="font1_20_3 clearfix mt8">
           <div class="fl qctc-qustion-content">{{mainData.title}}</div>
           <div class="fr">
-            <span class="font1_16_3 anwser">{{mainData.faq_answer_count}}次回答</span>
-            <span class="font1_16_3">{{mainData.browse_amount}}次浏览</span>
+            <span class="font1_16_6 anwser">{{mainData.faq_answer_count}}次回答</span>
+            <span class="font1_16_6">{{mainData.browse_amount}}次浏览</span>
           </div>
         </div>
         <div class="clearfix">
@@ -33,10 +33,11 @@
     padding: 24px 32px 38px 0;
     background: #fcfcfc;
     margin-bottom: 20px;
-    border-radius: 10px 
+    border-radius: 10px
   }
   .icon_box {
     width: 120px;
+    height: 70px;
   }
   .mt8 {
     margin-bottom: 8px;
