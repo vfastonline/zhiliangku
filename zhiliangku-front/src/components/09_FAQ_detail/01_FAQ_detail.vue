@@ -15,10 +15,11 @@
     padding-bottom:50px;
   }
   .question-container {
-    background-color: #fafafa;
-    padding-top: 100px;
-    padding-bottom: 24px;
+    background-color: #fff;
+    padding-top: 30px;
+    /*padding-bottom: 24px;*/
     height: 130px;
+    border-top:1px solid #eee;
   }
 
   .richtext {
@@ -30,7 +31,7 @@
   import question from './02_question_content'
   import anwserlist from './03_anwser_list'
   import richtext from './05_vue_qill_editor'
-  
+
   import Bus from '../../assets/js/02_bus'
   import mypager from '../00_common/06_pager'
   export default {
