@@ -8,7 +8,6 @@ from django.db import models
 from django.utils import timezone
 
 from applications.custom_user.models import CustomUser
-from applications.custom_user.models import CustomUser
 from lib.storage import *
 
 

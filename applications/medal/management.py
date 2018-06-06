@@ -17,6 +17,7 @@ def init_db_info(sender, **kwargs):
 	"""
 	try:
 		# only，系统识别名称
+		# 添加新的勋章后，执行数据库迁移命令
 		init_info = [
 			{"name": "初次完成考核", "pathwel": "/medal/1.jpg", "only": "first_complete_assess"},
 			{"name": "完成项目考核", "pathwel": "/medal/2.jpg", "only": "complete_project_assess"},
