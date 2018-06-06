@@ -34,7 +34,7 @@ class WechatThumbsUptotal(View):
 			wechatbrowses = WechatBrowse.objects.filter()
 			if wechatbrowses.exists():
 				total = wechatbrowses.first().thumbs_up
-				result_dict["total"] = total
+			result_dict["total"] = total
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
