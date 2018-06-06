@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+import os
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -51,6 +52,7 @@ urlpatterns = [
 
 	url(r'^select2/', include('django_select2.urls')),
 	url(r'^upload', views.upload, name='upload'),
+	url(r'^wechat/(?P<path>.*)$', 'django.views.static.serve', {'document_root': "/usr/local/openresty/nginx/html/templates/wechat"}),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
