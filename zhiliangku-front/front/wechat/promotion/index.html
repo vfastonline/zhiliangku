@@ -8,7 +8,7 @@
     <!-- Add your keywords and description here for SEO. -->
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="./images/favicon.png" />
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <!-- Uncomment this if you need apple touch icon. -->
     <!--
@@ -48,10 +48,6 @@
 
     <div class="swiper-container">
         <div class="swiper-wrapper">
-
-            <div class="swiper-slide slide-7">
-                <div class="the_button">为他打call</div>
-            </div>
             <div class="swiper-slide slide-1">
             </div>
             <div class="swiper-slide slide-2">
@@ -63,6 +59,10 @@
             <div class="swiper-slide slide-5">
             </div>
             <div class="swiper-slide slide-6">
+            </div>
+            <div class="swiper-slide slide-7">
+                <div class="notice">送你个么么哒~~^_^~~</div>
+                <div class="the_button">为他打call</div>
             </div>
         </div>
     </div>
@@ -82,15 +82,20 @@
         $(document).ready(function () {
             var a = true
             var button = document.querySelector('.the_button')
+            var notice = document.querySelector('.notice')
             button.addEventListener('touchstart', function (e) {
                 if (!a) return
                 $(e.target).addClass('the_button_active')
             })
             button.addEventListener('touchend', (function (e) {
                 if (!a) return
-                $(button).removeClass('the_button_active')
                 $.get('http://www.zhiliangku.com/wechat/thumbsup', function (e) {
                     if (e.err) return
+                    $(button).removeClass('the_button_active')
+                    $(notice).addClass('notice_actve')
+                    setInterval(function () {
+                        $(notice).removeClass('notice_actve')
+                    }, 1300)
                     a = false
                 })
             }));

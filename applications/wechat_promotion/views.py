@@ -24,6 +24,26 @@ class WechatPromotion(View):
 		return render(request, template_name, {})
 
 
+class WechatThumbsUptotal(View):
+	"""微信推广-点赞-总数"""
+
+	def get(self, request, *args, **kwargs):
+		result_dict = {"err": 0, "msg": "success", "total": 0}
+		try:
+			total = 0
+			wechatbrowses = WechatBrowse.objects.filter()
+			if wechatbrowses.exists():
+				total = wechatbrowses.first().thumbs_up
+			result_dict["total"] = total
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			result_dict["err"] = 1
+			result_dict["msg"] = traceback.format_exc()
+		finally:
+			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
 class WechatThumbsUp(View):
 	"""微信推广-点赞"""
 

@@ -14,8 +14,10 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+import os
 from django.conf.urls import url, include
 from django.conf.urls.static import static
+from django.views import static as new_static
 from django.contrib import admin
 from django.views.generic import TemplateView
 
@@ -51,6 +53,12 @@ urlpatterns = [
 
 	url(r'^select2/', include('django_select2.urls')),
 	url(r'^upload', views.upload, name='upload'),
+	url(r'^wechat/audios/(?P<path>.*)$', new_static.serve, {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/audios"}),
+	url(r'^wechat/fonts/(?P<path>.*)$', new_static.serve, {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/fonts"}),
+	url(r'^wechat/images/(?P<path>.*)$', new_static.serve, {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/images"}),
+	url(r'^wechat/javascripts/(?P<path>.*)$', new_static.serve, {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/javascripts"}),
+	url(r'^wechat/stylesheets/(?P<path>.*)$', new_static.serve, {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/stylesheets"}),
+	url(r'^images/(?P<path>.*)$', new_static.serve, {'document_root': "/usr/local/openresty/nginx/html/templates/images"}),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
