@@ -78,6 +78,8 @@
   }
 </script>
 <style lang='scss'>
+  @import "./style/05_personal_dialog.scss";
+
   .resume-model{
     margin-bottom: 85px;
   }

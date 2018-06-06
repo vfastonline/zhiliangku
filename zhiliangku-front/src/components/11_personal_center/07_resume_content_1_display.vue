@@ -10,7 +10,11 @@
       <p v-html="mainData.advantage">
       </p>
     </div>
-    <editor :mainData="mainData" @close="showeditor=!showeditor" v-if="showeditor"></editor>
+    <el-dialog
+      :visible.sync="showeditor"
+      width="970px">
+      <editor :mainData="mainData" @close="showeditor=!showeditor" v-if="showeditor"></editor>
+    </el-dialog>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
