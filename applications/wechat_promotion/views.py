@@ -1,5 +1,4 @@
 #!encoding:utf-8
-from django.db.models import *
 from django.db.models import F
 from django.shortcuts import render
 from django.views.generic import View
