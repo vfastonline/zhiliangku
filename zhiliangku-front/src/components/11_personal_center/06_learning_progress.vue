@@ -15,7 +15,6 @@
     },
     created(){
       this.$get("/personal_center/learning/progress").then(res=> {
-        console.log( res.data.data)
         if(!res.err){
           res.data.data.forEach( el=>{
             //组装 时间 这个key

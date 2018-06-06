@@ -18,8 +18,14 @@
         <span class="font1_22_9">编辑</span>
       </tag_0>
     </div>
-    <editor :key="editorKey" :url="editorUrl" :editorIndex="editorIndex" :mainData="mainData" @close="close()"
-            v-if="showeditor"></editor>
+    <el-dialog
+      title="提示"
+      :width="'970px'"
+      :visible.sync="showeditor">
+      <editor :key="editorKey" :url="editorUrl" :editorIndex="editorIndex" :mainData="mainData" @close="close()"
+              v-if="showeditor"></editor>
+    </el-dialog>
+
   </div>
 </template>
 <script>

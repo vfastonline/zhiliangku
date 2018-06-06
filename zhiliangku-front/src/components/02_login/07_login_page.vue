@@ -45,6 +45,7 @@
     border-radius:4px;
     height: 40px;
     line-height: 40px;
+    padding: 0 20px;
   }
 
 </style>

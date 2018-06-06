@@ -107,7 +107,7 @@ import rcb from './resumeContentButton'
     created() {
       if (this.editorIndex != -1) {
         this.initForm(this, this.mainData[this.editorIndex], ['school', 'discipline','education',
-          'start_time', 'end_time', 'content'
+          'start_time', 'end_time', 'experience'
         ], [
           'value0', 'value1', 'value2', 'value3', 'value4','value5'
         ])

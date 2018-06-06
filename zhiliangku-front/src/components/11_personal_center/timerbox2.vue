@@ -116,7 +116,7 @@
   }
 
   .tbc-time-tag {
-    width: 70px;
+    width: 95px;
     position: absolute;
     left: -95px;
     top: 50%;

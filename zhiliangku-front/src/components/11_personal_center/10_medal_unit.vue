@@ -1,16 +1,25 @@
 <template>
   <div class="medal_container ftc">
-    <img class="medal_img" src="./img/98_medal.png" alt="">
+    <img class="medal_img" :src="$myConst.httpUrl+main_data.pathwel"  alt="">
     <div>
-      <div class="font1_28_9 ftc">运维监控</div>
-      <div class="font1_16_9 ftc">2017-07-08</div>
+      <div class="font1_28_9 ftc">{{main_data.name}}</div>
+      <div class="font1_16_9 ftc">{{main_data.create_time}}</div>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: "medal_unit"
+    name: "medal_unit",
+    data() {
+      return {}
+    },
+    props: {
+      main_data: {}
+    },
+    created() {
+      console.log(this.$props)
+    }
   }
 </script>
 
