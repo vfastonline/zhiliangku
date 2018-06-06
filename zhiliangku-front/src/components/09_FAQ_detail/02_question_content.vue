@@ -1,5 +1,5 @@
 <template>
-  <div class="mainwidth  aq_container">
+  <div class="mainwidth">
     <div class="mw aq-width incenter r">
       <!--<el-button @click="foucus" class="foucusButton">{{foucused}}</el-button> -->
       <!--<el-button @click="dialogVisible=true" class="quizButton">我要提问</el-button> -->
@@ -14,7 +14,7 @@
           </div>
           <div class="info_right">
             <span class="qestion-owner-name font1_16_9">{{mainData.custom_user_nickname}}</span>
-            <span class="font1_16_9 createTime">{{mainData.create_time}}提问</span>
+            <span class="font1_16_9 createTime">{{mainData.create_time}} 提问</span>
             <div class="clearfix">
               <div class="question-title font1_18_6 fl">{{mainData.title}}</div>
               <div class="fr">
@@ -22,8 +22,10 @@
                 <span class="info_right_two scan fr font1_14_6">{{dataLength()}}次回答</span>
               </div>
             </div>
-
-            <div class="font1_14_b4 info_status">{{mainData.status_name|| "未解决"}}</div>
+            <div class="info_status">
+              <div class="font1_14_b4 dib">{{mainData.status_name|| "未解决"}}</div>
+              <div class="dib heart">❤</div>
+            </div>
           </div>
         </div>
       </div>
@@ -175,10 +177,17 @@
 
   .fixedButton {
     position: absolute;
-    top:center;
-    right:-90px;
+    top: -21px;
+    right:-60px;
   }
   .info_status {
     margin-top:-17px;
+  }
+  .heart {
+    width: 32px;
+    height: 24px;
+    padding-left:20px;
+    font-size: 24px;
+    color: coral;
   }
 </style>

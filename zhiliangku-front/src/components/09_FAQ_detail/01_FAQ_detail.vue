@@ -16,8 +16,8 @@
   }
   .question-container {
     background-color: #fff;
-    padding-top: 30px;
-    /*padding-bottom: 24px;*/
+    padding-top: 21px;
+    padding-bottom: 10px;
     height: 130px;
     border-top:1px solid #eee;
   }

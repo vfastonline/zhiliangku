@@ -21,7 +21,7 @@
   }
   .fixedButton {
     position:fixed;
-    right:50px;
+    right:30px;
     top:390px;
   }
 

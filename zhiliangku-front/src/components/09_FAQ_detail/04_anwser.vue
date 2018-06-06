@@ -4,27 +4,32 @@
       <span class="bestAnwserContent font1_16_fff ftc">最佳答案</span>
     </div>-->
     <div class="anwser_info_left fl ftc">
-       <img class="question-user-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">      
+       <img class="question-user-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
     </div>
     <div class="anwser_info_right">
         <div class="r userinfo">
           <span class="font1_16_9">{{mainData.custom_user_nickname}}</span>
-          <span class="font1_16_9 createTime">{{mainData.create_time}}</span>
+          <span class="font1_16_9 createTime fr">{{mainData.create_time}}</span>
         </div>
         <div class="answerType font1_18_b4">答主</div>
         <div class="answerContent font1_18_9" v-html="mainData.answer">
         </div>
         <div class="toolbar">
           <div>
-            <div class="fl">
+            <div class="fl praise">
               <i @click="support ('approve')" v-if="state" class="iconfont  icon-zan  cp beforeApprove"></i>
               <i @click="notice" v-if="mainData.feedback=='approve'" class="iconfont  icon-zan1  cp " :class="{'afterApprove':mainData.feedback=='approve'}"></i>
               <span class="question-yes  " :class="{'font16fbc02d':mainData.feedback=='approve'}">{{mainData.approve}}</span>
             </div>
-            <div class="fl">
+            <div class="fl praise">
               <i @click="support ('oppose')" v-if="state1" class="iconfont  icon-cai  cp beforeOppose"></i>
               <i @click="notice" v-if="mainData.feedback=='oppose'" class="iconfont  icon-buzan  cp " :class="{'afterOppose':mainData.feedback=='oppose'}"></i>
               <span class="question-yes" :class="{'font16fbc02d':mainData.feedback=='oppose'}">{{mainData.oppose}}</span>
+            </div>
+            <!--红心-->
+            <div class="fl">
+              <i @click="support ('oppose')" v-if="state1" class="iconfont  icon-cai  cp beforeOppose"></i>
+              <i @click="notice" v-if="mainData.feedback=='oppose'" class="iconfont  icon-buzan  cp " :class="{'afterOppose':mainData.feedback=='oppose'}"></i>
             </div>
           </div>
           <div>
@@ -39,12 +44,14 @@
 
         </div>
     </div>
-    <reply v-show="showr" v-for="(item,index) in mainData.answer_reply_list" :key="index" :mainData="item"></reply>
-    <replyMsg v-show="showTextarea"  :mainData="mainData"></replyMsg>
-    <fixedButton class="fixedButton" @click.native="showTextarea=!showTextarea" text="我要评论">
-        <!-- <img src="" alt="" style="background-color:red"> -->
-        <span>？</span>
-    </fixedButton>
+    <div class="reply_box">
+      <reply v-show="showr" v-for="(item,index) in mainData.answer_reply_list" :key="index" :mainData="item" ></reply>
+      <replyMsg v-show="showTextarea"  :mainData="mainData"></replyMsg>
+    </div>
+    <!--<fixedButton class="fixedButton" @click.native="showTextarea=!showTextarea" text="我要评论">-->
+        <!--&lt;!&ndash; <img src="" alt="" style="background-color:red"> &ndash;&gt;-->
+        <!--<span>？</span>-->
+    <!--</fixedButton>-->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -52,7 +59,7 @@
   import Bus from '../../assets/js/02_bus'
   import reply from './06_reply'
   import replyMsg from './07_reply_msg'
-  import fixedButton from '../08_community/05_fixed_button.vue'
+  // import fixedButton from '../08_community/05_fixed_button.vue'
   export default {
     name: 'HelloWorld',
     data() {
@@ -137,7 +144,7 @@
     components: {
       reply: reply,
       replyMsg: replyMsg,
-      fixedButton: fixedButton
+      // fixedButton: fixedButton
     }
   }
 
@@ -171,7 +178,7 @@
     margin-bottom: 10px;
   }
   .createTime {
-    padding-left:52px;
+    padding-right:30px;
   }
 
   .icon-zhankai {
@@ -185,6 +192,18 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.09);
     padding: 8px;
     padding-top: 0px;
+  }
+  .praise {
+    width: 120px;
+    height: 40px;
+    text-align: right;
+    border-radius: 8px;
+  }
+  .praise:hover {
+    background-color: #00bcd5;
+  }
+  .praise:hover span{
+    color:#fff;
   }
 
   .disabled {
@@ -215,11 +234,12 @@
   .anwser_info_left {
     padding-top:43px;
     width:120px;
+    height:35px;
   }
 
   .anwser_info_right {
     margin-left:120px;
-    padding:65px 32px 32px 0;
+    padding:40px 32px 32px 0;
   }
 
   .question-user-icon {
@@ -229,21 +249,13 @@
   }
 
   .question-yes {
-    margin-right: 54px;
+    margin-right: 36px;
     font-size: 16px;
     font-family: "MicroSoft YaHei", "PingFangSC-Light";
   }
-
-  .msg-container {
-    padding-left: 80px;
-  }
-
-  .msg-moudel {}
-
-  .fixedButton {
-    position:absolute;
-    right: -90px;
-    top:0;
+  .reply_box{
+    padding-top:20px;
+    background-color: #fafafa;
   }
 
 </style>
