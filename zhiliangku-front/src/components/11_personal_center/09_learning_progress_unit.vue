@@ -1,7 +1,7 @@
 <template>
-  <div class="unit_container">
+  <div class="unit_container rose">
     <div class="img_container">
-      <img class="project_img" src="./img/99_learning_progress.png" alt="">
+      <img class="project_img" :src="main_data.pathwel" alt="">
       <div class="bottom_bg"></div>
     </div>
     <div class="block_info r">
@@ -65,5 +65,7 @@
     height: 222px;
     padding: 20px 50px;
     box-sizing: border-box;
+    border-radius: 10px;
+    background-color: white;
   }
 </style>
