@@ -14,34 +14,34 @@ const entry = {
   //   path:'04_video_detail',
   //   filename:'tracks/video/detail/index.html'
   // },
-  community:{
-    path:'05_community',
-    filename:'community/faq/list/index.html'
-  },
-  faq_detail:{
-    path:'06_FAQ_detail',
-    filename:'community/faq/detail/index.html'
-  },
-  login:{
-    path:'20_login',
-    filename:'login/index.html'
-  },
+  // community:{
+  //   path:'05_community',
+  //   filename:'community/faq/list/index.html'
+  // },
+  // faq_detail:{
+  //   path:'06_FAQ_detail',
+  //   filename:'community/faq/detail/index.html'
+  // },
+  // login:{
+  //   path:'20_login',
+  //   filename:'login/index.html'
+  // },
   // test:{
   //   path:'21_test',
   //   filename:'assess/info/index.html'
   // },
-  assess_result:{
-    path:'22_assess_result',
-    filename:'assess/result/index.html'
-  },
+  // assess_result:{
+  //   path:'22_assess_result',
+  //   filename:'assess/result/index.html'
+  // },
   // exercise:{
   //   path:'08_exercise',
   //   filename: 'exercise/list/index.html',
   // },
-  personal_center:{
-    path:'09_personal_center',
-    filename:'personal_center/page/index.html'
-  },
+  // personal_center:{
+  //   path:'09_personal_center',
+  //   filename:'personal_center/page/index.html'
+  // },
   // leader_board:{
   //   path:'10_leader_board',
   //   filename:'employment/leaderboard/list/index.html'
@@ -53,7 +53,15 @@ const entry = {
   // error_404:{
   //   path:'23_404',
   //   filename:'404.html'
-  // }
+  // },
+  // we_chat:{
+  //   path:'24_we_chat',
+  //   filename:'wechat/promotion/index.html'
+  // },
+  notification:{
+    path:'12_notification',
+    filename:'notification/index.html'
+  }
 }
 var entryObj = {}
 var distArr = []
