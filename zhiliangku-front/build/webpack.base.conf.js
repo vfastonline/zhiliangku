@@ -37,10 +37,11 @@ module.exports = {
     }
   },
   externals: {
-    // 'vue': 'Vue',这行先注释掉 以后再释放出来
-    // 'vue-router': 'VueRouter',
+    'vue': 'Vue',//这行先注释掉 以后再释放出来
+    'vue-router': 'VueRouter',
     'axios': 'axios',
   },
+  // 添加代码
   module: {
     rules: [
       ...(config.dev.useEslint ? [createLintingRule()] : []),

@@ -1,108 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1,user-scalable=no"><meta http-equiv=X-UA-Compatible content="ie=edge"><title>Document</title><script src=https://cdn.bootcss.com/vue/2.5.2/vue.min.js></script><script src=https://cdn.bootcss.com/axios/0.18.0/axios.min.js></script><script src=https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js></script><link href=https://cdn.bootcss.com/Swiper/4.3.0/css/swiper.min.css rel=stylesheet><link href=https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css rel=stylesheet><script>(function (doc, win) {
+      var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+          var clientWidth = docEl.clientWidth;
+          if (!clientWidth) return;
+          if (clientWidth >= 640) {
+            docEl.style.fontSize = '100px';
+          } else {
+            docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
+          }
+        };
 
-<head>
-    <meta charset="UTF-8">
-    <title>智量酷</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <!-- Add your keywords and description here for SEO. -->
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <link rel="shortcut icon" type="image/png" href="./images/favicon.png" />
-    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-    <!-- Uncomment this if you need apple touch icon. -->
-    <!--
-    <link rel="apple-touch-icon" href="touch-icon-iphone.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png">
-    -->
-
-    <!-- Don't delete this. It's needed for development workflow. -->
-    <link rel="stylesheet" href="stylesheets/bundle.min.css">
-    <script>
-        (function (doc, win) {
-            var docEl = doc.documentElement,
-                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-                recalc = function () {
-                    var clientWidth = docEl.clientWidth;
-                    if (!clientWidth) return;
-                    if (clientWidth >= 640) {
-                        docEl.style.fontSize = '100px';
-                    } else {
-                        docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
-                    }
-                };
-
-            if (!doc.addEventListener) return;
-            win.addEventListener(resizeEvt, recalc, false);
-            doc.addEventListener('DOMContentLoaded', recalc, false);
-        })(document, window);
-    </script>
-</head>
-
-<body>
-    <div class="loading-overlay">
-        <img src="images/loading.svg">
-    </div>
-
-    <div class="swiper-container">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide slide-1">
-            </div>
-            <div class="swiper-slide slide-2">
-            </div>
-            <div class="swiper-slide slide-3">
-            </div>
-            <div class="swiper-slide slide-4">
-            </div>
-            <div class="swiper-slide slide-5">
-            </div>
-            <div class="swiper-slide slide-6">
-            </div>
-            <div class="swiper-slide slide-7">
-                <div class="notice">送你个么么哒~~^_^~~</div>
-                <div class="the_button">为他打call</div>
-            </div>
-        </div>
-    </div>
-
-    <button class="up-arrow">
-        <i class="icon-angle-double-up"></i>
-    </button>
-
-    <button class="btn-music">
-        <i class="icon-note"></i>
-    </button>
-
-    <audio loop>
-        <source src="audios/background.mp3" type="audio/mpeg">
-    </audio>
-    <script>
-        $(document).ready(function () {
-            var a = true
-            var button = document.querySelector('.the_button')
-            var notice = document.querySelector('.notice')
-            button.addEventListener('touchstart', function (e) {
-                if (!a) return
-                $(e.target).addClass('the_button_active')
-            })
-            button.addEventListener('touchend', (function (e) {
-                if (!a) return
-                $.get('http://www.zhiliangku.com/wechat/thumbsup', function (e) {
-                    if (e.err) return
-                    $(button).removeClass('the_button_active')
-                    $(notice).addClass('notice_actve')
-                    setInterval(function () {
-                        $(notice).removeClass('notice_actve')
-                    }, 1300)
-                    a = false
-                })
-            }));
-        })
-    </script>
-    <!-- Don't delete this. It's needed for development workflow. -->
-    <script src="javascripts/bundle.min.js"></script>
-</body>
-
-</html>
+      if (!doc.addEventListener) return;
+      win.addEventListener(resizeEvt, recalc, false);
+      doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);</script><link href=/static/css/we_chat.093c34a27d4a411e00abbcd11b106722.css rel=stylesheet></head><body><div id=app></div><script src=https://cdn.bootcss.com/Swiper/4.3.0/js/swiper.min.js></script><script type=text/javascript src=/static/js/manifest.4b006f8a2367064b19bd.js></script><script type=text/javascript src=/static/js/vendor.0177b6bfe5c56a5e2f40.js></script><script type=text/javascript src=/static/js/we_chat.0301262e295b77256c8d.js></script></body></html>
