@@ -49,16 +49,23 @@ urlpatterns = [
 	url(r'^assess/', include('applications.assessment.urls')),  # 考核
 	url(r'^employment/', include('applications.employment.urls')),  # 就业
 	url(r'^medal/', include('applications.medal.urls')),  # 勋章
+	url(r'^notification/', include('applications.notification.urls')),  # 消息通知
 	url(r'^wechat/', include('applications.wechat_promotion.urls')),  # 微信推广
 
 	url(r'^select2/', include('django_select2.urls')),
 	url(r'^upload', views.upload, name='upload'),
-	url(r'^wechat/audios/(?P<path>.*)$', new_static.serve, {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/audios"}),
-	url(r'^wechat/fonts/(?P<path>.*)$', new_static.serve, {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/fonts"}),
-	url(r'^wechat/images/(?P<path>.*)$', new_static.serve, {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/images"}),
-	url(r'^wechat/javascripts/(?P<path>.*)$', new_static.serve, {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/javascripts"}),
-	url(r'^wechat/stylesheets/(?P<path>.*)$', new_static.serve, {'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/stylesheets"}),
-	url(r'^images/(?P<path>.*)$', new_static.serve, {'document_root': "/usr/local/openresty/nginx/html/templates/images"}),
+	url(r'^wechat/audios/(?P<path>.*)$', new_static.serve,
+		{'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/audios"}),
+	url(r'^wechat/fonts/(?P<path>.*)$', new_static.serve,
+		{'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/fonts"}),
+	url(r'^wechat/images/(?P<path>.*)$', new_static.serve,
+		{'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/images"}),
+	url(r'^wechat/javascripts/(?P<path>.*)$', new_static.serve,
+		{'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/javascripts"}),
+	url(r'^wechat/stylesheets/(?P<path>.*)$', new_static.serve,
+		{'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/stylesheets"}),
+	url(r'^images/(?P<path>.*)$', new_static.serve,
+		{'document_root': "/usr/local/openresty/nginx/html/templates/images"}),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

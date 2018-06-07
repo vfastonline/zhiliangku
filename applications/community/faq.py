@@ -1,7 +1,5 @@
 #!encoding:utf-8
 import json
-import logging
-import traceback
 
 from django.core.paginator import Paginator
 from django.db.models import F
@@ -12,6 +10,7 @@ from django.views.generic import View
 from applications.community.models import *
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import get_kwargs
 from lib.util import str_to_int
 
 
@@ -33,10 +32,10 @@ class FaqListInfo(View):
 		try:
 			# 获取查询参数
 			# 按过滤条件查询
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			video_id = str_to_int(request.GET.get('video_id', 0))  # 视频ID
 			title = request.GET.get('title', 0)  # 标题
 			status = request.GET.get('status')  # 问题状态，"0"：未解决；"1"：已解决
-			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			ask = str_to_int(request.GET.get('ask', 0))  # 我的提问
 			participate = str_to_int(request.GET.get('participate', 0))  # 我参与的
 			follow = str_to_int(request.GET.get('follow', 0))  # 我关注的
@@ -57,8 +56,7 @@ class FaqListInfo(View):
 			if follow:
 				search_param.update({"follow_user__id": custom_user_id})
 
-			filter_dict = dict()
-			[filter_dict.update({query_field: param}) for query_field, param in search_param.items() if param]
+			filter_dict = get_kwargs(search_param)
 			faqs = Faq.objects.filter(**filter_dict).order_by("-create_time")
 
 			# 提供分页数据
@@ -77,27 +75,27 @@ class FaqListInfo(View):
 			}
 			result_dict["paginator"] = paginator_dict
 
-			if faqs:
-				try:
-					faqs = page_objs.page(page).object_list
-				except:
-					faqs = list()
+			try:
+				faqs = page_objs.page(page).object_list
+			except:
+				faqs = list()
 
-				for faq in faqs:
-					faq_dict = dict()
-					faq_dict["id"] = faq.id
-					faq_dict["video_id"] = faq.video.id if faq.video else ""
-					faq_dict["title"] = faq.title
-					faq_dict["custom_user_id"] = faq.user.id
-					faq_dict["custom_user_nickname"] = faq.user.nickname
-					faq_dict["custom_user_avatar"] = faq.user.avatar.url
-					faq_dict["browse_amount"] = faq.browse_amount
-					faq_dict["create_time"] = faq.create_time.strftime("%Y-%m-%d")
-					faq_dict["faq_answer_count"] = faq.FaqAnswer.all().count()
-					faq_dict["status_name"] = faq.get_status_display()
-					faq_dict["status"] = faq.status
-					faq_dict["reward"] = faq.reward
-					data_list.append(faq_dict)
+			for faq in faqs:
+				faq_dict = dict()
+				faq_dict["id"] = faq.id
+				faq_dict["video_id"] = faq.video.id if faq.video else ""
+				faq_dict["title"] = faq.title
+				faq_dict["custom_user_id"] = faq.user.id
+				faq_dict["custom_user_nickname"] = faq.user.nickname
+				faq_dict["custom_user_avatar"] = faq.user.avatar.url
+				faq_dict["browse_amount"] = faq.browse_amount
+				faq_dict["create_time"] = faq.create_time.strftime("%Y-%m-%d")
+				faq_dict["faq_answer_count"] = faq.FaqAnswer.all().count()
+				faq_dict["status_name"] = faq.get_status_display()
+				faq_dict["status"] = faq.status
+				faq_dict["reward"] = faq.reward
+				# faq_dict["follow"] = faq.follow_user.
+				data_list.append(faq_dict)
 			result_dict["data"] = data_list
 		except:
 			traceback.print_exc()
@@ -193,7 +191,7 @@ class FaqDetaiInfo(View):
 						faqanswerreplys = one_answer.FaqAnswerReply.all()
 						answer_dict["answer_reply_amount"] = faqanswerreplys.count()
 						faqanswerfeedbacks = FaqAnswerFeedback.objects.filter(faqanswer=one_answer,
-						                                                      user__id=custom_user_id)
+																			  user__id=custom_user_id)
 						answer_dict["feedback"] = ""
 						try:
 							if faqanswerfeedbacks.exists():

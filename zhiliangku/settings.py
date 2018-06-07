@@ -68,6 +68,7 @@ INSTALLED_APPS = [
 	'applications.face',
 	'applications.employment',  # 就业
 	'applications.medal',  # 勋章
+	'applications.notification',  # 消息通知
 	'applications.wechat_promotion',  # 微信推广
 ]
 
