@@ -35,8 +35,8 @@
           <div>
             <span @click="adoptAnwser" v-if="showAdopt" class="adopt cp">采纳该答案</span>
             <span  v-if="showAreadyAdopt" class="adopt">您已采纳该答案</span>
-            <span @click="showTextarea=!showTextarea"  class="cp reply">回复</span>
-            <span class="cp" @click="showReply()">
+            <span @click="showTextarea=!showTextarea"  class="cp reply replayButton">回复</span>
+            <span class="cp replayButton" @click="showReply()">
               <span>展开回复</span>
               <i class="iconfont icon-zhankai" :class="{'spread':showr}"></i>
             </span>
@@ -189,7 +189,7 @@
   .toolbar {
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+    /*border-bottom: 1px solid rgba(0, 0, 0, 0.09);*/
     padding: 8px;
     padding-top: 0px;
   }
@@ -253,9 +253,19 @@
     font-size: 16px;
     font-family: "MicroSoft YaHei", "PingFangSC-Light";
   }
-  .reply_box{
+  .reply_box {
     padding-top:20px;
     background-color: #fafafa;
+  }
+  .replayButton {
+    display: inline-block;
+    width: 120px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #00bcd5;
+    text-align: center;
+    color:#fff;
+    border-radius: 8px;
   }
 
 </style>

@@ -177,7 +177,7 @@
 
   .fixedButton {
     position: absolute;
-    top: -21px;
+    top: -22px;
     right:-60px;
   }
   .info_status {

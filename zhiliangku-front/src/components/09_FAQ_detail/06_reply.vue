@@ -5,40 +5,40 @@
         <img class="question-user-icon" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
       </div>
       <div class="info_right">
-        <span class="font14pl7c7e8c">{{mainData.custom_user_nickname}}</span>
-        <span class="user_status">{{mainData.role}}</span>
-        <span class="font14pl7c7e8c scan">{{mainData.create_time}}</span>
+        <span class="font1_16_9">{{mainData.custom_user_nickname}}</span>
+        <span class="user_status font1_16_9">{{mainData.role}}</span>
+        <span class="font1_16_9 scan fr">{{mainData.create_time}}</span>
       </div>
     </div>
-    <div class="msg-container">
+    <div class="msg-container font1_18_9">
       {{mainData.reply}}
     </div>
     <div class="toolbar">
       <div>
         <div class="fl praise">
-          <i @click="support ('approve')" v-if="state" class="iconfont  icon-zan  cp beforeApprove"></i>
+          <i @click="support ('approve')"  class="iconfont  icon-zan  cp beforeApprove"></i>
           <i @click="notice" v-if="mainData.feedback=='approve'" class="iconfont  icon-zan1  cp "
              :class="{'afterApprove':mainData.feedback=='approve'}"></i>
           <span class="question-yes  "
                 :class="{'font16fbc02d':mainData.feedback=='approve'}">假1{{mainData.approve}}</span>
         </div>
         <div class="fl praise">
-          <i @click="support ('oppose')" v-if="state1" class="iconfont  icon-cai  cp beforeOppose"></i>
+          <i @click="support ('oppose')"  class="iconfont  icon-cai  cp beforeOppose"></i>
           <i @click="notice" v-if="mainData.feedback=='oppose'" class="iconfont  icon-buzan  cp "
              :class="{'afterOppose':mainData.feedback=='oppose'}"></i>
           <span class="question-yes" :class="{'font16fbc02d':mainData.feedback=='oppose'}">假0{{mainData.oppose}}</span>
         </div>
         <!--红心-->
         <div class="fl">
-          <i @click="support ('oppose')" v-if="state1" class="iconfont  icon-cai  cp beforeOppose"></i>
+          <i @click="support ('oppose')" class="iconfont  icon-cai  cp beforeOppose"></i>
           <i @click="notice" v-if="mainData.feedback=='oppose'" class="iconfont  icon-buzan  cp "
              :class="{'afterOppose':mainData.feedback=='oppose'}"></i>
         </div>
       </div>
       <div>
-        <span @click="adoptAnwser" v-if="showAdopt" class="adopt cp">采纳该答案</span>
-        <span v-if="showAreadyAdopt" class="adopt">您已采纳该答案</span>
-        <span @click="showTextarea=!showTextarea" class="cp reply">回复</span>
+        <span  class="adopt cp">采纳该答案</span>
+        <span  class="adopt">您已采纳该答案</span>
+        <span  class="cp reply font1_18_6">回复</span>
       </div>
 
     </div>
@@ -113,13 +113,16 @@
     margin-right: 24px;
   }
   .img_box {
-    padding-top:35px;
+    padding-top:25px;
     width:120px;
     height:50px;
   }
   .info_right {
     margin-left:90px;
     margin-top:20px;
+  }
+  .scan {
+  pading-right:100px;
   }
 </style>
 <script>
