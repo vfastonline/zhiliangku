@@ -38,10 +38,10 @@ const entry = {
   //   path:'08_exercise',
   //   filename: 'exercise/list/index.html',
   // },
-  // personal_center:{
-  //   path:'09_personal_center',
-  //   filename:'personal_center/page/index.html'
-  // },
+  personal_center:{
+    path:'09_personal_center',
+    filename:'personal_center/page/index.html'
+  },
   // leader_board:{
   //   path:'10_leader_board',
   //   filename:'employment/leaderboard/list/index.html'
