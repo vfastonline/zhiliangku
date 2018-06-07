@@ -16,8 +16,7 @@
       <span>标记为已读</span>
       <span>已读</span>
       <span>2018-05-25</span>
-      <span>21:46</s
-        pan>
+      <span>21:46</span>
     </div>
   </div>
 </template>
