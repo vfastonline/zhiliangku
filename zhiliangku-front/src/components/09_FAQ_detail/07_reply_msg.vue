@@ -13,7 +13,7 @@
     padding-top:12px;
   }
   .reply_msg{
-    text-align: right ;
+    text-align: center;
   }
 </style>
 <script>
@@ -33,6 +33,9 @@
         var obj={};
         obj.faq_answer_id=this.mainData.id;
         obj.custom_user_id=localStorage.uid;
+
+        //提问ID  回答ID 回复ID
+        // custom_user_id
         obj.reply=this.content;
         this.$post('/community/add/faqanswerreply',obj).then(res=>{
           if(!res.data.err){
@@ -43,7 +46,9 @@
       }
     },
     created(){
-
+      if(this.mainData.reply){
+        this.content=this.mainData.reply
+      }
     },
     components:{
 

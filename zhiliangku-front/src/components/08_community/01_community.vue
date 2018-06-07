@@ -3,11 +3,14 @@
     <myNavBar class="navbar" @haveClick="tagChange"  @searchClick="getSearch" :mainData="navbarData"></myNavBar>
     <questionList v-if="allData.length" :mainData="allData"></questionList>
     <noData v-else></noData>
-    <mypager @pagerGetData='manipulationData' :url="url" :additionData="params"></mypager>
-    <fixedButton class="fixedButton" text="我要提问">
+    <mypager ref="pager" @pagerGetData='manipulationData' :url="url" :additionData="params"></mypager>
+    <fixedButton class="fixedButton" text="我要提问" @click.native="dialogVisible=true">
         <!-- <img src="" alt="" style="background-color:red"> -->
         <span>？</span>
     </fixedButton>
+    <el-dialog :visible.sync="dialogVisible">
+      <submitQuestion id="question_container" :where="'community'" @submit_success="over"></submitQuestion>
+    </el-dialog>
   </div>
 </template>
 <style scoped>
@@ -27,11 +30,15 @@
 
 </style>
 <script>
+  import Vue from 'vue'
   import myNavBar from './02_nav_bar'
   import questionList from './03_question_list'
   import mypager from '../00_common/06_pager'
   import noData from './04_have_no_data'
   import fixedButton from './05_fixed_button'
+  import {Dialog} from 'element-ui'
+  import submitQuestion from '../07_video_detail/07_submit_question'
+  Vue.use(Dialog)
   export default {
     name: 'community',
     data() {
@@ -66,6 +73,7 @@
           },
         ],
         searchTag:{},
+        dialogVisible: false
       }
     },
     props: {},
@@ -121,7 +129,10 @@
         func[id]();
         this.params
       },
-
+      over() {
+        this.dialogVisible = false;
+        this.$refs.pager.upData()
+      },
     },
     created() {},
     components: {
@@ -129,7 +140,8 @@
       questionList: questionList,
       mypager: mypager,
       noData: noData,
-      fixedButton:fixedButton
+      fixedButton:fixedButton,
+      submitQuestion: submitQuestion
     }
   }
 

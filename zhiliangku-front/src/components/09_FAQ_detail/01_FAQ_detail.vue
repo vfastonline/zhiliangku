@@ -1,16 +1,16 @@
 <template>
-  <div class=" incenter">
+  <div class=" hc question-wrap">
     <div class="question-container">
       <question :mainData="mainData"></question>
     </div>
     <anwserlist :mainData="mainData"></anwserlist>
-    <richtext class="richtext incenter"></richtext>
-    <mypager v-show="showpager" ref="pager" @updata="jj()" @pagerGetData='manipulationData' :key="pagerkey" :url="url" :additionData="params" :firstData="true"></mypager>
+    <!--<richtext class="richtext incenter"></richtext>-->
+    <mypager v-show="showpager" ref="pager" @updata="jj()" @pagerGetData='manipulationData' :key="pagerkey" :url="url" :additionData="params"></mypager>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .incenter {
+  .question-wrap{
     background-color: #fafafa;
     padding-bottom:50px;
   }
@@ -53,7 +53,6 @@
         console.log(123)
       },
       manipulationData(res) {
-        console.log(res.data);
         var arr = res.data.data.faq_answer_list;
         if(res.data.paginator.total_count>12){
           this.showpager=true
@@ -72,7 +71,6 @@
     created() {
       // this.getData()
       Bus.$on('replyover', () => {
-        console.log(this.$refs.pager)
         this.$refs.pager.upData()
       })
       this.params={

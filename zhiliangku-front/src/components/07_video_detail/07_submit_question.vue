@@ -133,7 +133,7 @@
             this.$fn.showNotice(this, res.data.msg, 'success');
             this.$emit('submit_success');
           }
-          this.switch = false;
+          this.switch = true;
         })
       },
       selectDirection(item, index) {

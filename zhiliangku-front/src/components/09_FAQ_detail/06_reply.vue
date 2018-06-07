@@ -6,11 +6,11 @@
       </div>
       <div class="info_right">
         <span class="font1_16_9">{{mainData.custom_user_nickname}}</span>
-        <span class="user_status font1_16_9">{{mainData.role}}</span>
+        <!--<span class="user_status font1_16_9">{{mainData.role}}</span>-->
         <span class="font1_16_9 scan fr">{{mainData.create_time}}</span>
       </div>
     </div>
-    <div class="msg-container font1_18_9">
+    <div class="msg-container font1_18_6">
       {{mainData.reply}}
     </div>
     <div class="toolbar">
@@ -28,20 +28,17 @@
              :class="{'afterOppose':mainData.feedback=='oppose'}"></i>
           <span class="question-yes" :class="{'font16fbc02d':mainData.feedback=='oppose'}">假0{{mainData.oppose}}</span>
         </div>
-        <!--红心-->
-        <div class="fl">
-          <i @click="support ('oppose')" class="iconfont  icon-cai  cp beforeOppose"></i>
-          <i @click="notice" v-if="mainData.feedback=='oppose'" class="iconfont  icon-buzan  cp "
-             :class="{'afterOppose':mainData.feedback=='oppose'}"></i>
-        </div>
       </div>
-      <div>
-        <span  class="adopt cp">采纳该答案</span>
-        <span  class="adopt">您已采纳该答案</span>
-        <span  class="cp reply font1_18_6">回复</span>
+      <div v-if="replyEdit">
+      <span @click="showTextarea=!showTextarea" class="cp reply font1_18_6 replayButton">编辑</span>
+      <span @click="deleteReply" class="cp reply font1_18_6 replayButton">删除</span>
       </div>
+      <!--<div >-->
+        <!--<span @click="showTextarea=!showTextarea" class="cp reply font1_18_6 replayButton">回复</span>-->
+      <!--</div>-->
 
     </div>
+    <replyMsg v-show="showTextarea"  :mainData="mainData"></replyMsg>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -68,7 +65,7 @@
   }
 
   .question-user-icon {
-    width: 40x;
+    width: 40px;
     height: 40px;
     margin-left: 16px;
     margin-right: 16px;
@@ -83,7 +80,7 @@
     display: flex;
     justify-content: space-between;
     /*border-bottom: 1px solid rgba(0, 0, 0, 0.09);*/
-    padding: 8px 120px;
+    padding: 8px 16px 8px 120px;
     padding-top: 0px;
   }
 
@@ -122,23 +119,58 @@
     margin-top:20px;
   }
   .scan {
-  pading-right:100px;
+  padding-right:100px;
+  }
+  .replayButton {
+    display: inline-block;
+    width: 120px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #00bcd5;
+    text-align: center;
+    color:#fff;
+    border-radius: 8px;
   }
 </style>
 <script>
+  import Bus from '../../assets/js/02_bus'
+  import replyMsg from './07_reply_msg'
   export default {
     name: 'reply',
     data() {
-      return {}
+      return {
+        showTextarea:false,
+        replyEdit: false
+      }
     },
     props: {
-      mainData: Object
+      mainData: Object,
     },
-    methods: {},
-    created() {
+    methods: {
+      //评论删除功能 接口未写正确。
+      deleteReply(){
+        var obj={};
+        obj.faq_answer_id=this.mainData.id;
+        obj.custom_user_id=localStorage.uid;
 
+        //提问ID  回答ID 回复ID
+        // custom_user_id
+        obj.reply=this.content;
+        this.$post(' ',obj).then(res=>{
+          if(!res.data.err){
+            Bus.$emit('replyover');
+          }
+        })
+      }
     },
-    components: {}
+    created() {
+        if (this.mainData.custom_user_id == localStorage.uid) {
+          this.replyEdit=true;
+        }
+      },
+    components: {
+      replyMsg: replyMsg
+    }
   }
 
 </script>

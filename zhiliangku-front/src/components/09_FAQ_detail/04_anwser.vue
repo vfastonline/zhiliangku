@@ -5,6 +5,8 @@
     </div>-->
     <div class="anwser_info_left fl ftc">
        <img class="question-user-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
+       <div v-if="showAreadyAdopt" @click="adoptAnwser" class="adopt_view"></div>
+      <div v-if="showAdopt" @click="adoptAnwser" class="adopt_view2"></div>
     </div>
     <div class="anwser_info_right">
         <div class="r userinfo">
@@ -26,22 +28,24 @@
               <i @click="notice" v-if="mainData.feedback=='oppose'" class="iconfont  icon-buzan  cp " :class="{'afterOppose':mainData.feedback=='oppose'}"></i>
               <span class="question-yes" :class="{'font16fbc02d':mainData.feedback=='oppose'}">{{mainData.oppose}}</span>
             </div>
-            <!--红心-->
+            <!--红心
             <div class="fl">
               <i @click="support ('oppose')" v-if="state1" class="iconfont  icon-cai  cp beforeOppose"></i>
               <i @click="notice" v-if="mainData.feedback=='oppose'" class="iconfont  icon-buzan  cp " :class="{'afterOppose':mainData.feedback=='oppose'}"></i>
-            </div>
+            </div>-->
           </div>
           <div>
-            <span @click="adoptAnwser" v-if="showAdopt" class="adopt cp">采纳该答案</span>
-            <span  v-if="showAreadyAdopt" class="adopt">您已采纳该答案</span>
-            <span @click="showTextarea=!showTextarea"  class="cp reply replayButton">回复</span>
+            <!--<span @click="adoptAnwser" v-if="showAdopt" class="adopt cp">采纳该答案</span>-->
+            <!--<span class="adopt">您已采纳该答案</span>-->
+
+            <span v-if="answer_edit" @click="showTextarea=!showTextarea" class="cp reply replayButton font1_18_f">编辑</span>
+            <span v-if="answer_edit" @click="showTextarea=!showTextarea" class="cp reply replayButton font1_18_f">删除</span>
+            <span @click="showTextarea=!showTextarea"  class="cp reply replayButton font1_18_f">回复</span>
             <span class="cp replayButton" @click="showReply()">
-              <span>展开回复</span>
+              <span class="font1_18_f">评论 {{mainData.answer_reply_list.length||0}}</span>
               <i class="iconfont icon-zhankai" :class="{'spread':showr}"></i>
             </span>
           </div>
-
         </div>
     </div>
     <div class="reply_box">
@@ -67,7 +71,8 @@
         showr: false,
         showTextarea:false,
         showAreadyAdopt:false,
-        showAdopt:false
+        showAdopt:false,
+        answer_edit:false
       }
     },
     props: {
@@ -114,7 +119,7 @@
         obj.appraisal = str;
         obj.custom_user_id=localStorage.uid;
         this.$post('/community/appraisal/faqanswer', obj).then(res => {
-          console.log(res)
+          // console.log(res)
           if (!res.data.err) {
             this.mainData.feedback = str;
             if (str == 'approve') {
@@ -129,10 +134,12 @@
       showReply() {
         this.showr = !this.showr;
       }
+
     },
     created() {
       console.log(this.mainData)
       if (this.mainData.custom_user_id == localStorage.uid) {
+        this.answer_edit=true
         if(this.mainData.optimal==true){
           this.showAreadyAdopt=true
         }
@@ -266,6 +273,20 @@
     text-align: center;
     color:#fff;
     border-radius: 8px;
+  }
+  .adopt_view {
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    margin-top: 5px;
+    margin: 5px auto 0px;
+  }
+  .adopt_view2 {
+    width: 50px;
+    height: 50px;
+    background-color: #ccc;
+    margin-top: 5px;
+    margin: 5px auto 0px;
   }
 
 </style>

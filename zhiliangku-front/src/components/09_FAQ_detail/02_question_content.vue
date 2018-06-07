@@ -10,7 +10,7 @@
       <div>
         <div class="info r clearfix">
           <div class="info_left fl ftc">
-            <img class="question-icon" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
+            <img class="question-icon" v-if="mainData.custom_user_avatar" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
           </div>
           <div class="info_right">
             <span class="qestion-owner-name font1_16_9">{{mainData.custom_user_nickname}}</span>
@@ -24,6 +24,7 @@
             </div>
             <div class="info_status">
               <div class="font1_14_b4 dib">{{mainData.status_name|| "未解决"}}</div>
+              <!--关注-->
               <div class="dib heart">❤</div>
             </div>
           </div>
@@ -31,16 +32,19 @@
       </div>
     </div>
     <el-dialog :visible.sync="dialogVisible">
-      <submitQuestion id="question_container" :where="'community'" @submitover="over"></submitQuestion>
+      <!--<submitQuestion id="question_container" :where="'community'" @submitover="over"></submitQuestion>-->
+      <richtext class="richtext hc"></richtext>
     </el-dialog>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
+  import Bus from '../../assets/js/02_bus'
   import { Button } from 'element-ui'
   import Vue from 'vue'
   import submitQuestion from '../07_video_detail/07_submit_question'
   import fixedButton from '../08_community/05_fixed_button.vue'
+  import richtext from './05_vue_qill_editor'
   Vue.use(Button)
   export default {
     name: 'question_content',
@@ -75,6 +79,7 @@
         return this.mainData.faq_answer_list.length;
       },
       over() {
+        debugger
         this.dialogVisible = false;
         window.location.href = '/community/faq/list/'
       },
@@ -96,11 +101,14 @@
       }
     },
     created() {
-
+      Bus.$on('replyover', () => {
+        this.dialogVisible = false;
+      })
     },
     components: {
       submitQuestion: submitQuestion,
-      fixedButton: fixedButton
+      fixedButton: fixedButton,
+      richtext: richtext
     }
   }
 
@@ -176,9 +184,9 @@
   }
 
   .fixedButton {
-    position: absolute;
-    top: -22px;
-    right:-60px;
+    position:fixed;
+    top: 90px;
+    right:50px;
   }
   .info_status {
     margin-top:-17px;
