@@ -1,9 +1,7 @@
 #!encoding:utf-8
-from django.db.models import *
 from django.shortcuts import render
 from django.views.generic import View
 
-from applications.record.models import WatchRecord
 from applications.notification.models import *
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
