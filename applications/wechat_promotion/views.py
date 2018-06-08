@@ -103,7 +103,7 @@ class GetSignature(View):
 			res = requests.get(url, params=params, verify=False).json()
 
 			ticket = res.get("ticket", "")
-			sign = Sign(ticket, 'http://www.zhiliangku.com/wechat/promotion')
+			sign = Sign(ticket, 'http://www.zhiliangku.com')
 			self.result_dict["data"] = sign.sign()
 		except:
 			traceback.print_exc()
