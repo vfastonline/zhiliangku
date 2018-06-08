@@ -98,10 +98,10 @@ class FaqListInfo(View):
 				faq_dict["status"] = faq.status
 				faq_dict["reward"] = faq.reward
 				try:
-					faq.follow_user.all().get(id=custom_user_id)
-					faq_dict["follow"] = True
+					faq.follow_user.get(id=custom_user_id)
+					faq_dict["is_follow_user"] = 1
 				except:
-					faq_dict["follow"] = False
+					faq_dict["is_follow_user"] = 0
 
 				data_list.append(faq_dict)
 			result_dict["data"] = data_list
