@@ -72,6 +72,7 @@
   import Bus from '../../assets/js/02_bus'
   import reply from './06_reply'
   import replyMsg from './07_reply_msg'
+  import tag_0 from '../11_personal_center/08_tag_0'
   // import fixedButton from '../08_community/05_fixed_button.vue'
   export default {
     name: 'HelloWorld',
@@ -160,6 +161,7 @@
     components: {
       reply: reply,
       replyMsg: replyMsg,
+      tag_0:tag_0
       // fixedButton: fixedButton
     }
   }
