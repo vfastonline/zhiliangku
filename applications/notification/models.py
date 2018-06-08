@@ -116,7 +116,11 @@ def increment_notifications_counter(sender, instance, created, **kwargs):
 	"""
 	try:
 		# 只有当这个instance是新创建，而且have_read是默认的false才更新
-		if not (created and not instance.have_read):
+		if created:
+			if instance.have_read:
+				NotificationController(instance.custom_user).update_unread_count(-1)
+			else:
+				NotificationController(instance.custom_user).update_unread_count(1)
 			return
 		# 调用 update_unread_count 方法来更新计数器 +1
 		NotificationController(instance.custom_user).update_unread_count(1)
