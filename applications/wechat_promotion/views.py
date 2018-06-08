@@ -119,7 +119,7 @@ class Sign:
 		self.ret = {
 			'nonceStr': self.__create_nonce_str(),
 			'jsapi_ticket': jsapi_ticket,
-			'timestamp': self.__create_timestamp(),
+			'tamp': self.__create_timestamp(),
 			'url': url
 		}
 
