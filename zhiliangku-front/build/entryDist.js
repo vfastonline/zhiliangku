@@ -14,14 +14,14 @@ const entry = {
   //   path:'04_video_detail',
   //   filename:'tracks/video/detail/index.html'
   // },
-  // community:{
-  //   path:'05_community',
-  //   filename:'community/faq/list/index.html'
-  // },
-  // faq_detail:{
-  //   path:'06_FAQ_detail',
-  //   filename:'community/faq/detail/index.html'
-  // },
+  community:{
+    path:'05_community',
+    filename:'community/faq/list/index.html'
+  },
+  faq_detail:{
+    path:'06_FAQ_detail',
+    filename:'community/faq/detail/index.html'
+  },
   // login:{
   //   path:'20_login',
   //   filename:'login/index.html'
@@ -38,10 +38,10 @@ const entry = {
   //   path:'08_exercise',
   //   filename: 'exercise/list/index.html',
   // },
-  personal_center:{
-    path:'09_personal_center',
-    filename:'personal_center/page/index.html'
-  },
+  // personal_center:{
+  //   path:'09_personal_center',
+  //   filename:'personal_center/page/index.html'
+  // },
   // leader_board:{
   //   path:'10_leader_board',
   //   filename:'employment/leaderboard/list/index.html'
@@ -58,10 +58,10 @@ const entry = {
   //   path:'24_we_chat',
   //   filename:'wechat/promotion/index.html'
   // },
-  notification:{
-    path:'12_notification',
-    filename:'notification/index.html'
-  }
+  // notification:{
+  //   path:'12_notification',
+  //   filename:'notification/index.html'
+  // }
 }
 var entryObj = {}
 var distArr = []

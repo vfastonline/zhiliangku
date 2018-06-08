@@ -48,10 +48,19 @@
           </div>
         </div>
     </div>
-    <div class="reply_box">
-      <reply v-show="showr" v-for="(item,index) in mainData.answer_reply_list" :key="index" :mainData="item" ></reply>
+    <transition
+      enter-active-class="animated fadeInUp"
+      leave-active-class="animated fadeOutDown"
+    >
+    <div v-show="showr" class="reply_box">
+      <reply  v-for="(item,index) in mainData.answer_reply_list" :key="index" :mainData="item" ></reply>
+      <transition
+        enter-active-class="animated fadeInUp"
+        leave-active-class="animated fadeOutDown">
       <replyMsg v-show="showTextarea"  :mainData="mainData"></replyMsg>
+      </transition>
     </div>
+    </transition>
     <!--<fixedButton class="fixedButton" @click.native="showTextarea=!showTextarea" text="我要评论">-->
         <!--&lt;!&ndash; <img src="" alt="" style="background-color:red"> &ndash;&gt;-->
         <!--<span>？</span>-->
