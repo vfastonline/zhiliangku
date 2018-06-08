@@ -58,10 +58,10 @@ const entry = {
     path:'24_we_chat',
     filename:'wechat/promotion/index.html'
   },
-  notification:{
-    path:'12_notification',
-    filename:'notification/index.html'
-  }
+  // notification:{
+  //   path:'12_notification',
+  //   filename:'notification/index.html'
+  // }
 }
 var entryObj = {}
 var distArr = []
