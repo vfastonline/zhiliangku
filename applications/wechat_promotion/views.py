@@ -103,7 +103,7 @@ class GetSignature(View):
 			res = requests.get(url, params=params, verify=False).json()
 
 			ticket = res.get("ticket", "")
-			sign = Sign(ticket, 'http://www.zhiliangku.com/wechat/promotion')
+			sign = Sign(ticket, 'www.zhiliangku.com/wechat/promotion')
 			self.result_dict["data"] = sign.sign()
 		except:
 			traceback.print_exc()
@@ -133,4 +133,5 @@ class Sign:
 		string = '&'.join(['%s=%s' % (key.lower(), self.ret[key]) for key in sorted(self.ret)])
 		print string
 		self.ret['signature'] = hashlib.sha1(string).hexdigest()
+		print self.ret['signature']
 		return self.ret
