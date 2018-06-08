@@ -115,8 +115,8 @@ class ProjectsListInfo(View):
 					"technology": {"name": one.technology.name},
 					"video": {
 						"id": one.video.id if one.video else "",
-						"docker": one.video.docker.id if one.video.docker else "",
-						"docker_name": one.video.docker.name if one.video.docker else "",
+						"docker": one.video.docker.id if one.video and one.video.docker else "",
+						"docker_name": one.video.docker.name if one.video and one.video.docker else "",
 					}
 				}
 				# 计算项目所有课程总时长
