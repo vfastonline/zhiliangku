@@ -45,10 +45,7 @@ class FinishProjectListInfo(View):
 				"video__id__in": video_id_list,
 				"name__icontains": name,
 			}
-			filter_param = dict()
-			for key, val in param.items():
-				if val:
-					filter_param.update({key: val})
+			filter_param = get_kwargs(param)
 
 			# 用户完成的所有项目考核
 			projects = Project.objects.filter(**filter_param)

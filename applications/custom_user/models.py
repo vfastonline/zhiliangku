@@ -6,9 +6,10 @@ import os
 import traceback
 
 from django.db import models
-from django.utils import timezone
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils import timezone
+
 from lib.storage import ImageStorage
 
 
@@ -33,7 +34,7 @@ class CustomUser(models.Model):
 	sex = models.CharField("性别", max_length=2, choices=GENDER_CHOICES, blank=True)
 	role = models.IntegerField('角色', choices=ROLE, null=True, default=3)
 	avatar = models.ImageField('头像', upload_to=upload_to, storage=ImageStorage(), blank=True, null=True, max_length=256,
-	                           default="custom_user_avatar/defaultUserIcon.png")
+							   default="custom_user_avatar/defaultUserIcon.png")
 	institutions = models.CharField('院校', max_length=255, blank=True, null=True)
 	position = models.CharField('职位', max_length=255, blank=True, null=True)
 	contact_number = models.CharField('联系电话', max_length=255, blank=True, null=True, default="")
@@ -62,8 +63,10 @@ def add_customuser_event(sender, instance, **kwargs):  # 回调函数，收到�
 	:return:
 	"""
 	from applications.personal_center.models import Resume
+	from applications.notification.models import UserNotificationsCount
 	try:
-		Resume.objects.get_or_create(custom_user=instance)
+		Resume.objects.get_or_create(custom_user=instance)  # 默认增加一个简历
+		UserNotificationsCount.objects.get_or_create(custom_user=instance)  # 增加未读消息信息
 	except:
 		traceback.print_exc()
 		logging.getLogger().error(traceback.format_exc())
@@ -98,7 +101,7 @@ class CustomUserProject(models.Model):
 	"""用户参与项目 """
 
 	custom_user = models.ForeignKey(CustomUser, verbose_name="用户", limit_choices_to={'role': 0},
-	                                help_text='只允许选择角色是”学生“的用户。')
+									help_text='只允许选择角色是”学生“的用户。')
 	project = models.ForeignKey("tracks_learning.Project", verbose_name="参与项目", blank=True, null=True)
 	create_time = models.DateTimeField(verbose_name='参与时间', default=timezone.now)
 
@@ -116,7 +119,7 @@ class CustomUserCourse(models.Model):
 	"""用户收藏课程 """
 
 	custom_user = models.ForeignKey(CustomUser, verbose_name="用户", limit_choices_to={'role': 0},
-	                                help_text='只允许选择角色是”学生“的用户。')
+									help_text='只允许选择角色是”学生“的用户。')
 	course = models.ForeignKey("tracks_learning.Course", verbose_name="课程", blank=True, null=True)
 	create_time = models.DateTimeField(verbose_name='收藏时间', default=timezone.now)
 

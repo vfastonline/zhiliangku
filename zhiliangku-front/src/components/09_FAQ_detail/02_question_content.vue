@@ -80,7 +80,6 @@
       },
       over() {
         this.dialogVisible = false;
-        window.location.href = '/community/faq/list/'
       },
       foucus() {
         if (this.havefoucesed) {

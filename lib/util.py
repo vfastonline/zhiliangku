@@ -306,14 +306,14 @@ def _get_refer_url(request):
 
 
 # 获取动态查询条件
-def get_kwargs(param):
+def get_kwargs(param_dict):
 	"""
-	:param param:查询参数字典
+	:param param_dict:查询参数字典
 	:return:
 	"""
-	kwargs = dict()
+	kwargs = {}
 	try:
-		[kwargs.update({query_field: param}) for query_field, param in param.items() if param]
+		kwargs = {query_field: param for query_field, param in param_dict.items() if param}
 	except:
 		traceback.print_exc()
 	finally:

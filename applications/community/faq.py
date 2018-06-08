@@ -1,7 +1,5 @@
 #!encoding:utf-8
 import json
-import logging
-import traceback
 
 from django.core.paginator import Paginator
 from django.db.models import F
@@ -12,6 +10,7 @@ from django.views.generic import View
 from applications.community.models import *
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.util import get_kwargs
 from lib.util import str_to_int
 
 
@@ -33,10 +32,10 @@ class FaqListInfo(View):
 		try:
 			# 获取查询参数
 			# 按过滤条件查询
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			video_id = str_to_int(request.GET.get('video_id', 0))  # 视频ID
 			title = request.GET.get('title', 0)  # 标题
 			status = request.GET.get('status')  # 问题状态，"0"：未解决；"1"：已解决
-			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			ask = str_to_int(request.GET.get('ask', 0))  # 我的提问
 			participate = str_to_int(request.GET.get('participate', 0))  # 我参与的
 			follow = str_to_int(request.GET.get('follow', 0))  # 我关注的
@@ -57,8 +56,7 @@ class FaqListInfo(View):
 			if follow:
 				search_param.update({"follow_user__id": custom_user_id})
 
-			filter_dict = dict()
-			[filter_dict.update({query_field: param}) for query_field, param in search_param.items() if param]
+			filter_dict = get_kwargs(search_param)
 			faqs = Faq.objects.filter(**filter_dict).order_by("-create_time")
 
 			# 提供分页数据
@@ -77,27 +75,35 @@ class FaqListInfo(View):
 			}
 			result_dict["paginator"] = paginator_dict
 
-			if faqs:
-				try:
-					faqs = page_objs.page(page).object_list
-				except:
-					faqs = list()
+			try:
+				faqs = page_objs.page(page).object_list
+			except:
+				faqs = list()
 
-				for faq in faqs:
-					faq_dict = dict()
-					faq_dict["id"] = faq.id
-					faq_dict["video_id"] = faq.video.id if faq.video else ""
-					faq_dict["title"] = faq.title
-					faq_dict["custom_user_id"] = faq.user.id
-					faq_dict["custom_user_nickname"] = faq.user.nickname
-					faq_dict["custom_user_avatar"] = faq.user.avatar.url
-					faq_dict["browse_amount"] = faq.browse_amount
-					faq_dict["create_time"] = faq.create_time.strftime("%Y-%m-%d")
-					faq_dict["faq_answer_count"] = faq.FaqAnswer.all().count()
-					faq_dict["status_name"] = faq.get_status_display()
-					faq_dict["status"] = faq.status
-					faq_dict["reward"] = faq.reward
-					data_list.append(faq_dict)
+			for faq in faqs:
+				faq_dict = dict()
+				faq_dict["id"] = faq.id
+				faq_dict["video_id"] = faq.video.id if faq.video else ""
+				faq_dict["title"] = faq.title
+				faq_dict["custom_user_id"] = faq.user.id
+				faq_dict["is_self"] = False
+				if faq.user.id == custom_user_id:  # 是登录用户的提问，支持修改和删除
+					faq_dict["is_self"] = True
+				faq_dict["custom_user_nickname"] = faq.user.nickname
+				faq_dict["custom_user_avatar"] = faq.user.avatar.url
+				faq_dict["browse_amount"] = faq.browse_amount
+				faq_dict["create_time"] = faq.create_time.strftime("%Y-%m-%d")
+				faq_dict["faq_answer_count"] = faq.FaqAnswer.all().count()
+				faq_dict["status_name"] = faq.get_status_display()
+				faq_dict["status"] = faq.status
+				faq_dict["reward"] = faq.reward
+				try:
+					faq.follow_user.get(id=custom_user_id)
+					faq_dict["is_follow_user"] = 1
+				except:
+					faq_dict["is_follow_user"] = 0
+
+				data_list.append(faq_dict)
 			result_dict["data"] = data_list
 		except:
 			traceback.print_exc()
@@ -149,6 +155,9 @@ class FaqDetaiInfo(View):
 					faq_dict["description"] = faq.description
 					faq_dict["video_id"] = faq.video.id if faq.video else ""
 					faq_dict["custom_user_id"] = faq.user.id
+					faq_dict["is_self"] = False
+					if faq.user.id == custom_user_id:  # 是登录用户的提问，支持修改和删除
+						faq_dict["is_self"] = True
 					faq_dict["custom_user_nickname"] = faq.user.nickname
 					faq_dict["custom_user_avatar"] = faq.user.avatar.url
 					faq_dict["browse_amount"] = faq.browse_amount
@@ -179,12 +188,15 @@ class FaqDetaiInfo(View):
 					except:
 						faqanswer_objs = list()
 
-					for one_answer in faqanswer_objs:
+					for one_answer in faqanswer_objs:  # 回答
 						answer_dict = dict()
 						answer_dict["id"] = one_answer.id
 						answer_dict["answer"] = one_answer.answer
 						answer_dict["create_time"] = one_answer.create_time.strftime("%Y-%m-%d")
 						answer_dict["custom_user_id"] = one_answer.user.id
+						answer_dict["is_self"] = False
+						if one_answer.user.id == custom_user_id:  # 是登录用户的回答，支持修改和删除
+							answer_dict["is_self"] = True
 						answer_dict["custom_user_nickname"] = one_answer.user.nickname
 						answer_dict["custom_user_avatar"] = one_answer.user.avatar.url
 						answer_dict["approve"] = one_answer.approve
@@ -193,7 +205,7 @@ class FaqDetaiInfo(View):
 						faqanswerreplys = one_answer.FaqAnswerReply.all()
 						answer_dict["answer_reply_amount"] = faqanswerreplys.count()
 						faqanswerfeedbacks = FaqAnswerFeedback.objects.filter(faqanswer=one_answer,
-						                                                      user__id=custom_user_id)
+																			  user__id=custom_user_id)
 						answer_dict["feedback"] = ""
 						try:
 							if faqanswerfeedbacks.exists():
@@ -204,11 +216,14 @@ class FaqDetaiInfo(View):
 
 						# 获取问题回答回复
 						faq_answer_reply_list = list()
-						for answer_reply in faqanswerreplys:
+						for answer_reply in faqanswerreplys:  # 问题-回答-回复
 							answer_reply_dict = dict()
 							answer_reply_dict["id"] = answer_reply.id
 							answer_reply_dict["reply"] = answer_reply.reply
 							answer_reply_dict["custom_user_id"] = answer_reply.user.id
+							answer_reply_dict["is_self"] = False
+							if answer_reply.user.id == custom_user_id:  # 问题-回答-回复是登录用户，支持修改和删除
+								answer_reply_dict["is_self"] = True
 							answer_reply_dict["custom_user_nickname"] = answer_reply.user.nickname
 							answer_reply_dict["custom_user_avatar"] = answer_reply.user.avatar.url
 							answer_reply_dict["create_time"] = answer_reply.create_time.strftime("%Y-%m-%d %H:%M")
@@ -242,6 +257,68 @@ class GetFaqByTitle(View):
 			title = request.GET.get('title')  # 问题标题
 			faqs_count = Faq.objects.filter(title__icontains=title).count()
 			result_dict["data"] = faqs_count
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			result_dict["err"] = 1
+			result_dict["msg"] = traceback.format_exc()
+		finally:
+			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
+class FollowFaq(View):
+	"""关注-这个问题"""
+
+	def post(self, request, *args, **kwargs):
+		result_dict = {"err": 0, "msg": "success"}
+		try:
+			param_dict = json.loads(request.body)
+			faq_id = str_to_int(param_dict.get('faq_id', 0))  # 必填，问题ID
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+
+			faqs = Faq.objects.filter(id=faq_id)
+			customusers = CustomUser.objects.filter(id=custom_user_id)
+			if faqs.exists():
+				if customusers.exists():
+					faqs.first().follow_user.add(customusers.first())
+				else:
+					result_dict["err"] = 1
+					result_dict["msg"] = "缺少关注用户ID"
+			else:
+				result_dict["err"] = 1
+				result_dict["msg"] = "缺少关注问题ID"
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			result_dict["err"] = 1
+			result_dict["msg"] = traceback.format_exc()
+		finally:
+			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
+class UnFollowFaq(View):
+	"""取消关注-这个问题"""
+
+	def post(self, request, *args, **kwargs):
+		result_dict = {"err": 0, "msg": "success"}
+		try:
+			param_dict = json.loads(request.body)
+			faq_id = str_to_int(param_dict.get('faq_id', 0))  # 必填，问题ID
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+
+			faqs = Faq.objects.filter(id=faq_id)
+			customusers = CustomUser.objects.filter(id=custom_user_id)
+			if faqs.exists():
+				if customusers.exists():
+					faqs.first().follow_user.remove(customusers.first())
+				else:
+					result_dict["err"] = 1
+					result_dict["msg"] = "缺少关注用户ID"
+			else:
+				result_dict["err"] = 1
+				result_dict["msg"] = "缺少关注问题ID"
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
@@ -308,31 +385,63 @@ class AddFaq(View):
 
 
 @class_view_decorator(user_login_required)
-class FollowFaq(View):
-	"""关注这个问题"""
+class DelFaq(View):
+	"""删除-提问"""
+
+	def __init__(self):
+		super(DelFaq, self).__init__()
+		self.result_dict = {"err": 0, "msg": "success", "data": 0}
 
 	def post(self, request, *args, **kwargs):
-		result_dict = {"err": 0, "msg": "success"}
 		try:
 			param_dict = json.loads(request.body)
-			faq_id = str_to_int(param_dict.get('faq_id', 0))  # 必填，问题ID
 			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+			faq_id = str_to_int(param_dict.get('faq_id', 0))  # 问题ID
 
-			faqs = Faq.objects.filter(id=faq_id)
-			customusers = CustomUser.objects.filter(id=custom_user_id)
+			faqs = Faq.objects.filter(user__id=custom_user_id, id=faq_id)
 			if faqs.exists():
-				if customusers.exists():
-					faqs.first().follow_user.add(customusers.first())
-				else:
-					result_dict["err"] = 1
-					result_dict["msg"] = "缺少关注用户ID"
+				deleted, _rows_count = faqs.delete()
+				self.result_dict["data"] = deleted
 			else:
-				result_dict["err"] = 1
-				result_dict["msg"] = "缺少关注问题ID"
+				self.result_dict["msg"] = "只有提问者才能删除"
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
-			result_dict["err"] = 1
-			result_dict["msg"] = traceback.format_exc()
+			self.result_dict["msg"] = traceback.format_exc()
 		finally:
-			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
+class EditFaq(View):
+	"""编辑-提问"""
+
+	def __init__(self):
+		super(EditFaq, self).__init__()
+		self.result_dict = {"err": 0, "msg": "success", "data": dict()}
+
+	def post(self, request, *args, **kwargs):
+		try:
+			param_dict = json.loads(request.body)
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+			faq_id = str_to_int(param_dict.get('faq_id', 0))  # 问题ID
+			title = param_dict.get('title', "")  # 问题标题
+			description = param_dict.get('description', "")  # 问题描述
+
+			faqs = Faq.objects.filter(user__id=custom_user_id, id=faq_id)
+			if faqs.exists():
+				update_param = {
+					"title": title,
+					"description": description,
+				}
+				update_count = faqs.update(**update_param)
+				if update_count:
+					self.result_dict["data"] = update_param
+			else:
+				self.result_dict["msg"] = "只有提问者才能编辑"
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			self.result_dict["msg"] = traceback.format_exc()
+		finally:
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))

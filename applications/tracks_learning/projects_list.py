@@ -83,6 +83,8 @@ class ProjectsListInfo(View):
 			projects = Project.objects.filter(**filter_dict)
 
 			# 提供分页数据
+			if not page: page = 1
+			if not per_page: per_page = 12
 			page_obj = Paginator(projects, per_page)
 			total_count = page_obj.count  # 记录总数
 			num_pages = page_obj.num_pages  # 总页数
@@ -113,8 +115,8 @@ class ProjectsListInfo(View):
 					"technology": {"name": one.technology.name},
 					"video": {
 						"id": one.video.id if one.video else "",
-						"docker": one.video.docker if one.video else "",
-						"docker_name": one.video.get_docker_display() if one.video else "",
+						"docker": one.video.docker.id if one.video and one.video.docker else "",
+						"docker_name": one.video.docker.name if one.video and one.video.docker else "",
 					}
 				}
 				# 计算项目所有课程总时长
@@ -163,8 +165,8 @@ class ProjectsListInfo(View):
 					if video_obj:
 						video_dict = {
 							"id": video_obj.id,
-							"docker": video_obj.docker,
-							"docker_name": video_obj.get_docker_display(),
+							"docker": video_obj.docker.id if video_obj.docker else "",
+							"docker_name": video_obj.docker.name if video_obj.docker else "",
 						}
 						self.result_dict["general_assessment"] = video_dict
 		except:

@@ -48,10 +48,19 @@
           </div>
         </div>
     </div>
-    <div class="reply_box">
-      <reply v-show="showr" v-for="(item,index) in mainData.answer_reply_list" :key="index" :mainData="item" ></reply>
+    <transition
+      enter-active-class="animated fadeInUp"
+      leave-active-class="animated fadeOutDown"
+    >
+    <div v-show="showr" class="reply_box">
+      <reply  v-for="(item,index) in mainData.answer_reply_list" :key="index" :mainData="item" ></reply>
+      <transition
+        enter-active-class="animated fadeInUp"
+        leave-active-class="animated fadeOutDown">
       <replyMsg v-show="showTextarea"  :mainData="mainData"></replyMsg>
+      </transition>
     </div>
+    </transition>
     <!--<fixedButton class="fixedButton" @click.native="showTextarea=!showTextarea" text="我要评论">-->
         <!--&lt;!&ndash; <img src="" alt="" style="background-color:red"> &ndash;&gt;-->
         <!--<span>？</span>-->
@@ -63,6 +72,7 @@
   import Bus from '../../assets/js/02_bus'
   import reply from './06_reply'
   import replyMsg from './07_reply_msg'
+  import tag_0 from '../11_personal_center/08_tag_0'
   // import fixedButton from '../08_community/05_fixed_button.vue'
   export default {
     name: 'HelloWorld',
@@ -151,6 +161,7 @@
     components: {
       reply: reply,
       replyMsg: replyMsg,
+      tag_0:tag_0
       // fixedButton: fixedButton
     }
   }

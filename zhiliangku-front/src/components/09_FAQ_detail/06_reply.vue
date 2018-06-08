@@ -20,23 +20,27 @@
           <i @click="notice" v-if="mainData.feedback=='approve'" class="iconfont  icon-zan1  cp "
              :class="{'afterApprove':mainData.feedback=='approve'}"></i>
           <span class="question-yes  "
-                :class="{'font16fbc02d':mainData.feedback=='approve'}">假1{{mainData.approve}}</span>
+                :class="{'font16fbc02d':mainData.feedback=='approve'}">1{{mainData.approve}}</span>
         </div>
         <div class="fl praise">
           <i @click="support ('oppose')"  class="iconfont  icon-cai  cp beforeOppose"></i>
           <i @click="notice" v-if="mainData.feedback=='oppose'" class="iconfont  icon-buzan  cp "
              :class="{'afterOppose':mainData.feedback=='oppose'}"></i>
-          <span class="question-yes" :class="{'font16fbc02d':mainData.feedback=='oppose'}">假0{{mainData.oppose}}</span>
+          <span class="question-yes" :class="{'font16fbc02d':mainData.feedback=='oppose'}">0{{mainData.oppose}}</span>
         </div>
       </div>
       <div v-if="replyEdit">
-      <span @click="showTextarea=!showTextarea" class="cp reply font1_18_6 replayButton">编辑</span>
-      <span @click="deleteReply" class="cp reply font1_18_6 replayButton">删除</span>
+        <tag_button class="tag_edit " @click="showTextarea=!showTextarea">
+          <img src="../11_personal_center/img/编辑icon.png" alt="">
+          <span class="font1_22_9">编辑</span></tag_button>
+        <tag_button class="tag_edit" @click="deleteReply">
+          <img src="../11_personal_center/img/编辑icon.png" alt="">
+          <span class="font1_22_9">删除</span>
+        </tag_button>
       </div>
       <!--<div >-->
         <!--<span @click="showTextarea=!showTextarea" class="cp reply font1_18_6 replayButton">回复</span>-->
       <!--</div>-->
-
     </div>
     <replyMsg v-show="showTextarea"  :mainData="mainData"></replyMsg>
   </div>
@@ -79,11 +83,11 @@
   .toolbar {
     display: flex;
     justify-content: space-between;
-    /*border-bottom: 1px solid rgba(0, 0, 0, 0.09);*/
-    padding: 8px 16px 8px 120px;
-    padding-top: 0px;
+    padding: 8px 50px 8px 120px;
   }
-
+  .tag_edit{
+    margin-right: 30px;
+  }
   .praise {
     width: 120px;
     height: 40px;
@@ -119,7 +123,7 @@
     margin-top:20px;
   }
   .scan {
-  padding-right:100px;
+  padding-right:40px;
   }
   .replayButton {
     display: inline-block;
@@ -135,6 +139,7 @@
 <script>
   import Bus from '../../assets/js/02_bus'
   import replyMsg from './07_reply_msg'
+  import tag_button from '../11_personal_center/08_tag_0'
   export default {
     name: 'reply',
     data() {
@@ -169,7 +174,8 @@
         }
       },
     components: {
-      replyMsg: replyMsg
+      replyMsg: replyMsg,
+      tag_button:tag_button
     }
   }
 

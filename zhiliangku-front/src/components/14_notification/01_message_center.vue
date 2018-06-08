@@ -3,8 +3,8 @@
     <div class="nav_bar mw hc">
         <span class="dib font1_20_6">
           <span class="dib tab_bar cp" @click="navToggle">最新</span>
-          <span class="dib tab_bar cp"  @click="navToggle(1)">已读</span>
-          <span class="dib tab_bar cp"  @click="navToggle(2)">未读</span>
+          <span class="dib tab_bar cp" @click="navToggle(1)">已读</span>
+          <span class="dib tab_bar cp" @click="navToggle(2)">未读</span>
         </span>
       <span class="font1_20_6 dib tab_bar_right cp" @click="flagAllMessage()">
           全部标记为已读
@@ -36,25 +36,25 @@
     },
     methods: {
       flagAllMessage() {
-        var obj={
+        var obj = {
           whole: 1
         }
-          this.$post("/notification/markasread",obj).then(res => {
-            if (res.data.msg=="success") {
-              this.main_data.forEach(el => {
-                el.have_read=true
-              })
-            }
-          })
+        this.$post("/notification/markasread", obj).then(res => {
+          if (res.data.msg == "success") {
+            this.main_data.forEach(el => {
+              el.have_read = true
+            })
+          }
+        })
       },
       navToggle(params) {
-        if(params){
-          this.active="true"
-          var obj={
+        if (params) {
+          this.active = "true"
+          var obj = {
             have_read: params
           }
-          Bus.$emit("additionEnter",obj)
-        } 
+          Bus.$emit("additionEnter", obj)
+        }
 
       }
     },
@@ -66,19 +66,23 @@
   .nav_bar {
     display: flex;
     justify-content: space-between;
-    padding:50px 0 30px;
+    padding: 50px 0 30px;
   }
+
   .tab_bar {
     padding: 5px 30px;
-    margin-right:20px;
+    margin-right: 20px;
   }
+
   .tab_bar_right {
     padding: 5px 40px 5px 0;
   }
+
   .main_antainner {
-    min-hieght:75vh;
-    background-color:#fafafa;
+    min-hieght: 75vh;
+    background-color: #fafafa;
   }
+
   .active {
     background-color: #00bcd4;
   }

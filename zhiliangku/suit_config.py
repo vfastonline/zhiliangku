@@ -67,6 +67,7 @@ SUIT_CONFIG = {
 
 		# 勋章
 		{'label': '勋章', 'app': 'medal', 'icon': 'icon-list-alt', 'models': ('Medal', 'CustomUserMedal')},
+		{'label': '消息中心', 'app': 'notification', 'icon': 'icon-list-alt'},
 
 		# 微信推广
 		{'label': '微信推广', 'app': 'wechat_promotion', 'icon': 'icon-list-alt'},
