@@ -6,7 +6,6 @@
       </div>
       <div class="info_right">
         <span class="font1_16_9">{{mainData.custom_user_nickname}}</span>
-        <!--<span class="user_status font1_16_9">{{mainData.role}}</span>-->
         <span class="font1_16_9 scan fr">{{mainData.create_time}}</span>
       </div>
     </div>
@@ -106,13 +105,7 @@
   .question-yes {
     margin-right: 36px;
   }
-  .adopt {
-    margin-right: 24px;
-  }
 
-  .reply {
-    margin-right: 24px;
-  }
   .img_box {
     padding-top:25px;
     width:120px;
@@ -124,16 +117,6 @@
   }
   .scan {
   padding-right:40px;
-  }
-  .replayButton {
-    display: inline-block;
-    width: 120px;
-    height: 40px;
-    line-height: 40px;
-    background-color: #00bcd5;
-    text-align: center;
-    color:#fff;
-    border-radius: 8px;
   }
 </style>
 <script>

@@ -86,9 +86,6 @@ Object.keys(entry).forEach(el => {
   }
   distArr.push(pageConf.dist)
 })
-// console.log(entryObj)
-// console.log(...distArr)
-
 module.exports = {
   Entry: entryObj,
   Dist: distArr
