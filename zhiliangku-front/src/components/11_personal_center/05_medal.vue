@@ -24,9 +24,7 @@
       this.$get("/medal/list/info").then(res => {
         console.log(res.data.data)
         if (!res.err) {
-          // this.$fn.addString(this.$myConst.httpUrl,res.data.data,'pathwel')
-
-          this.$fn.addString(this.$myConst.httpUrl, "res.data", "avatar")
+          // this.$fn.addString(this.$myConst.httpUrl, "res.data.data", "pathwel")
           this.main_data = res.data
 
         }

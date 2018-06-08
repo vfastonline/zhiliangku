@@ -1,6 +1,6 @@
 <template>
   <div class="medal_container ftc">
-    <img class="medal_img" :src="$myConst.httpUrl+main_data.pathwel"  alt="">
+    <img v-if="main_data.pathwel" class="medal_img" :src="$myConst.httpUrl+main_data.pathwel" alt="">
     <div>
       <div class="font1_28_9 ftc">{{main_data.name}}</div>
       <div class="font1_16_9 ftc">{{main_data.create_time}}</div>

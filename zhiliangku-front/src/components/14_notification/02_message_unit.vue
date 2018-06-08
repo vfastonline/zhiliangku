@@ -2,28 +2,37 @@
   <div class="hc mw main_message">
     <div class="message_content">
       <div class="font1_18_3">系统消息</div>
-      <p class="font1_18_9 system_messages">
-        智量酷是一个专注于实践项目的大型学习平台，在这里
-        有着数以千计的智量酷是一个专注于实践项目的大型学习平台，在这
-        里有着数以千计的智量酷是一个专注于实践项目的大型学习平台，在这里
-        有着数以千计的智量酷是一个专注于实践项目的大型学习平台，在这里有着数以千计的
-        智量酷是一个专注于实践项目的大型学习平台，在这里有着数以千计的智量酷是一个专注于实践项目的大型
-        学习平台，在这里有着数以千计的智量酷是一个专注于实践项目的大型学习平台，在这
-        里有着数以千计的智量酷是一个专注于实践项目的大型学习平台，在这里有着数以千计的
-      </p>
+      <p class="font1_18_9 system_messages">{{main_data.content}}</p>
     </div>
     <div class="ftr message_bottom font1_18_9">
-      <span class="font1_18_b4">标记为已读</span>
-      <span class="font1_18_b4">已读</span>
-      <span>2018-05-25</span>
-      <span>21:46</span>
+      <span v-if="main_data.have_read===false" @click="flagMessage(main_data.id)" class="cp font1_18_b4">标记为已读</span>
+      <span  v-if="main_data.have_read===true" @click="flagMessage(main_data.id)"  class="cp font1_18_b4">已读</span>
+      <span>{{main_data.create_time}}</span>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: "message.vue"
+    name: "message.vue",
+    props: {
+      main_data: {}
+    },
+    created() {
+      console.log(this.$props)
+    },
+    methods: {
+      flagMessage(id) {
+        var obj={
+          pk_id: id
+        }
+        this.$post('/notification/markasread',obj).then(res=> {
+          if(res.data.msg=="success"){
+            this.main_data.have_read=!this.main_data.have_read
+          }
+        })
+      }
+    }
   }
 </script>
 

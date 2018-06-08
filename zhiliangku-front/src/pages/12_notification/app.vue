@@ -2,7 +2,8 @@
   <div>
     <div id="main">
       <MyHeader></MyHeader>
-      <MessageCenter></MessageCenter>
+      <MessageCenter :main_data="main_data"></MessageCenter>
+      <Pager class="mw hc" @pagerGetData="getMainData" :url="url" first-data="true" ></Pager>
     </div>
     <imgBlock :src="$myConst.httpUrl+'/media/image/static/project_list_01_top.png'"></imgBlock>
     <F></F>
@@ -17,15 +18,32 @@
   import F from '../../components/01_header_footer/03_footer'
   import  MessageCenter from '../../components/14_notification/01_message_center'
   import imgBlock from '../../components/00_common/08_image_block'
+  import Pager from '../../components/00_common/06_pager'
   export default {
     data() {
-      return {}
+      return {
+        url: "/notification/list/info",
+        main_data: ""
+      }
     },
     components: {
       MyHeader: MyHeader,
       F: F,
       MessageCenter:MessageCenter,
-      imgBlock: imgBlock
+      imgBlock: imgBlock,
+      Pager: Pager
+    },
+    methods: {
+      getMainData(res){
+        if(!res.err){
+          this.main_data=res.data.data
+        }
+      }
+    },
+    created() {
+      // this.$get("/notification/list/info").then(res => {
+      //   console.log("res")
+      // })
     }
   }
 </script>
