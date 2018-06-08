@@ -2,15 +2,17 @@
   <div class="main_antainner">
     <div class="nav_bar mw hc">
         <span class="dib font1_20_6">
-          <span class="dib tab_bar cp" @click="navToggle">最新</span>
-          <span class="dib tab_bar cp" @click="navToggle(1)">已读</span>
-          <span class="dib tab_bar cp" @click="navToggle(2)">未读</span>
+          <span v-for="(item,index) in tabArr" :key="item.id" class="dib tab_bar cp" :class="{'active': item.active}"
+                @click="navToggle(item,index)">{{item.name}}</span>
         </span>
       <span class="font1_20_6 dib tab_bar_right cp" @click="flagAllMessage()">
           全部标记为已读
         </span>
     </div>
     <message v-for="item in main_data" :key="item.id" :main_data="item"></message>
+    <div v-if="!main_data.length" class="mw ftc hc">
+      <p class="font1_20_9">暂无消息</p>
+    </div>
   </div>
 </template>
 
@@ -25,37 +27,52 @@
     },
     data() {
       return {
-        active: false
+        isFlag: false,
+        tabArr: [
+          {active: true, name: "最新", have_read: "0"},
+          {active: false, name: "已读", have_read: "2"},
+          {active: false, name: "未读", have_read: "1"},
+        ]
       }
     },
     props: {
       main_data: {}
     },
     created() {
-      console.log(this.$props)
     },
     methods: {
       flagAllMessage() {
         var obj = {
           whole: 1
         }
-        this.$post("/notification/markasread", obj).then(res => {
-          if (res.data.msg == "success") {
-            this.main_data.forEach(el => {
-              el.have_read = true
-            })
-          }
-        })
+        if (!this.isFlag) {
+          this.$post("/notification/markasread", obj).then(res => {
+            if (res.data.msg == "success") {
+              this.isFlag = true;
+              this.main_data.forEach(el => {
+                el.have_read = true
+              })
+            }
+          })
+        } else {
+          this.$fn.showNotice(this, '已经全部标记为已读，禁止重复操作哦！')
+        }
+
       },
-      navToggle(params) {
-        if (params) {
-          this.active = "true"
+      navToggle(item, index) {
+        this.isActive(index);
+        if (item.have_read) {
           var obj = {
-            have_read: params
+            have_read: item.have_read
           }
           Bus.$emit("additionEnter", obj)
         }
-
+      },
+      isActive(index) {
+        this.tabArr.forEach(el => {
+          el.active = false
+        })
+        this.tabArr[index].active = true
       }
     },
 
@@ -79,7 +96,7 @@
   }
 
   .main_antainner {
-    min-hieght: 75vh;
+    min-height: 75vh;
     background-color: #fafafa;
   }
 

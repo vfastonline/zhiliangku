@@ -3,7 +3,7 @@
     <div id="main">
       <MyHeader></MyHeader>
       <MessageCenter :main_data="main_data"></MessageCenter>
-      <Pager class="mw hc" @pagerGetData="getMainData" :url="url" first-data="true" ></Pager>
+      <Pager class="hc" @pagerGetData="getMainData" :url="url" first-data="true" style="background-color: #fafafa;padding-bottom:80px;"></Pager>
     </div>
     <imgBlock :src="$myConst.httpUrl+'/media/image/static/project_list_01_top.png'"></imgBlock>
     <F></F>
