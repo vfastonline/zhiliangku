@@ -14,27 +14,44 @@
       if (!doc.addEventListener) return;
       win.addEventListener(resizeEvt, recalc, false);
       doc.addEventListener('DOMContentLoaded', recalc, false);
-    })(document, window);</script><script src=http://res.wx.qq.com/open/js/jweixin-1.0.0.js></script><link href=/static/css/we_chat.093c34a27d4a411e00abbcd11b106722.css rel=stylesheet></head><body><div id=app></div><script>wx.config({
-    debug: false,
-    appId: 'wxfb95e4025a5d4614',
-    timestamp: '1498633007',
-    nonceStr: 'tnZJBsdrUo88MFiB',
-    signature: 'cae67a0a883822e1087cba091321b14b73152210',
-    jsApiList: [
-      'onMenuShareTimeline',
-      'onMenuShareAppMessage'
-    ]
-  });
-  wx.ready(function () {
-    var shareData = {
-      title: '马富天博客_PHP博客_PHP Blog_PHP编程_分享PHP开发经验',	//	标题
-      desc: '马富天博客是个人独立博客专为学习php打造php教程技术,在马富天博客里可以找到你所需要的所有关于php技术解决文章方案,打造一个以技术经验为主题的分享平台!QQ:335134463',	//	描述
-      link: 'http://www.mafutian.net/',	//	分享的URL，必须和当前打开的网页的URL是一样的
-      imgUrl: 'http://www.mafutian.net/logo.jpg'	//	缩略图地址
-    };
-    wx.onMenuShareAppMessage(shareData);
-    wx.onMenuShareTimeline(shareData);
-  });
+    })(document, window);</script><script src=http://res.wx.qq.com/open/js/jweixin-1.0.0.js></script><link href=/static/css/we_chat.093c34a27d4a411e00abbcd11b106722.css rel=stylesheet></head><body><div id=app></div><script>$.get('http://www.zhiliangku.com/wechat/get/signature',function(data){
+    var content=JSON.parse(data).data
+    var config={
+      debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+      appId: 'wx7c9efe7b17c8aef2', // 必填，企业号的唯一标识，此处填写企业号corpid
+      timestamp: content.timestamp, // 必填，生成签名的时间戳
+      nonceStr: content.nonceStr, // 必填，生成签名的随机串
+      signature: content.signature,// 必填，签名，见附录1
+      jsApiList: ['onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    }
+    wx.config(config);
+  })
+  wx.ready(function (res) {
+  })
   wx.error(function (res) {
-    //alert(res.errMsg);//错误提示
-  });</script><script src=https://cdn.bootcss.com/Swiper/4.3.0/js/swiper.min.js></script><script type=text/javascript src=/static/js/manifest.13d5d2a920afd08ec9a0.js></script><script type=text/javascript src=/static/js/vendor.79e1b0fae6144f4d1dc6.js></script><script type=text/javascript src=/static/js/we_chat.1e436f6649e7c58b9e7c.js></script></body></html>
+  })
+  wx.onMenuShareTimeline({
+    title: '感谢我最亲爱的朋友', // 分享标题
+    link: 'http://www.zhiliangku.com/wechat/promotion', // 分享链接，该链接域名必须与当前企业的可信域名一致
+    imgUrl: 'http://www.zhiliangku.com/media/custom_user_avatar/52/20180523173348_752.jpg', // 分享图标
+    success: function () {
+      // 用户确认分享后执行的回调函数
+    },
+    cancel: function () {
+      // 用户取消分享后执行的回调函数
+    }
+  });
+  wx.onMenuShareAppMessage({
+    title: '感谢我最亲爱的朋友', // 分享标题
+    desc: '感谢自己辛苦的四个月', // 分享描述
+    link: 'http://www.zhiliangku.com/wechat/promotion', // 分享链接，该链接域名必须与当前企业的可信域名一致
+    imgUrl: 'http://www.zhiliangku.com/media/custom_user_avatar/52/20180523173348_752.jpg', // 分享图标
+    type: 'link', // 分享类型,music、video或link，不填默认为link
+    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+    success: function () {
+      // 用户确认分享后执行的回调函数
+    },
+    cancel: function () {
+      // 用户取消分享后执行的回调函数
+    }
+  });</script><script src=https://cdn.bootcss.com/Swiper/4.3.0/js/swiper.min.js></script><script type=text/javascript src=/static/js/manifest.0c1cd46d93b12dcd0191.js></script><script type=text/javascript src=/static/js/vendor.c9eea2e4b6bc6835cda1.js></script><script type=text/javascript src=/static/js/we_chat.9c83478351841438c05f.js></script></body></html>
