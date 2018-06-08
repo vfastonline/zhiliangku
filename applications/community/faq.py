@@ -97,7 +97,12 @@ class FaqListInfo(View):
 				faq_dict["status_name"] = faq.get_status_display()
 				faq_dict["status"] = faq.status
 				faq_dict["reward"] = faq.reward
-				# faq_dict["follow"] = faq.follow_user.
+				try:
+					faq.follow_user.all().get(id=custom_user_id)
+					faq_dict["follow"] = True
+				except:
+					faq_dict["follow"] = False
+
 				data_list.append(faq_dict)
 			result_dict["data"] = data_list
 		except:
@@ -263,7 +268,7 @@ class GetFaqByTitle(View):
 
 @class_view_decorator(user_login_required)
 class FollowFaq(View):
-	"""关注这个问题"""
+	"""关注-这个问题"""
 
 	def post(self, request, *args, **kwargs):
 		result_dict = {"err": 0, "msg": "success"}
@@ -277,6 +282,37 @@ class FollowFaq(View):
 			if faqs.exists():
 				if customusers.exists():
 					faqs.first().follow_user.add(customusers.first())
+				else:
+					result_dict["err"] = 1
+					result_dict["msg"] = "缺少关注用户ID"
+			else:
+				result_dict["err"] = 1
+				result_dict["msg"] = "缺少关注问题ID"
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			result_dict["err"] = 1
+			result_dict["msg"] = traceback.format_exc()
+		finally:
+			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
+class UnFollowFaq(View):
+	"""取消关注-这个问题"""
+
+	def post(self, request, *args, **kwargs):
+		result_dict = {"err": 0, "msg": "success"}
+		try:
+			param_dict = json.loads(request.body)
+			faq_id = str_to_int(param_dict.get('faq_id', 0))  # 必填，问题ID
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+
+			faqs = Faq.objects.filter(id=faq_id)
+			customusers = CustomUser.objects.filter(id=custom_user_id)
+			if faqs.exists():
+				if customusers.exists():
+					faqs.first().follow_user.remove(customusers.first())
 				else:
 					result_dict["err"] = 1
 					result_dict["msg"] = "缺少关注用户ID"

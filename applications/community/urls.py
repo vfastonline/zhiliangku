@@ -13,6 +13,7 @@ urlpatterns = [
 	url('^faq/detail/info$', faq.FaqDetaiInfo.as_view()),
 	url('^get/faqbytitle$', faq.GetFaqByTitle.as_view()),
 	url('^follow/faq$', faq.FollowFaq.as_view()),
+	url('^unfollow/faq$', faq.UnFollowFaq.as_view()),
 	url('^add/faq$', faq.AddFaq.as_view()),
 	url('^del/faq$', faq.DelFaq.as_view()),
 	url('^edit/faq$', faq.EditFaq.as_view()),
