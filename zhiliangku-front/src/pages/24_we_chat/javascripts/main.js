@@ -55,12 +55,20 @@
         animationControl.playAnimation(swiper);
       },
       onTouchStart: function (swiper, event) {// mobile devices don't allow audios to play automatically, it has to be triggered by a user event(click / touch).
+        console.log(123)
         if (!$btnMusic.hasClass('paused') && bgMusic.paused) {
           bgMusic.play();
         }
       }
     });
     // hide loading animation since everything is ready
+    var play_muisc= function () {
+      if (!$btnMusic.hasClass('paused') && bgMusic.paused) {
+        bgMusic.play();
+      }
+    }
+    document.addEventListener('touchstart',play_muisc)
+    setTimeout(play_muisc,500)
     $('.loading-overlay').slideUp();
   });
 })();

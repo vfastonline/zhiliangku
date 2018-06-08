@@ -79,9 +79,7 @@
         return this.mainData.faq_answer_list.length;
       },
       over() {
-        debugger
         this.dialogVisible = false;
-        window.location.href = '/community/faq/list/'
       },
       foucus() {
         if (this.havefoucesed) {
