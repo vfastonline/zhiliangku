@@ -13,47 +13,108 @@ from lib.util import str_to_int
 
 @class_view_decorator(user_login_required)
 class AddFaqAnswerReply(View):
-    """回复问题回答"""
+	"""回复问题回答"""
 
-    def post(self, request, *args, **kwargs):
-        result_dict = {"err": 1, "msg": ""}
-        try:
-            # 回答参数
-            param_dict = json.loads(request.body)
-            faq_answer_id = str_to_int(param_dict.get('faq_answer_id', 0))  # 必填，问题回答ID
-            custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
-            reply = param_dict.get('reply', "")  # 回复内容
+	def post(self, request, *args, **kwargs):
+		result_dict = {"err": 1, "msg": ""}
+		try:
+			# 回答参数
+			param_dict = json.loads(request.body)
+			faq_answer_id = str_to_int(param_dict.get('faq_answer_id', 0))  # 必填，问题回答ID
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+			reply = param_dict.get('reply', "")  # 回复内容
 
-            required_dict = {"问题回答ID": faq_answer_id, "回复用户ID": custom_user_id, "回复内容": reply}
-            required_param = 1
-            for param_name, param_value in required_dict.items():
-                if not param_value:
-                    result_dict["err"] = 1
-                    result_dict["msg"] = "".join(["缺少 ", param_name])
-                    required_param = 0
-                    break
+			required_dict = {"问题回答ID": faq_answer_id, "回复用户ID": custom_user_id, "回复内容": reply}
+			required_param = 1
+			for param_name, param_value in required_dict.items():
+				if not param_value:
+					result_dict["err"] = 1
+					result_dict["msg"] = "".join(["缺少 ", param_name])
+					required_param = 0
+					break
 
-            # 回答参数全部合法
-            if required_param:
-                faqanswers = FaqAnswer.objects.filter(id=faq_answer_id)
-                customusers = CustomUser.objects.filter(id=custom_user_id)
-                if faqanswers.exists() and customusers.exists():
-                    create_dict = {
-                        "faqanswer": faqanswers.first(),
-                        "user": customusers.first(),
-                        "reply": reply,
-                    }
-                    faqanswerreply_obj = FaqAnswerReply.objects.create(**create_dict)
-                    if not faqanswerreply_obj:
-                        result_dict["msg"] = "回复失败"
-                    else:
-                        result_dict["err"] = 0
-                        result_dict["msg"] = "成功回复"
-                else:
-                    result_dict["msg"] = "没有对应问题回答或回复用户信息"
-        except:
-            traceback.print_exc()
-            logging.getLogger().error(traceback.format_exc())
-            result_dict["msg"] = traceback.format_exc()
-        finally:
-            return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+			# 回答参数全部合法
+			if required_param:
+				faqanswers = FaqAnswer.objects.filter(id=faq_answer_id)
+				customusers = CustomUser.objects.filter(id=custom_user_id)
+				if faqanswers.exists() and customusers.exists():
+					create_dict = {
+						"faqanswer": faqanswers.first(),
+						"user": customusers.first(),
+						"reply": reply,
+					}
+					faqanswerreply_obj = FaqAnswerReply.objects.create(**create_dict)
+					if not faqanswerreply_obj:
+						result_dict["msg"] = "回复失败"
+					else:
+						result_dict["err"] = 0
+						result_dict["msg"] = "成功回复"
+				else:
+					result_dict["msg"] = "没有对应问题回答或回复用户信息"
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			result_dict["msg"] = traceback.format_exc()
+		finally:
+			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
+class DelFaqAnswerReply(View):
+	"""删除-答案的回复"""
+
+	def __init__(self):
+		super(DelFaqAnswerReply, self).__init__()
+		self.result_dict = {"err": 0, "msg": "success", "data": 0}
+
+	def post(self, request, *args, **kwargs):
+		try:
+			param_dict = json.loads(request.body)
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+			faqanswerreply_id = str_to_int(param_dict.get('faqanswerreply_id', 0))  # 回复ID
+
+			faqanswerreplys = FaqAnswerReply.objects.filter(user__id=custom_user_id, id=faqanswerreply_id)
+			if faqanswerreplys.exists():
+				deleted, _rows_count = faqanswerreplys.delete()
+				self.result_dict["data"] = deleted
+			else:
+				self.result_dict["msg"] = "只有回复者才能删除"
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			self.result_dict["msg"] = traceback.format_exc()
+		finally:
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
+class EditFaqAnswerReply(View):
+	"""编辑-答案的回复"""
+
+	def __init__(self):
+		super(EditFaqAnswerReply, self).__init__()
+		self.result_dict = {"err": 0, "msg": "success", "data": dict()}
+
+	def post(self, request, *args, **kwargs):
+		try:
+			param_dict = json.loads(request.body)
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+			faqanswerreply_id = str_to_int(param_dict.get('faqanswerreply_id', 0))  # 回复ID
+			reply = param_dict.get('reply', "")  # 回复
+
+			faqanswerreplys = FaqAnswerReply.objects.filter(user__id=custom_user_id, id=faqanswerreply_id)
+			if faqanswerreplys.exists():
+				update_param = {
+					"reply": reply,
+				}
+				update_count = faqanswerreplys.update(**update_param)
+				if update_count:
+					self.result_dict["data"] = update_param
+			else:
+				self.result_dict["msg"] = "只有回复者才能编辑"
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			self.result_dict["msg"] = traceback.format_exc()
+		finally:
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
