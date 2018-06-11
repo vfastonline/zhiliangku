@@ -81,7 +81,7 @@ class GetSignature(View):
 	def get(self, request, *args, **kwargs):
 
 		try:
-			urls = self.request.GET.get("urls", 1)  # 分享url
+			urls = self.request.GET.get("urls", "")  # 分享url
 			params = {
 				'appid': self.appid,
 				'secret': self.appsecret,
@@ -105,7 +105,9 @@ class GetSignature(View):
 
 			ticket = res.get("ticket", "")
 			sign = Sign(ticket, urls)
-			self.result_dict["data"] = sign.sign()
+			result_dict = sign.sign()
+			result_dict["appId"] = self.appid
+			self.result_dict["data"] = result_dict
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
