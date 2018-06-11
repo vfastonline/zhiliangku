@@ -73,8 +73,10 @@ class GetSignature(View):
 
 	def __init__(self):
 		super(GetSignature, self).__init__()
-		self.appid = 'wx96fdf187f5c8f9f2'
-		self.appsecret = 'a554a61688d97543a146c62d1fcd85b9'
+		# self.appid = 'wx96fdf187f5c8f9f2'
+		# self.appsecret = 'a554a61688d97543a146c62d1fcd85b9'
+		self.appid = 'wx8d43d44b4696670b'
+		self.appsecret = '23334afdc403a1503037ac58e237c7cb'
 		self.get_access_token_url = 'https://api.weixin.qq.com/cgi-bin/token'
 		self.get_ticket_url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket"
 		self.result_dict = {"err": 0, "msg": "success", "data": {}}
