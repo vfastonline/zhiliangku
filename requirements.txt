@@ -8,3 +8,4 @@ pycrypto
 django-cors-headers
 django-multiselectfield
 django-breadcrumbs
+redis

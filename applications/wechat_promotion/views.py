@@ -9,6 +9,7 @@ from django.views.generic import View
 
 from applications.wechat_promotion.models import WechatBrowse
 from lib.util import *
+from lib.base_redis import redis_db
 
 
 class WechatPromotion(View):
@@ -75,18 +76,15 @@ class GetSignature(View):
 		super(GetSignature, self).__init__()
 		self.appid = 'wx96fdf187f5c8f9f2'
 		self.appsecret = 'a554a61688d97543a146c62d1fcd85b9'
-		# self.appid = 'wx8d43d44b4696670b'
-		# self.appsecret = '23334afdc403a1503037ac58e237c7cb'
 		self.get_access_token_url = 'https://api.weixin.qq.com/cgi-bin/token'
 		self.get_ticket_url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket"
 		self.result_dict = {"err": 0, "msg": "success", "data": {}}
 
-	def get(self, request, *args, **kwargs):
+	def get_access_token(self):
 
-		try:
-			urls = self.request.GET.get("urls", "")  # 要分享的url
-
-			# 获取access_token
+		access_token = redis_db.get("access_token")
+		print "redis-access_token ==", access_token
+		if not access_token:
 			params = {
 				'appid': self.appid,
 				'secret': self.appsecret,
@@ -100,8 +98,14 @@ class GetSignature(View):
 			}
 			"""
 			access_token = res.get("access_token", "")
+			expires_in = res.get("expires_in", 1)
+			redis_db.setex("access_token", access_token, expires_in)
+		return access_token
 
-			# 获取ticket
+	def get_ticket(self, access_token):
+		ticket = redis_db.get("ticket")
+		print "redis-ticket ==", ticket
+		if not ticket:
 			params = {
 				'access_token': access_token,
 				'type': "jsapi",
@@ -116,6 +120,20 @@ class GetSignature(View):
 			}
 			"""
 			ticket = res.get("ticket", "")
+			expires_in = res.get("expires_in", 1)
+			redis_db.setex("ticket", ticket, expires_in)
+		return ticket
+
+	def get(self, request, *args, **kwargs):
+
+		try:
+			urls = self.request.GET.get("urls", "")  # 要分享的url
+
+			# 获取access_token
+			access_token = self.get_access_token()
+
+			# 获取ticket
+			ticket = self.get_ticket(access_token)
 
 			sign = Sign(ticket, urls)
 			self.result_dict["data"] = sign.sign()
