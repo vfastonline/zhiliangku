@@ -69,25 +69,28 @@ class WechatThumbsUp(View):
 
 
 class GetSignature(View):
-	"""获取-GetTicket"""
+	"""获取-Signature"""
 
 	def __init__(self):
 		super(GetSignature, self).__init__()
-		self.result_dict = {"err": 0, "msg": "success", "data": {}}
 		self.appid = 'wx96fdf187f5c8f9f2'
 		self.appsecret = 'a554a61688d97543a146c62d1fcd85b9'
-		self.url = 'https://api.weixin.qq.com/cgi-bin/token'
+		self.get_access_token_url = 'https://api.weixin.qq.com/cgi-bin/token'
+		self.get_ticket_url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket"
+		self.result_dict = {"err": 0, "msg": "success", "data": {"appId": "wx96fdf187f5c8f9f2"}}
 
 	def get(self, request, *args, **kwargs):
 
 		try:
-			urls = self.request.GET.get("urls", "")  # 分享url
+			urls = self.request.GET.get("urls", "")  # 要分享的url
+
+			# 获取access_token
 			params = {
 				'appid': self.appid,
 				'secret': self.appsecret,
 				'grant_type': 'client_credential'
 			}
-			res = requests.get(self.url, params=params, verify=False).json()
+			res = requests.get(self.get_access_token_url, params=params, verify=False).json()
 			"""
 			{
 			u'access_token': u'10_EpnmZniSpsnf1ttZbGMS14O7ZQi7kZPcY52dJLHmcAlEQ_ndwUr4J2HX8s33JqUTjBKV-EDKeImlvYyXqGa9o0_expR7LSgzE5wLFCwzDDb_lHywV396HXhCug8Z4oTsb2OzzRFmuae4UvcENOVdADAXYF', 
@@ -96,18 +99,17 @@ class GetSignature(View):
 			"""
 			access_token = res.get("access_token", "")
 
-			url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket"
+			# 获取ticket
 			params = {
 				'access_token': access_token,
 				'type': "jsapi",
 			}
-			res = requests.get(url, params=params, verify=False).json()
-
+			res = requests.get(self.get_ticket_url, params=params, verify=False).json()
+			print res
 			ticket = res.get("ticket", "")
+
 			sign = Sign(ticket, urls)
-			result_dict = sign.sign()
-			result_dict["appId"] = self.appid
-			self.result_dict["data"] = result_dict
+			self.result_dict["data"] = sign.sign()
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
@@ -126,10 +128,12 @@ class Sign:
 			'url': url
 		}
 
-	def __create_nonce_str(self):
+	@staticmethod
+	def __create_nonce_str():
 		return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(15))
 
-	def __create_timestamp(self):
+	@staticmethod
+	def __create_timestamp():
 		return int(time.time())
 
 	def sign(self):
