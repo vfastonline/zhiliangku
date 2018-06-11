@@ -70,7 +70,8 @@ SUIT_CONFIG = {
 		{'label': '消息中心', 'app': 'notification', 'icon': 'icon-list-alt'},
 
 		# 微信推广
-		{'label': '微信推广', 'app': 'wechat_promotion', 'icon': 'icon-list-alt'},
+		{'label': '微信推广', 'app': 'wechat_promotion', 'icon': 'icon-list-alt',
+		 'models': ('WechatBrowse', 'WechatBackground', 'WechatRemark')},
 
 		# # 观看进度
 		# {'app': 'record', 'icon': 'icon-list-alt', 'models': ('WatchRecord',)},
