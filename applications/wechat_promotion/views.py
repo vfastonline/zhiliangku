@@ -77,7 +77,7 @@ class GetSignature(View):
 		self.appsecret = 'a554a61688d97543a146c62d1fcd85b9'
 		self.get_access_token_url = 'https://api.weixin.qq.com/cgi-bin/token'
 		self.get_ticket_url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket"
-		self.result_dict = {"err": 0, "msg": "success", "data": {"appId": "wx96fdf187f5c8f9f2"}}
+		self.result_dict = {"err": 0, "msg": "success", "data": {}}
 
 	def get(self, request, *args, **kwargs):
 
@@ -105,10 +105,17 @@ class GetSignature(View):
 				'type': "jsapi",
 			}
 			res = requests.get(self.get_ticket_url, params=params, verify=False).json()
-			print res
+			"""
+			{
+			u'ticket': u'HoagFKDcsGMVCIY2vOjf9g7NsT3wK7wutnW3fBQn4QzUVxV-NwuTVdgkIj_6KLCdrM8PstTUbyCCD3AbHq1Mkw', 
+			u'expires_in': 7200, 
+			u'errcode': 0, 
+			u'errmsg': u'ok'
+			}
+			"""
 			ticket = res.get("ticket", "")
 
-			sign = Sign(ticket, urls)
+			sign = Sign(ticket, urls, self.appid)
 			self.result_dict["data"] = sign.sign()
 		except:
 			traceback.print_exc()
@@ -120,12 +127,13 @@ class GetSignature(View):
 
 
 class Sign:
-	def __init__(self, jsapi_ticket, url):
+	def __init__(self, jsapi_ticket, url, appId):
 		self.ret = {
 			'nonceStr': self.__create_nonce_str(),
 			'jsapi_ticket': jsapi_ticket,
 			'timestamp': self.__create_timestamp(),
-			'url': url
+			'url': url,
+			'appId': appId,
 		}
 
 	@staticmethod
