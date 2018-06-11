@@ -128,7 +128,7 @@
     margin-bottom: 12px;
     width: 1104px;
     background-color: #fff;
-    border-radius: 10px;
+
   }
 
   .question-user-icon {

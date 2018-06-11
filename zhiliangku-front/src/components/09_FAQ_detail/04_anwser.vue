@@ -1,6 +1,6 @@
 <template>
-  <div class="anwser-container hc r">
-    <div class="anwser_content mw">
+  <div class="anwser-container  hc r">
+    <div class="anwser_content bdr mw">
       <div class="anwser_info_left fl ftc">
         <img class="question-user-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
         <div class="adopt r ftc">
