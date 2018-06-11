@@ -74,13 +74,14 @@ class GetSignature(View):
 	def __init__(self):
 		super(GetSignature, self).__init__()
 		self.result_dict = {"err": 0, "msg": "success", "data": {}}
-		self.appid = 'wx7c9efe7b17c8aef2'
-		self.appsecret = '4f44d0ecc91e0dd9ef955885d6cfcb4f'
+		self.appid = 'wx96fdf187f5c8f9f2'
+		self.appsecret = 'a554a61688d97543a146c62d1fcd85b9'
 		self.url = 'https://api.weixin.qq.com/cgi-bin/token'
 
 	def get(self, request, *args, **kwargs):
 
 		try:
+			urls = self.request.GET.get("urls", 1)  # 分享url
 			params = {
 				'appid': self.appid,
 				'secret': self.appsecret,
@@ -103,7 +104,7 @@ class GetSignature(View):
 			res = requests.get(url, params=params, verify=False).json()
 
 			ticket = res.get("ticket", "")
-			sign = Sign(ticket, 'www.zhiliangku.com/wechat/promotion')
+			sign = Sign(ticket, urls)
 			self.result_dict["data"] = sign.sign()
 		except:
 			traceback.print_exc()
