@@ -81,8 +81,11 @@ class GetSignature(View):
 		self.result_dict = {"err": 0, "msg": "success", "data": {}}
 
 	def get_access_token(self):
-
-		access_token = redis_db.get("access_token")
+		access_token = ""
+		try:
+			access_token = redis_db.get("access_token")
+		except:
+			traceback.print_exc()
 		print "redis-access_token ==", access_token
 		if not access_token:
 			params = {
@@ -103,7 +106,11 @@ class GetSignature(View):
 		return access_token
 
 	def get_ticket(self, access_token):
-		ticket = redis_db.get("ticket")
+		ticket = ""
+		try:
+			ticket = redis_db.get("ticket")
+		except:
+			traceback.print_exc()
 		print "redis-ticket ==", ticket
 		if not ticket:
 			params = {
