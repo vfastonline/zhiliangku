@@ -28,31 +28,32 @@
     wx.config(config);
   })
   wx.ready(function (res) {
+    wx.onMenuShareTimeline({
+      title: '感谢我最亲爱的朋友', // 分享标题
+      link: 'http://www.zhiliangku.com/wechat/promotion', // 分享链接，该链接域名必须与当前企业的可信域名一致
+      imgUrl: 'http://www.zhiliangku.com/media/custom_user_avatar/52/20180523173348_752.jpg', // 分享图标
+      success: function () {
+        // 用户确认分享后执行的回调函数
+      },
+      cancel: function () {
+        // 用户取消分享后执行的回调函数
+      }
+    });
+    wx.onMenuShareAppMessage({
+      title: '感谢我最亲爱的朋友', // 分享标题
+      desc: '感谢自己辛苦的四个月', // 分享描述
+      link: 'http://www.zhiliangku.com/wechat/promotion', // 分享链接，该链接域名必须与当前企业的可信域名一致
+      imgUrl: 'http://www.zhiliangku.com/media/custom_user_avatar/52/20180523173348_752.jpg', // 分享图标
+      type: 'link', // 分享类型,music、video或link，不填默认为link
+      dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+      success: function () {
+        // 用户确认分享后执行的回调函数
+      },
+      cancel: function () {
+        // 用户取消分享后执行的回调函数
+      }
+    });
+
   })
   wx.error(function (res) {
-  })
-  wx.onMenuShareTimeline({
-    title: '感谢我最亲爱的朋友', // 分享标题
-    link: 'http://www.zhiliangku.com/wechat/promotion', // 分享链接，该链接域名必须与当前企业的可信域名一致
-    imgUrl: 'http://www.zhiliangku.com/media/custom_user_avatar/52/20180523173348_752.jpg', // 分享图标
-    success: function () {
-      // 用户确认分享后执行的回调函数
-    },
-    cancel: function () {
-      // 用户取消分享后执行的回调函数
-    }
-  });
-  wx.onMenuShareAppMessage({
-    title: '感谢我最亲爱的朋友', // 分享标题
-    desc: '感谢自己辛苦的四个月', // 分享描述
-    link: 'http://www.zhiliangku.com/wechat/promotion', // 分享链接，该链接域名必须与当前企业的可信域名一致
-    imgUrl: 'http://www.zhiliangku.com/media/custom_user_avatar/52/20180523173348_752.jpg', // 分享图标
-    type: 'link', // 分享类型,music、video或link，不填默认为link
-    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-    success: function () {
-      // 用户确认分享后执行的回调函数
-    },
-    cancel: function () {
-      // 用户取消分享后执行的回调函数
-    }
-  });</script><script src=https://cdn.bootcss.com/Swiper/4.3.0/js/swiper.min.js></script><script type=text/javascript src=/static/js/manifest.ff1138d9dc07dd4e3834.js></script><script type=text/javascript src=/static/js/vendor.75128bcbbc36c10f5572.js></script><script type=text/javascript src=/static/js/we_chat.d8af5a10341db6e81c0f.js></script></body></html>
+  })</script><script src=https://cdn.bootcss.com/Swiper/4.3.0/js/swiper.min.js></script><script type=text/javascript src=/static/js/manifest.ff1138d9dc07dd4e3834.js></script><script type=text/javascript src=/static/js/vendor.75128bcbbc36c10f5572.js></script><script type=text/javascript src=/static/js/we_chat.d8af5a10341db6e81c0f.js></script></body></html>
