@@ -47,6 +47,53 @@
     </audio>
   </div>
 </template>
+<style>
+  .slide-1 {
+    background-color: #5cc2f1;
+    background-image: url('./img/1.png');
+    background-size: 100% 100%;
+  }
+  .slide-2 {
+    background-color: #5cc2f1;
+    background-image: url('./img/2.png');
+    background-size: 100% 100%;
+
+
+  }
+  .slide-3 {
+    background-color: #9993c1;
+    background-image: url('./img/3.png');
+    background-size: 100% 100%;
+
+
+  }
+  .slide-4 {
+    background-color: #9993c1;
+    background-image: url('./img/4.png');
+    background-size: 100% 100%;
+
+
+  }
+  .slide-5 {
+    background-color: #9993c1;
+    background-image: url('./img/5.png');
+    background-size: 100% 100%;
+
+
+  }
+  .slide-6 {
+    background-color: #9993c1;
+    background-image: url('./img/6.png');
+    background-size: 100% 100%;
+
+
+  }
+  .slide-7 {
+    background-color: #9993c1;
+    background-image: url('./img/7.png');
+    background-size: 100% 100%;
+  }
+</style>
 <script>
 
   export default {
@@ -129,42 +176,42 @@
 
   .slide-1 {
     background-color: #e88a63;
-    background-image: url('./img/1.jpg');
+    background-image: url('./img/1.png');
   }
 
   .slide-2 {
     background-color: #5cc2f1;
-    background-image: url('./img/2.jpg');
+    background-image: url('./img/2.png');
 
   }
 
   .slide-3 {
     background-color: #9993c1;
-    background-image: url('./img/3.jpg');
+    background-image: url('./img/3.png');
 
   }
 
   .slide-4 {
     background-color: #9993c1;
-    background-image: url('./img/4.jpg');
+    background-image: url('./img/4.png');
 
   }
 
   .slide-5 {
     background-color: #9993c1;
-    background-image: url('./img/5.jpg');
+    background-image: url('./img/5.png');
 
   }
 
   .slide-6 {
     background-color: #9993c1;
-    background-image: url('./img/6.jpg');
+    background-image: url('./img/6.png');
 
   }
 
   .slide-7 {
     background-color: #9993c1;
-    background-image: url('./img/7.jpg');
+    background-image: url('./img/7.png');
   }
 
   .the_button {

@@ -5,7 +5,7 @@
       <!--<el-button @click="dialogVisible=true" class="quizButton">我要提问</el-button> -->
       <fixedButton class="fixedButton" @click.native="dialogVisible=true" text="我要回答">
         <!-- <img src="" alt="" style="background-color:red"> -->
-        <span>？</span>
+        <span>？</span>`
       </fixedButton>
       <div>
         <div class="info r clearfix">

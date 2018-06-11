@@ -1,5 +1,5 @@
 <template>
-  <el-button @click="handle_click" ><slot></slot></el-button>
+  <el-button @click.native="handle_click" :style="S" ><slot></slot></el-button>
 </template>
 
 <script>
@@ -13,6 +13,9 @@
       handle_click(e){
         this.$emit('click',e)
       }
+    },
+    props:{
+      S:{}
     }
   }
 </script>

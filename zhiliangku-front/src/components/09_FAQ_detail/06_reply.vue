@@ -1,5 +1,5 @@
 <template>
-  <div class="reply_container">
+  <div class="reply_container hc">
     <div class="user_info">
       <div class="fl ftc img_box">
         <img class="question-user-icon" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
@@ -12,23 +12,20 @@
     <div class="msg-container font1_18_6">
       {{mainData.reply}}
     </div>
-    <div class="toolbar">
-      <div>
-        <div class="fl praise">
-          <i @click="support ('approve')"  class="iconfont  icon-zan  cp beforeApprove"></i>
-          <i @click="notice" v-if="mainData.feedback=='approve'" class="iconfont  icon-zan1  cp "
-             :class="{'afterApprove':mainData.feedback=='approve'}"></i>
-          <span class="question-yes  "
-                :class="{'font16fbc02d':mainData.feedback=='approve'}">1{{mainData.approve}}</span>
-        </div>
-        <div class="fl praise">
-          <i @click="support ('oppose')"  class="iconfont  icon-cai  cp beforeOppose"></i>
-          <i @click="notice" v-if="mainData.feedback=='oppose'" class="iconfont  icon-buzan  cp "
-             :class="{'afterOppose':mainData.feedback=='oppose'}"></i>
-          <span class="question-yes" :class="{'font16fbc02d':mainData.feedback=='oppose'}">0{{mainData.oppose}}</span>
-        </div>
-      </div>
-      <div v-if="replyEdit">
+    <div class="toolbar ftr">
+      <!--<div>-->
+        <!--<div>-->
+          <!--<div class="fl praise ftc cp " :class="{'yes':mainData.feedback==='approve',empty:!mainData.feedback}">-->
+            <!--<i @click="support ('approve')"  class="iconfont  icon-zan   praise_block_icon"></i>-->
+            <!--<span class="question-yes dib vm">{{mainData.approve}}</span>-->
+          <!--</div>-->
+          <!--<div class="fl praise ftc cp" :class="{'no':mainData.feedback==='oppose',empty:!mainData.feedback}">-->
+            <!--<i @click="support ('oppose')"  class="iconfont  icon-cai  cp praise_block_icon"></i>-->
+            <!--<span class="question-yes dib vm">{{mainData.oppose}}</span>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <div v-if="mainData.is_self" class="" >
         <tag_button class="tag_edit " @click="showTextarea=!showTextarea">
           <img src="../11_personal_center/img/编辑icon.png" alt="">
           <span class="font1_22_9">编辑</span></tag_button>
@@ -37,19 +34,84 @@
           <span class="font1_22_9">删除</span>
         </tag_button>
       </div>
-      <!--<div >-->
-        <!--<span @click="showTextarea=!showTextarea" class="cp reply font1_18_6 replayButton">回复</span>-->
-      <!--</div>-->
+      <transition>
+        <replyMsg @close="showTextarea=false" @submit="submit"></replyMsg>
+      </transition>
     </div>
-    <replyMsg v-show="showTextarea"  :mainData="mainData"></replyMsg>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  .user_info {
-    padding-top: 5px;
+
+<script>
+  import Bus from '../../assets/js/02_bus'
+  import replyMsg from './07_reply_msg'
+  import tag_button from '../11_personal_center/08_tag_0'
+  export default {
+    name: 'reply',
+    data() {
+      return {
+        showTextarea:false
+      }
+    },
+    props: {
+      mainData: Object,
+    },
+    methods: {
+      //评论删除功能 接口未写正确。
+      deleteReply(){
+        var obj={};
+        obj.faq_answer_id=this.mainData.id;
+        obj.custom_user_id=localStorage.uid;
+
+        //提问ID  回答ID 回复ID
+        // custom_user_id
+        obj.reply=this.content;
+        this.$post(' ',obj).then(res=>{
+          if(!res.data.err){
+            Bus.$emit('replyover');
+          }
+        })
+      },
+      submit(){
+
+      }
+    },
+    created() {
+      },
+    components: {
+      replyMsg: replyMsg,
+      tag_button:tag_button,
+    }
   }
 
+</script>
+<style scoped>
+  /*下面内容是和上面备注之后的dom相匹配的*/
+  /*.praise_block_icon{*/
+    /*color: #666;*/
+    /*font-size: 30px;*/
+  /*}*/
+  /*.user_info {*/
+    /*padding-top: 5px;*/
+  /*}*/
+  /*.empty:hover {*/
+    /*background-color: #00bcd5;*/
+    /*span{*/
+      /*color: white;*/
+    /*}*/
+    /*.iconfont{*/
+      /*color: white;*/
+    /*}*/
+  /*}*/
+  /*.yes,.no{*/
+    /*background-color: #00bcd5;*/
+    /*span{*/
+      /*color: white;*/
+    /*}*/
+    /*.iconfont{*/
+      /*color: white;*/
+    /*}*/
+  /*}*/
   .msg-container {
     margin-bottom: 10px;
     box-sizing: border-box;
@@ -62,7 +124,9 @@
   .reply_container {
     padding: 8px 0 10px 0;
     /*border-bottom:1px solid rgba(0,0,0,0.09);*/
-    margin: 20px 100px;
+    /*margin: 12px 0;*/
+    margin-bottom: 12px;
+    width: 1104px;
     background-color: #fff;
     border-radius: 10px;
   }
@@ -80,9 +144,9 @@
   }
 
   .toolbar {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 50px 8px 120px;
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    padding: 8px 50px 8px 51px;
   }
   .tag_edit{
     margin-right: 30px;
@@ -116,50 +180,6 @@
     margin-top:20px;
   }
   .scan {
-  padding-right:40px;
+    padding-right:40px;
   }
 </style>
-<script>
-  import Bus from '../../assets/js/02_bus'
-  import replyMsg from './07_reply_msg'
-  import tag_button from '../11_personal_center/08_tag_0'
-  export default {
-    name: 'reply',
-    data() {
-      return {
-        showTextarea:false,
-        replyEdit: false
-      }
-    },
-    props: {
-      mainData: Object,
-    },
-    methods: {
-      //评论删除功能 接口未写正确。
-      deleteReply(){
-        var obj={};
-        obj.faq_answer_id=this.mainData.id;
-        obj.custom_user_id=localStorage.uid;
-
-        //提问ID  回答ID 回复ID
-        // custom_user_id
-        obj.reply=this.content;
-        this.$post(' ',obj).then(res=>{
-          if(!res.data.err){
-            Bus.$emit('replyover');
-          }
-        })
-      }
-    },
-    created() {
-        if (this.mainData.custom_user_id == localStorage.uid) {
-          this.replyEdit=true;
-        }
-      },
-    components: {
-      replyMsg: replyMsg,
-      tag_button:tag_button
-    }
-  }
-
-</script>

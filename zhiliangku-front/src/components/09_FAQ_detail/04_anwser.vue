@@ -33,7 +33,7 @@
             <!--<tag_0 v-if="answer_edit" @click="showTextarea=!showTextarea"><span>编辑</span></tag_0>-->
             <!--<tag_0 v-if="answer_edit" @click="showTextarea=!showTextarea"><span>删除</span></tag_0>-->
             <span class="cp replayButton" @click="showReply()">
-              <span class="font1_18_f">评论 {{mainData.answer_reply_list.length||0}}</span>
+              <span class="font1_18_f">评论{{mainData.answer_reply_list.length||0}}</span>
               <i class="iconfont icon-zhankai" :class="{'spread':showr}"></i>
             </span>
           </div>
@@ -43,11 +43,11 @@
     <transition
       enter-active-class="animated fadeInUp"
       leave-active-class="animated fadeOutDown">
-      <div ref="reply" v-show="showr" class="reply_box">
-        <reply class="animated fadeIn"
+      <div ref="reply" v-show="showr" class="mw reply_box hc">
+        <reply  class="animated fadeIn"
                v-for="(item,index) in mainData.answer_reply_list" :key="index"
                :mainData="item"></reply>
-        <replyMsg :mainData="mainData"></replyMsg>
+        <replyMsg class="reply_text_area" :mainData="mainData"></replyMsg>
       </div>
     </transition>
   </div>
@@ -169,13 +169,17 @@
 
 </script>
 <style scoped lang="scss">
+  .reply_text_area{
+    width: 1104px;
+  }
   .praise_block_icon{
     color: #666;
     font-size: 30px;
   }
   .anwser_content {
     background-color: #fff;
-    padding: 30px 120px 30px 20px;
+    padding: 30px 120px 40px 20px;
+    box-sizing: border-box;
   }
   .praise_block_icon{
 
@@ -195,13 +199,14 @@
 
   .icon-zhankai {
     display: inline-block;
-    transition: all ease 0.5s;
+    transition: all ease 0.7s;
   }
-
+  .spread{
+    transform: rotate(-180deg);
+  }
   .toolbar {
     display: flex;
     justify-content: space-between;
-    /*border-bottom: 1px solid rgba(0, 0, 0, 0.09);*/
   }
 
   .praise {
@@ -231,7 +236,7 @@
   }
 
   .anwser-container {
-    margin: 32PX 0;
+    margin: 32px 0 20px 0;
     border-radius: 10px;
     transition: all ease 0.2s;
   }
@@ -241,7 +246,7 @@
 
   .anwser_info_right {
     margin-left: 76px;
-    padding: 27px 32px 32px 0;
+    padding: 27px 32px 0 0;
   }
 
   .question-user-icon {

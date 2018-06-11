@@ -1,5 +1,5 @@
 <template>
-  <el-button><slot></slot></el-button>
+  <el-button @click.native="$emit('click')"><slot></slot></el-button>
 </template>
 
 <script>
