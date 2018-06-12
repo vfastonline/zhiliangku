@@ -10,10 +10,10 @@ const entry = {
   //   path: '01_project_list',
   //   filename: 'tracks/projects/list/index.html'
   // },
-  // video_detail:{
-  //   path:'04_video_detail',
-  //   filename:'tracks/video/detail/index.html'
-  // },
+  video_detail:{
+    path:'04_video_detail',
+    filename:'tracks/video/detail/index.html'
+  },
   community:{
     path:'05_community',
     filename:'community/faq/list/index.html'

@@ -1,19 +1,25 @@
 <template>
   <div class="rich_text_container">
-    <div class="marginbottom8">我来回答</div>
-    <div class="rich1">
+    <div class="rich_content">
       <img class="user_icon" :src="userIcon" alt="">
       <quill-editor class="rich_textarea" v-model="content" :options="options" ref="myQuillEditor">
       </quill-editor>
-      <el-button @click="sendAnwser()">发表回答</el-button>
+    </div>
+    <div class="ftr">
+      <BlueButton @click="sendAnwser()">发表回答</BlueButton>
     </div>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .rich_content{
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+  }
   .rich_textarea {
     margin-bottom: 10px;
-    width: 664px;
+    width: 750px;
     display: inline-block;
     background-color: white;
   }
@@ -25,13 +31,8 @@
     vertical-align: top;
   }
 
-  .rich1 {
-    text-align: right;
-  }
-
   .rich_text_container {
     background: white;
-    padding: 32px;
     box-sizing: border-box;
     border-radius: 10px;
   }
@@ -44,6 +45,8 @@
   import 'quill/dist/quill.snow.css'
   import 'quill/dist/quill.bubble.css'
   import Bus from '../../assets/js/02_bus'
+  import BlueButton from '../00_common/04_blue_button'
+
   Vue.use(VueQuillEditor)
   export default {
     name: 'HelloWorld',
@@ -65,23 +68,23 @@
         }
       }
     },
-    props: {
-
-    },
+    props: {},
     methods: {
       sendAnwser() {
-        this.$post('/community/add/faqanswer',this.organizeData() ).then(res => {
-          if(!res.data.err){
+        this.$post('/community/add/faqanswer', this.organizeData()).then(res => {
+          if (!res.data.err) {
             Bus.$emit('replyover');
-            this.content='\0\0';
-            this.$fn.showNotice(this,'您已成功提交答案','success')
+            this.content = '\0\0';
+            this.$fn.showNotice(this, '您已成功提交答案', 'success')
           }
         })
       },
       organizeData() {
         var obj = {};
         obj.faq_id = this.$fn.funcUrl('faq_id');
-        if(!localStorage.uid){alert('uid异常')}
+        if (!localStorage.uid) {
+          alert('uid异常')
+        }
         obj.custom_user_id = localStorage.uid;
         obj.answer = this.content;
         return obj
@@ -91,7 +94,7 @@
       this.userIcon = this.$myConst.httpUrl + localStorage.avatar;
     },
     components: {
-
+      BlueButton:BlueButton
     }
   }
 

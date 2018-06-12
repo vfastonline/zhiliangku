@@ -1,7 +1,7 @@
 <template>
-  <div class="mw incenter anwser_list_container relative">
+  <div class="mw hc anwser_list_container relative">
     <div class="anwser_list" >
-      <anwser v-for="(item,index) in mainData.faq_answer_list" :key="index" :questionId="mainData.id" :mainData="item"></anwser>
+      <anwser v-for="(item) in mainData.faq_answer_list" :key="item.id" :questionId="mainData.id" :mainData="item"></anwser>
     </div>
   </div>
 </template>
@@ -31,7 +31,7 @@
       mainData:Object
     },
     methods: {
-    
+
     },
     created() {
     },

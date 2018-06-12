@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div  class="submit-question  mw hc">
+    <div  class="submit-question   hc">
       <div class="font1_20_6 mb16 sqc-title ftj">
         <span class="dib">提问</span>
         <span class="dib cp" @click="$emit('close')">关闭</span>

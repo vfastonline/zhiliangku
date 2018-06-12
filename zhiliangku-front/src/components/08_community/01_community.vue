@@ -8,11 +8,21 @@
         <!-- <img src="" alt="" style="background-color:red"> -->
         <span>？</span>
     </fixedButton>
-    <el-dialog :visible.sync="dialogVisible">
-      <submitQuestion id="question_container" :where="'community'" @submit_success="over"></submitQuestion>
+    <el-dialog
+      width='650px'
+      :visible.sync="dialogVisible">
+      <submitQuestion id="question_container" @close="dialogVisible=false" :where="'community'" @submit_success="over"></submitQuestion>
     </el-dialog>
   </div>
 </template>
+<style>
+  .community .el-dialog__body{
+    padding: 0px;
+  }
+  .community .el-dialog__header{
+    display: none;
+  }
+</style>
 <style scoped>
   .community {
     padding-top: 70px;
@@ -24,8 +34,9 @@
   }
   .fixedButton {
     position:fixed;
-    right:30px;
     top:390px;
+    left: 50%;
+    margin-left: 600px;
   }
 
 </style>

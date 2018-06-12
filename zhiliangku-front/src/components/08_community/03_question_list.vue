@@ -1,6 +1,6 @@
 <template>
-  <div class="mainwidth incenter">
-    <question @haveClick="godetail(item)"  v-for="(item,index) in mainData" :key="index" :mainData="item"></question>
+  <div class="mw hc">
+    <question @haveClick="godetail(item)"  class="cp rise" v-for="(item,index) in mainData" :key="index" :mainData="item"></question>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

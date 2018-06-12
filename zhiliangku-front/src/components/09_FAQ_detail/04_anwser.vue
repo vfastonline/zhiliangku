@@ -3,9 +3,9 @@
     <div class="anwser_content bdr mw">
       <div class="anwser_info_left fl ftc">
         <img class="question-user-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
-        <div class="adopt r ftc">
-          <img class="a state_icon" v-if="showAreadyAdopt" src="./img/01_adopt.png" alt="">
-          <img class="a state_icon" v-if="showAdopt" src="./img/02_default.png" alt="">
+        <div @click="adoptAnwser" class="adopt r ftc cp">
+          <img class="a state_icon" v-if="mainData.optimal" src="./img/01_adopt.png" alt="">
+          <img class="a state_icon" v-else src="./img/02_default.png" alt="">
           <span class="state r font1_16_f" v-if="mainData.optimal">已采纳</span>
           <span class="state r font1_16_f" v-else>采纳</span>
         </div>
@@ -13,7 +13,7 @@
       <div class="anwser_info_right">
         <div class="r userinfo">
           <span class="font1_16_9">{{mainData.custom_user_nickname}}</span>
-          <span class="font1_16_9 createTime fr">{{mainData.create_time}}</span>
+          <span class="font1_16_9 createTime">{{mainData.create_time}}</span>
         </div>
         <div class="answerType font1_16_b4" v-if="mainData.is_self">答主</div>
         <div class="answerContent font1_18_9" v-html="mainData.answer">
@@ -21,11 +21,11 @@
         <div class="toolbar">
           <div>
             <div class="fl praise ftc cp " :class="{'yes':mainData.feedback==='approve',empty:!mainData.feedback}">
-              <i @click="support ('approve')"  class="iconfont  icon-zan   praise_block_icon"></i>
+              <i @click="support ('approve')" class="iconfont  icon-zan   praise_block_icon"></i>
               <span class="question-yes dib vm">{{mainData.approve}}</span>
             </div>
             <div class="fl praise ftc cp" :class="{'no':mainData.feedback==='oppose',empty:!mainData.feedback}">
-              <i @click="support ('oppose')"  class="iconfont  icon-cai  cp praise_block_icon"></i>
+              <i @click="support ('oppose')" class="iconfont  icon-cai  cp praise_block_icon"></i>
               <span class="question-yes dib vm">{{mainData.oppose}}</span>
             </div>
           </div>
@@ -44,28 +44,31 @@
       enter-active-class="animated fadeInUp"
       leave-active-class="animated fadeOutDown">
       <div ref="reply" v-show="showr" class="mw reply_box hc">
-        <reply  class="animated fadeIn"
+        <reply class="animated fadeIn"
                v-for="(item,index) in mainData.answer_reply_list" :key="index"
-               :mainData="item"></reply>
-        <replyMsg class="reply_text_area" :mainData="mainData"></replyMsg>
+               :mainData="item">
+        </reply>
+        <replyMsg ref="reply_content" @submit="submit" class="reply_text_area"></replyMsg>
       </div>
     </transition>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-  .adopt{
+  .adopt {
     height: 53px;
     width: 50px;
-    margin:5px;
+    margin: 5px;
     line-height: 32px;
   }
-  .state_icon{
+
+  .state_icon {
     top: 0;
     left: 0;
     z-index: 1;
   }
-  .state{
+
+  .state {
     z-index: 10;
   }
 </style>
@@ -103,13 +106,28 @@
       },
     },
     methods: {
+      submit(content) {
+        var obj = {};
+        obj.faq_answer_id = this.mainData.id;
+        obj.custom_user_id = localStorage.uid;
+        //提问ID  回答ID 回复ID
+        // custom_user_id
+        obj.reply = content;
+        this.$post('/community/add/faqanswerreply', obj).then(res => {
+          if (!res.data.err) {
+            Bus.$emit('replyover');
+            this.content = ''
+            this.$refs['reply_content'].content = ''
+            this.$fn.showNotice(this, res.data.msg, 'success')
+          }
+        })
+      },
       notice() {
         this.$fn.showNotice(this, '禁止重复操作哟~')
       },
       adoptAnwser() {
         var obj = {
           faq_id: this.questionId,
-          custom_user_id: localStorage.uid,
           faq_answer_id: this.mainData.id
         };
         this.$post('/community/accept/faqanswer', obj).then(res => {
@@ -117,6 +135,7 @@
             this.showAreadyAdopt = true
             this.$fn.showNotice(this, res.data.msg, 'success')
             Bus.$emit('replyover')
+            this.main.optimal=true
           }
         })
       },
@@ -148,7 +167,7 @@
       },
     },
     created() {
-      console.log(this.mainData)
+      // console.log(this.mainData)
       if (this.mainData.custom_user_id == localStorage.uid) {
         this.answer_edit = true
         if (this.mainData.optimal == true) {
@@ -169,21 +188,25 @@
 
 </script>
 <style scoped lang="scss">
-  .reply_text_area{
+  .reply_text_area {
     width: 1104px;
   }
-  .praise_block_icon{
+
+  .praise_block_icon {
     color: #666;
     font-size: 30px;
   }
+
   .anwser_content {
     background-color: #fff;
-    padding: 30px 120px 40px 20px;
+    padding: 30px 100px 40px 20px;
     box-sizing: border-box;
   }
-  .praise_block_icon{
+
+  .praise_block_icon {
 
   }
+
   .answerContent {
     padding: 8px;
     min-height: 50px;
@@ -194,16 +217,18 @@
   }
 
   .createTime {
-    padding-right: 30px;
+    padding-left: 48px;
   }
 
   .icon-zhankai {
     display: inline-block;
     transition: all ease 0.7s;
   }
-  .spread{
+
+  .spread {
     transform: rotate(-180deg);
   }
+
   .toolbar {
     display: flex;
     justify-content: space-between;
@@ -218,19 +243,20 @@
 
   .empty:hover {
     background-color: #00bcd5;
-    span{
+    span {
       color: white;
     }
-    .iconfont{
+    .iconfont {
       color: white;
     }
   }
-  .yes,.no{
+
+  .yes, .no {
     background-color: #00bcd5;
-    span{
+    span {
       color: white;
     }
-    .iconfont{
+    .iconfont {
       color: white;
     }
   }
@@ -246,7 +272,7 @@
 
   .anwser_info_right {
     margin-left: 76px;
-    padding: 27px 32px 0 0;
+    padding: 27px 0px 0 0;
   }
 
   .question-user-icon {
