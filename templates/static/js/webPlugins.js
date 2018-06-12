@@ -6,11 +6,11 @@ function openUpload() {
         }
     });
     if (ids.length === 0) {
-        alert("至少选择一条数据!");
+        layer.msg('先勾选一条视频类型信息！', {icon: 7});
         return false
     }
     else if (ids.length > 1) {
-        alert("最多选择一条数据!");
+        layer.msg('最多选择一条视频类型数据！', {icon: 7});
         return false
     }
 
@@ -36,7 +36,12 @@ function openUpload() {
                     "});\n<\/script>";
 
                 // document.getElementById("textbody").value = document.getElementById("textbody").value + scriptdata;
-                alert(scriptdata);
+                layer.open({
+                    type: 1,
+                    area: ['600px', '360px'],
+                    shadeClose: true, //点击遮罩关闭
+                    content: scriptdata
+                });
 
                 //if close window
                 // upload.closeWrap();

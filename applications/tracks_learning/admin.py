@@ -1,6 +1,7 @@
 #!encoding:utf-8
 import logging
 import traceback
+from itertools import chain
 
 from django.contrib import admin
 
@@ -68,9 +69,13 @@ class SectionAdmin(admin.ModelAdmin):
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
-	list_display = ('id', "project", "course", "section", 'name', "type", "address", "subtitle", 'sequence', "duration")
-	search_fields = ("section__course__project__name", "section__course__name", "section__title", 'name')
+	list_display = (
+		'id', "project", "course",
+		"section", 'name', "type", "address",
+		"subtitle", 'sequence', "duration", "vid")
+	search_fields = ("section__course__project__name", "section__course__name", "section__title", 'name', "vid")
 	list_filter = ('type',)
+	readonly_fields = ("vid", "data",)
 
 	def project(self, obj):
 		name = ""
@@ -106,12 +111,24 @@ class VideoAdmin(admin.ModelAdmin):
 		('考核信息', {
 			'classes': ('suit-tab', 'suit-tab-assessment',),
 			'fields': ['topic', "shell", "docker", "assess_time"]}),
+
+		('保利威视', {
+			'classes': ('suit-tab', 'suit-tab-polyv',),
+			'fields': ['vid', 'data']}),
 	]
-	suit_form_tabs = (('video', '视频/练习题'), ('assessment', '考核'))
+	suit_form_tabs = (('video', '视频/练习题'), ('assessment', '考核'), ('polyv', '保利威视'))
+
+	def suit_row_attributes(self, obj, request):
+		css_class = {
+			"2": 'success',
+			"3": 'info',
+		}.get(obj.type)
+		if css_class:
+			return {'class': css_class}
 
 	class Media:
-		# js = ['js/webPlugins.js'] + tinymce_js
-		js = tinymce_js
+		# js = ['js/webPlugins.js'] + tinymce_js + ["layer/layer.js"]
+		js = list(chain(['js/webPlugins.js'], tinymce_js, ["layer/layer.js"]))
 
 
 @admin.register(UnlockVideo)

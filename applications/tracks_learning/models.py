@@ -105,13 +105,17 @@ class Video(models.Model):
 	address = models.FileField('视频', upload_to='video/%y%m%d', null=True, blank=True)
 	subtitle = models.FileField('字幕', upload_to='video/%y%m%d', null=True, blank=True, default=' ')
 	sequence = models.PositiveIntegerField('显示顺序', default=1, validators=[MinValueValidator(1)], help_text="从1开始，默认：1")
-	duration = models.PositiveIntegerField('总时长', default=0, help_text="秒", blank=True)
+	duration = models.PositiveIntegerField('总时长', default=0, blank=True, help_text="视频成功上传后，由后台补全；单位：秒")
 	desc = models.TextField('描述', default='', null=True, blank=True)
 	notes = models.TextField('讲师笔记', default='', null=True, blank=True)
 	topic = models.TextField('考核题目', default='', null=True, blank=True)
 	shell = models.FileField('判题shell', upload_to='shell', storage=ShellStorage(), null=True, blank=True)
 	docker = models.ForeignKey(DockerType, verbose_name='Docker类型', null=True, blank=True)
 	assess_time = models.PositiveIntegerField('考核时长(分)', default=5, help_text="考核时长，默认5分钟；单位：分")
+
+	# 保利威视信息
+	vid = models.CharField("vid", max_length=255, blank=True, null=True, help_text="由保利威视回调接口补充")
+	data = models.TextField("视频信息", blank=True, null=True, help_text="由保利威视回调接口补充")
 
 	def __unicode__(self):
 		return self.name

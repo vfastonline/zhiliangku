@@ -20,7 +20,7 @@ class PolyvCallBack(View):
             request_type = request.GET.get("type")  # 回调通知类型
             vid = request.GET.get("vid")  # 视频在保利威视唯一ID
             request_format = request.GET.get("format")  # 编码后的视频格式
-            state = request.GET.get("state")  # 自定义参数
+            state = request.GET.get("state")  # 自定义参数, 视频的ID
             # sign 系统签名，
             # sign是由系统用"upload"这个字符串和vid、secretkey这两个参数的值按顺序组成的字符串做MD5计算得到
             # （如，vid的值为e2e84a738302f20a4f6eb202976f5c63_e，secretkey的值为7UagtQOq2A,将字符串uploade2e84a738302f20a4f6eb202976f5c63_e7UagtQOq2A进行MD5计算，得到b245e3e65aa45b60dc02337b5cd914a7)
