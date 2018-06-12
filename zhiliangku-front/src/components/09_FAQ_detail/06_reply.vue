@@ -32,7 +32,7 @@
           <img src="../11_personal_center/img/编辑icon.png" alt="">
           <span class="font1_22_9">编辑</span></tag_button>
         <tag_button class=" cp" @click="deleteReply">
-          <img src="../11_personal_center/img/编辑icon.png" alt="">
+          <img src="./img/03_delete_icon.png" alt="">
           <span class="font1_22_9">删除</span>
         </tag_button>
       </div>

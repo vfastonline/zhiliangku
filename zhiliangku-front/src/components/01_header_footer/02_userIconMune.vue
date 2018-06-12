@@ -7,21 +7,21 @@
         <a href="/personal_center/page/#/occupational/matchingRate">{{nickname}}</a>
       </span>
     </div>
-    <a href="/personal_center/page/#/myCourse/recentlyLearing">
-      <div class="uim-select pointer">
-        <span>我的课程</span>
-      </div>
-    </a>
-    <a href="/personal_center/page/#/mySettings/baseInfo">
-      <div class="uim-select pointer">
-        <span>个人设置</span>
-      </div>
-    </a>
-    <a href="/integral/redeem/">
-      <div class="uim-select pointer">
-        <span>积分兑换</span>
-      </div>
-    </a>
+    <!--<a href="/personal_center/page/#/myCourse/recentlyLearing">-->
+      <!--<div class="uim-select pointer">-->
+        <!--<span>我的课程</span>-->
+      <!--</div>-->
+    <!--</a>-->
+    <!--<a href="/personal_center/page/#/mySettings/baseInfo">-->
+      <!--<div class="uim-select pointer">-->
+        <!--<span>个人设置</span>-->
+      <!--</div>-->
+    <!--</a>-->
+    <!--<a href="/integral/redeem/">-->
+      <!--<div class="uim-select pointer">-->
+        <!--<span>积分兑换</span>-->
+      <!--</div>-->
+    <!--</a>-->
     <div class="uim-select pointer"
          @click="logout()">
       <span>退出登录</span>
