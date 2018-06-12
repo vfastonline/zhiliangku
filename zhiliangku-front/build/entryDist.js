@@ -10,30 +10,30 @@ const entry = {
   //   path: '01_project_list',
   //   filename: 'tracks/projects/list/index.html'
   // },
-  video_detail:{
-    path:'04_video_detail',
-    filename:'tracks/video/detail/index.html'
-  },
-  community:{
-    path:'05_community',
-    filename:'community/faq/list/index.html'
-  },
-  faq_detail:{
-    path:'06_FAQ_detail',
-    filename:'community/faq/detail/index.html'
-  },
+  // video_detail:{
+  //   path:'04_video_detail',
+  //   filename:'tracks/video/detail/index.html'
+  // },
+  // community:{
+  //   path:'05_community',
+  //   filename:'community/faq/list/index.html'
+  // },
+  // faq_detail:{
+  //   path:'06_FAQ_detail',
+  //   filename:'community/faq/detail/index.html'
+  // },
   // login:{
   //   path:'20_login',
   //   filename:'login/index.html'
   // },
-  test:{
-    path:'21_test',
-    filename:'assess/info/index.html'
-  },
-  assess_result:{
-    path:'22_assess_result',
-    filename:'assess/result/index.html'
-  },
+  // test:{
+  //   path:'21_test',
+  //   filename:'assess/info/index.html'
+  // },
+  // assess_result:{
+  //   path:'22_assess_result',
+  //   filename:'assess/result/index.html'
+  // },
   // exercise:{
   //   path:'08_exercise',
   //   filename: 'exercise/list/index.html',
@@ -58,10 +58,10 @@ const entry = {
     path:'24_we_chat',
     filename:'wechat/promotion/index.html'
   },
-  notification:{
-    path:'12_notification',
-    filename:'notification/index.html'
-  }
+  // notification:{
+  //   path:'12_notification',
+  //   filename:'notification/index.html'
+  // }
 }
 var entryObj = {}
 var distArr = []
