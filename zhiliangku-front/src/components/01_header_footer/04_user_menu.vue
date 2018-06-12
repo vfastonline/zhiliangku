@@ -1,27 +1,27 @@
 <template>
-  <div @mouseenter="mouseenter()" v-on:mouseleave="mouseleave()" class="uim-container floatr rised">
+  <div @mouseenter="mouseenter()" v-on:mouseleave="mouseleave()" class="uim-container  rose">
     <div class="uim-username pointer">
-      <span>
-        <a href="/personal_center/page/#/occupational/matchingRate">{{nickname}}</a>
-      </span>
+      <a href="/personal_center/page/#/occupational/matchingRate">
+        <span class="font1_20_3">{{nickname}}</span>
+      </a>
     </div>
     <a href="/personal_center/page/#/myCourse/recentlyLearing">
       <div class="uim-select pointer">
-        <span>我的课程</span>
+        <span class="font1_20_3">我的课程</span>
       </div>
     </a>
     <a href="/personal_center/page/#/mySettings/baseInfo">
       <div class="uim-select pointer">
-        <span>个人设置</span>
+        <span class="font1_20_3">个人设置</span>
       </div>
     </a>
     <a href="/integral/redeem/">
       <div class="uim-select pointer">
-        <span>积分兑换</span>
+        <span class="font1_20_3">积分兑换</span>
       </div>
     </a>
     <div class="uim-select pointer" @click="logout()">
-      <span>退出登录</span>
+      <span class="font1_20_3">退出登录</span>
     </div>
     <!--<div @click="logout()">退出登录</div>-->
   </div>
@@ -29,11 +29,11 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .uim-container {
-    /*padding:24px 0 9px 0;*/
+    padding: 0 0 9px 0;
     position: absolute;
-    top: 70px;
+    top: 88px;
     right: 0px;
-    width: 229px;
+    width: 164px;
     line-height: 32px;
     background: white;
   }
@@ -46,10 +46,13 @@
     font-size: 16px;
   }
 
+  .uim-username {
+    border-bottom: 1px solid #999;
+  }
+
   .uim-container .uim-username span {
     margin-left: 32px;
   }
-
 
   .uim-container {
     overflow: hidden;
@@ -91,10 +94,10 @@
       this.nickname = localStorage.nickname;
     },
     methods: {
-      mouseleave(){
+      mouseleave() {
         this.$emit('mouseleave')
       },
-      mouseenter(){
+      mouseenter() {
         this.$emit('mouseenter')
       },
       logout() {

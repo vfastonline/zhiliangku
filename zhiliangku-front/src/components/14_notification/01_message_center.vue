@@ -3,7 +3,7 @@
     <div class="mw hc">
       <div class="nav_bar mw">
         <span class="dib font1_20_6">
-          <span v-for="(item,index) in tabArr" :key="item.id" class="dib tab_bar cp" :class="{'active': item.active}"
+          <span v-for="(item,index) in tabArr" :key="item.name" class="dib tab_bar cp" :class="{'active': item.active}"
                 @click="navToggle(item,index)">{{item.name}}</span>
         </span>
         <span class="font1_20_6 dib tab_bar_right cp" @click="flagAllMessage()">
@@ -27,6 +27,7 @@
     components: {
       message: message
     },
+    // 此处代码结构不合理，感觉被江舟坑了，页码组件干嘛不和nav放在父级呢，这样子不伦不类的。
     data() {
       return {
         isFlag: false,
