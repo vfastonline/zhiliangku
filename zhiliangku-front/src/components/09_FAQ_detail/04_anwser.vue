@@ -4,8 +4,8 @@
       <div class="anwser_info_left fl ftc">
         <img class="question-user-icon imgmiddle" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
         <div @click="adoptAnwser" class="adopt r ftc cp">
-          <img class="a state_icon" v-if="showAreadyAdopt" src="./img/01_adopt.png" alt="">
-          <img class="a state_icon" v-if="showAdopt" src="./img/02_default.png" alt="">
+          <img class="a state_icon" v-if="mainData.optimal" src="./img/01_adopt.png" alt="">
+          <img class="a state_icon" v-else src="./img/02_default.png" alt="">
           <span class="state r font1_16_f" v-if="mainData.optimal">已采纳</span>
           <span class="state r font1_16_f" v-else>采纳</span>
         </div>

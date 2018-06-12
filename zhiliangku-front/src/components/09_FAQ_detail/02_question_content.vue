@@ -1,5 +1,5 @@
 <template>
-  <div class="mainwidth">
+  <div >
     <div class="mw aq-width incenter r">
       <!--<el-button @click="foucus" class="foucusButton">{{foucused}}</el-button> -->
       <!--<el-button @click="dialogVisible=true" class="quizButton">我要提问</el-button> -->
@@ -10,7 +10,8 @@
       <div>
         <div class="info r clearfix">
           <div class="info_left fl ftc">
-            <img class="question-icon" v-if="mainData.custom_user_avatar" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
+            <img class="question-icon" v-if="mainData.custom_user_avatar"
+                 :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
           </div>
           <div class="info_right">
             <span class="qestion-owner-name font1_16_9">{{mainData.custom_user_nickname}}</span>
@@ -31,20 +32,28 @@
         </div>
       </div>
     </div>
-    <el-dialog :visible.sync="dialogVisible">
+    <el-dialog :visible.sync="dialogVisible"
+               width="850px">
+      <span class="dib font1_18_6 dialog_title" slot="title">我来回答</span>
       <!--<submitQuestion id="question_container" :where="'community'" @submitover="over"></submitQuestion>-->
       <richtext class="richtext hc"></richtext>
     </el-dialog>
   </div>
 </template>
+<style >
+  .dialog_title{
+    margin: 20px 0 0 20px;
+  }
+</style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
   import Bus from '../../assets/js/02_bus'
-  import { Button } from 'element-ui'
+  import {Button} from 'element-ui'
   import Vue from 'vue'
   import submitQuestion from '../07_video_detail/07_submit_question'
   import fixedButton from '../08_community/05_fixed_button.vue'
   import richtext from './05_vue_qill_editor'
+
   Vue.use(Button)
   export default {
     name: 'question_content',
@@ -74,8 +83,10 @@
       }
     },
     methods: {
-      dataLength(){
-        if(!this.mainData||!this.mainData.faq_answer_list){return 0}
+      dataLength() {
+        if (!this.mainData || !this.mainData.faq_answer_list) {
+          return 0
+        }
         return this.mainData.faq_answer_list.length;
       },
       over() {
@@ -112,7 +123,7 @@
 
 </script>
 
-<style>
+<style scoped>
   #question_container {
     height: inherit;
     padding-top: 0px;
@@ -122,6 +133,7 @@
     margin-left: auto;
     margin-right: auto;
   }
+
   .aq-width {
     line-height: 42px;
   }
@@ -142,16 +154,17 @@
   }
 
   .info {
-   color: #7c7e8c;
+    color: #7c7e8c;
   }
 
   .info_left {
     width: 120px;
-    height:80px;
-    padding-top:22px;
+    height: 80px;
+    padding-top: 22px;
   }
+
   .info_right {
-    margin-left:120px;
+    margin-left: 120px;
   }
 
   .info_right_one {
@@ -163,7 +176,7 @@
   }
 
   .createTime {
-    padding-left:20px;
+    padding-left: 20px;
   }
 
   .aq_container {
@@ -182,18 +195,20 @@
   }
 
   .fixedButton {
-    position:fixed;
+    position: fixed;
     top: 90px;
     left: 50%;
     margin-left: 600px;
   }
+
   .info_status {
-    margin-top:-17px;
+    margin-top: -17px;
   }
+
   .heart {
     width: 32px;
     height: 24px;
-    padding-left:20px;
+    padding-left: 20px;
     font-size: 24px;
     color: coral;
   }

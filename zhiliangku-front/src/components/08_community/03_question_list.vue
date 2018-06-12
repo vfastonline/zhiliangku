@@ -1,11 +1,6 @@
 <template>
-  <div class="mainwidth incenter">
-    <transition-gtoup
-      list-enter-active='animated fadeIn'
-      leave-active-class="animated fadeOut"
-      name="question_list" tag="div">
+  <div class="mw hc">
     <question @haveClick="godetail(item)"  class="cp rise" v-for="(item,index) in mainData" :key="index" :mainData="item"></question>
-    </transition-gtoup>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

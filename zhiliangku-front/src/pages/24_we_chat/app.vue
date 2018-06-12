@@ -50,47 +50,47 @@
 <style>
   .slide-1 {
     background-color: #5cc2f1;
-    background-image: url('./img/1.png');
+    background-image: url('./img/1.jpg');
     background-size: 100% 100%;
   }
   .slide-2 {
     background-color: #5cc2f1;
-    background-image: url('./img/2.png');
+    background-image: url('./img/2.jpg');
     background-size: 100% 100%;
 
 
   }
   .slide-3 {
     background-color: #9993c1;
-    background-image: url('./img/3.png');
+    background-image: url('./img/3.jpg');
     background-size: 100% 100%;
 
 
   }
   .slide-4 {
     background-color: #9993c1;
-    background-image: url('./img/4.png');
+    background-image: url('./img/4.jpg');
     background-size: 100% 100%;
 
 
   }
   .slide-5 {
     background-color: #9993c1;
-    background-image: url('./img/5.png');
+    background-image: url('./img/5.jpg');
     background-size: 100% 100%;
 
 
   }
   .slide-6 {
     background-color: #9993c1;
-    background-image: url('./img/6.png');
+    background-image: url('./img/6.jpg');
     background-size: 100% 100%;
 
 
   }
   .slide-7 {
     background-color: #9993c1;
-    background-image: url('./img/7.png');
+    background-image: url('./img/7.jpg');
     background-size: 100% 100%;
   }
 </style>
@@ -176,42 +176,42 @@
 
   .slide-1 {
     background-color: #e88a63;
-    background-image: url('./img/1.png');
+    background-image: url('./img/1.jpg');
   }
 
   .slide-2 {
     background-color: #5cc2f1;
-    background-image: url('./img/2.png');
+    background-image: url('./img/2.jpg');
 
   }
 
   .slide-3 {
     background-color: #9993c1;
-    background-image: url('./img/3.png');
+    background-image: url('./img/3.jpg');
 
   }
 
   .slide-4 {
     background-color: #9993c1;
-    background-image: url('./img/4.png');
+    background-image: url('./img/4.jpg');
 
   }
 
   .slide-5 {
     background-color: #9993c1;
-    background-image: url('./img/5.png');
+    background-image: url('./img/5.jpg');
 
   }
 
   .slide-6 {
     background-color: #9993c1;
-    background-image: url('./img/6.png');
+    background-image: url('./img/6.jpg');
 
   }
 
   .slide-7 {
     background-color: #9993c1;
-    background-image: url('./img/7.png');
+    background-image: url('./img/7.jpg');
   }
 
   .the_button {
