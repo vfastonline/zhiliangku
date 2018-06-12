@@ -71,11 +71,11 @@ class SectionAdmin(admin.ModelAdmin):
 class VideoAdmin(admin.ModelAdmin):
 	list_display = (
 		'id', "project", "course",
-		"section", 'name', "type", "address",
+		"section", 'name', "type",
 		"subtitle", 'sequence', "duration", "vid")
 	search_fields = ("section__course__project__name", "section__course__name", "section__title", 'name', "vid")
 	list_filter = ('type',)
-	readonly_fields = ("vid", "data",)
+	readonly_fields = ("address", "vid", "data",)
 
 	def project(self, obj):
 		name = ""
@@ -106,7 +106,7 @@ class VideoAdmin(admin.ModelAdmin):
 
 		('视频/练习题', {
 			'classes': ('suit-tab', 'suit-tab-video',),
-			'fields': ['section', "type", 'name', 'address', 'subtitle', "sequence", "duration", "desc", "notes"]}),
+			'fields': ['section', "type", 'name', 'subtitle', "sequence", "duration", "desc", "notes"]}),
 
 		('考核信息', {
 			'classes': ('suit-tab', 'suit-tab-assessment',),

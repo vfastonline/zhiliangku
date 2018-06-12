@@ -349,6 +349,7 @@ def project_summarize_course_progress(custom_user_id, course, courses=list(), pr
 				result_dict["learn_video_id"] = watchrecord.video.id  # 视频ID
 				result_dict["learn_video_type"] = watchrecord.video.type  # 视频类型
 				result_dict["address"] = watchrecord.video.address.url if watchrecord.video.address else ""  # 视频地址
+				result_dict["vid"] = watchrecord.video.vid  # 视频地址
 				result_dict["video_process"] = watchrecord.video_process
 
 			else:
@@ -365,6 +366,7 @@ def project_summarize_course_progress(custom_user_id, course, courses=list(), pr
 						result_dict["learn_video_id"] = video_obj.id  # 上次学到视频ID
 						result_dict["learn_video_type"] = video_obj.type  # 上次学到视频类型
 						result_dict["video_address"] = video_obj.address.url if video_obj.address else ""
+						result_dict["video_vid"] = video_obj.vid
 
 			m, s = divmod(remaining_time, 60)
 			h, m = divmod(m, 60)
