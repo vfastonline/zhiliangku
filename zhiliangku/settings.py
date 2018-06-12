@@ -189,7 +189,6 @@ STATICFILES_DIRS = (
 	("css", os.path.join(STATIC_ROOT, 'css')),
 	("js", os.path.join(STATIC_ROOT, 'js')),
 	("images", os.path.join(STATIC_ROOT, 'images')),
-	("layui", os.path.join(STATIC_ROOT, 'layui')),
 )
 
 # # 本地用
