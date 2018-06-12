@@ -10,7 +10,7 @@ from applications.medal.models import *
 
 @receiver(post_migrate)
 def init_db_info(sender, **kwargs):
-	"""初始化角色字典信息
+	"""初始化勋章字典信息
 	:param sender:
 	:param kwargs:
 	:return:

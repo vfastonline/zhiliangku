@@ -93,10 +93,24 @@ class WechatThumbsUp(View):
 		result_dict = {"err": 0, "msg": "success"}
 		try:
 			name = request.GET.get('name', "")
+			WechatBrowse.objects.filter(pinyin=name).update(thumbs_up=F('thumbs_up') + 1)
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			result_dict["err"] = 1
+			result_dict["msg"] = traceback.format_exc()
+		finally:
+			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
-			wechatbrowses = WechatBrowse.objects.filter(pinyin=name)
-			if wechatbrowses.exists():
-				wechatbrowses.update(thumbs_up=F('thumbs_up') + 1)
+
+class WechatShare(View):
+	"""微信推广-分享"""
+
+	def get(self, request, *args, **kwargs):
+		result_dict = {"err": 0, "msg": "success"}
+		try:
+			name = request.GET.get('name', "")
+			WechatBrowse.objects.filter(pinyin=name).update(share=F('share') + 1)
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
