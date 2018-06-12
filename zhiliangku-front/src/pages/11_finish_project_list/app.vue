@@ -9,10 +9,6 @@
           <Finish_project_list v-for="(item,index) in main_data" :key="item.id" :main_data="item"
                                :top_color="color_arr[index%6]" class="margin"></Finish_project_list>
         </CardContainer>
-
-        <!--<CardContainer v-if="project_lists.length" class="mw hc " :config="{num:3,card:ProjectStep,cardData:project_lists[0]}">-->
-        <!--<ProjectStep  v-for="(item, index) in project_lists" v-if="item" :key="item.id" :top_color="color_arr[index%4]"  :main_data="item" class="margin"></ProjectStep>-->
-        <!--</CardContainer>-->
         <div v-else class="ftc font1_16_9">暂无信息</div>
       </section>
       <div class="throwBox  ftc">
