@@ -11,6 +11,14 @@ RK_BROWSE_COUNTER = 'browse_pending_counter_changes'  # 浏览
 RK_THUMBS_UP_COUNTER = 'thumbs_up_pending_counter_changes'  # 点赞
 
 
+class WechatPromotionJl(View):
+	"""微信推广-页面-王金龙信息"""
+
+	def get(self, request, *args, **kwargs):
+		template_name = "wechat/promotion/jl/index.html"
+		return render(request, template_name, {})
+
+
 class WechatPromotion(View):
 	"""微信推广-页面"""
 
@@ -34,10 +42,10 @@ class WechatPromotionInfo(View):
 				detail["name"] = wechatbrowse.name
 				detail["pinyin"] = wechatbrowse.pinyin
 				detail["avatar"] = wechatbrowse.avatar.url if wechatbrowse.avatar else ""
-				remark_names = wechatbrowse.remarks.strip().split(",")
+				remark_names = wechatbrowse.remark.strip().split(",")
 				wechatremarks = WechatRemark.objects.filter(name__in=remark_names)
 				for one_remark in wechatremarks:
-					detail[one_remark.name] = one_remark.remark
+					detail[one_remark.name[0]] = one_remark.remark
 
 			result_dict["data"] = detail
 		except:

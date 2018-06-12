@@ -5,6 +5,7 @@ from applications.wechat_promotion.views import *
 from applications.wechat_promotion.get_signature import *
 
 urlpatterns = [
+	url('^promotion/jl$', WechatPromotionJl.as_view()),  # 推广-页面
 	url('^promotion$', WechatPromotion.as_view()),  # 推广-页面
 	url('^promotion/info$', WechatPromotionInfo.as_view()),  # 推广-学员-信息
 
