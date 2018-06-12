@@ -9,11 +9,11 @@ from django.core.validators import MinValueValidator
 
 class WechatBrowse(models.Model):
 	"""微信推广-浏览-点赞-统计"""
-	name = models.CharField('姓名', max_length=255, help_text="学生名字")
-	pinyin = models.CharField('姓名拼音', max_length=255, help_text="学生名字的字母全拼")
+	name = models.CharField('姓名', max_length=255, help_text="学生名字", blank=True)
+	pinyin = models.CharField('姓名拼音', max_length=255, help_text="学生名字的字母全拼", blank=True)
 	avatar = models.ImageField('头像', upload_to="wechat/avatar", storage=ImageStorage(), max_length=256,
 							   default="custom_user_avatar/defaultUserIcon.png")
-	remark = models.CharField('评语', max_length=255, help_text="每页评语索引用逗号分隔，例：1A,2B,3C")
+	remark = models.CharField('评语', max_length=255, blank=True, help_text="每页评语索引用逗号分隔，例：1A,2B,3C")
 	page_views = models.PositiveIntegerField('浏览量', blank=True, null=True, default=0)
 	thumbs_up = models.PositiveIntegerField('打Call', blank=True, null=True, default=0)
 	share = models.PositiveIntegerField('分享', blank=True, null=True, default=0)
