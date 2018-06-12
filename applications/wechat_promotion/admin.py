@@ -5,6 +5,7 @@ from applications.wechat_promotion.models import *
 @admin.register(WechatBrowse)
 class WechatBrowseAdmin(admin.ModelAdmin):
 	list_display = ('id', "name", "pinyin", "remark", "page_views", "thumbs_up", "share", "create_time")
+	search_fields = ('name', 'pinyin')
 
 
 @admin.register(WechatBackground)
