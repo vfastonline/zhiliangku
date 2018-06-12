@@ -10,6 +10,14 @@ const entry = {
     path: '01_project_list',
     filename: 'tracks/projects/list/index.html'
   },
+  project_detail:{
+    path:'02_project_detail',
+    filename:'tracks/projects/detail/index.html'
+  },
+  course_detail:{
+    path:'03_course_detail',
+    filename:'tracks/course/detail/index.html'
+  },
   video_detail:{
     path:'04_video_detail',
     filename:'tracks/video/detail/index.html'
@@ -21,14 +29,6 @@ const entry = {
   faq_detail:{
     path:'06_FAQ_detail',
     filename:'community/faq/detail/index.html'
-  },
-  login:{
-    path:'20_login',
-    filename:'login/index.html'
-  },
-  test:{
-    path:'21_test',
-    filename:'assess/info/index.html'
   },
   assess_result:{
     path:'22_assess_result',
@@ -61,6 +61,14 @@ const entry = {
   notification:{
     path:'12_notification',
     filename:'notification/index.html'
+  },
+  login:{
+    path:'20_login',
+    filename:'login/index.html'
+  },
+  test:{
+    path:'21_test',
+    filename:'assess/info/index.html'
   }
 }
 var entryObj = {}
