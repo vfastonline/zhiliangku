@@ -106,7 +106,7 @@
     },
     components: {},
     created(){
-      this.$get('/wechat/thumbsuptotal').then(res=>{
+      this.$get('/wechat/thumbsuptotal?name=wangjinlong').then(res=>{
         this.num=res.data.total
       })
     },
@@ -131,7 +131,7 @@
         button.addEventListener('touchend', (function (e) {
           if (!a) return
           $(notice).addClass('notice_actve')
-          $.get('http://www.zhiliangku.com/wechat/thumbsup', function (e) {
+          $.get('http://www.zhiliangku.com/wechat/thumbsup?name=wangjinlong', function (e) {
             if (e.err) return
             $(button).removeClass('the_button_active')
             changshow()
