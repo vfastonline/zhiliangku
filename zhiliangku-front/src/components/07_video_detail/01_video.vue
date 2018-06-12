@@ -1,6 +1,6 @@
 <template>
   <section class="mw hc video_container">
-    <div class="video_title ftj">
+    <div class="video_title">
       <Crumb class="dib crumb" :main_data="main_data.breadcrumbs" :type="'white'"></Crumb>
     </div>
     <div class="video_content r">

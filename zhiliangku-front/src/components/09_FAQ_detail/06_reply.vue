@@ -1,41 +1,46 @@
 <template>
   <div class="reply_container hc">
     <div class="user_info">
-      <div class="fl ftc img_box">
+      <div class="ftc img_box">
         <img class="question-user-icon" :src="$myConst.httpUrl+mainData.custom_user_avatar" alt="">
       </div>
-      <div class="info_right">
-        <span class="font1_16_9">{{mainData.custom_user_nickname}}</span>
-        <span class="font1_16_9 scan fr">{{mainData.create_time}}</span>
+      <div class="content">
+        <div class="replay_info_right">
+          <span class="font1_16_9">{{mainData.custom_user_nickname}}</span>
+          <span class="font1_16_9 scan fr">{{mainData.create_time}}</span>
+        </div>
+        <div class="msg-container font1_18_6">
+          {{mainData.reply}}
+        </div>
       </div>
-    </div>
-    <div class="msg-container font1_18_6">
-      {{mainData.reply}}
     </div>
     <div class="toolbar ftr">
       <!--<div>-->
-        <!--<div>-->
-          <!--<div class="fl praise ftc cp " :class="{'yes':mainData.feedback==='approve',empty:!mainData.feedback}">-->
-            <!--<i @click="support ('approve')"  class="iconfont  icon-zan   praise_block_icon"></i>-->
-            <!--<span class="question-yes dib vm">{{mainData.approve}}</span>-->
-          <!--</div>-->
-          <!--<div class="fl praise ftc cp" :class="{'no':mainData.feedback==='oppose',empty:!mainData.feedback}">-->
-            <!--<i @click="support ('oppose')"  class="iconfont  icon-cai  cp praise_block_icon"></i>-->
-            <!--<span class="question-yes dib vm">{{mainData.oppose}}</span>-->
-          <!--</div>-->
-        <!--</div>-->
+      <!--<div>-->
+      <!--<div class="fl praise ftc cp " :class="{'yes':mainData.feedback==='approve',empty:!mainData.feedback}">-->
+      <!--<i @click="support ('approve')"  class="iconfont  icon-zan   praise_block_icon"></i>-->
+      <!--<span class="question-yes dib vm">{{mainData.approve}}</span>-->
       <!--</div>-->
-      <div v-if="mainData.is_self" class="" >
-        <tag_button class="tag_edit " @click="showTextarea=!showTextarea">
+      <!--<div class="fl praise ftc cp" :class="{'no':mainData.feedback==='oppose',empty:!mainData.feedback}">-->
+      <!--<i @click="support ('oppose')"  class="iconfont  icon-cai  cp praise_block_icon"></i>-->
+      <!--<span class="question-yes dib vm">{{mainData.oppose}}</span>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--</div>-->
+      <div v-if="mainData.is_self" class="">
+        <tag_button class="tag_edit cp " @click="editor">
           <img src="../11_personal_center/img/编辑icon.png" alt="">
           <span class="font1_22_9">编辑</span></tag_button>
-        <tag_button class="tag_edit" @click="deleteReply">
+        <tag_button class=" cp" @click="deleteReply">
           <img src="../11_personal_center/img/编辑icon.png" alt="">
           <span class="font1_22_9">删除</span>
         </tag_button>
       </div>
-      <transition>
-        <replyMsg @close="showTextarea=false" @submit="submit"></replyMsg>
+      <transition
+        enter-active-class="animated fadeInUp"
+        leave-active-class="animated fadeOutDown"
+      >
+        <replyMsg v-if="showTextarea" ref="reply_content" @close="showTextarea=false" @submit="submit"></replyMsg>
       </transition>
     </div>
   </div>
@@ -46,41 +51,59 @@
   import Bus from '../../assets/js/02_bus'
   import replyMsg from './07_reply_msg'
   import tag_button from '../11_personal_center/08_tag_0'
+
   export default {
     name: 'reply',
     data() {
       return {
-        showTextarea:false
+        showTextarea: false
       }
     },
     props: {
       mainData: Object,
     },
     methods: {
+      editor() {
+        this.showTextarea = !this.showTextarea
+        this.$nextTick().then(res => {
+          if (!this.$refs.reply_content) return
+          this.$refs.reply_content.content = this.mainData.reply
+        })
+      },
       //评论删除功能 接口未写正确。
-      deleteReply(){
-        var obj={};
-        obj.faq_answer_id=this.mainData.id;
-        obj.custom_user_id=localStorage.uid;
-
+      deleteReply() {
+        var obj = {};
+        obj.faqanswerreply_id = this.mainData.id;
         //提问ID  回答ID 回复ID
         // custom_user_id
-        obj.reply=this.content;
-        this.$post(' ',obj).then(res=>{
-          if(!res.data.err){
+        this.$post('community/del/faqanswerreply', obj).then(res => {
+          if (!res.data.err) {
             Bus.$emit('replyover');
+            this.$fn.showNotice(this, res.data.msg, 'success')
           }
         })
       },
-      submit(){
-
-      }
+      submit(content) {
+        var obj = {};
+        obj.faqanswerreply_id = this.mainData.id;
+        //提问ID  回答ID 回复ID
+        // custom_user_id
+        obj.reply = content;
+        this.$post('/community/edit/faqanswerreply', obj).then(res => {
+          if (!res.data.err) {
+            Bus.$emit('replyover');
+            this.$refs['reply_content'].content = ''
+            this.showTextarea = false
+            this.$fn.showNotice(this, res.data.msg, 'success')
+          }
+        })
+      },
     },
     created() {
-      },
+    },
     components: {
       replyMsg: replyMsg,
-      tag_button:tag_button,
+      tag_button: tag_button,
     }
   }
 
@@ -88,37 +111,35 @@
 <style scoped>
   /*下面内容是和上面备注之后的dom相匹配的*/
   /*.praise_block_icon{*/
-    /*color: #666;*/
-    /*font-size: 30px;*/
+  /*color: #666;*/
+  /*font-size: 30px;*/
   /*}*/
   /*.user_info {*/
-    /*padding-top: 5px;*/
+  /*padding-top: 5px;*/
   /*}*/
   /*.empty:hover {*/
-    /*background-color: #00bcd5;*/
-    /*span{*/
-      /*color: white;*/
-    /*}*/
-    /*.iconfont{*/
-      /*color: white;*/
-    /*}*/
+  /*background-color: #00bcd5;*/
+  /*span{*/
+  /*color: white;*/
+  /*}*/
+  /*.iconfont{*/
+  /*color: white;*/
+  /*}*/
   /*}*/
   /*.yes,.no{*/
-    /*background-color: #00bcd5;*/
-    /*span{*/
-      /*color: white;*/
-    /*}*/
-    /*.iconfont{*/
-      /*color: white;*/
-    /*}*/
+  /*background-color: #00bcd5;*/
+  /*span{*/
+  /*color: white;*/
+  /*}*/
+  /*.iconfont{*/
+  /*color: white;*/
+  /*}*/
   /*}*/
   .msg-container {
     margin-bottom: 10px;
     box-sizing: border-box;
-    /* padding-left: 39px; */
-    /*background: #eee;*/
-    margin-left: 53px;
-    padding: 8px;
+    /*margin-left: 53px;*/
+    padding: 8px 0px 0px 0px;
   }
 
   .reply_container {
@@ -132,25 +153,33 @@
   }
 
   .question-user-icon {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     margin-left: 16px;
     margin-right: 16px;
     border-radius: 50%;
   }
 
   .user_info {
+    margin-top:16px;
     margin-bottom: 10px;
+    padding-right: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
   }
 
   .toolbar {
     /*display: flex;*/
     /*justify-content: space-between;*/
-    padding: 8px 50px 8px 51px;
+    padding: 0px 50px 8px 51px;
   }
-  .tag_edit{
+
+  .tag_edit {
     margin-right: 30px;
   }
+
+
   .praise {
     width: 120px;
     height: 40px;
@@ -166,20 +195,20 @@
   .praise:hover span {
     color: #fff;
   }
+
   .question-yes {
     margin-right: 36px;
   }
 
   .img_box {
-    padding-top:25px;
-    width:120px;
-    height:50px;
+    width: 120px;
+    height: 50px;
   }
-  .info_right {
-    margin-left:90px;
-    margin-top:20px;
+
+  .replay_info_right {
+    width: 972px;
   }
+
   .scan {
-    padding-right:40px;
   }
 </style>

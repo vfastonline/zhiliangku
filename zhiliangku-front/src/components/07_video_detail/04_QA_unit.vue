@@ -1,5 +1,5 @@
 <template>
-  <div @click="handleClick" class="mw  qc-container">
+  <div @click="handleClick" class="mw  qc-container ">
     <div class="clearfix">
       <div class="icon_box ftc fl vm ">
       <img class="qc-user-icon" :src="mainData.custom_user_avatar" alt="">
@@ -7,7 +7,7 @@
       <div class=" qc-text-container">
         <div class="mt8" >
           <span class="font1_14_9 qctc-tag">{{mainData.custom_user_nickname}}</span>
-          <span class="font1_14_9 qctc-tag">{{mainData.create_time}}提问</span>
+          <span class="font1_14_9 qctc-tag">{{mainData.create_time}}&nbsp;&nbsp;提问</span>
         </div>
         <div class="font1_20_3 clearfix mt8">
           <div class="fl qctc-qustion-content">{{mainData.title}}</div>
