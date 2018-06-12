@@ -182,16 +182,19 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'templates', 'static')
+
+# 生产环境用
 STATIC_ROOT = '/usr/local/openresty/nginx/html/templates/static'
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'static'),
-# )
 STATICFILES_DIRS = (
 	("css", os.path.join(STATIC_ROOT, 'css')),
 	("js", os.path.join(STATIC_ROOT, 'js')),
 	("images", os.path.join(STATIC_ROOT, 'images')),
 )
+
+# # 本地用
+# STATICFILES_DIRS = (
+# 	os.path.join(BASE_DIR, "templates", 'static'),
+# )
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
