@@ -11,6 +11,7 @@ urlpatterns = [
 	url('^backgrounds$', GetBackgrounds.as_view()),  # 背景图
 
 	url('^thumbsup$', WechatThumbsUp.as_view()),  # 点赞
+	url('^share$', WechatShare.as_view()),  # 分享
 	url('^thumbsuptotal$', WechatThumbsUptotal.as_view()),  # 点赞总数
 
 	# 获取jssdk签名

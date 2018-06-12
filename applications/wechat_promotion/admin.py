@@ -4,7 +4,7 @@ from applications.wechat_promotion.models import *
 
 @admin.register(WechatBrowse)
 class WechatBrowseAdmin(admin.ModelAdmin):
-	list_display = ('id', "page_views", "thumbs_up", "create_time")
+	list_display = ('id', "name", "pinyin", "remark", "page_views", "thumbs_up", "share", "create_time")
 
 
 @admin.register(WechatBackground)
@@ -15,4 +15,3 @@ class WechatBackgroundAdmin(admin.ModelAdmin):
 @admin.register(WechatRemark)
 class WechatRemarkAdmin(admin.ModelAdmin):
 	list_display = ('id', "name", "remark")
-	readonly_fields = ("name", "remark")
