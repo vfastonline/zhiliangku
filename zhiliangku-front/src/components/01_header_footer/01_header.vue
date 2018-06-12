@@ -21,10 +21,10 @@
       <img
         v-on:mouseenter="changeUsershow1()" v-on:mouseleave="changeUsershow2()"
         class="user_icon vm" :src="userinfo.avatar" alt="">
-      <!--<transition   name='fade'>-->
+      <transition   name='fade'>
         <!--<postbMatch v-if="show" class="floatr"></postbMatch>-->
-        <!--<userMune class="" v-on:mouseenter="changeUsershow1()" v-on:mouseleave="changeUsershow2()" ></userMune>-->
-      <!--</transition>-->
+        <userMune v-if="showuser" class="" v-on:mouseenter="changeUsershow1()" v-on:mouseleave="changeUsershow2()" ></userMune>
+      </transition>
     </div>
     <LoginNew @success="is_login=true"></LoginNew>
   </header>
@@ -154,7 +154,6 @@
         this.getUserInfo();
         // 决定用户信息模块的显示与隐藏
         this.is_login = true;
-
       },
       logoutFunc() {
         this.is_login = false;
@@ -226,6 +225,16 @@
 </script>
 
 <style scoped lang='scss'>
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: all 0.25s ease;
+  }
+
+  .fade-enter,
+  .fade-leave-active {
+    opacity: 0;
+  }
   $margin: 46px;
   .project_header {
     height: 90px;

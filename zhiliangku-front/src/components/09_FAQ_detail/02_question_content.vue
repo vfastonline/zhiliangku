@@ -5,7 +5,7 @@
       <!--<el-button @click="dialogVisible=true" class="quizButton">我要提问</el-button> -->
       <fixedButton class="fixedButton" @click.native="dialogVisible=true" text="我要回答">
         <!-- <img src="" alt="" style="background-color:red"> -->
-        <span>A</span>
+        <span class="dib ftc a_icon">A</span>
       </fixedButton>
       <div>
         <div class="info r clearfix">
@@ -124,6 +124,14 @@
 </script>
 
 <style scoped>
+  .a_icon{
+    background: white;
+    height: 32px;
+    width: 32px;
+    line-height: 32px;
+    font-size: 20px;
+    color: #8c97cb;
+  }
   #question_container {
     height: inherit;
     padding-top: 0px;

@@ -1,25 +1,25 @@
 <template>
   <div @mouseenter="mouseenter()" v-on:mouseleave="mouseleave()" class="uim-container  rose">
     <div class="uim-username pointer">
-      <a href="/personal_center/page/#/occupational/matchingRate">
+      <a href="/personal_center/page/">
         <span class="font1_20_3">{{nickname}}</span>
       </a>
     </div>
-    <a href="/personal_center/page/#/myCourse/recentlyLearing">
-      <div class="uim-select pointer">
-        <span class="font1_20_3">我的课程</span>
-      </div>
-    </a>
-    <a href="/personal_center/page/#/mySettings/baseInfo">
-      <div class="uim-select pointer">
-        <span class="font1_20_3">个人设置</span>
-      </div>
-    </a>
-    <a href="/integral/redeem/">
-      <div class="uim-select pointer">
-        <span class="font1_20_3">积分兑换</span>
-      </div>
-    </a>
+    <!--<a href="/personal_center/page/#/myCourse/recentlyLearing">-->
+      <!--<div class="uim-select pointer">-->
+        <!--<span class="font1_20_3">我的课程</span>-->
+      <!--</div>-->
+    <!--</a>-->
+    <!--<a href="/personal_center/page/#/mySettings/baseInfo">-->
+      <!--<div class="uim-select pointer">-->
+        <!--<span class="font1_20_3">个人设置</span>-->
+      <!--</div>-->
+    <!--</a>-->
+    <!--<a href="/integral/redeem/">-->
+      <!--<div class="uim-select pointer">-->
+        <!--<span class="font1_20_3">积分兑换</span>-->
+      <!--</div>-->
+    <!--</a>-->
     <div class="uim-select pointer" @click="logout()">
       <span class="font1_20_3">退出登录</span>
     </div>
