@@ -54,7 +54,7 @@
               this.main_data.forEach(el => {
                 el.have_read = true
               })
-              this.$fn.showNotice(this,'您已操作成功','success')
+              this.$fn.showNotice(this, '您已操作成功', 'success')
             }
           })
         } else {
