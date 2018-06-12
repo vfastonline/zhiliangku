@@ -8,7 +8,7 @@
         <img @click="handleSearch(search_value)" class="searchBox vm cp" src="./img/search.png" alt="">
       </span>
     </div>
-    <SelfResultInfo v-if="main_data" :main_data="main_data" class="result_self"></SelfResultInfo>
+    <SelfResultInfo v-if="main_data" :main_data="main_data" class="result_self" :config="{show:true}"></SelfResultInfo>
     <div v-else class="ftc font1_16_9">暂无信息</div>
   </div>
 

@@ -1,11 +1,11 @@
 <template>
-  <header class="mw project_header hc">
+  <header class="mw project_header hc r">
     <div class="fl header_font">
       <a href="/"><img class="logo dib vm" src="./img/智量酷-logo-slogan.png" alt=""></a>
       <span class="dib nav_tag"><a href="/tracks/projects/list/"><span
         class="font1_22_3"> 项目</span> </a></span>
       <!--<span class="dib nav_tag"><a href="#"> <span class="font1_22_3"> 考核</span> </a></span>-->
-      <span class="dib nav_tag"><a href="#"> <span class="font1_22_3"> 就业</span> </a></span>
+      <span class="dib nav_tag"><a href="/employment/leaderboard/list/"><span class="font1_22_3">就业</span> </a></span>
       <span class="dib"><a href="/community/faq/list/"> <span class="font1_22_3"> 社区</span> </a></span>
     </div>
     <div v-if="!is_login" class="fr">
@@ -18,7 +18,13 @@
        <img class="vm notice_icon" src="./img/notice_icon.png" alt="">
         <i class="red_point a"></i>
       </span>
-      <img class="user_icon vm" :src="userinfo.avatar" alt="">
+      <img
+        v-on:mouseenter="changeUsershow1()" v-on:mouseleave="changeUsershow2()"
+        class="user_icon vm" :src="userinfo.avatar" alt="">
+      <!--<transition   name='fade'>-->
+        <!--<postbMatch v-if="show" class="floatr"></postbMatch>-->
+        <!--<userMune class="" v-on:mouseenter="changeUsershow1()" v-on:mouseleave="changeUsershow2()" ></userMune>-->
+      <!--</transition>-->
     </div>
     <LoginNew @success="is_login=true"></LoginNew>
   </header>
@@ -28,6 +34,7 @@
   import Bus from '../../assets/js/02_bus'
   import LoginNew from '../02_login/02_login_module'
   import userMune from './04_user_menu'
+
   var Base64 = require('js-base64').Base64
   export default {
     name: "projectHeader",
@@ -67,18 +74,18 @@
     components: {
       // 'postMatch': postMatch,
       'userMune': userMune,
-      'LoginNew':LoginNew
+      'LoginNew': LoginNew
     },
     props: {
       type: String,
     },
     watch: {
       is_login: function (a, b) {
-        if(a){
-          this.$emit('log_in',true)
+        if (a) {
+          this.$emit('log_in', true)
         }
-        else{
-          this.$emit('log_in',false)
+        else {
+          this.$emit('log_in', false)
         }
       }
     },
@@ -138,7 +145,7 @@
         window.location.href = '/'
       },
       myDispatch(eventName, key) {
-        Bus.$emit(eventName,key)
+        Bus.$emit(eventName, key)
       },
       getUserInfo() {
         this.userinfo.avatar = this.$myConst.httpUrl + localStorage.avatar;

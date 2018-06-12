@@ -13,9 +13,9 @@
           <div v-for="item in main_data.technologys" :key="item.id" class="info_tab dib ftc font1_14_f">{{item}}</div>
         </div>
         <div class="info_button dib fr">
-          <!--<a href="" target="_blank">-->
-          <BlueButton><span class="info_right_button font1_24_f ">查看详情</span></BlueButton>
-          <!--</a>-->
+          <a href="/employment/finishprojectlistinfo/list/">
+          <BlueButton v-if="config.show"><span class="info_right_button font1_24_f ">查看详情</span></BlueButton>
+          </a>
         </div>
       </div>
     </div>
@@ -34,7 +34,12 @@
       BlueButton: BlueButton,
     },
     props: {
-      main_data: {}
+      main_data: {},
+      config:{
+        default:{
+          show:false
+        }
+      }
     }
   }
 </script>
