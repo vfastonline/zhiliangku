@@ -138,7 +138,7 @@ class GetBackgroundMusic(View):
 			wechatmusic = WechatMusic.objects.first()
 			if wechatmusic:
 				result_dict["data"]["name"] = wechatmusic.name
-				result_dict["data"]["address"] = wechatmusic.address.urls if wechatmusic.address else ""
+				result_dict["data"]["address"] = wechatmusic.address.url if wechatmusic.address else ""
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
