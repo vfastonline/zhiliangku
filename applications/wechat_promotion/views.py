@@ -7,9 +7,6 @@ from django.views.generic import View
 from applications.wechat_promotion.models import *
 from lib.util import *
 
-RK_BROWSE_COUNTER = 'browse_pending_counter_changes'  # 浏览
-RK_THUMBS_UP_COUNTER = 'thumbs_up_pending_counter_changes'  # 点赞
-
 
 class WechatPromotionJl(View):
 	"""微信推广-页面-王金龙信息"""
@@ -133,7 +130,7 @@ class WechatShare(View):
 
 
 class GetBackgroundMusic(View):
-	"""获取所有背景图片"""
+	"""获取背景音乐"""
 
 	def get(self, request, *args, **kwargs):
 		result_dict = {"err": 0, "msg": "success", "data": {"name": "", "address": ""}}
