@@ -42,6 +42,10 @@ class WechatPromotionInfo(View):
 				detail["name"] = wechatbrowse.name
 				detail["pinyin"] = wechatbrowse.pinyin
 				detail["avatar"] = wechatbrowse.avatar.url if wechatbrowse.avatar else ""
+				detail["photo2"] = wechatbrowse.photo2.url if wechatbrowse.photo2 else ""
+				detail["photo3"] = wechatbrowse.photo3.url if wechatbrowse.photo3 else ""
+				detail["photo4"] = wechatbrowse.photo4.url if wechatbrowse.photo4 else ""
+				detail["photo5"] = wechatbrowse.photo5.url if wechatbrowse.photo5 else ""
 				remark_names = wechatbrowse.remark.strip().split(",")
 				wechatremarks = WechatRemark.objects.filter(name__in=remark_names)
 				for one_remark in wechatremarks:
