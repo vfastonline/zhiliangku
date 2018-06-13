@@ -1,6 +1,4 @@
 #!encoding:utf-8
-import logging
-import traceback
 from itertools import chain
 
 from django.contrib import admin
@@ -75,7 +73,7 @@ class VideoAdmin(admin.ModelAdmin):
 		"subtitle", 'sequence', "duration", "vid")
 	search_fields = ("section__course__project__name", "section__course__name", "section__title", 'name', "vid")
 	list_filter = ('type',)
-	readonly_fields = ("address", "vid", "data",)
+	readonly_fields = ("vid", "data",)
 
 	def project(self, obj):
 		name = ""

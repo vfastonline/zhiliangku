@@ -423,7 +423,6 @@ class CourseDetailInfo(View):
 								video_dict["type"] = video.type
 								video_dict["type_name"] = video.get_type_display()
 								video_dict["is_complete"] = 0
-								video_dict["address"] = video.address.url if video.address else ""
 								video_dict["vid"] = video.vid
 								video_dict["subtitle"] = video.subtitle.url if video.subtitle else ""
 								video_dict["unlock"] = unlock

@@ -134,7 +134,6 @@ class VideoDetailInfo(View):
 					video_dict["duration"] = video_obj.duration
 					video_dict["sequence"] = video_obj.sequence
 					video_dict["notes"] = video_obj.notes
-					video_dict["address"] = video_obj.address.url if video_obj.address else ""
 					video_dict["vid"] = video_obj.vid
 					video_dict["subtitle"] = video_obj.subtitle.url if video_obj.subtitle else ""
 					self.name = video_obj.name
