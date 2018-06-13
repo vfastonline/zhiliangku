@@ -10,6 +10,7 @@ urlpatterns = [
 	url('^promotion/info$', WechatPromotionInfo.as_view()),  # 推广-学员-信息
 
 	url('^backgrounds$', GetBackgrounds.as_view()),  # 背景图
+	url('^background/music$', GetBackgroundMusic.as_view()),  # 背景音乐
 
 	url('^thumbsup$', WechatThumbsUp.as_view()),  # 点赞
 	url('^share$', WechatShare.as_view()),  # 分享

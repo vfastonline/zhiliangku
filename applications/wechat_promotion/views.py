@@ -130,3 +130,22 @@ class WechatShare(View):
 			result_dict["msg"] = traceback.format_exc()
 		finally:
 			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+class GetBackgroundMusic(View):
+	"""获取所有背景图片"""
+
+	def get(self, request, *args, **kwargs):
+		result_dict = {"err": 0, "msg": "success", "data": {"name": "", "address": ""}}
+		try:
+			wechatmusic = WechatMusic.objects.first()
+			if wechatmusic:
+				result_dict["data"]["name"] = wechatmusic.name
+				result_dict["data"]["address"] = wechatmusic.address.urls if wechatmusic.address else ""
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			result_dict["err"] = 1
+			result_dict["msg"] = traceback.format_exc()
+		finally:
+			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))

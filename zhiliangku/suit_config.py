@@ -71,7 +71,7 @@ SUIT_CONFIG = {
 
 		# 微信推广
 		{'label': '微信推广', 'app': 'wechat_promotion', 'icon': 'icon-list-alt',
-		 'models': ('WechatBrowse', 'WechatBackground', 'WechatRemark')},
+		 'models': ('WechatBrowse', 'WechatBackground', 'WechatRemark', "WechatMusic")},
 
 		# # 观看进度
 		# {'app': 'record', 'icon': 'icon-list-alt', 'models': ('WatchRecord',)},

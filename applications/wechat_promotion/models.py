@@ -56,3 +56,17 @@ class WechatRemark(models.Model):
 		verbose_name = "评语"
 		verbose_name_plural = "评语"
 		ordering = ["name"]
+
+
+class WechatMusic(models.Model):
+	name = models.CharField('音乐名字', max_length=255)
+	address = models.FileField('音乐文件', upload_to='wechat/music', storage=ImageStorage())
+
+	def __unicode__(self):
+		return self.name
+
+	class Meta:
+		db_table = 'WechatMusic'
+		verbose_name = "背景音乐"
+		verbose_name_plural = "背景音乐"
+		ordering = ["name"]

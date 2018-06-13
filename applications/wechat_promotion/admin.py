@@ -17,3 +17,9 @@ class WechatBackgroundAdmin(admin.ModelAdmin):
 @admin.register(WechatRemark)
 class WechatRemarkAdmin(admin.ModelAdmin):
 	list_display = ('id', "name", "remark", "english")
+
+
+@admin.register(WechatMusic)
+class WechatMusicAdmin(admin.ModelAdmin):
+	list_display = ('id', "name", "address")
+	search_fields = ('name',)
