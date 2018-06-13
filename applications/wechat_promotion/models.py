@@ -46,6 +46,7 @@ class WechatBackground(models.Model):
 class WechatRemark(models.Model):
 	name = models.CharField('评语标识', max_length=255)
 	remark = models.TextField('评语', max_length=255)
+	english = models.TextField('评语英文', max_length=255, blank=True)
 
 	def __unicode__(self):
 		return "".join([str(self.name), "--", str(self.remark)])

@@ -16,4 +16,4 @@ class WechatBackgroundAdmin(admin.ModelAdmin):
 
 @admin.register(WechatRemark)
 class WechatRemarkAdmin(admin.ModelAdmin):
-	list_display = ('id', "name", "remark")
+	list_display = ('id', "name", "remark", "english")

@@ -49,7 +49,7 @@ class WechatPromotionInfo(View):
 				remark_names = wechatbrowse.remark.strip().split(",")
 				wechatremarks = WechatRemark.objects.filter(name__in=remark_names)
 				for one_remark in wechatremarks:
-					detail[one_remark.name[0]] = one_remark.remark
+					detail[one_remark.name[0]] = {"remark": one_remark.remark, "english": one_remark.english}
 
 			result_dict["data"] = detail
 		except:
