@@ -67,10 +67,7 @@ class SectionAdmin(admin.ModelAdmin):
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
-	list_display = (
-		'id', "project", "course",
-		"section", 'name', "type",
-		"subtitle", 'sequence', "duration", "vid")
+	list_display = ('id', "project", "course", "section", 'name', "type", "duration", 'sequence')
 	search_fields = ("section__course__project__name", "section__course__name", "section__title", 'name', "vid")
 	list_filter = ('type',)
 	readonly_fields = ("vid", "data",)
