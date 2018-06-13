@@ -64,7 +64,7 @@ class GetBackgrounds(View):
 		try:
 			wechatbackgrounds = WechatBackground.objects.all()
 			for one in wechatbackgrounds:
-				result_dict["data"].append({"image": one.image.url if one.image else ""})
+				result_dict["data"].append(one.image.url if one.image else "")
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
