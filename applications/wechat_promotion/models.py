@@ -61,6 +61,7 @@ class WechatRemark(models.Model):
 class WechatMusic(models.Model):
 	name = models.CharField('音乐名字', max_length=255)
 	address = models.FileField('音乐文件', upload_to='wechat/music', storage=ImageStorage())
+	images = models.ImageField('分享图', upload_to="wechat/share", storage=ImageStorage(), blank=True)
 
 	def __unicode__(self):
 		return self.name
