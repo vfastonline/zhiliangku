@@ -3,6 +3,8 @@
   var wx = window.wx
   var url = 'http://www.zhiliangku.com'
   var imgurl = ''
+  var shear_url = ''
+
   $.get(url + '/wechat/background/music', function (params) {
     imgurl = JSON.parse(params).data.images
   })
@@ -50,6 +52,15 @@
     var name = get_name('name') || ''
     $.get(url + '/wechat/share?name=' + name)
   }
+  var orgnaize_url = function () {
+    var str = get_name('name')
+    if (str) {
+      shear_url += '/wechat/promotion?name=' + str
+    } else {
+      shear_url += '/wechat/promotion'
+    }
+  }
+  orgnaize_url()
   $.get(url + '/wechat/get/signature?urls=' + encodeURIComponent(window.location.href.split('#')[0]), function (data) {
     var content = JSON.parse(data).data
     var config = {
@@ -72,7 +83,7 @@
       });
       wx.onMenuShareTimeline({
         title: '请为我的努力加分打call', // 分享标题
-        link: url + '/wechat/promotion', // 分享链接，该链接域名必须与当前企业的可信域名一致
+        link: url + shear_url, // 分享链接，该链接域名必须与当前企业的可信域名一致
         imgUrl: url + imgurl, // 分享图标
         success: function () {
           add_num()
@@ -84,7 +95,7 @@
       wx.onMenuShareAppMessage({
         title: '请为我的努力加分打call', // 分享标题
         desc: '精彩的未来，我将用勤学不辍的现在去迎接，同学！一起加油！', // 分享描述
-        link: url + '/wechat/promotion', // 分享链接，该链接域名必须与当前企业的可信域名一致
+        link: url + shear_url, // 分享链接，该链接域名必须与当前企业的可信域名一致
         imgUrl: url + imgurl, // 分享图标
         type: 'link', // 分享类型,music、video或link，不填默认为link
         dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
