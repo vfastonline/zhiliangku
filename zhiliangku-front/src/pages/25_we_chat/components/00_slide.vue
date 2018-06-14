@@ -6,17 +6,12 @@
               position="top">
       没有非本期学员的数据哦 ┗|｀O′|┛ 嗷~~
     </mt-popup>
-    <mt-popup class="ftc"
-              v-model="show_notice"
-              position="top">
-      填写名字所对应的拼音~(￣_,￣ )~
-    </mt-popup>
     <div class="search_block a">
       <input v-model="value"
              class="search_input hc db"
              placeholder="请输入姓名全拼"
              type="search">
-      <span @touchend="try_search"
+      <span @touchstart="try_search"
             class="search_button font1_36_f db ftc hc">查询</span>
     </div>
   </div>
@@ -37,11 +32,10 @@
 import Vue from 'vue'
 import {
   Indicator,
-  Popup
+  Toast
 } from 'mint-ui'
 Vue.use(window.VueLazyload)
 Vue.use(Indicator)
-Vue.use(Popup)
 export default {
   data () {
     return {
@@ -78,7 +72,11 @@ export default {
         if (!this.$is_empty(res.data.data)) {
           window.location.href = '/wechat/promotion/?name=' + this.value
         } else {
-          this.popupVisible = true
+          Toast({
+            message: ' 没有非本期学员的数据哦!!!┗|｀O′|┛ 嗷~~',
+            position: 'bottom',
+            duration: 2000
+          });
         }
       })
     },
@@ -86,7 +84,12 @@ export default {
       var name = this.value.split('').join('').toLowerCase()
       var exp = new RegExp(/^[a-zA-Z]+$/)
       if (!exp.test(name)) {
-        this.show_notice = true
+        Toast({
+          message: ' 填写名字所对应的拼音……~(￣_,￣ )~',
+          position: 'bottom',
+          duration: 2000
+        });
+
         return
       }
       return name
