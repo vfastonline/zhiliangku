@@ -44,7 +44,7 @@
     return url;
   }
 
-  $.get(url + '/wechat/promotion/info', function (params) {
+  $.get(url + '/wechat/background/music', function (params) {
     imgurl = JSON.parse(params).data.images
   })
   if (get_name('name')) {
