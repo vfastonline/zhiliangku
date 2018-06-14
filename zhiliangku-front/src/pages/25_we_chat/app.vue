@@ -72,7 +72,9 @@ export default {
   watch: {
     show: function (new_value, old_value) {
       var that = this
-      // debugger
+      //很遗憾要这样写，但是这样保证了iphone下程序的稳定运行。这可能是iphon限制app的计算速度？
+      // 真的是无处求解
+      // 本质原因是swiper初始化的时候dom没有准备好
       this.$nextTick().then(res => {
         setTimeout(() => {
           that.my_swiper = init.swiper()

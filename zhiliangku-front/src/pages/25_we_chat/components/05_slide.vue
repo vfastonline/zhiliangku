@@ -27,15 +27,84 @@
       <Bottomimg class="life_photo"
                  :image_url="main_data.photo5"></Bottomimg>
       <div class="focus hc">
-        <img class="focus_img db hc"
+        <img @click="popupVisible=true"
+             class="focus_img db hc"
              src="../img/logo.png"
              alt="">
-        <!-- <div class="focus_text ftc">点击关注</div> -->
+        <div class="focus_text ftc">点击关注</div>
       </div>
+      <mt-popup v-model="popupVisible">
+        <img class="wechat_img"
+             src="../img/wechat.png"
+             alt="">
+      </mt-popup>
     </div>
   </div>
 </template>
+
+<script>
+import Bottomimg from './00_commen/02_bottom_img'
+import { Button, Toast, Popup } from 'mint-ui'
+import Vue from 'vue';
+Vue.use(Button)
+Vue.use(Popup)
+export default {
+  data () {
+    return {
+      button_touching: false,
+      num: '',
+      thumb_up_success: false,
+      thumbed: false,
+      popupVisible: false
+    }
+  },
+  props: {},
+  methods: {
+    thumb_up () {
+      if (this.thumbed) {
+        Toast({
+          message: '已经赞过了(๑•̀ㅂ•́)و✧',
+          duration: 3000
+        })
+        return
+      }
+      this.thumbed = true;
+      this.$get('/wechat/thumbsup?name=' + this.main_data.pinyin).then(res => {
+        if (res.data.msg === 'success') {
+          Toast({
+            message: '点赞成功，送你个么么哒',
+            duration: 3000
+          })
+          this.thumb_up_success = true
+          setTimeout(() => {
+            this.thumb_up_success = false
+          }, 1500);
+          setTimeout(() => {
+            this.num++
+          }, 700);
+        }
+      })
+    },
+    get_num () {
+      this.$get('/wechat/thumbsuptotal?name=' + this.main_data.pinyin).then(res => {
+        this.num = res.data.total
+      })
+    }
+  },
+  created () {
+    this.get_num()
+  },
+  components: {
+    Bottomimg: Bottomimg
+  }
+}
+
+</script>
+
 <style scoped lang="scss">
+.wechat_img {
+  width: 4rem;
+}
 .added {
   bottom: 100%;
   margin-bottom: 0.1rem;
@@ -96,60 +165,3 @@
   font: 300 0.28rem/0.28rem 'MicroSoft YaHei';
 }
 </style>
-<script>
-import Bottomimg from './00_commen/02_bottom_img'
-import { Button, Toast } from 'mint-ui'
-import Vue from 'vue';
-Vue.use(Button)
-export default {
-  data () {
-    return {
-      button_touching: false,
-      num: '',
-      thumb_up_success: false,
-      thumbed: false
-    }
-  },
-  props: {},
-  methods: {
-    thumb_up () {
-      if (this.thumbed) {
-        Toast({
-          message: '已经赞过了(๑•̀ㅂ•́)و✧',
-          duration: 3000
-        })
-        return
-      }
-      this.thumbed = true;
-      this.$get('/wechat/thumbsup?name=' + this.main_data.pinyin).then(res => {
-        if (res.data.msg === 'success') {
-          Toast({
-            message: '点赞成功，送你个么么哒',
-            duration: 3000
-          })
-          this.thumb_up_success = true
-          setTimeout(() => {
-            this.thumb_up_success = false
-          }, 1500);
-          setTimeout(() => {
-            this.num++
-          }, 700);
-        }
-      })
-    },
-    get_num () {
-      this.$get('/wechat/thumbsuptotal?name=' + this.main_data.pinyin).then(res => {
-        this.num = res.data.total
-      })
-    }
-  },
-  created () {
-    this.get_num()
-  },
-  components: {
-    Bottomimg: Bottomimg
-  }
-}
-
-</script>
-
