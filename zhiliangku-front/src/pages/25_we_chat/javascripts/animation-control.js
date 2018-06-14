@@ -3,12 +3,9 @@ module.exports = {
   initAnimationItems: function () {
     $('.animated').each(function () {
       var aniDuration, aniDelay;
-
       $(this).attr('data-origin-class', $(this).attr('class'));
-
       aniDuration = $(this).data('ani-duration');
       aniDelay = $(this).data('ani-delay');
-
       $(this).css({
         'visibility': 'hidden',
         'animation-duration': aniDuration,
@@ -20,7 +17,7 @@ module.exports = {
   },
 
   playAnimation: function (swiper) {
-      this.clearAnimation();
+    this.clearAnimation();
     var aniItems = swiper.slides[swiper.activeIndex].querySelectorAll('.animated');
 
     $(aniItems).each(function () {

@@ -32,6 +32,7 @@ module.exports = {
     let $btnMusic = $('.btn-music');
     let $upArrow = $('.up-arrow');
     let animationControl = require('./animation-control.js')
+    // debugger
     var swiper = new Swiper('.swiper-container', {
       mousewheelControl: true,
       effect: 'coverflow', // slide, fade, coverflow or flip
@@ -73,6 +74,7 @@ module.exports = {
         }
       }
     })
+    // debugger
     return swiper
   }
 }

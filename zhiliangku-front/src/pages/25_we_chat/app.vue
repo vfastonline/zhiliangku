@@ -72,8 +72,12 @@ export default {
   watch: {
     show: function (new_value, old_value) {
       var that = this
+      // debugger
       this.$nextTick().then(res => {
-        that.my_swiper = init.swiper()
+        setTimeout(() => {
+          that.my_swiper = init.swiper()
+          // debugger
+        }, 100);
       })
     }
   },
@@ -91,24 +95,21 @@ export default {
     },
     get_student_info (name) {
       var that = this
-      window.axios.all([
-        window.axios.get('/wechat/promotion/info?name=' + name),
-        window.axios.get('/wechat/backgrounds')
-      ]).then(window.axios.spread(function (user_info, imgs) {
-        // 上面两个请求都完成后，才执行这个回调方法
-        that.background_images = imgs.data.data
-        that.have_img = true
-        if (!that.$is_empty(user_info.data.data)) {
-          that.show = true
-          that.main_data = user_info.data.data
-        }
-      }));
-      this.$get('/wechat/promotion/info?name=' + name).then(res => {
-        if (!this.$is_empty(res.data.data)) {
-          this.show = true
-          this.main_data = res.data.data
-        }
-      })
+      setTimeout(() => {
+        window.axios.all([
+          window.axios.get('/wechat/promotion/info?name=' + name),
+          window.axios.get('/wechat/backgrounds')
+        ]).then(window.axios.spread(function (user_info, imgs) {
+          // 上面两个请求都完成后，才执行这个回调方法
+          that.background_images = imgs.data.data
+          that.have_img = true
+          if (!that.$is_empty(user_info.data.data)) {
+            that.show = true
+            that.main_data = user_info.data.data
+          }
+        }));
+      }, 1);
+
     },
     verify () {
       let name = this.$fn.funcUrl('name')
@@ -126,6 +127,7 @@ export default {
     }
   },
   created () {
+    window.page = this
     this.get_music()
     this.verify()
   },

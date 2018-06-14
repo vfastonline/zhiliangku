@@ -1,7 +1,7 @@
 <template>
   <div class="middle_content a">
     <img class="frame_img"
-         src="../../img//01_frame.png"
+         src="../../img/01_frame.png"
          alt="">
     <div class="box a ftc"
          v-html="main_data.remark"></div>
