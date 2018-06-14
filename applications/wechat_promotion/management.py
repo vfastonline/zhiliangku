@@ -41,7 +41,7 @@ def init_db_info(sender, **kwargs):
 			# 第二页评语
 			{
 				"name": "2A",
-				"remark": "<span class='red'>130</span><span class='blue'>个小时的学习</span><br><span class='blue'>相当于走了</span><span class='red'>112931</span><span class='bulue'>步</span><br><span class='blue'>攀登了整个</span><span class='red'>珠穆朗玛峰</span>",
+				"remark": "<span class='red'>130</span><span class='blue'>个小时的学习</span><br><span class='blue'>相当于走了</span><span class='red'>112931</span><span class='blue'>步</span><br><span class='blue'>攀登了整个</span><span class='red'>珠穆朗玛峰</span>",
 			},
 			{
 				"name": "2B",
