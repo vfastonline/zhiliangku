@@ -36,12 +36,7 @@ function openUpload() {
                     "});\n<\/script>";
 
                 // document.getElementById("textbody").value = document.getElementById("textbody").value + scriptdata;
-                layer.open({
-                    type: 1,
-                    area: ['600px', '360px'],
-                    shadeClose: true, //点击遮罩关闭
-                    content: scriptdata
-                });
+                alert(scriptdata)
 
                 //if close window
                 // upload.closeWrap();

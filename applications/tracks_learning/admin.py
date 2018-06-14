@@ -1,6 +1,4 @@
 #!encoding:utf-8
-import logging
-import traceback
 from itertools import chain
 
 from django.contrib import admin
@@ -69,10 +67,7 @@ class SectionAdmin(admin.ModelAdmin):
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
-	list_display = (
-		'id', "project", "course",
-		"section", 'name', "type", "address",
-		"subtitle", 'sequence', "duration", "vid")
+	list_display = ('id', "project", "course", "section", 'name', "type", "duration", 'sequence')
 	search_fields = ("section__course__project__name", "section__course__name", "section__title", 'name', "vid")
 	list_filter = ('type',)
 	readonly_fields = ("vid", "data",)
@@ -106,7 +101,7 @@ class VideoAdmin(admin.ModelAdmin):
 
 		('视频/练习题', {
 			'classes': ('suit-tab', 'suit-tab-video',),
-			'fields': ['section', "type", 'name', 'address', 'subtitle', "sequence", "duration", "desc", "notes"]}),
+			'fields': ['section', "type", 'name', 'subtitle', "sequence", "duration", "desc", "notes"]}),
 
 		('考核信息', {
 			'classes': ('suit-tab', 'suit-tab-assessment',),
