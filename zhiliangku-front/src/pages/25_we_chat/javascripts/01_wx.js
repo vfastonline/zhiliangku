@@ -4,10 +4,6 @@
   var url = 'http://www.zhiliangku.com'
   var imgurl = ''
   var shear_url = ''
-
-  $.get(url + '/wechat/background/music', function (params) {
-    imgurl = JSON.parse(params).data.images
-  })
   var get_name = function (name, value, type) {
     var loca = window.location
     var baseUrl = type === undefined ? loca.origin + loca.pathname + '?' : ''
@@ -47,6 +43,16 @@
     }
     return url;
   }
+
+  $.get(url + '/wechat/promotion/info', function (params) {
+    imgurl = JSON.parse(params).data.images
+  })
+  if (get_name('name')) {
+    $.get(url + '/wechat/promotion/info?name=' + get_name('name'), function (params) {
+      imgurl = JSON.parse(params).data.avatar
+    })
+  }
+
 
   var add_num = function () {
     var name = get_name('name') || ''
