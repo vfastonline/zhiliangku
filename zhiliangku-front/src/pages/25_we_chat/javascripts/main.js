@@ -51,23 +51,25 @@ module.exports = {
         limitRotation: true,
         slideShadows: false // do disable shadows for better performance
       },
-      onInit: function (swiper) {
-        animationControl.initAnimationItems(); // get items ready for animations
-        animationControl.playAnimation(swiper); // play animations of the first slide
-      },
-      onTransitionStart: function (swiper) { // on the last slide, hide .btn-swipe
-        if (swiper.activeIndex === swiper.slides.length - 1) {
-          $upArrow.hide();
-        } else {
-          $upArrow.show();
-        }
-      },
-      onTransitionEnd: function (swiper) { // play animations of the current slide
-        animationControl.playAnimation(swiper);
-      },
-      onTouchStart: function () { // mobile devices don't allow audios to play automatically, it has to be triggered by a user event(click / touch).
-        if (!$btnMusic.hasClass('paused') && bgMusic.paused) {
-          bgMusic.play();
+      on: {
+        init: function () {
+          animationControl.initAnimationItems(); // get items ready for animations
+          animationControl.playAnimation(this); // play animations of the first slide
+        },
+        transitionStart: function () { // on the last slide, hide .btn-swipe
+          if (this.activeIndex === this.slides.length - 1) {
+            $upArrow.hide();
+          } else {
+            $upArrow.show();
+          }
+        },
+        transitionEnd: function () { // play animations of the current slide
+          animationControl.playAnimation(this);
+        },
+        touchStart: function () { // mobile devices don't allow audios to play automatically, it has to be triggered by a user event(click / touch).
+          if (!$btnMusic.hasClass('paused') && bgMusic.paused) {
+            bgMusic.play();
+          }
         }
       }
     })
