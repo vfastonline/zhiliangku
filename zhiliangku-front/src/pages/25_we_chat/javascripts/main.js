@@ -71,11 +71,6 @@ module.exports = {
         }
       }
     })
-    swiper.on('init',
-      function (swiper) {
-        animationControl.initAnimationItems(); // get items ready for animations
-        animationControl.playAnimation(swiper); // play animations of the first slide
-      },
-    )
+    return swiper
   }
 }

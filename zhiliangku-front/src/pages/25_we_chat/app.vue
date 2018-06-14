@@ -22,10 +22,11 @@
       </div>
     </div>
 
-    <button v-if="show"
+    <button @touchstart="go_next"
+            v-if="show"
             class="up-arrow">
-      <i class="icon-angle-double-up"></i>
-      <div class="bottom_text ftc">
+      <i class="icon-angle-double-up r"></i>
+      <div class="bottom_text ftc a">
         等待你为我打call
       </div>
     </button>
@@ -44,7 +45,9 @@
 .bottom_text {
   font: 300 0.24rem/0.24rem 'MicroSoft YaHei';
   color: #ffffff;
-  width: 6.4rem;
+  width: 2.1rem;
+  margin-left: 50%;
+  transform: translate(-50%);
 }
 </style>
 
@@ -68,12 +71,16 @@ export default {
   },
   watch: {
     show: function (new_value, old_value) {
+      var that = this
       this.$nextTick().then(res => {
-        init.swiper()
+        that.my_swiper = init.swiper()
       })
     }
   },
   methods: {
+    go_next () {
+      this.my_swiper.slideNext()
+    },
     get_background_img () {
       this.$get('/wechat/backgrounds').then(res => {
         if (!this.$is_empty(res.data.data)) {
