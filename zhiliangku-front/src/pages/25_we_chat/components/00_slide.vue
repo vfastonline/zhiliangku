@@ -70,7 +70,7 @@ export default {
       if (!name) return
       this.$get('/wechat/promotion/info?name=' + name).then(res => {
         if (!this.$is_empty(res.data.data)) {
-          window.location.href = '/wechat/promotion/?name=' + this.value
+          window.location.href = '/wechat/promotion?name=' + this.value
         } else {
           Toast({
             message: ' 没有非本期学员的数据哦!!!┗|｀O′|┛ 嗷~~',
