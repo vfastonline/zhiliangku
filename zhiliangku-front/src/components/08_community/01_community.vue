@@ -6,7 +6,7 @@
     <mypager ref="pager" @pagerGetData='manipulationData' :url="url" :additionData="params"></mypager>
     <fixedButton class="fixedButton" text="我要提问" @click.native="dialogVisible=true">
         <!-- <img src="" alt="" style="background-color:red"> -->
-        <span>？</span>
+        <span class="dib q_icon ftc">q</span>
     </fixedButton>
     <el-dialog
       width='650px'
@@ -24,6 +24,15 @@
   }
 </style>
 <style scoped>
+  .q_icon{
+    background: white;
+    height: 32px;
+    width: 32px;
+    line-height: 27px;
+    font-size: 20px;
+    color: #8c97cb;
+    border-radius: 100px;
+  }
   .community {
     padding-top: 70px;
   }

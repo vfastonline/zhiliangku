@@ -4,7 +4,8 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const entryDist = require('./entryDist')
-function resolve (dir) {
+
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
@@ -24,22 +25,22 @@ module.exports = {
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+    publicPath: process.env.NODE_ENV === 'production' ?
+      config.build.assetsPublicPath : config.dev.assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
-      "api$":process.env.NODE_ENV === 'production' ? resolve('src/assets/js/01_const.js'): resolve('src/assets/js/00_const.js')
+      "api$": process.env.NODE_ENV === 'production' ? resolve('src/assets/js/01_const.js') : resolve('src/assets/js/00_const.js')
     }
   },
   externals: {
-    'vue': 'Vue',//这行先注释掉 以后再释放出来
+    'vue': 'Vue', //这行先注释掉 以后再释放出来
     'vue-router': 'VueRouter',
     'axios': 'axios',
+    'jquery': 'Jquery'
   },
   // 添加代码
   module: {

@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1,user-scalable=no"><meta http-equiv=X-UA-Compatible content="ie=edge"><title>请为我的战友加分打call</title><script src=https://cdn.bootcss.com/vue/2.5.2/vue.min.js></script><script src=https://cdn.bootcss.com/axios/0.18.0/axios.min.js></script><script src=https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js></script><link href=https://cdn.bootcss.com/Swiper/4.3.0/css/swiper.min.css rel=stylesheet><link href=https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css rel=stylesheet><script>(function (doc, win) {
+      var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+          var clientWidth = docEl.clientWidth;
+          if (!clientWidth) return;
+          if (clientWidth >= 640) {
+            docEl.style.fontSize = '100px';
+          } else {
+            docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
+          }
+        };
+
+      if (!doc.addEventListener) return;
+      win.addEventListener(resizeEvt, recalc, false);
+      doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);</script><script src=http://res.wx.qq.com/open/js/jweixin-1.0.0.js></script><link href=/static/css/we_jl.18d1a859af7ec2047b656f51c7a683b0.css rel=stylesheet></head><body><div id=app></div><script>var url = 'http://www.zhiliangku.com'
+  $.get(url + '/wechat/get/signature?urls=' + encodeURIComponent(window.location.href.split('#')[0]), function (data) {
+    var content = JSON.parse(data).data
+    var config = {
+      debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+      appId: content.appId, // 必填，企业号的唯一标识，此处填写企业号corpid
+      timestamp: content.timestamp, // 必填，生成签名的时间戳
+      nonceStr: content.nonceStr, // 必填，生成签名的随机串
+      signature: content.signature,// 必填，签名，见附录1
+      jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    }
+    console.table(config)
+    wx.config(config);
+    wx.ready(function (res) {
+      // alert('ready')
+      wx.checkJsApi({
+        jsApiList: ['getNetworkType', 'previewImage', 'onMenuShareTimeline', 'onMenuShareAppMessage'],
+        success: function (res) {
+          // alert(JSON.stringify(res));
+        }
+      });
+      wx.onMenuShareTimeline({
+        title: '请为我的战友加分打call', // 分享标题
+        link: url + '/wechat/promotion', // 分享链接，该链接域名必须与当前企业的可信域名一致
+        imgUrl: url + '/media/custom_user_avatar/52/20180612110031_754.png', // 分享图标
+        success: function () {
+          // 用户确认分享后执行的回调函数
+          // alert('分享成功')
+        },
+        cancel: function () {
+          // 用户取消分享后执行的回调函数
+        }
+      });
+      wx.onMenuShareAppMessage({
+        title: '请为我的战友加分打call', // 分享标题
+        desc: '兄弟，辛苦了！你的努力，团队看得见。', // 分享描述
+        link: url + '/wechat/promotion', // 分享链接，该链接域名必须与当前企业的可信域名一致
+        imgUrl: url + '/media/custom_user_avatar/52/20180612110031_754.png', // 分享图标
+        type: 'link', // 分享类型,music、video或link，不填默认为link
+        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+        success: function () {
+          // 用户确认分享后执行的回调函数
+          // alert('分享成功')
+        },
+        cancel: function () {
+          // 用户取消分享后执行的回调函数
+        }
+      });
+    })
+    wx.error(function (res) {
+      // alert('错误')
+    })
+  })</script><script src=https://cdn.bootcss.com/Swiper/4.3.0/js/swiper.min.js></script><script type=text/javascript src=/static/js/manifest.0c1cd46d93b12dcd0191.js></script><script type=text/javascript src=/static/js/vendor.5c5dfba4573d230f74d9.js></script><script type=text/javascript src=/static/js/we_jl.f954bd94666492c19373.js></script></body></html>
