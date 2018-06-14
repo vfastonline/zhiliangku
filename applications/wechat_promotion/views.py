@@ -133,12 +133,13 @@ class GetBackgroundMusic(View):
 	"""获取背景音乐"""
 
 	def get(self, request, *args, **kwargs):
-		result_dict = {"err": 0, "msg": "success", "data": {"name": "", "address": ""}}
+		result_dict = {"err": 0, "msg": "success", "data": {"name": "", "address": "", "images": ""}}
 		try:
 			wechatmusic = WechatMusic.objects.first()
 			if wechatmusic:
 				result_dict["data"]["name"] = wechatmusic.name
 				result_dict["data"]["address"] = wechatmusic.address.url if wechatmusic.address else ""
+				result_dict["data"]["images"] = wechatmusic.images.url if wechatmusic.images else ""
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
