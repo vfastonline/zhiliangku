@@ -26,16 +26,16 @@
       </div>
       <Bottomimg class="life_photo"
                  :image_url="main_data.photo5"></Bottomimg>
-      <div class="focus hc">
-        <img @click="popupVisible=true"
-             class="focus_img db hc"
+      <div @click="popupVisible=true"
+           class="focus hc">
+        <img class="focus_img db hc"
              src="../img/logo.png"
              alt="">
         <div class="focus_text ftc">点击关注</div>
       </div>
       <mt-popup v-model="popupVisible">
         <img class="wechat_img"
-             src="../img/wechat.png"
+             src="../img/图层 2.png"
              alt="">
       </mt-popup>
     </div>
