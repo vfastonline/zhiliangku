@@ -21,7 +21,6 @@
     height: 130px;
     border-top:1px solid #eee;
   }
-
   .richtext {
     width: 780px;
   }

@@ -131,6 +131,7 @@
     line-height: 32px;
     font-size: 20px;
     color: #8c97cb;
+    border-radius: 100px;
   }
   #question_container {
     height: inherit;
