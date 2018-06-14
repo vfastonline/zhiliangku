@@ -4,7 +4,7 @@
   var url = 'http://www.zhiliangku.com'
   var imgurl = ''
   $.get(url + '/wechat/background/music', function (params) {
-    imgurl = params.images
+    imgurl = JSON.parse(params).data.images
   })
   var get_name = function (name, value, type) {
     var loca = window.location
