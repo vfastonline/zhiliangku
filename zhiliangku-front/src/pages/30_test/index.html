@@ -8,13 +8,21 @@
   <title>Document</title>
   <script src="https://cdn.bootcss.com/vue/2.5.2/vue.min.js"></script>
   <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.js"></script>
-
+  <script src="//player.polyv.net/script/player.js"></script>
 </head>
 
 <body>
   <div id='app'></div>
+  <div id="player"></div>
+  <script>
+    var player = polyvPlayer({
+      wrap: '#player',
+      width: 800,
+      height: 533,
+      vid: 'e8888b74d1229efec6b4712e17cb6b7a_e',
+    });
+
+  </script>
 </body>
 
 </html>
