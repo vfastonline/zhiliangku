@@ -103,7 +103,7 @@ class ConstructDocker(View):
 		"""
 		try:
 			param = {"docker_sh": docker_sh, "container": self.container}
-			stop_command = "sudo ssh root@docker sh {docker_sh} stop {container}".format(**param)
+			stop_command = "ssh root@docker sh {docker_sh} stop {container}".format(**param)
 			param = {
 				"docker_sh": docker_sh,
 				"container": self.container,
@@ -112,7 +112,7 @@ class ConstructDocker(View):
 				"image": self.image,
 				"shell_name": self.shell_name,
 			}
-			start_command = "sudo ssh root@docker sh {docker_sh} start {container} {port} {image_port} {image} {shell_name}".format(
+			start_command = "ssh root@docker sh {docker_sh} start {container} {port} {image_port} {image} {shell_name}".format(
 				**param)
 
 			# 查询是否已经为该用户准备容器，有就销毁
@@ -240,7 +240,7 @@ class AssessmentResultInfo(View):
 			if self.container and self.shell_name:
 				# 通过shell判题
 				param = {"kaohe_sh": kaohe_sh, "container": self.container, "shell_name": self.shell_name}
-				command = "sudo ssh root@docker sh {kaohe_sh} {container} {shell_name}".format(**param)
+				command = "ssh root@docker sh {kaohe_sh} {container} {shell_name}".format(**param)
 				result_info = commands.getoutput(command)
 				print type(result_info), result_info
 
@@ -301,7 +301,7 @@ class AssessmentResultInfo(View):
 		"""
 		try:
 			param = {"docker_sh": docker_sh, "container": self.container}
-			stop_command = "sudo ssh root@docker sh {docker_sh} stop {container}".format(**param)
+			stop_command = "ssh root@docker sh {docker_sh} stop {container}".format(**param)
 			stop_info = commands.getoutput(stop_command)
 			try:
 				if not int(stop_info):
