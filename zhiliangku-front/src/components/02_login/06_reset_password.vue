@@ -127,12 +127,10 @@ export default {
         return
       }
       this.$post('/customuser/send_sms', { phone: this.form_data.phone }).then(res => {
-        console.log(res)
         if (!res.data.err) {
           this.code_str = 60;
           var interval = setInterval(() => {
             this.code_str--
-            console.log(this)
             if (this.code_str === 0) {
               this.code_str = '获取验证码'
               clearInterval(interval)
@@ -152,7 +150,6 @@ export default {
             this[funkey](data, callbackfun, param)
           }
         } else {
-          console.log('error submit!!')
           return false
         }
       })
