@@ -285,6 +285,7 @@ def project_summarize_course_progress(custom_user_id, course, courses=list(), pr
 		"remaining_time": "",  # 用户剩余学习时长，时分秒
 		"schedule": 0,  # 课程学习进度， 完成学习：1；未开始：0；正在学习 0< schedule <1
 		"is_study": 0,  # 是否有课程学习记录
+		"learn_course_id": "",  # 最近一次学习课程ID
 		"learn_video_name": "",  # 最近一次学习视频名称
 		"learn_video_id": "",  # 最近一次学习视频ID
 		"learn_video_type": "",  # 最近一次学习视频类型
