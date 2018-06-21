@@ -106,14 +106,14 @@ class CustomUserLogin(View):
 							"position": custom_user_auth.custom_user_id.position if custom_user_auth.custom_user_id.position else "",
 						}
 
-					# user_dict = {
-					#     "nickname": custom_user_auth.custom_user_id.nickname,
-					#     "uid": custom_user_auth.custom_user_id.id,
-					#     "avatar": custom_user_auth.custom_user_id.avatar.url if custom_user_auth.custom_user_id.avatar else ""
-					# }
-					# request.session['token'] = token
-					# request.session['user'] = user_dict
-					# request.session['login'] = True
+				# user_dict = {
+				#     "nickname": custom_user_auth.custom_user_id.nickname,
+				#     "uid": custom_user_auth.custom_user_id.id,
+				#     "avatar": custom_user_auth.custom_user_id.avatar.url if custom_user_auth.custom_user_id.avatar else ""
+				# }
+				# request.session['token'] = token
+				# request.session['user'] = user_dict
+				# request.session['login'] = True
 				else:
 					result_dict["msg"] = "账号未激活"
 					result_dict["err"] = 6
@@ -251,14 +251,14 @@ class WeiXinLogin(View):
 				else:
 					self.state += "?" + user_info
 
-				# user_dict = {
-				#     "nickname": custom_user_auth_obj.custom_user_id.nickname,
-				#     "uid": custom_user_auth_obj.custom_user_id.id,
-				#     "avatar": custom_user_auth_obj.custom_user_id.avatar.name
-				# }
-				# request.session['token'] = token
-				# request.session['user'] = user_dict
-				# request.session['login'] = True
+			# user_dict = {
+			#     "nickname": custom_user_auth_obj.custom_user_id.nickname,
+			#     "uid": custom_user_auth_obj.custom_user_id.id,
+			#     "avatar": custom_user_auth_obj.custom_user_id.avatar.name
+			# }
+			# request.session['token'] = token
+			# request.session['user'] = user_dict
+			# request.session['login'] = True
 			else:
 				if self.user_id:  # 绑定账号
 					user_auth_dict = {
@@ -324,18 +324,18 @@ class WeiXinLogin(View):
 							else:
 								self.state += "?" + user_info
 
-							# user_dict = {
-							#     "nickname": create_user.nickname,
-							#     "uid": create_user.id,
-							#     "avatar": create_user.avatar.name
-							# }
-							# request.session['token'] = token
-							# request.session['user'] = user_dict
-							# request.session['login'] = True
+						# user_dict = {
+						#     "nickname": create_user.nickname,
+						#     "uid": create_user.id,
+						#     "avatar": create_user.avatar.name
+						# }
+						# request.session['token'] = token
+						# request.session['user'] = user_dict
+						# request.session['login'] = True
 
 						else:
 							create_user.delete()
-						# result_dict["msg"] = "用户权限添加失败"
+					# result_dict["msg"] = "用户权限添加失败"
 		except:
 			# result_dict["msg"] = traceback.format_exc()
 			traceback.print_exc()
@@ -345,7 +345,7 @@ class WeiXinLogin(View):
 			if not self.user_id:
 				res.set_cookie("token", token)
 			return res
-		# return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+	# return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
 class QQLogin(View):
@@ -472,14 +472,14 @@ class QQLogin(View):
 				else:
 					self.state += "?" + user_info
 
-				# user_dict = {
-				#     "nickname": custom_user_auth_obj.custom_user_id.nickname,
-				#     "uid": custom_user_auth_obj.custom_user_id.id,
-				#     "avatar": custom_user_auth_obj.custom_user_id.avatar.name
-				# }
-				# request.session['token'] = token
-				# request.session['user'] = user_dict
-				# request.session['login'] = True
+			# user_dict = {
+			#     "nickname": custom_user_auth_obj.custom_user_id.nickname,
+			#     "uid": custom_user_auth_obj.custom_user_id.id,
+			#     "avatar": custom_user_auth_obj.custom_user_id.avatar.name
+			# }
+			# request.session['token'] = token
+			# request.session['user'] = user_dict
+			# request.session['login'] = True
 			else:
 				if self.user_id:  # 绑定账号
 					user_auth_dict = {
@@ -538,18 +538,18 @@ class QQLogin(View):
 								self.state += "&" + user_info
 							else:
 								self.state += "?" + user_info
-							# user_dict = {
-							#     "nickname": create_user.nickname,
-							#     "uid": create_user.id,
-							#     "avatar": create_user.avatar.name
-							# }
-							# request.session['token'] = token
-							# request.session['user'] = user_dict
-							# request.session['login'] = True
+						# user_dict = {
+						#     "nickname": create_user.nickname,
+						#     "uid": create_user.id,
+						#     "avatar": create_user.avatar.name
+						# }
+						# request.session['token'] = token
+						# request.session['user'] = user_dict
+						# request.session['login'] = True
 
 						else:
 							create_user.delete()
-						# result_dict["msg"] = "用户权限添加失败"
+					# result_dict["msg"] = "用户权限添加失败"
 		except:
 			# result_dict["msg"] = traceback.format_exc()
 			traceback.print_exc()
@@ -559,7 +559,7 @@ class QQLogin(View):
 			if not self.user_id:
 				res.set_cookie("token", token)
 			return res
-		# return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+	# return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
 
 
 class CustomUserRegister(View):
@@ -845,9 +845,9 @@ class RetrievePasswordByPhone(View):
 		}
 		try:
 			param_dict = json.loads(request.body)
-			phone = param_dict.get("phone")
+			phone = param_dict.get("phone")  # 手机号
 			verify_code = param_dict.get("verify_code")  # 验证码
-			new_password = param_dict.get("new_password")
+			new_password = param_dict.get("new_password")  # 新密码
 
 			# 校验验证码
 			valid_filter = {
@@ -858,7 +858,7 @@ class RetrievePasswordByPhone(View):
 			}
 			is_valid = VerifyCode.objects.filter(**valid_filter)
 			if not is_valid.exists():
-				result_dict["err"] = 0
+				result_dict["err"] = 7
 				result_dict["msg"] = "无效的验证码"
 			else:
 				filter_dict = {
