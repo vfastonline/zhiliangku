@@ -74,10 +74,10 @@ const entry = {
     path: '21_test',
     filename: 'assess/info/index.html'
   },
-  // test_page: {
-  //   path: '30_test',
-  //   filename: 'test/index.html'
-  // }
+  test_page: {
+    path: '30_test',
+    filename: 'test/index.html'
+  }
 }
 var entryObj = {}
 var distArr = []
