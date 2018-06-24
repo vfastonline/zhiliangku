@@ -21,5 +21,5 @@ class WechatRemarkAdmin(admin.ModelAdmin):
 
 @admin.register(WechatMusic)
 class WechatMusicAdmin(admin.ModelAdmin):
-	list_display = ('id', "name", "address", "images")
+	list_display = ('id', "name", "address", "images", "types")
 	search_fields = ('name',)

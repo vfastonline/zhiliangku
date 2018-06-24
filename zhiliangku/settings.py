@@ -69,7 +69,9 @@ INSTALLED_APPS = [
 	'applications.employment',  # 就业
 	'applications.medal',  # 勋章
 	'applications.notification',  # 消息通知
+
 	'applications.wechat_promotion',  # 微信推广
+	'applications.world_cup',  # 世界杯-答题-猜球-赢积分
 ]
 
 SITE_ID = 1

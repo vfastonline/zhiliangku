@@ -73,6 +73,10 @@ SUIT_CONFIG = {
 		{'label': '微信推广', 'app': 'wechat_promotion', 'icon': 'icon-list-alt',
 		 'models': ('WechatBrowse', 'WechatBackground', 'WechatRemark', "WechatMusic")},
 
+		# 世界杯-答题-猜球
+		{'label': '世界杯', 'app': 'world_cup', 'icon': 'icon-list-alt',
+		 'models': ("Topic", "Country", "Tournament", "BetRecord",)},
+
 		# # 观看进度
 		# {'app': 'record', 'icon': 'icon-list-alt', 'models': ('WatchRecord',)},
 
