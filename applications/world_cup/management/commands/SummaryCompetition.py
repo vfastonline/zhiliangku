@@ -60,7 +60,7 @@ class Command(BaseCommand):
 				"is_summary": True,
 				"summary_time": datetime.datetime.now()
 			}
-			Tournament.objects.filter(id__in=is_summary_ids).update(update_param)
+			Tournament.objects.filter(id__in=is_summary_ids).update(**update_param)
 		except:
 			traceback.print_exc()
 			raise CommandError(traceback.format_exc())
