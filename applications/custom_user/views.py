@@ -128,6 +128,9 @@ class CustomUserLogin(View):
 
 
 class WeiXinLogin(View):
+	"""微信扫码授权第三方登录
+
+	"""
 	appid = 'wx7c9efe7b17c8aef2'
 	appsecret = '4f44d0ecc91e0dd9ef955885d6cfcb4f'
 	code = ''
@@ -998,7 +1001,15 @@ class CustomUserLogout(View):
 
 
 class WeiXinWebPageLogin(View):
-	"""针对公众号网页授权登录"""
+	"""针对公众号网页授权登录
+	https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fdf187f5c8f9f2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin&response_type=code&scope=snsapi_userinfo&state=L2FkbWlu&#wechat_redirect
+	网页授权地址：https://open.weixin.qq.com/connect/oauth2/authorize
+	appid：wx96fdf187f5c8f9f2
+	redirect_uri：第三方后台接口地址（UrlEncode），http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin，http://www.zhiliangku.com/customuser/weixin/webpage/login
+	response_type：code
+	state：自定义参数，aHR0cDovL3d3dy56aGlsaWFuZ2t1LmNvbS93b3JsZGN1cC90b3BpYw==（登录成功后重定向地址，base64加密）http://www.zhiliangku.com/worldcup/topic
+	#wechat_redirect
+	"""
 	appid = 'wx96fdf187f5c8f9f2'
 	appsecret = 'a554a61688d97543a146c62d1fcd85b9'
 	code = ''
