@@ -1,13 +1,12 @@
 #!encoding:utf-8
-from django.db.models import F
+import datetime
+from django.db.models import Sum
 from django.shortcuts import render
 from django.views.generic import View
 
-from applications.custom_user.models import CustomUser
 from applications.world_cup.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
 from lib.util import *
-import datetime
 
 
 class WorldCupTopic(View):
@@ -162,6 +161,150 @@ class WorldCupBet(View):
 		except:
 			self.result_dict["err"] = 1
 			self.result_dict["msg"] = "押注异常"
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+		finally:
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
+class GetAnalysisInfo(View):
+	"""世界杯-获取-教你猜球信息"""
+
+	def __init__(self):
+		super(GetAnalysisInfo, self).__init__()
+		self.result_dict = {
+			"err": 0,
+			"msg": "success",
+			"data": "",
+		}
+
+	def get(self, request, *args, **kwargs):
+		try:
+			self.result_dict["data"] = Analysis.objects.first().content
+		except:
+			self.result_dict["err"] = 1
+			self.result_dict["msg"] = "无猜球规则"
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+		finally:
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
+class GetUserIntegral(View):
+	"""世界杯-获取-用户积分"""
+
+	def __init__(self):
+		super(GetUserIntegral, self).__init__()
+		self.result_dict = {
+			"err": 0,
+			"msg": "success",
+			"data": 0,
+		}
+
+	def get(self, request, *args, **kwargs):
+		try:
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+			self.result_dict["data"] = CustomUser.objects.get(id=custom_user_id).integral
+		except:
+			self.result_dict["err"] = 1
+			self.result_dict["msg"] = "无用户信息"
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+		finally:
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
+class GetUserBetResult(View):
+	"""世界杯-获取-用户押注结果"""
+
+	def __init__(self):
+		super(GetUserBetResult, self).__init__()
+		self.result_dict = {
+			"err": 0,
+			"msg": "success",
+			"data": list(),
+		}
+
+	def get(self, request, *args, **kwargs):
+		try:
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+
+			now = time.time()
+			midnight = now - (now % 86400) + time.timezone
+			pre_midnight = midnight - 86400
+			now_midnight = midnight - 1
+			time_format = "%Y-%m-%d %H:%M:%S"
+			start_time = datetime.datetime.strptime(time.strftime(time_format, time.localtime(pre_midnight)),
+													time_format)
+			end_time = datetime.datetime.strptime(time.strftime(time_format, time.localtime(now_midnight)), time_format)
+			# 获取昨天有结果赛事
+			filter_param = {
+				"is_summary": True,
+				"summary_time__gt": start_time,
+				"summary_time__lt": end_time,
+			}
+			tournaments = Tournament.objects.filter(**filter_param)  # 昨天已经出比赛结果并且已经汇总的赛事
+			for tournament in tournaments:
+				one_dict = dict()
+				if tournament.a_victory:  # A国家胜
+					match_results = "A"
+				elif tournament.b_victory:  # B国家胜
+					match_results = "B"
+				elif tournament.common:  # 平
+					match_results = "C"
+				else:  # 没有录入结果的不汇总
+					continue
+
+				filter_param = {
+					"user__id": custom_user_id,
+					"tournament": tournament,
+					"country": match_results
+				}
+				betrecords = BetRecord.objects.filter(**filter_param).values("user").annotate(integral=Sum("integral"))
+				integral = 0
+				if betrecords.exists():
+					betrecord = betrecords.first()
+					integral = betrecord.get("integral", 0) * 2
+				one_dict["id"] = tournament.id
+				one_dict["country_a_name"] = tournament.country_a.name
+				one_dict["country_a_flag"] = tournament.country_a.flag.url if tournament.country_a.flag else ""
+				one_dict["country_b_name"] = tournament.country_b.name
+				one_dict["country_b_flag"] = tournament.country_b.flag.url if tournament.country_b.flag else ""
+				one_dict["integral"] = integral
+				one_dict["match_results"] = match_results
+
+				self.result_dict["data"].append(one_dict)
+
+		except:
+			self.result_dict["err"] = 1
+			self.result_dict["msg"] = "无猜球规则"
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+		finally:
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
+class GetBetRecordCount(View):
+	"""世界杯-获取-投注记录总数"""
+
+	def __init__(self):
+		super(GetBetRecordCount, self).__init__()
+		self.result_dict = {
+			"err": 0,
+			"msg": "success",
+			"data": 999,
+		}
+
+	def get(self, request, *args, **kwargs):
+		try:
+			self.result_dict["data"] = BetRecordCount.objects.first().count
+		except:
+			self.result_dict["err"] = 1
+			self.result_dict["msg"] = "无投注记录"
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
 		finally:

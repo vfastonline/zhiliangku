@@ -1,7 +1,13 @@
 #!encoding:utf-8
 from __future__ import unicode_literals
 
+import logging
+import traceback
+
 from django.db import models
+from django.db.models import F
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from applications.custom_user.model_form import CustomUser
 from lib.storage import *
@@ -42,14 +48,15 @@ class Country(models.Model):
 
 
 class Tournament(models.Model):
-	"""比赛 """
+	"""比赛"""
 	country_a = models.ForeignKey('Country', verbose_name="国家A", related_name="tournament_country_a")
 	country_b = models.ForeignKey('Country', verbose_name="国家B", related_name="tournament_country_b")
 	start_time = models.DateTimeField('开赛时间', help_text="只显示、押注未开赛的赛事")
 	a_victory = models.BooleanField('国家A-胜', default=False, help_text="出比赛结果后填写")
 	common = models.BooleanField('平', default=False, help_text="出比赛结果后填写")
 	b_victory = models.BooleanField('国家A-胜', default=False, help_text="出比赛结果后填写")
-	is_summary = models.BooleanField('已汇总积分', default=False)
+	is_summary = models.BooleanField('已汇总', default=False, help_text="系统已经通过定时任务根据比赛结果汇总用户猜球结果并返积分")
+	summary_time = models.DateTimeField('汇总时间', blank=True, null=True)
 	create_time = models.DateTimeField('创建时间', auto_now=True)
 
 	def __unicode__(self):
@@ -77,3 +84,49 @@ class BetRecord(models.Model):
 		db_table = 'BetRecord'
 		verbose_name = "押注记录"
 		verbose_name_plural = "押注记录"
+
+
+@receiver(post_save, sender=BetRecord)
+def BetRecord_counter(sender, instance, created, **kwargs):
+	"""当有新的用户投注，投注记录总数计数器 +1
+	:param sender:
+	:param instance:
+	:param created:
+	:param kwargs:
+	:return:
+	"""
+	try:
+		# 只有当这个instance是新创建的，投注记录+1
+		if not created:
+			return
+		BetRecordCount.objects.all().update(count=F('count') + 1)
+	except:
+		traceback.print_exc()
+		logging.getLogger().error(traceback.format_exc())
+
+
+class BetRecordCount(models.Model):
+	"""用户押注记录总数"""
+	count = models.PositiveIntegerField("押注记录总数", default=999)
+
+	def __unicode__(self):
+		return str(self.count)
+
+	class Meta:
+		db_table = 'BetRecordCount'
+		verbose_name = "押注记录总数"
+		verbose_name_plural = "押注记录总数"
+
+
+class Analysis(models.Model):
+	"""教你赢球"""
+	content = models.TextField('最新大数据分析', max_length=255)
+	create_time = models.DateTimeField('创建时间', auto_now=True)
+
+	def __unicode__(self):
+		return str(self.id)
+
+	class Meta:
+		db_table = 'Analysis'
+		verbose_name = "教你赢球"
+		verbose_name_plural = "教你赢球"

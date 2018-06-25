@@ -1,9 +1,8 @@
 # coding=utf-8
-import traceback
 
 import datetime
 from django.core.management.base import BaseCommand, CommandError
-from django.db.models import Sum, F
+from django.db.models import Sum
 
 from applications.world_cup.models import *
 
@@ -56,8 +55,12 @@ class Command(BaseCommand):
 			[CustomUser.objects.filter(id=key).update(integral=F('integral') + val) for key, val in
 			 user_integral.items()]
 
-			# 管理员设置比赛结果并已汇总的赛事，修改为已汇总
-			Tournament.objects.filter(id__in=is_summary_ids).update(is_summary=True)
+			# 管理员设置比赛结果并已汇总的赛事，修改为已汇总，更新汇总时间
+			update_param = {
+				"is_summary": True,
+				"summary_time": datetime.datetime.now()
+			}
+			Tournament.objects.filter(id__in=is_summary_ids).update(update_param)
 		except:
 			traceback.print_exc()
 			raise CommandError(traceback.format_exc())

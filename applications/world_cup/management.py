@@ -6,7 +6,7 @@ import traceback
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
 
-from applications.world_cup.models import Country
+from applications.world_cup.models import Country, BetRecordCount
 
 
 @receiver(post_migrate)
@@ -53,5 +53,8 @@ def init_db_info(sender, **kwargs):
 			{"name": "巴拿马", "flag": "/flag/banama.png"},
 		]
 		[Country.objects.get_or_create(**info_dict) for info_dict in init_info]
+
+		# 默认投注记录总数999
+		BetRecordCount.objects.get_or_create(count=999)
 	except:
 		logging.getLogger().error(traceback.print_exc())
