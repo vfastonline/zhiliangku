@@ -75,7 +75,7 @@ SUIT_CONFIG = {
 
 		# 世界杯-答题-猜球
 		{'label': '世界杯', 'app': 'world_cup', 'icon': 'icon-list-alt',
-		 'models': ("Topic", "Country", "Tournament", "BetRecord",)},
+		 'models': ("Topic", "Country", "Tournament", "BetRecord", "BetRecordCount", "Analysis",)},
 
 		# # 观看进度
 		# {'app': 'record', 'icon': 'icon-list-alt', 'models': ('WatchRecord',)},
