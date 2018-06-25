@@ -54,7 +54,7 @@ class Tournament(models.Model):
 	start_time = models.DateTimeField('开赛时间', help_text="只显示、押注未开赛的赛事")
 	a_victory = models.BooleanField('国家A-胜', default=False, help_text="出比赛结果后填写")
 	common = models.BooleanField('平', default=False, help_text="出比赛结果后填写")
-	b_victory = models.BooleanField('国家A-胜', default=False, help_text="出比赛结果后填写")
+	b_victory = models.BooleanField('国家B-胜', default=False, help_text="出比赛结果后填写")
 	is_summary = models.BooleanField('已汇总', default=False, help_text="系统已经通过定时任务根据比赛结果汇总用户猜球结果并返积分")
 	summary_time = models.DateTimeField('汇总时间', blank=True, null=True)
 	create_time = models.DateTimeField('创建时间', auto_now=True)
