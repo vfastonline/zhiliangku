@@ -1,0 +1,168 @@
+<template>
+  <div class="first_block">
+    <div class="titel_notice ftc">
+      <img class="loudspeaker vm"
+           src="../img/01_loudspeaker.png"
+           alt="">
+      <span class="dib vm">已下注</span>
+      <span class="dib vm gamble_num">{{num}}</span>
+      <span class="dib vm">次，等你来参加</span>
+    </div>
+    <div class="block_title ftc">
+      积分竞猜赢10万大礼
+    </div>
+    <div>
+      <div class="banner_container ftc r sw">
+        <!-- <img class="banner_img sw"
+             src="../img/07_banner.png"
+             alt=""> -->
+        <div class="button_container ftj sw a">
+          <img class="user_icon a"
+               src="../img/08_user.png"
+               alt="">
+          <span class="score dib ">
+            <span class="dib vm">积分：{{user_mark.value}}</span>
+          </span>
+          <mt-button @click="shear()"
+                     type="primary">转发赢10倍积分</mt-button>
+        </div>
+      </div>
+      <div class="question_container hc sw">
+        <question_unit v-for="(item,index) in question"
+                       :key="item.id"
+                       :main_data="item"
+                       :index="index"
+                       @add_num="add_num">
+        </question_unit>
+      </div>
+    </div>
+    <div @click="rules_show" class="ftc rules">活动规则</div>
+  </div>
+</template>
+<script>
+import question_unit from './02_question_unit'
+import Bus from '../../../assets/js/02_bus'
+
+// import wx_func from '../js/04_wx_func'
+export default {
+  data () {
+    return {
+      question: [],
+      num: '',
+      shear_state: 0
+    }
+  },
+  watch: {
+    shear_state (nw) {
+      console.log(1111)
+    }
+  },
+  props: {
+    main_data: {},
+    user_mark: {}
+  },
+  methods: {
+    rules_show(){
+      this.$emit('show_rules')
+    },
+    add_num (v) {
+      this.user_mark += v
+    },
+    shear () {
+      window.WeixinJSBridge.invoke('shareTimeline', {
+        title: '积分竞猜赢10万大礼', // 分享标题
+        link: 'https: //open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fdf187f5c8f9f2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin&response_type=code&scope=snsapi_userinfo&state=aHR0cDovL3d3dy56aGlsaWFuZ2t1LmNvbS93b3JsZGN1cC90b3BpYw==&#wechat_redirect',
+        imgUrl: 'http://www.zhilaingku.com/media/wechat/share/20180614112211_442.jpg',
+        desc: '荣新大数据带你看透世界杯',
+      })
+    },
+    get_question () {
+      this.$get('/worldcup/topic/info').then(res => {
+        this.question = res.data.data
+      })
+    },
+    get_stak_num () {
+      this.$get('/worldcup/get/bet/record/count').then(res => {
+        this.num = res.data.data
+      })
+    },
+    init_func () {
+      this.get_question()
+      this.get_stak_num()
+    }
+  },
+  created () {
+    this.init_func()
+    Bus.$on('shear_success', () => {
+      this.shear = 1
+    })
+  },
+  components: {
+    question_unit: question_unit
+  }
+}
+
+</script>
+<style scoped lang="scss">
+@import '../scss/_base.scss';
+.banner_img {
+  height: 2rem;
+}
+.banner_container {
+  margin-bottom: 0.2rem;
+}
+.first_block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.button_container {
+  bottom: 0rem;
+}
+.user_icon {
+  height: 0.8rem;
+  width: 0.8rem;
+  border-radius: 50%;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+}
+.score {
+  height: 0.62rem;
+  line-height: 0.62rem;
+  padding: 0 0.06rem;
+  border-radius: 1rem;
+  color: white;
+  font-size: 0.22rem;
+  margin-left: 0.8rem;
+}
+.rules {
+  font-size: 0.26rem;
+  color: $yellow;
+  margin-bottom: 0.2rem;
+}
+.question_container {
+  background-color: $red;
+  padding: 0.2rem;
+  border-radius: 0.2rem;
+  box-sizing: border-box;
+  min-height: 5rem;
+}
+.block_title {
+  font-size: 0.36rem;
+  font-weight: 500;
+  color: white;
+}
+.loudspeaker {
+  height: 0.37rem;
+  width: 0.37rem;
+  margin-right: 0.1rem;
+}
+.titel_notice {
+  background-color: $yellow;
+  padding: 0.05rem;
+}
+.gamble_num {
+  color: $red;
+}
+</style>

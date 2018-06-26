@@ -1,0 +1,33 @@
+@charset "UTF-8";
+$red:#fd5d5d;
+$yellow:#fdcd3b;
+.swiper-container {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  background: #2c4599;
+}
+
+.sw {
+  width: 6rem;
+  margin: auto
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: #000;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.bm {
+  bottom: 2.99296%;
+}

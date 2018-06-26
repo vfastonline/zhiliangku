@@ -28,7 +28,7 @@
   }
 
   .success_status p {
-    hieght: 26px;
+    height: 26px;
     line-height: 26px;
   }
 

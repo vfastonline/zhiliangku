@@ -1,0 +1,136 @@
+<template>
+  <div class="main_block">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <slide_01 :user_mark="user_mark"
+                  @show_rules="show_rules"
+                  class="swiper-slide"></slide_01>
+        <slide_03 v-if="show_03"
+                  class="swiper-slide"></slide_03>
+        <slide_02 :user_mark="user_mark"
+                  class="swiper-slide"></slide_02>
+        <!-- <result></result> -->
+      </div>
+    </div>
+  </div>
+</template>
+<style>
+</style>
+<style scoped lang='scss'>
+.main_block {
+  height: 100%;
+}
+</style>
+<script>
+import card from './js/02_card'
+import slide_01 from './01_components/01_slid'
+import slide_02 from './01_components/03_slid'
+import slide_03 from './01_components/07_slid'
+import result from './01_components/09_result_0'
+import Bus from '../../assets/js/02_bus'
+export default {
+  data () {
+    return {
+      my_swiper: "",
+      shear_icon: '',
+      url: "http://www.zhiliangku.com",
+      user_mark: '',
+      show_03: false
+    }
+  },
+  methods: {
+    show_rules () {
+      this.show_03 = true
+      this.my_swiper = card.swiper()
+      console.log(this.my_swiper)
+    },
+    get_user_mark () {
+      this.$get('/worldcup/get/user/integral').then(res => {
+        this.user_mark = { value: res.data.data }
+      })
+    },
+    get_icon () {
+      this.$get('/wechat/background/music').then(res => {
+        this.shear_icon = res.data.data.images
+        this.init_wx()
+      })
+    },
+    init_wx () {
+      // 改成一个函数
+      var wx = window.wx
+      var url = this.url
+      var imgurl = this.shear_icon, add_num = this.add_num
+      this.$get(url + '/wechat/get/signature?urls=' + encodeURIComponent(window.location.href.split('#')[0]), function (data) {
+        var content = JSON.parse(data).data
+        var config = {
+          debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          appId: content.appId, // 必填，企业号的唯一标识，此处填写企业号corpid
+          timestamp: content.timestamp, // 必填，生成签名的时间戳
+          nonceStr: content.nonceStr, // 必填，生成签名的随机串
+          signature: content.signature, // 必填，签名，见附录1
+          jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        }
+        // console.table(config)
+        wx.config(config);
+        wx.ready(function (res) {
+          // alert('ready')
+          wx.checkJsApi({
+            jsApiList: ['getNetworkType', 'previewImage', 'onMenuShareTimeline', 'onMenuShareAppMessage'],
+            success: function (res) {
+              // alert(JSON.stringify(res));
+            }
+          });
+          wx.onMenuShareTimeline({
+            title: '积分竞猜赢10万大礼', // 分享标题
+            link: 'https: //open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fdf187f5c8f9f2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin&response_type=code&scope=snsapi_userinfo&state=aHR0cDovL3d3dy56aGlsaWFuZ2t1LmNvbS93b3JsZGN1cC90b3BpYw==&#wechat_redirect', // 分享链接，该链接域名必须与当前企业的可信域名一致
+            imgUrl: url + imgurl, // 分享图标
+            success: function () {
+              add_num()
+            },
+            cancel: function () {
+              // 用户取消分享后执行的回调函数
+            }
+          });
+          wx.onMenuShareAppMessage({
+            title: '请为我的努力加分打call', // 分享标题
+            desc: '荣新大数据带你看透世界杯', // 分享描述
+            link: 'https: //open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fdf187f5c8f9f2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin&response_type=code&scope=snsapi_userinfo&state=aHR0cDovL3d3dy56aGlsaWFuZ2t1LmNvbS93b3JsZGN1cC90b3BpYw==&#wechat_redirect', // 分享链接，该链接域名必须与当前企业的可信域名一致
+            imgUrl: url + imgurl, // 分享图标
+            type: 'link', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function () {
+              add_num()
+            },
+            cancel: function () {
+              // 用户取消分享后执行的回调函数
+            }
+          });
+        })
+        wx.error(function (res) {
+          // alert('错误')
+        })
+      })
+    },
+    add_num () {
+      var name = this.$fn.funcUrl('name') || ''
+      this.$get(this.url + '/wechat/share?name=' + name)
+      Bus.$emit('shear_success')
+    }
+  },
+  created () {
+    this.get_user_mark()
+  },
+  mounted () {
+    this.my_swiper = card.swiper()
+    this.get_icon()
+  },
+  components: {
+    slide_01: slide_01,
+    slide_02: slide_02,
+    slide_03: slide_03,
+    result: result
+    // 	https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fdf187f5c8f9f2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin&response_type=code&scope=snsapi_userinfo&state=aHR0cDovL3d3dy56aGlsaWFuZ2t1LmNvbS93b3JsZGN1cC90b3BpYw==&#wechat_redirect
+    //  uid=112&nickname=猛熊爱吃蜜&role=学生&avatar=/media/custom_user_avatar/112/20180625164857_weixin.jpg&position=
+  }
+}
+</script>
