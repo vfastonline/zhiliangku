@@ -23,7 +23,7 @@ class Command(BaseCommand):
 			tournaments = Tournament.objects.filter(**filter_param)
 			is_summary_ids = list()
 
-			# 汇总
+			# 汇总已经由比赛结果的赛事，
 			user_integral = dict()  # {user_id:integral}
 			for tournament in tournaments:
 				# 查看本场赛事比赛结果
@@ -33,7 +33,7 @@ class Command(BaseCommand):
 					match_results = "B"
 				elif tournament.common:  # 平
 					match_results = "C"
-				else:  # 没有录入结果的不汇总
+				else:  # 没有录入比赛结果的不汇总，下次再汇总
 					continue
 				is_summary_ids.append(tournament.id)
 				filter_param = {
