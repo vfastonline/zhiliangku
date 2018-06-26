@@ -59,7 +59,7 @@ class WorldCupTopicInfo(View):
 			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class WorldCupScore(View):
 	"""世界杯-题目-得分"""
 
