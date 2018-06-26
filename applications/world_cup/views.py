@@ -74,7 +74,7 @@ class WorldCupScore(View):
 	def post(self, request, *args, **kwargs):
 		try:
 			param_dict = json.loads(request.body)
-			custom_user_id = 112#str_to_int(kwargs.get('uid', 0))  # 用户ID
+			custom_user_id = 112  # str_to_int(kwargs.get('uid', 0))  # 用户ID
 			integral = str_to_int(param_dict.get('integral', 0))  # 积分
 			customuser = CustomUser.objects.filter(id=custom_user_id)
 			if customuser.exists():
@@ -142,23 +142,28 @@ class WorldCupBet(View):
 	def post(self, request, *args, **kwargs):
 		try:
 			param_dict = json.loads(request.body)
-			custom_user_id = 112#str_to_int(kwargs.get('uid', 0))  # 用户ID
-			integral = str_to_int(param_dict.get('integral', 0))  # 积分
-			tournament_id = str_to_int(param_dict.get('tournament', 0))  # 赛事ID
-			country = param_dict.get('tournament', "")  # A:国家A胜  B:国家B胜  C:平
+			custom_user_id = 3  # str_to_int(kwargs.get('uid', 0))  # 用户ID
+			bet_info = param_dict.get('bet_info', [])  # [{"integral": 10, "tournament_id": 1, "tournament": "A"}]
 
 			customuser = CustomUser.objects.get(id=custom_user_id)
-			tournament = Tournament.objects.get(id=tournament_id)
-			create_param = {
-				"user": customuser,
-				"tournament": tournament,
-				"country": country,
-				"integral": integral,
-			}
-			betrecord = BetRecord.objects.create(**create_param)
-			if betrecord:
-				CustomUser.objects.filter(id=custom_user_id).update(integral=F('integral') - integral)
-			self.result_dict["integral"] = customuser.integral
+			for one in bet_info:
+				integral = str_to_int(one.get('integral', 0))  # 积分
+				tournament_id = str_to_int(one.get('tournament_id', 0))  # 赛事ID
+				country = one.get('tournament', "")  # A:国家A胜  B:国家B胜  C:平
+
+				tournament = Tournament.objects.get(id=tournament_id)
+				create_param = {
+					"user": customuser,
+					"tournament": tournament,
+					"country": country,
+					"integral": integral,
+				}
+				betrecord = BetRecord.objects.create(**create_param)
+				if betrecord:
+					CustomUser.objects.filter(id=custom_user_id).update(integral=F('integral') - integral)
+
+			# 获取用户积分
+			self.result_dict["integral"] = CustomUser.objects.get(id=custom_user_id).integral
 
 		except:
 			self.result_dict["err"] = 1
@@ -207,7 +212,7 @@ class GetUserIntegral(View):
 
 	def get(self, request, *args, **kwargs):
 		try:
-			custom_user_id = 112#str_to_int(kwargs.get('uid', 0))  # 用户ID
+			custom_user_id = 112  # str_to_int(kwargs.get('uid', 0))  # 用户ID
 			self.result_dict["data"] = CustomUser.objects.get(id=custom_user_id).integral
 		except:
 			self.result_dict["err"] = 1
@@ -232,7 +237,7 @@ class GetUserBetResult(View):
 
 	def get(self, request, *args, **kwargs):
 		try:
-			custom_user_id = 112#str_to_int(kwargs.get('uid', 0))  # 用户ID
+			custom_user_id = 112  # str_to_int(kwargs.get('uid', 0))  # 用户ID
 
 			now = time.time()
 			midnight = now - (now % 86400) + time.timezone
