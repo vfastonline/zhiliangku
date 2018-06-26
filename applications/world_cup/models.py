@@ -120,7 +120,7 @@ class BetRecordCount(models.Model):
 
 class Analysis(models.Model):
 	"""教你赢球"""
-	content = models.TextField('最新大数据分析', max_length=255)
+	content = models.TextField('最新大数据分析', max_length=255, help_text="图片必<=2M")
 	create_time = models.DateTimeField('创建时间', auto_now=True)
 
 	def __unicode__(self):
