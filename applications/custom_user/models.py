@@ -39,7 +39,7 @@ class CustomUser(models.Model):
 	position = models.CharField('职位', max_length=255, blank=True, null=True)
 	contact_number = models.CharField('联系电话', max_length=255, blank=True, null=True, default="")
 	signature = models.TextField('个性签名', max_length=255, default="", null=True, blank=True)
-	integral = models.PositiveIntegerField("积分", default=10)  # 隐藏
+	integral = models.PositiveIntegerField("积分", default=0)  # 隐藏
 	receiver = models.CharField('收货人', max_length=255, blank=True, null=True, default="")  # 隐藏
 	address = models.CharField('收货地址', max_length=255, blank=True, null=True, default="")  # 隐藏
 	create_time = models.DateTimeField(verbose_name='创建时间', default=timezone.now)

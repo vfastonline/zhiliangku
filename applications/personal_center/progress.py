@@ -60,6 +60,7 @@ class GetLearningProgressInfo(View):
 					learn_video_id = summarize_dict.get("learn_video_id")
 					if learn_video_id:
 						detail["learn_video_id"] = learn_video_id
+						detail["learn_course_id"] = summarize_dict.get("learn_course_id")
 						detail["video_process"] = summarize_dict.get("video_process")
 						detail["learn_video_type"] = summarize_dict.get("learn_video_type")
 						detail["learn_video_name"] = summarize_dict.get("learn_video_name")

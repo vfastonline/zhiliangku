@@ -1,10 +1,7 @@
 #!encoding:utf-8
 import commands
 import json
-import logging
-import random
 import re
-import traceback
 
 import datetime
 from django.http import HttpResponse
@@ -12,9 +9,8 @@ from django.shortcuts import render
 from django.views.generic import View
 
 from applications.assessment.models import DockerPort
-from applications.tracks_learning.models import Project, Technology
 from applications.medal.models import *
-from applications.custom_user.models import CustomUser
+from applications.tracks_learning.models import Project, Technology
 from applications.tracks_learning.models import UnlockVideo
 from applications.tracks_learning.models import Video
 from lib.permissionMixin import class_view_decorator, user_login_required

@@ -50,7 +50,9 @@ urlpatterns = [
 	url(r'^employment/', include('applications.employment.urls')),  # 就业
 	url(r'^medal/', include('applications.medal.urls')),  # 勋章
 	url(r'^notification/', include('applications.notification.urls')),  # 消息通知
+
 	url(r'^wechat/', include('applications.wechat_promotion.urls')),  # 微信推广
+	url(r'^worldcup/', include('applications.world_cup.urls')),  # 世界杯-答题-猜球-赢积分
 
 	url(r'^select2/', include('django_select2.urls')),
 	url(r'^upload', views.upload, name='upload'),

@@ -59,9 +59,14 @@ class WechatRemark(models.Model):
 
 
 class WechatMusic(models.Model):
+	TYPES = (
+		("1", "学生评语"),
+		("2", "世界杯"),
+	)
 	name = models.CharField('音乐名字', max_length=255)
 	address = models.FileField('音乐文件', upload_to='wechat/music', storage=ImageStorage())
 	images = models.ImageField('分享图', upload_to="wechat/share", storage=ImageStorage(), blank=True)
+	types = models.CharField('通途', max_length=1, choices=TYPES, blank=True)
 
 	def __unicode__(self):
 		return self.name
