@@ -143,13 +143,13 @@ class WorldCupBet(View):
 		try:
 			param_dict = json.loads(request.body)
 			custom_user_id = 112  # str_to_int(kwargs.get('uid', 0))  # 用户ID
-			bet_info = param_dict.get('bet_info', [])  # [{"integral": 10, "tournament_id": 1, "tournament": "A"}]
+			bet_info = param_dict.get('bet_info', [])  # [{"integral": 10, "tournament_id": 1, "country": "A"}]
 
 			customuser = CustomUser.objects.get(id=custom_user_id)
 			for one in bet_info:
 				integral = str_to_int(one.get('integral', 0))  # 积分
 				tournament_id = str_to_int(one.get('tournament_id', 0))  # 赛事ID
-				country = one.get('tournament', "")  # A:国家A胜  B:国家B胜  C:平
+				country = one.get('country', "")  # A:国家A胜  B:国家B胜  C:平
 
 				tournament = Tournament.objects.get(id=tournament_id)
 				create_param = {
