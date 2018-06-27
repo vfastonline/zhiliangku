@@ -126,16 +126,16 @@ export default {
   bottom: 0rem;
 }
 .user_icon {
-  height: 0.8rem;
-  width: 0.8rem;
+  height: 0.9rem;
+  width: 0.9rem;
   border-radius: 50%;
   top: 50%;
   left: 0;
   transform: translate(0, -50%);
 }
 .score {
-  height: 0.62rem;
-  line-height: 0.62rem;
+  height: 0.72rem;
+  line-height: 0.72rem;
   padding: 0 0.06rem;
   border-radius: 1rem;
   color: white;

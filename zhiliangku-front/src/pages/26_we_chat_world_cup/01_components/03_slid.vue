@@ -10,7 +10,8 @@
       <span class="score dib ">
         <span class="dib vm">积分：{{user_mark.value}}</span>
       </span>
-      <div class="dib link_button ftc r">
+      <div @touchstart="show_info"
+           class="dib link_button ftc r">
         <span class="a big_data bid">大数据</span>
         <span class=" teach_win "> 教你赢 </span>
         <img class=""
@@ -61,6 +62,9 @@ export default {
     user_mark: {}
   },
   methods: {
+    show_info () {
+      this.$emit('show_info')
+    },
     move (e) {
       e.stopPropagation();
     },
@@ -144,16 +148,16 @@ export default {
   margin-bottom: 0.15rem;
 }
 .user_icon {
-  height: 0.8rem;
-  width: 0.8rem;
+  height: 0.9rem;
+  width: 0.9rem;
   border-radius: 50%;
   top: 50%;
   left: 0;
   transform: translate(0, -50%);
 }
 .score {
-  height: 0.62rem;
-  line-height: 0.62rem;
+  height: 0.72rem;
+  line-height: 0.72rem;
   border-radius: 1rem;
   color: white;
   font-size: 0.22rem;
