@@ -38,7 +38,7 @@
         <mt-button class="button_state"
                    @click="active_button('B')"
                    :class="{'active_button':main_data.match_results=='B'}"
-                   type="default">败</mt-button>
+                   type="default">胜</mt-button>
         <span v-show="main_data.match_results=='B'"
               class="stake_num ftc a">{{main_data.integral}}</span>
       </div>
@@ -67,17 +67,25 @@ export default {
     active_button (tag) {
       if (this.main_data.match_results == tag) return
       this.main_data.match_results = tag
-      // Bus.$emit('add_mark', this.main_data.integral)
+      Bus.$emit('add_mark', this.main_data.integral)
       this.main_data.integral = 0
       if (tag) {
         let obj = { id: this.main_data.id }
         Bus.$emit('selected_button', obj)
       }
+    },
+    re_mark (a) {
+      if (a) {
+        this.main_data.integral = 0
+        return
+      }
+      Bus.$emit('add_mark', this.main_data.integral)
+      this.main_data.integral = 0
     }
   },
   created () {
     Bus.$on('Sweeten', this.add_stake)
-    Bus.$on('clear_stake', this.active_button)
+    Bus.$on('clear_stake', this.re_mark)
   },
   components: {
 

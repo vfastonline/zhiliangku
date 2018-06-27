@@ -1,7 +1,7 @@
 <template>
   <div class="sild_02">
     <div class="block_title ftc">
-      积分竞猜赢10万大礼
+      荣新大数据带你看透世界杯
     </div>
     <div class="button_container ftj sw r hc">
       <img class="user_icon a"

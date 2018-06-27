@@ -159,6 +159,7 @@ export default {
     add_num () {
       var name = this.$fn.funcUrl('name') || ''
       this.$get(this.url + '/wechat/share?name=' + name)
+      alert(1)
       Bus.$emit('shear_success')
     },
     get_user_info () {

@@ -30,7 +30,7 @@ export default {
   methods: {
     clear () {
       this.id = ''
-      Bus.$emit('clear_stake')
+      Bus.$emit('clear_stake', this.aready)
     },
     add_Sweeten (num) {
       if (!this.id) return
