@@ -79,7 +79,7 @@ class WorldCupScore(View):
 			customuser = CustomUser.objects.filter(id=custom_user_id)
 			if customuser.exists():
 				customuser.update(integral=F('integral') + integral)
-				self.result_dict["integral"] = customuser.first().integral
+				self.result_dict["integral"] = CustomUser.objects.get(id=custom_user_id).integral
 		except:
 			self.result_dict["err"] = 1
 			self.result_dict["msg"] = "获得积分异常"
