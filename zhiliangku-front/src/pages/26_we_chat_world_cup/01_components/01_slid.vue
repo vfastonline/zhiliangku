@@ -69,7 +69,7 @@ export default {
       this.$emit('show_rules')
     },
     add_num (v) {
-      this.user_mark += v
+      this.user_mark.value += v
     },
     shear () {
       window.WeixinJSBridge.invoke('shareTimeline', {
