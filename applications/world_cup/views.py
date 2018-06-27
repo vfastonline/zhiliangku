@@ -103,10 +103,15 @@ class GetTournamentInfo(View):
 
 	def get(self, request, *args, **kwargs):
 		try:
+			time_format = "%Y-%m-%d %H:%M:%S"
+			today = datetime.date.today()
+			tomorrow = today + datetime.timedelta(days=1)
+			tomorrow = datetime.datetime.strptime(" ".join([str(tomorrow), "10:30:00"]), time_format)
 			filter_param = {
-				"start_time__gt": datetime.datetime.now()
+				"start_time__gt": datetime.datetime.now(),
+				"start_time__lt": tomorrow
 			}
-			tournaments = Tournament.objects.filter(**filter_param)[:3]
+			tournaments = Tournament.objects.filter(**filter_param)
 			for one in tournaments:
 				one_dict = dict()
 				one_dict["id"] = one.id
@@ -188,10 +193,8 @@ class GetAnalysisInfo(View):
 
 	def get(self, request, *args, **kwargs):
 		try:
-			today = datetime.date.today()
-			for one in Analysis.objects.filter(create_time=today):
-				chart_url = one.chart.url if one.chart else ""
-				self.result_dict["data"].append(chart_url)
+			analysis_ojbs = Analysis.objects.filter(create_time=datetime.date.today())
+			self.result_dict["data"] = map(lambda x: x.chart.url if x.chart else "", analysis_ojbs)
 		except:
 			self.result_dict["err"] = 1
 			self.result_dict["msg"] = "无猜球规则"
@@ -247,8 +250,7 @@ class GetUserBetResult(View):
 			pre_midnight = midnight - 86400
 			now_midnight = midnight - 1
 			time_format = "%Y-%m-%d %H:%M:%S"
-			start_time = datetime.datetime.strptime(time.strftime(time_format, time.localtime(pre_midnight)),
-													time_format)
+			start_time = datetime.datetime.strptime(time.strftime(time_format, time.localtime(pre_midnight)), time_format)
 			end_time = datetime.datetime.strptime(time.strftime(time_format, time.localtime(now_midnight)), time_format)
 			# 获取昨天有结果赛事
 			filter_param = {
