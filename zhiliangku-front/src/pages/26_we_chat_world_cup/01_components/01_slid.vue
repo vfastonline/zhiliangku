@@ -13,12 +13,12 @@
     </div>
     <div>
       <div class="banner_container ftc r sw">
-        <!-- <img class="banner_img sw"
+        <img class="banner_img sw"
              src="../img/07_banner.png"
-             alt=""> -->
+             alt="">
         <div class="button_container ftj sw a">
           <img class="user_icon a"
-               src="../img/08_user.png"
+               :src="user_icon_url"
                alt="">
           <span class="score dib ">
             <span class="dib vm">积分：{{user_mark.value}}</span>
@@ -36,7 +36,8 @@
         </question_unit>
       </div>
     </div>
-    <div @click="rules_show" class="ftc rules">活动规则</div>
+    <div @click="rules_show"
+         class="ftc rules">活动规则</div>
   </div>
 </template>
 <script>
@@ -49,7 +50,8 @@ export default {
     return {
       question: [],
       num: '',
-      shear_state: 0
+      shear_state: 0,
+      user_icon_url: ''
     }
   },
   watch: {
@@ -62,7 +64,7 @@ export default {
     user_mark: {}
   },
   methods: {
-    rules_show(){
+    rules_show () {
       this.$emit('show_rules')
     },
     add_num (v) {
@@ -96,17 +98,21 @@ export default {
     Bus.$on('shear_success', () => {
       this.shear = 1
     })
+    setTimeout(() => {
+      this.user_icon_url = this.$myConst.httpUrl + localStorage.avatar
+    }, 20);
   },
   components: {
     question_unit: question_unit
   }
 }
 
+
 </script>
 <style scoped lang="scss">
 @import '../scss/_base.scss';
 .banner_img {
-  height: 2rem;
+  height: 3rem;
 }
 .banner_container {
   margin-bottom: 0.2rem;
@@ -134,7 +140,10 @@ export default {
   border-radius: 1rem;
   color: white;
   font-size: 0.22rem;
-  margin-left: 0.8rem;
+  padding-left: 0.9rem;
+  padding-right: 0.1rem;
+  background: url('../img/10_blue_button.png');
+  background-size: 100% 100%;
 }
 .rules {
   font-size: 0.26rem;

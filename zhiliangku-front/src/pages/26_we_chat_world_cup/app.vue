@@ -28,6 +28,7 @@ import slide_02 from './01_components/03_slid'
 import slide_03 from './01_components/07_slid'
 import result from './01_components/09_result_0'
 import Bus from '../../assets/js/02_bus'
+import { Base64 } from 'js-base64'
 export default {
   data () {
     return {
@@ -82,7 +83,7 @@ export default {
           });
           wx.onMenuShareTimeline({
             title: '积分竞猜赢10万大礼', // 分享标题
-            link: 'https: //open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fdf187f5c8f9f2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin&response_type=code&scope=snsapi_userinfo&state=aHR0cDovL3d3dy56aGlsaWFuZ2t1LmNvbS93b3JsZGN1cC90b3BpYw==&#wechat_redirect', // 分享链接，该链接域名必须与当前企业的可信域名一致
+            link: 'https: //open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fdf187f5c8f9f2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin&response_type=code&scope=snsapi_userinfo&state=aHR0cDovL3d3dy56aGlsaWFuZ2t1LmNvbS93b3JsZGN1cC90b3BpYw==&#wechat_redirect',
             imgUrl: url + imgurl, // 分享图标
             success: function () {
               add_num()
@@ -94,7 +95,7 @@ export default {
           wx.onMenuShareAppMessage({
             title: '请为我的努力加分打call', // 分享标题
             desc: '荣新大数据带你看透世界杯', // 分享描述
-            link: 'https: //open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fdf187f5c8f9f2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin&response_type=code&scope=snsapi_userinfo&state=aHR0cDovL3d3dy56aGlsaWFuZ2t1LmNvbS93b3JsZGN1cC90b3BpYw==&#wechat_redirect', // 分享链接，该链接域名必须与当前企业的可信域名一致
+            link: 'https: //open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fdf187f5c8f9f2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin&response_type=code&scope=snsapi_userinfo&state=aHR0cDovL3d3dy56aGlsaWFuZ2t1LmNvbS93b3JsZGN1cC90b3BpYw==&#wechat_redirect',
             imgUrl: url + imgurl, // 分享图标
             type: 'link', // 分享类型,music、video或link，不填默认为link
             dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
@@ -115,10 +116,32 @@ export default {
       var name = this.$fn.funcUrl('name') || ''
       this.$get(this.url + '/wechat/share?name=' + name)
       Bus.$emit('shear_success')
-    }
+    },
+    get_user_info () {
+      this.user_info = this.search_turn_obj(Base64.decode(this.$fn.funcUrl('user_info')))
+      for (let k in this.user_info) {
+        localStorage[k] = this.user_info[k]
+      }
+    },
+    search_turn_obj (se) {
+      if (typeof se !== "undefined") {
+        se = se.substr(1);
+        var arr = se.split("&"),
+          obj = {},
+          newarr = [];
+        arr.forEach((i) => {
+          newarr = i.split("=");
+          if (typeof obj[newarr[0]] === "undefined") {
+            obj[newarr[0]] = newarr[1];
+          }
+        });
+        return obj;
+      }
+    },
   },
   created () {
     this.get_user_mark()
+    this.get_user_info()
   },
   mounted () {
     this.my_swiper = card.swiper()
