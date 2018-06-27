@@ -14,7 +14,7 @@
         <span class="a big_data bid">大数据</span>
         <span class=" teach_win "> 教你赢 </span>
         <img class=""
-             src="../img/01_loudspeaker.png"
+             src="../img/18_ball.png"
              alt="">
       </div>
     </div>
