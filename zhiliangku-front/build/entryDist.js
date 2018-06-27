@@ -20,8 +20,12 @@ const entry = {
   // '11_finish_project_list',   filename:
   // 'employment/finishprojectlistinfo/list/index.html' }, error_404: {   path:
   // '23_404',   filename: '404.html' }, we_jl: {   path: '24_jl',   filename:
-  // 'wechat/promotion/jl/index.html' }, we_chat: {   path: '25_we_chat',
-  // filename: 'wechat/promotion/index.html' },
+  //   'wechat/promotion/jl/index.html'
+  // },
+  we_chat: {
+    path: '25_we_chat',
+    filename: 'wechat/promotion/index.html'
+  },
   we_chat: {
     path: '26_we_chat_world_cup',
     filename: 'worldcup/topic/index.html'
