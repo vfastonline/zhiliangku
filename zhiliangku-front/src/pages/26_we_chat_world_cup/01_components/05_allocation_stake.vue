@@ -14,6 +14,7 @@
 <script>
 import stake_tag from './06_stake_tag'
 import Bus from '../../../assets/js/02_bus'
+import { Toast } from 'mint-ui';
 export default {
   data () {
     return {
@@ -23,7 +24,8 @@ export default {
   },
   props: {
     user_mark: {},
-    tournament: {}
+    tournament: {},
+    aready: false
   },
   methods: {
     clear () {
@@ -40,6 +42,7 @@ export default {
       this.id = el.id
     },
     bet () {
+      if (this.aready) return
       if (!this.id) return
       let bet_info = []
       this.tournament.forEach(element => {
@@ -49,7 +52,12 @@ export default {
       });
       if (!bet_info.length) return
       this.$post('/worldcup/bet', { bet_info: bet_info }).then(res => {
-        console.log('yes')
+        Toast({
+          message: 'Upload Complete',
+          position: 'bottom',
+          duration: 5000
+        })
+        this.aready = true
       })
 
     }

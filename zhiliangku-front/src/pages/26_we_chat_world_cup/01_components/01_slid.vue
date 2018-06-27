@@ -8,10 +8,10 @@
       <span class="dib vm gamble_num">{{num}}</span>
       <span class="dib vm">次，等你来参加</span>
     </div>
-    <div class="block_title ftc">
-      积分竞猜赢10万大礼
-    </div>
     <div>
+      <div class="block_title ftc">
+        积分竞猜赢10万大礼
+      </div>
       <div class="banner_container ftc r sw">
         <img class="banner_img sw"
              src="../img/07_banner.png"
@@ -23,15 +23,16 @@
           <span class="score dib ">
             <span class="dib vm">积分：{{user_mark.value}}</span>
           </span>
-          <mt-button @click="shear()"
-                     type="primary">转发赢10倍积分</mt-button>
+          <span @click="shear()"
+                class="dib tips"
+                type="primary">转发赢10倍积分</span>
         </div>
       </div>
       <div class="question_container hc sw">
         <question_unit v-for="(item,index) in question"
                        :key="item.id"
                        :main_data="item"
-                       :index="index"
+                       :index="index+1"
                        @add_num="add_num">
         </question_unit>
       </div>
@@ -126,23 +127,33 @@ export default {
   bottom: 0rem;
 }
 .user_icon {
-  height: 0.9rem;
-  width: 0.9rem;
+  height: 0.8rem;
+  width: 0.8rem;
   border-radius: 50%;
   top: 50%;
   left: 0;
   transform: translate(0, -50%);
 }
 .score {
-  height: 0.72rem;
-  line-height: 0.72rem;
+  height: 0.62rem;
+  line-height: 0.62rem;
   padding: 0 0.06rem;
   border-radius: 1rem;
   color: white;
   font-size: 0.22rem;
-  padding-left: 0.9rem;
+  padding-left: 1rem;
   padding-right: 0.1rem;
   background: url('../img/10_blue_button.png');
+  background-size: 100% 100%;
+}
+.tips {
+  height: 0.62rem;
+  line-height: 0.62rem;
+  padding: 0 0.06rem;
+  border-radius: 1rem;
+  color: white;
+  font-size: 0.3rem;
+  background-color: #fc5d5d;
   background-size: 100% 100%;
 }
 .rules {

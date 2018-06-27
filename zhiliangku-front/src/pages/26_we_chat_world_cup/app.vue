@@ -14,7 +14,7 @@
                   v-for="item in bgc"
                   :key="item"
                   :main_data="item"
-                  class="swiper-slide"></slide_04>
+                  class="swiper-slide show_slide_bet_info"></slide_04>
         <!-- <result></result> -->
       </div>
     </div>
@@ -28,7 +28,7 @@
 }
 </style>
 <script>
-import card from './js/02_card'
+
 import slide_01 from './01_components/01_slid'
 import slide_02 from './01_components/03_slid'
 import slide_03 from './01_components/07_slid'
@@ -49,19 +49,45 @@ export default {
     }
   },
   methods: {
+    newSwiper () {
+      let Swiper = window.Swiper
+      var that = this
+      this.my_swiper = new Swiper('.swiper-container', {
+        direction: 'vertical',
+        preloadImages: true,
+        observer: true,
+        observeParents: true,
+        on: {
+          SlideChangeEnd: function (params) {
+            that.my_swiper.update();
+            that.mySwiper.reLoop();
+          }
+        }
+      })
+    },
+    get_bgc () {
+      this.$get('/worldcup/get/analysis/info').then(res => {
+        this.bgc = res.data.data
+        this.$nextTick().then(res => {
+          this.newSwiper()
+        })
+      })
+    },
     show_info_page () {
       this.show_04 = true
-      setTimeout(() => {
-        this.my_swiper = card.swiper()
-        this.my_swiper.slideNext(500, true)
-      }, 100);
+      this.$nextTick().then(res => {
+        this.newSwiper()
+        let num = 2
+        if (this.show_03) { num = 3 }
+        this.my_swiper.slideTo(num, 300)
+      })
     },
     show_rules () {
       this.show_03 = true
-      setTimeout(() => {
-        this.my_swiper = card.swiper()
-        this.my_swiper.slideNext(500, true)
-      }, 100);
+      this.$nextTick().then(res => {
+        this.newSwiper()
+        this.my_swiper.slideTo(1, 300)
+      })
     },
     get_user_mark () {
       this.$get('/worldcup/get/user/integral').then(res => {
@@ -155,11 +181,6 @@ export default {
         });
         return obj;
       }
-    },
-    get_bgc () {
-      this.$get('/worldcup/get/analysis/info').then(res => {
-        this.bgc = res.data.data
-      })
     }
   },
   created () {
@@ -168,7 +189,6 @@ export default {
     this.get_bgc()
   },
   mounted () {
-    this.my_swiper = card.swiper()
     this.get_icon()
   },
   components: {

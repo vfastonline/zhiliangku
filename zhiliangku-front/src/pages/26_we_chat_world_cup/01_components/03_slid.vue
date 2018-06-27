@@ -5,7 +5,7 @@
     </div>
     <div class="button_container ftj sw r hc">
       <img class="user_icon a"
-           src="../img/08_user.png"
+           :src="user_icon_url"
            alt="">
       <span class="score dib ">
         <span class="dib vm">积分：{{user_mark.value}}</span>
@@ -55,7 +55,8 @@ import Scrollbar from 'smooth-scrollbar'
 export default {
   data () {
     return {
-      tournament: []
+      tournament: [],
+      user_icon_url: ''
     }
   },
   props: {
@@ -99,6 +100,9 @@ export default {
   },
   created () {
     this.get_tournament()
+    setTimeout(() => {
+      this.user_icon_url = this.$myConst.httpUrl + localStorage.avatar
+    }, 20);
   },
   mounted () {
   },
@@ -161,7 +165,7 @@ export default {
   border-radius: 1rem;
   color: white;
   font-size: 0.22rem;
-  padding-left: 0.8rem;
+  padding-left: 1rem;
   padding-right: 0.1rem;
   background-image: url('../img/10_blue_button.png');
   background-size: 100% 100%;
