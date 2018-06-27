@@ -9,7 +9,6 @@ from lib.permissionMixin import class_view_decorator, user_login_required
 from lib.util import *
 
 
-@class_view_decorator(user_login_required)
 class WorldCupTopic(View):
 	"""世界杯-答题-页面"""
 
@@ -250,7 +249,8 @@ class GetUserBetResult(View):
 			pre_midnight = midnight - 86400
 			now_midnight = midnight - 1
 			time_format = "%Y-%m-%d %H:%M:%S"
-			start_time = datetime.datetime.strptime(time.strftime(time_format, time.localtime(pre_midnight)), time_format)
+			start_time = datetime.datetime.strptime(time.strftime(time_format, time.localtime(pre_midnight)),
+													time_format)
 			end_time = datetime.datetime.strptime(time.strftime(time_format, time.localtime(now_midnight)), time_format)
 			# 获取昨天有结果赛事
 			filter_param = {
