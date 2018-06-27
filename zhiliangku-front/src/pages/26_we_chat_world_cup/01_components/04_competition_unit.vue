@@ -67,7 +67,7 @@ export default {
     active_button (tag) {
       if (this.main_data.match_results == tag) return
       this.main_data.match_results = tag
-      Bus.$emit('add_mark', this.main_data.integral)
+      // Bus.$emit('add_mark', this.main_data.integral)
       this.main_data.integral = 0
       if (tag) {
         let obj = { id: this.main_data.id }

@@ -42,7 +42,8 @@ export default {
       this.id = el.id
     },
     bet () {
-      if (this.aready) return
+      if (this.aready) {
+        return      }
       if (!this.id) return
       let bet_info = []
       this.tournament.forEach(element => {
@@ -52,12 +53,14 @@ export default {
       });
       if (!bet_info.length) return
       this.$post('/worldcup/bet', { bet_info: bet_info }).then(res => {
-        Toast({
-          message: 'Upload Complete',
-          position: 'bottom',
-          duration: 5000
-        })
-        this.aready = true
+        if (!res.data.err) {
+          Toast({
+            message: '下注成功',
+            position: 'bottom',
+            duration: 5000
+          })
+          this.aready = true
+        }
       })
 
     }

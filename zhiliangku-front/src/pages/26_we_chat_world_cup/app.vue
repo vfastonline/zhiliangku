@@ -187,6 +187,7 @@ export default {
     this.get_user_mark()
     this.get_user_info()
     this.get_bgc()
+    Bus.$on('clear_stake', this.get_user_mark())
   },
   mounted () {
     this.get_icon()
