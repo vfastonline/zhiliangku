@@ -37,8 +37,10 @@
         </question_unit>
       </div>
     </div>
-    <div @click="rules_show"
-         class="ftc rules">活动规则</div>
+    <div class="ftc rules r">
+      <i></i>
+      <span @click="rules_show">活动规则</span>
+    </div>
   </div>
 </template>
 <script>
@@ -112,6 +114,47 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../scss/_base.scss';
+.up-arrow {
+  width: 0.64rem;
+  height: 0.64rem;
+  position: fixed;
+  bottom: 0.64rem;
+  margin-left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  z-index: 999;
+  background: none;
+  border: none;
+  padding: 0;
+  animation: upArrowAni 2s infinite linear;
+  i {
+    width: 0.64rem;
+    height: 0.64rem;
+    text-align: center;
+    line-height: 0.64rem;
+    color: #fff;
+    font-size: 0.4rem;
+  }
+}
+
+@keyframes upArrowAni {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, 30%, 0);
+  }
+  30% {
+    opacity: 1;
+    transform: translate3d(-50%, -20%, 0);
+  }
+  60% {
+    opacity: 0;
+    transform: translate3d(-50%, -35%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0);
+  }
+}
+
 .banner_img {
   height: 3rem;
 }

@@ -43,7 +43,6 @@ export default {
   watch: {
     shear_status () {
       if (this.result == 1) {
-        alert(3)
         this.$post('/worldcup/score', { integral: 90 }).then(res => {
           this.$emit('add_num', 90)
         })
@@ -67,7 +66,6 @@ export default {
   },
   created () {
     Bus.$on('shear_success', () => {
-      alert(2)
       this.shear_status = 10
     })
   },

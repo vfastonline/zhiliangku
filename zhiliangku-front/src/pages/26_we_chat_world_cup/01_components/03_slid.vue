@@ -14,13 +14,13 @@
            class="dib link_button ftc r">
         <span class="a big_data bid">大数据</span>
         <span class=" teach_win "> 教你赢 </span>
-        <img class=""
+        <img class="route_ball"
              src="../img/18_ball.png"
              alt="">
       </div>
     </div>
     <div class="competition_content sw">
-      <div class="tody_competition sw ftc">今日赛事</div>
+      <div class="tody_competition sw ftc">2018世界杯</div>
       <div ref="section_scroll"
            @touchmove="move"
            class="wrapper">
@@ -28,20 +28,22 @@
                      :key="item.id"
                      :main_data="item"></competition>
       </div>
-      <allocation_stake :tournament="tournament"
+      <allocation_stake class="allocation_outer"
+                        :tournament="tournament"
                         :user_mark="user_mark"></allocation_stake>
       <div class="ftc quick_mark_container">
         <img class=" quick_mark"
              src="../img/05_QuickMark.png"
              alt="">
         <span>加群送好礼</span>
-        <div>
-          <img class="dib vm"
-               src="../img/06_logo.png"
-               alt="">
-          <span class="dib vm">智量酷大数据</span>
-        </div>
+
       </div>
+    </div>
+
+    <div class="ftc bottom_log">
+      <img class="dib vm"
+           src="../img/19_logo.png"
+           alt="">
     </div>
   </div>
 </template>
@@ -114,7 +116,25 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.allocation_outer {
+  margin-bottom: 0.2rem;
+}
+.bottom_log {
+  margin-bottom: 0.2rem;
+}
 @import '../scss/_base';
+.route_ball {
+  @keyframes rotating {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  animation: rotating 2s linear infinite;
+}
 .big_data {
   top: 0px;
   right: 100%;
@@ -173,7 +193,7 @@ export default {
 .sild_02 {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .quick_mark {
   height: 1.6rem;
