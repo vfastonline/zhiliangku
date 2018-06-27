@@ -55,6 +55,7 @@ def init_db_info(sender, **kwargs):
 		[Country.objects.get_or_create(**info_dict) for info_dict in init_info]
 
 		# 默认投注记录总数999
-		BetRecordCount.objects.get_or_create(count=999)
+		if not BetRecordCount.objects.count():
+			BetRecordCount.objects.get_or_create(count=999)
 	except:
 		logging.getLogger().error(traceback.print_exc())
