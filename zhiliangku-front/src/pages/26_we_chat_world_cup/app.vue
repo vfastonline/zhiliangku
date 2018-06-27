@@ -118,7 +118,7 @@ export default {
         // console.table(config)
         wx.config(config);
         wx.ready(function (res) {
-          // alert('ready')
+          alert('ready')
           wx.checkJsApi({
             jsApiList: ['getNetworkType', 'previewImage', 'onMenuShareTimeline', 'onMenuShareAppMessage'],
             success: function (res) {
