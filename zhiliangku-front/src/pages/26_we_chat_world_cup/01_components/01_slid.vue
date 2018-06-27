@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="ftc rules r">
-      <i></i>
+      <i class="up-arrow iconfont icon-double-arrow-up"></i>
       <span @click="rules_show">活动规则</span>
     </div>
   </div>
@@ -115,11 +115,11 @@ export default {
 <style scoped lang="scss">
 @import '../scss/_base.scss';
 .up-arrow {
+  left: 50%;
   width: 0.64rem;
   height: 0.64rem;
   position: fixed;
   bottom: 0.64rem;
-  margin-left: 50%;
   transform: translate3d(-50%, 0, 0);
   z-index: 999;
   background: none;

@@ -10,7 +10,7 @@
         <slide_02 @show_info="show_info_page"
                   :user_mark="user_mark"
                   class="swiper-slide"></slide_02>
-        <slide_04 v-show="show_04"
+        <slide_04 v-if="show_04"
                   v-for="item in bgc"
                   :key="item"
                   :main_data="item"
@@ -28,7 +28,9 @@
 }
 </style>
 <script>
-
+// import Vue from 'vue'
+// import VueAwesomeSwiper from 'vue-awesome-swiper'
+// import 'swiper/dist/css/swiper.css'
 import slide_01 from './01_components/01_slid'
 import slide_02 from './01_components/03_slid'
 import slide_03 from './01_components/07_slid'
@@ -36,6 +38,7 @@ import slide_04 from './01_components/10_slid_04'
 import result from './01_components/09_result_0'
 import Bus from '../../assets/js/02_bus'
 import { Base64 } from 'js-base64'
+// Vue.use(VueAwesomeSwiper, /* { default global options } */)
 export default {
   data () {
     return {
@@ -51,18 +54,19 @@ export default {
   methods: {
     newSwiper () {
       let Swiper = window.Swiper
-      var that = this
+      // var that = this
       this.my_swiper = new Swiper('.swiper-container', {
         direction: 'vertical',
         preloadImages: true,
         observer: true,
         observeParents: true,
-        on: {
-          SlideChangeEnd: function (params) {
-            that.my_swiper.update();
-            that.mySwiper.reLoop();
-          }
-        }
+        // on: {
+        //   slideChange: function (params) {
+        //     console.log(123)
+        //     that.my_swiper.update();
+        //     // that.my_swiper.reLoop();
+        //   }
+        // }
       })
     },
     get_bgc () {
@@ -79,7 +83,7 @@ export default {
         this.newSwiper()
         let num = 2
         if (this.show_03) { num = 3 }
-        this.my_swiper.slideTo(num, 300)
+        this.my_swiper.slideTo(num, 1000)
       })
     },
     show_rules () {
@@ -137,7 +141,7 @@ export default {
     this.get_user_info()
     this.get_bgc()
     Bus.$on('clear_stake', this.get_user_mark())
-    this.have_cookie()
+    // this.have_cookie()
   },
   mounted () {
     this.get_icon()
