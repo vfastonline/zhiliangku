@@ -5,12 +5,12 @@
         <slide_01 :user_mark="user_mark"
                   @show_rules="show_rules"
                   class="swiper-slide"></slide_01>
-        <slide_03 v-if="show_03"
+        <slide_03 v-show="show_03"
                   class="swiper-slide"></slide_03>
         <slide_02 @show_info="show_info_page"
                   :user_mark="user_mark"
                   class="swiper-slide"></slide_02>
-        <slide_04 v-if="show_04"
+        <slide_04 v-show="show_04"
                   v-for="item in bgc"
                   :key="item"
                   :main_data="item"
@@ -51,13 +51,17 @@ export default {
   methods: {
     show_info_page () {
       this.show_04 = true
-      this.my_swiper = card.swiper()
-      this.my_swiper.slideTo(3, 500, false)
+      setTimeout(() => {
+        this.my_swiper = card.swiper()
+        this.my_swiper.slideNext(500, true)
+      }, 100);
     },
     show_rules () {
       this.show_03 = true
-      this.my_swiper = card.swiper()
-      this.my_swiper.slideTo(1, 500, false)
+      setTimeout(() => {
+        this.my_swiper = card.swiper()
+        this.my_swiper.slideNext(500, true)
+      }, 100);
     },
     get_user_mark () {
       this.$get('/worldcup/get/user/integral').then(res => {
@@ -161,6 +165,7 @@ export default {
   created () {
     this.get_user_mark()
     this.get_user_info()
+    this.get_bgc()
   },
   mounted () {
     this.my_swiper = card.swiper()
