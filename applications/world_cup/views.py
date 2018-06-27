@@ -183,12 +183,15 @@ class GetAnalysisInfo(View):
 		self.result_dict = {
 			"err": 0,
 			"msg": "success",
-			"data": "",
+			"data": list(),
 		}
 
 	def get(self, request, *args, **kwargs):
 		try:
-			self.result_dict["data"] = Analysis.objects.first().content
+			today = datetime.date.today()
+			for one in Analysis.objects.filter(create_time=today):
+				chart_url = one.chart.url if one.chart else ""
+				self.result_dict["data"].append(chart_url)
 		except:
 			self.result_dict["err"] = 1
 			self.result_dict["msg"] = "无猜球规则"
