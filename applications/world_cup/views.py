@@ -9,7 +9,7 @@ from lib.permissionMixin import class_view_decorator, user_login_required
 from lib.util import *
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class WorldCupTopic(View):
 	"""世界杯-答题-页面"""
 
@@ -18,7 +18,7 @@ class WorldCupTopic(View):
 		return render(request, template_name, {})
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class WorldCupTournament(View):
 	"""世界杯-猜球-页面"""
 
@@ -27,7 +27,7 @@ class WorldCupTournament(View):
 		return render(request, template_name, {})
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class WorldCupTopicInfo(View):
 	"""世界杯-题目-随机5道题"""
 
@@ -59,7 +59,7 @@ class WorldCupTopicInfo(View):
 			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class WorldCupScore(View):
 	"""世界杯-题目-得分"""
 
@@ -74,7 +74,7 @@ class WorldCupScore(View):
 	def post(self, request, *args, **kwargs):
 		try:
 			param_dict = json.loads(request.body)
-			custom_user_id = 112  # str_to_int(kwargs.get('uid', 0))  # 用户ID
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			integral = str_to_int(param_dict.get('integral', 0))  # 积分
 			customuser = CustomUser.objects.filter(id=custom_user_id)
 			if customuser.exists():
@@ -89,7 +89,7 @@ class WorldCupScore(View):
 			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class GetTournamentInfo(View):
 	"""世界杯-获取未开赛今日赛事"""
 
@@ -127,7 +127,7 @@ class GetTournamentInfo(View):
 			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class WorldCupBet(View):
 	"""押注"""
 
@@ -142,7 +142,7 @@ class WorldCupBet(View):
 	def post(self, request, *args, **kwargs):
 		try:
 			param_dict = json.loads(request.body)
-			custom_user_id = 112  # str_to_int(kwargs.get('uid', 0))  # 用户ID
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			bet_info = param_dict.get('bet_info', [])  # [{"integral": 10, "tournament_id": 1, "country": "A"}]
 
 			customuser = CustomUser.objects.get(id=custom_user_id)
@@ -174,7 +174,7 @@ class WorldCupBet(View):
 			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class GetAnalysisInfo(View):
 	"""世界杯-获取-教你猜球信息"""
 
@@ -198,7 +198,7 @@ class GetAnalysisInfo(View):
 			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class GetUserIntegral(View):
 	"""世界杯-获取-用户积分"""
 
@@ -212,7 +212,7 @@ class GetUserIntegral(View):
 
 	def get(self, request, *args, **kwargs):
 		try:
-			custom_user_id = 112  # str_to_int(kwargs.get('uid', 0))  # 用户ID
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			self.result_dict["data"] = CustomUser.objects.get(id=custom_user_id).integral
 		except:
 			self.result_dict["err"] = 1
@@ -223,7 +223,7 @@ class GetUserIntegral(View):
 			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class GetUserBetResult(View):
 	"""世界杯-获取-用户押注结果"""
 
@@ -237,7 +237,7 @@ class GetUserBetResult(View):
 
 	def get(self, request, *args, **kwargs):
 		try:
-			custom_user_id = 112  # str_to_int(kwargs.get('uid', 0))  # 用户ID
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 
 			now = time.time()
 			midnight = now - (now % 86400) + time.timezone
@@ -294,7 +294,7 @@ class GetUserBetResult(View):
 			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class GetBetRecordCount(View):
 	"""世界杯-获取-投注记录总数"""
 
