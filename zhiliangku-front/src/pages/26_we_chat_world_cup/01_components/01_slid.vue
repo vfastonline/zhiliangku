@@ -16,15 +16,17 @@
         <img class="banner_img sw"
              src="../img/07_banner.png"
              alt="">
-        <div class="button_container ftj sw a">
+        <div class="button_container  sw a">
           <img class="user_icon a"
                :src="user_icon_url"
                alt="">
           <span class="score dib ">
-            <span class="dib vm">积分：{{user_mark.value}}</span>
+            <span class="dib vm">积分：
+              <num :main_data="user_mark"></num>
+            </span>
           </span>
           <span class="dib tips"
-                type="primary">转发赢10倍积分</span>
+                type="primary">转发答题得10倍积分</span>
         </div>
       </div>
       <div class="question_container hc sw">
@@ -156,6 +158,9 @@ export default {
   justify-content: space-between;
 }
 .button_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   bottom: 0rem;
 }
 .user_icon {
@@ -182,11 +187,9 @@ export default {
   height: 0.62rem;
   line-height: 0.62rem;
   padding: 0 0.06rem;
-  border-radius: 1rem;
   color: white;
   font-size: 0.3rem;
   background-color: #fc5d5d;
-  background-size: 100% 100%;
 }
 .rules {
   font-size: 0.26rem;

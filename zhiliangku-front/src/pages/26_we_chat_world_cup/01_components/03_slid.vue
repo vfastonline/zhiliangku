@@ -1,22 +1,26 @@
 <template>
   <div class="sild_02">
-    <div class="block_title ftc">
-      荣新大数据带你看透世界杯
-    </div>
-    <div class="button_container ftj sw r hc">
-      <img class="user_icon a"
-           :src="user_icon_url"
-           alt="">
-      <span class="score dib ">
-        <span class="dib vm">积分：{{user_mark.value}}</span>
-      </span>
-      <div @touchstart="show_info"
-           class="dib link_button ftc r">
-        <span class="a big_data bid">大数据</span>
-        <span class=" teach_win "> 教你赢 </span>
-        <img class="route_ball"
-             src="../img/18_ball.png"
+    <div>
+      <div class="block_title ftc">
+        荣新大数据带你看透世界杯
+      </div>
+      <div class="button_container ftj sw r hc">
+        <img class="user_icon a"
+             :src="user_icon_url"
              alt="">
+        <span class="score dib ">
+          <span class="dib vm">积分：
+            <num :main_data="{value:user_mark.value}"></num>
+          </span>
+        </span>
+        <div @touchstart="show_info"
+             class="dib link_button ftc r">
+          <span class="a big_data bid">大数据</span>
+          <span class=" teach_win "> 教你赢 </span>
+          <img class="route_ball"
+               src="../img/18_ball.png"
+               alt="">
+        </div>
       </div>
     </div>
     <div class="competition_content sw">
@@ -161,7 +165,7 @@ export default {
   align-items: center;
 }
 .button_container {
-  margin: 0.2rem auto;
+  // margin: 0.2rem auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -193,7 +197,7 @@ export default {
 .sild_02 {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 .quick_mark {
   height: 1.6rem;
@@ -211,7 +215,6 @@ export default {
   overflow: hidden;
 }
 .tody_competition {
-  border-radius: 0.2rem;
   background-color: $yellow;
   color: $red;
 }
@@ -219,5 +222,6 @@ export default {
   font-size: 0.36rem;
   font-weight: 500;
   color: white;
+  padding: 0.1rem;
 }
 </style>

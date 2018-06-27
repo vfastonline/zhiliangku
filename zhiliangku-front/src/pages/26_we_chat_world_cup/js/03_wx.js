@@ -8,7 +8,7 @@ var imgurl = '/media/wechat/share/20180614112211_442.jpg',
 $.get(url + '/wechat/get/signature?urls=' + encodeURIComponent(window.location.href.split('#')[0]), function (data) {
   var content = JSON.parse(data).data
   var config = {
-    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
     appId: content.appId, // 必填，企业号的唯一标识，此处填写企业号corpid
     timestamp: content.timestamp, // 必填，生成签名的时间戳
     nonceStr: content.nonceStr, // 必填，生成签名的随机串
@@ -18,7 +18,7 @@ $.get(url + '/wechat/get/signature?urls=' + encodeURIComponent(window.location.h
   // console.table(config)
   wx.config(config);
   wx.ready(function (res) {
-    alert('ready')
+    // alert('ready')
     wx.checkJsApi({
       jsApiList: ['getNetworkType', 'previewImage', 'onMenuShareTimeline', 'onMenuShareAppMessage'],
       success: function (res) {

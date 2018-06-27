@@ -20,7 +20,10 @@
            alt="">
       <span v-show="result==1"
             class=" right dib vm  ftc">
-        <span class="anwser_right dib  ">+{{10*shear_status}}</span>
+        <span class="anwser_right dib  ">+
+          <num :key="shear_status"
+               :main_data="{value:10*shear_status}"></num>
+        </span>
       </span>
     </div>
   </div>

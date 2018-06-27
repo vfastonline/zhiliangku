@@ -1,26 +1,32 @@
 <template>
   <div class="result_info">
     <div class="info_container a">
-      <!-- <div class="ftc text0">恭喜你猜球成功</div>
-      <div class="ftc text1">价代发时代峰峻奥斯丁</div>
-      <div class="ftc text2">请注意查看积分变化</div>
-      <div class="r ftc text4">
-        <div class="text5 a">1000</div>
-        <img class="text6"
-             src="../img/14_win.png"
-             alt="">
-      </div> -->
-
-      <div class="fail_block">
-        <div class="ftc text0">很遗憾猜球失败</div>
-        <div class="ftc text1">想转运就再来一次吧</div>
-        <div class="ftc">
-          <img class="text7"
-               src="../img/15_fail.png"
+      <div class="r segement"
+           v-if="main_data.mark>=0">
+        <div class="ftc text0">恭喜你猜球成功</div>
+        <div class="ftc text1">价代发时代峰峻奥斯丁</div>
+        <div class="ftc text2">请注意查看积分变化</div>
+        <div class="r ftc text4">
+          <div class="text5 a">1000</div>
+          <img class="text6"
+               src="../img/14_win.png"
                alt="">
         </div>
       </div>
-      <img class="a close"
+      <div class="r segement"
+           v-if="main_data.mark<0">
+        <div class="fail_block">
+          <div class="ftc text0">很遗憾猜球失败</div>
+          <div class="ftc text1">想转运就再来一次吧</div>
+          <div class="ftc">
+            <img class="text7"
+                 src="../img/15_fail.png"
+                 alt="">
+          </div>
+        </div>
+      </div>
+      <img @touchstart="$emit(close)"
+      class="a close"
            src="../img/17_close.png"
            alt="">
     </div>
@@ -34,7 +40,7 @@ export default {
 
     }
   },
-  props: {},
+  props: { main_data: {} },
   methods: {},
   created () { },
   components: {
@@ -45,6 +51,10 @@ export default {
 
 <style scoped lang="scss">
 @import '../scss/_base';
+.segement {
+  height: 100%;
+  width: 100%;
+}
 .close {
   left: 50%;
   top: 105%;

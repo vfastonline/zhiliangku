@@ -1,11 +1,14 @@
 <template>
-  <div class="allocation_stake hc ftc">
+  <div class="allocation_stake hc sw ftc">
     <mt-button @touchstart.native="clear"
-               type="primary">清空</mt-button>
-    <stake_tag @touchstart.native="add_Sweeten(item)"
-               v-for="item in tag_value"
-               :key="item"
-               :num="item"></stake_tag>
+               type="default">清空</mt-button>
+    <div class="tag_container">
+      <stake_tag @touchstart.native="add_Sweeten(item)"
+                 v-for="(item,index) in tag_value"
+                 :key="item"
+                 :class="{stake_tag_active:active_index==index}"
+                 :num="item"></stake_tag>
+    </div>
     <mt-button @touchstart.native="bet"
                type="primary">确定</mt-button>
   </div>
@@ -19,7 +22,8 @@ export default {
   data () {
     return {
       tag_value: [20, 50, 100, 200],
-      id: ''
+      id: '',
+      active_index: ''
     }
   },
   props: {
@@ -33,8 +37,23 @@ export default {
       Bus.$emit('clear_stake', this.aready)
     },
     add_Sweeten (num) {
-      if (!this.id) return
-      if (num > this.user_mark.value) return
+      if (!this.id) {
+        Toast({
+          message: '请预测比赛结果然后投注',
+          position: 'bottom',
+          duration: 3000
+        })
+        return
+      }
+      if (num > this.user_mark.value) {
+        Toast({
+          message: '剩余积分不足',
+          position: 'bottom',
+          duration: 3000
+        })
+        return
+      }
+      this.active_index = this.tag_value.indexOf(num)
       this.user_mark.value -= num
       Bus.$emit('Sweeten', { id: this.id, num: num })
     },
@@ -43,8 +62,21 @@ export default {
     },
     bet () {
       if (this.aready) {
-        return      }
-      if (!this.id) return
+        Toast({
+          message: '请勿重复下注',
+          position: 'bottom',
+          duration: 3000
+        })
+        return
+      }
+      if (!this.id) {
+        Toast({
+          message: '尚未分配积分',
+          position: 'bottom',
+          duration: 3000
+        })
+        return
+      }
       let bet_info = []
       this.tournament.forEach(element => {
         if (!element.integral) return
@@ -57,7 +89,7 @@ export default {
           Toast({
             message: '下注成功',
             position: 'bottom',
-            duration: 5000
+            duration: 3000
           })
           this.aready = true
         }
@@ -78,7 +110,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.tag_container {
+  width: 3rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
 .allocation_stake {
+  height: 0.7rem;
+  margin-bottom: 0.1rem;
   width: 5.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

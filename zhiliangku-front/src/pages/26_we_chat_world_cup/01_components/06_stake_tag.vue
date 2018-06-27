@@ -27,6 +27,8 @@ export default {
   .tag_inner {
     height: 0.7rem;
     min-width: 0.7rem;
+    line-height: 0.7rem;
+    font-size: 0.32rem;
   }
 }
 .stake_tag {

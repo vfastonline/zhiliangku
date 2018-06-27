@@ -15,7 +15,9 @@
                   :key="item"
                   :main_data="item"
                   class="swiper-slide show_slide_bet_info"></slide_04>
-        <!-- <result></result> -->
+        <result v-if="bet_result.state"
+                @close="bet_result.state=false"
+                :main_data="bet_result"></result>
       </div>
     </div>
   </div>
@@ -48,7 +50,11 @@ export default {
       user_mark: '',
       show_03: false,
       show_04: false,
-      bgc: []
+      bgc: [],
+      bet_result: {
+        state: '',
+        mark: ''
+      }
     }
   },
   methods: {
@@ -60,13 +66,6 @@ export default {
         preloadImages: true,
         observer: true,
         observeParents: true,
-        // on: {
-        //   slideChange: function (params) {
-        //     console.log(123)
-        //     that.my_swiper.update();
-        //     // that.my_swiper.reLoop();
-        //   }
-        // }
       })
     },
     get_bgc () {
@@ -134,6 +133,17 @@ export default {
       if (!document.cookie) {
         window.location.href = "//open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fdf187f5c8f9f2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin&response_type=code&scope=snsapi_userinfo&state=aHR0cDovL3d3dy56aGlsaWFuZ2t1LmNvbS93b3JsZGN1cC90b3BpYw==&#wechat_redirect"
       }
+    },
+    get_bet_result () {
+      this.$get('/worldcup/get/user/betresult').then(res => {
+        let mark = 0
+        res.data.data.forEach(el => {
+          mark += el.integral
+        })
+        if (res.data.data.length) {
+          this.bet_result = { mark: mark, state: true }
+        }
+      })
     }
   },
   created () {
