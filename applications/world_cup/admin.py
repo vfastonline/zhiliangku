@@ -41,7 +41,7 @@ class BetRecordCountAdmin(admin.ModelAdmin):
 
 @admin.register(Analysis)
 class AnalysisAdmin(admin.ModelAdmin):
-	list_display = ('id', "content", "create_time",)
+	list_display = ('id', "chart", "create_time",)
 
 	class Media:
 		js = tinymce_js
