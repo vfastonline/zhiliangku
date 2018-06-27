@@ -1,5 +1,6 @@
 // 改成一个函数
 import Bus from '../../../assets/js/02_bus'
+
 var wx = window.wx
 var $ = window.$
 var imgurl = '/media/wechat/share/20180614112211_442.jpg',
@@ -27,27 +28,21 @@ $.get(url + '/wechat/get/signature?urls=' + encodeURIComponent(window.location.h
     wx.onMenuShareTimeline({
       title: '积分竞猜赢10万大礼', // 分享标题
       desc: '荣新大数据带你看透世界杯', // 分享描述
-      link: 'https: //open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fdf187f5c8f9f2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin&response_type=code&scope=snsapi_userinfo&state=aHR0cDovL3d3dy56aGlsaWFuZ2t1LmNvbS93b3JsZGN1cC90b3BpYw==&#wechat_redirect', // 分享链接，该链接域名必须与当前企业的可信域名一致
+      link: url + '/worldcup/topic',
       imgUrl: url + imgurl, // 分享图标
       success: function () {
         Bus.$emit('shear_success')
-      },
-      cancel: function () {
-        // 用户取消分享后执行的回调函数
       }
     });
     wx.onMenuShareAppMessage({
       title: '积分竞猜赢10万大礼', // 分享标题
       desc: '荣新大数据带你看透世界杯', // 分享描述
-      link: 'https: //open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fdf187f5c8f9f2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin&response_type=code&scope=snsapi_userinfo&state=aHR0cDovL3d3dy56aGlsaWFuZ2t1LmNvbS93b3JsZGN1cC90b3BpYw==&#wechat_redirect', // 分享链接，该链接域名必须与当前企业的可信域名一致
+      link: url + '/worldcup/topic',
       imgUrl: url + imgurl, // 分享图标
       type: 'link', // 分享类型,music、video或link，不填默认为link
       dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
       success: function () {
         Bus.$emit('shear_success')
-      },
-      cancel: function () {
-        // 用户取消分享后执行的回调函数
       }
     });
   })

@@ -23,8 +23,7 @@
           <span class="score dib ">
             <span class="dib vm">积分：{{user_mark.value}}</span>
           </span>
-          <span 
-                class="dib tips"
+          <span class="dib tips"
                 type="primary">转发赢10倍积分</span>
         </div>
       </div>
@@ -46,8 +45,6 @@
 <script>
 import question_unit from './02_question_unit'
 import Bus from '../../../assets/js/02_bus'
-
-// import wx_func from '../js/04_wx_func'
 export default {
   data () {
     return {
