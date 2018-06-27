@@ -6,6 +6,7 @@ import '../../assets/js/index'
 import '../../assets/style/baseScss.scss'
 import './scss/_base.scss'
 import './js/01_rem'
+import './js/03_wx'
 import 'mint-ui/lib/style.min.css'
 import mui from 'mint-ui'
 Vue.use(mui)
