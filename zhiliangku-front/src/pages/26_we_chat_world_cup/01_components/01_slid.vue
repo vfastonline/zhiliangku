@@ -23,7 +23,7 @@
           <span class="score dib ">
             <span class="dib vm">积分：{{user_mark.value}}</span>
           </span>
-          <span @click="shear()"
+          <span 
                 class="dib tips"
                 type="primary">转发赢10倍积分</span>
         </div>
@@ -72,14 +72,6 @@ export default {
     },
     add_num (v) {
       this.user_mark.value += v
-    },
-    shear () {
-      window.WeixinJSBridge.invoke('shareTimeline', {
-        title: '积分竞猜赢10万大礼', // 分享标题
-        link: 'https: //open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fdf187f5c8f9f2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin&response_type=code&scope=snsapi_userinfo&state=aHR0cDovL3d3dy56aGlsaWFuZ2t1LmNvbS93b3JsZGN1cC90b3BpYw==&#wechat_redirect',
-        imgUrl: 'http://www.zhilaingku.com/media/wechat/share/20180614112211_442.jpg',
-        desc: '荣新大数据带你看透世界杯',
-      })
     },
     get_question () {
       this.$get('/worldcup/topic/info').then(res => {
