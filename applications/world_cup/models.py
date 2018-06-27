@@ -120,7 +120,7 @@ class BetRecordCount(models.Model):
 
 class Analysis(models.Model):
 	"""教你赢球"""
-	chart = models.ImageField('分析图', upload_to="analysis", storage=ImageStorage(), max_length=255, blank=True)
+	chart = models.ImageField('分析图', upload_to="analysis", storage=ImageStorage(), max_length=255, blank=True, help_text="上传前先压缩，https://tinypng.com/")
 	create_time = models.DateField('创建时间', help_text="当天只显示当天的分析数据")
 
 	def __unicode__(self):
