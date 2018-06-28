@@ -30,7 +30,7 @@ class TournamentAdmin(admin.ModelAdmin):
 @admin.register(BetRecord)
 class BetRecordAdmin(admin.ModelAdmin):
 	list_display = ('id', "user", "tournament", "country", "integral", "create_time")
-	search_fields = ('user',)
+	search_fields = ('user__nickname',)
 	readonly_fields = ("create_time",)
 
 
