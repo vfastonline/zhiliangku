@@ -17,6 +17,18 @@ from zhiliangku.settings import MEDIA_ROOT
 
 CryptKey = "25668fbe1a5601eb"
 
+emoji_pattern = re.compile(
+	u"(\ud83d[\ude00-\ude4f])|"  # emoticons
+	u"(\ud83c[\udf00-\uffff])|"  # symbols & pictographs (1 of 2)
+	u"(\ud83d[\u0000-\uddff])|"  # symbols & pictographs (2 of 2)
+	u"(\ud83d[\ude80-\udeff])|"  # transport & map symbols
+	u"(\ud83c[\udde0-\uddff])"  # flags (iOS)
+	"+", flags=re.UNICODE)
+
+
+def remove_emoji(text):
+	return emoji_pattern.sub(r'', text)
+
 
 class IsCellphone:
 	"""http://www.linuxeye.com/program/1760.html"""
@@ -219,7 +231,7 @@ class WeiXinLogin(View):
 				traceback.print_exc()
 				logging.getLogger().info("拉取用户信息错误：\n%s" % traceback.format_exc())
 
-			nickname = res['nickname'].encode('iso8859-1').decode('utf-8')
+			nickname = res['nickname']#.encode('iso8859-1').decode('utf-8')
 			headimgurl = res['headimgurl'].encode('iso8859-1').decode('utf-8')
 			openid = res['openid'].encode('iso8859-1').decode('utf-8')
 
@@ -338,7 +350,7 @@ class WeiXinLogin(View):
 
 						else:
 							create_user.delete()
-			# result_dict["msg"] = "用户权限添加失败"
+		# result_dict["msg"] = "用户权限添加失败"
 		except:
 			# result_dict["msg"] = traceback.format_exc()
 			traceback.print_exc()
@@ -554,7 +566,7 @@ class QQLogin(View):
 
 						else:
 							create_user.delete()
-			# result_dict["msg"] = "用户权限添加失败"
+		# result_dict["msg"] = "用户权限添加失败"
 		except:
 			# result_dict["msg"] = traceback.format_exc()
 			traceback.print_exc()
@@ -1098,7 +1110,7 @@ class WeiXinWebPageLogin(View):
 				traceback.print_exc()
 				logging.getLogger().info("拉取用户信息错误：\n%s" % traceback.format_exc())
 
-			nickname = res['nickname'].encode('iso8859-1').decode('utf-8')
+			nickname = res['nickname']#.encode('iso8859-1').decode('utf-8')
 			headimgurl = res['headimgurl'].encode('iso8859-1').decode('utf-8')
 			openid = res['openid'].encode('iso8859-1').decode('utf-8')
 
