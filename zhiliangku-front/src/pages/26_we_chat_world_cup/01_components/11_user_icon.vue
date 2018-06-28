@@ -32,7 +32,7 @@ export default {
   props: {},
   methods: {
     get_user_info () {
-      if (!window.location.search) {
+      if (!window.location.search || this.$fn.funcUrl('user_info')) {
         this.go_href()
       }
       this.user_info = this.search_turn_obj(Base64.decode(this.$fn.funcUrl('user_info')))
