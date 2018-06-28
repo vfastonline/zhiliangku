@@ -5,12 +5,14 @@
         荣新大数据带你看透世界杯
       </div>
       <div class="button_container ftj sw r hc">
-        <user_icon></user_icon>
-        <span class="score dib ">
-          <span class="dib vm">积分：
-            <num :main_data="user_mark"></num>
+        <div class="r">
+          <user_icon></user_icon>
+          <span class="score dib ">
+            <span class="dib vm">积分：
+              <num :main_data="user_mark"></num>
+            </span>
           </span>
-        </span>
+        </div>
         <div @touchstart="show_info"
              class="dib link_button ftc r">
           <span class="a big_data bid">大数据</span>

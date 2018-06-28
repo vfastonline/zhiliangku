@@ -17,12 +17,14 @@
              src="../img/07_banner.png"
              alt="">
         <div class="button_container  sw a">
+          <div>
           <user_icon></user_icon>
           <span class="score dib ">
             <span class="dib vm">积分：
               <num :main_data="user_mark"></num>
             </span>
           </span>
+          </div>
           <span class="dib tips"
                 type="primary">转发答题得10倍积分</span>
         </div>
