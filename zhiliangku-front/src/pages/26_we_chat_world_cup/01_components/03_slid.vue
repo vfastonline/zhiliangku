@@ -5,14 +5,7 @@
         荣新大数据带你看透世界杯
       </div>
       <div class="button_container ftj sw r hc">
-        <img class="user_icon a"
-             :src="user_icon_url"
-             alt="">
-        <span class="score dib ">
-          <span class="dib vm">积分：
-            <num :main_data="user_mark"></num>
-          </span>
-        </span>
+        <user_icon></user_icon>
         <div @touchstart="show_info"
              class="dib link_button ftc r">
           <span class="a big_data bid">大数据</span>
@@ -58,6 +51,7 @@
 import competition from './04_competition_unit'
 import allocation_stake from './05_allocation_stake'
 import Scrollbar from 'smooth-scrollbar'
+import user_icon from './11_user_icon'
 export default {
   data () {
     return {
@@ -66,7 +60,8 @@ export default {
     }
   },
   props: {
-    user_mark: {}
+    user_mark: {},
+    user_info: {}
   },
   methods: {
     show_info () {
@@ -114,7 +109,8 @@ export default {
   },
   components: {
     competition: competition,
-    allocation_stake: allocation_stake
+    allocation_stake: allocation_stake,
+    user_icon: user_icon
   }
 }
 </script>

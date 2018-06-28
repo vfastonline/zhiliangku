@@ -41,7 +41,6 @@ import slide_03 from './01_components/07_slid'
 import slide_04 from './01_components/10_slid_04'
 import result from './01_components/09_result_0'
 import Bus from '../../assets/js/02_bus'
-import { Base64 } from 'js-base64'
 // Vue.use(VueAwesomeSwiper, /* { default global options } */)
 export default {
   data () {
@@ -110,27 +109,6 @@ export default {
       alert(1)
       Bus.$emit('shear_success')
     },
-    get_user_info () {
-      this.user_info = this.search_turn_obj(Base64.decode(this.$fn.funcUrl('user_info')))
-    },
-    search_turn_obj (se) {
-      if (!se) {
-        this.go_href()
-      }
-      if (typeof se !== "undefined") {
-        se = se.substr(1);
-        var arr = se.split("&"),
-          obj = {},
-          newarr = [];
-        arr.forEach((i) => {
-          newarr = i.split("=");
-          if (typeof obj[newarr[0]] === "undefined") {
-            obj[newarr[0]] = newarr[1];
-          }
-        });
-        return obj;
-      }
-    },
     have_cookie () {
       if (!this.$fn.getCookie('token')) {
         this.go_href()
@@ -170,6 +148,7 @@ export default {
     result: result
     // 	https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fdf187f5c8f9f2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin&response_type=code&scope=snsapi_userinfo&state=aHR0cDovL3d3dy56aGlsaWFuZ2t1LmNvbS93b3JsZGN1cC90b3BpYw==&#wechat_redirect
     //  uid=112&nickname=猛熊爱吃蜜&role=学生&avatar=/media/custom_user_avatar/112/20180625164857_weixin.jpg&position=
+    // csrftoken=98XzhRzMy3Q7ytFlesFSkcsAfHxZ1Ku7dYpc5qrwAoKRv3OeKOC14EUcToJCSDfP; token=bzJLS3Uwd3V6RjdVa0lIcGxtbmZmTnZmbWNZWXwxNTMwMTY4NDkwfDExMnwwfDRlNTAzY2VjNTkwNzkyMWY4OTczNDRjNjlkZmY2OGIz
   }
 }
 </script>
