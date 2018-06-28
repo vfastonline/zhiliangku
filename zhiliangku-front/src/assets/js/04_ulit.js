@@ -118,6 +118,7 @@ module.exports = (function () {
   }
   fn.getCookie = function (key) {
     var arr = document.cookie.split(';')
+    // var arr = "".split(';')
     for (var i = 0; i < arr.length; i++) {
       var brr = arr[i].split('=')
       if (brr[0] === key || brr[0] === ' ' + key) {
@@ -243,9 +244,9 @@ module.exports = (function () {
       window.location.search =
         '?' +
         window.JSON.stringify(obj)
-          .replace(/[\"\{\}]/g, '')
-          .replace(/\:/g, '=')
-          .replace(/\,/g, '&')
+        .replace(/[\"\{\}]/g, '')
+        .replace(/\:/g, '=')
+        .replace(/\,/g, '&')
     }
     return url;
   }
