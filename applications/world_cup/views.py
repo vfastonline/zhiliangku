@@ -248,7 +248,8 @@ class GetUserBetResult(View):
 			pre_midnight = midnight - 86400
 			now_midnight = midnight - 1
 			time_format = "%Y-%m-%d %H:%M:%S"
-			start_time = datetime.datetime.strptime(time.strftime(time_format, time.localtime(pre_midnight)), time_format)
+			start_time = datetime.datetime.strptime(time.strftime(time_format, time.localtime(pre_midnight)),
+													time_format)
 			end_time = datetime.datetime.strptime(time.strftime(time_format, time.localtime(now_midnight)), time_format)
 			# 获取昨天有结果赛事
 			filter_param = {
@@ -258,7 +259,7 @@ class GetUserBetResult(View):
 			}
 			tournaments = Tournament.objects.filter(**filter_param)  # 昨天已经出比赛结果并且已经汇总的赛事
 			user_betrecords = BetRecord.objects.filter(user__id=custom_user_id, tournament__in=tournaments)
-			if user_betrecords.exists():# 用户有押注记录
+			if user_betrecords.exists():  # 用户有押注记录
 				for tournament in tournaments:
 					one_dict = dict()
 					if tournament.a_victory:  # A国家胜
@@ -276,7 +277,8 @@ class GetUserBetResult(View):
 						"country": match_results
 					}
 
-					betrecords = BetRecord.objects.filter(**filter_param).values("user").annotate(integral=Sum("integral"))
+					betrecords = BetRecord.objects.filter(**filter_param).values("user").annotate(
+						integral=Sum("integral"))
 					integral = 0
 					if betrecords.exists():
 						integral = betrecords[0].get("integral", 0) * 2
