@@ -231,7 +231,7 @@ class WeiXinLogin(View):
 				traceback.print_exc()
 				logging.getLogger().info("拉取用户信息错误：\n%s" % traceback.format_exc())
 
-			nickname = res['nickname']#.encode('iso8859-1').decode('utf-8')
+			nickname = remove_emoji(res['nickname'].encode('iso8859-1').decode('utf-8'))
 			headimgurl = res['headimgurl'].encode('iso8859-1').decode('utf-8')
 			openid = res['openid'].encode('iso8859-1').decode('utf-8')
 
@@ -460,7 +460,7 @@ class QQLogin(View):
 				traceback.print_exc()
 				logging.getLogger().info("拉取用户信息错误：\n%s" % traceback.format_exc())
 
-			nickname = res['nickname']  # .encode('iso8859-1').decode('utf-8')
+			nickname = remove_emoji(res['nickname'].encode('iso8859-1').decode('utf-8'))
 			headimgurl = res['figureurl_qq_2'].encode('iso8859-1').decode('utf-8')
 
 			# 校验是否有权限信息
@@ -1110,7 +1110,7 @@ class WeiXinWebPageLogin(View):
 				traceback.print_exc()
 				logging.getLogger().info("拉取用户信息错误：\n%s" % traceback.format_exc())
 
-			nickname = res['nickname']#.encode('iso8859-1').decode('utf-8')
+			nickname = remove_emoji(res['nickname'].encode('iso8859-1').decode('utf-8'))
 			headimgurl = res['headimgurl'].encode('iso8859-1').decode('utf-8')
 			openid = res['openid'].encode('iso8859-1').decode('utf-8')
 
