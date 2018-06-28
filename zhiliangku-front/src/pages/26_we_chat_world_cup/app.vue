@@ -114,6 +114,9 @@ export default {
       this.user_info = this.search_turn_obj(Base64.decode(this.$fn.funcUrl('user_info')))
     },
     search_turn_obj (se) {
+      if (!se) {
+        this.go_href()
+      }
       if (typeof se !== "undefined") {
         se = se.substr(1);
         var arr = se.split("&"),
@@ -130,8 +133,11 @@ export default {
     },
     have_cookie () {
       if (!this.$fn.getCookie('token')) {
-        window.location.href = "//open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fdf187f5c8f9f2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin&response_type=code&scope=snsapi_userinfo&state=aHR0cDovL3d3dy56aGlsaWFuZ2t1LmNvbS93b3JsZGN1cC90b3BpYw==&#wechat_redirect"
+        this.go_href()
       }
+    },
+    go_href () {
+      window.location.href = "//open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fdf187f5c8f9f2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin&response_type=code&scope=snsapi_userinfo&state=aHR0cDovL3d3dy56aGlsaWFuZ2t1LmNvbS93b3JsZGN1cC90b3BpYw==&#wechat_redirect"
     },
     get_bet_result () {
       this.$get('/worldcup/get/user/betresult').then(res => {
