@@ -24,7 +24,7 @@
         }
       });
       wx.onMenuShareTimeline({
-        title: '积分竞猜赢10000大礼', // 分享标题
+        title: '荣新大数据带你看透世界杯', // 分享标题
         link: 'https://www.zhiliangku.com/worldcup/topic',
         imgUrl: url + imgurl, // 分享图标
         success: function () {
@@ -35,8 +35,8 @@
         }
       });
       wx.onMenuShareAppMessage({
-        title: '积分竞猜赢10000大礼', // 分享标题
-        desc: '荣新大数据带你看透世界杯', // 分享描述
+        title: '荣新大数据带你看透世界杯', // 分享标题
+        desc: '积分竞猜赢10000大礼', // 分享描述
         link: 'https://www.zhiliangku.com/worldcup/topic',
         imgUrl: url + imgurl, // 分享图标
         type: 'link', // 分享类型,music、video或link，不填默认为link
