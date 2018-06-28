@@ -257,36 +257,39 @@ class GetUserBetResult(View):
 				"start_time__lt": end_time,
 			}
 			tournaments = Tournament.objects.filter(**filter_param)  # 昨天已经出比赛结果并且已经汇总的赛事
-			for tournament in tournaments:
-				one_dict = dict()
-				if tournament.a_victory:  # A国家胜
-					match_results = "A"
-				elif tournament.b_victory:  # B国家胜
-					match_results = "B"
-				elif tournament.common:  # 平
-					match_results = "C"
-				else:  # 没有录入结果的不汇总
-					continue
+			user_betrecords = BetRecord.objects.filter(user__id=custom_user_id, tournament__in=tournaments)
+			if user_betrecords.exists():# 用户有押注记录
+				for tournament in tournaments:
+					one_dict = dict()
+					if tournament.a_victory:  # A国家胜
+						match_results = "A"
+					elif tournament.b_victory:  # B国家胜
+						match_results = "B"
+					elif tournament.common:  # 平
+						match_results = "C"
+					else:  # 没有录入结果的不汇总
+						continue
 
-				filter_param = {
-					"user__id": custom_user_id,
-					"tournament": tournament,
-					"country": match_results
-				}
+					filter_param = {
+						"user__id": custom_user_id,
+						"tournament": tournament,
+						"country": match_results
+					}
 
-				betrecords = BetRecord.objects.filter(**filter_param).values("user").annotate(integral=Sum("integral"))
-				integral = 0
-				if betrecords.exists():
-					integral = betrecords[0].get("integral", 0) * 2
-				one_dict["id"] = tournament.id
-				one_dict["country_a_name"] = tournament.country_a.name
-				one_dict["country_a_flag"] = tournament.country_a.flag.url if tournament.country_a.flag else ""
-				one_dict["country_b_name"] = tournament.country_b.name
-				one_dict["country_b_flag"] = tournament.country_b.flag.url if tournament.country_b.flag else ""
-				one_dict["integral"] = integral
-				one_dict["match_results"] = match_results
+					betrecords = BetRecord.objects.filter(**filter_param).values("user").annotate(integral=Sum("integral"))
+					integral = 0
+					if betrecords.exists():
+						integral = betrecords[0].get("integral", 0) * 2
 
-				self.result_dict["data"].append(one_dict)
+					one_dict["id"] = tournament.id
+					one_dict["country_a_name"] = tournament.country_a.name
+					one_dict["country_a_flag"] = tournament.country_a.flag.url if tournament.country_a.flag else ""
+					one_dict["country_b_name"] = tournament.country_b.name
+					one_dict["country_b_flag"] = tournament.country_b.flag.url if tournament.country_b.flag else ""
+					one_dict["integral"] = integral
+					one_dict["match_results"] = match_results
+
+					self.result_dict["data"].append(one_dict)
 
 		except:
 			self.result_dict["err"] = 1
