@@ -18,12 +18,12 @@
              alt="">
         <div class="button_container  sw a">
           <div>
-          <user_icon></user_icon>
-          <span class="score dib ">
-            <span class="dib vm">积分：
-              <num :main_data="user_mark"></num>
+            <user_icon></user_icon>
+            <span class="score dib ">
+              <span class="dib vm">积分：
+                <num :main_data="user_mark"></num>
+              </span>
             </span>
-          </span>
           </div>
           <span class="dib tips"
                 type="primary">转发答题得10倍积分</span>
@@ -36,6 +36,7 @@
                        :index="index+1"
                        @add_num="add_num">
         </question_unit>
+        <question_unit :main_data="{A:1,B:2,right:'A',id:9,title:nihao}"></question_unit>
       </div>
     </div>
     <div class="ftc rules r">

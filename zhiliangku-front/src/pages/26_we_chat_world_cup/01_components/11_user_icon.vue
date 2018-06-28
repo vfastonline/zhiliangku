@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import { Base64 } from 'js-base64'
 export default {
   data () {
     return {
@@ -30,35 +29,16 @@ export default {
     get_icon () {
       this.$get('/customuser/get/avatar').then(res => {
         this.icon_url = res.data.data
+        if (res.data.err == 1) {
+          this.go_href()
+        }
       })
-    },
-    get_user_info () {
-      if (!window.location.search || !this.$fn.funcUrl('user_info')) {
-        this.go_href()
-      }
-      this.user_info = this.search_turn_obj(Base64.decode(this.$fn.funcUrl('user_info')))
     },
     go_href () {
       window.location.href = "//open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fdf187f5c8f9f2&redirect_uri=http%3a%2f%2fwww.zhiliangku.com%2fcustomuser%2fweixin%2fwebpage%2flogin&response_type=code&scope=snsapi_userinfo&state=aHR0cDovL3d3dy56aGlsaWFuZ2t1LmNvbS93b3JsZGN1cC90b3BpYw==&#wechat_redirect"
     },
-    search_turn_obj (se) {
-      if (typeof se !== "undefined") {
-        se = se.substr(1);
-        var arr = se.split("&"),
-          obj = {},
-          newarr = [];
-        arr.forEach((i) => {
-          newarr = i.split("=");
-          if (typeof obj[newarr[0]] === "undefined") {
-            obj[newarr[0]] = newarr[1];
-          }
-        });
-        return obj;
-      }
-    },
   },
   created () {
-    // this.get_user_info()
     this.get_icon()
   },
   components: {
