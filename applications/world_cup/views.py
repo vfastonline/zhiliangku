@@ -242,7 +242,7 @@ class GetUserBetResult(View):
 
 	def get(self, request, *args, **kwargs):
 		try:
-			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+			custom_user_id = 112#str_to_int(kwargs.get('uid', 0))  # 用户ID
 
 			now = time.time()
 			midnight = now - (now % 86400) + time.timezone
@@ -275,6 +275,7 @@ class GetUserBetResult(View):
 					"tournament": tournament,
 					"country": match_results
 				}
+
 				betrecords = BetRecord.objects.filter(**filter_param).values("user").annotate(integral=Sum("integral"))
 				integral = 0
 				if betrecords.exists():
