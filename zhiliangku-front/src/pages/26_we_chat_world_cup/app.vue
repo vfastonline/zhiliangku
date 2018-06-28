@@ -52,8 +52,8 @@ export default {
       show_04: false,
       bgc: [],
       bet_result: {
-        state: '',
-        mark: ''
+        state: false,
+        mark: 0
       }
     }
   },
@@ -136,18 +136,12 @@ export default {
     },
     get_bet_result () {
       this.$get('/worldcup/get/user/betresult').then(res => {
-        let mark = 0
-        res.data.data.forEach(el => {
-          mark += el.integral
-        })
         if (res.data.data.length) {
-          if (mark > 0) {
-            this.bet_result = { value: mark, state: true }
-          }
-          else {
-            this.bet_result = { value: mark, state: true }
-            console.log(this.bet_result)
-          }
+          let mark = 0
+          res.data.data.forEach(el => {
+            mark += el.integral
+          })
+          this.bet_result = { value: mark, state: true }
         }
       })
     }
