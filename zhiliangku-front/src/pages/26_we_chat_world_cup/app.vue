@@ -96,6 +96,7 @@ export default {
     get_user_mark () {
       this.$get('/worldcup/get/user/integral').then(res => {
         this.user_mark = { value: res.data.data }
+        Bus.$emit('mark_coming',this.user_mark)
       })
     },
     get_icon () {

@@ -14,7 +14,7 @@
 
 <script>
 import { Base64 } from 'js-base64'
-
+import Bus from '../../../assets/js/02_bus'
 export default {
   data () {
     return {
@@ -58,6 +58,9 @@ export default {
   },
   created () {
     this.get_user_info()
+    Bus.$on('mark_coming', el => {
+      this.user_mark = el
+    })
   },
   components: {
 
