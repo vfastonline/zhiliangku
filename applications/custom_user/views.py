@@ -19,6 +19,9 @@ CryptKey = "25668fbe1a5601eb"
 
 emoji_pattern = re.compile(
 	u"(\ud83d[\ude00-\ude4f])|"  # emoticons
+	u"(\uD800-\uDBFF)|"
+	u"(\uDC00-\uDFFF)|"  #
+	u"[\U00010000-\U0010ffff]|"  #
 	u"(\ud83c[\udf00-\uffff])|"  # symbols & pictographs (1 of 2)
 	u"(\ud83d[\u0000-\uddff])|"  # symbols & pictographs (2 of 2)
 	u"(\ud83d[\ude80-\udeff])|"  # transport & map symbols
