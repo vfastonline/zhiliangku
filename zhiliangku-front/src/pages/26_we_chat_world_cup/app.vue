@@ -96,7 +96,7 @@ export default {
     get_user_mark () {
       this.$get('/worldcup/get/user/integral').then(res => {
         this.user_mark = { value: res.data.data }
-        Bus.$emit('mark_coming',this.user_mark)
+        this.$store.commit('set', { value: res.data.data })
       })
     },
     get_icon () {
@@ -139,6 +139,7 @@ export default {
   },
   mounted () {
     this.get_icon()
+    Bus.$emit('mark_coming', 800)
   },
   components: {
     slide_01: slide_01,

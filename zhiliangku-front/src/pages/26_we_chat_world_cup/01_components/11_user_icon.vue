@@ -6,7 +6,7 @@
          alt="">
     <span class="score dib ">
       <span class="dib vm">积分：
-        <num :main_data="user_mark"></num>
+        <num :main_data="$store.state"></num>
       </span>
     </span>
   </div>
@@ -14,7 +14,6 @@
 
 <script>
 import { Base64 } from 'js-base64'
-import Bus from '../../../assets/js/02_bus'
 export default {
   data () {
     return {
@@ -58,9 +57,8 @@ export default {
   },
   created () {
     this.get_user_info()
-    Bus.$on('mark_coming', el => {
-      this.user_mark = el
-    })
+    console.log(this)
+
   },
   components: {
 
