@@ -17,14 +17,14 @@
              src="../img/07_banner.png"
              alt="">
         <div class="button_container  sw a">
-          <img class="user_icon a"
-               :src="user_icon_url"
-               alt="">
+          <div>
+          <user_icon></user_icon>
           <span class="score dib ">
             <span class="dib vm">积分：
               <num :main_data="user_mark"></num>
             </span>
           </span>
+          </div>
           <span class="dib tips"
                 type="primary">转发答题得10倍积分</span>
         </div>
@@ -47,13 +47,14 @@
 <script>
 import question_unit from './02_question_unit'
 import Bus from '../../../assets/js/02_bus'
+import user_icon from './11_user_icon'
 export default {
   data () {
     return {
       question: [],
       num: '',
       shear_state: 0,
-      user_icon_url: ''
+      // user_icon_url: ''
     }
   },
   watch: {
@@ -63,7 +64,8 @@ export default {
   },
   props: {
     main_data: {},
-    user_mark: {}
+    user_mark: {},
+    user_info: {}
   },
   methods: {
     rules_show () {
@@ -92,12 +94,13 @@ export default {
     Bus.$on('shear_success', () => {
       this.shear = 1
     })
-    setTimeout(() => {
-      this.user_icon_url = this.$myConst.httpUrl + localStorage.avatar
-    }, 20);
+    // setTimeout(() => {
+    //   this.user_icon_url = this.$myConst.httpUrl + localStorage.avatar
+    // }, 20);
   },
   components: {
-    question_unit: question_unit
+    question_unit: question_unit,
+    user_icon: user_icon
   }
 }
 
@@ -146,7 +149,18 @@ export default {
     transform: translate3d(-50%, -50%, 0);
   }
 }
-
+.score {
+  height: 0.62rem;
+  line-height: 0.62rem;
+  padding: 0 0.06rem;
+  border-radius: 1rem;
+  color: white;
+  font-size: 0.22rem;
+  padding-left: 1rem;
+  padding-right: 0.1rem;
+  background: url('../img/10_blue_button.png');
+  background-size: 100% 100%;
+}
 .banner_img {
   height: 3rem;
 }
@@ -163,26 +177,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   bottom: 0rem;
-}
-.user_icon {
-  height: 0.8rem;
-  width: 0.8rem;
-  border-radius: 50%;
-  top: 50%;
-  left: 0;
-  transform: translate(0, -50%);
-}
-.score {
-  height: 0.62rem;
-  line-height: 0.62rem;
-  padding: 0 0.06rem;
-  border-radius: 1rem;
-  color: white;
-  font-size: 0.22rem;
-  padding-left: 1rem;
-  padding-right: 0.1rem;
-  background: url('../img/10_blue_button.png');
-  background-size: 100% 100%;
 }
 .tips {
   height: 0.62rem;

@@ -26,8 +26,8 @@ $.get(url + '/wechat/get/signature?urls=' + encodeURIComponent(window.location.h
       }
     });
     wx.onMenuShareTimeline({
-title : '荣新大数据带你看透世界杯', // 分享标题
-desc : '积分竞猜赢10万大礼', // 分享描述
+      title: '荣新大数据带你看透世界杯', // 分享标题
+      desc: '积分竞猜赢10万大礼', // 分享描述
       link: url + '/worldcup/topic',
       imgUrl: url + imgurl, // 分享图标
       success: function () {
@@ -36,7 +36,7 @@ desc : '积分竞猜赢10万大礼', // 分享描述
     });
     wx.onMenuShareAppMessage({
       title: '荣新大数据带你看透世界杯', // 分享标题
-desc : '积分竞猜赢10万大礼', // 分享描述
+      desc: '积分竞猜赢10万大礼', // 分享描述
       link: url + '/worldcup/topic',
       imgUrl: url + imgurl, // 分享图标
       type: 'link', // 分享类型,music、video或link，不填默认为link
