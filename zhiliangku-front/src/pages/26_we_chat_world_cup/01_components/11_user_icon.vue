@@ -1,10 +1,10 @@
 <template>
   <div>
     <img class="user_icon a"
-         v-if="user_info.avatar"
-         :src="$myConst.httpUrl+user_info.avatar"
+         v-if="icon_url"
+         :src="$myConst.httpUrl+icon_url"
          alt="">
-    
+
   </div>
 </template>
 
@@ -13,7 +13,8 @@ import { Base64 } from 'js-base64'
 export default {
   data () {
     return {
-      user_info: {}
+      user_info: {},
+      icon_url: ''
     }
   },
   watch: {
@@ -26,6 +27,11 @@ export default {
   },
   props: {},
   methods: {
+    get_icon () {
+      this.$get('/customuser/get/avatar').then(res => {
+        this.icon_url = res.data.data
+      })
+    },
     get_user_info () {
       if (!window.location.search || !this.$fn.funcUrl('user_info')) {
         this.go_href()
@@ -52,9 +58,8 @@ export default {
     },
   },
   created () {
-    this.get_user_info()
-    console.log(this)
-
+    // this.get_user_info()
+    this.get_icon()
   },
   components: {
 
