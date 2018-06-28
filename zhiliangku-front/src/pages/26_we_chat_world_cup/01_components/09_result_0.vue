@@ -9,7 +9,7 @@
         <div class="ftc text2">请注意查看积分变化</div>
         <div class="r ftc text4">
           <div class="text5 a">
-            {{main_data.value}}
+            +{{main_data.value}}
           </div>
           <img class="text6"
                src="../img/14_win.png"
@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="r segement"
-           v-if="main_data.value<=0">
+           v-if="main_data.value===0">
         <div class="fail_block">
           <div class="ftc text0">很遗憾猜球失败</div>
           <div class="ftc text1">想转运就再来一次吧</div>
