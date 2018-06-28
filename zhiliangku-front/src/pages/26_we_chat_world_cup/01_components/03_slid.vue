@@ -10,7 +10,7 @@
              alt="">
         <span class="score dib ">
           <span class="dib vm">积分：
-            <num :main_data="{value:user_mark.value}"></num>
+            <num :main_data="user_mark"></num>
           </span>
         </span>
         <div @touchstart="show_info"
