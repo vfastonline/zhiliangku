@@ -8,7 +8,8 @@
 export default {
   data () {
     return {
-      tweenedNumber: 0
+      tweenedNumber: 0,
+      g: 0
     }
   },
   props: { main_data: {} },
@@ -20,13 +21,21 @@ export default {
   watch: {
     main_data: {
       handler: function (newValue) {
+        if (!newValue.value == undefined) {
+          return
+        }
+        console.log(this.g++)
         window.TweenLite.to(this.$data, 0.5, { tweenedNumber: newValue.value });
       },
       deep: true
     }
   },
   methods: {},
-  created () { },
+  created () {
+  },
+  mounted () {
+    console.log('inhence_num:' + this.main_data.value)
+  },
   components: {
 
   }

@@ -141,7 +141,13 @@ export default {
           mark += el.integral
         })
         if (res.data.data.length) {
-          this.bet_result = { mark: mark, state: true }
+          if (mark > 0) {
+            this.bet_result = { value: mark, state: true }
+          }
+          else {
+            this.bet_result = { value: mark, state: true }
+            console.log(this.bet_result)
+          }
         }
       })
     }
@@ -149,9 +155,10 @@ export default {
   created () {
     this.get_user_mark()
     this.get_user_info()
+    this.get_bet_result()
     this.get_bgc()
     Bus.$on('clear_stake', this.get_user_mark())
-    // this.have_cookie()
+    this.have_cookie()
   },
   mounted () {
     this.get_icon()
