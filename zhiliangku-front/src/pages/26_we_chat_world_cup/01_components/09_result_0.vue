@@ -1,20 +1,23 @@
 <template>
-  <div class="result_info">
+  <div @touchmove="no_move"
+       class="result_info a">
     <div class="info_container a">
       <div class="r segement"
-           v-if="main_data.mark>=0">
+           v-if="main_data.value>0">
         <div class="ftc text0">恭喜你猜球成功</div>
         <div class="ftc text1">价代发时代峰峻奥斯丁</div>
         <div class="ftc text2">请注意查看积分变化</div>
         <div class="r ftc text4">
-          <div class="text5 a">1000</div>
+          <div class="text5 a">
+            {{main_data.value}}
+          </div>
           <img class="text6"
                src="../img/14_win.png"
                alt="">
         </div>
       </div>
       <div class="r segement"
-           v-if="main_data.mark<0">
+           v-if="main_data.value<=0">
         <div class="fail_block">
           <div class="ftc text0">很遗憾猜球失败</div>
           <div class="ftc text1">想转运就再来一次吧</div>
@@ -25,8 +28,8 @@
           </div>
         </div>
       </div>
-      <img @touchstart="$emit(close)"
-      class="a close"
+      <img @touchstart="$emit('close')"
+           class="a close"
            src="../img/17_close.png"
            alt="">
     </div>
@@ -41,8 +44,13 @@ export default {
     }
   },
   props: { main_data: {} },
-  methods: {},
-  created () { },
+  methods: {
+    no_move (e) {
+      e.stopPropagation();
+
+    }
+  },
+  created () { console.log(this.main_data.value) },
   components: {
 
   }
@@ -119,7 +127,7 @@ export default {
   width: 5rem;
   border-radius: 0.3rem;
   left: 50%;
-  top: 50%;
+  top: 40%;
   transform: translate(-50%, -50%);
   background: url('../img/16_red_pakage.png');
   background-size: 100% 100%;
@@ -128,5 +136,6 @@ export default {
   height: 100%;
   width: 100%;
   background: rgba(0, 0, 0, 0.8);
+  // background-color: red;
 }
 </style>
