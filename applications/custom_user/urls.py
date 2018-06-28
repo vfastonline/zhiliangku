@@ -18,4 +18,5 @@ urlpatterns = [
     url('^send_email_retrieve_password$', views.SendEmailRetrievePassword.as_view()),
     url('^send_activation_mail$', views.CustomUserSendActivationMail.as_view()),
     url('^change/avatar$', avatar.CustomUserAvatar.as_view()),
+    url('^get/avatar$', avatar.GetCustomUserAvatar.as_view()),
 ]
