@@ -73,7 +73,7 @@ class WorldCupScore(View):
 	def post(self, request, *args, **kwargs):
 		try:
 			param_dict = json.loads(request.body)
-			custom_user_id = 112#str_to_int(kwargs.get('uid', 0))  # 用户ID
+			custom_user_id = 112  # str_to_int(kwargs.get('uid', 0))  # 用户ID
 			integral = str_to_int(param_dict.get('integral', 0))  # 积分
 			customuser = CustomUser.objects.filter(id=custom_user_id)
 			if customuser.exists():
@@ -146,7 +146,7 @@ class WorldCupBet(View):
 	def post(self, request, *args, **kwargs):
 		try:
 			param_dict = json.loads(request.body)
-			custom_user_id = 112#str_to_int(kwargs.get('uid', 0))  # 用户ID
+			custom_user_id = 112  # str_to_int(kwargs.get('uid', 0))  # 用户ID
 			bet_info = param_dict.get('bet_info', [])  # [{"integral": 10, "tournament_id": 1, "country": "A"}]
 
 			customuser = CustomUser.objects.get(id=custom_user_id)
@@ -217,7 +217,7 @@ class GetUserIntegral(View):
 
 	def get(self, request, *args, **kwargs):
 		try:
-			custom_user_id = 112#str_to_int(kwargs.get('uid', 0))  # 用户ID
+			custom_user_id = 112  # str_to_int(kwargs.get('uid', 0))  # 用户ID
 			self.result_dict["data"] = CustomUser.objects.get(id=custom_user_id).integral
 		except:
 			self.result_dict["err"] = 1
@@ -255,8 +255,8 @@ class GetUserBetResult(View):
 			# 获取昨天有结果赛事
 			filter_param = {
 				"is_summary": True,
-				"summary_time__gt": start_time,
-				"summary_time__lt": end_time,
+				"start_time__gt": start_time,
+				"start_time__lt": end_time,
 			}
 			tournaments = Tournament.objects.filter(**filter_param)  # 昨天已经出比赛结果并且已经汇总的赛事
 			for tournament in tournaments:
