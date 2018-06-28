@@ -18,6 +18,11 @@
              alt="">
         <div class="button_container  sw a">
           <user_icon></user_icon>
+          <span class="score dib ">
+            <span class="dib vm">积分：
+              <num :main_data="user_mark"></num>
+            </span>
+          </span>
           <span class="dib tips"
                 type="primary">转发答题得10倍积分</span>
         </div>
@@ -142,7 +147,18 @@ export default {
     transform: translate3d(-50%, -50%, 0);
   }
 }
-
+.score {
+  height: 0.62rem;
+  line-height: 0.62rem;
+  padding: 0 0.06rem;
+  border-radius: 1rem;
+  color: white;
+  font-size: 0.22rem;
+  padding-left: 1rem;
+  padding-right: 0.1rem;
+  background: url('../img/10_blue_button.png');
+  background-size: 100% 100%;
+}
 .banner_img {
   height: 3rem;
 }

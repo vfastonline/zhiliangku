@@ -4,11 +4,7 @@
          v-if="user_info.avatar"
          :src="$myConst.httpUrl+user_info.avatar"
          alt="">
-    <span class="score dib ">
-      <span class="dib vm">积分：
-        <num :main_data="$store.state"></num>
-      </span>
-    </span>
+    
   </div>
 </template>
 

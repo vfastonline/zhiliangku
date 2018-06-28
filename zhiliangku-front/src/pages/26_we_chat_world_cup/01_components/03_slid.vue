@@ -6,6 +6,11 @@
       </div>
       <div class="button_container ftj sw r hc">
         <user_icon></user_icon>
+        <span class="score dib ">
+          <span class="dib vm">积分：
+            <num :main_data="user_mark"></num>
+          </span>
+        </span>
         <div @touchstart="show_info"
              class="dib link_button ftc r">
           <span class="a big_data bid">大数据</span>
@@ -159,6 +164,18 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.score {
+  height: 0.62rem;
+  line-height: 0.62rem;
+  padding: 0 0.06rem;
+  border-radius: 1rem;
+  color: white;
+  font-size: 0.22rem;
+  padding-left: 1rem;
+  padding-right: 0.1rem;
+  background: url('../img/10_blue_button.png');
+  background-size: 100% 100%;
 }
 .button_container {
   // margin: 0.2rem auto;
