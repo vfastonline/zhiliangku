@@ -66,7 +66,7 @@ class Tournament(models.Model):
 		db_table = 'Tournament'
 		verbose_name = "比赛"
 		verbose_name_plural = "比赛"
-		ordering = ["start_time"]
+		ordering = ["-start_time"]
 
 
 class BetRecord(models.Model):

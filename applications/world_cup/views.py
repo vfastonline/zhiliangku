@@ -110,7 +110,7 @@ class GetTournamentInfo(View):
 				"start_time__gt": datetime.datetime.now(),
 				"start_time__lt": tomorrow
 			}
-			tournaments = Tournament.objects.filter(**filter_param)
+			tournaments = Tournament.objects.filter(**filter_param).order_by("start_time")
 			for one in tournaments:
 				one_dict = dict()
 				one_dict["id"] = one.id
