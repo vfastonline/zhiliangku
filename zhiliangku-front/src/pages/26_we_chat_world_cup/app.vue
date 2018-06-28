@@ -131,7 +131,6 @@ export default {
   },
   created () {
     this.get_user_mark()
-    this.get_user_info()
     this.get_bet_result()
     this.get_bgc()
     Bus.$on('clear_stake', this.get_user_mark())
