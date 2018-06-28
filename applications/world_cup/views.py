@@ -279,8 +279,7 @@ class GetUserBetResult(View):
 				betrecords = BetRecord.objects.filter(**filter_param).values("user").annotate(integral=Sum("integral"))
 				integral = 0
 				if betrecords.exists():
-					betrecord = betrecords.first()
-					integral = betrecord.get("integral", 0) * 2
+					integral = betrecords[0].get("integral", 0) * 2
 				one_dict["id"] = tournament.id
 				one_dict["country_a_name"] = tournament.country_a.name
 				one_dict["country_a_flag"] = tournament.country_a.flag.url if tournament.country_a.flag else ""
