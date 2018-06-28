@@ -111,8 +111,8 @@ export default {
   height: 0.64rem;
   position: fixed;
   bottom: 0.64rem;
-  // transform: translate3d(-50%, 0, 0);
-  margin-left: -3.2rem;
+  transform: translate3d(-50%, 0, 0);
+  // margin-left: -3.2rem;
   z-index: 999;
   background: none;
   border: none;
