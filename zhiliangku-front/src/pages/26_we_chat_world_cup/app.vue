@@ -3,11 +3,13 @@
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <slide_01 :user_mark="user_mark"
+                  :user_info="user_info"
                   @show_rules="show_rules"
                   class="swiper-slide"></slide_01>
         <slide_03 v-show="show_03"
                   class="swiper-slide"></slide_03>
         <slide_02 @show_info="show_info_page"
+                  :user_info="user_info"
                   :user_mark="user_mark"
                   class="swiper-slide"></slide_02>
         <slide_04 v-if="show_04"
@@ -110,9 +112,6 @@ export default {
     },
     get_user_info () {
       this.user_info = this.search_turn_obj(Base64.decode(this.$fn.funcUrl('user_info')))
-      for (let k in this.user_info) {
-        localStorage[k] = this.user_info[k]
-      }
     },
     search_turn_obj (se) {
       if (typeof se !== "undefined") {

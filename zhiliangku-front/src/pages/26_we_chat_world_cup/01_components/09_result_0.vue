@@ -142,6 +142,5 @@ export default {
   top: 0;
   left: 0;
   z-index: 1000;
-  // background-color: red;
 }
 </style>

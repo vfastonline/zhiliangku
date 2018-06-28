@@ -6,7 +6,8 @@
       </div>
       <div class="button_container ftj sw r hc">
         <img class="user_icon a"
-             :src="user_icon_url"
+             v-if="user_info.avatar"
+             :src="$myConst.httpUrl+user_info.avatar"
              alt="">
         <span class="score dib ">
           <span class="dib vm">积分：
@@ -66,7 +67,8 @@ export default {
     }
   },
   props: {
-    user_mark: {}
+    user_mark: {},
+    user_info: {}
   },
   methods: {
     show_info () {

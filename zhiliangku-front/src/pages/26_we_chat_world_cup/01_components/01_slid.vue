@@ -18,7 +18,8 @@
              alt="">
         <div class="button_container  sw a">
           <img class="user_icon a"
-               :src="user_icon_url"
+               v-if="user_info.avatar"
+               :src="$myConst.httpUrl+user_info.avatar"
                alt="">
           <span class="score dib ">
             <span class="dib vm">积分：
@@ -53,7 +54,7 @@ export default {
       question: [],
       num: '',
       shear_state: 0,
-      user_icon_url: ''
+      // user_icon_url: ''
     }
   },
   watch: {
@@ -63,7 +64,8 @@ export default {
   },
   props: {
     main_data: {},
-    user_mark: {}
+    user_mark: {},
+    user_info: {}
   },
   methods: {
     rules_show () {
@@ -92,9 +94,9 @@ export default {
     Bus.$on('shear_success', () => {
       this.shear = 1
     })
-    setTimeout(() => {
-      this.user_icon_url = this.$myConst.httpUrl + localStorage.avatar
-    }, 20);
+    // setTimeout(() => {
+    //   this.user_icon_url = this.$myConst.httpUrl + localStorage.avatar
+    // }, 20);
   },
   components: {
     question_unit: question_unit
