@@ -5,7 +5,7 @@
       <div class="r segement"
            v-if="main_data.value>0">
         <div class="ftc text0">恭喜你猜球成功</div>
-        <div class="ftc text1">价代发时代峰峻奥斯丁</div>
+        <!-- <div class="ftc text1"></div> -->
         <div class="ftc text2">请注意查看积分变化</div>
         <div class="r ftc text4">
           <div class="text5 a">
@@ -43,7 +43,10 @@ export default {
 
     }
   },
-  props: { main_data: {} },
+  props: {
+    main_data: {},
+    bet_info: {}
+  },
   methods: {
     no_move (e) {
       e.stopPropagation();
