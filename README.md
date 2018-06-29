@@ -94,10 +94,10 @@ cp -r doc/image media
 #### Scheduled task
 ```
 定时销毁超时的考核容器
-0 */1 * * * /usr/local/bin/python manage.py destroydocker
+0 */1 * * * /usr/local/bin/python /usr/local/zhiliangku/manage.py destroydocker
 
 定时（10：30am）汇总世界杯比赛结果
-30 10 * * * /usr/local/bin/python manage.py SummaryCompetition
+30 10 * * * /usr/local/bin/python /usr/local/zhiliangku/manage.py SummaryCompetition
 ```
 
 #### Architecture
