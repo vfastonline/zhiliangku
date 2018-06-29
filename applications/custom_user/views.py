@@ -18,6 +18,8 @@ from zhiliangku.settings import MEDIA_ROOT
 CryptKey = "25668fbe1a5601eb"
 
 emoji_pattern = re.compile(
+	u'(\ud83d[\uD800-\uDBFF])|'
+	u'(\ud83d[\uDC00-\uDFFF])|'
 	u"(\ud83d[\ude00-\ude4f])|"  # emoticons
 	u"(\ud83c[\udf00-\uffff])|"  # symbols & pictographs (1 of 2)
 	u"(\ud83d[\u0000-\uddff])|"  # symbols & pictographs (2 of 2)
