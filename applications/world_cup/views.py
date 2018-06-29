@@ -111,6 +111,10 @@ class GetTournamentInfo(View):
 				"start_time__lt": tomorrow
 			}
 			tournaments = Tournament.objects.filter(**filter_param).order_by("start_time")
+			if not tournaments.exists():  # 当天没有，再查询后天的
+				filter_param.update({"start_time__lt": tomorrow + datetime.timedelta(days=1)})
+				tournaments = Tournament.objects.filter(**filter_param).order_by("start_time")
+
 			for one in tournaments:
 				one_dict = dict()
 				one_dict["id"] = one.id
