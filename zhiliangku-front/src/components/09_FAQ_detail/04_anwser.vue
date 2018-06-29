@@ -20,12 +20,12 @@
         </div>
         <div class="toolbar">
           <div>
-            <div class="fl praise ftc cp " :class="{'yes':mainData.feedback==='approve',empty:!mainData.feedback}">
-              <i @click="support ('approve')" class="iconfont  icon-zan   praise_block_icon"></i>
+            <div class="fl praise ftc cp " @click="support ('approve')" :class="{'yes':mainData.feedback==='approve',empty:!mainData.feedback}">
+              <i  class="iconfont  icon-zan   praise_block_icon"></i>
               <span class="question-yes dib vm">{{mainData.approve}}</span>
             </div>
-            <div class="fl praise ftc cp" :class="{'no':mainData.feedback==='oppose',empty:!mainData.feedback}">
-              <i @click="support ('oppose')" class="iconfont  icon-cai  cp praise_block_icon"></i>
+            <div @click="support ('oppose')" class="fl praise ftc cp" :class="{'no':mainData.feedback==='oppose',empty:!mainData.feedback}">
+              <i  class="iconfont  icon-cai  cp praise_block_icon"></i>
               <span class="question-yes dib vm">{{mainData.oppose}}</span>
             </div>
           </div>

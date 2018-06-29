@@ -3,7 +3,7 @@
     <div class="question-container">
       <question :mainData="mainData"></question>
     </div>
-    <anwserlist :mainData="mainData"></anwserlist>
+    <anwserlist @have_optimal="change_optimal_state" :mainData="mainData"></anwserlist>
     <!--<richtext class="richtext incenter"></richtext>-->
     <mypager v-show="showpager" ref="pager" @updata="jj()" @pagerGetData='manipulationData' :key="pagerkey" :url="url" :additionData="params"></mypager>
   </div>

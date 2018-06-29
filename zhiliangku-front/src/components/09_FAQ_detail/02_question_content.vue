@@ -24,10 +24,10 @@
               </div>
             </div>
             <div class="info_status">
-              <div class="font1_14_b4 dib">{{mainData.status_name|| "未解决"}}</div>
+              <div class="font1_14_b4 dib">{{status|| "未解决"}}</div>
               <!--关注-->
               <div class="dib heart">
-                <i v-if="mainData.is_follow_user" class="iconfont icon-xin cp" ></i>
+                <i v-if="mainData.is_follow_user" class="iconfont icon-xin " ></i>
                 <i v-else class="iconfont icon-xin1 cp" @click="foucus"></i></div>
             </div>
           </div>
@@ -61,9 +61,9 @@
     name: 'question_content',
     data() {
       return {
-        havefoucesed: false,
         dialogVisible: false,
-        where: ''
+        where: '',
+        status:''
       }
     },
     props: {
@@ -71,17 +71,15 @@
     },
     watch: {
       mainData: {
-        handler() {
-          if (this.mainData.is_follow_user) {
-            this.havefoucesed = true;
+        handler(nv) {
+          let arr=nv.faq_answer_list
+          if(arr[0]){
+            if(arr[0].optimal){
+              this.status='已解决'
+            }
           }
         },
         deep: true
-      }
-    },
-    computed: {
-      foucused: function () {
-        return this.havefoucesed ? '已关注该问题' : '关注这个问题'
       }
     },
     methods: {
