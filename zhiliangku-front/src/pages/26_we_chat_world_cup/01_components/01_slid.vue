@@ -36,7 +36,6 @@
                        :index="index+1"
                        @add_num="add_num">
         </question_unit>
-        <question_unit :main_data="{A:1,B:2,right:'A',id:9,title:nihao}"></question_unit>
       </div>
     </div>
     <div class="ftc rules r">
