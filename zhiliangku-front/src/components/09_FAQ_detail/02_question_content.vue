@@ -26,7 +26,9 @@
             <div class="info_status">
               <div class="font1_14_b4 dib">{{mainData.status_name|| "未解决"}}</div>
               <!--关注-->
-              <div class="dib heart">❤</div>
+              <div class="dib heart">
+                <i v-if="mainData.is_follow_user" class="iconfont icon-xin cp" ></i>
+                <i v-else class="iconfont icon-xin1 cp" @click="foucus"></i></div>
             </div>
           </div>
         </div>
@@ -98,12 +100,11 @@
           return
         }
         var obj = {};
-        obj.faq_id = this.$fn.funcUrl('id');
-        obj.custom_user_id = localStorage.uid;
+        obj.faq_id = this.$fn.funcUrl('faq_id');
         this.$post('/community/follow/faq', obj).then(res => {
           if (!res.data.err) {
             this.$fn.showNotice(this, '您已成功关注该问题', 'success')
-            this.havefoucesed = true;
+            this.mainData.is_follow_user = true;
           }
 
         })
@@ -212,13 +213,20 @@
 
   .info_status {
     margin-top: -17px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
   }
 
   .heart {
-    width: 32px;
-    height: 24px;
     padding-left: 20px;
     font-size: 24px;
     color: coral;
+  }
+  .icon-xin1{
+    font-size: 20px;
+  }
+  .icon-xin{
+    font-size: 24px;
   }
 </style>
