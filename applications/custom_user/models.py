@@ -32,15 +32,21 @@ class CustomUser(models.Model):
 	)
 
 	DEFAULT_AVATAR = "custom_user_avatar/defaultUserIcon.png"
-	nickname = models.CharField('昵称', max_length=255, **NULL_BLANK_TRUE)
+
+	nickname = models.CharField('真实姓名', max_length=255, **NULL_BLANK_TRUE)
 	sex = models.CharField("性别", max_length=2, choices=GENDER_CHOICES, blank=True)
+	birthday = models.CharField("出生年月", max_length=30, default="", **NULL_BLANK_TRUE)
 	role = models.IntegerField('角色', choices=ROLE, null=True, default=3)
 	avatar = models.ImageField('头像', upload_to=upload_to, storage=ImageStorage(), max_length=256,
 							   default=DEFAULT_AVATAR, **NULL_BLANK_TRUE)
-	institutions = models.CharField('院校', max_length=255, **NULL_BLANK_TRUE)
+	institutions = models.CharField('所在院校', max_length=255, **NULL_BLANK_TRUE)
+	class_s = models.CharField('所在班级', max_length=255, **NULL_BLANK_TRUE)
+	is_computer = models.BooleanField("计算机专业", default=False)
+	is_graduate = models.BooleanField("在校情况", default=False)
+	education = models.CharField("学历", max_length=255, default="", **NULL_BLANK_TRUE)
 	position = models.CharField('职位', max_length=255, **NULL_BLANK_TRUE)
-	contact_number = models.CharField('联系电话', max_length=255, default="", **NULL_BLANK_TRUE)
 	signature = models.TextField('个性签名', max_length=255, default="", **NULL_BLANK_TRUE)
+	contact_number = models.CharField('联系电话', max_length=255, default="", **NULL_BLANK_TRUE)
 	integral = models.PositiveIntegerField("积分", default=0)  # 隐藏
 	receiver = models.CharField('收货人', max_length=255, default="", **NULL_BLANK_TRUE)  # 隐藏
 	address = models.CharField('收货地址', max_length=255, default="", **NULL_BLANK_TRUE)  # 隐藏
