@@ -12,7 +12,6 @@ from django.views.generic import View
 
 from applications.custom_user.models import *
 from lib.encrypt import PyCrypt
-from lib.permissionMixin import class_view_decorator, user_login_required
 from lib.util import *
 from zhiliangku.settings import MEDIA_ROOT
 

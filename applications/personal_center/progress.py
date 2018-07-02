@@ -81,3 +81,38 @@ class GetLearningProgressInfo(View):
 			self.result_dict["msg"] = traceback.format_exc()
 		finally:
 			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
+
+
+@class_view_decorator(user_login_required)
+class GetTodayTaskInfo(View):
+	"""个人中心-今日任务-信息"""
+
+	def __init__(self):
+		super(GetTodayTaskInfo, self).__init__()
+		self.result_dict = {
+			"err": 0,
+			"msg": "success",
+			"data": {
+				"task": "",  # 任务目标，项目名称-课程名称-视频名称
+				"video_1": 0,  # 视频时长，分钟
+				"video_2": 0,  # 练习题个数
+				"video_3": 0,  # 考核个数
+				"video_1_time": 0,  # 视频观看时长，时间累加
+				"video_2_time": 0,  # 练习次数
+				"video_3_time": 0,  # 考核次数
+				"yesterday_schedule": 0,  # 昨日进度
+				"today_schedule": 0,  # 今日进度
+			},
+		}
+
+	def get(self, request, *args, **kwargs):
+		try:
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			self.result_dict["err"] = 1
+			self.result_dict["msg"] = traceback.format_exc()
+		finally:
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))

@@ -8,4 +8,5 @@ urlpatterns = [
 	url('^construct$', ConstructDocker.as_view()),  # 构建docker容器
 	url('^result/$', AssessmentResult.as_view()),  # 考核结果页面
 	url('^result/info$', AssessmentResultInfo.as_view()),  # 考核结果信息
+	url('^add/times$', AssessmentResultInfo.as_view()),  # 增加用户考核记录
 ]

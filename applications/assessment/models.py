@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+from applications.custom_user.models import CustomUser
 from lib.util import NULL_BLANK_TRUE
 
 

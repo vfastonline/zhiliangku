@@ -307,7 +307,8 @@ def project_summarize_course_progress(custom_user_id, course, courses=list(), pr
 					previous_course_has_assessment = True
 					filter_param = {
 						"custom_user__id": custom_user_id,
-						"video": assessment_video.first()
+						"video": assessment_video.first(),
+						"is_pass": True
 					}
 					unlockvideos = UnlockVideo.objects.filter(**filter_param)
 					if unlockvideos.exists():

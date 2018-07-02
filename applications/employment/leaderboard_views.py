@@ -51,7 +51,7 @@ class LeaderboardListInfo(View):
 			self.project_video_id_list = Project.objects.all().values_list("video", flat=True)
 
 			# 完成项目考核用户排名
-			unlockvideos = UnlockVideo.objects.filter(video__id__in=self.project_video_id_list) \
+			unlockvideos = UnlockVideo.objects.filter(video__id__in=self.project_video_id_list, is_pass=True) \
 				.values('custom_user') \
 				.annotate(num=Count('custom_user')) \
 				.order_by("-num")
@@ -134,8 +134,8 @@ class LeaderboardListInfo(View):
 		try:
 			filter_dict = {
 				"video__id__in": self.project_video_id_list,
-				"custom_user__id": user_id
-
+				"custom_user__id": user_id,
+				"is_pass": True
 			}
 			unlockvideos = UnlockVideo.objects.filter(**filter_dict).values_list("video", flat=True)
 			technologys = Project.objects.filter(video__id__in=unlockvideos).values_list("technology__name", flat=True)
