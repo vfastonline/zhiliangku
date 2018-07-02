@@ -22,6 +22,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 import top.api
 
+NULL_BLANK_TRUE = {
+	'null': True,
+	'blank': True
+}
+
 
 def get_validate(identifier, uid, role, fix_pwd):
 	"""

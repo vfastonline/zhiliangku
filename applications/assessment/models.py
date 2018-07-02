@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+from lib.util import NULL_BLANK_TRUE
+
 
 class DockerType(models.Model):
 	"""Docker 类型"""
@@ -10,7 +12,7 @@ class DockerType(models.Model):
 	name = models.CharField('类型名称', max_length=255)
 	image = models.CharField('镜像名称', max_length=255, help_text=u"固定并准确,用于创建docker时补全命令")
 	port = models.CharField('镜像端口', max_length=10, help_text=u"先确认阿里云服务器开放端口并没有被其他镜像占用")
-	introduce = models.TextField('介绍', default='', null=True, blank=True)
+	introduce = models.TextField('介绍', default='', **NULL_BLANK_TRUE)
 
 	def __unicode__(self):
 		return self.name

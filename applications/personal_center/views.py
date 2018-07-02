@@ -41,7 +41,17 @@ class PersonalCenterBasicInfo(View):
 				data_dict["avatar"] = customuser.avatar.url
 				data_dict["signature"] = customuser.signature if customuser.signature else ""
 				data_dict["sex"] = customuser.get_sex_display()
-				data_dict["institutions"] = customuser.institutions
+				data_dict["institutions"] = customuser.institutions  # 所在院校
+				data_dict["class_s"] = customuser.class_s  # 所在班级
+				data_dict["birthday"] = customuser.birthday  # 出生年月
+				data_dict["education"] = customuser.education  # 学历
+				data_dict["is_computer"] = customuser.is_computer  # 计算机相关专业
+				data_dict["is_graduate"] = customuser.is_graduate  # 在校情况
+				try:
+					data_dict["phone"] = CustomUserAuths.objects.get(custom_user_id=customuser,
+																	 identity_type="phone").identifier  # 手机账号
+				except:
+					data_dict["phone"] = ""
 				# video_process = str_to_int(WatchRecord.objects.filter(user__id=custom_user_id).aggregate(Sum('video_process')).get("video_process__sum"))
 				# duration = str_to_int(WatchRecord.objects.filter(user__id=custom_user_id, status=1).aggregate(Sum('duration')).get("duration__sum"))
 				# learn_time = video_process + duration

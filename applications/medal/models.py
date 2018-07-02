@@ -9,13 +9,14 @@ from django.utils import timezone
 
 from applications.custom_user.models import CustomUser
 from lib.storage import *
+from lib.util import NULL_BLANK_TRUE
 
 
 class Medal(models.Model):
 	"""勋章"""
 	name = models.CharField('名称', max_length=50)
 	pathwel = models.ImageField('图片', upload_to='medal', storage=ImageStorage())
-	only = models.CharField('系统识别名称', max_length=50, blank=True, null=True)
+	only = models.CharField('系统识别名称', max_length=50, **NULL_BLANK_TRUE)
 
 	def __unicode__(self):
 		return self.name
@@ -31,7 +32,7 @@ class CustomUserMedal(models.Model):
 
 	custom_user = models.ForeignKey(CustomUser, verbose_name="用户", limit_choices_to={'role': 0},
 									related_name='customusermedal')
-	medal = models.ForeignKey(Medal, verbose_name="获得的勋章", blank=True, null=True)
+	medal = models.ForeignKey(Medal, verbose_name="获得的勋章", **NULL_BLANK_TRUE)
 	create_time = models.DateTimeField(verbose_name='获得时间', default=timezone.now)
 
 	def __unicode__(self):
