@@ -30,21 +30,37 @@ class UpdateBasicInfo(View):
 			signature = param_dict.get('signature', "")  # 个性签名
 			contact_number = param_dict.get('contact_number', "")  # 联系电话
 			institutions = param_dict.get('institutions', "")  # 所在院校
+			class_s = param_dict.get('class_s', "")  # 所在班级
+			birthday = param_dict.get('birthday', "")  # 出生年月
+			education = param_dict.get('education', "")  # 学历
+			is_computer = param_dict.get('is_computer', "")  # 计算机相关专业
+			is_graduate = param_dict.get('is_graduate', "")  # 在校情况，False:在校，True：毕业
 
 			customusers = CustomUser.objects.filter(id=custom_user_id)
 			data_dict = dict()
 			if customusers.exists():
-				update_param = dict()
+
 				param = {
 					"nickname": nickname,
 					"signature": signature,
 					"sex": sex,
 					"contact_number": contact_number,
 					"institutions": institutions,
+					"class_s": class_s,
+					"birthday": birthday,
+					"education": education,
 				}
-				for key, val in param.items():
-					if val:
-						update_param[key] = val
+				if is_computer:
+					is_computer = True
+				else:
+					is_computer = False
+
+				if is_graduate:
+					is_graduate = True
+				else:
+					is_graduate = False
+				param.update({"is_computer": is_computer, "is_graduate": is_graduate})
+				update_param = get_kwargs(param)
 				customusers.update(**update_param)
 
 				customusers = CustomUser.objects.filter(id=custom_user_id)
@@ -54,6 +70,11 @@ class UpdateBasicInfo(View):
 				data_dict["sex"] = customuser.get_sex_display()
 				data_dict["contact_number"] = customuser.contact_number
 				data_dict["institutions"] = customuser.institutions
+				data_dict["class_s"] = customuser.class_s
+				data_dict["birthday"] = customuser.birthday
+				data_dict["education"] = customuser.education
+				data_dict["is_computer"] = customuser.is_computer
+				data_dict["is_graduate"] = customuser.is_graduate
 			else:
 				result_dict["msg"] = "找不到对应用户"
 			result_dict["data"] = data_dict

@@ -75,11 +75,7 @@ class ProjectsListInfo(View):
 					"technology_id": self.technology_id,
 					"name__icontains": name
 				}
-			filter_dict = dict()
-			for key, val in param_dict.items():
-				if val:
-					filter_dict[key] = val
-
+			filter_dict = get_kwargs(param_dict)
 			projects = Project.objects.filter(**filter_dict)
 
 			# 提供分页数据
