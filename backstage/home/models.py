@@ -12,7 +12,8 @@ class LearnTask(models.Model):
 	"""学习任务"""
 
 	video = models.ForeignKey(Video, verbose_name="视频/练习/考核", help_text="今日任务终点")
-	custom_user = models.ForeignKey(CustomUser, verbose_name="创建人", related_name="TodayTaskCustomUser")
+	custom_user = models.ForeignKey(CustomUser, verbose_name="创建人", related_name="TodayTaskCustomUser",
+									limit_choices_to={'role': 1})
 	create_time = models.DateField(verbose_name='创建时间', default=timezone.now)
 	update_time = models.DateTimeField("更新时间", auto_now=True)
 
