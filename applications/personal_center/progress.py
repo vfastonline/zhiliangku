@@ -160,7 +160,7 @@ class GetLearnTaskInfo(View):
 					"video__section__course__project": learntask.video.section.course.project
 				}
 				video_2_time = UserExercise.objects.filter(**filter_param).aggregate(Sum('times')).get("times__sum", 0)
-				self.result_dict["data"]["video_2_time"] = video_2_time
+				self.result_dict["data"]["video_2_time"] = video_2_time or 0
 
 				# 考核次数
 				filter_param = {
@@ -168,7 +168,7 @@ class GetLearnTaskInfo(View):
 					"video__section__course__project": learntask.video.section.course.project
 				}
 				video_2_time = UnlockVideo.objects.filter(**filter_param).aggregate(Sum('times')).get("times__sum", 0)
-				self.result_dict["data"]["video_3_time"] = video_2_time
+				self.result_dict["data"]["video_3_time"] = video_2_time or 0
 
 		except:
 			traceback.print_exc()
