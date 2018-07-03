@@ -103,7 +103,7 @@ class CustomUserLogin(View):
 					crypt_password = pycrypt_obj.encrypt(password)
 					custom_user_pwd = custom_user_auth.credential  # 密码凭证
 					custom_user_id = custom_user_auth.custom_user_id.id  # 用户ID
-					custom_user_role = custom_user_auth.custom_user_id.role  # 用户角色
+					custom_user_role = custom_user_auth.custom_user_id.role  # 用户角色，0：学生；1：老师
 					if custom_user_pwd != crypt_password:
 						result_dict["msg"] = "账号或密码错误"
 						result_dict["err"] = 3
@@ -113,7 +113,7 @@ class CustomUserLogin(View):
 						result_dict["err"] = 0
 						# result_dict["data"]["token"] = token
 						result_dict["data"]["user"] = {
-							"uid": custom_user_auth.custom_user_id.id,
+							# "uid": custom_user_auth.custom_user_id.id,
 							"nickname": custom_user_auth.custom_user_id.nickname,
 							"role": custom_user_auth.custom_user_id.role,
 							"avatar": custom_user_auth.custom_user_id.avatar.url if custom_user_auth.custom_user_id.avatar else "",

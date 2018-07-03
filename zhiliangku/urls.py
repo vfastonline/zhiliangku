@@ -68,6 +68,13 @@ urlpatterns = [
 		{'document_root': "/usr/local/openresty/nginx/html/templates/wechat/promotion/stylesheets"}),
 	url(r'^images/(?P<path>.*)$', new_static.serve,
 		{'document_root': "/usr/local/openresty/nginx/html/templates/images"}),
+
 ]
 
+# 教室端后台
+backstageurl = [
+	url(r'^backstage/', include('backstage.home.urls')),
+]
+
+urlpatterns += backstageurl
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -44,6 +44,38 @@ def user_login_required(function):
 	return _wrapped_view
 
 
+# 校验是否是老师登录
+def teacher_login_required(function):
+	def _wrapped_view(request, *args, **kwargs):
+		path = request.get_full_path()
+		try:
+			token = ""
+			try:
+				token = request.COOKIES.get("token")
+			except:
+				traceback.print_exc()
+				logging.getLogger().error(traceback.format_exc())
+
+			if not token:
+				resolved_login_url = resolve_url(reverse('login'))  # 未登录
+				return redirect_to_login(path, resolved_login_url, REDIRECT_FIELD_NAME)
+
+			validate_result = validate(token, CryptKey, True)
+			code = validate_result.get("code")
+			msg = validate_result.get("msg")
+			if code == 1:
+				logging.getLogger().warning("Request forbiden:%s" % msg)
+				resolved_login_url = resolve_url(reverse('login'))  # Token校验失败
+				return redirect_to_login(path, resolved_login_url, REDIRECT_FIELD_NAME)
+		except:
+			logging.getLogger().warning("Validate error: %s" % traceback.format_exc())
+			resolved_login_url = resolve_url(reverse('login'))  # 接口异常
+			return redirect_to_login(path, resolved_login_url, REDIRECT_FIELD_NAME)
+		return function(request, *args, **validate_result)
+
+	return _wrapped_view
+
+
 def class_view_decorator(function_decorator):
 	"""Convert a function based decorator into a class based decorator usable
 	on class based Views.

@@ -77,6 +77,9 @@ SUIT_CONFIG = {
 		{'label': '世界杯', 'app': 'world_cup', 'icon': 'icon-list-alt',
 		 'models': ("Tournament", "Analysis", "Topic", "Country", "BetRecord", "BetRecordCount",)},
 
+		# 世界杯-答题-猜球
+		{'label': '教师端-首页', 'app': 'home', 'icon': 'icon-list-alt'},
+
 		# # 观看进度
 		# {'app': 'record', 'icon': 'icon-list-alt', 'models': ('WatchRecord',)},
 
@@ -89,6 +92,7 @@ SUIT_CONFIG = {
 		# # 积分商城
 		# {'label': '积分商城', 'app': 'integral', 'icon': 'icon-shopping-cart',
 		#  'models': ('Goods', 'ExchangeRecords')},
+
 	),
 
 	# misc

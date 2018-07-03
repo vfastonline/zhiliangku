@@ -56,6 +56,7 @@ class UserExercise(models.Model):
 	custom_user = models.ForeignKey(CustomUser, verbose_name='讲师', limit_choices_to={'role': 0})
 	video = models.ForeignKey(Video, verbose_name='所属视频', limit_choices_to={"type": "2"})
 	times = models.PositiveIntegerField("练习次数", default=1)
+	is_pass = models.BooleanField("是否通过", default=False)
 
 	def __unicode__(self):
 		return self.custom_user.nickname

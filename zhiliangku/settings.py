@@ -72,6 +72,9 @@ INSTALLED_APPS = [
 
 	'applications.wechat_promotion',  # 微信推广
 	'applications.world_cup',  # 世界杯-答题-猜球-赢积分
+
+	# 只能教室后台
+	'backstage.home'  # 首页
 ]
 
 SITE_ID = 1

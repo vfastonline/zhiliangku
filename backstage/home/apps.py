@@ -1,0 +1,9 @@
+#!encoding:utf-8
+from __future__ import unicode_literals
+
+from django.apps import AppConfig
+
+
+class HomeConfig(AppConfig):
+	name = 'backstage.home'
+	verbose_name = "后台首页"

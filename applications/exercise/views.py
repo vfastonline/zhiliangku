@@ -134,16 +134,22 @@ class AddUserExercise(View):
 		result_dict = {"err": 0, "msg": "success", "data": dict()}
 		try:
 			param_dict = json.loads(request.body)
+			is_pass = str_to_int(param_dict.get('is_pass', 0))  # 是否通过
 			video_id = str_to_int(param_dict.get('video_id', 0))  # 视频ID
 			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 
+			if is_pass:
+				is_pass = True
+			else:
+				is_pass = False
+
 			userexercises = UserExercise.objects.filter(custom_user__id=custom_user_id, video__id=video_id)
 			if userexercises.exists():
-				userexercises.update(times=F("times") + 1)
+				userexercises.update(times=F("times") + 1, is_pass=is_pass)
 			else:
 				customuser = CustomUser.objects.get(id=custom_user_id)
 				video = Video.objects.get(id=video_id)
-				UserExercise.objects.create(custom_user=customuser, video=video)
+				UserExercise.objects.create(custom_user=customuser, video=video, is_pass=is_pass)
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())

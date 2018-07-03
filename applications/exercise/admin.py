@@ -26,5 +26,5 @@ class AnswerAdmin(admin.ModelAdmin):
 
 @admin.register(UserExercise)
 class UserExerciseAdmin(admin.ModelAdmin):
-	list_display = ('id', "custom_user", 'video', "times")
+	list_display = ('id', "custom_user", 'video', "times", "is_pass")
 	search_fields = ('custom_user__nickname', "video__name",)
