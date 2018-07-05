@@ -1,11 +1,17 @@
 #!encoding:utf-8
 from __future__ import unicode_literals
-from django.utils import timezone
+
+import logging
+import traceback
 
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.utils import timezone
 
 from applications.custom_user.models import CustomUser
 from applications.tracks_learning.models import Video
+from lib.util import NULL_BLANK_TRUE
 
 
 class LearnTask(models.Model):
@@ -18,9 +24,48 @@ class LearnTask(models.Model):
 	update_time = models.DateTimeField("更新时间", auto_now=True)
 
 	def __unicode__(self):
-		return self.video.name
+		return "--".join([self.video.name, self.create_time.strftime("%Y-%m-%d")])
 
 	class Meta:
 		db_table = 'LearnTask'
 		verbose_name = "学习任务"
 		verbose_name_plural = "学习任务"
+
+
+@receiver(post_save, sender=LearnTask)
+def calculate_task_progress(sender, instance, **kwargs):
+	"""计算学习任务进度 """
+	try:
+		task_video = instance.video
+		courses = instance.video.section.course.project.Courses.all()
+		videos = list(Video.objects.filter(section__course__in=courses))
+		task_video_index = videos.index(task_video) + 1
+		schedule = float("%.2f" % (float(task_video_index) / float(len(videos))))
+		learntasksummarys = LearnTaskSummary.objects.filter(task=instance)
+		if learntasksummarys.exists():
+			learntasksummarys.update(schedule=schedule)
+		else:
+			LearnTaskSummary.objects.create(task=instance, schedule=schedule)
+	except:
+		traceback.print_exc()
+		logging.getLogger().error(traceback.format_exc())
+
+
+class LearnTaskSummary(models.Model):
+	"""学习任务汇总"""
+	task = models.ForeignKey(LearnTask, verbose_name="学习任务")
+	schedule = models.FloatField("目标进度", max_length=10, **NULL_BLANK_TRUE)  # 当前任务占总任务百分比，粒度为一个项目
+	average = models.FloatField("班级平均进度", default=0, **NULL_BLANK_TRUE)
+	improve = models.FloatField("较昨日提高", default=0, **NULL_BLANK_TRUE)
+	complete = models.FloatField("完成目标人数比例", default=0, **NULL_BLANK_TRUE)
+	undone = models.FloatField("未完成目标人数比例", default=0, **NULL_BLANK_TRUE)
+	excess_complete = models.FloatField("超完成目标人数比例", default=0, **NULL_BLANK_TRUE)
+	update_time = models.DateTimeField("更新时间", auto_now=True)
+
+	def __unicode__(self):
+		return self.task.video.name
+
+	class Meta:
+		db_table = 'LearnTaskSummary'
+		verbose_name = "学习任务汇总"
+		verbose_name_plural = "学习任务汇总"

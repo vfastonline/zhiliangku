@@ -24,6 +24,7 @@ def user_login_required(function):
 				traceback.print_exc()
 				logging.getLogger().error(traceback.format_exc())
 
+			print("token==", token)
 			if not token:
 				resolved_login_url = resolve_url(reverse('login'))  # 未登录
 				return redirect_to_login(path, resolved_login_url, REDIRECT_FIELD_NAME)
@@ -31,6 +32,7 @@ def user_login_required(function):
 			validate_result = validate(token, CryptKey)
 			code = validate_result.get("code")
 			msg = validate_result.get("msg")
+			print(code, msg)
 			if code == 1:
 				logging.getLogger().warning("Request forbiden:%s" % msg)
 				resolved_login_url = resolve_url(reverse('login'))  # Token校验失败
@@ -56,6 +58,7 @@ def teacher_login_required(function):
 				traceback.print_exc()
 				logging.getLogger().error(traceback.format_exc())
 
+			print("token==", token)
 			if not token:
 				resolved_login_url = resolve_url(reverse('login'))  # 未登录
 				return redirect_to_login(path, resolved_login_url, REDIRECT_FIELD_NAME)
@@ -63,6 +66,7 @@ def teacher_login_required(function):
 			validate_result = validate(token, CryptKey, True)
 			code = validate_result.get("code")
 			msg = validate_result.get("msg")
+			print(code, msg)
 			if code == 1:
 				logging.getLogger().warning("Request forbiden:%s" % msg)
 				resolved_login_url = resolve_url(reverse('login'))  # Token校验失败

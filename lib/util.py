@@ -45,6 +45,7 @@ def validate(key, fix_pwd, teacher=False):
 	"""
 	:param key: token
 	:param fix_pwd: 偏移量
+	:param teacher: 校验用户角色是否是老师
 	:return:
 	"""
 	# t = int(time.time())
@@ -59,7 +60,7 @@ def validate(key, fix_pwd, teacher=False):
 		if validate_key == x[4]:
 			logging.getLogger().info('认证通过')
 			if teacher:  # 需要校验用户角色是否是老师
-				if x[3] != 1:
+				if x[3] != "1":
 					return {'code': 1, 'msg': '用户角色不是老师'}
 			return {'code': 0, 'identifier': x[0], 'uid': x[2], 'role': x[3], "msg": "认证通过", "token": token}
 		else:
