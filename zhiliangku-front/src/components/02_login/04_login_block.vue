@@ -90,18 +90,26 @@
           }
         })
       },
+      //一共两处登录入口，走的均为这个函数
       loginFun() {
         this.$post('/customuser/login', this.form_data).then(res => {
           if (!res.data.err) {
             if (res.data.msg === 'success') this.centerDialogVisible = false // 察觉暂无用
-            for (var k in res.data.data.user) {
+            //将用户信息记录到本地
+            for (let k in res.data.data.user) {
               localStorage[k] = res.data.data.user[k]
+            }
+            if (window.localStorage.role*1 === 1) {
+              this.go_pages()
             }
             this.$fn.showNotice(this, '您已成功登录', 'success')
             this.$emit('log_in_success')
             Bus.$emit('refreshAvatar')
           }
         })
+      },
+      go_pages() {
+        window.location.href='/backstage/index/'
       }
     },
     components: {
@@ -127,7 +135,7 @@
     background: #23b8ff 100%;
     display: inline-block;
     text-align: center;
-    border-radius:4px;
+    border-radius: 4px;
     height: 40px;
     line-height: 40px;
     padding: 0 20px;
