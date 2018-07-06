@@ -11,6 +11,7 @@ from django.dispatch import receiver
 from django.utils import timezone
 
 from lib.storage import ImageStorage
+from lib.util import NULL_BLANK_TRUE
 
 
 def upload_to(instance, fielname):
@@ -30,18 +31,25 @@ class CustomUser(models.Model):
 		('F', u'女'),
 	)
 
-	nickname = models.CharField('昵称', max_length=255, blank=True, null=True)
+	DEFAULT_AVATAR = "custom_user_avatar/defaultUserIcon.png"
+
+	nickname = models.CharField('真实姓名', max_length=255, **NULL_BLANK_TRUE)
 	sex = models.CharField("性别", max_length=2, choices=GENDER_CHOICES, blank=True)
+	birthday = models.CharField("出生年月", max_length=30, default="", **NULL_BLANK_TRUE)
 	role = models.IntegerField('角色', choices=ROLE, null=True, default=3)
-	avatar = models.ImageField('头像', upload_to=upload_to, storage=ImageStorage(), blank=True, null=True, max_length=256,
-							   default="custom_user_avatar/defaultUserIcon.png")
-	institutions = models.CharField('院校', max_length=255, blank=True, null=True)
-	position = models.CharField('职位', max_length=255, blank=True, null=True)
-	contact_number = models.CharField('联系电话', max_length=255, blank=True, null=True, default="")
-	signature = models.TextField('个性签名', max_length=255, default="", null=True, blank=True)
+	avatar = models.ImageField('头像', upload_to=upload_to, storage=ImageStorage(), max_length=256,
+							   default=DEFAULT_AVATAR, **NULL_BLANK_TRUE)
+	institutions = models.CharField('所在院校', max_length=255, **NULL_BLANK_TRUE)
+	class_s = models.CharField('所在班级', max_length=255, **NULL_BLANK_TRUE)
+	is_computer = models.BooleanField("计算机专业", default=False)
+	is_graduate = models.BooleanField("在校情况", default=False)# False:在校，True：毕业
+	education = models.CharField("学历", max_length=255, default="", **NULL_BLANK_TRUE)
+	position = models.CharField('职位', max_length=255, **NULL_BLANK_TRUE)
+	signature = models.TextField('个性签名', max_length=255, default="", **NULL_BLANK_TRUE)
+	contact_number = models.CharField('联系电话', max_length=255, default="", **NULL_BLANK_TRUE)
 	integral = models.PositiveIntegerField("积分", default=0)  # 隐藏
-	receiver = models.CharField('收货人', max_length=255, blank=True, null=True, default="")  # 隐藏
-	address = models.CharField('收货地址', max_length=255, blank=True, null=True, default="")  # 隐藏
+	receiver = models.CharField('收货人', max_length=255, default="", **NULL_BLANK_TRUE)  # 隐藏
+	address = models.CharField('收货地址', max_length=255, default="", **NULL_BLANK_TRUE)  # 隐藏
 	create_time = models.DateTimeField(verbose_name='创建时间', default=timezone.now)
 
 	def __unicode__(self):
@@ -102,7 +110,7 @@ class CustomUserProject(models.Model):
 
 	custom_user = models.ForeignKey(CustomUser, verbose_name="用户", limit_choices_to={'role': 0},
 									help_text='只允许选择角色是”学生“的用户。')
-	project = models.ForeignKey("tracks_learning.Project", verbose_name="参与项目", blank=True, null=True)
+	project = models.ForeignKey("tracks_learning.Project", verbose_name="参与项目", **NULL_BLANK_TRUE)
 	create_time = models.DateTimeField(verbose_name='参与时间', default=timezone.now)
 
 	def __unicode__(self):
@@ -120,7 +128,7 @@ class CustomUserCourse(models.Model):
 
 	custom_user = models.ForeignKey(CustomUser, verbose_name="用户", limit_choices_to={'role': 0},
 									help_text='只允许选择角色是”学生“的用户。')
-	course = models.ForeignKey("tracks_learning.Course", verbose_name="课程", blank=True, null=True)
+	course = models.ForeignKey("tracks_learning.Course", verbose_name="课程", **NULL_BLANK_TRUE)
 	create_time = models.DateTimeField(verbose_name='收藏时间', default=timezone.now)
 
 	def __unicode__(self):

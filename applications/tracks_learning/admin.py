@@ -128,8 +128,9 @@ class VideoAdmin(admin.ModelAdmin):
 
 @admin.register(UnlockVideo)
 class UnlockVideoAdmin(admin.ModelAdmin):
-	list_display = ('id', "video", "custom_user")
+	list_display = ('id', "video", "custom_user", "is_pass", "times")
 	search_fields = ("video__name", 'custom_user')
+	list_filter = ('is_pass',)
 
 
 @admin.register(Nodus)

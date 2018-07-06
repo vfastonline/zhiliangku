@@ -7,6 +7,7 @@ import traceback
 
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.db.models import F
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -144,9 +145,11 @@ def add_video_event(sender, instance, **kwargs):  # 回调函数，收到信号�
 
 class UnlockVideo(models.Model):
 	"""学生通过考核记录"""
-	video = models.ForeignKey(Video, verbose_name="考核", related_name='UnlockVideos', limit_choices_to={'type': 3})
+	video = models.ForeignKey(Video, verbose_name="考核", related_name='UnlockVideos', limit_choices_to={'type': "3"})
 	custom_user = models.ForeignKey(CustomUser, verbose_name='学生', related_name='UnlockVideoCustomUser',
 									limit_choices_to={'role': 0}, blank=True, null=True)
+	is_pass = models.BooleanField("通过考核", default=False)
+	times = models.PositiveIntegerField("考核次数", default=0)
 	update_time = models.DateTimeField("更新时间", auto_now=True)
 
 	def __unicode__(self):
@@ -156,6 +159,16 @@ class UnlockVideo(models.Model):
 		db_table = 'UnlockVideo'
 		verbose_name = "通过考核学生"
 		verbose_name_plural = "通过考核学生"
+
+
+@receiver(post_save, sender=UnlockVideo)  # 信号的名字，发送者
+def add_unlockvideo_event(sender, instance, **kwargs):  # 回调函数，收到信号后的操作
+	"""新增/编辑 考核记录 保存事件 """
+	try:
+		UnlockVideo.objects.filter(id=instance.id).update(times=F("times") + 1)
+	except:
+		traceback.print_exc()
+		logging.getLogger().error(traceback.format_exc())
 
 
 class Nodus(models.Model):

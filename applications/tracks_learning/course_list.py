@@ -128,11 +128,11 @@ class SearchForCourse(View):
 			if name:
 				# 模糊查询字段：课程名称，先修要求，你将学到什么，课程描述，技术分类
 				course_objs = Course.objects.filter(Q(name__icontains=name)
-				                                    | Q(prerequisites__icontains=name)
-				                                    | Q(learn__icontains=name)
-				                                    | Q(description__icontains=name)
-				                                    | Q(tech__name__icontains=name)
-				                                    )
+													| Q(prerequisites__icontains=name)
+													| Q(learn__icontains=name)
+													| Q(description__icontains=name)
+													| Q(tech__name__icontains=name)
+													)
 
 				if course_objs:
 					course_objs = list(set(list(course_objs)))
@@ -160,7 +160,7 @@ class SearchForCourse(View):
 							"id": one.id,
 							"name": one.name,
 							"tech": [one_tech.name for one_tech in
-							         one.tech.all()] if one.tech.all().exists() else list(),
+									 one.tech.all()] if one.tech.all().exists() else list(),
 							"course_img": one.course_img.url if one.course_img else "",
 							"lecturer": one.lecturer.nickname if one.lecturer else "",
 							"avatar": one.lecturer.avatar.url if one.lecturer.avatar else "",
@@ -349,7 +349,8 @@ def section_is_unlock(custom_user_id, section, sections=list(), previous_num=1):
 				previous_section_has_assessment = True
 				filter_param = {
 					"custom_user__id": custom_user_id,
-					"video": assessment_video.first()
+					"video": assessment_video.first(),
+					"is_pass": True
 				}
 				unlockvideos = UnlockVideo.objects.filter(**filter_param)
 				if unlockvideos.exists():
@@ -447,6 +448,7 @@ class CourseDetailInfo(View):
 								param = {
 									"custom_user__id": self.custom_user_id,
 									"video": video,
+									"is_pass": True
 								}
 								if video.type == "3":
 									unlockvideos = UnlockVideo.objects.filter(**param)

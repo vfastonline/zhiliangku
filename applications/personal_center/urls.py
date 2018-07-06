@@ -14,6 +14,7 @@ urlpatterns = [
 
 	# 学习进度
 	url('^learning/progress$', progress.GetLearningProgressInfo.as_view()),
+	url('^today/task$', progress.GetLearnTaskInfo.as_view()),  # 今日任务
 
 	# 基本信息
 	url('^personal_settings/update/basicinfo$', personal_settings.UpdateBasicInfo.as_view()),

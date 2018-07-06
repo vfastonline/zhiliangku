@@ -75,11 +75,7 @@ class ProjectsListInfo(View):
 					"technology_id": self.technology_id,
 					"name__icontains": name
 				}
-			filter_dict = dict()
-			for key, val in param_dict.items():
-				if val:
-					filter_dict[key] = val
-
+			filter_dict = get_kwargs(param_dict)
 			projects = Project.objects.filter(**filter_dict)
 
 			# 提供分页数据
@@ -285,6 +281,7 @@ def project_summarize_course_progress(custom_user_id, course, courses=list(), pr
 		"remaining_time": "",  # 用户剩余学习时长，时分秒
 		"schedule": 0,  # 课程学习进度， 完成学习：1；未开始：0；正在学习 0< schedule <1
 		"is_study": 0,  # 是否有课程学习记录
+		"learning": "",  # 正在学习，课程-章节-视频
 		"learn_course_id": "",  # 最近一次学习课程ID
 		"learn_video_name": "",  # 最近一次学习视频名称
 		"learn_video_id": "",  # 最近一次学习视频ID
@@ -311,7 +308,8 @@ def project_summarize_course_progress(custom_user_id, course, courses=list(), pr
 					previous_course_has_assessment = True
 					filter_param = {
 						"custom_user__id": custom_user_id,
-						"video": assessment_video.first()
+						"video": assessment_video.first(),
+						"is_pass": True
 					}
 					unlockvideos = UnlockVideo.objects.filter(**filter_param)
 					if unlockvideos.exists():
@@ -351,6 +349,11 @@ def project_summarize_course_progress(custom_user_id, course, courses=list(), pr
 				result_dict["vid"] = watchrecord.video.vid  # 视频地址
 				result_dict["video_process"] = watchrecord.video_process
 
+				video_name = watchrecord.video.name
+				section_name = watchrecord.video.section.title
+				course_name = watchrecord.video.section.course.name
+				result_dict["learning"] ="/".join([course_name, section_name, video_name])
+
 			else:
 				remaining_time = duration_sum
 				schedule = 0
@@ -365,6 +368,10 @@ def project_summarize_course_progress(custom_user_id, course, courses=list(), pr
 						result_dict["learn_video_id"] = video_obj.id  # 上次学到视频ID
 						result_dict["learn_video_type"] = video_obj.type  # 上次学到视频类型
 						result_dict["video_vid"] = video_obj.vid
+						video_name = video_obj.name
+						section_name = video_obj.section.title
+						course_name = video_obj.section.course.name
+						result_dict["learning"] = "/".join([course_name, section_name, video_name])
 
 			m, s = divmod(remaining_time, 60)
 			h, m = divmod(m, 60)

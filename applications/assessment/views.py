@@ -4,6 +4,7 @@ import json
 import re
 
 import datetime
+from django.db.models import F
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
@@ -261,25 +262,35 @@ class AssessmentResultInfo(View):
 				self.result_dict["msg"] = u"未找到正确考核信息"
 
 			# 增加学生通过考核记录
+			customuser = CustomUser.objects.get(id=custom_user_id)
 			if is_pass:
 				medal_pathwel = ""
-				customusers = CustomUser.objects.filter(id=custom_user_id)
-				if videos.exists() and customusers.exists():
-					new_obj = UnlockVideo.objects.create(video=videos.first(), custom_user=customusers.first())
+				unlockvideos = UnlockVideo.objects.filter(custom_user=customuser, video=videos.first())
+				if not unlockvideos.exists():
+					new_obj = UnlockVideo.objects.create(video=videos.first(), custom_user=customuser, is_pass=True)
 					if new_obj:
 						# 判断考核类型，颁发勋章 *初次完成考核 *完成项目考核 *完成技术类别下总项目考核
-						unlockvideos = UnlockVideo.objects.filter(custom_user=customusers.first())
+						unlockvideos = UnlockVideo.objects.filter(custom_user=customuser, is_pass=True)
 						if unlockvideos.count() == 1:  # 初次
-							add_param = ["first_complete_assess", customusers.first()]
+							add_param = ["first_complete_assess", customuser]
 							medal_pathwel = CustomUserMedal.add_customuser_medal(*add_param)
 						elif Project.objects.filter(video=videos.first()).exists():  # 项目考核
-							add_param = ["complete_project_assess", customusers.first()]
+							add_param = ["complete_project_assess", customuser]
 							medal_pathwel = CustomUserMedal.add_customuser_medal(*add_param)
 
 						elif Technology.objects.filter(video=videos.first()).exists():  # 项目总考核
-							add_param = ["complete_overall_project_assess", customusers.first()]
+							add_param = ["complete_overall_project_assess", customuser]
 							medal_pathwel = CustomUserMedal.add_customuser_medal(*add_param)
+				else:
+					unlockvideos.update(is_pass=True)
+
 				self.result_dict["data"]["medal"] = medal_pathwel
+			else:  # 未通过考核
+				unlockvideos = UnlockVideo.objects.filter(custom_user=customuser, video=videos.first())
+				if not unlockvideos.exists():
+					UnlockVideo.objects.create(video=videos.first(), custom_user=customuser)
+				else:
+					unlockvideos.update(times=F("times") + 0)
 
 			# 销毁docker
 			self.destroy()

@@ -38,7 +38,7 @@ class FinishProjectListInfo(View):
 			per_page = request.GET.get("per_page", 12)  # 每页显示条目数
 
 			# 用户完成的所有考核ID列表
-			unlockvideos = UnlockVideo.objects.filter(custom_user__id=custom_user_id)
+			unlockvideos = UnlockVideo.objects.filter(custom_user__id=custom_user_id, is_pass=True)
 			video_id_list = unlockvideos.values_list("video", flat=True)
 
 			param = {
