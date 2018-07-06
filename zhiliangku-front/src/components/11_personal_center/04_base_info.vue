@@ -41,7 +41,7 @@
         <span>出生年月</span>
       </div>
       <div class="tag colon"> :</div>
-      <div class="value_container">
+      <div class="value_container ">
         <el-date-picker
           class="set_value"
           v-if="switch_value"
@@ -253,7 +253,7 @@
 
   .set_value {
     box-sizing: border-box;
-    width: 600px;
+    width: 600px!important;
     flex: 0 0 600px;
     line-height: 40px;
   }

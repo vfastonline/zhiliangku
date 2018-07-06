@@ -6,7 +6,7 @@
       </div>
       <div class="tag colon"> :</div>
       <div class="value_container">
-        <span class="dib set_value info_display font1_16_6">111111111111</span>
+        <span class="dib set_value info_display font1_16_6">{{base_info.phone}}</span>
       </div>
     </div>
     <div class="setting-item ">
@@ -115,6 +115,7 @@
           password: [{validator: validatePass, trigger: 'blur'}],
           // password_repeat: [{validator: validatePass2, trigger: 'blur'}],
         },
+        base_info: {}
       }
     },
     methods: {
@@ -136,9 +137,15 @@
             this.switch_value = false
           }
         })
+      },
+      get_base_info() {
+        this.$get('/personal_center/basic/info').then(res => {
+          this.base_info = res.data.data
+        })
       }
     },
     created() {
+      this.get_base_info()
       Bus.$on('havePersonalData', (res) => {
         this.mainData = res
         this.initForm(this, this.mainData,
