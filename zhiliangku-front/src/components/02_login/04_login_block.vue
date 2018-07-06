@@ -1,5 +1,5 @@
 <template>
-  <div class="login_block">
+  <div class="login_block login_section">
     <el-form
       :model="form_data"
       status-icon
@@ -113,8 +113,6 @@
   }
 </script>
 <style>
-  /*@import "./style/01_dialog_style.scss";*/
-  /*@import "./style/02_input_style.scss";*/
 
   .form_wrap > .el-button:hover {
     color: #FFF;

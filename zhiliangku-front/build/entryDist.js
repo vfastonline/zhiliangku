@@ -81,15 +81,19 @@ const entry = {
   test_page: {
     path: '30_test',
     filename: 'test/index.html'
+  },
+  back_stage:{
+    path:'b01_back_stage',
+    filename:'backstage/index/index.html'
   }
 }
-var entryObj = {}
-var distArr = []
+let entryObj = {}
+let distArr = []
 Object
   .keys(entry)
   .forEach(el => {
-    var pageConf = entry[el]
-    var thisPath = pageConf.path
+    let pageConf = entry[el]
+    let thisPath = pageConf.path
     pageConf.path = prePath + thisPath + jsPath
     pageConf.dist = {
       filename: pageConf.filename,

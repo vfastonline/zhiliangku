@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login_section">
     <form style="display:none;">
       <input type="text">
       <input type="password">
@@ -178,9 +178,6 @@ export default {
 }
 </script>
 <style>
-@import './style/01_dialog_style.scss';
-@import './style/02_input_style.scss';
-
 .code_container {
   display: flex;
 }

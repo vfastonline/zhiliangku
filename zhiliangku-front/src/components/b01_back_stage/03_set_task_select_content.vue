@@ -1,0 +1,202 @@
+<template>
+  <div>
+    <div class="container_a">
+      <el-select class="select_addition" v-model="value0" @change="get_data('course_data',value0)" placeholder="请选择项目">
+        <el-option
+          v-for="item in item_data"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id">
+        </el-option>
+      </el-select>
+      <el-select class="select_addition" v-model="value1" :disabled="!value0" @change="get_data('section_data',value1)"
+                 placeholder="请选择课程">
+        <el-option
+          v-for="item in course_data"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id">
+        </el-option>
+      </el-select>
+      <el-select class="select_addition" v-model="value2" :disabled="!value1" @change="get_data('video_data',value2)"
+                 placeholder="请选择章节">
+        <el-option
+          v-for="item in section_data"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id">
+        </el-option>
+      </el-select>
+      <el-select class="select_addition" v-model="value3" :disabled="!value2" placeholder="请选择节点">
+        <el-option
+          v-for="item in video_data"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id">
+        </el-option>
+      </el-select>
+    </div>
+    <div class="selected_progress font1_18_6">
+      <span>已选择:</span>
+      <span v-for="(item,index) in arr" :key="index" v-if="selected_name(item)">
+        <span v-if="index!==0">&nbsp;-&nbsp;</span>
+        <span>{{selected_name(item)}}</span>
+      </span>
+    </div>
+    <div class="bottom_button_container">
+      <div>
+        <div class="yesterday_progress">
+          <span class="font1_22_6 dib">昨日进度</span>
+          <span class="font1_18_9 dib time_span">{{(new Date()-24*3600*1000) | moment('YYYY-MM-DD')}}(昨日)</span>
+        </div>
+        <p class="font1_18_6">{{yesterday_progress.yesterday_task_name}}</p>
+      </div>
+      <Blue_button class="submit_button" @click="pre_submit"><span class="font1_26_f">提交</span></Blue_button>
+    </div>
+    <confirm v-if="show_confirm" @close="show_confirm=false" @confirm="submit"></confirm>
+  </div>
+</template>
+
+<script>
+
+  import Vue from 'vue'
+  import {Select, Option} from 'element-ui'
+  import Blue_button from '../00_common/04_blue_button'
+  import confirm from './05_double_confirm'
+  Vue.use(Select)
+  Vue.use(Option)
+  export default {
+    name: "selected",
+    data() {
+      return {
+        arr: ['item_data', 'course_data', 'section_data', 'video_data'],
+        item_data: [],
+        course_data: [],
+        section_data: [],
+        video_data: [],
+        value0: '',
+        value1: '',
+        value2: '',
+        value3: '',
+        yesterday_progress: {},
+        show_confirm:false
+      }
+    },
+    methods: {
+      selected_name(value) {
+        let index = this.arr.indexOf(value)
+        let s_value = this['value' + index]
+        if (!s_value) {
+          return
+        }
+        let name = ''
+        this[value].forEach(el => {
+          if (el.id * 1 === s_value * 1) {
+            name = el.name
+          }
+        })
+        return name
+      },
+      pre_submit() {
+        let verify = this.arr.every((el, index) => {
+          if (this['value' + index]) return true
+        })
+        if (!verify) {
+          this.$notify({
+            type: 'error',
+            message: '请选择今日任务',
+            offset: 100,
+            duration: 3000,
+            position: 'bottom-right'
+          })
+          return
+        }
+        this.show_confirm=true
+      },
+      submit(){
+        this.$post('/backstage/set/task/info', {video_id: this.value3}).then(res => {
+          if (!res.err) {
+            this.$notify({
+              type: 'success',
+              message: '已设置成功',
+              offset: 100,
+              duration: 3000,
+              position: 'bottom-right'
+            })
+          }
+          this.show_confirm=false
+        })
+      },
+      get_data(key, value) {
+        if (!value) return
+        let index = this.arr.indexOf(key)
+        this.change_child_data(key, value)
+        this.$get('/backstage/set/task/info?info=' + index + '&pk_id=' + value).then(res => {
+          this[key] = res.data.data
+        })
+      },
+      change_child_data(key) {
+        let arr = this.arr
+        let index_selected = arr.indexOf(key)
+        arr.forEach((el, index) => {
+          if (index < index_selected) return
+          this[el] = ''
+        })
+      },
+      get_init_data() {
+        this.$get('/backstage/set/task/info?info=1').then(res => {
+          this.item_data = res.data.data
+        })
+      },
+      get_yesterday_progress() {
+        this.$get('/backstage/get/yesterday/task/schedule').then(res => {
+          this.yesterday_progress = res.data.data
+        })
+      }
+    },
+    created() {
+      this.get_init_data()
+      this.get_yesterday_progress()
+    },
+    components: {
+      Blue_button: Blue_button,
+      confirm:confirm
+    }
+  }
+</script>
+
+<style scoped>
+  .yesterday_progress {
+    margin-bottom: 10px;
+  }
+
+  .selected_progress {
+    margin-bottom: 50px;
+  }
+
+  .time_span {
+    margin-left: 20px;
+    font-weight: 600;
+  }
+
+  .container_a {
+    width: 320px;
+  }
+
+  .select_addition {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .submit_button {
+    width: 200px;
+    height: 58px;
+    flex: 0 0 auto;
+  }
+
+  .bottom_button_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+</style>

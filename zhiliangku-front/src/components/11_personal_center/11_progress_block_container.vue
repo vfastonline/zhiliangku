@@ -39,7 +39,6 @@
   .border_style_block {
     border-left: 2px solid #999;
     padding-left: 76px;
-    height: 250px;
     margin-left: 32px;
   }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="login-box">
+  <div class="login-box login_section">
     <!-- 极有可能是bug的地方：回车键的体验 -->
     <el-dialog @close="modalClose()" :show-close="false" :visible.sync="centerDialogVisible">
       <!-- 1.login模块 -->
@@ -28,7 +28,7 @@
                        src="../../assets/img/icons/wechat.svg"
                        alt=""> -->
             </a>
-  
+
           </div>
         </div>
       </el-form>
@@ -293,7 +293,7 @@
           console.log(res)
         })
       },
-  
+
       submitForm(formName, funkey, data, callbackfun, param) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -435,7 +435,7 @@
           // 此处是直接进行了跳转，理论上讲，是不合适的。
         }
       },
-  
+
       goEmailHome(email) {
         var hash = {
           'qq.com': 'http://mail.qq.com',
@@ -505,7 +505,7 @@
       // 我的实现方式应该是,一个大组件,大组件是一直显示的，但是可以通过改变里面的参数来改变其显示的各种小组件
     },
     mounted() {
-  
+
       // console.log(this)
       // console.log(this.$ajax)
       // console.log(this.$echarts)
@@ -546,21 +546,21 @@
     width: 340px;
     margin-left: -20px;
   }
-  
+
   .longin-bottom-icons {
     margin-right: 24px;
   }
-  
+
   .login-commen-container-button {
     width: 300px;
     background: #23b8ff 100%;
   }
-  
+
   .login-middle-button {
     width: 164px;
     background: #23b8ff 100%;
   }
-  
+
   .login-bottom-button {
     margin-top: 8px;
     width: 300px;
@@ -568,7 +568,7 @@
     border: 2px solid #ffffff;
     line-height: 40px;
   }
-  
+
   .logup-success-body {
     padding-top: 70px;
   }

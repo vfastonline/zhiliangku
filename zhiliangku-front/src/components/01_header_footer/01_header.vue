@@ -1,6 +1,6 @@
 <template>
-  <header class="mw project_header hc r">
-    <div class="fl header_font">
+  <header class="mw project_header hc r ">
+    <div class=" header_font">
       <a href="/"><img class="logo dib vm"
              src="./img/智量酷-logo-slogan.png"
              alt=""></a>
@@ -21,8 +21,9 @@
         </a>
       </span>
     </div>
+    <div>
     <div v-if="!is_login"
-         class="fr">
+         class="">
       <span @click="myDispatch('specify_display',{show_key:'log_in',title_key:'登录'})"
             class="font1_20_3 cp">登录</span>
       <span class="font1_20_3"> / </span>
@@ -49,10 +50,13 @@
         <userMune v-if="showuser"
                   class=""
                   v-on:mouseenter="changeUsershow1()"
-                  v-on:mouseleave="changeUsershow2()"></userMune>
+                  v-on:mouseleave="changeUsershow2()">
+
+        </userMune>
       </transition>
     </div>
     <LoginNew @success="is_login=true"></LoginNew>
+    </div>
   </header>
 </template>
 
@@ -61,7 +65,7 @@ import Bus from '../../assets/js/02_bus'
 import LoginNew from '../02_login/02_login_module'
 import userMune from './04_user_menu'
 
-var Base64 = require('js-base64').Base64
+let Base64 = require('js-base64').Base64
 export default {
   name: "projectHeader",
   data () {
@@ -258,7 +262,12 @@ export default {
 };
 </script>
 
+
 <style scoped lang='scss'>
+  .header_font{
+    height: 90px;
+    overflow: hidden;
+  }
 .fade-enter-active,
 .fade-leave-active {
   transition: all 0.25s ease;
@@ -272,6 +281,9 @@ $margin: 46px;
 .project_header {
   height: 90px;
   line-height: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo {

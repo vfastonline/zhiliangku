@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login_section">
     <el-dialog
       :visible.sync="module_show"
       width="500px"
@@ -65,7 +65,11 @@
     }
   }
 </script>
-<style>
-  @import "./style/01_dialog_style.scss";
-  @import "./style/02_input_style.scss";
+<style lang="scss">
+  .login_section {
+    @import "./style/01_dialog_style.scss";
+    @import "./style/02_input_style.scss";
+
+  }
+
 </style>

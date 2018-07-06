@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="login_section1">
     <el-form :model="form_data" status-icon :rules="rules" ref="form_el" class="form_wrap">
       <form style="display:none;">
         <input type="text">
@@ -193,8 +193,6 @@
 
 </script>
 <style>
-  @import "./style/01_dialog_style.scss";
-  @import "./style/02_input_style.scss";
 
   .code_container {
     display: flex;

@@ -1,0 +1,65 @@
+<template>
+  <div class="mw hc index_block">
+    <!--这个bug很奇怪啊，内容自动居中了，这是为什么，也没有写样式啊.调查之后发现是上面的盒子浮动子元素卡住了本行内容-->
+    <div class="buttons ">
+      <span class="font1_30_3 dib">日常管理数据</span>
+      <GreyButton class="tag_button"><span class="font1_30_f">上一日</span></GreyButton>
+      <BlueButton class="tag_button" @click="show_dialog_func"><span class="font1_30_f">发布任务</span></BlueButton>
+    </div>
+    <dialog_index></dialog_index>
+    <div class="font1_18_6 map">
+      <div>今日进度数据</div>
+      <div></div>
+    </div>
+
+  </div>
+</template>
+
+<script>
+  import GreyButton from '../00_common/02_grey_button'
+  import BlueButton from '../00_common/04_blue_button'
+  import dialog_index from './04_set_task_select_container'
+  import Bus from '../../assets/js/02_bus'
+
+  export default {
+    name: "01_index",
+    data() {
+      return {
+        show_dialog: false
+      }
+    },
+    methods: {
+      show_dialog_func() {
+        Bus.$emit('dialog_open')
+      }
+    },
+    components: {
+      GreyButton: GreyButton,
+      BlueButton: BlueButton,
+      dialog_index: dialog_index,
+    },
+    created() {
+
+    }
+  }
+</script>
+
+<style scoped lang="scss">
+  .map{
+    margin-top: 20px;
+  }
+  .buttons {
+    .tag_button {
+      height: 52px;
+      width: 162px;
+      padding: 0;
+      margin-left: 20px !important;
+    }
+  }
+
+  .index_block {
+    margin-top: 30px;
+    margin-bottom: 12px;
+  }
+
+</style>

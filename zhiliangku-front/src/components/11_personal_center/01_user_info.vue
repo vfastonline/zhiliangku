@@ -1,6 +1,6 @@
 <template>
   <div class="personal-info-outer zindex1" :style="{'background-image':'url(' +imgData.pathwel +')'}">
-    <div class="pio-detail mw hc">
+    <div class="pio-detail  mw ">
       <div class="pio-user-left r">
         <el-upload class="avatar-uploader" :action="ognizeUrl()" :show-file-list="false"
                    :on-success="handleAvatarSuccess"
@@ -121,6 +121,9 @@
     box-sizing: border-box;
     background-repeat: no-repeat;
     background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .pio-detail {

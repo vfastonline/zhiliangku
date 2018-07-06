@@ -1,5 +1,8 @@
 <template>
   <div>
+    <title_block :main_data="{'text':'今日任务'}"></title_block>
+    <task_today></task_today>
+    <title_block :main_data="{'text':'当前项目'}"></title_block>
     <ProgressContainer v-for="(item,index) in main_data"
                        :key="index"
                        :main_data="item">
@@ -10,6 +13,8 @@
 <script>
 import unit from './09_learning_progress_unit'
 import ProgressContainer from './11_progress_block_container'
+import title_block from './13_progress_block_title'
+import task_today from './12_task_today'
 
 export default {
   name: "learning_progress",
@@ -74,12 +79,16 @@ export default {
     this.$get("/personal_center/learning/progress").then(res => {
       if (!res.err) {
         this.handle_data(res.data.data)
+        console.log(this.main)
       }
     })
   },
   components: {
+
     unit: unit,
-    ProgressContainer: ProgressContainer
+    ProgressContainer: ProgressContainer,
+    title_block:title_block,
+    task_today:task_today
   }
 }
 </script>

@@ -23,7 +23,6 @@
 </script>
 
 <style >
-  @import "./style/01_dialog_style.scss";
   .icon_container{
     right: 0px;
     top:0px;

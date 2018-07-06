@@ -1,6 +1,5 @@
 @import './baseConstScss';
 @import './initScss';
-@import './baseMixin';
 // 版心宽度
 
 .mw {
@@ -8,7 +7,6 @@
 }
 
 .vm {
-  vertical-align: middle;
   vertical-align: middle;
 }
 
@@ -115,7 +113,7 @@
 .fl {
   float: left;
 }
-
+//
 .fr {
   float: right;
 }
