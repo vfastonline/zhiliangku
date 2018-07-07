@@ -81,7 +81,7 @@ class UserLearnTaskSummary(models.Model):
 		return "--".join([self.custom_user.nickname, str(self.schedule)])
 
 	class Meta:
-		db_table = 'LearnTaskSummary'
+		db_table = 'UserLearnTaskSummary'
 		verbose_name = "学生学习任务进度汇总"
 		verbose_name_plural = "学习任务进度汇总"
 
