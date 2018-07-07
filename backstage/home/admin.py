@@ -12,5 +12,12 @@ class LearnTaskAdmin(admin.ModelAdmin):
 @admin.register(LearnTaskSummary)
 class LearnTaskSummaryAdmin(admin.ModelAdmin):
 	list_display = (
-	'id', "task", "schedule", "average", "improve", "complete", "undone", "excess_complete", "update_time")
+		'id', "task", "schedule", "average", "improve", "complete", "undone", "excess_complete", "update_time")
+	search_fields = ('task__video__name',)
+
+
+@admin.register(UserLearnTaskSummary)
+class UserLearnTaskSummaryAdmin(admin.ModelAdmin):
+	list_display = (
+		'id', "custom_user", "task", "schedule")
 	search_fields = ('task__video__name',)
