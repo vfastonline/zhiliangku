@@ -13,7 +13,7 @@ from lib.permissionMixin import class_view_decorator, teacher_login_required
 from lib.util import *
 
 
-# @class_view_decorator(teacher_login_required)
+@class_view_decorator(teacher_login_required)
 class GetLearnTaskScheduleBydate(View):
 	"""根据日期获取学习任务完成进度"""
 
