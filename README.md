@@ -98,6 +98,12 @@ cp -r doc/image media
 
 定时（10：30am）汇总世界杯比赛结果
 30 10 * * * /usr/local/bin/python /usr/local/zhiliangku/manage.py SummaryCompetition
+
+# 每小时汇总每个学员当天任务学习进度
+0 */1 * * * /usr/local/bin/python /usr/local/zhiliangku/manage.py SummaryUserLearnTaskSchedule
+
+# 每天23:50汇总当天总学习任务进度
+50 23 * * * /usr/local/bin/python /usr/local/zhiliangku/manage.py SummaryLearnTaskSchedule
 ```
 
 #### Architecture

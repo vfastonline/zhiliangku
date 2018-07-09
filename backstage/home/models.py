@@ -52,7 +52,7 @@ def calculate_task_progress(sender, instance, **kwargs):
 
 
 class LearnTaskSummary(models.Model):
-	"""学习任务汇总"""
+	"""学习任务进度汇总--首页饼状图"""
 	task = models.ForeignKey(LearnTask, verbose_name="学习任务")
 	schedule = models.FloatField("目标进度", max_length=10, **NULL_BLANK_TRUE)  # 当前任务占总任务百分比，粒度为一个项目
 	average = models.FloatField("班级平均进度", default=0, **NULL_BLANK_TRUE)
@@ -69,3 +69,19 @@ class LearnTaskSummary(models.Model):
 		db_table = 'LearnTaskSummary'
 		verbose_name = "学习任务汇总"
 		verbose_name_plural = "学习任务汇总"
+
+
+class UserLearnTaskSummary(models.Model):
+	"""学生学习任务进度汇总--首页饼状图"""
+	custom_user = models.ForeignKey(CustomUser, verbose_name="学生", limit_choices_to={'role': 0})
+	task = models.ForeignKey(LearnTask, verbose_name="学习任务")
+	schedule = models.FloatField("目标进度", max_length=10, **NULL_BLANK_TRUE)  # 当前任务占总任务百分比，粒度为一个项目
+
+	def __unicode__(self):
+		return "--".join([self.custom_user.nickname, str(self.schedule)])
+
+	class Meta:
+		db_table = 'UserLearnTaskSummary'
+		verbose_name = "学生学习任务进度汇总"
+		verbose_name_plural = "学习任务进度汇总"
+
