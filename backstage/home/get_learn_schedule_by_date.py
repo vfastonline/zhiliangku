@@ -13,7 +13,7 @@ from lib.permissionMixin import class_view_decorator, teacher_login_required
 from lib.util import *
 
 
-@class_view_decorator(teacher_login_required)
+# @class_view_decorator(teacher_login_required)
 class GetLearnTaskScheduleBydate(View):
 	"""根据日期获取学习任务完成进度"""
 
@@ -44,7 +44,7 @@ class GetLearnTaskScheduleBydate(View):
 
 			learn_task_schedule = redis_db.get("LearnTaskSchedule_%s" % get_date_str)
 			if learn_task_schedule:
-				self.result_dict["data"] = learn_task_schedule
+				self.result_dict["data"] = eval(learn_task_schedule)
 			else:
 				if get_date < today_date:  # 历史数据
 					learntasks = LearnTask.objects.filter(create_time=get_date)
