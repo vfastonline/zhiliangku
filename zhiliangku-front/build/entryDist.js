@@ -62,7 +62,7 @@ const entry = {
     path: '25_we_chat',
     filename: 'wechat/promotion/index.html'
   },
-  we_chat: {
+  we_chat_world_cup: {
     path: '26_we_chat_world_cup',
     filename: 'worldcup/topic/index.html'
   },
