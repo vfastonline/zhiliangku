@@ -49,7 +49,7 @@
           <span class="font1_22_6 dib">昨日进度</span>
           <span class="font1_18_9 dib time_span">{{(new Date()-24*3600*1000) | moment('YYYY-MM-DD')}}(昨日)</span>
         </div>
-        <p class="font1_18_6">{{yesterday_progress.yesterday_task_name}}</p>
+        <p class="font1_18_6">{{yesterday_progress.yesterday_task_name||'暂无昨日信息'}}</p>
       </div>
       <Blue_button class="submit_button" @click="pre_submit"><span class="font1_26_f">提交</span></Blue_button>
     </div>

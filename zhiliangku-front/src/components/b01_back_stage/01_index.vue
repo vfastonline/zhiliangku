@@ -3,7 +3,7 @@
     <!--这个bug很奇怪啊，内容自动居中了，这是为什么，也没有写样式啊.调查之后发现是上面的盒子浮动子元素卡住了本行内容-->
     <div class="buttons ">
       <span class="font1_30_3 dib">日常管理数据</span>
-      <GreyButton class="tag_button"><span class="font1_30_f">上一日</span></GreyButton>
+      <GreyButton class="tag_button" @click="pre_day"><span class="font1_30_f">上一日</span></GreyButton>
       <BlueButton class="tag_button" @click="show_dialog_func"><span class="font1_30_f">发布任务</span></BlueButton>
     </div>
     <dialog_index></dialog_index>
@@ -29,6 +29,9 @@
     methods: {
       show_dialog_func() {
         Bus.$emit('dialog_open')
+      },
+      pre_day(){
+        Bus.$emit('pre_day')
       }
     },
     components: {

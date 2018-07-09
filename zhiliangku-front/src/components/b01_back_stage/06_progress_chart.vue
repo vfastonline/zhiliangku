@@ -16,7 +16,7 @@
       <div class="ftc">
         班级平均进度
         <span class="font1_18_p">{{main_data.average}}</span>
-        较昨天提高
+        较上一日提高
         <span class="font1_18_p">{{main_data.improve}}</span>
       </div>
     </div>
@@ -26,6 +26,7 @@
 <script>
   import Vue from 'vue'
   import {DatePicker} from 'element-ui'
+  import Bus from '../../assets/js/02_bus'
 
   Vue.use(require('vue-moment'))
   Vue.use(DatePicker)
@@ -106,7 +107,15 @@
           this.chart = window.echarts.init(this.$refs.a).setOption(option)
 
         }
+      },
+      get_chart_pre_data(){
+        this.time=new Date(this.time.getTime()-24*3600*1000)
+        console.log(this.time)
+        this.get_chart_data(this.time)
       }
+    },
+    created(){
+      Bus.$on('pre_day',this.get_chart_pre_data)
     },
     mounted() {
       this.get_chart_data()
