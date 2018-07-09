@@ -1,5 +1,6 @@
 #!encoding:utf-8
 import datetime
+from datetime import datetime
 
 from django.db.models import Avg
 from django.views.generic import View
@@ -34,6 +35,7 @@ class GetLearnTaskScheduleBydate(View):
 	def get(self, request, *args, **kwargs):
 		try:
 			today_date = get_day_of_day(0)
+			today_date = datetime(today_date.year, today_date.month, today_date.day)
 			get_date = request.GET.get('get_date', "")  # 今日学习任务视频ID
 			if not get_date:
 				get_date = today_date
