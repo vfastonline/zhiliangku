@@ -8,6 +8,7 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+    //当开发环境的时候启动本地的代理服务
     proxyTable: {
       '/api': {
         // 测试环境
@@ -54,6 +55,7 @@ module.exports = {
     index: path.resolve(__dirname, '../front/index.html'),
 
     // Paths
+    //存放生产环境下的代码位置
     assetsRoot: path.resolve(__dirname, '../front'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',

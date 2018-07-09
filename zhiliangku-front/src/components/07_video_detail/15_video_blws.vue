@@ -6,42 +6,77 @@
 </template>
 
 <script>
-export default {
-  name: "video_blws",
-  data () {
-    return {
-      video_map: {
+  export default {
+    name: "video_blws",
+    data() {
+      return {
+        video_map: {},
+        start: false,
+        timer:''
+      }
+    },
+    watch:{
+      start:function (nv) {
+        if(nv){
+          let that=this
+          this.timer=setInterval(that.send_msg,5000)
+          return
+        }
+        clearInterval(this.timer)
+      }
+    },
+    props: {
+      main_data: {}
+    },
+    methods: {
+      video() {
+        let obj = {
+          wrap: '#my_video',
+          width: '850px',
+          height: '525px',
+          vid: this.main_data.vid,
+        }
+        let player = window.polyvPlayer(obj)
+        this.video_map.player = player
+        window.my_player = player
+      },
+      send_msg(state){
+        let obj={},f=this.$fn.funcUrl,video=this.video_map.player
+        obj.course_id= f('course_id')
+        obj.video_id= f('video_id')
+        obj.real_play_video_time=video.j2s_realPlayVideoTime()
+        obj.duration=video.j2s_getDuration()
+        obj.total_duration=5
+        obj.status=0||state
+        this.$post('/record/handle/watchrecord',obj).then(res=>{
+        })
+      }
+    },
+    mounted() {
+      console.log(this.main_data)
+      this.video()
+    },
+    created() {
+      window.s2j_onPlayStart = () => {
+        this.start = true
+      }
+      window.s2j_onPlayOver = () => {
+        this.start = false
+      }
+      window.s2j_onVideoPause = () => {
+        this.start = false
+      }
+      window.s2j_onPlayOver=()=>{
+        this.send_msg(1)
       }
     }
-  },
-  props: {
-    main_data: {}
-  },
-  methods: {
-    video () {
-      var obj = {
-        wrap: '#my_video',
-        width: '850px',
-        height: '525px',
-        vid: this.main_data.vid,
-      }
-      var player = window.polyvPlayer(obj);
-      console.log(player)
-      this.video_map.player = player;
-      window.my_player = player
-    },
-  },
-  mounted () {
-    console.log(this.main_data)
-    this.video()
   }
-}
 </script>
 
 <style scoped>
-.player_container {
-  width: 850px;
-  height: 525px;
-  margin-top: 16px;
-}
+  .player_container {
+    width: 850px;
+    height: 525px;
+    margin-top: 16px;
+  }
 </style>

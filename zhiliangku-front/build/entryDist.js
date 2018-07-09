@@ -1,6 +1,10 @@
+//js、html默认路径的前半段
 const prePath = './src/pages/'
+//js文件默认路径的后半段
 const jsPath = '/main.js'
+//html默认路径的后半段
 const htmlPath = '/index.html'
+//入口注意：path是对应的路径中段。filename:对应的是生成文件的路径，对应的是服务器上后端给出的路由。
 const entry = {
   index: {
     path: '00_index',
@@ -87,6 +91,7 @@ const entry = {
     filename:'backstage/index/index.html'
   }
 }
+//下面的函数主要是处理了上面的entry的数据结构使得其能输出合理的数据结构，entryObj和distArr分别对应了开发和生产模式所需要的数据
 let entryObj = {}
 let distArr = []
 Object
@@ -115,7 +120,6 @@ Object
     distArr.push(pageConf.dist)
   })
 // console.log(entryObj) console.log(...distArr)
-
 module.exports = {
   Entry: entryObj,
   Dist: distArr

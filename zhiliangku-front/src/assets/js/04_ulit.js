@@ -1,5 +1,5 @@
 module.exports = (function () {
-  var fn = {}
+  let fn = {}
   // 切换显隐开关的函数，支持传入数组、index，对象、key，show。该函数还有优化空间。
   // fn.changeShow = function (arr) {
   //   console.log(arr)
@@ -19,12 +19,15 @@ module.exports = (function () {
   //   this.show = !this.show;
   //   return show
   // }
+  //面页跳转函数（很少用）
   fn.go = function (str) {
     window.location.href = 'http://' + window.location.host + str
   }
+  //页面中有许多显示和隐藏功能，所以封了一小方法。obj是vue实例，key是要取非的布尔值
   fn.changeShow = function (obj, key) {
     obj[key] = !obj[key]
   }
+  //由于图片请求过来的时候无"/api"前缀，所以加上，使得开发环境下的图片正常显示
   fn.addObjString = function (str, obj, key) {
     obj[key] = str + obj[key]
   }
@@ -52,14 +55,16 @@ module.exports = (function () {
     }
     arr[key] = str + arr[key]
   }
-  fn.initMainData = function (obj, arr, brr) {
-    for (var i = 1; i < arr.length; i++) {
-      if (obj.arr === undefined || obj.arr === null) {
-        obj.arr[i] = brr[i]
-      }
-    }
-    return obj
-  }
+  // 这是个错误的函数
+  // fn.initMainData = function (obj, arr, brr) {
+  //   for (var i = 1; i < arr.length; i++) {
+  //     if (obj.arr === undefined || obj.arr === null) {
+  //       obj.arr[i] = brr[i]
+  //     }
+  //   }
+  //   return obj
+  // }
+  //该函数是为了解决在一些组件里的样式传入与分配问题（用的次数不多）
   fn.initStyle = function (obj, key, keys) {
     if (!obj[key]) return
     if (obj[key] instanceof Object) {
@@ -70,6 +75,7 @@ module.exports = (function () {
       }
     }
   }
+  //由于后台接口提供的key的名字不是很统一，为了让数据适应同一组件，所以要把不统一的key转换为组件需要的key
   fn.exchangeKey = function (obj, oldkey, newkey, d) {
     obj[newkey] = obj[oldkey]
     if (d) {
@@ -92,6 +98,7 @@ module.exports = (function () {
     }
     return arr
   }
+  //获取search字段
   fn.getSearch = function () {
     var str
     if (window.location.search) {
@@ -101,6 +108,7 @@ module.exports = (function () {
       return str
     }
   }
+  //获取search中特定的参数的value
   fn.getSearchKey = function (key) {
     var searchStr = fn.getSearch()
     if (!searchStr) {
@@ -116,6 +124,7 @@ module.exports = (function () {
       }
     }
   }
+  //获取cookie里的key对应的值
   fn.getCookie = function (key) {
     var arr = document.cookie.split(';')
     // var arr = "".split(';')
@@ -126,12 +135,14 @@ module.exports = (function () {
       }
     }
   }
+  //获取cookie中的一堆值，对应keyarr中的key的值
   fn.getCookies = function (keyarr) {
     var tarr = []
     keyarr.each(function (i) {
       tarr.push(fn.getCookie(i))
     })
   }
+  //获取vue实例下的有特定名字的（等于key的）vue实例
   fn.getTargetVue = function (vuearr, key) {
     for (var i = 0; i < vuearr.length; i++) {
       if (vuearr[i].name === key) {
@@ -139,6 +150,7 @@ module.exports = (function () {
       }
     }
   }
+  //将对象转换为search字段
   fn.objToSearch = function (obj) {
     var str = ''
     for (var k in obj) {
@@ -160,6 +172,7 @@ module.exports = (function () {
   //   }
   //   return ret
   // }
+  //删除search中的对应内容
   fn.funcUrlDel = function (name) {
     var loca = window.location
     var baseUrl = loca.origin + loca.pathname + '?'
@@ -201,7 +214,7 @@ module.exports = (function () {
   //     .replace(/\,/g, '&')
   //   return url
   // }
-
+  //显示提示，t为调用该方法的vue实例
   fn.showNotice = function (t, str, type) {
     t.$notify({
       type: type || 'info',
@@ -211,6 +224,7 @@ module.exports = (function () {
       position: 'bottom-right'
     })
   }
+  //获取search中的对应内容
   fn.funcUrl = function (name, value, type) {
     var loca = window.location
     var baseUrl = type === undefined ? loca.origin + loca.pathname + '?' : ''

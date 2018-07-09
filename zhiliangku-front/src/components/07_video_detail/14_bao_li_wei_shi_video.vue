@@ -7,9 +7,13 @@
     </div>
     <div class="video_content r">
       <videoblws v-if="show_video"
-                 :main_data="main_data.data"></videoblws>
+                 :main_data="main_data.data">
+
+      </videoblws>
       <video-list v-show="list_switch"
-                  :main_list="main_list"></video-list>
+                  :main_list="main_list">
+
+      </video-list>
     </div>
   </section>
 </template>
@@ -31,7 +35,7 @@ export default {
   name: "my_video",
   data () {
     return {
-      list_switch: true,
+      list_switch: true
     }
   },
   components: {
@@ -54,11 +58,12 @@ export default {
   methods: {
     change_video_src () {
       this.show_video = true
-    }
+    },
+
   },
   created () {
-  }
 
+  }
 }
 </script>
 <style lang="scss">

@@ -36,6 +36,7 @@ module.exports = {
       "api$": process.env.NODE_ENV === 'production' ? resolve('src/assets/js/01_const.js') : resolve('src/assets/js/00_const.js')
     }
   },
+  //利用cdn进行优化
   externals: {
     'vue': 'Vue', //这行先注释掉 以后再释放出来
     'vue-router': 'VueRouter',
