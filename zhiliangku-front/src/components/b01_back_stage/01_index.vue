@@ -7,10 +7,7 @@
       <BlueButton class="tag_button" @click="show_dialog_func"><span class="font1_30_f">发布任务</span></BlueButton>
     </div>
     <dialog_index></dialog_index>
-    <div class="font1_18_6 map">
-      <div>今日进度数据</div>
-      <div></div>
-    </div>
+    <chart></chart>
 
   </div>
 </template>
@@ -19,6 +16,7 @@
   import GreyButton from '../00_common/02_grey_button'
   import BlueButton from '../00_common/04_blue_button'
   import dialog_index from './04_set_task_select_container'
+  import chart from './06_progress_chart'
   import Bus from '../../assets/js/02_bus'
 
   export default {
@@ -37,6 +35,7 @@
       GreyButton: GreyButton,
       BlueButton: BlueButton,
       dialog_index: dialog_index,
+      chart:chart
     },
     created() {
 
@@ -45,9 +44,10 @@
 </script>
 
 <style scoped lang="scss">
-  .map{
+  .map {
     margin-top: 20px;
   }
+
   .buttons {
     .tag_button {
       height: 52px;

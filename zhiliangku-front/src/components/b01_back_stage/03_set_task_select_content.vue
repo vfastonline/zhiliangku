@@ -129,11 +129,20 @@
       },
       get_data(key, value) {
         if (!value) return
-        let index = this.arr.indexOf(key)
+        let index = this.arr.indexOf(key)+1
         this.change_child_data(key, value)
         this.$get('/backstage/set/task/info?info=' + index + '&pk_id=' + value).then(res => {
+          this.handle_data(res.data.data)
           this[key] = res.data.data
         })
+      },
+      handle_data(data){
+        data.forEach(el=>{
+          if(el.title){
+            el.name=el.title
+          }
+        })
+
       },
       change_child_data(key) {
         let arr = this.arr
