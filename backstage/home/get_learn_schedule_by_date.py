@@ -65,6 +65,7 @@ class GetLearnTaskScheduleBydate(View):
 			self.result_dict["err"] = 1
 			self.result_dict["msg"] = traceback.format_exc()
 		finally:
+
 			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
 
 
@@ -87,11 +88,12 @@ def summary_learn_task(task_date):
 		# 当天任务目标节点
 		learntasks = LearnTask.objects.filter(create_time=task_date)
 		if learntasks.exists():
-			video = learntasks.first()
-			video_sequence = video.sequence  # 顺序
-			project = video.section.course.project  # 项目
-			project_sequence = video.section.course.project.sequence  # 项目顺序
-			project_technology = video.section.course.project.technology  # 项目分类
+			learntask = learntasks.first()
+			video = learntask.video
+			video_sequence = learntask.video.sequence  # 顺序
+			project = learntask.video.section.course.project  # 项目
+			project_sequence = learntask.video.section.course.project.sequence  # 项目顺序
+			project_technology = learntask.video.section.course.project.technology  # 项目分类
 			# 当前项目分类下，目标项目的下多个项目
 			projects = list(Project.objects.filter(technology=project_technology, sequence__gt=project_sequence))
 
