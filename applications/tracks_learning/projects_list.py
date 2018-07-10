@@ -343,6 +343,7 @@ def project_summarize_course_progress(custom_user_id, course, courses=list(), pr
 				remaining_time = duration_sum - watch_total_time_sum
 				schedule = float("%.2f" % (float(watch_total_time_sum) / float(duration_sum)))
 				result_dict["is_study"] = 1
+				result_dict["learn_course_id"] = watchrecord.video.section.course.id  # 课程ID
 				result_dict["learn_video_name"] = watchrecord.video.name  # 视频名称
 				result_dict["learn_video_id"] = watchrecord.video.id  # 视频ID
 				result_dict["learn_video_type"] = watchrecord.video.type  # 视频类型
@@ -364,6 +365,7 @@ def project_summarize_course_progress(custom_user_id, course, courses=list(), pr
 					video_objs = course_sections.first().Videos.order_by("sequence")
 					if video_objs:
 						video_obj = video_objs.first()
+						result_dict["learn_course_id"] = video_obj.section.course.id  # 课程ID
 						result_dict["learn_video_name"] = video_obj.name  # 上次学到
 						result_dict["learn_video_id"] = video_obj.id  # 上次学到视频ID
 						result_dict["learn_video_type"] = video_obj.type  # 上次学到视频类型
