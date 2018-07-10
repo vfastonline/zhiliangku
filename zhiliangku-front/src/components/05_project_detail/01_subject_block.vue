@@ -5,7 +5,7 @@
     <p class="subject_introduce font1_16_6">{{main_data.desc?main_data.desc:'暂无信息'}}</p>
     <ul class="subject_info">
       <li class="font1_18_9 subject_info_li_1"><span>时长：</span><span class="dib subject_time_value">{{main_data.summary.total_time}}</span>
-        <span>&nbsp;完成：</span><span>{{main_data.summary.video_process*100}}%</span>
+        <span>&nbsp;完成：</span><span>{{main_data.summary.schedule*100}}%</span>
       </li>
       <li class="subject_info_li_2">
         <span class="dib">
@@ -13,7 +13,7 @@
           <span class="dib vbo font1_18_6">{{main_data.lecturer}}</span></span>
           <span class="dib">
             <a class="dib" :href="link" target="_blank">
-              <BlueButton v-if="(main_data.summary.schedule!=1)&&(main_data.summary.unlock)" class="func_button vbt">继续学习</BlueButton>
+              <BlueButton @click="go_page()" v-if="(main_data.summary.schedule!=1)&&(main_data.summary.unlock)" class="func_button vbt">继续学习</BlueButton>
             </a>
             <img class="vbt" v-if="!main_data.summary.unlock" src="./img/Shape.png" alt="">
             <img v-if="(main_data.summary.schedule===1)&&(main_data.summary.unlock)" src="./img/finish_icon.png" alt="">
@@ -41,7 +41,7 @@
 </style>
 <script>
   import BlueButton from '../../components/00_common/04_blue_button'
-
+  import func from '../../assets/js/01_other/01_dispatch'
   export default {
     name: "subject_block",
     data() {
@@ -58,6 +58,10 @@
       BlueButton: BlueButton
     },
     methods: {
+      go_page(){
+        let obj=this.main_data.summary
+        func.goCourse(obj.learn_video_type,obj.learn_course_id,obj.learn_video_id)
+      },
       goLink(){
         this.link = "/tracks/course/detail?course_id="+this.main_data.id
       }

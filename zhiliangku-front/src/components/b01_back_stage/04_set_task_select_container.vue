@@ -38,6 +38,9 @@
       Bus.$on('dialog_open', () => {
         this.show_dialog = true
       })
+      Bus.$on('submit_task_success', () => {
+        this.show_dialog = false
+      })
     }
   }
 </script>
