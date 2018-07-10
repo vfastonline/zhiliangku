@@ -12,4 +12,5 @@ urlpatterns = [
 	url('^get/today/task/schedule$', GetTodayTaskScheduleInfo.as_view()),
 	url('^get/yesterday/task/schedule$', GetYesterdayTaskScheduleInfo.as_view()),
 	url('^get/learn/schedule/by/date$', GetLearnTaskScheduleBydate.as_view()),
+	url('^get/has/today/learn/task$', GetHasTodayLearnTaskInfo.as_view()),
 ]

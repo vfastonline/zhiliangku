@@ -4,6 +4,36 @@ from django.views.generic import View
 from backstage.home.models import *
 from lib.permissionMixin import class_view_decorator, teacher_login_required
 from lib.util import *
+import datetime
+
+
+@class_view_decorator(teacher_login_required)
+class GetHasTodayLearnTaskInfo(View):
+	"""获取昨日目标进度"""
+
+	def __init__(self):
+		super(GetHasTodayLearnTaskInfo, self).__init__()
+		self.result_dict = {
+			"err": 0,
+			"msg": "success",
+			"data": False,
+		}
+
+	def get(self, request, *args, **kwargs):
+		try:
+			# 查询昨日目标、进度
+			today_date = get_day_of_day(0)
+			today_date = datetime.datetime(today_date.year, today_date.month, today_date.day)
+			learntasks = LearnTask.objects.filter(create_time=today_date)
+			if learntasks.exists():
+				self.result_dict["data"] = True
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			self.result_dict["err"] = 1
+			self.result_dict["msg"] = traceback.format_exc()
+		finally:
+			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
 
 
 @class_view_decorator(teacher_login_required)
