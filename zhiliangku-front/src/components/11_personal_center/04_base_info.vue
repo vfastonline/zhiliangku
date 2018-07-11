@@ -15,7 +15,7 @@
       </div>
       <div class="tag colon"> :</div>
       <div class="value_container">
-        <el-input v-if="switch_value" class="set_value" :maxlength="10" placeholder="五个汉字以内"
+        <el-input v-if="switch_value" class="set_value" :maxlength="5" placeholder="五个汉字以内"
                   v-model="value0"></el-input>
         <span v-else class="dib set_value info_display font1_16_6">{{value0}}</span>
       </div>
@@ -27,12 +27,12 @@
       <div class="tag colon"> :</div>
       <div class="set_value">
         <span v-if="!switch_value">
-          <el-radio v-model="value1" :disabled="!switch_value" label="M">男</el-radio>
-          <el-radio v-model="value1" :disabled="!switch_value" label="F">女</el-radio>
+          <el-radio v-model="value1" :disabled="!switch_value" label="男">男</el-radio>
+          <el-radio v-model="value1" :disabled="!switch_value" label="女">女</el-radio>
         </span>
         <span v-else>
-          <el-radio v-model="value1" label="M">男</el-radio>
-          <el-radio v-model="value1" label="F">女</el-radio>
+          <el-radio v-model="value1" label="男">男</el-radio>
+          <el-radio v-model="value1" label="女">女</el-radio>
         </span>
       </div>
     </div>
@@ -46,6 +46,7 @@
           class="set_value"
           v-if="switch_value"
           v-model="value2"
+          @change="verify_value2"
           format="yyyy-MM-dd"
           type="date"
           placeholder="选择日期">
@@ -82,12 +83,12 @@
       <div class="tag colon"> :</div>
       <div class="set_value">
         <span v-if="!switch_value">
-          <el-radio v-model="value5" :disabled="!switch_value" label="1">是</el-radio>
-          <el-radio v-model="value5" :disabled="!switch_value" label="0">否</el-radio>
+          <el-radio v-model="value5" :disabled="!switch_value" :label="true">是</el-radio>
+          <el-radio v-model="value5" :disabled="!switch_value" :label="false">否</el-radio>
         </span>
         <span v-else>
-          <el-radio v-model="value5" label="1">是</el-radio>
-          <el-radio v-model="value5" label="0">否</el-radio>
+          <el-radio v-model="value5" :label="true">是</el-radio>
+          <el-radio v-model="value5" :label="false">否</el-radio>
         </span>
       </div>
     </div>
@@ -98,12 +99,12 @@
       <div class="tag colon"> :</div>
       <div class="set_value">
         <span v-if="!switch_value">
-          <el-radio v-model="value6" :disabled="!switch_value" label="0">在读</el-radio>
-          <el-radio v-model="value6" :disabled="!switch_value" label="1">毕业</el-radio>
+          <el-radio v-model="value6" :disabled="!switch_value" :label="true">在读</el-radio>
+          <el-radio v-model="value6" :disabled="!switch_value" :label="false">毕业</el-radio>
         </span>
         <span v-else>
-          <el-radio v-model="value6" label="0">在读</el-radio>
-          <el-radio v-model="value6" label="1">毕业</el-radio>
+          <el-radio v-model="value6" :label="true">在读</el-radio>
+          <el-radio v-model="value6" :label="false">毕业</el-radio>
         </span>
       </div>
     </div>
@@ -177,6 +178,7 @@
     methods: {
       //应该把所有涉及到稍微复杂的表单的分配以及组织数据方法集合封装。但是目前没有这么去做，而且最优的解决方案是利用render函数。
       submit() {
+        if(!this.verify_value2()){return}
         let arr = ['nickname', 'sex', 'birthday', 'institutions', 'class_s', 'is_computer', 'is_graduate', 'education', 'signature']
         let obj = this.organize_data(arr, 8)
         this.$post('/personal_center/personal_settings/update/basicinfo', obj).then(res => {
@@ -200,6 +202,21 @@
           obj[arr[i]] = this['value' + i]
         }
         return obj
+      },
+      verify_value2() {
+        let value2=this.value2
+        let now = new Date().getFullYear(), b_year = value2.getFullYear()
+        if ((1 <= now - b_year) && (now - b_year <= 100)) {
+          return true
+        }
+        this.$notify({
+          type: 'warning',
+          message: '请设置年龄在1-100之间',
+          offset: 100,
+          duration: 3000,
+          position: 'bottom-right'
+        })
+        return false
       }
     }
     ,
@@ -253,7 +270,7 @@
 
   .set_value {
     box-sizing: border-box;
-    width: 600px!important;
+    width: 600px !important;
     flex: 0 0 600px;
     line-height: 40px;
   }

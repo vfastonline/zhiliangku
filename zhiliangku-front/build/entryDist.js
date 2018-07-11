@@ -86,9 +86,9 @@ const entry = {
     path: '30_test',
     filename: 'test/index.html'
   },
-  back_stage:{
-    path:'b01_back_stage',
-    filename:'backstage/index/index.html'
+  back_stage: {
+    path: 'b01_back_stage',
+    filename: 'backstage/index/index.html'
   }
 }
 //下面的函数主要是处理了上面的entry的数据结构使得其能输出合理的数据结构，entryObj和distArr分别对应了开发和生产模式所需要的数据

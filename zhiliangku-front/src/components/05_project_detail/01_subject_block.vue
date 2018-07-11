@@ -1,6 +1,6 @@
 
 <template>
-  <section class="subject_block rose">
+  <section @click="go_course_info" class="subject_block rise cp">
     <p class="subject_name  ftc font1_20_f" :style="{'background-color':top_color}">{{main_data.name}}</p>
     <p class="subject_introduce font1_16_6">{{main_data.desc?main_data.desc:'暂无信息'}}</p>
     <ul class="subject_info">
@@ -11,10 +11,10 @@
         <span class="dib">
           <img :src="main_data.avatar" class="user_icon vm" alt="">
           <span class="dib vbo font1_18_6">{{main_data.lecturer}}</span></span>
-          <span class="dib">
-            <a class="dib" :href="link" target="_blank">
-              <BlueButton @click="go_page()" v-if="(main_data.summary.schedule!=1)&&(main_data.summary.unlock)" class="func_button vbt">继续学习</BlueButton>
-            </a>
+          <span class="dib " @click="stop">
+            <!--<a class="" :href="link" target="_blank">-->
+              <BlueButton @click="go_page" v-if="(main_data.summary.schedule!=1)&&(main_data.summary.unlock)" class="func_button vbt">继续学习</BlueButton>
+            <!--</a>-->
             <img class="vbt" v-if="!main_data.summary.unlock" src="./img/Shape.png" alt="">
             <img v-if="(main_data.summary.schedule===1)&&(main_data.summary.unlock)" src="./img/finish_icon.png" alt="">
           </span>
@@ -64,10 +64,17 @@
       },
       goLink(){
         this.link = "/tracks/course/detail?course_id="+this.main_data.id
+      },
+      go_course_info(){
+        window.location.href=this.link
+      },
+      stop(e){
+        debugger
+        e.stopPropagation()
       }
     },
     created() {
-      var key = this.main_data.summary.schedule
+      let key = this.main_data.summary.schedule
       if (!key) {
         this.main_data.summary.schedule = 0
       }

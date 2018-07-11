@@ -1,23 +1,27 @@
 <template>
-  <div class="lear_unit_container rise">
-    <div class="unit_top">
-      <div class="font1_30_3 item_title">项目名称：{{main_data.name}}</div>
-      <div class="font1_24_9" :title="main_data.learning">任务解锁：{{main_data.learning}}</div>
-    </div>
-    <div class="section_container">
-      <div class="img_container">
-        <img class="project_img" :src="main_data.pathwel" alt="">
-        <div class="bottom_bg"></div>
+  <div class="out_box">
+    <div class="lear_unit_container rise">
+      <div class="unit_top">
+        <div class="font1_30_3 item_title">项目名称：{{main_data.name}}</div>
+        <div class="font1_24_9" :title="main_data.learning">任务解锁：{{main_data.learning}}</div>
       </div>
-      <div class="block_info">
-        <BlueButton class="continue_button blue_button " @click="go_page"><span class="continue_learn_blue font1_24_f">继续学习</span>
-        </BlueButton>
-        <!--<GreyButton class="continue_button  grey_button" @click="go_unlock"><span-->
+      <div class="section_container">
+        <div class="img_container">
+          <img class="project_img" :src="main_data.pathwel" alt="">
+          <div class="bottom_bg"></div>
+        </div>
+        <div class="block_info">
+          <BlueButton class="continue_button blue_button " @click="go_page"><span
+            class="continue_learn_blue font1_24_f">继续学习</span>
+          </BlueButton>
+          <!--<GreyButton class="continue_button  grey_button" @click="go_unlock"><span-->
           <!--class="continue_learn_grey font1_24_f">继续学习</span>-->
-        <!--</GreyButton>-->
+          <!--</GreyButton>-->
+        </div>
       </div>
+      <el-progress :text-inside="true" :stroke-width="27" color="#00bcd5"
+                   :percentage="main_data.schedule|fixed"></el-progress>
     </div>
-    <el-progress  :text-inside="true" :stroke-width="27"  color="#00bcd5" :percentage="main_data.schedule|fixed"></el-progress>
   </div>
 </template>
 
@@ -39,9 +43,9 @@
       main_data: {},
       timeKey: []
     },
-    filters:{
-      fixed(value){
-        return (value*100).toFixed(2)
+    filters: {
+      fixed(value) {
+        return (value * 100).toFixed(2)
       }
     },
     methods: {
@@ -72,15 +76,20 @@
   }
 </style>
 <style scoped>
-  .lear_unit_container{
+  .out_box{
+    padding-bottom: 35px;
+  }
+  .lear_unit_container {
     border-radius: 10px;
     padding-top: 22px;
     background-color: white;
   }
-  .unit_top{
+
+  .unit_top {
     margin-bottom: 25px;
     padding-left: 30px;
   }
+
   .item_title {
     font-weight: 400;
   }
