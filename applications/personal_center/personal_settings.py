@@ -12,7 +12,7 @@ from lib.util import *
 """个人设置"""
 
 
-# @class_view_decorator(user_login_required)
+@class_view_decorator(user_login_required)
 class UpdateBasicInfo(View):
 	"""基本信息--修改"""
 
