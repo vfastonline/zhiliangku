@@ -55,7 +55,7 @@ class UpdateBasicInfo(View):
 					param["sex"] = "F"
 
 				update_param = get_kwargs(param)
-				param.update({"is_computer": is_computer, "is_graduate": is_graduate})
+				update_param.update({"is_computer": is_computer, "is_graduate": is_graduate})
 				customusers.update(**update_param)
 
 				customusers = CustomUser.objects.filter(id=custom_user_id)
