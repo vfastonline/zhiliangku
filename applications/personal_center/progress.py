@@ -30,8 +30,7 @@ class GetLearningProgressInfo(View):
 			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 
 			# 对用户观看记录以项目信息分组查询
-			watchrecords = WatchRecord.objects.filter(user__id=custom_user_id).values("course__project").annotate(
-				Count('id'))
+			watchrecords = WatchRecord.objects.filter(user__id=custom_user_id).values("course__project").annotate(Count('id'))
 			time_line_dict = dict()
 			for one in watchrecords:
 				project_id = one.get("course__project")

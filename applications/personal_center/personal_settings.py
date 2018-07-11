@@ -33,8 +33,8 @@ class UpdateBasicInfo(View):
 			class_s = param_dict.get('class_s', "")  # 所在班级
 			birthday = param_dict.get('birthday', "")  # 出生年月
 			education = param_dict.get('education', "")  # 学历
-			is_computer = str_to_int(param_dict.get('is_computer', ""))  # 计算机相关专业
-			is_graduate = str_to_int(param_dict.get('is_graduate', ""))  # 在校情况，False:在校，True：毕业
+			is_computer = param_dict.get('is_computer', False)  # 计算机相关专业
+			is_graduate = param_dict.get('is_graduate', False)  # 在校情况，False:在校，True：毕业
 
 			customusers = CustomUser.objects.filter(id=custom_user_id)
 			data_dict = dict()
@@ -43,24 +43,19 @@ class UpdateBasicInfo(View):
 				param = {
 					"nickname": nickname,
 					"signature": signature,
-					"sex": sex,
 					"contact_number": contact_number,
 					"institutions": institutions,
 					"class_s": class_s,
 					"birthday": birthday,
 					"education": education,
 				}
-				if is_computer:
-					is_computer = True
-				else:
-					is_computer = False
+				if sex == "男":
+					param["sex"] = "M"
+				elif sex == "女":
+					param["sex"] = "F"
 
-				if is_graduate:
-					is_graduate = True
-				else:
-					is_graduate = False
-				param.update({"is_computer": is_computer, "is_graduate": is_graduate})
 				update_param = get_kwargs(param)
+				update_param.update({"is_computer": is_computer, "is_graduate": is_graduate})
 				customusers.update(**update_param)
 
 				customusers = CustomUser.objects.filter(id=custom_user_id)
