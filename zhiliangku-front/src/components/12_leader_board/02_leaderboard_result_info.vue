@@ -4,7 +4,7 @@
       <div class="icon_box dib">
         <img class="info_icon" :src="$myConst.httpUrl + main_data.avatar" alt="">
       </div>
-      <div class="info_left_index ftc font1_14_b4">第{{main_data.rank||"？"}}名</div>
+      <div v-if="main_data.rank" class="info_left_index ftc font1_14_b4 " >第{{main_data.rank}}名</div>
     </div>
     <div class="info_right">
       <div class="info_right_text font1_18_6">{{main_data.nickname}}</div>

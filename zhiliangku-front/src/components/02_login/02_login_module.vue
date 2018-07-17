@@ -47,8 +47,8 @@
       specify_display(data) {
         this.module_show = true
         this.title_key = data.title_key
-        var map = this.block_show_switch
-        for (var k in map) {
+        let map = this.block_show_switch
+        for (let k in map) {
           map[k] = false
         }
         map[data['show_key']] = true

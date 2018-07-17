@@ -58,7 +58,7 @@
         Finish_project_list: Finish_project_list,
         url: '/employment/finishprojectlistinfo/list/info',
         main_data: '',
-        color_arr: ['#324e5c', '#c25975', '59769f', '8ea55e', '8d6e6e', '7b558e']
+        color_arr: ['#324e5c', '#c25975', '#59769f', '#8ea55e', '#8d6e6e', '#7b558e']
       }
     },
     components: {

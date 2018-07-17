@@ -16,6 +16,7 @@
       }
     },
     watch:{
+      //监听播放开始，然后开始采集数据。如果暂停则停止采集。
       start:function (nv) {
         if(nv){
           let that=this
@@ -29,6 +30,7 @@
       main_data: {}
     },
     methods: {
+      //初始化播放器
       video() {
         let obj = {
           wrap: '#my_video',
@@ -40,6 +42,7 @@
         this.video_map.player = player
         window.my_player = player
       },
+      //想后台发送要收集的数据
       send_msg(state){
         let obj={},f=this.$fn.funcUrl,video=this.video_map.player
         obj.course_id= f('course_id')
@@ -57,6 +60,7 @@
       this.video()
     },
     created() {
+      //下面这些函数均为监听播放器发生的事件。具体信息请参考保利威视帮助文档。
       window.s2j_onPlayStart = () => {
         this.start = true
       }
