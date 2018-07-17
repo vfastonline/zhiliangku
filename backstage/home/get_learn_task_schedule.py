@@ -9,7 +9,7 @@ import datetime
 
 @class_view_decorator(teacher_login_required)
 class GetHasTodayLearnTaskInfo(View):
-	"""获取昨日目标进度"""
+	"""当天是否有任务发布"""
 
 	def __init__(self):
 		super(GetHasTodayLearnTaskInfo, self).__init__()
@@ -122,7 +122,7 @@ class GetYesterdayTaskScheduleInfo(View):
 					schedule = 0
 					completion = 0
 				self.result_dict["data"]["yesterday_task_schedule"] = schedule
-				self.result_dict["data"]["yesterday_task_completion_ratio"] = completion
+				self.result_dict["data"]["yesterday_completion_ratio"] = completion
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
