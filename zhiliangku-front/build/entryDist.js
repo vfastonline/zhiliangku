@@ -72,7 +72,7 @@ const entry = {
   },
   notification: {
     path: '12_notification',
-    filename: 'notification/index.html'
+    filename: 'notification/list/index.html'
   },
   login: {
     path: '20_login',

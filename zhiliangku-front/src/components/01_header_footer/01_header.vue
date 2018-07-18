@@ -2,8 +2,8 @@
   <header class="mw project_header hc r ">
     <div class=" header_font">
       <a href="/"><img class="logo dib vm"
-             src="./img/智量酷-logo-slogan.png"
-             alt=""></a>
+                       src="./img/智量酷-logo-slogan.png"
+                       alt=""></a>
       <span class="dib nav_tag">
         <a href="/tracks/projects/list/">
           <span class="font1_22_3"> 项目</span>
@@ -22,295 +22,299 @@
       </span>
     </div>
     <div>
-    <div v-if="!is_login"
-         class="">
+      <div v-if="!is_login"
+           class="">
       <span @click="myDispatch('specify_display',{show_key:'log_in',title_key:'登录'})"
             class="font1_20_3 cp">登录</span>
-      <span class="font1_20_3"> / </span>
-      <span @click="myDispatch('specify_display',{show_key:'log_up',title_key:'用户注册'})"
-            class="font1_20_3 cp">注册</span>
-    </div>
-    <div v-else
-         class="fr aaa">
-      <a href="/notification/index.html"
-         class="dib r notice_icon_container">
-        <img class="vm notice_icon"
-             src="./img/notice_icon.png"
-             alt="">
-        <i v-if="have_msg"
-           class="red_point a"></i>
-      </a>
-      <img v-on:mouseenter="changeUsershow1()"
-           v-on:mouseleave="changeUsershow2()"
-           class="user_icon vm"
-           :src="userinfo.avatar"
-           alt="">
-      <transition name='fade'>
-        <!--<postbMatch v-if="show" class="floatr"></postbMatch>-->
-        <userMune v-if="showuser"
-                  class=""
-                  v-on:mouseenter="changeUsershow1()"
-                  v-on:mouseleave="changeUsershow2()">
+        <span class="font1_20_3"> / </span>
+        <span @click="myDispatch('specify_display',{show_key:'log_up',title_key:'用户注册'})"
+              class="font1_20_3 cp">注册</span>
+      </div>
+      <div v-else
+           class="fr aaa">
+        <a href="/notification/list/index.html"
+           class="dib r notice_icon_container">
+          <img class="vm notice_icon"
+               src="./img/notice_icon.png"
+               alt="">
+          <i v-if="have_msg"
+             class="red_point a"></i>
+        </a>
+        <span class="user_icon dib vm">
+          <img v-on:mouseenter="changeUsershow1()"
+               v-on:mouseleave="changeUsershow2()"
+               class="user_icon vm"
+               :src="userinfo.avatar"
+               alt="">
+        </span>
+        <transition name='fade'>
+          <!--<postbMatch v-if="show" class="floatr"></postbMatch>-->
+          <userMune v-if="showuser"
+                    class=""
+                    v-on:mouseenter="changeUsershow1()"
+                    v-on:mouseleave="changeUsershow2()">
 
-        </userMune>
-      </transition>
-    </div>
-    <LoginNew @success="is_login=true"></LoginNew>
+          </userMune>
+        </transition>
+      </div>
+      <LoginNew @success="is_login=true"></LoginNew>
     </div>
   </header>
 </template>
 
 <script>
-import Bus from '../../assets/js/02_bus'
-import LoginNew from '../02_login/02_login_module'
-import userMune from './04_user_menu'
+  import Bus from '../../assets/js/02_bus'
+  import LoginNew from '../02_login/02_login_module'
+  import userMune from './04_user_menu'
 
-let Base64 = require('js-base64').Base64
-export default {
-  name: "projectHeader",
-  data () {
-    return {
-      have_msg: false,
-      show: false,
-      showuser: false,
-      msg: "Welcome to Your Vue.js App",
-      buttonStyle: {
-        width: "121px",
-        height: "42px",
-        background: "23B8FF",
-        "font-family": "PingFangSC-Light",
-        "font-size": "18px",
-        'border': '1px solid white'
-      },
-      videoButtonStyle: {
-        width: "121px",
-        height: "42px",
-        background: 'none',
-        "font-family": "PingFangSC-Light",
-        "font-size": "18px"
-      },
-      mainstyle: {},
-      showLogin: false,
-      outerStyle: {},
-      is_login: false,
-      userinfo: {
-        avatar: ''
-      },
-      videoTitle: {},
-      inputClass: [],
-      iconClass: [],
-      searchValue: ''
-    };
-  },
-  components: {
-    // 'postMatch': postMatch,
-    'userMune': userMune,
-    'LoginNew': LoginNew
-  },
-  props: {
-    type: String,
-  },
-  watch: {
-    is_login: function (a, b) {
-      if (a) {
-        this.$emit('log_in', true)
-      }
-      else {
-        this.$emit('log_in', false)
-      }
-    }
-  },
-  methods: {
-    inputActive () {
-      this.inputClass = ['input-mask-inner-active'];
-      this.iconClass = ['search-active'];
-      var inputDom = this.$refs.searchInput;
-      // inputDom.placeholder = '';
-      inputDom.style.paddingLeft = '43px';
-      inputDom.style.textAlign = 'left';
-      inputDom.style.color = 'black';
-      inputDom.focus();
-    },
-    inputNoActive () {
-      var inputDom = this.$refs.searchInput;
-      if (!this.searchValue.trim()) {
-        this.inputClass = [];
-        this.iconClass = [];
-        // inputDom.value = '';
-        inputDom.placeholder = '搜索课程';
-        inputDom.style.paddingLeft = '23px'
-        inputDom.style.textAlign = 'center';
+  let Base64 = require('js-base64').Base64
+  export default {
+    name: "projectHeader",
+    data() {
+      return {
+        have_msg: false,
+        show: false,
+        showuser: false,
+        msg: "Welcome to Your Vue.js App",
+        buttonStyle: {
+          width: "121px",
+          height: "42px",
+          background: "23B8FF",
+          "font-family": "PingFangSC-Light",
+          "font-size": "18px",
+          'border': '1px solid white'
+        },
+        videoButtonStyle: {
+          width: "121px",
+          height: "42px",
+          background: 'none',
+          "font-family": "PingFangSC-Light",
+          "font-size": "18px"
+        },
+        mainstyle: {},
+        showLogin: false,
+        outerStyle: {},
+        is_login: false,
+        userinfo: {
+          avatar: ''
+        },
+        videoTitle: {},
+        inputClass: [],
+        iconClass: [],
+        searchValue: ''
       }
     },
-    search () {
-      window.location.href = '/tracks/course/list/?searchWord=' + encodeURI(this.searchValue);
+    components: {
+      // 'postMatch': postMatch,
+      'userMune': userMune,
+      'LoginNew': LoginNew
     },
-    jj () {
-      this.is_login = !this.is_login;
+    props: {
+      type: String,
     },
-    changShow () {
-      this.show = !this.show;
-    },
-    changeUsershow () {
-      this.showuser = !this.showuser;
-    },
-    changeUsershow1 () {
-      if (!this.is_login) {
-        return
-      }
-      if (this.setTimer) {
-        clearTimeout(this.setTimer)
-      }
-      this.showuser = true;
-    },
-    changeUsershow2 () {
-      this.setTimer = setTimeout(() => {
-        this.showuser = false;
-      }, 2000)
-    },
-    showVideoList () {
-      // console.log(this)
-      this.$parent.$emit('showVideoList')
-    },
-    goindex () {
-      window.location.href = '/'
-    },
-    myDispatch (eventName, key) {
-      Bus.$emit(eventName, key)
-    },
-    getUserInfo () {
-      this.userinfo.avatar = this.$myConst.httpUrl + localStorage.avatar;
-    },
-    if_msg () {
-      this.$get('/notification/unread/count').then(res => {
-        if (res.data.total) {
-          this.have_msg = true
+    watch: {
+      is_login: function (a, b) {
+        if (a) {
+          this.$emit('log_in', true)
         }
+        else {
+          this.$emit('log_in', false)
+        }
+      }
+    },
+    methods: {
+      inputActive() {
+        this.inputClass = ['input-mask-inner-active']
+        this.iconClass = ['search-active']
+        var inputDom = this.$refs.searchInput
+        // inputDom.placeholder = '';
+        inputDom.style.paddingLeft = '43px'
+        inputDom.style.textAlign = 'left'
+        inputDom.style.color = 'black'
+        inputDom.focus()
+      },
+      inputNoActive() {
+        var inputDom = this.$refs.searchInput
+        if (!this.searchValue.trim()) {
+          this.inputClass = []
+          this.iconClass = []
+          // inputDom.value = '';
+          inputDom.placeholder = '搜索课程'
+          inputDom.style.paddingLeft = '23px'
+          inputDom.style.textAlign = 'center'
+        }
+      },
+      search() {
+        window.location.href = '/tracks/course/list/?searchWord=' + encodeURI(this.searchValue)
+      },
+      jj() {
+        this.is_login = !this.is_login
+      },
+      changShow() {
+        this.show = !this.show
+      },
+      changeUsershow() {
+        this.showuser = !this.showuser
+      },
+      changeUsershow1() {
+        if (!this.is_login) {
+          return
+        }
+        if (this.setTimer) {
+          clearTimeout(this.setTimer)
+        }
+        this.showuser = true
+      },
+      changeUsershow2() {
+        this.setTimer = setTimeout(() => {
+          this.showuser = false
+        }, 2000)
+      },
+      showVideoList() {
+        // console.log(this)
+        this.$parent.$emit('showVideoList')
+      },
+      goindex() {
+        window.location.href = '/'
+      },
+      myDispatch(eventName, key) {
+        Bus.$emit(eventName, key)
+      },
+      getUserInfo() {
+        this.userinfo.avatar = this.$myConst.httpUrl + localStorage.avatar
+      },
+      if_msg() {
+        this.$get('/notification/unread/count').then(res => {
+          if (res.data.total) {
+            this.have_msg = true
+          }
+        })
+      },
+      loginfun() {
+        this.getUserInfo()
+        // 决定用户信息模块的显示与隐藏
+        this.is_login = true
+      },
+      logoutFunc() {
+        this.is_login = false
+        localStorage.clear()
+        this.show = false
+        this.showuser = false
+        if (location.pathname == '/') {
+          return
+        }
+        window.location.href = window.location.href
+        window.location.href = "/"
+      }
+    },
+    created() {
+      //获取包含用户信息的base64加密字符串
+      var userstr = this.$fn.getSearchKey('user_info')
+      // 解密
+      var tstr = Base64.decode(userstr)
+      // 分割
+      var arr = tstr.split('&')
+      var brr = {}
+      for (var i = 0; i < arr.length; i++) {
+        brr[arr[i].split('=')[0]] = arr[i].split('=')[1]
+      }
+      if (brr['uid']) {
+        for (var k in brr) {
+          localStorage[k] = brr[k]
+        }
+        this.loginfun()
+        // console.log(this.is_login)
+      }
+      // console.log(document.cookie)
+      if (['videoHeader', 'liveHeader'].indexOf(this.type) + 1) {
+        this.buttonStyle = this.videoButtonStyle
+        this.outerStyle = {
+          background: '#333742'
+        }
+      }
+      this.$on('login', this.loginfun)
+      this.$on('logout', this.logoutFunc)
+      //如果先进行这一步判断，然后再进行取user_info的字段就可以完成后退功能
+      if (this.$fn.getCookie('token')) {
+        this.getUserInfo()
+        // console.log(this.userinfo)
+        this.is_login = true
+      } else {
+        this.is_login = false
+        localStorage.clear()
+      }
+      Bus.$on('titleBreadCrumb', res => {
+        this.videoTitle = res
       })
-    },
-    loginfun () {
-      this.getUserInfo();
-      // 决定用户信息模块的显示与隐藏
-      this.is_login = true;
-    },
-    logoutFunc () {
-      this.is_login = false;
-      localStorage.clear();
-      this.show = false;
-      this.showuser = false;
-      if (location.pathname == '/') {
-        return
-      }
-      window.location.href = window.location.href;
-      window.location.href = "/"
-    }
-  },
-  created () {
-    //获取包含用户信息的base64加密字符串
-    var userstr = this.$fn.getSearchKey('user_info');
-    // 解密
-    var tstr = Base64.decode(userstr);
-    // 分割
-    var arr = tstr.split('&');
-    var brr = {};
-    for (var i = 0; i < arr.length; i++) {
-      brr[arr[i].split('=')[0]] = arr[i].split('=')[1];
-    }
-    if (brr['uid']) {
-      for (var k in brr) {
-        localStorage[k] = brr[k]
-      }
-      this.loginfun();
-      // console.log(this.is_login)
-    }
-    // console.log(document.cookie)
-    if (['videoHeader', 'liveHeader'].indexOf(this.type) + 1) {
-      this.buttonStyle = this.videoButtonStyle;
-      this.outerStyle = {
-        background: '#333742'
-      };
-    }
-    this.$on('login', this.loginfun)
-    this.$on('logout', this.logoutFunc)
-    //如果先进行这一步判断，然后再进行取user_info的字段就可以完成后退功能
-    if (this.$fn.getCookie('token')) {
-      this.getUserInfo()
-      // console.log(this.userinfo)
-      this.is_login = true;
-    } else {
-      this.is_login = false;
-      localStorage.clear();
-    }
-    Bus.$on('titleBreadCrumb', res => {
-      this.videoTitle = res;
-    })
-    Bus.$on('logout', this.logoutFunc)
-    Bus.$on('refreshAvatar', this.loginfun)
+      Bus.$on('logout', this.logoutFunc)
+      Bus.$on('refreshAvatar', this.loginfun)
 
 
-  },
-  mounted () {
-    this.$on('loginClose', function (child) {
-      this.showLogin = false;
-    })
-    if (this.$fn.funcUrl('searchWord')) {
-      this.searchValue = this.$fn.funcUrl('searchWord')
-      this.inputActive()
-      this.$refs.searchInput.blur()
+    },
+    mounted() {
+      this.$on('loginClose', function (child) {
+        this.showLogin = false
+      })
+      if (this.$fn.funcUrl('searchWord')) {
+        this.searchValue = this.$fn.funcUrl('searchWord')
+        this.inputActive()
+        this.$refs.searchInput.blur()
+      }
     }
   }
-};
 </script>
 
 
 <style scoped lang='scss'>
-  .header_font{
+  .header_font {
     height: 90px;
     overflow: hidden;
   }
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.25s ease;
-}
 
-.fade-enter,
-.fade-leave-active {
-  opacity: 0;
-}
-$margin: 46px;
-.project_header {
-  height: 90px;
-  line-height: 90px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: all 0.25s ease;
+  }
 
-.logo {
-  margin-right: $margin;
-}
+  .fade-enter,
+  .fade-leave-active {
+    opacity: 0;
+  }
 
-.nav_tag {
-  margin-right: $margin;
-}
+  $margin: 46px;
+  .project_header {
+    height: 90px;
+    line-height: 90px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-.user_icon {
-  border-radius: 50%;
-  margin-left: 24px;
-  height: 80px;
-  width: 80px;
-}
+  .logo {
+    margin-right: $margin;
+  }
 
-.red_point {
-  right: -3px;
-  top: -3px;
-  background-color: red;
-  height: 10px;
-  width: 10px;
-  border-radius: 10px;
-}
+  .nav_tag {
+    margin-right: $margin;
+  }
 
-.notice_icon_container {
-  line-height: normal;
-}
+  .user_icon {
+    border-radius: 50%;
+    margin-left: 24px;
+    height: 80px;
+    width: 80px;
+  }
+
+  .red_point {
+    right: -3px;
+    top: -3px;
+    background-color: red;
+    height: 10px;
+    width: 10px;
+    border-radius: 10px;
+  }
+
+  .notice_icon_container {
+    line-height: normal;
+  }
 </style>
