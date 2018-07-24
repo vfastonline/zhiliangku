@@ -1,4 +1,4 @@
-Django==1.10
+Django==1.11.14
 MySQL-python
 requests
 django-colorfield
@@ -9,3 +9,6 @@ django-cors-headers
 django-multiselectfield
 django-breadcrumbs
 redis
+djangorestframework
+markdown
+django-filter

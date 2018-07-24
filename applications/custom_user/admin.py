@@ -15,8 +15,8 @@ class CustomUserAdmin(admin.ModelAdmin):
 @admin.register(CustomUserAuths)
 class CustomUserAuthsAdmin(admin.ModelAdmin):
 	list_display = ('id', 'custom_user_id', 'identity_type', 'identifier', "credential", "status", "create_time")
-	search_fields = ('custom_user_id__nickname', "identity_type",)
-	list_filter = ('status',)
+	search_fields = ('custom_user_id__nickname', "identifier",)
+	list_filter = ('status', 'identity_type',)
 	form = CustomUserAuthsForm
 
 

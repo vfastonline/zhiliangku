@@ -36,11 +36,12 @@ SECRET_KEY = 'cq1(jfme)cw5a!glod@sjpw78+82j+ygg8ut_=i!6-r^t4k_7e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [".zhiliangku.com"]
+ALLOWED_HOSTS = [".zhiliangku.com", "127.0.0.1"]
 
 # Application definition
 
 INSTALLED_APPS = [
+	"rest_framework",
 	'django_select2',
 	'colorfield',
 	'suit',
@@ -73,8 +74,9 @@ INSTALLED_APPS = [
 	'applications.wechat_promotion',  # 微信推广
 	'applications.world_cup',  # 世界杯-答题-猜球-赢积分
 
-	# 只能教室后台
-	'backstage.home'  # 首页
+	# 智能教室后台
+	'backstage.home',  # 首页
+	'backstage.exam_statistics',  # 考试统计
 ]
 
 SITE_ID = 1
@@ -210,3 +212,7 @@ tinymce_js = [
 	'/static/tinymce/js/tinymce/plugins/jquery.form.js',  # 手动添加文件
 	'/static/tinymce/js/tinymce/textarea.js',  # 手动添加文件，用户初始化参数
 ]
+
+REST_FRAMEWORK = {
+	'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication',)
+}

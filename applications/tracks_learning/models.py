@@ -2,8 +2,6 @@
 from __future__ import unicode_literals
 
 import commands
-import logging
-import traceback
 
 from django.core.validators import MinValueValidator
 from django.db import models
@@ -15,6 +13,7 @@ from applications.assessment.models import DockerType
 from applications.custom_user.models import CustomUser
 from applications.live_streaming.models import Live
 from lib.storage import *
+from lib.util import *
 from zhiliangku.settings import BASE_DIR
 
 
@@ -218,3 +217,43 @@ class StudentNotes(models.Model):
 		verbose_name = "学生笔记"
 		verbose_name_plural = "学生笔记"
 		ordering = ["-create_time"]
+
+
+class CustomUserClass(models.Model):
+	"""学生班级"""
+
+	name = models.CharField('班级名称', max_length=255, **NULL_BLANK_TRUE)
+	technology = models.ForeignKey(Technology, verbose_name="技术分类", **NULL_BLANK_TRUE)
+	invite_code = models.CharField('邀请码', max_length=5, **NULL_BLANK_TRUE)
+
+	def __unicode__(self):
+		return self.name
+
+	class Meta:
+		db_table = 'CustomUserClass'
+		verbose_name = "学生班级"
+		verbose_name_plural = "CustomUserClass"
+
+
+def get_invite_code():
+	"""获取班级邀请码，不能重复"""
+	invite_code = get_random_code(5)
+	customuserclasss = CustomUserClass.objects.filter(invite_code=invite_code)
+	if customuserclasss.exists():
+		return get_invite_code()
+	return invite_code
+
+
+@receiver(post_save, sender=CustomUserClass)
+def add_customuser_class_event(sender, instance, **kwargs):
+	"""添加新班级时，生成一个新的注册码
+	:param sender:
+	:param instance:
+	:param kwargs:
+	:return:
+	"""
+	try:
+		CustomUserClass.objects.filter(id=instance.id).update(invite_code=get_invite_code())
+	except:
+		traceback.print_exc()
+		logging.getLogger().error(traceback.format_exc())
