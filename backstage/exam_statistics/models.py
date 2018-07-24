@@ -12,6 +12,7 @@ from django.utils import timezone
 
 from applications.custom_user.models import CustomUser
 from lib.util import NULL_BLANK_TRUE
+from applications.tracks_learning.models import CustomUserClass
 
 
 class Exam(models.Model):
@@ -35,6 +36,7 @@ class Exam(models.Model):
 
 	name = models.CharField("考试名称", max_length=255, **NULL_BLANK_TRUE)
 	dates = models.DateField(verbose_name='考试时间', **NULL_BLANK_TRUE)
+	customuserclass = models.ForeignKey(CustomUserClass, verbose_name="班级", **NULL_BLANK_TRUE)
 	style = models.CharField("考试方式", max_length=1, choices=STYLE, **NULL_BLANK_TRUE)
 	nature = models.CharField("考试性质", max_length=1, choices=NATURE, **NULL_BLANK_TRUE)
 	number = models.PositiveIntegerField("参加人数", default=0)
@@ -50,8 +52,10 @@ class Exam(models.Model):
 
 
 class ExamNatureCount(models.Model):
+	"""指定班级下考试性质考试次数"""
+	customuserclass = models.ForeignKey(CustomUserClass, verbose_name="班级", **NULL_BLANK_TRUE)
 	nature = models.CharField("考试性质", max_length=255, **NULL_BLANK_TRUE)
-	nature_id = models.CharField("考试性质", max_length=255, **NULL_BLANK_TRUE)
+	nature_id = models.CharField("考试性质ID", max_length=255, **NULL_BLANK_TRUE)
 	count = models.PositiveIntegerField("总数", default=0)
 
 	def __unicode__(self):
@@ -79,9 +83,6 @@ class Grade(models.Model):
 		verbose_name_plural = "考试成绩"
 
 
-
-
-
 @receiver(post_save, sender=Exam)
 def exam_nature_add_counter(sender, instance, created, **kwargs):
 	"""当有新的考试录入，增加对应考试性质总数 +1
@@ -95,7 +96,11 @@ def exam_nature_add_counter(sender, instance, created, **kwargs):
 		# 只有当这个instance是新创建的，投注记录+1
 		if not created:
 			return
-		ExamNatureCount.objects.filter(nature_id=instance.nature).update(count=F('count') + 1)
+		filter_param = {
+			"nature_id": instance.nature,
+			"customuserclass": instance.customuserclass
+		}
+		ExamNatureCount.objects.filter(**filter_param).update(count=F('count') + 1)
 	except:
 		traceback.print_exc()
 		logging.getLogger().error(traceback.format_exc())
@@ -112,9 +117,13 @@ def exam_nature_del_counter(sender, instance, created, **kwargs):
 	"""
 	try:
 		# 只有当这个instance是新创建的，投注记录+1
-		if not created:
-			return
-		ExamNatureCount.objects.filter(nature_id=instance.nature).update(count=F('count') - 1)
+
+		filter_param = {
+			"nature_id": instance.nature,
+			"customuserclass": instance.customuserclass
+		}
+
+		ExamNatureCount.objects.filter(**filter_param).update(count=F('count') - 1)
 	except:
 		traceback.print_exc()
 		logging.getLogger().error(traceback.format_exc())

@@ -27,12 +27,11 @@ class ExamsCountByNatureView(APIView):
 			},
 		}
 		try:
+			# 根据考试性质返回考试次数字典列表
+			examnaturecounts = ExamNatureCount.objects.filter().values("nature", "count")
 
-			exams = Exam.objects.filter()
-
-			# 分组查询，各考试性质个数
-			nature_counts = list(exams.values("nature").annotate(count=Count('nature')))
-			[result_dict["data"].update({one["nature"]: one["count"]}) for one in nature_counts]
+			# 组装接口返回值
+			result_dict["data"] = examnaturecounts
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
