@@ -18,13 +18,7 @@ class ExamsCountByNatureView(APIView):
 		result_dict = {
 			"err": 0,
 			"msg": "success",
-			"data": {
-				"1": 0,
-				"2": 0,
-				"3": 0,
-				"4": 0,
-				"5": 0,
-			},
+			"data": [],
 		}
 		try:
 			# 根据考试性质返回考试次数字典列表
