@@ -51,25 +51,25 @@
   export default {
     name: "login_block",
     data() {
-      var validateCode = (rule, value, callback) => {
+      let validateCode = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请输入验证码'));
+          callback(new Error('请输入验证码'))
         }
         if (value.length !== 4) {
           callback(new Error('请输入四位验证码'))
         }
         callback()
       }
-      var validatePass2 = (rule, value, callback) => {
+      let validatePass2 = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请再次输入密码'));
+          callback(new Error('请再次输入密码'))
         } else if (value !== this.form_data.password) {
-          callback(new Error('两次输入密码不一致!'));
+          callback(new Error('两次输入密码不一致!'))
         } else {
-          callback();
+          callback()
         }
-      };
-      var validatePass = (rule, value, callback) => {
+      }
+      let validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'))
         }
@@ -78,12 +78,12 @@
         }
         callback()
       }
-      var check_phone_number = (rule, value, callback) => {
+      let check_phone_number = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('手机号不能为空'))
         }
         setTimeout(() => {
-          var phonecheck = /^1[3|4|5|7|8][0-9]{9}$/
+          let phonecheck = /^1[3|4|5|7|8][0-9]{9}$/
           if (phonecheck.test(value)) {
             callback()
           }
@@ -139,7 +139,7 @@
         }).then(res => {
           if (!res.data.err) {
             this.count = 60;
-            var interval = setInterval(() => {
+            let interval = setInterval(() => {
               this.count--
                 console.log(this)
               if (this.count === 0) {
@@ -164,7 +164,7 @@
         })
       },
       log_up_fun() {
-        var data = {
+        let data = {
           username: this.form_data.phone,
           password: this.form_data.password,
           verify_code: this.form_data.code
@@ -188,6 +188,11 @@
     },
     components: {
       BlockTitle: BlockTitle
+    },
+    created(){
+      console.log('============')
+      console.log(this)
+      console.log('============')
     }
   }
 

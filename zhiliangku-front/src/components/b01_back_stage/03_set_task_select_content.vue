@@ -27,7 +27,9 @@
           :value="item.id">
         </el-option>
       </el-select>
-      <el-select class="select_addition" v-model="value3" :disabled="!value2" @change="get_right_name('video_data',value3,4)" placeholder="请选择节点">
+      <el-select class="select_addition" v-model="value3" :disabled="!value2"
+                 @change="get_right_name('video_data',value3,4,get_recommend)"
+                 placeholder="请选择节点">
         <el-option
           v-for="item in video_data"
           :key="item.id"
@@ -138,8 +140,8 @@
             el.name = el.title
           }
         })
-
       },
+
       change_child_data(key, value) {
         let arr = this.arr
         let index_selected = arr.indexOf(key)
@@ -154,12 +156,20 @@
         let pre_key = arr[index_selected - 1]
         this.get_right_name(pre_key,value,index_selected)
       },
-      get_right_name(key,value,index) {
+      get_right_name(key,value,index,callback) {
         this[key].forEach((el) => {
           if (el.id * 1 === value * 1) {
             this.str_arr.splice(index-1)
             this.str_arr.push(el.name)
           }
+        })
+        if(callback){
+          callback(value)
+        }
+      },
+      get_recommend(value) {
+        this.$get('/backstage/get/today/task/schedule?video_id='+value).then(res => {
+          Bus.$emit('recommend_enter',res.data.data)
         })
       },
       get_init_data() {

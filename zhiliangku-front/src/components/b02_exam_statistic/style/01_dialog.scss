@@ -1,0 +1,16 @@
+.el-dialog__header {
+  display: none;
+}
+
+.el-dialog {
+  border-radius: 10px;
+}
+
+.el-dialog__wrapper .el-dialog {
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.15)
+}
+
+.el-dialog .el-dialog__body {
+  padding: 0 0;
+  border-radius: 10px;
+}

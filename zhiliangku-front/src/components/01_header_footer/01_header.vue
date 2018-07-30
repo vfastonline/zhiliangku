@@ -266,10 +266,6 @@
 
 
 <style scoped lang='scss'>
-  .header_font {
-    height: 90px;
-    overflow: hidden;
-  }
 
   .fade-enter-active,
   .fade-leave-active {
@@ -288,6 +284,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    .header_font {
+      height: 90px;
+      overflow: hidden;
+    }
+
   }
 
   .logo {

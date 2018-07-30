@@ -6,13 +6,18 @@ $c6: #666666;
 $c9: #999999;
 $cb4: #00bcd4;
 $cf: #ffffff;
-$p:#8f82bc;
+//下面三个均为后台常用色
+$cp: #9eacf8;
+$cy: #ffefc1;
+$cb: #233b47;
+//后台的背景色
+$bgc: #f7f8f7;
 $fontMap: (font1:$font1, font2:$font2);
-$colorMap:(3:#333333,6:#666666,9:#999999,b4:#00bcd4,f:#ffffff,c:#c25975,p:#8f82bc);
-@each $fKey, $fValue in $fontMap{
-  @each $cKey,$cValue in $colorMap{
-    @for $size from 7 through 24{
-      .#{$fKey}_#{$size * 2}_#{$cKey}{
+$colorMap: (3:#333333, 6:#666666, 9:#999999, b4:#00bcd4, f:#ffffff, c:#c25975,);
+@each $fKey, $fValue in $fontMap {
+  @each $cKey, $cValue in $colorMap {
+    @for $size from 7 through 24 {
+      .#{$fKey}_#{$size * 2}_#{$cKey} {
         font-family: $fValue;
         font-size: $size * 2px;
         color: $cValue;
@@ -20,3 +25,4 @@ $colorMap:(3:#333333,6:#666666,9:#999999,b4:#00bcd4,f:#ffffff,c:#c25975,p:#8f82b
     }
   }
 }
+

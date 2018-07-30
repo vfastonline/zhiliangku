@@ -82,8 +82,15 @@ module.exports = {
         }
       },
       {
+        //看到这个配置是不是很疑惑，对这样匹配依然可以解析scss，并且支持在js中引入scss
         test: /\.scss#/,
-        loader: ['style', 'css', 'sass']
+        use: [{
+          loader: "style-loader" // 将 JS 字符串生成为 style 节点
+        }, {
+          loader: "css-loader" // 将 CSS 转化成 CommonJS 模块
+        }, {
+          loader: "sass-loader" // 将 Sass 编译成 CSS
+        }]
       }
     ]
   },

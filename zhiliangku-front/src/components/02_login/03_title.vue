@@ -1,7 +1,9 @@
 <template>
   <div class="block_title font1_34_f r" >
     {{block_title}}
-    <div class="a icon_container"><img @click="close" class="close_icon cp" src="./img/01_close_icon.png" alt=""></div>
+    <div class="a icon_container">
+      <img @click="close" class="close_icon cp vm" src="./img/01_close_icon.png" alt="">
+    </div>
   </div>
 </template>
 
@@ -22,12 +24,11 @@
   }
 </script>
 
-<style >
+<style scoped>
   .icon_container{
-    right: 0px;
-    top:0px;
+    right: 0;
+    top:0;
     height: 82px;
-    line-height: 82px;
   }
   .block_title {
     height: 82px;

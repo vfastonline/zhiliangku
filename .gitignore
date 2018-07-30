@@ -118,3 +118,11 @@ zhiliangku-front/00_node_server
 zhiliangku-front/config/index.js
 zhiliangku-front/build/entryDist.js
 !zhiliangku-front/front/static/media
+
+zhinengjiaoshi/node_modules
+zhinengjiaoshi/test
+zhinengjiaoshi/00_node_server
+!zhinengjiaoshi/build
+zhinengjiaoshi/config/index.js
+zhinengjiaoshi/build/entryDist.js
+!zhinengjiaoshi/front/static/media
