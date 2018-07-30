@@ -345,7 +345,7 @@ class ExamEntryGradeView(APIView):
 			return Response(render)
 
 
-# @class_view_decorator(teacher_login_required)
+@class_view_decorator(teacher_login_required)
 class ExamReportView(APIView):
 	"""
 	考核报表
@@ -439,4 +439,4 @@ class ExamReportView(APIView):
 			result_dict["msg"] = traceback.format_exc()
 		finally:
 			render = JSONRenderer().render(result_dict)
-			return Response(result_dict)
+			return Response(render)
