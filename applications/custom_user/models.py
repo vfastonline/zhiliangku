@@ -42,7 +42,7 @@ class CustomUser(models.Model):
 	institutions = models.CharField('所在院校', max_length=255, **NULL_BLANK_TRUE)
 	class_s = models.CharField('所在班级', max_length=255, **NULL_BLANK_TRUE)
 	is_computer = models.BooleanField("计算机专业", default=False)
-	is_graduate = models.BooleanField("在校情况", default=False)# False:在校，True：毕业
+	is_graduate = models.BooleanField("在校情况", default=False)  # False:在校，True：毕业
 	education = models.CharField("学历", max_length=255, default="", **NULL_BLANK_TRUE)
 	position = models.CharField('职位', max_length=255, **NULL_BLANK_TRUE)
 	signature = models.TextField('个性签名', max_length=255, default="", **NULL_BLANK_TRUE)
@@ -78,6 +78,8 @@ def add_customuser_event(sender, instance, **kwargs):  # 回调函数，收到�
 	except:
 		traceback.print_exc()
 		logging.getLogger().error(traceback.format_exc())
+
+
 
 
 class CustomUserAuths(models.Model):

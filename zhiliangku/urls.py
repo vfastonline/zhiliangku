@@ -32,6 +32,7 @@ handler400 = "zhiliangku.views.redirect_400_error"
 
 urlpatterns = [
 	url(r'^admin/', admin.site.urls),
+	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 	url(r'^$', views.index, name="home"),
 	url(r'^login/$', TemplateView.as_view(template_name="login/index.html"), name="login"),
 	url('^slides/', include('applications.slideshow.urls')),  # 轮播
@@ -73,7 +74,8 @@ urlpatterns = [
 
 # 教室端后台
 backstageurl = [
-	url(r'^backstage/', include('backstage.home.urls')),
+	url(r'^backstage/', include('backstage.home.urls')),  # 首页
+	url(r'^exam/', include('backstage.exam_statistics.urls')),  # 考核统计
 ]
 
 urlpatterns += backstageurl

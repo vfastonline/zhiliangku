@@ -6,7 +6,9 @@ import json
 import logging
 import logging.handlers
 import os
+import random
 import smtplib
+import string
 import time
 import traceback
 from datetime import timedelta, date
@@ -392,3 +394,27 @@ def make_bread_crumbs(request):
 		logging.getLogger().error(traceback.format_exc())
 	finally:
 		return result
+
+
+# 生成字母加数字随机字符串
+def get_random_code(count):
+	src_digits = string.digits  # string_数字
+	src_uppercase = string.ascii_uppercase  # string_大写字母
+	src_lowercase = string.ascii_lowercase  # string_小写字母
+	# 随机生成数字、大写字母、小写字母的组成个数（可根据实际需要进行更改）
+
+	digits_num = random.randint(1, count - 2)
+	uppercase_num = random.randint(1, count - digits_num - 1)
+	lowercase_num = count - (digits_num + uppercase_num)
+
+	# 生成字符串
+	password = random.sample(src_digits, digits_num) + random.sample(src_uppercase, uppercase_num) + random.sample(
+		src_lowercase, lowercase_num)
+
+	# 打乱字符串
+	random.shuffle(password)
+
+	# 列表转字符串
+	new_password = ''.join(password)
+
+	return new_password

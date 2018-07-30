@@ -1,0 +1,1 @@
+default_app_config = 'backstage.exam_statistics.apps.ExamStatisticsConfig'
