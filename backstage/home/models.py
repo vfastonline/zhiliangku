@@ -84,4 +84,3 @@ class UserLearnTaskSummary(models.Model):
 		db_table = 'UserLearnTaskSummary'
 		verbose_name = "学生学习任务进度汇总"
 		verbose_name_plural = "学习任务进度汇总"
-

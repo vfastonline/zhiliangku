@@ -7,6 +7,7 @@ from backstage.home.set_learn_task import SetLearnTaskInfo
 from backstage.home.views import *
 
 urlpatterns = [
+	url('^$', BackStagePage.as_view()),  # 教室端后台
 	url('^index/$', BackStageHomePage.as_view()),  # 教室端后台首页
 	url('^set/task/info$', SetLearnTaskInfo.as_view()),  # 设置今日任务-获取下拉信息
 	url('^get/today/task/schedule$', GetTodayTaskScheduleInfo.as_view()),  # 获取今日预计达到目标进度百分比

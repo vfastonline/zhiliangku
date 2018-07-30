@@ -6,6 +6,15 @@ from lib.permissionMixin import class_view_decorator, teacher_login_required
 
 
 @class_view_decorator(teacher_login_required)
+class BackStagePage(View):
+	"""教师端-后台"""
+
+	def get(self, request, *args, **kwargs):
+		template_name = "backstage/index.html"
+		return render(request, template_name, {})
+
+
+@class_view_decorator(teacher_login_required)
 class BackStageHomePage(View):
 	"""教师端-后台-首页"""
 

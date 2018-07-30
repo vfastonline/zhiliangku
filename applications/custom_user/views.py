@@ -1,16 +1,15 @@
 #!encoding:utf-8
-import random
 import re
 import urllib2
 import urlparse
 
-import datetime
 import requests
 from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import View
 
 from applications.custom_user.models import *
+from applications.tracks_learning.models import *
 from lib.encrypt import PyCrypt
 from lib.util import *
 from zhiliangku.settings import MEDIA_ROOT
@@ -584,7 +583,7 @@ class QQLogin(View):
 
 
 class CustomUserRegister(View):
-	"""用户注册"""
+	"""用户注册，"""
 
 	def post(self, request, *args, **kwargs):
 		result_dict = {
@@ -595,9 +594,17 @@ class CustomUserRegister(View):
 		token = ""
 		try:
 			param_dict = json.loads(request.body)
-			username = param_dict.get("username")
-			password = param_dict.get("password")
-			verify_code = param_dict.get("verify_code")  # 验证码
+			username = param_dict.get("username")  # 邮箱/手机号，必填
+			password = param_dict.get("password")  # 密码，必填
+			verify_code = param_dict.get("verify_code")  # 验证码，必填
+			invite_code = param_dict.get("invite_code")  # 班级邀请码，必填
+
+			# 校验班级邀请码
+			customuserclass = CustomUserClass.check_invite_code(invite_code)
+			if not customuserclass:
+				result_dict["err"] = 10
+				result_dict["msg"] = "无效的班级邀请码！"
+				return
 
 			is_mail = IsMail().ismail(username)
 			is_cellphone = IsCellphone().iscellphone(username)
@@ -620,7 +627,7 @@ class CustomUserRegister(View):
 				verifycodes = VerifyCode.objects.filter(**valid_filter)
 				if not verifycodes.exists():
 					result_dict["err"] = 7
-					result_dict["msg"] = "无效的验证码"
+					result_dict["msg"] = "无效的验证码！"
 					return
 				else:
 					VerifyCode.objects.filter(phone=username).delete()
@@ -633,7 +640,7 @@ class CustomUserRegister(View):
 				result_dict["msg"] = "已经注册过账号，请直接登录"
 				result_dict["err"] = 4
 			elif identity_type:
-				create_user = CustomUser.objects.create(nickname=username, role=0)
+				create_user = CustomUser.objects.create(nickname=username, role=0, class_s=customuserclass)
 				if create_user:
 					pycrypt_obj = PyCrypt(CryptKey)
 					crypt_password = pycrypt_obj.encrypt(password)

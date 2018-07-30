@@ -1,21 +1,81 @@
 #!encoding:utf-8
 from __future__ import unicode_literals
 
-import logging
-import os
-import traceback
+import datetime
 
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 
+from lib.base_redis import redis_db
 from lib.storage import ImageStorage
+from lib.util import *
 from lib.util import NULL_BLANK_TRUE
 
 
 def upload_to(instance, fielname):
 	return os.path.join("custom_user_avatar", str(instance.id), fielname)
+
+
+class CustomUserClass(models.Model):
+	"""学生班级"""
+
+	name = models.CharField('班级名称', max_length=255)
+	technology = models.ForeignKey('tracks_learning.Technology', verbose_name="技术分类", **NULL_BLANK_TRUE)
+	invite_code = models.CharField('邀请码', max_length=5, **NULL_BLANK_TRUE)
+	invalid_time = models.DateTimeField('失效时间', help_text="编辑保存触发产生新邀请码", **NULL_BLANK_TRUE)
+
+	def __unicode__(self):
+		return self.name
+
+	@classmethod
+	def get_invite_code(cls):
+		"""获取班级邀请码，不能重复"""
+		invite_code = get_random_code(5)
+		customuserclasss = CustomUserClass.objects.filter(invite_code=invite_code)
+		if customuserclasss.exists():
+			return cls.get_invite_code()
+		return invite_code
+
+	@staticmethod
+	def check_invite_code(invite_code):
+		"""校验班级邀请码
+		:param invite_code:班级邀请码
+		:return:班级对象
+		"""
+
+		return redis_db.get(invite_code)
+
+	class Meta:
+		db_table = 'CustomUserClass'
+		verbose_name = "学生班级"
+		verbose_name_plural = "学生班级"
+
+
+@receiver(post_save, sender=CustomUserClass)
+def add_customuser_class_event(sender, instance, **kwargs):
+	"""添加新班级时，生成一个新的注册码
+	:param sender:
+	:param instance:
+	:param kwargs:
+	:return:
+	"""
+	try:
+		invalid_time = datetime.datetime.now() + datetime.timedelta(hours=1)
+		invite_code = CustomUserClass.get_invite_code()
+		update_param = {
+			"invalid_time": invalid_time,
+			"invite_code": CustomUserClass.get_invite_code(),
+		}
+
+		CustomUserClass.objects.filter(id=instance.id).update(**update_param)
+
+		# 将班级信息保存在redis中，设置过期时间
+		redis_db.setex(invite_code, instance, (invalid_time - datetime.datetime.now()).seconds)
+	except:
+		traceback.print_exc()
+		logging.getLogger().error(traceback.format_exc())
 
 
 class CustomUser(models.Model):
@@ -40,7 +100,7 @@ class CustomUser(models.Model):
 	avatar = models.ImageField('头像', upload_to=upload_to, storage=ImageStorage(), max_length=256,
 							   default=DEFAULT_AVATAR, **NULL_BLANK_TRUE)
 	institutions = models.CharField('所在院校', max_length=255, **NULL_BLANK_TRUE)
-	class_s = models.CharField('所在班级', max_length=255, **NULL_BLANK_TRUE)
+	class_s = models.ManyToManyField(CustomUserClass, verbose_name='所在班级')
 	is_computer = models.BooleanField("计算机专业", default=False)
 	is_graduate = models.BooleanField("在校情况", default=False)  # False:在校，True：毕业
 	education = models.CharField("学历", max_length=255, default="", **NULL_BLANK_TRUE)
@@ -78,8 +138,6 @@ def add_customuser_event(sender, instance, **kwargs):  # 回调函数，收到�
 	except:
 		traceback.print_exc()
 		logging.getLogger().error(traceback.format_exc())
-
-
 
 
 class CustomUserAuths(models.Model):
@@ -144,7 +202,7 @@ class CustomUserCourse(models.Model):
 
 
 class VerifyCode(models.Model):
-	"""验证码"""
+	"""短信验证码"""
 	phone = models.CharField("手机号", max_length=11)
 	code = models.CharField("验证码", max_length=4)
 	create_time = models.DateTimeField(verbose_name='生成时间', default=timezone.now)

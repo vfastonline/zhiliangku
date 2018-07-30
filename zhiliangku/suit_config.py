@@ -31,7 +31,8 @@ SUIT_CONFIG = {
 
 		# 用户管理
 		{'app': 'custom_user', 'icon': 'icon-user',
-		 'models': ('CustomUser', 'CustomUserAuths', 'CustomUserProject', "CustomUserCourse", "VerifyCode")},
+		 'models': (
+		 'tracks_learning.CustomUserClass', 'CustomUser', 'CustomUserAuths', 'CustomUserProject', "CustomUserCourse", "VerifyCode")},
 
 		# 个人中心
 		{'app': 'personal_center', 'icon': 'icon-star',
@@ -80,6 +81,8 @@ SUIT_CONFIG = {
 		# 后台-首页
 		{'label': '教师端-首页', 'app': 'home', 'icon': 'icon-list-alt', 'models': ('LearnTask', "LearnTaskSummary")},
 
+		# 后台-考核统计
+		{'label': '教师端-考核统计', 'app': 'exam_statistics', 'icon': 'icon-list-alt'},
 		# # 观看进度
 		# {'app': 'record', 'icon': 'icon-list-alt', 'models': ('WatchRecord',)},
 

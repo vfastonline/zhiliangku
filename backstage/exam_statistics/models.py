@@ -1,18 +1,11 @@
 #!encoding:utf-8
 from __future__ import unicode_literals
 
-import logging
-import traceback
-
-from django.db import models
 from django.db.models import F
 from django.db.models.signals import *
-from django.dispatch import receiver
-from django.utils import timezone
 
-from applications.custom_user.models import CustomUser
+from applications.custom_user.models import *
 from lib.util import NULL_BLANK_TRUE
-from applications.tracks_learning.models import CustomUserClass
 
 
 class Exam(models.Model):
@@ -36,7 +29,7 @@ class Exam(models.Model):
 
 	name = models.CharField("考试名称", max_length=255, **NULL_BLANK_TRUE)
 	dates = models.DateField(verbose_name='考试时间', **NULL_BLANK_TRUE)
-	customuserclass = models.ForeignKey(CustomUserClass, verbose_name="班级", **NULL_BLANK_TRUE)
+	class_s = models.ForeignKey(CustomUserClass, verbose_name="班级", **NULL_BLANK_TRUE)
 	style = models.CharField("考试方式", max_length=1, choices=STYLE, **NULL_BLANK_TRUE)
 	nature = models.CharField("考试性质", max_length=1, choices=NATURE, **NULL_BLANK_TRUE)
 	number = models.PositiveIntegerField("参加人数", default=0)
@@ -49,11 +42,12 @@ class Exam(models.Model):
 		db_table = 'Exam'
 		verbose_name = "考试"
 		verbose_name_plural = "考试"
+		ordering = ['-create_time']
 
 
 class ExamNatureCount(models.Model):
 	"""指定班级下考试性质考试次数"""
-	customuserclass = models.ForeignKey(CustomUserClass, verbose_name="班级", **NULL_BLANK_TRUE)
+	class_s = models.ForeignKey(CustomUserClass, verbose_name="班级", **NULL_BLANK_TRUE)
 	nature = models.CharField("考试性质", max_length=255, **NULL_BLANK_TRUE)
 	nature_id = models.CharField("考试性质ID", max_length=255, **NULL_BLANK_TRUE)
 	count = models.PositiveIntegerField("总数", default=0)
@@ -93,12 +87,11 @@ def exam_nature_add_counter(sender, instance, created, **kwargs):
 	:return:
 	"""
 	try:
-		# 只有当这个instance是新创建的，投注记录+1
 		if not created:
 			return
 		filter_param = {
 			"nature_id": instance.nature,
-			"customuserclass": instance.customuserclass
+			"class_s": instance.class_s
 		}
 		ExamNatureCount.objects.filter(**filter_param).update(count=F('count') + 1)
 	except:
@@ -107,7 +100,7 @@ def exam_nature_add_counter(sender, instance, created, **kwargs):
 
 
 @receiver(post_delete, sender=Exam)
-def exam_nature_del_counter(sender, instance, created, **kwargs):
+def exam_nature_del_counter(sender, instance, **kwargs):
 	"""当删除考试，对应考试性质总数 -1
 	:param sender:
 	:param instance:
@@ -116,11 +109,9 @@ def exam_nature_del_counter(sender, instance, created, **kwargs):
 	:return:
 	"""
 	try:
-		# 只有当这个instance是新创建的，投注记录+1
-
 		filter_param = {
 			"nature_id": instance.nature,
-			"customuserclass": instance.customuserclass
+			"class_s": instance.class_s
 		}
 
 		ExamNatureCount.objects.filter(**filter_param).update(count=F('count') - 1)

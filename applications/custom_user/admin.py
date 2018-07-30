@@ -20,6 +20,13 @@ class CustomUserAuthsAdmin(admin.ModelAdmin):
 	form = CustomUserAuthsForm
 
 
+@admin.register(CustomUserClass)
+class CustomUserClassAdmin(admin.ModelAdmin):
+	list_display = ('id', "name", 'technology', "invite_code", "invalid_time")
+	search_fields = ('name', "invite_code")
+	readonly_fields = ("invite_code", "invalid_time",)
+
+
 @admin.register(CustomUserProject)
 class CustomUserProjectAdmin(admin.ModelAdmin):
 	list_display = ('id', 'custom_user', "project", "create_time")
