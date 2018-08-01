@@ -46,6 +46,7 @@ class ProjectsListInfo(View):
 
 	def __init__(self):
 		super(ProjectsListInfo, self).__init__()
+		self.technology_id = 0
 		self.result_dict = {
 			"err": 0,
 			"msg": "success",

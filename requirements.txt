@@ -2,7 +2,7 @@ Django==1.11.14
 MySQL-python
 requests
 django-colorfield
-Django-Select2
+Django-Select2==6.1.0
 django-suit
 pycrypto
 django-cors-headers

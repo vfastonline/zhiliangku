@@ -1,6 +1,7 @@
 #!encoding:utf-8
 
 
+from django.db.models import *
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -8,7 +9,6 @@ from rest_framework.views import APIView
 from backstage.exam_statistics.models import *
 from lib.permissionMixin import class_view_decorator, teacher_login_required
 from lib.util import *
-from django.db.models import *
 
 
 @class_view_decorator(teacher_login_required)
