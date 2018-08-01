@@ -1,6 +1,9 @@
 #!encoding:utf-8
 
 from django.views.generic import View
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from applications.tracks_learning.models import *
 from lib.permissionMixin import class_view_decorator, user_login_required
@@ -25,13 +28,17 @@ class StudentNotesList(View):
 			video_id = str_to_int(request.GET.get('video_id', 0))  # 视频ID
 			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
 			page = self.request.GET.get("page", 1)  # 页码
-			per_page = self.request.GET.get("per_page", 12)  # 每页显示条目数
+			per_page = self.request.GET.get("per_page", 10)  # 每页显示条目数
 
-			student_notes = StudentNotes.objects.filter(video__id=video_id, custom_user__id=custom_user_id)
+			filter_param = {
+				"video__id": video_id,
+				"custom_user__id": custom_user_id,
+			}
+			student_notes = StudentNotes.objects.filter(**filter_param)
 
 			# 提供分页数据
 			if not page: page = 1
-			if not per_page: page = 12
+			if not per_page: page = 10
 			page_obj = Paginator(student_notes, per_page)
 			total_count = page_obj.count  # 记录总数
 			num_pages = page_obj.num_pages  # 总页数
@@ -146,3 +153,101 @@ class DeleteStudentNotes(View):
 			result_dict["msg"] = traceback.format_exc()
 		finally:
 			return HttpResponse(json.dumps(result_dict, ensure_ascii=False))
+
+
+# @class_view_decorator(user_login_required)
+class StudentNotesUpdateView(APIView):
+	"""
+	学生笔记：删除，修改
+	"""
+
+	# 删除
+	def delete(self, request, *args, **kwargs):
+		result_dict = {
+			"err": 0,
+			"msg": "success"
+		}
+		try:
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+			pk = kwargs.get('pk', 0)  # 学生笔记ID
+
+
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			result_dict["err"] = 1
+			result_dict["msg"] = traceback.format_exc()
+		finally:
+			render = JSONRenderer().render(result_dict)
+			return Response(render)
+
+	# 修改
+	def patch(self, request, *args, **kwargs):
+		result_dict = {
+			"err": 0,
+			"msg": "success"
+		}
+		try:
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+			pk = kwargs.get('pk', 0)  # 学生笔记ID
+			print pk
+			param_dict = json.loads(request.body)
+			aaa = param_dict.get("aaa", 0)
+			print aaa
+			result_dict["data"] = [1, 2, 3, 4, 6]
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			result_dict["err"] = 1
+			result_dict["msg"] = traceback.format_exc()
+		finally:
+			render = JSONRenderer().render(result_dict)
+			return Response(result_dict)
+
+
+# @class_view_decorator(user_login_required)
+class StudentNotesView(APIView):
+	"""
+	学生笔记：增加，查询
+	"""
+
+	# 查询
+	def get(self, request, *args, **kwargs):
+		result_dict = {
+			"err": 0,
+			"msg": "success"
+		}
+		try:
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+			aaa = request.GET.get("aaa", 0)
+			print aaa
+			result_dict["data"] = [1, 2, 3, 4, 5]
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			result_dict["err"] = 1
+			result_dict["msg"] = traceback.format_exc()
+		finally:
+			render = JSONRenderer().render(result_dict)
+			return Response(result_dict)
+
+	# 新增
+	def post(self, request, *args, **kwargs):
+		result_dict = {
+			"err": 0,
+			"msg": "success"
+		}
+		try:
+			custom_user_id = str_to_int(kwargs.get('uid', 0))  # 用户ID
+			param_dict = json.loads(request.body)
+			aaa = param_dict.get("aaa", 0)
+			print aaa
+			result_dict["data"] = [1, 2, 3, 4, 6]
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			result_dict["err"] = 1
+			result_dict["msg"] = traceback.format_exc()
+		finally:
+			render = JSONRenderer().render(result_dict)
+			return Response(result_dict)

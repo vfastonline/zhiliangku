@@ -39,7 +39,7 @@ class ExamsCountByNatureView(APIView):
 			return Response(render)
 
 
-@class_view_decorator(teacher_login_required)
+# @class_view_decorator(teacher_login_required)
 class ExamsView(APIView):
 	"""考试
 	获取考试
