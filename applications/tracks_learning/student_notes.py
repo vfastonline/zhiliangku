@@ -285,7 +285,7 @@ class StudentNotesView(APIView):
 			result_dict["msg"] = traceback.format_exc()
 		finally:
 			render = JSONRenderer().render(result_dict)
-			return Response(result_dict)
+			return Response(render)
 
 	# 新增
 	def post(self, request, *args, **kwargs):

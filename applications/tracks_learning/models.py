@@ -107,6 +107,7 @@ class Video(models.Model):
 	duration = models.PositiveIntegerField('总时长', default=0, blank=True, help_text="视频成功上传后，由后台补全；单位：秒")
 	desc = models.TextField('描述', default='', null=True, blank=True)
 	notes = models.TextField('讲师笔记', default='', null=True, blank=True)
+	experiment = models.TextField('课后实验', default='', null=True, blank=True)
 	topic = models.TextField('考核题目', default='', null=True, blank=True)
 	shell = models.FileField('判题shell', upload_to='shell', storage=ShellStorage(), null=True, blank=True)
 	docker = models.ForeignKey(DockerType, verbose_name='Docker类型', null=True, blank=True)

@@ -17,6 +17,7 @@ urlpatterns = [
 	url('^add/faq$', faq.AddFaq.as_view()),
 	url('^del/faq$', faq.DelFaq.as_view()),
 	url('^edit/faq$', faq.EditFaq.as_view()),
+	url('^faq/statistics$', faq.CountFaq.as_view()),  # 问答统计
 
 	# 回答
 	url('^appraisal/faqanswer$', faq_answer.AppraisalFaqAnswer.as_view()),
