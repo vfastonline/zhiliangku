@@ -37,8 +37,8 @@ urlpatterns = [
 	url('^assessment/detail/$', assessment.AssessmentDetail.as_view()),
 
 	# 学生笔记
-	url('^student/note$', student_notes.StudentNotesView.as_view()),  # 学生笔记，包含功能：增查
-	url('^student/note/(?P<pk>[0-9]+)$', student_notes.StudentNotesUpdateView.as_view()),  # 学生笔记，包含功能：删改
+	url('^student/note/(?P<pk>[0-9]+)$', student_notes.StudentNotesDetail.as_view()),  # 学生笔记：删除，修改
+	url('^student/note$', student_notes.StudentNotesList.as_view()),  # 学生笔记，包含功能：查询，新增
 
 	# url('^project/list/info$', path_list.ParticipateProject.as_view()),  # 参与学习项目
 
