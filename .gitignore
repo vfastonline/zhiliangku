@@ -126,3 +126,4 @@ zhinengjiaoshi/00_node_server
 zhinengjiaoshi/config/index.js
 zhinengjiaoshi/build/entryDist.js
 !zhinengjiaoshi/front/static/media
+Pipfile
