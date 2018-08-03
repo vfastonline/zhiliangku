@@ -12,3 +12,4 @@ redis
 djangorestframework
 markdown
 django-filter
+ujson

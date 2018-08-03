@@ -214,5 +214,12 @@ tinymce_js = [
 ]
 
 REST_FRAMEWORK = {
-	'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication',)
+	'DEFAULT_AUTHENTICATION_CLASSES': (
+		'rest_framework.authentication.TokenAuthentication',
+	),
+	'PAGE_SIZE': 1,
+	'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+	'EXCEPTION_HANDLER': (
+		'lib.api_response_handler.custom_exception_handler'
+	)
 }
