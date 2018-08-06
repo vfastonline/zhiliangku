@@ -73,6 +73,7 @@
     > 平台提供丰富的学习路径，路径根据职业类型划分。
 
 #### Requirements
+* Python==2.7
 * Django==1.10
 * MySQL-python
 * requests
