@@ -11,7 +11,7 @@ def init_db_info(sender, **kwargs):
 	:param kwargs:
 	:return:
 	"""
-	print "111"
+	print("111")
 	try:
 		# 添加新的考核属性后，执行数据库迁移命令
 		init_info = [

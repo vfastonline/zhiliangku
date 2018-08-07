@@ -17,13 +17,13 @@ from lib.util import NULL_BLANK_TRUE
 class LearnTask(models.Model):
 	"""学习任务"""
 
-	video = models.ForeignKey(Video, verbose_name="视频/练习/考核", help_text="今日任务终点")
+	video = models.ForeignKey(Video, verbose_name="视频/练习/考核", help_text="今日任务终点", on_delete=models.CASCADE)
 	custom_user = models.ForeignKey(CustomUser, verbose_name="创建人", related_name="TodayTaskCustomUser",
-									limit_choices_to={'role': 1})
+									limit_choices_to={'role': 1}, on_delete=models.CASCADE)
 	create_time = models.DateField(verbose_name='创建时间', default=timezone.now)
 	update_time = models.DateTimeField("更新时间", auto_now=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return "--".join([self.video.name, self.create_time.strftime("%Y-%m-%d")])
 
 	class Meta:
@@ -53,7 +53,7 @@ def calculate_task_progress(sender, instance, **kwargs):
 
 class LearnTaskSummary(models.Model):
 	"""学习任务进度汇总--首页饼状图"""
-	task = models.ForeignKey(LearnTask, verbose_name="学习任务")
+	task = models.ForeignKey(LearnTask, verbose_name="学习任务", on_delete=models.CASCADE)
 	schedule = models.FloatField("目标进度", max_length=10, **NULL_BLANK_TRUE)  # 当前任务占总任务百分比，粒度为一个项目
 	average = models.FloatField("班级平均进度", default=0, **NULL_BLANK_TRUE)
 	improve = models.FloatField("较昨日提高", default=0, **NULL_BLANK_TRUE)
@@ -62,7 +62,7 @@ class LearnTaskSummary(models.Model):
 	excess_complete = models.FloatField("超完成目标人数比例", default=0, **NULL_BLANK_TRUE)
 	update_time = models.DateTimeField("更新时间", auto_now=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.task.video.name
 
 	class Meta:
@@ -73,11 +73,11 @@ class LearnTaskSummary(models.Model):
 
 class UserLearnTaskSummary(models.Model):
 	"""学生学习任务进度汇总--首页饼状图"""
-	custom_user = models.ForeignKey(CustomUser, verbose_name="学生", limit_choices_to={'role': 0})
-	task = models.ForeignKey(LearnTask, verbose_name="学习任务")
+	custom_user = models.ForeignKey(CustomUser, verbose_name="学生", limit_choices_to={'role': 0}, on_delete=models.CASCADE)
+	task = models.ForeignKey(LearnTask, verbose_name="学习任务", on_delete=models.CASCADE)
 	schedule = models.FloatField("目标进度", max_length=10, **NULL_BLANK_TRUE)  # 当前任务占总任务百分比，粒度为一个项目
 
-	def __unicode__(self):
+	def __str__(self):
 		return "--".join([self.custom_user.nickname, str(self.schedule)])
 
 	class Meta:

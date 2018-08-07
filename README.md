@@ -73,16 +73,24 @@
     > 平台提供丰富的学习路径，路径根据职业类型划分。
 
 #### Requirements
-* Python==2.7
-* Django==1.10
-* MySQL-python
-* requests
-* django-colorfield
-* Django-Select2
-* django-suit
-* pycrypto
-* django-cors-headers
-* django-multiselectfield
+* Python==3.6
+* Django==2.1
+* PyMySQL
+* mysqlclient
+* requests==2.19.1
+* django-colorfield==0.1.15
+* Django-Select2==6.1.2
+* django-suit==0.2.26
+* pycrypto==2.6.1
+* django-cors-headers==2.4.0
+* django-multiselectfield==0.1.8
+* django-breadcrumbs==1.1.3
+* redis==2.10.6
+* djangorestframework==3.8.2
+* markdown==2.6.11
+* django-filter==2.0.0
+* ujson==1.35
+* pillow==5.2.0
 
 #### Installation
 ```

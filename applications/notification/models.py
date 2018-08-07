@@ -22,13 +22,13 @@ class Notification(models.Model):
 	- `have_read`: 消息是否已读
 	"""
 
-	custom_user = models.ForeignKey(CustomUser, verbose_name="用户", related_name='NotificationCustomUser', db_index=True)
+	custom_user = models.ForeignKey(CustomUser, verbose_name="用户", related_name='NotificationCustomUser', db_index=True, on_delete=models.CASCADE)
 	title = models.CharField('标题', max_length=255, default="", db_index=True)
 	content = models.TextField('内容', max_length=255, default="")
 	create_time = models.DateTimeField(verbose_name='创建时间', default=timezone.now)
 	have_read = models.BooleanField("已读", default=False)
 
-	def __unicode__(self):
+	def __str__(self):
 		return '<Notification %s: %s>' % (self.custom_user.id, self.title)
 
 	class Meta:
@@ -44,10 +44,10 @@ class UserNotificationsCount(models.Model):
 	- `have_read`: 消息未读个数
 	"""
 
-	custom_user = models.ForeignKey(CustomUser, verbose_name="用户", db_index=True)
+	custom_user = models.ForeignKey(CustomUser, verbose_name="用户", db_index=True, on_delete=models.CASCADE)
 	unread_count = models.IntegerField("未读消息数", default=0)
 
-	def __unicode__(self):
+	def __str__(self):
 		return '<UserNotificationsCount %s: %s>' % (self.custom_user.id, self.unread_count)
 
 	class Meta:

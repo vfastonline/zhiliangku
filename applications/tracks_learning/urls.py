@@ -1,71 +1,70 @@
 #!encoding:utf-8
 from django.conf.urls import url
 
-import collect_course
-import common_question
-import nodus_views
-import student_notes
-import course_list
-import live
-import path_list
-import assessment
-import poly_upload_video
-import video_list
-import projects_list
+from applications.tracks_learning import assessment
+from applications.tracks_learning import collect_course
+from applications.tracks_learning import common_question
+from applications.tracks_learning import course_list
+from applications.tracks_learning import live
+from applications.tracks_learning import nodus_views
+from applications.tracks_learning import poly_upload_video
+from applications.tracks_learning import projects_list
+from applications.tracks_learning import student_notes
+from applications.tracks_learning import video_list
 
 urlpatterns = [
-	url('^technology/list/info$', projects_list.TechnologyListInfo.as_view()),  # 技术分类
+    url('^technology/list/info$', projects_list.TechnologyListInfo.as_view()),  # 技术分类
 
-	url('^projects/list/info$', projects_list.ProjectsListInfo.as_view()),  # 项目信息列表
-	url('^projects/list/$', projects_list.ProjectsList.as_view(), name='projects'),  # 项目信息列表页面
+    url('^projects/list/info$', projects_list.ProjectsListInfo.as_view()),  # 项目信息列表
+    url('^projects/list/$', projects_list.ProjectsList.as_view(), name='projects'),  # 项目信息列表页面
 
-	url('^projects/detail/$', projects_list.ProjectsDetail.as_view(), name="project-detail"),  # 项目详情--页面
-	url('^projects/detail/info$', projects_list.ProjectsDetailInfo.as_view()),  # 项目详情--信息
+    url('^projects/detail/$', projects_list.ProjectsDetail.as_view(), name="project-detail"),  # 项目详情--页面
+    url('^projects/detail/info$', projects_list.ProjectsDetailInfo.as_view()),  # 项目详情--信息
 
-	url('^course/detail/$', course_list.CourseDetail.as_view(), name="course-detail"),
-	url('^course/detail/info$', course_list.CourseDetailInfo.as_view()),
+    url('^course/detail/$', course_list.CourseDetail.as_view(), name="course-detail"),
+    url('^course/detail/info$', course_list.CourseDetailInfo.as_view()),
 
-	url('^common_question/list/info$', common_question.CommonQuestionList.as_view()),  # 视频常见问题
-	url('^nodus/list/info$', nodus_views.NodusList.as_view()),  # 视频难点解析
-	url('^next/video$', video_list.GetNextVideo.as_view()),  # 获取下一节视频信息
+    url('^common_question/list/info$', common_question.CommonQuestionList.as_view()),  # 视频常见问题
+    url('^nodus/list/info$', nodus_views.NodusList.as_view()),  # 视频难点解析
+    url('^next/video$', video_list.GetNextVideo.as_view()),  # 获取下一节视频信息
 
-	# 视频详情，观看页
-	url('^video/detail/$', video_list.VideoDetail.as_view()),
-	url('^video/detail/info$', video_list.VideoDetailInfo.as_view()),
+    # 视频详情，观看页
+    url('^video/detail/$', video_list.VideoDetail.as_view()),
+    url('^video/detail/info$', video_list.VideoDetailInfo.as_view()),
 
-	# 考核
-	url('^assessment/detail/$', assessment.AssessmentDetail.as_view()),
+    # 考核
+    url('^assessment/detail/$', assessment.AssessmentDetail.as_view()),
 
-	# 学生笔记
-	url('^student/note/(?P<pk>[0-9]+)$', student_notes.StudentNotesDetail.as_view()),  # 学生笔记：删除，修改
-	url('^student/note$', student_notes.StudentNotesList.as_view()),  # 学生笔记，包含功能：查询，新增
+    # 学生笔记
+    url('^student/note/(?P<pk>[0-9]+)$', student_notes.StudentNotesDetail.as_view()),  # 学生笔记：删除，修改
+    url('^student/note$', student_notes.StudentNotesList.as_view()),  # 学生笔记，包含功能：查询，新增
 
-	# url('^project/list/info$', path_list.ParticipateProject.as_view()),  # 参与学习项目
+    # url('^project/list/info$', path_list.ParticipateProject.as_view()),  # 参与学习项目
 
-	# url('^index_path/list$', path_list.IndexPathList.as_view()),
-	url('^index_course/list$', course_list.IndexCourseList.as_view()),
+    # url('^index_path/list$', path_list.IndexPathList.as_view()),
+    url('^index_course/list$', course_list.IndexCourseList.as_view()),
 
-	# url('^path/list/$', path_list.PathList.as_view()),
-	# url('^path/list/info$', path_list.PathListInfo.as_view()),
+    # url('^path/list/$', path_list.PathList.as_view()),
+    # url('^path/list/info$', path_list.PathListInfo.as_view()),
 
-	# url('^path/detail/$', path_list.PathDetail.as_view()),
-	# url('^path/detail/info$', path_list.PathDetailInfo.as_view()),
+    # url('^path/detail/$', path_list.PathDetail.as_view()),
+    # url('^path/detail/info$', path_list.PathDetailInfo.as_view()),
 
-	url('^course/list/$', course_list.CourseList.as_view()),
-	url('^course/list/info$', course_list.CourseListInfo.as_view()),
-	url('^search/course/list/info$', course_list.SearchForCourse.as_view()),
+    url('^course/list/$', course_list.CourseList.as_view()),
+    url('^course/list/info$', course_list.CourseListInfo.as_view()),
+    url('^search/course/list/info$', course_list.SearchForCourse.as_view()),
 
-	url('^collect/course$', collect_course.CollectCourse.as_view()),
+    url('^collect/course$', collect_course.CollectCourse.as_view()),
 
-	url('^video/list/info$', video_list.VideoList.as_view()),
+    url('^video/list/info$', video_list.VideoList.as_view()),
 
-	# 直播详情，观看页
-	url('^live/detail/$', live.LiveDetail.as_view()),
-	url('^live/detail/info$', live.LiveDetailInfo.as_view()),
+    # 直播详情，观看页
+    url('^live/detail/$', live.LiveDetail.as_view()),
+    url('^live/detail/info$', live.LiveDetailInfo.as_view()),
 
-	# 获取上传视频参数
-	url('^get-polyv$', poly_upload_video.UploadVideoPolyvParam.as_view()),
+    # 获取上传视频参数
+    url('^get-polyv$', poly_upload_video.UploadVideoPolyvParam.as_view()),
 
-	# 问题方向
-	url('^question/path/info$', course_list.QuestionPathInfo.as_view()),
+    # 问题方向
+    url('^question/path/info$', course_list.QuestionPathInfo.as_view()),
 ]

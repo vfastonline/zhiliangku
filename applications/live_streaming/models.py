@@ -31,7 +31,7 @@ class Live(models.Model):
 	data = models.TextField("创建直播接口返回值", **NULL_BLANK_TRUE)
 	desc = models.TextField('简介', max_length=1000, default='', **NULL_BLANK_TRUE)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 	def clean(self):

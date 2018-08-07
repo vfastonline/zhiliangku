@@ -1,9 +1,9 @@
 # coding=utf-8
-import ConfigParser
+import configparser
 import os
 
 config_dir = os.path.dirname(os.path.abspath(__file__))
-config_parser = ConfigParser.ConfigParser()
+config_parser = configparser.ConfigParser()
 
 polyv_path = os.path.join(config_dir, 'polyv.conf')
 config_parser.read(polyv_path)

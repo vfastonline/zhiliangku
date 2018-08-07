@@ -15,7 +15,7 @@ class DockerType(models.Model):
 	port = models.CharField('镜像端口', max_length=10, help_text=u"先确认阿里云服务器开放端口并没有被其他镜像占用")
 	introduce = models.TextField('介绍', default='', **NULL_BLANK_TRUE)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 	class Meta:
@@ -32,7 +32,7 @@ class DockerPort(models.Model):
 	create = models.DateTimeField('创建时间', auto_now=True)
 	maturity = models.DateTimeField('到期时间', blank=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.container
 
 	class Meta:

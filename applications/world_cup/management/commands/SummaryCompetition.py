@@ -46,7 +46,7 @@ class Command(BaseCommand):
 				for betrecord in betrecords:
 					user_id = betrecord["user"]
 					integral = betrecord["integral"]
-					if user_integral.has_key(user_id):  # 已经有用户积分信息
+					if user_id in user_integral:  # 已经有用户积分信息
 						user_integral[user_id] += integral * 2
 					else:
 						user_integral[user_id] = integral * 2

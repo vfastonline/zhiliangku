@@ -7,7 +7,7 @@ from lib.util import NULL_BLANK_TRUE
 
 class Resume(models.Model):
 	"""个人简历基础信息"""
-	custom_user = models.OneToOneField(CustomUser, verbose_name="用户信息", related_name="Resumes", unique=True)
+	custom_user = models.OneToOneField(CustomUser, verbose_name="用户信息", related_name="Resumes", unique=True, on_delete=models.CASCADE)
 	avatar = models.ImageField('简历头像', upload_to='resume', default='custom_user_avatar/defaultUserIcon.png', blank=True)
 	name = models.CharField("姓名", max_length=255, default="", **NULL_BLANK_TRUE)
 	sex = models.CharField("性别", max_length=2, default="", **NULL_BLANK_TRUE)
@@ -18,7 +18,7 @@ class Resume(models.Model):
 	company = models.CharField("现任公司", max_length=255, default="", **NULL_BLANK_TRUE)
 	position = models.CharField("现任职务", max_length=255, default="", **NULL_BLANK_TRUE)
 	advantage = models.TextField("我的优势", default="", **NULL_BLANK_TRUE)
-	career_objective = models.ForeignKey("CareerObjective", verbose_name="首要意向", related_name="Resumes",
+	career_objective = models.ForeignKey("CareerObjective", verbose_name="首要意向", related_name="Resumes", on_delete=models.CASCADE,
 										 **NULL_BLANK_TRUE)
 
 	def __str__(self):
@@ -33,7 +33,7 @@ class Resume(models.Model):
 
 class CareerObjective(models.Model):
 	"""求职意向"""
-	custom_user = models.ForeignKey(CustomUser, verbose_name="用户信息", related_name="careerobjective_custom_user")
+	custom_user = models.ForeignKey(CustomUser, verbose_name="用户信息", related_name="careerobjective_custom_user", on_delete=models.CASCADE)
 	position = models.CharField("职位", max_length=255, default="", **NULL_BLANK_TRUE)
 	way = models.CharField("工作方式", max_length=255, default="", **NULL_BLANK_TRUE)
 	city = models.CharField("城市", max_length=255, default="", **NULL_BLANK_TRUE)
@@ -53,7 +53,7 @@ class CareerObjective(models.Model):
 
 class WorkExperience(models.Model):
 	"""工作经历"""
-	custom_user = models.ForeignKey(CustomUser, verbose_name="用户信息", related_name="workexperience_custom_user")
+	custom_user = models.ForeignKey(CustomUser, verbose_name="用户信息", related_name="workexperience_custom_user", on_delete=models.CASCADE)
 	company = models.CharField("公司名称", max_length=255, default="", **NULL_BLANK_TRUE)
 	position = models.CharField("职位名称", max_length=255, default="", **NULL_BLANK_TRUE)
 	start_time = models.CharField("在职起始时间", max_length=255, default="", **NULL_BLANK_TRUE)
@@ -73,7 +73,7 @@ class WorkExperience(models.Model):
 
 class ProjectExperience(models.Model):
 	"""项目经验"""
-	custom_user = models.ForeignKey(CustomUser, verbose_name="用户信息", related_name="projectexperience_custom_user")
+	custom_user = models.ForeignKey(CustomUser, verbose_name="用户信息", related_name="projectexperience_custom_user", on_delete=models.CASCADE)
 	name = models.CharField("项目名称", max_length=255, default="", **NULL_BLANK_TRUE)
 	role = models.CharField("角色", max_length=255, default="", **NULL_BLANK_TRUE)
 	url = models.CharField("项目链接", max_length=255, default="", **NULL_BLANK_TRUE)
@@ -95,7 +95,7 @@ class ProjectExperience(models.Model):
 
 class EducationExperience(models.Model):
 	"""教育经历"""
-	custom_user = models.ForeignKey(CustomUser, verbose_name="用户信息", related_name="educationexperience_custom_user")
+	custom_user = models.ForeignKey(CustomUser, verbose_name="用户信息", related_name="educationexperience_custom_user", on_delete=models.CASCADE)
 	school = models.CharField("学校名称", max_length=255, default="", **NULL_BLANK_TRUE)
 	discipline = models.CharField("所学专业", max_length=255, default="", **NULL_BLANK_TRUE)
 	education = models.CharField("学历", max_length=255, default="", **NULL_BLANK_TRUE)

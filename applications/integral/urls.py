@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-import views
+from applications.integral import views
 
 urlpatterns = [
     url('^redeem/$', views.Redeem.as_view()),

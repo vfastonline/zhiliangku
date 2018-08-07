@@ -1,5 +1,5 @@
 # encoding: utf8
-import StringIO
+import io
 import base64
 import hashlib
 import json
@@ -18,7 +18,7 @@ from email.mime.text import MIMEText
 from PIL import Image
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import connection
 from django.http import HttpResponse, HttpResponseRedirect
 
@@ -225,7 +225,7 @@ def sendmail(rcpt, subject, content):
 	smtp_user = 'duminchao@163.com'
 	smtp_pass = 'duminchaoi123'
 
-	if isinstance(rcpt, str) or isinstance(rcpt, unicode):
+	if isinstance(rcpt, str):
 		rcpt = rcpt.split(',')
 	elif not isinstance(rcpt, list):
 		logging.getLogger().warning("SendMail: rcpt_to format invalid")
@@ -371,7 +371,7 @@ def get_thumbnail(orig, width=200, height=200):
 	size = (width, height)
 	thumb = im
 	thumb.thumbnail(size, Image.ANTIALIAS)
-	thumb_io = StringIO.StringIO()
+	thumb_io = io.StringIO()
 	thumb.save(thumb_io, format="JPEG", quality=quality)
 	thumb_file = InMemoryUploadedFile(thumb_io, None, filename, 'image/jpeg', thumb_io.len, None)
 	return thumb_file

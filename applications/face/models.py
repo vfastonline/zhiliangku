@@ -18,7 +18,7 @@ class Watchface(models.Model):
     vtime = models.FloatField()
     disgust = models.FloatField()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.userid
 
     class Meta:

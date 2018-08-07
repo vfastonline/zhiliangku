@@ -111,7 +111,7 @@ class Sign:
 
 	def sign(self):
 		string = '&'.join(['%s=%s' % (key.lower(), self.ret[key]) for key in sorted(self.ret)])
-		print string
+		print(string)
 		self.ret['signature'] = hashlib.sha1(string).hexdigest()
-		print self.ret['signature']
+		print(self.ret['signature'])
 		return self.ret

@@ -27,12 +27,12 @@ class PolyvCallBack(View):
             sign = request.GET.get("sign")  # 系统签名
             df = request.GET.get("df")  # 视频清淅度版本，1为流畅、2为高清、3为超清
 
-            print "type==", request_type
-            print "vid==", vid
-            print "format==", request_format
-            print "state==", state
-            print "sign==", sign
-            print "df==", df
+            print("type==", request_type)
+            print("vid==", vid)
+            print("format==", request_format)
+            print("state==", state)
+            print("sign==", sign)
+            print("df==", df)
             if request_type == "upload" and state:  # 已上传
                 duration = 0
                 video_result = get_video_msg(vid)

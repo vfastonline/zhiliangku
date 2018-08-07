@@ -1,5 +1,5 @@
 #!encoding:utf-8
-import commands
+import subprocess
 import json
 import re
 
@@ -115,7 +115,7 @@ class ConstructDocker(View):
 			# 查询是否已经为该用户准备容器，有就销毁
 			dockerports = DockerPort.objects.filter(container=self.container)
 			if dockerports.exists():  # 销毁，不使用旧容器，避免定时任务提前销毁
-				stop_info = commands.getoutput(stop_command)
+				stop_info = subprocess.getoutput(stop_command)
 				try:
 					if not int(stop_info):
 						dockerports.delete()
@@ -125,9 +125,9 @@ class ConstructDocker(View):
 					self.result_dict["err"] = 1
 					self.result_dict["msg"] = traceback.format_exc()
 					return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
-			start_info = commands.getoutput(start_command)
-			print start_command
-			print start_info
+			start_info = subprocess.getoutput(start_command)
+			print(start_command)
+			print(start_info)
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
@@ -238,8 +238,8 @@ class AssessmentResultInfo(View):
 				# 通过shell判题
 				param = {"kaohe_sh": kaohe_sh, "container": self.container, "shell_name": self.shell_name}
 				command = "ssh root@docker sh {kaohe_sh} {container} {shell_name}".format(**param)
-				result_info = commands.getoutput(command)
-				print type(result_info), result_info
+				result_info = subprocess.getoutput(command)
+				print(type(result_info), result_info)
 
 				try:
 					command_result_dicts = json.loads(result_info)
@@ -309,7 +309,7 @@ class AssessmentResultInfo(View):
 		try:
 			param = {"docker_sh": docker_sh, "container": self.container}
 			stop_command = "ssh root@docker sh {docker_sh} stop {container}".format(**param)
-			stop_info = commands.getoutput(stop_command)
+			stop_info = subprocess.getoutput(stop_command)
 			try:
 				if not int(stop_info):
 					DockerPort.objects.filter(container=self.container).delete()

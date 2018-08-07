@@ -23,7 +23,7 @@ class WatchRecord(models.Model):
 	status = models.IntegerField('观看状态', choices=STATUS, default=0)
 	create_time = models.DateTimeField(verbose_name='记录时间', auto_now=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.user.nickname + "|" + self.course.name
 
 	class Meta:
@@ -37,7 +37,7 @@ class WatchRecord(models.Model):
 #     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='课程ID')
 #     createtime = models.CharField('记录时间', max_length=20, default='2015-09-08 12:00:00')
 #
-#     def __unicode__(self):
+#     def __str__(self):
 #         return self.user.nickname
 #
 #     class Meta:

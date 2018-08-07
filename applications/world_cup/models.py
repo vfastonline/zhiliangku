@@ -24,7 +24,7 @@ class Topic(models.Model):
 	B = models.CharField('B', max_length=30)
 	right = models.CharField('正确答案', max_length=1, choices=RIGHTANSWER)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.title
 
 	class Meta:
@@ -38,7 +38,7 @@ class Country(models.Model):
 	name = models.CharField('国家名称', max_length=255)
 	flag = models.ImageField('国旗图片', upload_to="flag", storage=ImageStorage(), max_length=255)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 	class Meta:
@@ -49,8 +49,8 @@ class Country(models.Model):
 
 class Tournament(models.Model):
 	"""比赛"""
-	country_a = models.ForeignKey('Country', verbose_name="国家A", related_name="tournament_country_a")
-	country_b = models.ForeignKey('Country', verbose_name="国家B", related_name="tournament_country_b")
+	country_a = models.ForeignKey('Country', verbose_name="国家A", related_name="tournament_country_a", on_delete=models.CASCADE)
+	country_b = models.ForeignKey('Country', verbose_name="国家B", related_name="tournament_country_b", on_delete=models.CASCADE)
 	start_time = models.DateTimeField('开赛时间', help_text="只显示、押注未开赛的赛事")
 	a_victory = models.BooleanField('国家A-胜', default=False, help_text="出比赛结果后填写")
 	common = models.BooleanField('平', default=False, help_text="出比赛结果后填写")
@@ -59,7 +59,7 @@ class Tournament(models.Model):
 	summary_time = models.DateTimeField('汇总时间', blank=True, null=True)
 	create_time = models.DateTimeField('创建时间', auto_now=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return " vs ".join([self.country_a.name, self.country_b.name])
 
 	class Meta:
@@ -71,13 +71,13 @@ class Tournament(models.Model):
 
 class BetRecord(models.Model):
 	"""用户押注记录 """
-	user = models.ForeignKey(CustomUser, verbose_name="用户", related_name="betrecord_user")
-	tournament = models.ForeignKey('Tournament', verbose_name="比赛（A vs B）", related_name="betrecord_tournament")
+	user = models.ForeignKey(CustomUser, verbose_name="用户", related_name="betrecord_user", on_delete=models.CASCADE)
+	tournament = models.ForeignKey('Tournament', verbose_name="比赛（A vs B）", related_name="betrecord_tournament", on_delete=models.CASCADE)
 	country = models.CharField('胜/平(C)', max_length=10, blank=True, help_text="A:A国家胜；B:B国家胜；C:平")
 	integral = models.PositiveIntegerField("押注积分", default=0, help_text="押注积分，押中积分*2返给用户")
 	create_time = models.DateTimeField('创建时间', auto_now=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.user.nickname
 
 	class Meta:
@@ -109,7 +109,7 @@ class BetRecordCount(models.Model):
 	"""用户押注记录总数"""
 	count = models.PositiveIntegerField("押注记录总数", default=999)
 
-	def __unicode__(self):
+	def __str__(self):
 		return str(self.count)
 
 	class Meta:
@@ -123,7 +123,7 @@ class Analysis(models.Model):
 	chart = models.ImageField('分析图', upload_to="analysis", storage=ImageStorage(), max_length=255, blank=True, help_text="上传前先压缩，https://tinypng.com/")
 	create_time = models.DateField('创建时间', help_text="当天只显示当天的分析数据")
 
-	def __unicode__(self):
+	def __str__(self):
 		return str(self.id)
 
 	class Meta:

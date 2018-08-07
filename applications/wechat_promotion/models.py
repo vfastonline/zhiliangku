@@ -23,7 +23,7 @@ class WechatBrowse(models.Model):
 	share = models.PositiveIntegerField('分享', default=0)
 	create_time = models.DateTimeField(verbose_name='创建时间', default=timezone.now)
 
-	def __unicode__(self):
+	def __str__(self):
 		return ",".join([self.name, str(self.page_views), str(self.thumbs_up)])
 
 	class Meta:
@@ -48,7 +48,7 @@ class WechatRemark(models.Model):
 	remark = models.TextField('评语', max_length=255)
 	english = models.TextField('评语英文', max_length=255, blank=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return "".join([str(self.name), "--", str(self.remark)])
 
 	class Meta:
@@ -68,7 +68,7 @@ class WechatMusic(models.Model):
 	images = models.ImageField('分享图', upload_to="wechat/share", storage=ImageStorage(), blank=True)
 	types = models.CharField('用途', max_length=1, choices=TYPES, blank=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 	class Meta:
