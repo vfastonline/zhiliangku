@@ -1,5 +1,6 @@
 Django==2.1
 PyMySQL
+passlib==1.7.1
 mysqlclient
 requests==2.19.1
 django-colorfield==0.1.15
