@@ -487,6 +487,60 @@ class CountFaq(APIView):
 			render = JSONRenderer().render(result_dict)
 			return Response(render)
 
+# @class_view_decorator(user_login_required)
+class SearchFaq(APIView):
+	"""搜索问题 使用drf"""
+
+	def get(self, request, *args, **kwargs):
+		data = []
+		paginator = dict()
+		err = status.HTTP_204_NO_CONTENT
+		msg = "success"
+
+		try:
+			content_text = request.GET.get('content_text', 0)  # 用户输入的搜索框中的内容
+			page = self.request.GET.get("page", 1)  # 页码
+			per_page = self.request.GET.get("per_page", 10)  # 每页显示条目数
+			faq = FaqAnswer.objects.all()
+			answer = FaqAnswer.objects.all()
+			if not content_text:
+				return JsonResponse(msg='请在文本框中输入内容')
+
+			filter_param = {
+				"faq": faq,
+				"answer": answer,
+			}
+			faq_content = FaqAnswer.objects.filter(**filter_param)
+
+			# 提供分页数据
+			if not page: page = 1
+			if not per_page: page = 10
+			page_obj = Paginator(faq_content, per_page)
+			total_count = page_obj.count  # 记录总数
+			num_pages = page_obj.num_pages  # 总页数
+			page_range = list(page_obj.page_range)  # 页码列表
+			paginator = {
+				"total_count": total_count,
+				"num_pages": num_pages,
+				"page_range": page_range,
+				"page": page,
+				"per_page": per_page
+			}
+
+			try:
+				faq_content = page_obj.page(page).object_list
+			except:
+				faq_content = list()
+
+			serializer = FaqSerializer(faq_content, many=True)
+			data = serializer.data
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			err = status.HTTP_404_NOT_FOUND
+			msg = "fail"
+		finally:
+			return JsonResponse(data=data, err=err, msg=msg, paginator=paginator)
 
 # @class_view_decorator(user_login_required)
 class AssortFaq(APIView):
