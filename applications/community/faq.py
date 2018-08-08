@@ -488,38 +488,57 @@ class CountFaq(APIView):
 			return Response(render)
 
 
-@class_view_decorator(user_login_required)
+# @class_view_decorator(user_login_required)
 class AssortFaq(APIView):
-	"""问题分类"""
+    """问题分类"""
 
-	def get(self, request, *args, **kwargs):
-		result_dict = {
-			"err": 0,
-			"msg": "success",
-			"data": {
+    def get(self, request, *args, **kwargs):
+        # data = []
+        result_dict = {
+            "err": 0,
+            "msg": "success",
+            "data": {
+                "newest_anwser": 0,
+                "solved_questions": 0,
+                "unsolved_questions": 0,
+                "my_questions": 0,
+                "my_participate": 0,
+                "my_follow": 0
+            }
+        }
+        # paginator = dict()
+        # err = status.HTTP_204_NO_CONTENT
+        # msg = "success"
 
-			}
-		}
-		try:
-			'''
-			newest_anwser = # 最新 根据回答时间排序问题
-			solved_questions = Faq.objects.filter(status="1")#  已解决 问题
-			unsolved_questions = Faq.objects.filter(status="0")#  未解决 问题
-			my_questions = #  我的提问 问题
-			involved_questions = #  我参与的 问题
-			my_follow = #  我关注的问题
-			'''
-		except:
-			traceback.print_exc()
-			logging.getLogger().error(traceback.format_exc())
-			result_dict["err"] = 1
-			result_dict["msg"] = traceback.format_exc()
-		finally:
-			render = JSONRenderer().render(result_dict)
-			return Response(render)
+        try:
+            newest_anwser = str_to_int(FaqAnswer.objects.all().order_by("-create_time"))  # 最新 根据回答时间排序问题
+            solved_questions = Faq.objects.filter(status="1")  # 已解决 问题
+            unsolved_questions = Faq.objects.filter(status="0")  # 未解决 问题
+            my_questions = str_to_int(request.GET.get('ask', 0))  # 我的提问
+            my_participate = str_to_int(request.GET.get('participate', 0))  # 我参与的
+            my_follow = str_to_int(request.GET.get('follow', 0))  # 我关注的
 
+            result_dict["data"]= {
+                "newest_anwser": newest_anwser,
+                "solved_questions": solved_questions,
+                "unsolved_questions": unsolved_questions,
+                "my_questions": my_questions,
+                "my_participate": my_participate,
+                "my_follow": my_follow
+            }
+            # serializer = FaqSerializer(data, many=True)
+            # data = serializer.data
+        except:
+            traceback.print_exc()
+            logging.getLogger().error(traceback.format_exc())
+            result_dict["err"] = 1
+            result_dict["msg"] = traceback.format_exc()
 
-@class_view_decorator(user_login_required)
-class SearchFaq(APIView):
-	"""搜索问题"""
-
+            # traceback.print_exc()
+            # logging.getLogger().error(traceback.format_exc())
+            # err = status.HTTP_404_NOT_FOUND
+            # msg = "fail"
+        finally:
+            render = JSONRenderer().render(result_dict)
+            return Response(result_dict)
+            # return JsonResponse(data=data, err=err, msg=msg, paginator=paginator)
