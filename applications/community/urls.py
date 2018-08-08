@@ -16,8 +16,6 @@ urlpatterns = [
     url('^del/faq$', faq.DelFaq.as_view()),
     url('^edit/faq$', faq.EditFaq.as_view()),
     url('^faq/statistics$', faq.CountFaq.as_view()),  # 问答统计
-    url('^faq/asort', faq.AssortFaq.as_view()),  # 问答分类
-    url('^faq/search', faq.SearchFaq.as_view()),  # 问答搜索
 
     # 回答
     url('^appraisal/faqanswer$', faq_answer.AppraisalFaqAnswer.as_view()),
