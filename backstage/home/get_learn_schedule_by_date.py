@@ -1,24 +1,28 @@
 #!encoding:utf-8
 import datetime
-
 from django.db.models import Avg
-from django.views.generic import View
+from rest_framework import status
+from rest_framework.views import APIView
 
 from applications.exercise.models import UserExercise
 from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
 from backstage.home.models import *
+from lib.api_response_handler import *
 from lib.base_redis import redis_db
 from lib.permissionMixin import class_view_decorator, teacher_login_required
 from lib.util import *
 
 
 @class_view_decorator(teacher_login_required)
-class GetLearnTaskScheduleBydate(View):
+class GetLearnTaskScheduleBydate(APIView):
 	"""根据日期获取学习任务完成进度"""
 
 	def __init__(self):
 		super(GetLearnTaskScheduleBydate, self).__init__()
+		self.data = dict()
+		self.err = status.HTTP_200_OK
+		self.msg = "success"
 		self.result_dict = {
 			"err": 0,
 			"msg": "success",
@@ -33,9 +37,10 @@ class GetLearnTaskScheduleBydate(View):
 
 	def get(self, request, *args, **kwargs):
 		try:
+			# 当天日期
 			today_date = get_day_of_day(0)
 			today_date = datetime.datetime(today_date.year, today_date.month, today_date.day)
-			get_date = request.GET.get('get_date', "")  # 今日学习任务视频ID
+			get_date = request.GET.get('get_date', "")  # 发布任务的时间
 			if not get_date:
 				get_date = today_date
 			else:
@@ -44,7 +49,7 @@ class GetLearnTaskScheduleBydate(View):
 
 			learn_task_schedule = redis_db.get("LearnTaskSchedule_%s" % get_date_str)
 			if learn_task_schedule:
-				self.result_dict["data"] = eval(learn_task_schedule)
+				self.data = eval(learn_task_schedule)
 			else:
 				if get_date < today_date:  # 历史数据
 					learntasks = LearnTask.objects.filter(create_time=get_date)
@@ -53,20 +58,19 @@ class GetLearnTaskScheduleBydate(View):
 						summarys = LearnTaskSummary.objects.filter(task=learntasks.first()).values(*values)
 						if summarys.exists():
 							learn_task_schedule = summarys.first()
-							self.result_dict["data"] = learn_task_schedule
+							self.data = learn_task_schedule
 							redis_db.set("LearnTaskSchedule_%s" % get_date_str, learn_task_schedule)
 				elif get_date == today_date:  # 当天的实时汇总
 					learn_task_schedule = summary_learn_task(get_date)
-					self.result_dict["data"] = learn_task_schedule
+					self.data = learn_task_schedule
 					redis_db.setex("LearnTaskSchedule_%s" % get_date_str, learn_task_schedule, 60 * 30)
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
-			self.result_dict["err"] = 1
-			self.result_dict["msg"] = traceback.format_exc()
+			self.err = status.HTTP_500_INTERNAL_SERVER_ERROR
+			self.msg = traceback.format_exc()
 		finally:
-
-			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
+			return JsonResponse(data=self.data, err=self.err, msg=self.msg)
 
 
 def summary_learn_task(task_date):
@@ -103,24 +107,28 @@ def summary_learn_task(task_date):
 				video_list = list(Video.objects.filter(section__course__project__in=projects))
 
 			# 超完成学习任务
-			watchrecord_count = WatchRecord.objects.filter(video__in=video_list, status=1).values_list(
-				"user", flat=True).distinct()
-			userexercise_count = UserExercise.objects.filter(video__in=video_list, is_pass=True).values_list(
-				"custom_user", flat=True).distinct()
-			unlock_count = UnlockVideo.objects.filter(video__in=video_list, is_pass=True).values_list(
-				"custom_user", flat=True).distinct()
+			filters = dict(video__in=video_list, status=1)
+			watchrecord_users = WatchRecord.objects.filter(**filters).values_list("user", flat=True).distinct()
 
-			excess_complete_user = list(set(watchrecord_count + userexercise_count + unlock_count))
+			filters = dict(video__in=video_list, is_pass=True)
+			userexercise_users = UserExercise.objects.filter(**filters).values_list("custom_user", flat=True).distinct()
+
+			filters = dict(video__in=video_list, is_pass=True)
+			unlock_users = UnlockVideo.objects.filter(**filters).values_list("custom_user", flat=True).distinct()
+
+			excess_complete_user = list(set(watchrecord_users + userexercise_users + unlock_users))
 			result["excess_complete"] = float("%.2f" % (float(len(excess_complete_user)) / float(customuser_count)))
 
 			# 完成学习任务
-			watchrecord_count = WatchRecord.objects.filter(video=video, status=1).values_list(
-				"user", flat=True).distinct()
-			userexercise_count = UserExercise.objects.filter(video=video, is_pass=True).values_list(
-				"custom_user", flat=True).distinct()
-			unlock_count = UnlockVideo.objects.filter(video=video, is_pass=True).values_list(
-				"custom_user", flat=True).distinct()
-			complete_user = list(set(watchrecord_count + userexercise_count + unlock_count))
+			filters = dict(video=video, status=1)
+			watchrecord_users = WatchRecord.objects.filter(**filters).values_list("user", flat=True).distinct()
+
+			filters = dict(video=video, is_pass=True)
+			userexercise_users = UserExercise.objects.filter(**filters).values_list("custom_user", flat=True).distinct()
+
+			filters = dict(video=video, is_pass=True)
+			unlock_users = UnlockVideo.objects.filter(**filters).values_list("custom_user", flat=True).distinct()
+			complete_user = list(set(watchrecord_users + userexercise_users + unlock_users))
 
 			# 总学生数-完成人数=未完成
 			undone = customuser_count - len(complete_user)
@@ -131,20 +139,23 @@ def summary_learn_task(task_date):
 			result["complete"] = float("%.2f" % (float(len(complete_user)) / float(customuser_count)))
 
 			# 平均进度，
-			schedule__avg = UserLearnTaskSummary.objects.filter(task=video).aggregate(Avg("schedule")).get(
-				"schedule__Avg")
-			if not schedule__avg:
+			userlearntasksummarys = UserLearnTaskSummary.objects.filter(task=video).aggregate(Avg("schedule"))
+			schedule_avg = userlearntasksummarys.get("schedule__Avg", 0)
+			if not schedule_avg:
 				result["average"] = 0
 				result["improve"] = 0
 			else:
+				# 昨日平均进度
 				yesterday_average = 0
 				yesterday_learntasks = LearnTask.objects.filter(create_time=task_date - timedelta(days=1))
 				if yesterday_learntasks.exists():
 					learntasksummarys = LearnTaskSummary.objects.filter(task=yesterday_learntasks.first())
 					learntasksummary = learntasksummarys.first()
 					yesterday_average = learntasksummary.average
-				result["average"] = schedule__avg
-				result["improve"] = schedule__avg - yesterday_average
+				result["average"] = schedule_avg
+
+				# 较昨日提高
+				result["improve"] = schedule_avg - yesterday_average
 	except:
 		traceback.print_exc()
 		logging.getLogger().error(traceback.format_exc())
