@@ -1,11 +1,12 @@
 #!encoding:utf-8
 from django.conf.urls import url
 
+from backstage.home.get_custom_user_class import *
 from backstage.home.get_learn_schedule_by_date import *
 from backstage.home.get_learn_task_schedule import *
 from backstage.home.set_learn_task import SetLearnTaskInfo
+from backstage.home.today_learn_data import *
 from backstage.home.views import *
-from backstage.home.get_custom_user_class import *
 
 urlpatterns = [
 	# 页面
@@ -22,5 +23,10 @@ urlpatterns = [
 	url('^get/yesterday/task/schedule$', GetYesterdayTaskScheduleInfo.as_view()),  # 获取-昨日目标进度
 
 	# 首页图表
-	url('^get/learn/schedule/by/date$', GetLearnTaskScheduleBydate.as_view()),  # 饼状图-任务进度-支持按日期查询
+	url('^get/learn/schedule/by/date$', GetLearnTaskScheduleByDate.as_view()),  # 饼状图-任务进度-支持按日期查询
+	url('^get/learn/schedule/by/range/date$', GetLearnTaskScheduleByRangeDate.as_view()),  # 折线图-任务进度-支持按日期查询
+
+	# 首页-今日学习数据
+	url('^get/learn/frequency$', GetLearnFrequency.as_view()),  # 柱状图-今日学习数据-学习频率统计
+	url('^get/learn/duration$', GetLearnDuration.as_view()),  # 柱状图-今日学习数据-观看时长统计
 ]

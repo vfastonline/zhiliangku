@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from applications.exercise.models import UserExercise
 from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
-from backstage.home.models import *
+from backstage.home.serializers import *
 from lib.api_response_handler import *
 from lib.base_redis import redis_db
 from lib.permissionMixin import class_view_decorator, teacher_login_required
@@ -15,25 +15,15 @@ from lib.util import *
 
 
 @class_view_decorator(teacher_login_required)
-class GetLearnTaskScheduleBydate(APIView):
+class GetLearnTaskScheduleByDate(APIView):
 	"""根据日期获取学习任务完成进度"""
 
 	def __init__(self):
-		super(GetLearnTaskScheduleBydate, self).__init__()
-		self.data = dict()
+		super(GetLearnTaskScheduleByDate, self).__init__()
+		# average：班级平均进度，improve：较昨日提高，complete：完成目标人数比例，undone：未完成目标人数比例，excess_complete：超完成目标人数比例
+		self.data = dict(average=0, improve=0, complete=0, undone=0, excess_complete=0)
 		self.err = status.HTTP_200_OK
 		self.msg = "success"
-		self.result_dict = {
-			"err": 0,
-			"msg": "success",
-			"data": {
-				"average": 0,
-				"improve": 0,
-				"complete": 0,
-				"undone": 0,
-				"excess_complete": 0,
-			},
-		}
 
 	def get(self, request, *args, **kwargs):
 		try:
@@ -52,14 +42,12 @@ class GetLearnTaskScheduleBydate(APIView):
 				self.data = eval(learn_task_schedule)
 			else:
 				if get_date < today_date:  # 历史数据
-					learntasks = LearnTask.objects.filter(create_time=get_date)
+					learntasks = LearnTask.objects.filter(create_time=get_date)  # 通过查询时间-查询-学习任务
 					if learntasks.exists():
-						values = ["average", "improve", "complete", "undone", "excess_complete"]
-						summarys = LearnTaskSummary.objects.filter(task=learntasks.first()).values(*values)
-						if summarys.exists():
-							learn_task_schedule = summarys.first()
-							self.data = learn_task_schedule
-							redis_db.set("LearnTaskSchedule_%s" % get_date_str, learn_task_schedule)
+						summarys = LearnTaskSummary.objects.filter(task=learntasks.first())
+						serializer = LearnTaskSummarySerializer(summarys)
+						self.data = serializer.data
+						redis_db.set("LearnTaskSchedule_%s" % get_date_str, serializer.data)
 				elif get_date == today_date:  # 当天的实时汇总
 					learn_task_schedule = summary_learn_task(get_date)
 					self.data = learn_task_schedule
@@ -161,3 +149,33 @@ def summary_learn_task(task_date):
 		logging.getLogger().error(traceback.format_exc())
 	finally:
 		return result
+
+
+@class_view_decorator(teacher_login_required)
+class GetLearnTaskScheduleByRangeDate(APIView):
+	"""根据时间段-获取-学习任务完成进度"""
+
+	def __init__(self):
+		super(GetLearnTaskScheduleByRangeDate, self).__init__()
+		self.data = list()
+		self.err = status.HTTP_200_OK
+		self.msg = "success"
+
+	def get(self, request, *args, **kwargs):
+		try:
+			star_date = request.GET.get('start_date', "")  # 开始时间
+			end_date = request.GET.get('end_date', "")  # 结束时间
+			if star_date and end_date:
+				star_date = datetime.datetime.strptime(star_date, "%Y-%m-%d")
+				end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d") + datetime.timedelta(days=1)
+				filter_param = dict(update_time__gte=star_date, update_time__lte=end_date)
+				summarys = LearnTaskSummary.objects.filter(**filter_param)
+				serializer = LearnTaskSummaryRangeDateSerializer(summarys, many=True)
+				self.data = serializer.data
+		except:
+			traceback.print_exc()
+			logging.getLogger().error(traceback.format_exc())
+			self.err = status.HTTP_500_INTERNAL_SERVER_ERROR
+			self.msg = traceback.format_exc()
+		finally:
+			return JsonResponse(data=self.data, err=self.err, msg=self.msg)
