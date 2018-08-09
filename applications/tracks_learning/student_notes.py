@@ -55,11 +55,8 @@ class StudentNotesList(APIView):
 			page = self.request.GET.get("page", 1)  # 页码
 			per_page = self.request.GET.get("per_page", 10)  # 每页显示条目数
 
-			filter_param = {
-				"video__id": video_id,
-				"custom_user__id": custom_user_id,
-			}
-			student_notes = StudentNotes.objects.filter(**filter_param)
+			self.id_ = {"video__id": video_id, "custom_user__id": custom_user_id, }
+			student_notes = StudentNotes.objects.filter(**self.id_)
 
 			# 提供分页数据
 			if not page: page = 1

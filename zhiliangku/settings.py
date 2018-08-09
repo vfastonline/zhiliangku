@@ -74,6 +74,8 @@ INSTALLED_APPS = [
     # 智能教室后台
     'backstage.home',  # 首页
     'backstage.exam_statistics',  # 考试统计
+    'backstage.student_list',   #学员列表
+
 ]
 
 SITE_ID = 1
