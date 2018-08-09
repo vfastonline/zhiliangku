@@ -8,6 +8,7 @@ from applications.exercise.models import UserExercise
 from applications.record.models import WatchRecord
 from applications.tracks_learning.models import *
 from backstage.home.models import *
+from backstage.home.serializers import LearnTaskSummarySerializer
 from lib.api_response_handler import *
 from lib.base_redis import redis_db
 from lib.permissionMixin import class_view_decorator, teacher_login_required
@@ -20,20 +21,9 @@ class GetLearnTaskScheduleBydate(APIView):
 
 	def __init__(self):
 		super(GetLearnTaskScheduleBydate, self).__init__()
-		self.data = dict()
+		self.data = dict(average=0, improve=0, complete=0, undone=0, excess_complete=0)
 		self.err = status.HTTP_200_OK
 		self.msg = "success"
-		self.result_dict = {
-			"err": 0,
-			"msg": "success",
-			"data": {
-				"average": 0,
-				"improve": 0,
-				"complete": 0,
-				"undone": 0,
-				"excess_complete": 0,
-			},
-		}
 
 	def get(self, request, *args, **kwargs):
 		try:
@@ -52,14 +42,12 @@ class GetLearnTaskScheduleBydate(APIView):
 				self.data = eval(learn_task_schedule)
 			else:
 				if get_date < today_date:  # 历史数据
-					learntasks = LearnTask.objects.filter(create_time=get_date)
+					learntasks = LearnTask.objects.filter(create_time=get_date)  # 通过查询时间-查询-学习任务
 					if learntasks.exists():
-						values = ["average", "improve", "complete", "undone", "excess_complete"]
-						summarys = LearnTaskSummary.objects.filter(task=learntasks.first()).values(*values)
-						if summarys.exists():
-							learn_task_schedule = summarys.first()
-							self.data = learn_task_schedule
-							redis_db.set("LearnTaskSchedule_%s" % get_date_str, learn_task_schedule)
+						summarys = LearnTaskSummary.objects.filter(task=learntasks.first())
+						serializer = LearnTaskSummarySerializer(summarys)
+						self.data = serializer.data
+						redis_db.set("LearnTaskSchedule_%s" % get_date_str, serializer.data)
 				elif get_date == today_date:  # 当天的实时汇总
 					learn_task_schedule = summary_learn_task(get_date)
 					self.data = learn_task_schedule
