@@ -18,7 +18,7 @@ class LearnTask(models.Model):
 	"""学习任务"""
 
 	video = models.ForeignKey(Video, verbose_name="视频/练习/考核", help_text="今日任务终点", on_delete=models.CASCADE)
-	custom_user = models.ForeignKey(CustomUser, verbose_name="创建人", related_name="TodayTaskCustomUser",
+	custom_user = models.ForeignKey(CustomUser, verbose_name="创建老师", related_name="TodayTaskCustomUser",
 									limit_choices_to={'role': 1}, on_delete=models.CASCADE)
 	create_time = models.DateField(verbose_name='创建时间', default=timezone.now)
 	update_time = models.DateTimeField("更新时间", auto_now=True)
@@ -72,7 +72,7 @@ class LearnTaskSummary(models.Model):
 
 
 class UserLearnTaskSummary(models.Model):
-	"""学生学习任务进度汇总--首页饼状图"""
+	"""学生-学习任务进度汇总"""
 	custom_user = models.ForeignKey(CustomUser, verbose_name="学生", limit_choices_to={'role': 0}, on_delete=models.CASCADE)
 	task = models.ForeignKey(LearnTask, verbose_name="学习任务", on_delete=models.CASCADE)
 	schedule = models.FloatField("目标进度", max_length=10, **NULL_BLANK_TRUE)  # 当前任务占总任务百分比，粒度为一个项目
