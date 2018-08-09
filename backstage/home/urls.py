@@ -22,5 +22,6 @@ urlpatterns = [
 	url('^get/yesterday/task/schedule$', GetYesterdayTaskScheduleInfo.as_view()),  # 获取-昨日目标进度
 
 	# 首页图表
-	url('^get/learn/schedule/by/date$', GetLearnTaskScheduleBydate.as_view()),  # 饼状图-任务进度-支持按日期查询
+	url('^get/learn/schedule/by/date$', GetLearnTaskScheduleByDate.as_view()),  # 饼状图-任务进度-支持按日期查询
+	url('^get/learn/schedule/by/range/date$', GetLearnTaskScheduleByRangeDate.as_view()),  # 折线图-任务进度-支持按日期查询
 ]

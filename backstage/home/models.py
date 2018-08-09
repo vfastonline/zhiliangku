@@ -52,7 +52,7 @@ def calculate_task_progress(sender, instance, **kwargs):
 
 
 class LearnTaskSummary(models.Model):
-	"""学习任务进度汇总--首页饼状图"""
+	"""班级-学习任务进度汇总--首页饼状图，折线图"""
 	task = models.ForeignKey(LearnTask, verbose_name="学习任务", on_delete=models.CASCADE)
 	schedule = models.FloatField("目标进度", max_length=10, **NULL_BLANK_TRUE)  # 当前任务占总任务百分比，粒度为一个项目
 	average = models.FloatField("班级平均进度", default=0, **NULL_BLANK_TRUE)
