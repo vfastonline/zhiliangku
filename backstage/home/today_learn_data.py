@@ -45,10 +45,13 @@ class GetLearnFrequency(APIView):
 				count = one.get("count", 0)
 				if 5 <= count < 10:
 					self.data["5-10"] += 1
+					continue
 				if 10 <= count < 20:
 					self.data["10-20"] += 1
+					continue
 				if 20 <= count < 50:
 					self.data["20-50"] += 1
+					continue
 				if count >= 50:
 					self.data["50+"] += 1
 
@@ -98,12 +101,16 @@ class GetLearnDuration(APIView):
 				m, s = divmod(total_duration__sum, 60)
 				if 20 <= m < 50:
 					self.data["20-50"] += 1
+					continue
 				if 50 <= m < 80:
 					self.data["50-80"] += 1
+					continue
 				if 80 <= m < 110:
 					self.data["80-110"] += 1
+					continue
 				if 110 <= m < 130:
 					self.data["110-130"] += 1
+					continue
 				if m >= 130:
 					self.data["130+"] += 1
 
