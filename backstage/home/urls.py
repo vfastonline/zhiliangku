@@ -22,9 +22,12 @@ urlpatterns = [
 	url('^get/today/task/schedule$', GetTodayTaskScheduleInfo.as_view()),  # 获取-今日预计达到目标进度百分比
 	url('^get/yesterday/task/schedule$', GetYesterdayTaskScheduleInfo.as_view()),  # 获取-昨日目标进度
 
-	# 首页图表
+	# 首页-日常管理数据
 	url('^get/learn/schedule/by/date$', GetLearnTaskScheduleByDate.as_view()),  # 饼状图-任务进度-支持按日期查询
 	url('^get/learn/schedule/by/range/date$', GetLearnTaskScheduleByRangeDate.as_view()),  # 折线图-任务进度-支持按日期查询
+
+	# 首页-今日教务数据
+
 
 	# 首页-今日学习数据
 	url('^get/learn/frequency$', GetLearnFrequency.as_view()),  # 柱状图-今日学习数据-学习频率统计
