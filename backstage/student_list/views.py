@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from applications.record.models import *
 from backstage.student_list.serializer import *
 from lib.api_response_handler import *
+from lib.permissionMixin import class_view_decorator, teacher_login_required
 
 
 @class_view_decorator(teacher_login_required)
