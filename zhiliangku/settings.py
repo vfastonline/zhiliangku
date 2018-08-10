@@ -33,83 +33,85 @@ SECRET_KEY = 'cq1(jfme)cw5a!glod@sjpw78+82j+ygg8ut_=i!6-r^t4k_7e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [".zhiliangku.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
 INSTALLED_APPS = [
-    "rest_framework",
-    'django_select2',
-    'colorfield',
-    'suit',
-    'corsheaders',
-    'django.contrib.sites',
-    'django.contrib.flatpages',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'zhiliangku',
-    'applications.slideshow',
-    'applications.live_streaming',
-    'applications.assessment',
-    'applications.tracks_learning',
-    'applications.custom_user',
-    'applications.company_jobs',
-    'applications.community',
-    'applications.exercise',
-    'applications.record',
-    'applications.personal_center',
-    'applications.integral',
-    'applications.face',
-    'applications.employment',  # 就业
-    'applications.medal',  # 勋章
-    'applications.notification',  # 消息通知
+	"rest_framework",
+	'django_select2',
+	'colorfield',
+	'suit',
+	'corsheaders',
+	'django.contrib.sites',
+	'django.contrib.flatpages',
+	'django.contrib.admin',
+	'django.contrib.auth',
+	'django.contrib.contenttypes',
+	'django.contrib.sessions',
+	'django.contrib.messages',
+	'django.contrib.staticfiles',
+	# "channels",
+	'zhiliangku',
+	# 'django_channels',
+	'applications.slideshow',
+	'applications.live_streaming',
+	'applications.assessment',
+	'applications.tracks_learning',
+	'applications.custom_user',
+	'applications.company_jobs',
+	'applications.community',
+	'applications.exercise',
+	'applications.record',
+	'applications.personal_center',
+	'applications.integral',
+	'applications.face',
+	'applications.employment',  # 就业
+	'applications.medal',  # 勋章
+	'applications.notification',  # 消息通知
 
-    'applications.wechat_promotion',  # 微信推广
-    'applications.world_cup',  # 世界杯-答题-猜球-赢积分
+	'applications.wechat_promotion',  # 微信推广
+	'applications.world_cup',  # 世界杯-答题-猜球-赢积分
 
-    # 智能教室后台
-    'backstage.home',  # 首页
-    'backstage.exam_statistics',  # 考试统计
-    'backstage.student_list',   #学员列表
+	# 智能教室后台
+	'backstage.home',  # 首页
+	'backstage.exam_statistics',  # 考试统计
+	'backstage.student_list',  # 学员列表
 
 ]
 
 SITE_ID = 1
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # "breadcrumbs.middleware.BreadcrumbsMiddleware"
+	'django.middleware.security.SecurityMiddleware',
+	'django.contrib.sessions.middleware.SessionMiddleware',
+	'corsheaders.middleware.CorsMiddleware',
+	'django.middleware.common.CommonMiddleware',
+	# 'django.middleware.csrf.CsrfViewMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.contrib.messages.middleware.MessageMiddleware',
+	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	# "breadcrumbs.middleware.BreadcrumbsMiddleware"
 ]
 
 ROOT_URLCONF = 'zhiliangku.urls'
 
 TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/usr/local/openresty/nginx/html/templates'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                "django.contrib.auth.context_processors.auth",
-                'django.template.context_processors.debug',
-                "django.template.context_processors.i18n",
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.request',
-            ],
-        },
-    },
+	{
+		'BACKEND': 'django.template.backends.django.DjangoTemplates',
+		'DIRS': ['/usr/local/openresty/nginx/html/templates'],
+		'APP_DIRS': True,
+		'OPTIONS': {
+			'context_processors': [
+				"django.contrib.auth.context_processors.auth",
+				'django.template.context_processors.debug',
+				"django.template.context_processors.i18n",
+				'django.contrib.auth.context_processors.auth',
+				'django.contrib.messages.context_processors.messages',
+				'django.template.context_processors.request',
+			],
+		},
+	},
 ]
 
 WSGI_APPLICATION = 'zhiliangku.wsgi.application'
@@ -119,56 +121,56 @@ WSGI_APPLICATION = 'zhiliangku.wsgi.application'
 
 DATABASES = {}
 if config.get('db', 'engine') == 'mysql':
-    DB_HOST = config.get('db', 'host')
-    DB_PORT = config.get('db', 'port')
-    DB_USER = config.get('db', 'user')
-    DB_PASSWORD = config.get('db', 'password')
-    DB_DATABASE = config.get('db', 'database')
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': DB_DATABASE,
-            'USER': DB_USER,
-            'PASSWORD': DB_PASSWORD,
-            'HOST': DB_HOST,
-            'PORT': DB_PORT,
-            'OPTIONS': {
-                'charset': 'utf8',
-                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            }
-        }
-    }
+	DB_HOST = config.get('db', 'host')
+	DB_PORT = config.get('db', 'port')
+	DB_USER = config.get('db', 'user')
+	DB_PASSWORD = config.get('db', 'password')
+	DB_DATABASE = config.get('db', 'database')
+	DATABASES = {
+		'default': {
+			'ENGINE': 'django.db.backends.mysql',
+			'NAME': DB_DATABASE,
+			'USER': DB_USER,
+			'PASSWORD': DB_PASSWORD,
+			'HOST': DB_HOST,
+			'PORT': DB_PORT,
+			'OPTIONS': {
+				'charset': 'utf8',
+				'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+			}
+		}
+	}
 elif config.get('db', 'engine') == 'sqlite':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
+	DATABASES = {
+		'default': {
+			'ENGINE': 'django.db.backends.sqlite3',
+			'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+		}
+	}
 else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
+	DATABASES = {
+		'default': {
+			'ENGINE': 'django.db.backends.sqlite3',
+			'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+		}
+	}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+	{
+		'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+	},
 ]
 
 # Internationalization
@@ -192,9 +194,9 @@ STATIC_URL = '/static/'
 # 生产环境用
 STATIC_ROOT = '/usr/local/openresty/nginx/html/templates/static'
 STATICFILES_DIRS = (
-    ("css", os.path.join(STATIC_ROOT, 'css')),
-    ("js", os.path.join(STATIC_ROOT, 'js')),
-    ("images", os.path.join(STATIC_ROOT, 'images')),
+	("css", os.path.join(STATIC_ROOT, 'css')),
+	("js", os.path.join(STATIC_ROOT, 'js')),
+	("images", os.path.join(STATIC_ROOT, 'images')),
 )
 
 # # 本地用
@@ -206,19 +208,32 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 tinymce_js = [
-    '/static/tinymce/js/jquery.min.js',  # 必须首先加载的jquery，手动添加文件
-    '/static/tinymce/js/tinymce/tinymce.min.js',  # tinymce自带文件
-    '/static/tinymce/js/tinymce/plugins/jquery.form.js',  # 手动添加文件
-    '/static/tinymce/js/tinymce/textarea.js',  # 手动添加文件，用户初始化参数
+	'/static/tinymce/js/jquery.min.js',  # 必须首先加载的jquery，手动添加文件
+	'/static/tinymce/js/tinymce/tinymce.min.js',  # tinymce自带文件
+	'/static/tinymce/js/tinymce/plugins/jquery.form.js',  # 手动添加文件
+	'/static/tinymce/js/tinymce/textarea.js',  # 手动添加文件，用户初始化参数
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-    ),
-    'PAGE_SIZE': 1,
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'EXCEPTION_HANDLER': (
-        'lib.api_response_handler.custom_exception_handler'
-    )
+	'DEFAULT_AUTHENTICATION_CLASSES': (
+		'rest_framework.authentication.TokenAuthentication',
+	),
+	'PAGE_SIZE': 1,
+	'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+	'EXCEPTION_HANDLER': (
+		'lib.api_response_handler.custom_exception_handler'
+	)
 }
+
+# ASGI_APPLICATION = "django_channels.routing.application"
+#
+# CHANNEL_LAYERS = {
+# 	'default': {
+# 		'BACKEND': 'channels_redis.core.RedisChannelLayer',
+# 		'CONFIG': {
+# 			'hosts': [('127.0.0.1', 6379)],
+# 		},
+# 	}
+# }
+#
+# redis_host = os.environ.get('REDIS_HOST', 'localhost')

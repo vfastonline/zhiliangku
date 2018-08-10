@@ -16,3 +16,8 @@ markdown==2.6.11
 django-filter==2.0.0
 ujson==1.35
 pillow==5.2.0
+channels
+Daphne
+asgiref
+channels_redis
+Twisted[tls,http2]
