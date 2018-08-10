@@ -72,15 +72,15 @@ class LearnTaskSummary(models.Model):
 
 
 class UserLearnTaskSummary(models.Model):
-	"""学生-学习任务进度汇总"""
+	"""学生-学习任务完成进度"""
 	custom_user = models.ForeignKey(CustomUser, verbose_name="学生", limit_choices_to={'role': 0}, on_delete=models.CASCADE)
 	task = models.ForeignKey(LearnTask, verbose_name="学习任务", on_delete=models.CASCADE)
-	schedule = models.FloatField("目标进度", max_length=10, **NULL_BLANK_TRUE)  # 当前任务占总任务百分比，粒度为一个项目
+	schedule = models.FloatField("任务完成进度", max_length=10, **NULL_BLANK_TRUE)  # 当天，当天的任务，完成百分比
 
 	def __str__(self):
 		return "--".join([self.custom_user.nickname, str(self.schedule)])
 
 	class Meta:
 		db_table = 'UserLearnTaskSummary'
-		verbose_name = "学生学习任务进度汇总"
-		verbose_name_plural = "学习任务进度汇总"
+		verbose_name = "学生-学习任务完成进度"
+		verbose_name_plural = "学生-学习任务完成进度"
