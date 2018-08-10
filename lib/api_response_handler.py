@@ -53,8 +53,10 @@ class JsonResponse(Response):
 			)
 			raise AssertionError(msg)
 
-		# self.data = ujson.dumps({"err": err, "msg": msg, "data": data, "paginator": paginator})
 		self.data = {"err": err, "msg": msg, "data": data, "paginator": paginator}
+		if not paginator:
+			del self.data["paginator"]
+		# self.data = ujson.dumps(self.data)
 		self.template_name = template_name
 		self.exception = exception
 		self.content_type = content_type

@@ -2,13 +2,11 @@
 
 from django.shortcuts import render
 from django.views.generic import View
-from rest_framework.renderers import JSONRenderer
-from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from applications.community.models import *
 from applications.tracks_learning.models import *
-from lib.permissionMixin import class_view_decorator, user_login_required
+from lib.permissionMixin import class_view_decorator, user_login_required, teacher_login_required
 from lib.util import get_kwargs
 from lib.util import str_to_int
 
@@ -449,29 +447,21 @@ class EditFaq(View):
 			return HttpResponse(json.dumps(self.result_dict, ensure_ascii=False))
 
 
-@class_view_decorator(user_login_required)
+@class_view_decorator(teacher_login_required)
 class CountFaq(APIView):
 	"""问答统计"""
 
 	def get(self, request, *args, **kwargs):
-		result_dict = {
-			"err": 0,
-			"msg": "success",
-			"data": {
-				"total_question": 0,
-				"total_answer": 0,
-				"acception_time": 0,
-				"teacher_answer": 0,
-				"unsloved": 0,
-			}
-		}
+		err = 0
+		msg = "success"
+		data = dict(total_question=0, total_answer=0, acception_time=0, teacher_answer=0, unsloved=0)
 		try:
 			total_question = Faq.objects.count()  # 问题总数
 			total_answer = FaqAnswer.objects.count()  # 回答次数
 			acception_time = Faq.objects.filter(status="1").count()  # 采纳次数
 			teacher_answer = FaqAnswer.objects.filter(user__role=1).count()  # 老师回答
 			unsloved = Faq.objects.filter(status="0").count()  # 未解决
-			result_dict["data"] = {
+			data = {
 				"total_question": total_question,
 				"total_answer": total_answer,
 				"acception_time": acception_time,
@@ -481,45 +471,7 @@ class CountFaq(APIView):
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
-			result_dict["err"] = 1
-			result_dict["msg"] = traceback.format_exc()
+			err = 1
+			msg = traceback.format_exc()
 		finally:
-			render = JSONRenderer().render(result_dict)
-			return Response(render)
-
-
-@class_view_decorator(user_login_required)
-class AssortFaq(APIView):
-	"""问题分类"""
-
-	def get(self, request, *args, **kwargs):
-		result_dict = {
-			"err": 0,
-			"msg": "success",
-			"data": {
-
-			}
-		}
-		try:
-			'''
-			newest_anwser = # 最新 根据回答时间排序问题
-			solved_questions = Faq.objects.filter(status="1")#  已解决 问题
-			unsolved_questions = Faq.objects.filter(status="0")#  未解决 问题
-			my_questions = #  我的提问 问题
-			involved_questions = #  我参与的 问题
-			my_follow = #  我关注的问题
-			'''
-		except:
-			traceback.print_exc()
-			logging.getLogger().error(traceback.format_exc())
-			result_dict["err"] = 1
-			result_dict["msg"] = traceback.format_exc()
-		finally:
-			render = JSONRenderer().render(result_dict)
-			return Response(render)
-
-
-@class_view_decorator(user_login_required)
-class SearchFaq(APIView):
-	"""搜索问题"""
-
+			return JsonResponse(data=data, err=err, msg=msg)
