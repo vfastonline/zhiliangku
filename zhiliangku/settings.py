@@ -54,6 +54,7 @@ INSTALLED_APPS = [
 	# "channels",
 	'zhiliangku',
 	# 'django_channels',
+	"online_status",
 	'applications.slideshow',
 	'applications.live_streaming',
 	'applications.assessment',
@@ -91,7 +92,8 @@ MIDDLEWARE = [
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
-	# "breadcrumbs.middleware.BreadcrumbsMiddleware"
+	# "breadcrumbs.middleware.BreadcrumbsMiddleware",
+	'online_status.middleware.OnlineStatusMiddleware',
 ]
 
 ROOT_URLCONF = 'zhiliangku.urls'
@@ -224,6 +226,8 @@ REST_FRAMEWORK = {
 		'lib.api_response_handler.custom_exception_handler'
 	)
 }
+
+USER_ONLINE_TIMEOUT = 300  # 登录状态5分钟失效
 
 # ASGI_APPLICATION = "django_channels.routing.application"
 #
