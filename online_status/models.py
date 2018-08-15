@@ -21,21 +21,24 @@ class OnlineStatus(models.Model):
 		return '%s last login at UTC %s' % (self.user.nickname, self.last_login.strftime('%Y-%m-%d %H:%M'))
 
 	@staticmethod
-	def get_last_active(user_id):
+	def get_last_active(user_id, today=True):
 		"""获取今天最后登录时间
 		:param user_id: 学生角色的用户ID
-		:return:
+		:param today: 是否查询当天最后登录时间
+		:return：用户最后登录时间
 		"""
 
 		cache_key = '%s_last_login' % user_id
 		# 如果缓存过期，从数据库获取last_login，并存到缓存
 		cache_last_login = redis_db.get(cache_key)
 		if not cache_last_login:
-			today = datetime.datetime.today()
-			start_date = datetime.datetime(today.year, today.month, today.day, 0, 0, 0)
-			end_date = datetime.datetime(today.year, today.month, today.day, 23, 59, 59)
-			filter_dict = dict(user__id=user_id, last_login__range=(start_date, end_date))
-			online_status = OnlineStatus.objects.filter(**filter_dict)
+			filter_dict = dict(user__id=user_id)
+			if today:
+				today = datetime.datetime.today()
+				start_date = datetime.datetime(today.year, today.month, today.day, 0, 0, 0)
+				end_date = datetime.datetime(today.year, today.month, today.day, 23, 59, 59)
+				filter_dict.update({"last_login__range": (start_date, end_date)})
+			online_status = OnlineStatus.objects.filter(**filter_dict).order_by("-last_login")
 			if online_status.exists():
 				cache_last_login = online_status.first().last_login
 				redis_db.setex(cache_key, cache_last_login, settings.USER_ONLINE_TIMEOUT)

@@ -54,11 +54,12 @@ class Answer(models.Model):
 
 class UserExercise(models.Model):
     """用户的练习记录"""
-    custom_user = models.ForeignKey(CustomUser, verbose_name='讲师', limit_choices_to={'role': 0},
+    custom_user = models.ForeignKey(CustomUser, verbose_name='学生', limit_choices_to={'role': 0},
                                     on_delete=models.CASCADE)
     video = models.ForeignKey(Video, verbose_name='所属视频', limit_choices_to={"type": "2"}, on_delete=models.CASCADE)
     times = models.PositiveIntegerField("练习次数", default=1)
     is_pass = models.BooleanField("是否通过", default=False)
+
 
     def __str__(self):
         return self.custom_user.nickname
