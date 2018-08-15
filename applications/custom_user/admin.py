@@ -7,7 +7,7 @@ from applications.custom_user.model_form import *
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
 	list_display = ('id', 'nickname', "sex", 'role', "position", "integral", "create_time")
-	search_fields = ('nickname',)
+	search_fields = ('id', 'nickname',)
 	list_filter = ('role', "sex")
 	readonly_fields = ("receiver", "address", "create_time")
 

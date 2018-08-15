@@ -4,21 +4,78 @@
 [官方主页](https://www.zhiliangku.com "智量酷")
 
 #### Directory description
+*●应用○模型类型*
 * applications：包含项目所有应用
     * assessment：考核
-    * community：社区问答
+    * Docker类型
+    * Docker已分配端口
+* community：社区问答
+    * 问题
+    * 问题-回答
+    * 问题-回答 反馈
+    * 问题-回答-回复
     * company_jobs：公司招聘职位
-    * custom_user：用户管理
+    * 公司招聘职位
+* custom_user：用户管理
+    * 学生班级
+    * 基础信息
+    * 授权信息
+    * 参与项目
+    * 收藏课程
+    * 验证码
+* employment：排行及用户完成项目
     * exercise：习题
-    * face：面部识别
-    * integral：积分商城
-    * interview_question：企业面试题
-    * live_streaming：直播
-    * personal_center：个人中心
-    * record：视频观看记录
-    * slideshow：轮播图
-    * tracks_learning：职业路径
-* conf：配置文件
+    * 习题
+    * 答案
+    * 用户练习记录
+* face：面部识别
+    * 面部表情
+* integral：积分商城
+    * 商品
+    * 兑换记录
+* interview_question：企业面试题
+* live_streaming：直播
+    * 直播间
+* medal：勋章
+    * 勋章
+    * 用户勋章
+* notification：消息通知
+    * 消息通知
+    * 用户未读消息
+* personal_center：个人中心
+    * 个人简历基础信息
+    * 求职意向
+    * 工作经历
+    * 项目经验
+    * 教育经历
+* record：视频观看记录
+    * 学生观看视频记录
+* slideshow：轮播图
+    * 轮播图
+    * 智量酷是什么
+    * 企业人才招聘方案
+* tracks_learning：职业路径
+    * 技术方向
+    * 项目
+    * 课程
+    * 章节
+    * 视频/练习题/考核
+    * 通过考核学生
+    * 视频难点解析
+    * 视频常见问题
+    * 学生笔记
+* wechat_promotion：微信推广
+    * 学生信息
+    * 背景图
+    * 评语
+    * 背景音乐
+* wechat_cup：世界杯
+    * 问题
+    * 国家
+    * 比赛
+    * 押注记录
+    * 押注记录总数
+    * 教你赢球
 * doc：相关文档
 * lib：公用工具
 * media：模块产生图片
@@ -42,6 +99,9 @@
     > 平台针对企业，发布最近要招聘的职位信息。
 * custom_user：用户管理
     > 管理不同角色用户信息，包括：学生、讲师、HR
+* employment：排行及用户完成项目
+    > 排行榜的相关信息，用户完成的项目信息，
+    及其获取通过考核的技术方向
 * exercise：习题
     > 针对指定课程视频，由讲师设计的课后练习题，
     以巩固知识，
@@ -61,6 +121,11 @@
     > 平台对接保利威视提供的视频点播和直播服务，
     管理员可通过智量酷后台上传视频课程托管，
     还可在后台创建直播频道，提供在线直播课程。
+* medal：勋章
+    > 学生的成就系统相关。
+* notification：消息通知
+    > 消息通知。包含用户的消息提醒，
+    及其对消息通知的操作。
 * personal_center：个人中心
     > 包括：我的简历，积分商城，我的路线，关注我的企业；
     查看自己学习总时长。
@@ -71,6 +136,11 @@
     > 提供主页和其他宣传类页面轮播图管理。
 * tracks_learning：职业路径
     > 平台提供丰富的学习路径，路径根据职业类型划分。
+* wechat_promotion：微信推广
+    > 微信推广功能，可以进行浏览、点赞、分享。
+* world_cup：世界杯 
+    > 可在赛事当中进行答题，并且通过押注获取相应积分。
+    在学习课程之余丰富自己的生活知识。
 
 #### Requirements
 * Python==3.6
