@@ -80,7 +80,7 @@ urlpatterns = [
 backstageurl = [
 	url(r'^backstage/', include('backstage.home.urls')),  # 首页
 	url(r'^exam/', include('backstage.exam_statistics.urls')),  # 考核统计
-	url(r'^student/', include('backstage.student_list.urls')),  # 学员列表
+	url(r'^students/', include('backstage.student_list.urls')),  # 学员列表
 
 ]
 
