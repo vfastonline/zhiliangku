@@ -29,13 +29,11 @@ class DateRangeInfo(APIView):
 			# user_id = 6
 			start_date = self.request.GET.get("start_date", "")
 			end_date = self.request.GET.get("end_date", "")
-			# start_date = "2018-08-13 00:00:00"
-			# end_date = "2018-08-19 00:00:00"
+			# start_date = "2018-08-13"
+			# end_date = "2018-08-19"
 
 			# 总天数
-			d1 = datetime.datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S')
-			d2 = datetime.datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S')
-			days = (d2 - d1).days + 1
+			days=date_days(start_date,end_date)
 			if user_id:
 				# 考勤
 				param = dict(user__id=user_id, last_login__range=[start_date, end_date])
@@ -49,7 +47,7 @@ class DateRangeInfo(APIView):
 				no_login_rate = round(sum_no_login / days, 3)
 
 				# 违纪
-				param = dict(update_time__range=[start_date, end_date])
+				param = dict(create_time__range=[start_date, end_date])
 				sum_learn_task = LearnTask.objects.filter(**param).aggregate(sum=Count("video")).get("sum", "")
 
 				param = dict(custom_user__id=user_id, schedule=1)
@@ -60,7 +58,7 @@ class DateRangeInfo(APIView):
 				no_leaen_rate = round(sum_no_learn / days, 3)
 
 				# 总项目
-				param = dict(update_time__range=[start_date, end_date])
+				param = dict(create_time__range=[start_date, end_date])
 				sum_project = LearnTask.objects.filter(**param).values(
 					"video__section__course__project__name").annotate(sum=Count("video")).values("sum")
 
