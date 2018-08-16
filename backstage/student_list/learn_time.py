@@ -1,22 +1,15 @@
-
-#!encoding:utf-8
-
+# !encoding:utf-8
+from django.db.models import Sum
 from rest_framework import status
 from rest_framework.views import APIView
 
+from applications.exercise.models import *
 from applications.record.models import *
+from applications.tracks_learning.models import *
 from backstage.exam_statistics.models import *
 from backstage.home.models import *
 from lib.api_response_handler import *
 from lib.permissionMixin import class_view_decorator, teacher_login_required
-from online_status.models import *
-
-
-def time(time):
-	m, s = divmod(time, 60)
-	h, m = divmod(m, 60)
-	new_time = ("%02d:%02d:%02d" % (h, m, s))  # 视频时间
-	return new_time
 
 
 @class_view_decorator(teacher_login_required)
@@ -28,54 +21,33 @@ class LearnTime(APIView):
 	def get(self, request, *args, **kwargs):
 		err = status.HTTP_204_NO_CONTENT
 		msg = "success"
-		data = list()
+		data = dict()
 		try:
-			name = self.request.GET.get("name", "")  # 姓名=========================================
-			date = "2018-08-13"  # self.request.GET.get("date", "")  # 日期
-			param = dict(nickname__icontains=name)
-			param = get_kwargs(param)
-			user_list = CustomUser.objects.filter(**param)
-
-			data_list = []
-			for user in user_list:
-
-				watchrecords = WatchRecord.objects.filter(user=user, create_time__startswith=date)
-
-				exercisesrecords = WatchRecord.objects.filter(user=user, video__type=2, create_time__startswith=date)
-				assessrecords = WatchRecord.objects.filter(user=user, video__type=3, create_time__startswith=date)
-				sum_video_process = 0
-				sum_video_exercises = 0
-				sum_video_assess = 0
+			user_id = self.request.GET.get("user_id")
+			# user_id=6
+			today_date = get_day_of_day(0)  # 今日日期
+			if user_id:
 
 				# 视频时间
-				if watchrecords.exists():
-					for watchrecord in watchrecords:
-						video_process = watchrecord.video_process
-						sum_video_process += video_process
+				param = dict(user__id=user_id, create_time__startswith=today_date)
+				total_video_time = WatchRecord.objects.filter(**param).aggregate(sum=Sum("total_duration")).get("sum","")
+				if total_video_time:
+					m, s = divmod(total_video_time, 60)
+					total_video_time = "%02d:%02d" % (m, s)
 
-				# 练习时间
-				if exercisesrecords.exists():
-					for exercisesrecord in exercisesrecords:
-						video_exercises = exercisesrecord.video_process
-						sum_video_exercises += video_exercises
+				# 练习次数
+				param = dict(custom_user__id=user_id)
+				sum_exercise = UserExercise.objects.filter(**param).aggregate(sum=Sum("times")).get("sum", "")
 
-				# 考核时间
-				if assessrecords.exists():
-					for assessrecord in assessrecords:
-						video_assess = assessrecord.video_process
-						sum_video_assess += video_assess
+				# 考核次数
+				param = dict(custom_user__id=user_id,update_time__startswith=today_date)
+				sum_unlock = UnlockVideo.objects.filter(**param).aggregate(sum=Sum("times")).get("sum", "")
 
-				# 总时间
-				sum_time = sum_video_process + sum_video_exercises + sum_video_assess
-
-				result = {
-					"sum_video_process": time(sum_video_process),  # 视频时间
-					"sum_video_exercises": time(sum_video_exercises),  # 考核时间
-					"sum_video_assess": time(sum_video_assess),  # 练习时间
-					"sum_time": time(sum_time),  # 总时间
+				data = {
+					"total_video_time": total_video_time,  # 视频时间
+					"sum_exercise": sum_exercise,  # 练习次数
+					"sum_unlock": sum_unlock  # 考核次数
 				}
-				data_list.append(result)
-			data = data_list
 
 		except:
 			traceback.print_exc()
