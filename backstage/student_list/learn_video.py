@@ -41,7 +41,6 @@ class LearnVideo(APIView):
 					video_node = video["video__section__course__project__name"] + video[
 						"video__section__course__name"] + video["video__section__title"] + video["video__name"]
 					sum_video_time = video["sum"]
-					print(video_node, sum_video_time)
 
 					result = {
 						"video_node": video_node,  # 视频节点
