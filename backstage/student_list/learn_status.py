@@ -1,19 +1,15 @@
-
-#!encoding:utf-8
+# !encoding:utf-8
 
 from rest_framework import status
 from rest_framework.views import APIView
 
-from applications.record.models import *
 from backstage.exam_statistics.models import *
 from backstage.home.models import *
 from lib.api_response_handler import *
 from lib.permissionMixin import class_view_decorator, teacher_login_required
-from online_status.models import *
 
 
-
-# @class_view_decorator(teacher_login_required)
+@class_view_decorator(teacher_login_required)
 class LearnStatus(APIView):
 	"""
 	学习状态
@@ -24,26 +20,17 @@ class LearnStatus(APIView):
 		msg = "success"
 		data = list()
 		try:
-			name = self.request.GET.get("name", "")#==========================================
-			date = "2018-08-19 00:00:00"  # self.request.GET.get("date", "")
-			today_date = get_day_of_day(0)
-			if name:
-				param = dict(nickname__icontains=name)
-				param = get_kwargs(param)
-				user_list = CustomUser.objects.filter(**param)
-				data_list = []
+			user_id = self.request.GET.get("user_id")
+			# user_id = 6
+			today_date = get_day_of_day(0)  # 今日日期
+			if user_id:
+				param = dict(custom_user__id=user_id, task__create_time=today_date)
+				user_task_summary = UserLearnTaskSummary.objects.filter(**param).first()
+				task_summary = user_task_summary.schedule
+				data = {
+					"task_summary": task_summary  # 今日任务完成率
+				}
 
-				print("user_list",user_list)
-
-				for user in user_list:#=====================
-					filter_dict = dict(custom_user=user, task__create_time=today_date)
-					learntasksummary = UserLearnTaskSummary.objects.filter(**filter_dict).values("schedule")
-
-					result = {
-						"learntasksummary": learntasksummary  # 任务百分比
-					}
-					data_list.append(result)
-				data = data_list
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
@@ -52,7 +39,3 @@ class LearnStatus(APIView):
 
 		finally:
 			return JsonResponse(data=data, err=err, msg=msg)
-
-
-
-

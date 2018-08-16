@@ -6,6 +6,7 @@ import json
 import logging
 import logging.handlers
 import os
+import datetime
 import random
 import smtplib
 import string
@@ -285,6 +286,20 @@ def pages(post_objects, page, lines=20):
 	return show_lines
 
 
+def date_days(start_date,end_date):
+	"""
+	日期区间天数
+	:param start_date: 开始日期
+	:param end_date: 结束日期
+	:return:
+	"""
+	sd = start_date.split("-")
+	ed = end_date.split("-")
+	d3 = datetime.datetime(int(sd[0]), int(sd[1]), int(sd[2]))
+	d4 = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]))
+	days = (d4 - d3).days + 1
+	return days
+
 def last_seven_day():
 	result = []
 	for num in range(-7, 1):
@@ -418,3 +433,4 @@ def get_random_code(count):
 	new_password = ''.join(password)
 
 	return new_password
+
