@@ -434,3 +434,37 @@ def get_random_code(count):
 
 	return new_password
 
+
+def date_week(date):
+	"""
+	今日日期转换成星期几
+	:param date:  今日日期
+	:return:   几天后的日期和星期几
+	"""
+
+	week = datetime.datetime.isoweekday(date)
+
+	if week == 1:
+		return date, week
+	elif week == 2:
+		end_date = date - datetime.timedelta(days=1)
+		return end_date, week
+	elif week == 3:
+		end_date = date - datetime.timedelta(days=2)
+		return end_date, week
+
+	elif week == 4:
+		end_date = date - datetime.timedelta(days=3)
+		return end_date, week
+
+	elif week == 5:
+		end_date = date - datetime.timedelta(days=4)
+		return end_date, week
+
+	elif week == 6:
+		end_date = date - datetime.timedelta(days=5)
+		return end_date, week
+
+	else:
+		end_date = date - datetime.timedelta(days=6)
+		return end_date, week

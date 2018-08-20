@@ -23,9 +23,10 @@ class LearnStatus(APIView):
 			user_id = self.request.GET.get("user_id")
 			# user_id = 6
 			today_date = get_day_of_day(0)  # 今日日期
-			if user_id:
-				param = dict(custom_user__id=user_id, task__create_time=today_date)
-				user_task_summary = UserLearnTaskSummary.objects.filter(**param).first()
+
+			param = dict(custom_user__id=user_id, task__create_time=today_date)
+			user_task_summary = UserLearnTaskSummary.objects.filter(**param).first()
+			if user_task_summary:
 				task_summary = user_task_summary.schedule
 				data = {
 					"task_summary": task_summary  # 今日任务完成率
