@@ -1,12 +1,13 @@
 #!encoding:utf-8
 from django.conf.urls import url
 
-from backstage.student_list.views import *
+# from backstage.student_list.views import *
 from backstage.student_list.learn_video import *
 from backstage.student_list.learn_time import *
 from backstage.student_list.student_info import *
 from backstage.student_list.date_range_info import *
 from backstage.student_list.learn_status import *
+from backstage.student_list.student_list import *
 
 
 urlpatterns = [
