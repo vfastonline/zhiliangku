@@ -26,28 +26,27 @@ class LearnTime(APIView):
 			user_id = self.request.GET.get("user_id")
 			# user_id=6
 			today_date = get_day_of_day(0)  # 今日日期
-			if user_id:
 
-				# 视频时间
-				param = dict(user__id=user_id, create_time__startswith=today_date)
-				total_video_time = WatchRecord.objects.filter(**param).aggregate(sum=Sum("total_duration")).get("sum","")
-				if total_video_time:
-					m, s = divmod(total_video_time, 60)
-					total_video_time = "%02d:%02d" % (m, s)
+			# 视频时间
+			param = dict(user__id=user_id, create_time__startswith=today_date)
+			total_video_time = WatchRecord.objects.filter(**param).aggregate(sum=Sum("total_duration")).get("sum","")
+			if total_video_time:
+				m, s = divmod(total_video_time, 60)
+				total_video_time = "%02d:%02d" % (m, s)
 
-				# 练习次数
-				param = dict(custom_user__id=user_id)
-				sum_exercise = UserExercise.objects.filter(**param).aggregate(sum=Sum("times")).get("sum", "")
+			# 练习次数
+			param = dict(custom_user__id=user_id)
+			sum_exercise = UserExercise.objects.filter(**param).aggregate(sum=Sum("times")).get("sum", "")
 
-				# 考核次数
-				param = dict(custom_user__id=user_id,update_time__startswith=today_date)
-				sum_unlock = UnlockVideo.objects.filter(**param).aggregate(sum=Sum("times")).get("sum", "")
+			# 考核次数
+			param = dict(custom_user__id=user_id,update_time__startswith=today_date)
+			sum_unlock = UnlockVideo.objects.filter(**param).aggregate(sum=Sum("times")).get("sum", "")
 
-				data = {
-					"total_video_time": total_video_time,  # 视频时间
-					"sum_exercise": sum_exercise,  # 练习次数
-					"sum_unlock": sum_unlock  # 考核次数
-				}
+			data = {
+				"total_video_time": total_video_time,  # 视频时间
+				"sum_exercise": sum_exercise,  # 练习次数
+				"sum_unlock": sum_unlock  # 考核次数
+			}
 
 		except:
 			traceback.print_exc()

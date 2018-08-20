@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 
 from applications.exercise.models import *
 from applications.record.models import *
+from applications.tracks_learning.models import *
 from backstage.exam_statistics.models import *
 from backstage.home.models import *
 from lib.api_response_handler import *
@@ -26,73 +27,73 @@ class StudentInfo(APIView):
 		try:
 			user_id = self.request.GET.get("user_id")
 			# user_id =6
-			if user_id:
-				user = CustomUser.objects.get(id=user_id)
 
-				# 最后登录时间
-				last_login = OnlineStatus.objects.filter(user__id=user_id).order_by("-last_login").values(
-					"last_login").first()
-				last_login = last_login["last_login"]
+			user = CustomUser.objects.get(id=user_id)
 
-				watchrecords = WatchRecord.objects.filter(user__id=user_id).order_by('-create_time')
-				print("watchrecords", watchrecords)
+			# 最后登录时间
+			last_login = OnlineStatus.objects.filter(user__id=user_id).order_by("-last_login").values(
+				"last_login").first()
+			last_login = last_login["last_login"]
 
-				if watchrecords.exists():
-					# 秒转时分秒
-					sum_video_time = watchrecords.aggregate(sum_time=Sum("total_duration"))
-					m, s = divmod(sum_video_time["sum_time"], 60)
-					h, m = divmod(m, 60)
-					sum_video_time = ("%02d:%02d:%02d" % (h, m, s))
+			watchrecords = WatchRecord.objects.filter(user__id=user_id).order_by('-create_time')
 
-					watchrecord = watchrecords.first()
-					progress = round((watchrecord.video_process) / (watchrecord.duration), 3)
+			if watchrecords.exists():
+				# 秒转时分秒
+				sum_video_time = watchrecords.aggregate(sum_time=Sum("total_duration"))
+				m, s = divmod(sum_video_time["sum_time"], 60)
+				h, m = divmod(m, 60)
+				sum_video_time = ("%02d:%02d:%02d" % (h, m, s))
 
-					# 学习节点
-					learn_node = watchrecord.course.project.name + watchrecord.course.name + watchrecord.video.section.title + watchrecord.video.name
-					# 总练习次数
-					sum_exercise = UserExercise.objects.filter(custom_user__id=user_id).aggregate(
-						sun_times=Sum("times"))
-					sum_exercise = sum_exercise["sun_times"]
+				watchrecord = watchrecords.first()
+				progress = round((watchrecord.video_process) / (watchrecord.duration), 3)
 
-					# 考核次数
-					sum_assess = 0
+				# 学习节点
+				learn_node = watchrecord.course.project.name + watchrecord.course.name + watchrecord.video.section.title + watchrecord.video.name
+				# 总练习次数
+				sum_exercise = UserExercise.objects.filter(custom_user__id=user_id).aggregate(
+					sun_times=Sum("times"))
+				sum_exercise = sum_exercise["sun_times"]
 
-					# 总进度
-					sum_progress = 0
+				# 考核次数
+				param = dict(custom_user__id=user_id)
+				sum_assess = UnlockVideo.objects.filter(**param).aggregate(sum=Sum("times")).get("sum", "")
 
-					result = {
-						"nickname": watchrecord.user.nickname,  # 姓名
-						"learn_node": learn_node,  # 学习节点
-						"progress": progress,  # 进度
-						"sum_progress": 0,  # 总进度
-						"sum_video_time": sum_video_time,  # 累计观看时间
-						"last_login": last_login,  # 最后登录时间
-						"sum_exercises": sum_exercise,  # 累计练习次数
-						"sum_assess": sum_assess,  # 累计考核次数
+				# 总进度
+				sum_progress = 0
 
-						"sex": user.get_sex_display(),  # 姓别
-						"institutions": user.institutions,  # 院校
-						"birthday": user.birthday,  # 生日
-						"is_graduate": user.is_graduate,  # 在校情况
-						"education": user.education,  # 学历
-						"is_computer": user.is_computer  # 是否计算机专业
-					}
+				result = {
+					"nickname": watchrecord.user.nickname,  # 姓名
+					"learn_node": learn_node,  # 学习节点
+					"progress": progress,  # 进度
+					"sum_progress": sum_progress,  # 总进度
+					"sum_video_time": sum_video_time,  # 累计观看时间
+					"last_login": last_login,  # 最后登录时间
+					"sum_exercises": sum_exercise,  # 累计练习次数
+					"sum_assess": sum_assess,  # 累计考核次数
 
-					data = result
+					"sex": user.get_sex_display(),  # 姓别
+					"institutions": user.institutions,  # 院校
+					"birthday": user.birthday,  # 生日
+					"is_graduate": user.is_graduate,  # 在校情况
+					"education": user.education,  # 学历
+					"is_computer": user.is_computer  # 是否计算机专业
+				}
 
-				else:
-					result = {
-						"nickname": user.nickname,  # 姓名
-						"sex": user.get_sex_display(),  # 姓别
-						"institutions": user.institutions,  # 院校
-						"birthday": user.birthday,  # 生日
-						"is_graduate": user.is_graduate,  # 在校情况
-						"education": user.education,  # 学历
-						"is_computer": user.is_computer,  # 是否计算机专业
-						"last_login": last_login
-					}
+				data = result
 
-					data = result
+			else:
+				result = {
+					"nickname": user.nickname,  # 姓名
+					"sex": user.get_sex_display(),  # 姓别
+					"institutions": user.institutions,  # 院校
+					"birthday": user.birthday,  # 生日
+					"is_graduate": user.is_graduate,  # 在校情况
+					"education": user.education,  # 学历
+					"is_computer": user.is_computer,  # 是否计算机专业
+					"last_login": last_login
+				}
+
+				data = result
 		except:
 			traceback.print_exc()
 			logging.getLogger().error(traceback.format_exc())
