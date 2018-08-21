@@ -49,7 +49,7 @@ class LearnVideo(APIView):
 				video_time.append(result)
 
 			# 练习次数
-			exercise_list = UserExercise.objects.filter(custom_user__id=user_id).order_by("video__id").annotate(
+			exercise_list = UserExercise.objects.filter(custom_user__id=user_id,current_time__startswith=today_date).order_by("video__id").annotate(
 				sum_times=Sum("times")).values(
 				"sum_times", "video__name", "video__section__title", "video__section__course__name",
 				"video__section__course__project__name")
