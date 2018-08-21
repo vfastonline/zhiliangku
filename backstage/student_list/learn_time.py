@@ -35,7 +35,7 @@ class LearnTime(APIView):
 				total_video_time = "%02d:%02d" % (m, s)
 
 			# 练习次数
-			param = dict(custom_user__id=user_id)
+			param = dict(custom_user__id=user_id,current_time__startswith=today_date)
 			sum_exercise = UserExercise.objects.filter(**param).aggregate(sum=Sum("times")).get("sum", "")
 
 			# 考核次数
