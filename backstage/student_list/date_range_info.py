@@ -33,7 +33,7 @@ class Base(object):
 		no_login_rate = round(sum_no_login / days, 3)
 
 		# 违纪
-		param = dict(create_time__range=[start_date, end_date])
+		param = dict(update_time__range=[start_date, end_date])
 		sum_learn_task = LearnTask.objects.filter(**param).aggregate(sum=Count("video")).get("sum", "")
 
 		sum_no_learn = 0
@@ -48,7 +48,7 @@ class Base(object):
 			no_leaen_rate = round(sum_no_learn / days, 3)
 
 		# 总项目
-		param = dict(create_time__range=[start_date, end_date])
+		param = dict(update_time__range=[start_date, end_date])
 		sum_project = LearnTask.objects.filter(**param).values(
 			"video__section__course__project__name").annotate(sum=Count("video")).values("sum")
 
@@ -73,11 +73,11 @@ class Base(object):
 			sum_learn_video += learn_video["sum"]
 
 		# 练习次数
-		param = dict(custom_user__id=user_id, video__id__in=video_list)
+		param = dict(custom_user__id=user_id, video__id__in=video_list,current_time__range=[start_date,end_date])
 		sum_exercise = UserExercise.objects.filter(**param).aggregate(sum=Sum("times")).get("sum", "")
 
 		# 通过次数
-		param = dict(custom_user__id=user_id, video__id__in=video_list, is_pass=True)
+		param = dict(custom_user__id=user_id, video__id__in=video_list, current_time__range=[start_date,end_date],is_pass=True)
 		sum_pass_exercise = UserExercise.objects.filter(**param).aggregate(sum=Count("is_pass")).get("sum", "")
 
 		# 考核数
@@ -121,11 +121,11 @@ class DateRangeInfo(APIView, Base):
 
 		try:
 			user_id = self.request.GET.get("user_id")
-			user_id = 6
+			# user_id = 6
 			start_date = self.request.GET.get("start_date", "")
 			end_date = self.request.GET.get("end_date", "")
-			start_date = "2018-08-13"
-			end_date = "2018-08-19"
+			# start_date = "2018-08-13 00:00:00"
+			# end_date = "2018-08-19 59:59:59"
 
 			if start_date and end_date:
 				# 总天数

@@ -293,8 +293,8 @@ def date_days(start_date,end_date):
 	:param end_date: 结束日期
 	:return:
 	"""
-	sd = start_date.split("-")
-	ed = end_date.split("-")
+	sd = start_date[0:10].split("-")
+	ed = end_date[0:10].split("-")
 	d3 = datetime.datetime(int(sd[0]), int(sd[1]), int(sd[2]))
 	d4 = datetime.datetime(int(ed[0]), int(ed[1]), int(ed[2]))
 	days = (d4 - d3).days + 1
