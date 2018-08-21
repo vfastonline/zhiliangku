@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 
 from applications.community.models import *
 from applications.tracks_learning.models import *
+from lib.api_response_handler import *
 
 from lib.permissionMixin import class_view_decorator, user_login_required, teacher_login_required
 
@@ -357,7 +358,7 @@ class AddFaq(View):
 			# 提问参数全部合法
 			if required_param:
 				videos = Video.objects.filter(id=video_id)
-				customusers = CustomUser.objects.filter(id=custom_user_id)
+				customusers = CustomUser.objexcts.filter(id=custom_user_id)
 
 				if customusers.exists():
 					create_dict = {
