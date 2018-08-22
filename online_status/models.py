@@ -13,8 +13,8 @@ class OnlineStatus(models.Model):
 
 	class Meta:
 		db_table = 'OnlineStatus'
-		verbose_name = 'Online Status'
-		verbose_name_plural = 'Online Status'
+		verbose_name = '在线状态'
+		verbose_name_plural = '在线状态'
 		ordering = ['-last_login']
 
 	def __str__(self):
