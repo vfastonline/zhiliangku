@@ -59,7 +59,7 @@ class UserExercise(models.Model):
     video = models.ForeignKey(Video, verbose_name='所属视频', limit_choices_to={"type": "2"}, on_delete=models.CASCADE)
     times = models.PositiveIntegerField("练习次数", default=1)
     is_pass = models.BooleanField("是否通过", default=False)
-
+    current_time = models.DateTimeField("考核时间", auto_now=True)
 
     def __str__(self):
         return self.custom_user.nickname
