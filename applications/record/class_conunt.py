@@ -66,8 +66,6 @@ class ClassCountRecord(View):
 
 
 
-
-
 			# 2：
 				# 练习记录表，查询当前班级，当前练习视频，总练习次数
 				# 。。。，通过的次数
@@ -77,7 +75,7 @@ class ClassCountRecord(View):
 			total_times = total_pass_times+total_unpass_times  # 练习完成总次数
 			data={
 				"class_id":class_id,
-				"total_duration":total_duration,
+				# "total_duration":total_duration,
 				"total_pass_times":total_pass_times,
 				"total_unpass_times":total_unpass_times,
 				"total_times":total_times,
