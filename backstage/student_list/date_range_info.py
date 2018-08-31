@@ -39,7 +39,7 @@ class Base(object):
 		sum_no_learn = 0
 		no_leaen_rate = 0
 		if sum_learn_task:
-			param = dict(custom_user__id=user_id, schedule=1)
+			param = dict(custom_user__id=user_id, current_time__range=[start_date, end_date],schedule=1)
 			sum_pass_learn = UserLearnTaskSummary.objects.filter(**param).aggregate(
 				sum_learn=Count("schedule")).get("sum_learn", "")
 			# 违纪天数
