@@ -82,8 +82,8 @@
 * top：第三方库，阿里巴巴短信
 * zhiliangku：总路由，包含settings
 * zhiliangku-front：学生端，前端项目
+* zhiliangku-front-data-backstage：数据后台（老师端），前端项目
 * zhiliangku-front-pre：第一版前端项目，暂时不用
-* zhinengjiaoshi：数据后台（老师端），前端项目
 
 ### Introduce
 * assessment：考核
