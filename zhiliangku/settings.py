@@ -103,7 +103,7 @@ ROOT_URLCONF = 'zhiliangku.urls'
 TEMPLATES = [
 	{
 		'BACKEND': 'django.template.backends.django.DjangoTemplates',
-		'DIRS': ['/usr/local/openresty/nginx/html/templates'],
+		'DIRS': ['/usr/local/zhiliangku/templates'],
 		'APP_DIRS': True,
 		'OPTIONS': {
 			'context_processors': [
@@ -196,7 +196,7 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 # 生产环境用
-STATIC_ROOT = '/usr/local/openresty/nginx/html/templates/static'
+STATIC_ROOT = '/usr/local/zhiliangku/templates/static'
 STATICFILES_DIRS = (
 	("css", os.path.join(STATIC_ROOT, 'css')),
 	("js", os.path.join(STATIC_ROOT, 'js')),

@@ -76,6 +76,7 @@ class UserLearnTaskSummary(models.Model):
 	custom_user = models.ForeignKey(CustomUser, verbose_name="学生", limit_choices_to={'role': 0}, on_delete=models.CASCADE)
 	task = models.ForeignKey(LearnTask, verbose_name="学习任务", on_delete=models.CASCADE)
 	schedule = models.FloatField("任务完成进度", max_length=10, **NULL_BLANK_TRUE)  # 当天，当天的任务，完成百分比
+	current_time=models.DateTimeField("任务完成时间", auto_now=True)
 
 	def __str__(self):
 		return "--".join([self.custom_user.nickname, str(self.schedule)])

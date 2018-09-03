@@ -468,3 +468,14 @@ def date_week(date):
 	else:
 		end_date = date - datetime.timedelta(days=6)
 		return end_date, week
+
+
+def time_conversion(second):
+	"""
+	秒转时分秒
+	:param s: 秒s
+	:return:
+	"""
+	m, s = divmod(second, 60)
+	h, m = divmod(m, 60)
+	return "%02d:%02d:%02d" % (h, m, s)

@@ -14,7 +14,7 @@ urlpatterns = [
 	# 学员列表
 	url('^student/list$', StudentList.as_view()),  # 学员列表信息
 	url('^student/info$', StudentInfo.as_view()),  # 学员基本信息+当前学习节点
-	url('^date/range/info', DateRangeInfo.as_view()),  # 时间段信息
+	url('^date/range/info$', DateRangeInfo.as_view()),  # 时间段信息
 
 	#时间、视频分布信息
 	url('^learn/time$', LearnTime.as_view()),  # 时间分布信息
