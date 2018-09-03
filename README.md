@@ -144,7 +144,7 @@
     在学习课程之余丰富自己的生活知识。
 
 #### Requirements
-* Python==3.6
+* Python==3.6.3
 * Django==2.1
 * PyMySQL
 * mysqlclient

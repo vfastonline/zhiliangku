@@ -119,11 +119,13 @@ zhiliangku-front/config/index.js
 zhiliangku-front/build/entryDist.js
 !zhiliangku-front/front/static/media
 
-zhinengjiaoshi/node_modules
-zhinengjiaoshi/test
-zhinengjiaoshi/00_node_server
-!zhinengjiaoshi/build
-zhinengjiaoshi/config/index.js
-zhinengjiaoshi/build/entryDist.js
-!zhinengjiaoshi/front/static/media
+zhiliangku-front-data-backstage/node_modules
+zhiliangku-front-data-backstage/test
+zhiliangku-front-data-backstage/00_node_server
+!zhiliangku-front-data-backstage/build
+zhiliangku-front-data-backstage/config/index.js
+zhiliangku-front-data-backstage/build/entryDist.js
+!zhiliangku-front-data-backstage/front/static/media
 Pipfile
+
+.DS_Store

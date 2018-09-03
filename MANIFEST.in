@@ -1,0 +1,9 @@
+include requirements.txt
+include README.md *
+recursive-include doc *
+recursive-include conf *
+recursive-include media *
+recursive-include templates *
+recursive-include zhiliangku-front *
+recursive-include zhiliangku-front-pre *
+recursive-include zhiliangku-front-data-backstage *
