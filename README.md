@@ -4,7 +4,6 @@
 [官方主页](https://www.zhiliangku.com "智量酷")
 
 #### Directory description
-*●应用○模型类型*
 * applications：包含项目所有应用
     * assessment：考核
     * Docker类型
