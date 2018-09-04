@@ -28,6 +28,6 @@ ssh_copy_id_to_all
 for SERVER in $SERVERS
 do
     scp -r $basepath root@$SERVER:/root/
-    scp -r ../../dist/*.tar.gz root@$SERVER:/root/deploy
-    ssh root@$SERVER /root/deploy/deploy.sh
+    scp -r ../../dist/*.tar.gz root@$SERVER:/root/zhiliangku_install
+    ssh root@$SERVER /root/zhiliangku_install/deploy.sh
 done
