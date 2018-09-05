@@ -129,3 +129,4 @@ zhiliangku-front-data-backstage/build/entryDist.js
 Pipfile
 
 .DS_Store
+*tar.gz
